@@ -1,15 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-public class PowerUpCard extends Card{
+public abstract class PowerUpCard extends Card{
     private boolean isAlreadyFished;
-    public void useAsAmmo(){};
-    public void useAsPowerUp(){};
-    @Override
-    public Card draw(){};
-    @Override
-    public void discard(){};
-    @Override
-    public void useCard(){};
+    public void useAsAmmo(){}
+    public void useAsPowerUp(){}
     public PowerUpCard(ColorOfCard_Ammo color, String name, String description){
         super(color, name, description);
     }
