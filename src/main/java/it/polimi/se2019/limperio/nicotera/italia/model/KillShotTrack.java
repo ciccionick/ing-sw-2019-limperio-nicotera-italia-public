@@ -4,9 +4,10 @@ public class KillShotTrack {
 
 
     private static KillShotTrack istanceOfKillShotTrack;
-    private  TokenOfDeath[8] tokensOfDeath;
+    private  TokenOfDeath[] tokensOfDeath;
 
     private KillShotTrack(){
+        tokensOfDeath = new TokenOfDeath[8];
         int i=0;
         for(i=0;i<8;i++)
         {

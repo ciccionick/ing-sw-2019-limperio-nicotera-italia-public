@@ -2,8 +2,9 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 public class Map {
 
-    int typeMap;
-    private static Map istanceOfMap = null;
+    private int typeMap;
+    private static Map instanceOfMap;
+    private Square[] squares;
 
     private Map(int typeMap)
     {
@@ -11,13 +12,14 @@ public class Map {
     }
 
 
-    public static Map istanceOfMap(int typeMap)
+    public static Map instanceOfMap(int typeMap)
     {
-        if(istanceOfMap==null) istanceOfMap = new Map(typeMap);
-        return istanceOfMap;
+        if(instanceOfMap==null)
+            instanceOfMap = new Map(typeMap);
+        return instanceOfMap;
     }
 
-    public setAdj(){};
+    public void setAdj(){};
 
 
 
