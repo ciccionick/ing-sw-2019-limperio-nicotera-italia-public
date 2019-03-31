@@ -1,7 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.ArrayList;
 
 public abstract class WheaponCard extends Card {
@@ -101,7 +99,7 @@ public abstract class WheaponCard extends Card {
             case 20:
                 new Cyberblade();
             case 21:
-                Sledgehammer();
+               new Sledgehammer();
         }
 
     }

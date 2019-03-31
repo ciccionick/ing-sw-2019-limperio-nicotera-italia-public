@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
-public class LockRifle extends WheaponCard {
+public class ElectroScythe extends WheaponCard
+{
 
 
     @Override
     public void useWheapon(ArrayList<Integer> typeOfAttack) {
-        return;
 
     }
 
-    public LockRifle() {
-        super(BLUE, "Lock Rifle", "blablabla");
+    public ElectroScythe() {
+        super(BLUE, "Electro Scythe", "blablabla");
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
