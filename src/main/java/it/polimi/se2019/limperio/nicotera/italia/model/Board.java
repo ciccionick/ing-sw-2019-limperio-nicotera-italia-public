@@ -1,7 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.istanceOfAmmoTileDeck;
-import static it.polimi.se2019.limperio.nicotera.italia.model.Map.istanceOfMap;
+import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
+import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
 
 public class Board {
     private static Board instanceOfBoard = null;
@@ -19,12 +20,12 @@ public class Board {
 
     public Map createMap(int typeMap)
     {
-       this.map = istanceOfMap(typeMap);
+       this.map = instanceOfMap(typeMap);
     }
 
     public PowerUpDeck createPowerUpDeck(){}
 
-    public WheaponCardDeck CreateWheaponCardDeck(){}
+    public WheaponDeck CreateWheaponCardDeck(){}
 
     public AmmoTileDeck creatAmmoTileDeck(){
         this.ammoTileDeck = istanceOfAmmoTileDeck();
