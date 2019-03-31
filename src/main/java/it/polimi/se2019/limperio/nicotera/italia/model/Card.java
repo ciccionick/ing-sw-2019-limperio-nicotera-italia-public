@@ -1,9 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 public abstract class Card {
-    final private ColorOfCard_Ammo color;
-    final private String name;
-    final private String description;
+    private ColorOfCard_Ammo color;
+    private String name;
+    private String description;
 
     public Card() {
     }
@@ -13,10 +13,6 @@ public abstract class Card {
         this.name = name;
         this.description = description;
     }
-
-    public abstract Card draw();
-
-    public abstract void discard();
 
     public ColorOfCard_Ammo getColor() {
         return color;
@@ -30,5 +26,5 @@ public abstract class Card {
         return description;
     }
 
-    public abstract void useCard();
+
 }
