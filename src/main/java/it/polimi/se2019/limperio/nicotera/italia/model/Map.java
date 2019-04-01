@@ -4,7 +4,7 @@ public class Map {
 
     private int typeMap;
     private static Map instanceOfMap;
-    private Square[] squares;
+    private Square[][] matrixOfSquares;
 
     private Map(int typeMap)
     {
@@ -21,6 +21,7 @@ public class Map {
 
     public void setAdj(){};
 
+    private void createSquare(boolean isSpawn, Direction[] directions, ColorOfFigure_Square color){}
 
 
 
