@@ -10,12 +10,12 @@ public class WeaponsDeck {
         int i;
         weaponCards = new ArrayList<WeaponCard>();
         for (i=0; i<temporaryArray.length; i++ ){
-            temporaryArray[i] = (int)(Math.random()*10);
+            temporaryArray[i] = (int)(Math.random()*21);
         }
 
         for (i=0; i<temporaryArray.length; i++)
         {
-            weaponCards.add(new WeaponCard(temporaryArray[i]));
+            weaponCards.add(WeaponCard.createWeaponCard(temporaryArray[i]));
         }
 
     }
