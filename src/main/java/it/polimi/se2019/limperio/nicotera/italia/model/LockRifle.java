@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
-public class LockRifle extends WheaponCard {
+public class LockRifle extends WeaponCard {
 
 
     @Override

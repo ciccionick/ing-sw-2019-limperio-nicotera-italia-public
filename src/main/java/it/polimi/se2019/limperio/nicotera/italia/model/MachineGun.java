@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
-public class MachineGun extends WheaponCard {
+public class MachineGun extends WeaponCard {
 
 
     @Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
-public class Thor extends WheaponCard {
+public class Thor extends WeaponCard {
 
 
     @Override
