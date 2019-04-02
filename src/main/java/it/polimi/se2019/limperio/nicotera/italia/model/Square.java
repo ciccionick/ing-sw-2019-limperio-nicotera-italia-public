@@ -1,15 +1,29 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+
 public class Square {
     private ColorOfFigure_Square color;
-    private AdjSquare[] adjSquares;
+    private ArrayList<AdjSquare> adjSquares;
     private boolean hasDoor;
+
+
+
+    Direction[] directions;
 
 
     public Square() {
     }
 
-    public Square (boolean isSpawn, Direction[] directions, ColorOfFigure_Square color){}
+    public Square (Direction[] directions, ColorOfFigure_Square color){
+        setColor(color);
+        if (directions!=null)
+            setHasDoor(true);
+        else
+            setHasDoor(false);
+        setDirections(directions);
+        adjSquares= new ArrayList<AdjSquare>();
+    }
 
 
     public void setColor(ColorOfFigure_Square color) {
@@ -21,7 +35,25 @@ public class Square {
         return color;
     }
 
+    public void setHasDoor(boolean hasDoor) {
+        this.hasDoor = hasDoor;
+    }
     public boolean isHasDoor() {
         return hasDoor;
     }
+
+
+    public Direction[] getDirections() {
+        return directions;
+    }
+
+    public void setDirections(Direction[] directions) {
+        this.directions = directions;
+
+    }
+
+    public void setAdjSquares(Direction direction, Square square){
+        adjSquares.add(new AdjSquare(direction, square));
+    }
+
 }

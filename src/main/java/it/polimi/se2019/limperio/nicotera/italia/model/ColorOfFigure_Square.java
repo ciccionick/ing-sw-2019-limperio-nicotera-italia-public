@@ -5,5 +5,6 @@ public enum ColorOfFigure_Square {
     YELLOW,
     PURPLE,
     BLUE,
-    GREY
+    GREY,
+    GREEN
 }
