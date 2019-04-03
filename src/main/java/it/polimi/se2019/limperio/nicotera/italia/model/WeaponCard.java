@@ -51,55 +51,61 @@ public abstract class WeaponCard extends Card {
 
     public abstract void useWheapon(ArrayList<Integer> typeOfAttack);
 
-    public WeaponCard(ColorOfCard_Ammo color, String name, String description) {
+    public WeaponCard(ColorOfCard_Ammo color, String name, String description, ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo[] priceToReload, Boolean[] hasThisKindOfAttack   ) {
         super(color, name, description);
-
+        setLoad(true);
+        setHasThisKindOfAttack(hasThisKindOfAttack);
+        setPriceToBuy(priceToBuy);
+        setPriceToReload(priceToReload);
     }
 
-    public WeaponCard(int typeOfWheaponCard) {
-        switch(typeOfWheaponCard) {
+    public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
+        switch(typeOfWeaponCard) {
+            case 0:
+                return new Cyberblade();
             case 1:
-                new LockRifle();
+                return new LockRifle();
             case 2:
-                new ElectroScythe();
+                return new ElectroScythe();
             case 3:
-                new MachineGun();
+                return new MachineGun();
             case 4:
-                new TractorBeam();
+                return new TractorBeam();
             case 5:
-                new Thor();
+                return new Thor();
             case 6:
-                new VortexCannon();
+                return new VortexCannon();
             case 7:
-                new PlasmaGun();
+                return new PlasmaGun();
             case 8:
-                new Furnace();
+                return new Furnace();
             case 9:
-                new Whisper();
+                return new Whisper();
             case 10:
-                new HeatSeeker();
+                return new HeatSeeker();
             case 11:
-                new Hellion();
+                return new Hellion();
             case 12:
-                new Flamethower();
+                return new Flamethower();
             case 13:
-                new Zx2();
+                return new Zx2();
             case 14:
-                new GranadeLauncher();
+                return new GranadeLauncher();
             case 15:
-                new Shotgun();
+                return new Shotgun();
             case 16:
-                new RocketLauncher();
+                return new RocketLauncher();
             case 17:
-                new PowerGlove();
+                return new PowerGlove();
             case 18:
-                new Railgun();
+                return new Railgun();
             case 19:
-                new Shockwave();
+                return new Shockwave();
             case 20:
-                new Cyberblade();
-            case 21:
-                new Sledgehammer();
+                return new Sledgehammer();
+
+            default:
+                throw new IllegalArgumentException();
         }
 
     }
