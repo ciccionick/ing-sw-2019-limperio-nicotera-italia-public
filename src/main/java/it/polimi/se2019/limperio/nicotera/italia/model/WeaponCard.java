@@ -59,8 +59,10 @@ public abstract class WeaponCard extends Card {
         setPriceToReload(priceToReload);
     }
 
-    public static WeaponCard createWeaponCard(int typeOfWeaponCard) {
+    public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
         switch(typeOfWeaponCard) {
+            case 0:
+                return new Cyberblade();
             case 1:
                 return new LockRifle();
             case 2:
@@ -100,9 +102,10 @@ public abstract class WeaponCard extends Card {
             case 19:
                 return new Shockwave();
             case 20:
-                return new Cyberblade();
-            case 21:
                 return new Sledgehammer();
+
+            default:
+                throw new IllegalArgumentException();
         }
 
     }
