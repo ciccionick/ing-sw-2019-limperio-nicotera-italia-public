@@ -1,34 +1,77 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Game {
+    class MyTask extends TimerTask {
+        public void run() {
+            Game.this.notify();
+        }
+    }
+    private Timer timerForStart = new Timer();
+    private Timer timerForPlayersTurn = new Timer();
     private Board board;
-    private Player[] players;
+    private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;
-    private Game instanceOfGame;
+    private static Game instanceOfGame;
     private int numOfPlayer;
     private int playerOfTurn;
     private boolean isFirstRound = true;
     private int numOfActionOfTheTurn;
     private Square[] squareVisitedInTheTurn;
-    private boolean isOver = false;
+    private boolean isGameOver = false;
     private boolean anticipatedFrenzy = true;
     private int firstInFrenzyMode;
 
-    public String addPlayer(String nickname){}
-    public void setTimerForStart(){}
+    public void addPlayer(String nickname, ColorOfFigure_Square color){
+        players.add(new Player(nickname, color));
+        if( players.size() == 3)
+            setTimerForStart();
+    }
+    private void setTimerForStart(){
+        MyTask task = new MyTask();
+        final long delay = 100000000;
+        timerForStart.schedule(task, delay);
+    }
+    public void removePlayer(Player player){
+        players.remove(player);
+        if(players.size() < 3)
+            stopTimerForStart();
+    }
+
+    public void SetTimerForPlayersTurn() {
+        MyTask task = new MyTask();
+        final long delay = 10000000;
+        timerForPlayersTurn.schedule(task, delay);
+    }
     public boolean isTurn(Player player){}
     public void calculateScore(){}
 
-    public boolean isOver(){}
-    public boolean hasWon(Player player){}
+    public boolean getisGameOver(){
+        return isGameOver;
+    }
+    public boolean hasWon(Player player){
+    }
     public void updateKillshotTrack(){}
     public void changeMode(){}
-    public void startGame() {}
-    public void createBoard() {}
-    private Game(){}
-    public Game instanceOfGame(){}
-    public void removePlayer(){}
-    public void stopTimerForStart(){}
+    public void startGame(){}
+    public void createBoard(){
+        this.board = Board.instanceOfBoard();
+    }
+    private Game(){
+        createBoard();
+    }
+    public static Game instanceOfGame(){
+        if(instanceOfGame == null)
+             instanceOfGame = new Game();
+        return instanceOfGame;
+    }
+    private void stopTimerForStart(){
+        timerForStart.cancel();
+    }
     public void updateTurn(){}
     public void updateScore(Player player){}
     public void updateScoreForKillshot(){}
@@ -36,6 +79,7 @@ public class Game {
     public void updateScoreFinal(){}
 
     public boolean isInFrenzy() {
+
         return isInFrenzy;
     }
 
@@ -83,8 +127,8 @@ public class Game {
         this.squareVisitedInTheTurn = squareVisitedInTheTurn;
     }
 
-    public void setOver(boolean over) {
-        isOver = over;
+    public void setGameOver(boolean over) {
+        isGameOver = over;
     }
 
     public boolean isAnticipatedFrenzy() {
