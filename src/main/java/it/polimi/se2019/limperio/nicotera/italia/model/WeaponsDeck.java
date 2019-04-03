@@ -1,21 +1,24 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class WeaponsDeck {
     private ArrayList<WeaponCard> weaponCards;
 
     public WeaponsDeck() {
-        int[] temporaryArray = new int[21];
+        ArrayList<Integer> temporaryArray = new ArrayList<>();
         int i;
         weaponCards = new ArrayList<WeaponCard>();
-        for (i=0; i<temporaryArray.length; i++ ){
-            temporaryArray[i] = (int)(Math.random()*10);
+        for (i=0; i<temporaryArray.size(); i++ ){
+            temporaryArray.add(new Integer(i));
         }
+        Collections.shuffle(temporaryArray);
 
-        for (i=0; i<temporaryArray.length; i++)
+        for (i=0; i<temporaryArray.size(); i++)
         {
-            weaponCards.add(new WeaponCard(temporaryArray[i]));
+            weaponCards.add(WeaponCard.createWeaponCard(temporaryArray.get(i)));
         }
 
     }
