@@ -28,6 +28,9 @@ public class LockRifle extends WeaponCard {
                             withSecondLock(involvedPlayers.get(j).getPlayer());
                     }
 
+                    default:
+                        throw new IllegalArgumentException();
+
             }
         }
 

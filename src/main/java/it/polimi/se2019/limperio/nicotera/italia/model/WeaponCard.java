@@ -51,7 +51,7 @@ public abstract class WeaponCard extends Card {
     }
 
 
-    public abstract void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers);
+    public abstract void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) throws IllegalArgumentException;
 
     public WeaponCard(ColorOfCard_Ammo color, String name) {
         super(color, name);

@@ -32,6 +32,8 @@ public class VortexCannon extends WeaponCard {
                         if (involvedPlayers.get(j).getEffects().contains(2))
                             withBlackHoleEffect(involvedPlayers.get(j).getPlayer(), squareOfVortex);
                     }
+                    default:
+                        throw new IllegalArgumentException();
 
             }
         }
