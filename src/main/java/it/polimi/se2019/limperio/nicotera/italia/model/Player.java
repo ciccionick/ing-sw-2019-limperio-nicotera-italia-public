@@ -85,16 +85,34 @@ public class Player implements PlayerBehaviour{
     public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){
            int numOfPreviousDamage;
            numOfPreviousDamage=playerBoard.getDamages().size();
-           if(numOfDamage+numOfPreviousDamage<=12){
+           if(numOfDamage+numOfPreviousDamage+playerBoard.getNumOfMarksOfOneColor(colOfDamage)<=12){
                for(int i=0;i<numOfDamage;i++){
                    playerBoard.getDamages().add(colOfDamage);
+               }
+               if(playerBoard.getNumOfMarksOfOneColor(colOfDamage)>0) {
+                   for (int i = 0; i < playerBoard.getNumOfMarksOfOneColor(colOfDamage); i++) {
+                       playerBoard.getDamages().add(colOfDamage);
+                   }
+                   playerBoard.removeMarkOfOneColor(colOfDamage);
                }
            }
            else{
                while(playerBoard.getDamages().size()<12){
+                   if(playerBoard.getNumOfMarksOfOneColor(colOfDamage)!=0){
+                       playerBoard.getDamages().add(colOfDamage);
+                       playerBoard.getMarks().remove(colOfDamage);
+                   }
                    playerBoard.getDamages().add(colOfDamage);
                }
            }
     }
 
+    public void assignMarks (ColorOfFigure_Square colorOfDamage, int numOfMarks){
+            while(numOfMarks!=0 && playerBoard.getNumOfMarksOfOneColor(colorOfDamage)<4 ){
+                playerBoard.getMarks().add(colorOfDamage);
+            }
+        }
+
 }
+
+

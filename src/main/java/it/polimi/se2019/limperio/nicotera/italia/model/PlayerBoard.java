@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken.SKULL;
@@ -44,6 +45,14 @@ public class PlayerBoard {
 
     public boolean isInFrenzyBoardPlayer() {
         return isInFrenzyBoardPlayer;
+    }
+
+    public int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
+        return Collections.frequency(marks, color);
+    }
+
+    public void removeMarkOfOneColor(ColorOfFigure_Square color){
+        this.marks.removeAll(Collections.singleton(color));
     }
 
     public void setInFrenzyBoardPlayer(boolean inFrenzyBoardPlayer) {
