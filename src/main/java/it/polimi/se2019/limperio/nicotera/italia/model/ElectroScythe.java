@@ -14,14 +14,14 @@ public class ElectroScythe extends WeaponCard
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         ArrayList<Player> players = new ArrayList<Player>();
         int j;
-        for(j=0;j<involvedPlayers.size();j++) {
-            players.add(involvedPlayers.get(j).getPlayer());
+        for(j=0;j<this.getOwnerOfCard().getPositionOnTheMap().getPlayerOfThisSquare().size();j++) {
+            players.add(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOfThisSquare().get(j));
         }
         switch (typeOfAttack.get(0)) {
                 case 1:
                     basicMode(players);
 
-                case 2:
+                case 4:
                     inReaperMode(players);
 
                     default:

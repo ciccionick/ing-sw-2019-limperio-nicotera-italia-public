@@ -6,7 +6,7 @@ public class Square {
     private ColorOfFigure_Square color;
     private ArrayList<AdjSquare> adjSquares;
     private boolean hasDoor;
-    private Player playerOfThisSquare;
+    private ArrayList<Player> playerOfThisSquare;
 
 
 
@@ -57,4 +57,14 @@ public class Square {
         adjSquares.add(new AdjSquare(direction, square));
     }
 
+    public ArrayList<Player> getPlayerOfThisSquare() {
+        return playerOfThisSquare;
+    }
+
+    public void setPlayerOfThisSquare(Player player) {
+        if (playerOfThisSquare==null)
+            playerOfThisSquare = new ArrayList<Player>();
+        playerOfThisSquare.add(player);
+
+    }
 }
