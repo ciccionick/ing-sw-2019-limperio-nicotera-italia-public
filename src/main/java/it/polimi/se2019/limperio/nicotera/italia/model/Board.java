@@ -1,37 +1,68 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.instanceOfAmmoTileDeck;
+import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
+
 public class Board {
     private static Board instanceOfBoard = null;
 
     private Map map;
     private AmmoTileDeck ammotiledeck;
+    private WeaponsDeck weaponsDeck;
+    private PowerUpDeck powerUpDeck;
+    private KillShotTrack killShotTrack;
+
     private Board()
     {
 
     };
 
-    public static Board istanceOfBoard() {
+    public static Board instanceOfBoard() {
         if(instanceOfBoard==null) instanceOfBoard= new Board();
-        return istanceOfBoard;
+        return instanceOfBoard;
     }
 
-    public Board clone(){};
+    public Board clone(){
+        return null;
+    }
 
-    public Map createMap(int typeMap)
+    public void createMap(int typeMap)
     {
        this.map = instanceOfMap(typeMap);
-    };
+    }
 
-    public PowerUpDeck createPowerUpDeck(){};
+    public PowerUpDeck createPowerUpDeck(){
+        return null;
+    }
 
-    public WheaponCardDeck CreateWheaponCardDeck(){};
+    public void createWeaponsDeck(){}
 
-    public AmmoTileDeck creatAmmoTileDeck(){
+    public void createAmmoTileDeck(){
         this.ammotiledeck = instanceOfAmmoTileDeck();
-    };
+    }
 
-    public KillShotTrack createKillShotTrack()
+    public void createKillShotTrack()
     {
 
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public AmmoTileDeck getAmmotiledeck() {
+        return ammotiledeck;
+    }
+
+    public WeaponsDeck getWeaponsDeck() {
+        return weaponsDeck;
+    }
+
+    public PowerUpDeck getPowerUpDeck() {
+        return powerUpDeck;
+    }
+
+    public KillShotTrack getKillShotTrack() {
+        return killShotTrack;
     }
 }

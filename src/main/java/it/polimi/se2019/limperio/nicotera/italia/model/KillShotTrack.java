@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.util.Vector
-import java.util.ArrayList
+
+import java.util.ArrayList;
 
 public class KillShotTrack {
 
@@ -21,8 +21,8 @@ public class KillShotTrack {
 
     public static KillShotTrack istanceOfKillShotTrack()
     {
-        if(instanceOfKillShotTrack==null) istanceOfKillShotTrack=new  KillShotTrack();
-        return istanceOfKillShotTrack;
+        if(instanceOfKillShotTrack==null) instanceOfKillShotTrack=new  KillShotTrack();
+        return instanceOfKillShotTrack;
     }
 
 

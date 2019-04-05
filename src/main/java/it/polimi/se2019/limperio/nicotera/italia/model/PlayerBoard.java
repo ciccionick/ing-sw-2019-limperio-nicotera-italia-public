@@ -15,7 +15,9 @@ public class PlayerBoard {
         return marks;
     }
     public void cleanPlayerBoard(){}
-    public boolean isDeath(){}
+    public boolean isDeath(){
+        return true;
+    }
 
     public boolean isInFrenzyBoardPlayer() {
         return isInFrenzyBoardPlayer;

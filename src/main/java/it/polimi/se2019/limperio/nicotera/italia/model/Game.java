@@ -34,13 +34,18 @@ public class Game extends Observable<ModelEvent> {
     }
 
 
-    public boolean isTurn(Player player){}
+    public boolean isTurn(Player player){
+        return true;
+    }
+
     public void calculateScore(){}
 
     public boolean getisGameOver(){
         return isGameOver;
     }
-    public boolean hasWon(Player player){}
+    public boolean hasWon(Player player){
+        return true;
+    }
     public void updateKillshotTrack(){}
     public void changeMode(){}
     public void startGame(){}
@@ -130,9 +135,11 @@ public class Game extends Observable<ModelEvent> {
     public void setFirstInFrenzyMode(int firstInFrenzyMode) {
         this.firstInFrenzyMode = firstInFrenzyMode;
     }
-}
 
-    public boolean checkIfIsDead(Player player){}
+
+    public boolean checkIfIsDead(Player player){
+    return true;
+    }
 
     public void handleDeath(Player player){}
 
@@ -150,3 +157,4 @@ public class Game extends Observable<ModelEvent> {
     public void notify(ModelEvent message) {
 
     }
+}
