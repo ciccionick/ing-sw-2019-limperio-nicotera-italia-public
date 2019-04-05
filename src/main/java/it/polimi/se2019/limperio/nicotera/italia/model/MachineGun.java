@@ -23,7 +23,17 @@ public class MachineGun extends WeaponCard {
                             basicEffect(involvedPlayers.get(j).getPlayer());
                     }
                 case 2:
-
+                    for(j=0;j<involvedPlayers.size();j++){
+                        if(involvedPlayers.get(j).getEffects().contains(2))
+                            withFocusShot(involvedPlayers.get(j).getPlayer());
+                    }
+                case 3:
+                    for(j=0;j<involvedPlayers.size();j++){
+                        if(involvedPlayers.get(j).getEffects().contains(3))
+                            withTurretTripod(involvedPlayers.get(j).getPlayer());
+                    }
+                    default:
+                        throw new IllegalArgumentException();
             }
         }
 
@@ -48,4 +58,14 @@ public class MachineGun extends WeaponCard {
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
+
+    private void withFocusShot(Player player){
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+    private void withTurretTripod(Player player){
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+
 }
