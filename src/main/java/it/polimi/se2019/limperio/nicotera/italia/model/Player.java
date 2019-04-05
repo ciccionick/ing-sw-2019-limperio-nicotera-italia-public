@@ -66,9 +66,9 @@ public class Player implements PlayerBehaviour{
     @Override
     public void catchAmmoTile (Square square){}
     @Override
-    public void shoot (Player[] players, WheaponCard wheaponCard, int[] typeOfAttack){}
+    public void shoot (Player[] players, WeaponCard wheaponCard, int[] typeOfAttack){}
     @Override
-    public void catchWheapon(Square square, WheaponCard wheaponCard){}
+    public void catchWheapon(Square square, WeaponCard wheaponCard){}
     @Override
     public void fishTwoPowerUpCard(){}
     @Override
