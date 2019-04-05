@@ -33,11 +33,11 @@ public class Controller implements Observer<ViewEvent> {
 
     }
 
-    private void checkForShoot{
+    private void checkForShoot(){
 
     }
 
-    private void checkForUsePowerUpCard{
+    private void checkForUsePowerUpCard(){
 
     }
 
@@ -47,5 +47,10 @@ public class Controller implements Observer<ViewEvent> {
 
     private int[] findSquareOnTheMap(Square targetSquare){
         return new int[]{0, 0};
+    }
+
+    @Override
+    public void update(ViewEvent message) {
+
     }
 }

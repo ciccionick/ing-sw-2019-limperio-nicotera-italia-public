@@ -1,10 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import it.polimi.se2019.limperio.nicotera.italia.model.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
+import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
-public class Game {
+import java.util.ArrayList;
+
+
+public class Game extends Observable<ModelEvent> {
 
 
     private Board board;
@@ -132,3 +135,18 @@ public class Game {
     public boolean checkIfIsDead(Player player){}
 
     public void handleDeath(Player player){}
+
+    @Override
+    public void register(Observer<ModelEvent> observer) {
+
+    }
+
+    @Override
+    public void deregister(Observer<ModelEvent> observer) {
+
+    }
+
+    @Override
+    public void notify(ModelEvent message) {
+
+    }
