@@ -147,3 +147,7 @@ public class Game {
         this.firstInFrenzyMode = firstInFrenzyMode;
     }
 }
+
+    public boolean checkIfIsDead(Player player){}
+
+    public void handleDeath(Player player){}

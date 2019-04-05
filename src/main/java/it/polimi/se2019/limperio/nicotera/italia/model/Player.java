@@ -11,8 +11,6 @@ public class Player implements PlayerBehaviour{
     private Square positionOnTheMap;
     private String nickname;
     private PlayerBoard playerBoard;
-    private PowerUpDeck powerUpDeck;
-
 
 
     public PlayerBoard getPlayerBoard() {
