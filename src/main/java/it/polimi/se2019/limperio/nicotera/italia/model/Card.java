@@ -4,13 +4,18 @@ public abstract class Card {
     private ColorOfCard_Ammo color;
     private String name;
     private String description;
+    private Player ownerOfCard;
 
     public Card() {
     }
 
-    public Card(ColorOfCard_Ammo color, String name, String description) {
+    public Card(ColorOfCard_Ammo color, String name) {
         this.color = color;
         this.name = name;
+
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -26,5 +31,11 @@ public abstract class Card {
         return description;
     }
 
+    public Player getOwnerOfCard() {
+        return ownerOfCard;
+    }
 
+    public void setOwnerOfCard(Player ownerOfCard) {
+        this.ownerOfCard = ownerOfCard;
+    }
 }

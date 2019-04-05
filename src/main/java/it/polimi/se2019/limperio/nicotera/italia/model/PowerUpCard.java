@@ -5,7 +5,7 @@ public abstract class PowerUpCard extends Card{
     public void useAsAmmo(){}
     public void useAsPowerUp(){}
     public PowerUpCard(ColorOfCard_Ammo color, String name, String description){
-        super(color, name, description);
+        super(color, name);
     }
     public PowerUpCard(int typeOfPowerUpCard) {
         switch (typeOfPowerUpCard) {

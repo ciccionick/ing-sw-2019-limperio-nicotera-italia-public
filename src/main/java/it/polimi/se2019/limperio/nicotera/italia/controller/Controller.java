@@ -7,7 +7,11 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.ViewEvent;
 
 public class Controller implements Observer<ViewEvent> {
 
-    private Game game;
+    private final Game game;
+
+    public Controller(Game game) {
+        this.game = game;
+    }
 
     public void check() {
 

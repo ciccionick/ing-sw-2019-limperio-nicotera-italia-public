@@ -77,4 +77,24 @@ public class Player implements PlayerBehaviour{
 
     @Override
     public void discardPowerUpCard(PowerUpCard card){}
+
+    public void setPositionOnTheMap(Square positionOnTheMap) {
+        this.positionOnTheMap = positionOnTheMap;
+    }
+
+    public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){
+           int numOfPreviousDamage;
+           numOfPreviousDamage=playerBoard.getDamages().size();
+           if(numOfDamage+numOfPreviousDamage<=12){
+               for(int i=0;i<numOfDamage;i++){
+                   playerBoard.getDamages().add(colOfDamage);
+               }
+           }
+           else{
+               while(playerBoard.getDamages().size()<12){
+                   playerBoard.getDamages().add(colOfDamage);
+               }
+           }
+    }
+
 }

@@ -1,10 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPlayer;
+
 import java.util.ArrayList;
 
 public abstract class WeaponCard extends Card {
 
-    private Boolean isLoad;
+    private Boolean isLoad = true;
     private ColorOfCard_Ammo[] priceToBuy;
     private ColorOfCard_Ammo[] priceToReload;
     private Boolean[] hasThisKindOfAttack;
@@ -49,14 +51,10 @@ public abstract class WeaponCard extends Card {
     }
 
 
-    public abstract void useWheapon(ArrayList<Integer> typeOfAttack);
+    public abstract void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers);
 
-    public WeaponCard(ColorOfCard_Ammo color, String name, String description, ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo[] priceToReload, Boolean[] hasThisKindOfAttack   ) {
-        super(color, name, description);
-        setLoad(true);
-        setHasThisKindOfAttack(hasThisKindOfAttack);
-        setPriceToBuy(priceToBuy);
-        setPriceToReload(priceToReload);
+    public WeaponCard(ColorOfCard_Ammo color, String name) {
+        super(color, name);
     }
 
     public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
