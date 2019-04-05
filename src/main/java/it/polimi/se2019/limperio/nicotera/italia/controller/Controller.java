@@ -13,36 +13,65 @@ public class Controller implements Observer<ViewEvent> {
         this.game = game;
     }
 
-    public void check() {
+    public boolean check(ViewEvent message) throws  IllegalArgumentException {
+        switch(message.getClass().getName()){
+            case "DiscardPowerUpCard":
+                return checkForDiscardPowerUpCard(message);
+            case "DrawPowerUpCard":
+                return checkForDrawPowerUpCard(message);
+            case "EndTurn":
+                return checkForEndTurn(message);
+            case "ReloadWeapons":
+                return checkForReload(message);
+            case "RunCatchAction":
+                return checkForRunCatchAction(message);
+            case "ShootAction":
+                return checkForShoot(message);
+            case "UseNewton":
+                return checkForUseNewton(message);
+            case "UseTagBackGranade":
+                return checkForUseTagBackGranade(message);
+            case "UseTeleporter":
+                return checkForUseTeleporter(message);
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean checkForDrawPowerUpCard(ViewEvent message){
+    return true;
+    }
+
+    private boolean checkForDiscardPowerUpCard(ViewEvent message{
+        return true;
+    }
+
+    private boolean checkForRunCatchAction(ViewEvent message){
+        return true;
+    }
+
+    private boolean checkForReload(ViewEvent message){
+        return true;
+    }
+
+    private boolean checkForEndTurn(ViewEvent message){
+        return true;
+    }
+
+    private boolean checkForUseTeleporter(ViewEvent message){
+        return true;
+    }
+
+    private boolean checkForUseTagBackGranade(ViewEvent message){
 
     }
 
-    private void checkForDrawPowerUpCard(){
-
+    private boolean checkForUseNewton(ViewEvent message){
+        return true;
     }
 
-    private void checkForDiscardPowerUpCard(){
-
-    }
-
-    private void checkForRunCatchAction(){
-
-    }
-
-    private void checkForReload(){
-
-    }
-
-    private void checkForEndTurn(){
-
-    }
-
-    private void checkForShoot(){
-
-    }
-
-    private void checkForUsePowerUpCard(){
-
+    private boolean checkForShoot(ViewEvent message){
+        return true;
     }
 
     private int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates){
@@ -54,7 +83,25 @@ public class Controller implements Observer<ViewEvent> {
     }
 
     @Override
-    public void update(ViewEvent message) {
+    public void update(ViewEvent message) throws IllegalChooseByUser {
+        if(check(message)){
+            switch (message.getClass().getName()){
+                case "DiscardPowerUpCard":
+                case "DrawPowerUpCard":
+                case "EndTurn":
+                case "ReloadWeapons":
+                case "RunCatchAction":
+                case "ShootAction":
+                case "UseNewton":
+                case "UseTagBackGranade":
+                case "UseTeleporter":
+
+            }
+
+        }
+        else
+            throw new IllegaleChooseByUser();
+
 
     }
 }
