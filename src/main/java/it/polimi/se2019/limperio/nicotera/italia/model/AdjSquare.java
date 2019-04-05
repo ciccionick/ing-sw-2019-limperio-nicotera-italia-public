@@ -4,6 +4,10 @@ public class AdjSquare {
     private Direction direction;
     private Square square;
 
+    public Square getSquare() {
+        return square;
+    }
+
     public AdjSquare(Direction direction, Square square) {
         this.direction = direction;
         this.square = square;

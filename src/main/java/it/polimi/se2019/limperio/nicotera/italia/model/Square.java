@@ -7,11 +7,11 @@ public class Square {
     private ArrayList<AdjSquare> adjSquares;
     private boolean hasDoor;
     private ArrayList<Player> playerOfThisSquare;
-
-
-
     Direction[] directions;
 
+    public ArrayList<AdjSquare> getAdjSquares() {
+        return adjSquares;
+    }
 
     public Square() {
     }
