@@ -6,6 +6,7 @@ public class Square {
     private ColorOfFigure_Square color;
     private ArrayList<AdjSquare> adjSquares;
     private boolean hasDoor;
+    private Player playerOfThisSquare;
 
 
 

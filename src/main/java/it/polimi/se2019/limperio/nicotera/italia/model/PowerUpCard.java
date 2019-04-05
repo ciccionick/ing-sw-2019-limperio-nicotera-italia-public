@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 public abstract class PowerUpCard extends Card{
-    private boolean isAlreadyFished;
+    private boolean isAlreadyDrown;
     public void useAsAmmo(){}
     public void useAsPowerUp(){}
     public PowerUpCard(ColorOfCard_Ammo color, String name, String description){

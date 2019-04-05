@@ -6,13 +6,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Game {
-    class MyTask extends TimerTask {
-        public void run() {
-            Game.this.notify();
-        }
-    }
-    private Timer timerForStart = new Timer();
-    private Timer timerForPlayersTurn = new Timer();
+
+
     private Board board;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;
@@ -28,25 +23,15 @@ public class Game {
 
     public void addPlayer(String nickname, ColorOfFigure_Square color){
         players.add(new Player(nickname, color));
-        if( players.size() == 3)
-            setTimerForStart();
-    }
-    private void setTimerForStart(){
-        MyTask task = new MyTask();
-        final long delay = 100000000;
-        timerForStart.schedule(task, delay);
-    }
-    public void removePlayer(Player player){
-        players.remove(player);
-        if(players.size() < 3)
-            stopTimerForStart();
+
     }
 
-    public void SetTimerForPlayersTurn() {
-        MyTask task = new MyTask();
-        final long delay = 10000000;
-        timerForPlayersTurn.schedule(task, delay);
+    public void removePlayer(Player player){
+        players.remove(player);
+
     }
+
+
     public boolean isTurn(Player player){}
     public void calculateScore(){}
 
@@ -69,9 +54,7 @@ public class Game {
              instanceOfGame = new Game();
         return instanceOfGame;
     }
-    private void stopTimerForStart(){
-        timerForStart.cancel();
-    }
+
     public void updateTurn(){}
     public void updateScore(Player player){}
     public void updateScoreForKillshot(){}

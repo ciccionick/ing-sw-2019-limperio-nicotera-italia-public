@@ -4,6 +4,8 @@ public class PlayerBoard {
     private ColorOfFigure_Square[] damages;
     private ColorOfFigure_Square[] marks;
     private Ammo[] ammo;
+    private boolean isInFrenzyBoardPlayer=false;
+
 
     public ColorOfFigure_Square[] getDamages() {
         return damages;
@@ -15,4 +17,11 @@ public class PlayerBoard {
     public void cleanPlayerBoard(){}
     public boolean isDeath(){}
 
+    public boolean isInFrenzyBoardPlayer() {
+        return isInFrenzyBoardPlayer;
+    }
+
+    public void setInFrenzyBoardPlayer(boolean inFrenzyBoardPlayer) {
+        isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
+    }
 }

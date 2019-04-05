@@ -1,19 +1,18 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.istanceOfAmmoTileDeck;
-import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
-import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
-
 public class Board {
     private static Board instanceOfBoard = null;
 
     private Map map;
-    private AmmoTileDeck ammoTileDeck;
-    private Board(){};
+    private AmmoTileDeck ammotiledeck;
+    private Board()
+    {
 
-    public static Board instanceOfBoard() {
+    };
+
+    public static Board istanceOfBoard() {
         if(instanceOfBoard==null) instanceOfBoard= new Board();
-        return instanceOfBoard;
+        return istanceOfBoard;
     }
 
     public Board clone(){};
@@ -21,15 +20,18 @@ public class Board {
     public Map createMap(int typeMap)
     {
        this.map = instanceOfMap(typeMap);
-    }
+    };
 
-    public PowerUpDeck createPowerUpDeck(){}
+    public PowerUpDeck createPowerUpDeck(){};
 
-    public WheaponDeck CreateWheaponCardDeck(){}
+    public WheaponCardDeck CreateWheaponCardDeck(){};
 
     public AmmoTileDeck creatAmmoTileDeck(){
-        this.ammoTileDeck = istanceOfAmmoTileDeck();
-    }
+        this.ammotiledeck = instanceOfAmmoTileDeck();
+    };
 
-    public KillShotTrack createKillShotTrack(){}
+    public KillShotTrack createKillShotTrack()
+    {
+
+    }
 }

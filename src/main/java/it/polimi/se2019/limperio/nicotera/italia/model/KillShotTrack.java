@@ -1,13 +1,16 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.Vector
+import java.util.ArrayList
+
 public class KillShotTrack {
 
 
-    private static KillShotTrack istanceOfKillShotTrack;
+    private static KillShotTrack instanceOfKillShotTrack;
     private  TokenOfDeath[] tokensOfDeath;
+    private ArrayList<TokenOfDeath> tokenOfFranzyMode;
 
     private KillShotTrack(){
-        tokensOfDeath = new TokenOfDeath[8];
         int i=0;
         for(i=0;i<8;i++)
         {
@@ -18,7 +21,7 @@ public class KillShotTrack {
 
     public static KillShotTrack istanceOfKillShotTrack()
     {
-        if(istanceOfKillShotTrack==null) istanceOfKillShotTrack=new  KillShotTrack();
+        if(instanceOfKillShotTrack==null) istanceOfKillShotTrack=new  KillShotTrack();
         return istanceOfKillShotTrack;
     }
 

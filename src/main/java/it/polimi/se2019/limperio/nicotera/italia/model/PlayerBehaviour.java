@@ -5,7 +5,7 @@ public interface PlayerBehaviour {
     void catchAmmoTile (Square square);
     void shoot (Player[] players, WheaponCard weaponCard, int[] typeOfAttack);
     void catchWheapon(Square square, WheaponCard weaponCard);
-    void fishTwoPowerUpCard();
+    void drownTwoPowerUpCard();
     void discardPowerUpCard(PowerUpCard card);
 
 }
