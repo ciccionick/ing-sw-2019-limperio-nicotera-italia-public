@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,8 +37,7 @@ public class Game {
     public boolean getisGameOver(){
         return isGameOver;
     }
-    public boolean hasWon(Player player){
-    }
+    public boolean hasWon(Player player){}
     public void updateKillshotTrack(){}
     public void changeMode(){}
     public void startGame(){}
