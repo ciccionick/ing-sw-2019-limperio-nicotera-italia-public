@@ -1,5 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+
 public class Player implements PlayerBehaviour{
     private final ColorOfFigure_Square colorOfFigure;
     private boolean isFirst;
@@ -11,7 +13,24 @@ public class Player implements PlayerBehaviour{
     private Square positionOnTheMap;
     private String nickname;
     private PlayerBoard playerBoard;
+    private ArrayList<WeaponCard>  weaponsOwned;
+    private ArrayList<PowerUpCard> powerUpCardsOwned;
 
+    public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
+        this.weaponsOwned = weaponsOwned;
+    }
+
+    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpCardsOwned) {
+        this.powerUpCardsOwned = powerUpCardsOwned;
+    }
+
+    public ArrayList<WeaponCard> getWeaponsOwned() {
+        return weaponsOwned;
+    }
+
+    public ArrayList<PowerUpCard> getPowerUpCardsOwned() {
+        return powerUpCardsOwned;
+    }
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;

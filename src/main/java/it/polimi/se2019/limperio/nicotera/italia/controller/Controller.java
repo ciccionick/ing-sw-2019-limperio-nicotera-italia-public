@@ -42,7 +42,7 @@ public class Controller implements Observer<ViewEvent> {
     return true;
     }
 
-    private boolean checkForDiscardPowerUpCard(ViewEvent message{
+    private boolean checkForDiscardPowerUpCard(ViewEvent message){
         return true;
     }
 
@@ -63,7 +63,7 @@ public class Controller implements Observer<ViewEvent> {
     }
 
     private boolean checkForUseTagBackGranade(ViewEvent message){
-
+        return true;
     }
 
     private boolean checkForUseNewton(ViewEvent message){
@@ -83,7 +83,7 @@ public class Controller implements Observer<ViewEvent> {
     }
 
     @Override
-    public void update(ViewEvent message) throws IllegalChooseByUser {
+    public void update(ViewEvent message) /*throws IllegalChooseByUser */{
         if(check(message)){
             switch (message.getClass().getName()){
                 case "DiscardPowerUpCard":
@@ -99,8 +99,8 @@ public class Controller implements Observer<ViewEvent> {
             }
 
         }
-        else
-            throw new IllegaleChooseByUser();
+        /*else
+            throw new IllegaleChooseByUser();*/
 
 
     }

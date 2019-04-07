@@ -14,15 +14,16 @@ public class ViewEvent {
         return view;
     }
 
-    public ViewEvent(Player player, View view) {
+    public ViewEvent(Player player) {
 
         this.player = player;
-        this.view = view;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-
+    public void setView(View view) {
+        this.view = view;
+    }
 }
