@@ -19,7 +19,7 @@ public class Furnace extends WeaponCard {
                 for (int j = 0; j < 4; j++) {
                     if (Map.getMatrixOfSquares()[i][j] != null && Map.getMatrixOfSquares()[i][j].getColor() == squareForRoom.getColor()) {
                         for (Player player : Map.getMatrixOfSquares()[i][j].getPlayerOfThisSquare()) {
-                            player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+                            basicMode(player);
                         }
                     }
                 }
@@ -27,8 +27,7 @@ public class Furnace extends WeaponCard {
         }
         else {
             for(Player player : squareForRoom.getPlayerOfThisSquare()){
-                player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
-                player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+                inCozyFireMode(player);
             }
 
         }
@@ -37,6 +36,14 @@ public class Furnace extends WeaponCard {
     }
 
 
+    private void basicMode(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+    private void inCozyFireMode(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+    }
 
     public Furnace() {
         super(RED, "Furnace");

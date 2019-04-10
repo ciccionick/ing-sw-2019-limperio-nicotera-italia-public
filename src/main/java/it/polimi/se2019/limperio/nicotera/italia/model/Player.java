@@ -98,7 +98,10 @@ public class Player implements PlayerBehaviour{
     public void discardPowerUpCard(PowerUpCard card){}
 
     public void setPositionOnTheMap(Square positionOnTheMap) {
+
+        this.positionOnTheMap.getPlayerOfThisSquare().remove(this);
         this.positionOnTheMap = positionOnTheMap;
+        positionOnTheMap.getPlayerOfThisSquare().add(this);
     }
 
     public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){

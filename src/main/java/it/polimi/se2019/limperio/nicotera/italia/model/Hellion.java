@@ -4,25 +4,51 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 
 import java.util.ArrayList;
 
-import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 public class Hellion extends WeaponCard {
 
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        return;
+        if(typeOfAttack.get(0)==1){
+            basicMode(involvedPlayers.get(0).getPlayer());
+        }
+        else{
+            inNanoTracerMode(involvedPlayers.get(0).getPlayer());
+        }
 
     }
 
+    private void basicMode(Player player){
+        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
+            otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+        }
+
+    }
+
+    private void inNanoTracerMode(Player player){
+        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
+            otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
+        }
+    }
+
+
+
     public Hellion() {
-        super(BLUE, "Hellion");
-        Boolean[] kindOfAttack = {true, true, false, false};
+        super(RED, "Hellion");
+        Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
-        setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        String description = "basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
+                "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
+        setDescription(description);
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {RED, YELLOW};
         setPriceToReload(reloadPrice);
     }
 }

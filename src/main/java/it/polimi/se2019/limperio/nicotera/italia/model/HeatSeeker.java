@@ -4,25 +4,27 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 
 import java.util.ArrayList;
 
-import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 public class HeatSeeker extends WeaponCard {
 
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        return;
+        involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
 
     }
 
     public HeatSeeker() {
-        super(BLUE, "HeatSeeker");
-        Boolean[] kindOfAttack = {true, true, false, false};
+        super(RED, "Heatseeker");
+        Boolean[] kindOfAttack = {true, false, false, false};
+        String description = "effect: Choose 1 target you cannot see and deal 3 damage to it.\n" +
+                "Notes: Yes, this can only hit targets you cannot see.";
+        setDescription(description);
         setHasThisKindOfAttack(kindOfAttack);
-        setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED, YELLOW};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {RED, RED, YELLOW};
         setPriceToReload(reloadPrice);
     }
 }

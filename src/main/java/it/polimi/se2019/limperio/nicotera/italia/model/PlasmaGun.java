@@ -12,9 +12,43 @@ public class PlasmaGun extends WeaponCard{
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        return;
+        int typeOfCurrentAttack;
+        boolean thirdEffect=false;
+        for (int i = 0; i < typeOfAttack.size(); i++) {
+            typeOfCurrentAttack = typeOfAttack.get(i);
+            switch (typeOfCurrentAttack) {
+                case 1:
+                    for (int j = 0; j < involvedPlayers.size(); j++) {
+                        if (involvedPlayers.get(j).getEffects().contains(1)) {
+                            if(typeOfAttack.contains(3))
+                                thirdEffect=true;
+                            basicEffect(involvedPlayers.get(j).getPlayer(), thirdEffect);
+                        }
+                    }
+                case 2:
+                    for (int j = 0; j < involvedPlayers.size(); j++) {
+                        if (involvedPlayers.get(j).getEffects().contains(2))
+                            withPhaseGlide(involvedPlayers.get(i).getPlayer(), involvedPlayers.get(j).getSquare());
+                    }
+            }
+
+        }
+    }
+
+    private void basicEffect(Player player, boolean thirdEffect){
+        if(thirdEffect)
+            player.assignMarks(getOwnerOfCard().getColorOfFigure(), 3);
+        else
+            player.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
 
     }
+
+    private void withPhaseGlide(Player player, Square square){
+        player.setPositionOnTheMap(square);
+
+    }
+
+
 
     public PlasmaGun() {
         super(BLUE, "PlasmaGun");
