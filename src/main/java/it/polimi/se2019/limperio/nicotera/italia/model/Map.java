@@ -5,7 +5,7 @@ import com.sun.javafx.scene.traversal.Direction;
 public class Map {
 
     private static Map instanceOfMap;
-    private Square[][] matrixOfSquares;
+    private static Square[][] matrixOfSquares;
 
 
     private Square createSquare(boolean isSpawn, ColorOfFigure_Square color , boolean hasDoor){
@@ -144,7 +144,7 @@ public class Map {
 
     }
 
-
-
-
+    public  static Square[][] getMatrixOfSquares() {
+        return matrixOfSquares;
+    }
 }

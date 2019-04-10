@@ -8,6 +8,7 @@ public class Square {
     private boolean hasDoor;
     private ArrayList<Player> playerOfThisSquare;
     private Square nord, sud, west, east;
+    private ArrayList<Square> adjSquares;
 
 
 
@@ -45,6 +46,30 @@ public class Square {
         this.sud=sud;
         this.east=east;
         this.west=west;
+        adjSquares = new ArrayList<Square>();
+        adjSquares.add(this.nord);
+        adjSquares.add(this.sud);
+        adjSquares.add(this.east);
+        adjSquares.add(this.west);
     }
 
+    public Square getNord() {
+        return nord;
+    }
+
+    public Square getSud() {
+        return sud;
+    }
+
+    public Square getWest() {
+        return west;
+    }
+
+    public Square getEast() {
+        return east;
+    }
+
+    public ArrayList<Square> getAdjSquares() {
+        return adjSquares;
+    }
 }
