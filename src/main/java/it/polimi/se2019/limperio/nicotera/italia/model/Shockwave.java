@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 public class Shockwave extends WeaponCard {
 
@@ -32,17 +33,15 @@ public class Shockwave extends WeaponCard {
     }
 
     private void tsunamiMode(){
-        ArrayList<Player> playersInAdj = new ArrayList<>();
-        for(AdjSquare square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
-           playersInAdj.addAll(square.getSquare().getPlayerOfThisSquare());
-           for(Player player : playersInAdj){
-               player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-           }
+        for(Square square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
+            for(Player enemy : square.getPlayerOfThisSquare()){
+                enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+            }
         }
     }
 
     Shockwave() {
-        super(BLUE, "Shockwave");
+        super(YELLOW, "Shockwave");
         String description;
         description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target." +
         "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
@@ -50,9 +49,9 @@ public class Shockwave extends WeaponCard {
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {YELLOW};
         setPriceToReload(reloadPrice);
     }
 

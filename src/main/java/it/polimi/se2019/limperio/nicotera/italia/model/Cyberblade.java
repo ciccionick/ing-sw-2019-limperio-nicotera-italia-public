@@ -4,7 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.*;
 
 import java.util.ArrayList;
 
-import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 public class Cyberblade extends WeaponCard {
 
@@ -47,7 +47,7 @@ public class Cyberblade extends WeaponCard {
     }
 
     Cyberblade() {
-        super(BLUE, "Cyberblade");
+        super(YELLOW, "Cyberblade");
         String description;
         description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
         "with shadowstep: Move 1 square before or after the basic effect.\n" +
@@ -57,9 +57,9 @@ public class Cyberblade extends WeaponCard {
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {YELLOW, RED};
         setPriceToReload(reloadPrice);
 
     }

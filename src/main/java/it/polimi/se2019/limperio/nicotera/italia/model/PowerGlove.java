@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 public class PowerGlove extends WeaponCard {
 
@@ -45,7 +46,7 @@ public class PowerGlove extends WeaponCard {
 
 
     PowerGlove() {
-        super(BLUE, "PowerGlove");
+        super(YELLOW, "PowerGlove");
         String description;
         description = "basic mode: Choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks." +
                 "in rocket fist mode: Choose a square exactly 1 move away. Move onto that square. You may deal 2 damage to 1 target there. If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well." +
@@ -56,7 +57,7 @@ public class PowerGlove extends WeaponCard {
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {YELLOW, BLUE};
         setPriceToReload(reloadPrice);
     }
 }

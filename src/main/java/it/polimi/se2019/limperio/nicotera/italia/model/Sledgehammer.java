@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 public class Sledgehammer extends WeaponCard{
 
@@ -39,7 +40,7 @@ public class Sledgehammer extends WeaponCard{
     }
 
     Sledgehammer() {
-        super(BLUE, "Sledgehammer");
+        super(YELLOW, "Sledgehammer");
         String description;
         description ="Basic mode: Deal 2 damage to 1 target on your square.\n" +
         "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
@@ -48,9 +49,9 @@ public class Sledgehammer extends WeaponCard{
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {YELLOW};
         setPriceToReload(reloadPrice);
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPla
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 public class Railgun extends WeaponCard  {
 
@@ -42,7 +43,7 @@ public class Railgun extends WeaponCard  {
 
 
     Railgun() {
-        super(BLUE, "Railgun");
+        super(YELLOW, "Railgun");
         String description;
         description = "basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it." +
                 "in piercing mode: Choose a cardinal direction and 1 or 2 targets in that direction. Deal 2 damage to each." +
@@ -51,9 +52,9 @@ public class Railgun extends WeaponCard  {
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
-        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
+        ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW, BLUE};
         setPriceToBuy(buyPrice);
-        ColorOfCard_Ammo[] reloadPrice = {BLUE, BLUE};
+        ColorOfCard_Ammo[] reloadPrice = {YELLOW, YELLOW, BLUE};
         setPriceToReload(reloadPrice);
     }
 }
