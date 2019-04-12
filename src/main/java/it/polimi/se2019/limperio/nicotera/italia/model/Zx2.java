@@ -27,7 +27,7 @@ public class Zx2 extends WeaponCard {
                     }
             }
         }
-
+        setLoad(false);
     }
 
     private void basicEffect (Player player){

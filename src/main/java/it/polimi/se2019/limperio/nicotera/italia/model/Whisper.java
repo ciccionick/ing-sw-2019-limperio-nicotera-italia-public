@@ -14,7 +14,7 @@ public class Whisper extends WeaponCard {
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(),3);
         involvedPlayers.get(0).getPlayer().assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
-
+        setLoad(false);
     }
 
     public Whisper() {

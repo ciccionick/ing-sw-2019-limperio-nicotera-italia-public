@@ -11,29 +11,31 @@ public class Sledgehammer extends WeaponCard{
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
-                case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
-                case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
-                            this.pulverizeMode(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
-                    }
-                default:
-                    throw new IllegalArgumentException();
+
+        for (int typeOfCurrentAttack : typeOfAttack) {
+
+            if(typeOfCurrentAttack==1) {
+
+                for (int j = 0; j < involvedPlayers.size(); j++) {
+                    if (involvedPlayers.get(j).getEffects().contains(1))
+                        this.basicEffect(involvedPlayers.get(j).getPlayer());
+                }
+            }
+                else {
+                for (int j = 0; j < involvedPlayers.size(); j++) {
+                    if (involvedPlayers.get(j).getEffects().contains(2))
+                        this.pulverizeMode(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
+                }
+            }
 
             }
-        }
+
+        setLoad(false);
     }
     private void basicEffect(Player player){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
     }
+
     private void pulverizeMode(Player player, Square square){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
         player.setPositionOnTheMap(square);

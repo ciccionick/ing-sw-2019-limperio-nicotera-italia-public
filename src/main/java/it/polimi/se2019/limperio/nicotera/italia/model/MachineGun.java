@@ -36,7 +36,7 @@ public class MachineGun extends WeaponCard {
                         throw new IllegalArgumentException();
             }
         }
-
+        setLoad(false);
     }
 
     public MachineGun() {

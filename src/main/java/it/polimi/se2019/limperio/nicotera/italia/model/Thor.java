@@ -30,11 +30,10 @@ public class Thor extends WeaponCard {
                         if(player.getEffects().contains(3))
                             withHighVoltage(player.getPlayer());
                     }
-                    default:
-                        throw new IllegalArgumentException();
+
             }
         }
-
+        setLoad(false);
     }
 
     Thor() {

@@ -16,11 +16,10 @@ public class TractorBeam extends WeaponCard {
                 basicMode(involvedPlayers.get(0).getPlayer(), involvedPlayers.get(0).getSquare());
             case 4:
                 inPunisherMode(involvedPlayers.get(0).getPlayer());
-            default:
-                    throw new IllegalArgumentException();
+
 
         }
-
+        setLoad(false);
     }
 
     public TractorBeam() {

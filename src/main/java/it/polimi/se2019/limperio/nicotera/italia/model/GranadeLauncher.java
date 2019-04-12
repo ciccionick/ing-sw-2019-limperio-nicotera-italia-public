@@ -28,7 +28,7 @@ public class GranadeLauncher extends WeaponCard {
                     }
             }
         }
-
+        setLoad(false);
     }
 
     private void basicEffect(Player player, Square square) {

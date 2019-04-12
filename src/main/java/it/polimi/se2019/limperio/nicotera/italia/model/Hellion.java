@@ -17,7 +17,7 @@ public class Hellion extends WeaponCard {
         else{
             inNanoTracerMode(involvedPlayers.get(0).getPlayer());
         }
-
+        setLoad(false);
     }
 
     private void basicMode(Player player){

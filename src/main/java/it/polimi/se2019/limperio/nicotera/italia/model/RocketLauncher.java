@@ -32,6 +32,7 @@ public class RocketLauncher extends  WeaponCard{
                     }
             }
         }
+        setLoad(false);
     }
 
     private void rocketJump(Square square){

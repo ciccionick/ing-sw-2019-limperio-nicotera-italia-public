@@ -12,23 +12,16 @@ public class Flamethower extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        /*int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
-                case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
-                    }
-                case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
-                            this.barbecueMode(involvedPlayers.get(j).getSquare());
-                    }
+        if (typeOfAttack.get(0)==1){
+            for (InvolvedPlayer involvedPlayer : involvedPlayers){
+                basicMode(involvedPlayer.getPlayer());
             }
-        }*/
-
+        }
+        else{
+            barbecueMode(involvedPlayers.get(0).getPlayer());
+            basicMode(involvedPlayers.get(1).getPlayer());
+        }
+        setLoad(false);
     }
 
     public Flamethower() {
@@ -46,4 +39,13 @@ public class Flamethower extends WeaponCard {
         ColorOfCard_Ammo[] reloadPrice = {RED};
         setPriceToReload(reloadPrice);
     }
+
+    private void basicMode(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+    private void barbecueMode (Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
+    }
+
 }

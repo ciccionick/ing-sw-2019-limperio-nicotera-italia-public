@@ -33,6 +33,7 @@ public class PlasmaGun extends WeaponCard{
             }
 
         }
+        setLoad(false);
     }
 
     private void basicEffect(Player player, boolean thirdEffect){

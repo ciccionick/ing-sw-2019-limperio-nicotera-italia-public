@@ -26,10 +26,9 @@ public class PowerGlove extends WeaponCard {
                         if (involvedPlayers.get(j).getEffects().contains(1))
                             this.rocketFirstMode(involvedPlayers.get(j).getPlayer(),involvedPlayers.get(j).getSquare());
                     }
-                default:
-                    throw new IllegalArgumentException();
             }
         }
+        setLoad(false);
     }
 
     private void basicEffect(Player player){

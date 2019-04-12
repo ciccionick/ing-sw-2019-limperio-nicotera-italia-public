@@ -12,7 +12,7 @@ public class HeatSeeker extends WeaponCard {
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
-
+        setLoad(false);
     }
 
     public HeatSeeker() {

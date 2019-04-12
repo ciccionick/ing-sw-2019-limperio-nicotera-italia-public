@@ -24,10 +24,8 @@ public class ElectroScythe extends WeaponCard
                 case 4:
                     inReaperMode(players);
 
-                    default:
-                        throw new IllegalArgumentException();
-
         }
+        setLoad(false);
     }
 
     public ElectroScythe() {

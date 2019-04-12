@@ -26,11 +26,9 @@ public class Railgun extends WeaponCard  {
                         if (involvedPlayers.get(j).getEffects().contains(2))
                             this.piercingMode(involvedPlayers.get(j).getPlayer());
                     }
-                default:
-                    throw new IllegalArgumentException();
-
             }
         }
+        setLoad(false);
     }
 
     private void basicEffect(Player player){

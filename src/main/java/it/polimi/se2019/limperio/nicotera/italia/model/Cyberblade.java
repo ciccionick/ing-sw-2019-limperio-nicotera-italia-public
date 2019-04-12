@@ -30,10 +30,10 @@ public class Cyberblade extends WeaponCard {
                         if (involvedPlayers.get(j).getEffects().contains(3))
                             this.withSliceAndDice(involvedPlayers.get(j).getPlayer());
                     }
-                default:
-                    throw new IllegalArgumentException();
+
             }
         }
+        setLoad(false);
     }
     private void withSliceAndDice(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);

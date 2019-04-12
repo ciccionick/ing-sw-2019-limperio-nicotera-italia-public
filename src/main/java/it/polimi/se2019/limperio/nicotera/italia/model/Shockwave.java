@@ -26,6 +26,7 @@ public class Shockwave extends WeaponCard {
                     this.tsunamiMode();
             }
         }
+        setLoad(false);
     }
 
     private void basicEffect(Player player){

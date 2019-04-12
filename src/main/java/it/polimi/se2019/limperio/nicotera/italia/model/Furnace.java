@@ -32,7 +32,7 @@ public class Furnace extends WeaponCard {
 
         }
 
-
+        setLoad(false);
     }
 
 
