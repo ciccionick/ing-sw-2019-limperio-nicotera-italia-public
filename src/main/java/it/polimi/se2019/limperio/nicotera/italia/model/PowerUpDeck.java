@@ -1,11 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+
 public class PowerUpDeck {
-    private PowerUpCard[] powerUpCards;
+    private ArrayList<PowerUpCard> powerUpCards;
 
     public PowerUpDeck(){}
 
-    public PowerUpCard[] getPowerUpCards() {
+    public ArrayList<PowerUpCard> getPowerUpCards() {
         return powerUpCards;
     }
 }

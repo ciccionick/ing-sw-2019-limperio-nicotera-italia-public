@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.InvolvedPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.InvolvedPlayer;
 
 import java.util.ArrayList;
 

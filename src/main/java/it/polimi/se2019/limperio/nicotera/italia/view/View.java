@@ -1,10 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
-import it.polimi.se2019.limperio.nicotera.italia.model.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
-import it.polimi.se2019.limperio.nicotera.italia.view.events_of_view.ViewEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 
 public abstract class View extends Observable<ViewEvent> implements Observer<ModelEvent> {
 

@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
