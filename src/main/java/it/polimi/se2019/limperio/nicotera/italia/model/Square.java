@@ -7,7 +7,7 @@ public class Square {
     private ColorOfFigure_Square color;
     private boolean hasDoor;
     private ArrayList<Player> playerOfThisSquare;
-    private Square nord, sud, west, east;
+    private Square north, south, west, east;
     private ArrayList<Square> adjSquares;
 
 
@@ -41,24 +41,24 @@ public class Square {
 
     }
 
-    public void setCardinalSquare(Square nord, Square sud, Square west, Square east){
-        this.nord=nord;
-        this.sud=sud;
+    public void setCardinalSquare(Square north, Square south, Square west, Square east){
+        this.north=north;
+        this.south=south;
         this.east=east;
         this.west=west;
         adjSquares = new ArrayList<Square>();
-        adjSquares.add(this.nord);
-        adjSquares.add(this.sud);
+        adjSquares.add(this.north);
+        adjSquares.add(this.south);
         adjSquares.add(this.east);
         adjSquares.add(this.west);
     }
 
     public Square getNord() {
-        return nord;
+        return north;
     }
 
     public Square getSud() {
-        return sud;
+        return south;
     }
 
     public Square getWest() {

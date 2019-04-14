@@ -2,7 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 public class AmmoTileDeck {
 
-    ColorOfCard_Ammo[] ammoTile;
+    AmmoTile[] ammoTile;
     private static AmmoTileDeck instanceOfAmmoTileDeck;
 
     private AmmoTileDeck(){
@@ -17,7 +17,7 @@ public class AmmoTileDeck {
     }
 
 
-    public ColorOfCard_Ammo[] getAmmoTile() {
+    public AmmoTile[] getAmmoTile() {
         return ammoTile;
     }
 }
