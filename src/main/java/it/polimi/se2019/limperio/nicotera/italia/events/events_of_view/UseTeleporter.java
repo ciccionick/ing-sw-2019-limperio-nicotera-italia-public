@@ -9,7 +9,7 @@ public class UseTeleporter extends UsePowerUp {
 
 
     public UseTeleporter(Player player, View view, PowerUpCard powerUpToUse, Square arrivalSquare) {
-        super(player, view, powerUpToUse);
+        super(player,  powerUpToUse);
         this.arrivalSquare = arrivalSquare;
     }
 

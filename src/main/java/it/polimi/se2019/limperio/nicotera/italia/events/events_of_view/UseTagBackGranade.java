@@ -9,6 +9,6 @@ public class UseTagBackGranade extends UsePowerUp {
 
 
     public UseTagBackGranade(Player player, View view, PowerUpCard powerUpToUse) {
-        super(player, view, powerUpToUse);
+        super(player,  powerUpToUse);
     }
 }

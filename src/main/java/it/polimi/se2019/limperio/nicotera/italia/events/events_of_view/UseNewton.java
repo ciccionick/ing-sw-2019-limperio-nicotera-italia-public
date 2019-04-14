@@ -9,7 +9,7 @@ public class UseNewton extends UsePowerUp {
     private Square arrivalSquare;
 
     public UseNewton(Player player, View view, PowerUpCard powerUpToUse, Player playerToMove, Square arrivalSquare) {
-        super(player, view, powerUpToUse);
+        super(player, powerUpToUse);
         this.playerToMove = playerToMove;
         this.arrivalSquare = arrivalSquare;
     }
