@@ -3,18 +3,25 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.util.ArrayList;
 
 public class Player implements PlayerBehaviour{
-    private final ColorOfFigure_Square colorOfFigure;
+    private ColorOfFigure_Square colorOfFigure;
     private boolean isFirst;
     private boolean isUnderThreeDamage = true;
     private boolean isOverSixDamage = false;
     private int numOfDeath;
     private int score;
+    private int position;
     private boolean doubleKill;
     private Square positionOnTheMap;
     private String nickname;
     private PlayerBoard playerBoard;
     private ArrayList<WeaponCard>  weaponsOwned;
     private ArrayList<PowerUpCard> powerUpCardsOwned;
+
+    public Player(String nickname, boolean isFirst, int position) {
+        this.nickname=nickname;
+        this.isFirst=isFirst;
+        this.position=position;
+    }
 
     public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
         this.weaponsOwned = weaponsOwned;

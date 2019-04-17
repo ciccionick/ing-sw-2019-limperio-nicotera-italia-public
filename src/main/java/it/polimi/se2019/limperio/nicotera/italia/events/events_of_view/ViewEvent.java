@@ -1,16 +1,18 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_of_view;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-import it.polimi.se2019.limperio.nicotera.italia.view.View;
+import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
+
+import java.io.Serializable;
 
 
-public class ViewEvent {
+public class ViewEvent implements Serializable {
 
     private Player player;
 
-    private View view;
+    private RemoteView view;
 
-    public View getView() {
+    public RemoteView getView() {
         return view;
     }
 
@@ -23,7 +25,7 @@ public class ViewEvent {
         return player;
     }
 
-    public void setView(View view) {
+    public void setView(RemoteView view) {
         this.view = view;
     }
 }

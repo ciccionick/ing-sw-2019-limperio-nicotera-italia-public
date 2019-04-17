@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
@@ -13,7 +14,7 @@ public class Game extends Observable<ModelEvent> {
     private Board board;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;
-    private static Game instanceOfGame;
+    private static Game instanceOfGame=null;
     private int numOfPlayer;
     private int playerOfTurn;
     private boolean isFirstRound = true;
@@ -22,6 +23,11 @@ public class Game extends Observable<ModelEvent> {
     private boolean isGameOver = false;
     private boolean anticipatedFrenzy = true;
     private int firstInFrenzyMode;
+    private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+
+    public void Game(){
+
+    }
 
     public void addPlayer(String nickname, ColorOfFigure_Square color){
         players.add(new Player(nickname, color));
@@ -32,6 +38,8 @@ public class Game extends Observable<ModelEvent> {
         players.remove(player);
 
     }
+
+
 
 
     public boolean isTurn(Player player){
@@ -55,6 +63,7 @@ public class Game extends Observable<ModelEvent> {
     private Game(){
         createBoard();
     }
+
     public static Game instanceOfGame(){
         if(instanceOfGame == null)
              instanceOfGame = new Game();
@@ -143,9 +152,18 @@ public class Game extends Observable<ModelEvent> {
 
     public void handleDeath(Player player){}
 
+    public void createPlayer(String nickname, boolean isFirst, int position){
+        players.add(new Player(nickname, isFirst, position));
+        if(players.get(players.size()-1).isFirst()){
+            System.out.println("Ed è il primo del turno");
+        }
+        else
+            System.out.println("E non è il primo del turno");
+    }
+
     @Override
     public void register(Observer<ModelEvent> observer) {
-
+        listOfVirtualView.add((VirtualView) observer);
     }
 
     @Override

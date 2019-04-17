@@ -1,12 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.WeaponsDeck;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 
-public abstract class Controller implements Observer<ViewEvent> {
+public class Controller implements Observer<ViewEvent> {
 
     private final Game game;
     private ActionController actionController;
