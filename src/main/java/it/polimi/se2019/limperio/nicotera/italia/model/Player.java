@@ -17,10 +17,11 @@ public class Player implements PlayerBehaviour{
     private ArrayList<WeaponCard>  weaponsOwned;
     private ArrayList<PowerUpCard> powerUpCardsOwned;
 
-    public Player(String nickname, boolean isFirst, int position) {
+    public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
         this.nickname=nickname;
         this.isFirst=isFirst;
         this.position=position;
+        this.colorOfFigure = colorOfFigure;
     }
 
     public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
@@ -77,6 +78,10 @@ public class Player implements PlayerBehaviour{
 
     public String getNickname() {
         return nickname;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public Player(String nickname, ColorOfFigure_Square colorOfFigure) {

@@ -5,13 +5,8 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 public class EndTurn extends ViewEvent {
 
 
-    public EndTurn(Player player) {
-        super(player);
+    public EndTurn(String message, String nickname) {
+        super(message, nickname);
     }
-
-
-
-
-
 }
 

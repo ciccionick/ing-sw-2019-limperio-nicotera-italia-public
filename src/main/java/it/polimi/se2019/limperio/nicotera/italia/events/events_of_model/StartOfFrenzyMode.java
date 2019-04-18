@@ -8,13 +8,7 @@ import java.util.ArrayList;
 
 public class StartOfFrenzyMode extends ModelEvent  {
 
-    private ArrayList<Player> deadPlayers;
-    public StartOfFrenzyMode(Board board, Player currentPlayer, int numOfLeftActions, ArrayList<Player> deadPlayers) {
-        super(board, currentPlayer, numOfLeftActions);
-        this.deadPlayers = deadPlayers;
-    }
-
-    public ArrayList<Player> getDeadPlayers() {
-        return deadPlayers;
+    public StartOfFrenzyMode(String message, String nickname) {
+        super(message, nickname);
     }
 }

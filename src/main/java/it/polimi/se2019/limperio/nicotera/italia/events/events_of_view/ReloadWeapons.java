@@ -5,14 +5,7 @@ import java.util.ArrayList;
 
 public class ReloadWeapons extends ViewEvent {
 
-    private ArrayList<WeaponCard> weaponsToReload;
-
-    public ReloadWeapons(Player player, ArrayList<WeaponCard> weaponsToReload) {
-        super(player);
-        this.weaponsToReload = weaponsToReload;
-    }
-
-    public ArrayList<WeaponCard> getWeaponsToReload() {
-        return weaponsToReload;
+    public ReloadWeapons(String message, String nickname) {
+        super(message, nickname);
     }
 }

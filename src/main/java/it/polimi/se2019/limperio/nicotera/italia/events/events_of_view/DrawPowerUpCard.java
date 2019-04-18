@@ -5,14 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 public class DrawPowerUpCard extends ViewEvent  {
 
-    private int numOfCard;
-
-    public DrawPowerUpCard(Player player, int numOfCard) {
-        super(player);
-        this.numOfCard = numOfCard;
-    }
-
-    public int getNumOfCard() {
-        return numOfCard;
+    public DrawPowerUpCard(String message, String nickname) {
+        super(message, nickname);
     }
 }

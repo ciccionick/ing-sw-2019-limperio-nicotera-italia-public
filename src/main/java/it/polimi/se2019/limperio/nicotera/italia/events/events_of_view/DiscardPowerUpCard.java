@@ -4,14 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 public class DiscardPowerUpCard extends ViewEvent {
 
-    private PowerUpCard powerUpCard;
-
-    public DiscardPowerUpCard(Player player, PowerUpCard powerUpCard) {
-        super(player);
-        this.powerUpCard = powerUpCard;
-    }
-
-    public PowerUpCard getPowerUpCard() {
-        return powerUpCard;
+    public DiscardPowerUpCard(String message, String nickname) {
+        super(message, nickname);
     }
 }

@@ -5,14 +5,21 @@ import java.io.Serializable;
 public class RequestNicknameEvent implements Serializable {
    private String message;
    private String nickname;
-   private boolean notFirstAttempt;
-    private boolean solved;
+   private String color;
+   private boolean wannaFrenzy;
+   private boolean messageOfRequest;
+   private boolean ack;
+   private boolean valid;
+   private boolean first;
 
-    public RequestNicknameEvent(String message, boolean notFirstAttempt, boolean solved) {
+
+    public RequestNicknameEvent(String message, String nickname, boolean messageOfRequest, boolean ack, boolean valid, boolean first) {
         this.message = message;
-        this.nickname = null;
-        this.notFirstAttempt = notFirstAttempt;
-        this.solved = solved;
+        this.nickname = nickname;
+        this.messageOfRequest = messageOfRequest;
+        this.ack = ack;
+        this.valid = valid;
+        this.first=first;
     }
 
     public String getMessage() {
@@ -23,11 +30,27 @@ public class RequestNicknameEvent implements Serializable {
         return nickname;
     }
 
-    public boolean isNotFirstAttempt() {
-        return notFirstAttempt;
+    public String getColor() {
+        return color;
     }
 
-    public boolean isSolved() {
-        return solved;
+    public boolean isWannaFrenzy() {
+        return wannaFrenzy;
+    }
+
+    public boolean isMessageOfRequest() {
+        return messageOfRequest;
+    }
+
+    public boolean isAck() {
+        return ack;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public boolean isFirst() {
+        return first;
     }
 }

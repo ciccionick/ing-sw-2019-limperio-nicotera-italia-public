@@ -29,7 +29,7 @@ public class Controller implements Observer<ViewEvent> {
     }
 
     public void update(ViewEvent message){
-
+        System.out.println(message.getMessage() + " " + message.getNickname());
     }
 
     /*private int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates) {

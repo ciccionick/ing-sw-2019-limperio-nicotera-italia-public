@@ -4,17 +4,8 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 public class UseTeleporter extends UsePowerUp {
-
-    private Square arrivalSquare;
-
-
-    public UseTeleporter(Player player, RemoteView view, PowerUpCard powerUpToUse, Square arrivalSquare) {
-        super(player,  powerUpToUse);
-        this.arrivalSquare = arrivalSquare;
-    }
-
-    public Square getArrivalSquare() {
-        return arrivalSquare;
+    public UseTeleporter(String message, String nickname) {
+        super(message, nickname);
     }
 }
 

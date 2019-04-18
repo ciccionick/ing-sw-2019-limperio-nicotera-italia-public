@@ -1,31 +1,27 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
-
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
-import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
-import it.polimi.se2019.limperio.nicotera.italia.view.RemoteViewInterface;
-
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
+
 
 public class Client {
 
-    boolean invalidNickname=true;
-    private RemoteView ownView;
-    private String nickname;
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
-    private Socket csocket = null;
+   private boolean invalidInizialization=true;
+   private NetworkHandler myNetworkHandler;
+   private String nickname;
+    ObjectInputStream in = null;
+    ObjectOutputStream out = null;
+   private Socket csocket = null;
 
-    public Client(String nickname){
-        this.nickname=nickname;
-        this.ownView=new RemoteView(this);
+
+    public Client(){
+        this.myNetworkHandler=new NetworkHandler(this);
     }
 
-    public RemoteView getOwnView() {
-        return ownView;
+    public NetworkHandler getMyNetworkHandler() {
+        return myNetworkHandler;
     }
 
     public void changeNickname(String newNickname){
@@ -35,11 +31,8 @@ public class Client {
 
     public static void main(String argv[]) throws IOException, ClassNotFoundException {
         Client client;
-        Scanner stdin = new Scanner(System.in);
-        String nick;
-        System.out.println("Scegli il tuo nickname:");
-        nick=stdin.nextLine();
-        client = new Client(nick);
+        System.out.println("Client attivo:");
+        client = new Client();
 
         try
         {
@@ -47,24 +40,21 @@ public class Client {
             client.out = new ObjectOutputStream(client.csocket.getOutputStream());
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");
-            while(client.invalidNickname) {
+            while(client.invalidInizialization) {
                 RequestNicknameEvent req = (RequestNicknameEvent) client.in.readObject();
-                client.ownView.handleEvent(req);
+                client.myNetworkHandler.handleEventInitialization(req);
             }
         }
         catch(Exception e) { System.err.println(e.getMessage());
         }
         while(true){
             System.out.println("In attesa di messaggi..");
-            ModelEvent modelEvent = (ModelEvent) client.in.readObject();
-            client.ownView.handleEvent(modelEvent);
+            ModelEvent eventFromModel = (ModelEvent) client.in.readObject();
+            client.myNetworkHandler.handleEvent(eventFromModel);
         }
 
     }
 
-    public boolean isInvalidNickname() {
-        return invalidNickname;
-    }
 
     public String getNickname() {
         return nickname;
@@ -74,15 +64,12 @@ public class Client {
         return in;
     }
 
-    public ObjectOutputStream getOut() {
-        return out;
+
+    public void setInvalidInizialization(boolean invalidInizialization) {
+        this.invalidInizialization = invalidInizialization;
     }
 
-    public Socket getCsocket() {
-        return csocket;
-    }
-
-    public void setInvalidNickname(boolean invalidNickname) {
-        this.invalidNickname = invalidNickname;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

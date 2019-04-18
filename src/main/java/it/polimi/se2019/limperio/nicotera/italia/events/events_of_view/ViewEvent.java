@@ -8,24 +8,19 @@ import java.io.Serializable;
 
 public class ViewEvent implements Serializable {
 
-    private Player player;
+   private String message;
+   private String nickname;
 
-    private RemoteView view;
-
-    public RemoteView getView() {
-        return view;
+    public ViewEvent(String message, String nickname) {
+        this.message = message;
+        this.nickname = nickname;
     }
 
-    public ViewEvent(Player player) {
-
-        this.player = player;
+    public String getMessage() {
+        return message;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setView(RemoteView view) {
-        this.view = view;
+    public String getNickname() {
+        return nickname;
     }
 }

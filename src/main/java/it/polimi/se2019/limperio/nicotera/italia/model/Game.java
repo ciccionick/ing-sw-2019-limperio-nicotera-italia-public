@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -23,6 +24,7 @@ public class Game extends Observable<ModelEvent> {
     private boolean isGameOver = false;
     private boolean anticipatedFrenzy = true;
     private int firstInFrenzyMode;
+    private int typeMap;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
 
     public void Game(){
@@ -56,7 +58,13 @@ public class Game extends Observable<ModelEvent> {
     }
     public void updateKillshotTrack(){}
     public void changeMode(){}
-    public void startGame(){}
+    public void startGame(boolean anticipatedFrenzy, int typeMap){
+        this.anticipatedFrenzy=anticipatedFrenzy;
+        this.typeMap=typeMap;
+        ModelEvent newEvent = new ModelEvent("Benvenuto nel gioco", null);
+        notify(newEvent);
+
+    }
     public void createBoard(){
         this.board = Board.instanceOfBoard();
     }
@@ -152,13 +160,33 @@ public class Game extends Observable<ModelEvent> {
 
     public void handleDeath(Player player){}
 
-    public void createPlayer(String nickname, boolean isFirst, int position){
-        players.add(new Player(nickname, isFirst, position));
+    public void createPlayer(String nickname, boolean isFirst, int position, String color){
+        ColorOfFigure_Square colorOfThisPlayer=null;
+        switch (color){
+            case "YELLOW":
+                colorOfThisPlayer=ColorOfFigure_Square.YELLOW;
+                break;
+            case "BLUE":
+                colorOfThisPlayer=ColorOfFigure_Square.BLUE;
+                break;
+            case "GREEN":
+                colorOfThisPlayer=ColorOfFigure_Square.GREEN;
+                break;
+            case "PURPLE":
+                colorOfThisPlayer=ColorOfFigure_Square.PURPLE;
+                break;
+            case "GREY":
+                colorOfThisPlayer=ColorOfFigure_Square.GREY;
+        }
+
+        players.add(new Player(nickname, isFirst, position, colorOfThisPlayer));
+        System.out.println(players.get((players.size()-1)).getNickname() + " in " + players.get((players.size()-1)).getPosition() + "^ posizione nel turno");
         if(players.get(players.size()-1).isFirst()){
-            System.out.println("Ed è il primo del turno");
+            System.out.println("Ed è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
+
         }
         else
-            System.out.println("E non è il primo del turno");
+            System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
     }
 
     @Override
@@ -173,6 +201,8 @@ public class Game extends Observable<ModelEvent> {
 
     @Override
     public void notify(ModelEvent message) {
-
+        for (VirtualView view : listOfVirtualView){
+            view.update(message);
+        }
     }
 }
