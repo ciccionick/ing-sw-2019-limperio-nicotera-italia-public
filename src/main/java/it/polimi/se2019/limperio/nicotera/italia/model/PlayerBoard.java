@@ -12,10 +12,10 @@ public class PlayerBoard {
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
 
-    public PlayerBoard() {
-        damages = new ArrayList<ColorOfFigure_Square>();
-        marks = new ArrayList<ColorOfFigure_Square>();
-        ammo = new ArrayList<Ammo>();
+    PlayerBoard() {
+        damages = new ArrayList<>();
+        marks = new ArrayList<>();
+        ammo = new ArrayList<>();
         ammo.add(new Ammo(RED,true));
         ammo.add(new Ammo(BLUE,true));
         ammo.add(new Ammo(YELLOW,true));
@@ -34,7 +34,9 @@ public class PlayerBoard {
     public ArrayList<ColorOfFigure_Square> getMarks() {
         return marks;
     }
-    public void cleanPlayerBoard(){}
+    public void cleanPlayerBoard(){
+        damages.clear();
+    }
 
 
     public boolean isDeath(){

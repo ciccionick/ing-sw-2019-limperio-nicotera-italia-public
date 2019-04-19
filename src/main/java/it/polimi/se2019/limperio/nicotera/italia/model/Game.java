@@ -27,22 +27,72 @@ public class Game extends Observable<ModelEvent> {
     private int typeMap;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
 
-    public void Game(){
-
-    }
-
-    public void addPlayer(String nickname, ColorOfFigure_Square color){
-        players.add(new Player(nickname, color));
-
-    }
-
-    public void removePlayer(Player player){
-        players.remove(player);
-
+    public Game(){
+        // this is the default constructor of Game class called by the main in the Server class to create
+        // a reference towards to the game instance.
     }
 
 
 
+    public void startGame(boolean anticipatedFrenzy, int typeMap){
+        this.anticipatedFrenzy=anticipatedFrenzy;
+        this.typeMap=typeMap;
+        ModelEvent newEvent = new ModelEvent("Benvenuto nel gioco", null);
+        notify(newEvent);
+        for (Player player : players){
+            player.createPlayerBoard();
+        }
+    }
+
+
+    public void createBoard(){
+
+        this.board = Board.instanceOfBoard();
+    }
+
+
+    public static Game instanceOfGame(){
+        if(instanceOfGame == null)
+             instanceOfGame = new Game();
+        return instanceOfGame;
+    }
+
+
+    public void createPlayer(String nickname, boolean isFirst, int position, String color){
+        ColorOfFigure_Square colorOfThisPlayer=null;
+        switch (color){
+            case "YELLOW":
+                colorOfThisPlayer=ColorOfFigure_Square.YELLOW;
+                break;
+            case "BLUE":
+                colorOfThisPlayer=ColorOfFigure_Square.BLUE;
+                break;
+            case "GREEN":
+                colorOfThisPlayer=ColorOfFigure_Square.GREEN;
+                break;
+            case "PURPLE":
+                colorOfThisPlayer=ColorOfFigure_Square.PURPLE;
+                break;
+            case "GREY":
+                colorOfThisPlayer=ColorOfFigure_Square.GREY;
+        }
+
+        players.add(new Player(nickname, isFirst, position, colorOfThisPlayer));
+        System.out.println(players.get((players.size()-1)).getNickname() + " in " + players.get((players.size()-1)).getPosition() + "^ posizione nel turno");
+        if(players.get(players.size()-1).isFirst()){
+            System.out.println("Ed è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
+
+        }
+        else
+            System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
+    }
+
+
+    public void updateTurn(){}
+    public void updateScore(Player player){}
+    public void updateScoreForKillshot(){}
+    public void showWinner(int scoreOfWinner){}
+    public void updateScoreFinal(){}
 
     public boolean isTurn(Player player){
         return true;
@@ -58,34 +108,8 @@ public class Game extends Observable<ModelEvent> {
     }
     public void updateKillshotTrack(){}
     public void changeMode(){}
-    public void startGame(boolean anticipatedFrenzy, int typeMap){
-        this.anticipatedFrenzy=anticipatedFrenzy;
-        this.typeMap=typeMap;
-        ModelEvent newEvent = new ModelEvent("Benvenuto nel gioco", null);
-        notify(newEvent);
-
-    }
-    public void createBoard(){
-        this.board = Board.instanceOfBoard();
-    }
-    private Game(){
-        createBoard();
-    }
-
-    public static Game instanceOfGame(){
-        if(instanceOfGame == null)
-             instanceOfGame = new Game();
-        return instanceOfGame;
-    }
-
-    public void updateTurn(){}
-    public void updateScore(Player player){}
-    public void updateScoreForKillshot(){}
-    public void showWinner(int scoreOfWinner){}
-    public void updateScoreFinal(){}
 
     public boolean isInFrenzy() {
-
         return isInFrenzy;
     }
 
@@ -160,34 +184,7 @@ public class Game extends Observable<ModelEvent> {
 
     public void handleDeath(Player player){}
 
-    public void createPlayer(String nickname, boolean isFirst, int position, String color){
-        ColorOfFigure_Square colorOfThisPlayer=null;
-        switch (color){
-            case "YELLOW":
-                colorOfThisPlayer=ColorOfFigure_Square.YELLOW;
-                break;
-            case "BLUE":
-                colorOfThisPlayer=ColorOfFigure_Square.BLUE;
-                break;
-            case "GREEN":
-                colorOfThisPlayer=ColorOfFigure_Square.GREEN;
-                break;
-            case "PURPLE":
-                colorOfThisPlayer=ColorOfFigure_Square.PURPLE;
-                break;
-            case "GREY":
-                colorOfThisPlayer=ColorOfFigure_Square.GREY;
-        }
 
-        players.add(new Player(nickname, isFirst, position, colorOfThisPlayer));
-        System.out.println(players.get((players.size()-1)).getNickname() + " in " + players.get((players.size()-1)).getPosition() + "^ posizione nel turno");
-        if(players.get(players.size()-1).isFirst()){
-            System.out.println("Ed è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
-
-        }
-        else
-            System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
-    }
 
     @Override
     public void register(Observer<ModelEvent> observer) {
@@ -196,7 +193,7 @@ public class Game extends Observable<ModelEvent> {
 
     @Override
     public void deregister(Observer<ModelEvent> observer) {
-
+        listOfVirtualView.remove(observer);
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Player implements PlayerBehaviour{
     private boolean doubleKill;
     private Square positionOnTheMap;
     private String nickname;
-    private PlayerBoard playerBoard;
+    private PlayerBoard playerBoard = null;
     private ArrayList<WeaponCard>  weaponsOwned;
     private ArrayList<PowerUpCard> powerUpCardsOwned;
 
@@ -23,6 +23,11 @@ public class Player implements PlayerBehaviour{
         this.position=position;
         this.colorOfFigure = colorOfFigure;
     }
+
+    public void createPlayerBoard(){
+        playerBoard = new PlayerBoard();
+    }
+
 
     public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
         this.weaponsOwned = weaponsOwned;
@@ -84,30 +89,13 @@ public class Player implements PlayerBehaviour{
         return position;
     }
 
-    public Player(String nickname, ColorOfFigure_Square colorOfFigure) {
-        this.colorOfFigure = colorOfFigure;
-        this.nickname = nickname;
-    }
+
     public void useAmmoForPay(Ammo[] ammo){}
     public void updateScore(int newscore){}
-    public void createPlayerBoard(){}
 
-    @Override
-    public void run(Square square){}
-    @Override
-    public void catchAmmoTile (Square square){}
-    @Override
-    public void shoot (Player[] players, WeaponCard weaponCard, int[] typeOfAttack){}
-    @Override
-    public void catchWheapon(Square square, WeaponCard weaponCard){}
 
-    @Override
-    public void drawTwoPowerUpCard() {
 
-    }
 
-    @Override
-    public void discardPowerUpCard(PowerUpCard card){}
 
     public void setPositionOnTheMap(Square positionOnTheMap) {
 
@@ -146,6 +134,23 @@ public class Player implements PlayerBehaviour{
                 playerBoard.getMarks().add(colorOfDamage);
             }
         }
+
+    @Override
+    public void run(Square square){}
+    @Override
+    public void catchAmmoTile (Square square){}
+    @Override
+    public void shoot (Player[] players, WeaponCard weaponCard, int[] typeOfAttack){}
+    @Override
+    public void catchWheapon(Square square, WeaponCard weaponCard){}
+
+    @Override
+    public void drawTwoPowerUpCard() {
+
+    }
+
+    @Override
+    public void discardPowerUpCard(PowerUpCard card){}
 
 }
 
