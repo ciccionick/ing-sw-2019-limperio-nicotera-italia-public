@@ -12,32 +12,37 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class VirtualView extends Observable<ViewEvent> implements Observer<ModelEvent>,Runnable {
-    Socket client;
-    String nicknameOfClient;
-    String colorOfClient;
-    Server server;
-    ObjectInputStream in = null;
-    ObjectOutputStream out = null;
-    Controller controller;
-    boolean firstPlayer;
+    private Socket client;
+    private boolean isClientCurrentlyOnline=true;
+    private String nicknameOfClient;
+    private String colorOfClient;
+    private Server server;
+    private ObjectInputStream in = null;
+    private ObjectOutputStream out = null;
+    private Controller controller;
+    private boolean firstPlayer;
 
     public VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
         this.server = server;
         register(controller);
-        if(server.getListOfClient().size()==1)
-            this.firstPlayer=true;
+        if (server.getListOfClient().size() == 1)
+            this.firstPlayer = true;
         else
-            this.firstPlayer=false;
+            this.firstPlayer = false;
         try {
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
-            try { client.close(); }
-            catch(Exception er) { System.out.println(e.getMessage());}
+            try {
+                client.close();
+            } catch (Exception er) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -49,44 +54,48 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
                 out.writeObject(new RequestNicknameEvent("Chiedo informazioni al mio player", null, true, false, false, firstPlayer));
 
                 AnswerNicknameEvent ans = (AnswerNicknameEvent) in.readObject();
-                if(server.getListOfNickname().contains(ans.getNickname()) && server.getListOfColor().contains(ans.getColor())){
+                if (server.getListOfNickname().contains(ans.getNickname()) && server.getListOfColor().contains(ans.getColor())) {
                     out.writeObject(new RequestNicknameEvent("nickname e colori gia scelti, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
-                }
-                else {
+                } else {
                     if (server.getListOfColor().contains(ans.getColor())) {
                         out.writeObject(new RequestNicknameEvent("colore gia scelto, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
                     }
                     if (server.getListOfNickname().contains(ans.getNickname())) {
-                        out.writeObject(new RequestNicknameEvent("nickname gia scelto, riprova al prossimo tentativo", null,  false, true, false, firstPlayer));
+                        out.writeObject(new RequestNicknameEvent("nickname gia scelto, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
                     }
-                    if(!(server.getListOfNickname().contains(ans.getNickname()))&&!(server.getListOfColor().contains(ans.getColor()))){
+                    if (!(server.getListOfNickname().contains(ans.getNickname())) && !(server.getListOfColor().contains(ans.getColor()))) {
                         out.writeObject(new RequestNicknameEvent("Tutto ok " + ans.getNickname(), ans.getNickname(), false, true, true, firstPlayer));
-                        server.addNickname(ans.getNickname(),ans.getColor());
-                        nicknameOfClient=ans.getNickname();
-                        colorOfClient=ans.getColor();
-                        invalidInizialization=false;
-                        if(firstPlayer)
-                        {
+                        server.addNickname(ans.getNickname(), ans.getColor());
+                        nicknameOfClient = ans.getNickname();
+                        colorOfClient = ans.getColor();
+                        invalidInizialization = false;
+                        if (firstPlayer) {
                             server.setAnticipatedFrenzy(ans.isFrenzy());
-                            System.out.println("Aggiornato frenzy a "+ server.isAnticipatedFrenzy());
-                            server.setTypeMap(ans.getMap());
-                            System.out.println("Aggiornata mappa a "+ server.getTypeMap());
+                            System.out.println("Aggiornato frenzy a " + server.isAnticipatedFrenzy());
+                            server.setTypeMap(ans.getMap(),false);
+                            System.out.println("Aggiornata mappa a " + server.getTypeMap());
                         }
                     }
                 }
             }
+        } catch (SocketException se) {
+            handleDisconnection();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        while(client.isConnected()){
+        while (isClientCurrentlyOnline) {
             ViewEvent newEvent = null;
             try {
-                System.out.println("La virtual view di "+ nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
+                System.out.println("La virtual view di " + nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
                 newEvent = (ViewEvent) in.readObject();
                 notify(newEvent);
+            } catch (SocketException se) {
+                handleDisconnection();
+                break;
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
@@ -94,17 +103,6 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
             }
         }
 
-        server.getListOfNickname().remove(nicknameOfClient);
-        server.getListOfColor().remove(colorOfClient);
-        server.deregister(this, client);
-        try {
-            in.close();
-            out.close();
-            client.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -118,16 +116,37 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
         try {
             message.setNickname(nicknameOfClient);
             out.writeObject(message);
-        } catch (IOException e) {
+        } catch (SocketException se){
+            handleDisconnection();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void register(Observer<ViewEvent> observer) {
-        this.controller= (Controller) observer;
+        this.controller = (Controller) observer;
     }
 
     @Override
-    public void deregister(Observer<ViewEvent> observer) {}
+    public void deregister(Observer<ViewEvent> observer) {
+    }
+
+
+    public void handleDisconnection(){
+        System.out.println("Il client " + nicknameOfClient + " si è disonnesso!");
+        server.getListOfNickname().remove(nicknameOfClient);
+        server.getListOfColor().remove(colorOfClient);
+        server.deregister(this, client);
+        isClientCurrentlyOnline=false;
+        try {
+            in.close();
+            out.close();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

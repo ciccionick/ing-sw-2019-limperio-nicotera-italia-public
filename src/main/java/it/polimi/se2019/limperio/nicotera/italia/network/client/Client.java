@@ -8,26 +8,17 @@ import java.net.Socket;
 
 public class Client {
 
-   private boolean invalidInizialization=true;
+   private boolean invalidInitialization =true;
    private NetworkHandler myNetworkHandler;
    private String nickname;
-    ObjectInputStream in = null;
-    ObjectOutputStream out = null;
+   ObjectInputStream in = null;
+   ObjectOutputStream out = null;
    private Socket csocket = null;
 
 
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
     }
-
-    public NetworkHandler getMyNetworkHandler() {
-        return myNetworkHandler;
-    }
-
-    public void changeNickname(String newNickname){
-        this.nickname=newNickname;
-    }
-
 
     public static void main(String argv[]) throws IOException, ClassNotFoundException {
         Client client;
@@ -40,7 +31,7 @@ public class Client {
             client.out = new ObjectOutputStream(client.csocket.getOutputStream());
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");
-            while(client.invalidInizialization) {
+            while(client.invalidInitialization) {
                 RequestNicknameEvent req = (RequestNicknameEvent) client.in.readObject();
                 client.myNetworkHandler.handleEventInitialization(req);
             }
@@ -51,6 +42,7 @@ public class Client {
             System.out.println("In attesa di messaggi..");
             ModelEvent eventFromModel = (ModelEvent) client.in.readObject();
             client.myNetworkHandler.handleEvent(eventFromModel);
+
         }
 
     }
@@ -65,8 +57,8 @@ public class Client {
     }
 
 
-    public void setInvalidInizialization(boolean invalidInizialization) {
-        this.invalidInizialization = invalidInizialization;
+    public void setInvalidInitialization(boolean invalidInitialization) {
+        this.invalidInitialization = invalidInitialization;
     }
 
     public void setNickname(String nickname) {

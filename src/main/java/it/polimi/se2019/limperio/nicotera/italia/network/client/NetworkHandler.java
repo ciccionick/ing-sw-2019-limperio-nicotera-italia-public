@@ -106,7 +106,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             if (event.isAck()){
                 showMessage(event.getMessage());
                 if(event.isValid()){
-                    client.setInvalidInizialization(false);
+                    client.setInvalidInitialization(false);
                     client.setNickname(event.getNickname());
                 }
             }
