@@ -12,12 +12,14 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     private NetworkHandler networkHandler;
     private PlayerBoardView playerBoardView;
     private MapView mapView;
+    private KillshotTrackView killshotTrackView;
 
     public RemoteView(Client client, NetworkHandler networkHandler) {
         this.client = client;
         register(networkHandler);
         playerBoardView = new PlayerBoardView();
         mapView = new MapView();
+        killshotTrackView= new KillshotTrackView();
     }
 
     public PlayerBoardView getPlayerBoardView()
@@ -31,6 +33,10 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
 
     public MapView getMapView() {
         return mapView;
+    }
+
+    public KillshotTrackView getKillshotTrackView() {
+        return killshotTrackView;
     }
 
     @Override

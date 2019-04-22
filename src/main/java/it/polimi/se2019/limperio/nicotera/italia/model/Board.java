@@ -37,7 +37,7 @@ public class Board {
 
     public void createKillShotTrack()
     {
-
+        killShotTrack = KillShotTrack.instanceOfKillShotTrack();
     }
 
     public Map getMap() {

@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerNicknameEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
@@ -141,6 +138,12 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         if(message.isMapEvent()){
             System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");
             remoteView.getMapView().update((MapEvent) message);
+            return;
+        }
+        if(message.isKillshotTrackEvent()){
+            System.out.println(("L'evento arrivato è di tipo KillshotTrack e di conseguenza chiamo l'update di KillshotTrackView"));
+            remoteView.getKillshotTrackView().update((KillshotTrackEvent) message);
+            return;
         }
 
 

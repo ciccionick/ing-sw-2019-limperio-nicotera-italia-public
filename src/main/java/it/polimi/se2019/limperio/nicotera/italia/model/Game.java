@@ -1,9 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.KillshotTrackEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -26,7 +26,6 @@ public class Game extends Observable<ModelEvent> {
     private boolean isGameOver = false;
     private boolean anticipatedFrenzy = true;
     private int firstInFrenzyMode;
-    private int typeMap;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
     private ArrayList<String> listOfNickname = new ArrayList<>();
 
@@ -39,7 +38,6 @@ public class Game extends Observable<ModelEvent> {
 
     public void startGame(boolean anticipatedFrenzy, int typeMap){
         this.anticipatedFrenzy=anticipatedFrenzy;
-        this.typeMap=typeMap;
         PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
@@ -55,7 +53,11 @@ public class Game extends Observable<ModelEvent> {
         mapEvent.setNickname(listOfNickname);
         mapEvent.setMap(Map.getMatrixOfSquares());
         notify(mapEvent);
-
+        board.createKillShotTrack();
+        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track");
+        killshotTrackEvent.setKillShotTrack(board.getKillShotTrack());
+        killshotTrackEvent.setNickname(listOfNickname);
+        notify(killshotTrackEvent);
 
     }
 
@@ -90,6 +92,8 @@ public class Game extends Observable<ModelEvent> {
                 break;
             case "GREY":
                 colorOfThisPlayer=ColorOfFigure_Square.GREY;
+                break;
+            default: throw new IllegalArgumentException();
         }
 
         players.add(new Player(nickname, isFirst, position, colorOfThisPlayer));
@@ -106,7 +110,7 @@ public class Game extends Observable<ModelEvent> {
         return listOfNickname;
     }
 
-    public void setListOfNickname() {
+    private void setListOfNickname() {
         for(Player player : players)
         {
             listOfNickname.add(player.getNickname());
@@ -123,11 +127,14 @@ public class Game extends Observable<ModelEvent> {
         return true;
     }
 
-    public void calculateScore(){}
+    public void calculateScore(){
+
+    }
 
     public boolean getisGameOver(){
         return isGameOver;
     }
+
     public boolean hasWon(Player player){
         return true;
     }
