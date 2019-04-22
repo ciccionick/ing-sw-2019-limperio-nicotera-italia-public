@@ -1,6 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -26,6 +28,7 @@ public class Game extends Observable<ModelEvent> {
     private int firstInFrenzyMode;
     private int typeMap;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+    private ArrayList<String> listOfNickname = new ArrayList<>();
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
@@ -37,11 +40,23 @@ public class Game extends Observable<ModelEvent> {
     public void startGame(boolean anticipatedFrenzy, int typeMap){
         this.anticipatedFrenzy=anticipatedFrenzy;
         this.typeMap=typeMap;
-        ModelEvent newEvent = new ModelEvent("Benvenuto nel gioco", null);
-        notify(newEvent);
+        PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
+            pbEvent = new PlayerBoardEvent("Successfull creation of player board of " + player.getNickname());
+            pbEvent.getNickname().add(player.getNickname());
+            pbEvent.setPlayerBoard(player.getPlayerBoard());
+            notify(pbEvent);
         }
+        board=Board.instanceOfBoard();
+        board.createMap(typeMap);
+        MapEvent mapEvent = new MapEvent("Successfull creation of map");
+        setListOfNickname();
+        mapEvent.setNickname(listOfNickname);
+        mapEvent.setMap(Map.getMatrixOfSquares());
+        notify(mapEvent);
+
+
     }
 
 
@@ -87,6 +102,16 @@ public class Game extends Observable<ModelEvent> {
             System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
     }
 
+    public ArrayList<String> getListOfNickname() {
+        return listOfNickname;
+    }
+
+    public void setListOfNickname() {
+        for(Player player : players)
+        {
+            listOfNickname.add(player.getNickname());
+        }
+    }
 
     public void updateTurn(){}
     public void updateScore(Player player){}

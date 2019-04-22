@@ -1,11 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import com.sun.javafx.scene.traversal.Direction;
 
-public class Map {
+
+import java.io.Serializable;
+
+public class Map implements Serializable {
 
     private static Map instanceOfMap;
-    private static Square[][] matrixOfSquares;
+    private static Square[][] matrixOfSquares = new Square[3][4];
 
 
     private Square createSquare(boolean isSpawn, ColorOfFigure_Square color , boolean hasDoor){
@@ -17,20 +19,23 @@ public class Map {
 
     private Map(int typeMap)
     {
-        int typeMap1 = typeMap;
         switch (typeMap){
             case 1:
                 createMapOfFirstType();
                 setAdjForFirstType();
+                break;
             case 2:
                 createMapOfSecondType();
                 setAdjForSecondType();
+                break;
             case 3:
                 createMapOfThirdType();
                 setAdjForThirdType();
         }
 
     }
+
+
 
 
     public static Map instanceOfMap(int typeMap)

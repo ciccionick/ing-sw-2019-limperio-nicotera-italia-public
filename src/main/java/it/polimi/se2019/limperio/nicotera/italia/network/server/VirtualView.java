@@ -113,14 +113,12 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
 
     @Override
     public void update(ModelEvent message) {
-        try {
-            message.setNickname(nicknameOfClient);
-            out.writeObject(message);
-        } catch (SocketException se){
-            handleDisconnection();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+        if(message.getNickname().contains(nicknameOfClient)) {
+            try {
+                out.writeObject(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

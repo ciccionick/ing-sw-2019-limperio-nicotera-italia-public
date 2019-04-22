@@ -8,7 +8,8 @@ import java.util.ArrayList;
 
 public class StartOfFrenzyMode extends ModelEvent  {
 
-    public StartOfFrenzyMode(String message, String nickname) {
-        super(message, nickname);
+
+    public StartOfFrenzyMode(String message) {
+        super(message);
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEve
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class Client {
@@ -39,9 +40,15 @@ public class Client {
         catch(Exception e) { System.err.println(e.getMessage());
         }
         while(true){
-            System.out.println("In attesa di messaggi..");
-            ModelEvent eventFromModel = (ModelEvent) client.in.readObject();
-            client.myNetworkHandler.handleEvent(eventFromModel);
+            try {
+                System.out.println("In attesa di messaggi..");
+                ModelEvent eventFromModel = (ModelEvent) client.in.readObject();
+                client.myNetworkHandler.handleEvent(eventFromModel);
+            }
+            catch (SocketException se){
+                System.out.println("Disconnessione...");
+                break;
+            }
 
         }
 

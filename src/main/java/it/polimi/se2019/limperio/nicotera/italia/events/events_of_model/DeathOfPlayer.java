@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DeathOfPlayer extends ModelEvent {
 
 
-    public DeathOfPlayer(String message, String nickname) {
-        super(message, nickname);
+    public DeathOfPlayer(String message) {
+        super(message);
     }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class UpdatePlayerForAttack_UpdateScore extends ModelEvent{
 
 
-    public UpdatePlayerForAttack_UpdateScore(String message, String nickname) {
-        super(message, nickname);
+    public UpdatePlayerForAttack_UpdateScore(String message) {
+        super(message);
     }
 }

@@ -1,9 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerNicknameEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -130,7 +133,17 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
 
     @Override
     public void notify(ModelEvent message) {
-        remoteView.update(message);
+        if(message.isPlayerBoardEvent()){
+            System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
+            remoteView.getPlayerBoardView().update((PlayerBoardEvent) message);
+            return;
+        }
+        if(message.isMapEvent()){
+            System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");
+            remoteView.getMapView().update((MapEvent) message);
+        }
+
+
     }
 
     @Override

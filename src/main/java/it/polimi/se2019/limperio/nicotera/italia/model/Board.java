@@ -13,17 +13,11 @@ public class Board {
     private KillShotTrack killShotTrack;
 
     private Board()
-    {
-
-    };
+    { }
 
     public static Board instanceOfBoard() {
         if(instanceOfBoard==null) instanceOfBoard= new Board();
         return instanceOfBoard;
-    }
-
-    public Board clone(){
-        return null;
     }
 
     public void createMap(int typeMap)

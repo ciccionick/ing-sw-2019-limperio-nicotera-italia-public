@@ -1,8 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Square {
+public class Square implements Serializable {
 
     private ColorOfFigure_Square color;
     private boolean hasDoor;

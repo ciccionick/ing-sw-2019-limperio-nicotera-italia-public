@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class EndGame extends ModelEvent {
 
 
-    public EndGame(String message, String nickname) {
-        super(message, nickname);
+    public EndGame(String message) {
+        super(message);
     }
 }

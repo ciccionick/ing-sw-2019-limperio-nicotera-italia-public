@@ -1,12 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken.SKULL;
 
-public class PlayerBoard {
+public class PlayerBoard implements Serializable {
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
@@ -34,6 +35,7 @@ public class PlayerBoard {
     public ArrayList<ColorOfFigure_Square> getMarks() {
         return marks;
     }
+
     public void cleanPlayerBoard(){
         damages.clear();
     }
@@ -59,5 +61,9 @@ public class PlayerBoard {
 
     public void setInFrenzyBoardPlayer(boolean inFrenzyBoardPlayer) {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
+    }
+
+    public ArrayList<Ammo> getAmmo() {
+        return ammo;
     }
 }

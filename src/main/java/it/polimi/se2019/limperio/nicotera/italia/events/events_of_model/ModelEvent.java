@@ -1,34 +1,65 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_of_model;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.Board;
-import it.polimi.se2019.limperio.nicotera.italia.model.Game;
-import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ModelEvent implements Serializable {
-    String message;
-    String nickname;
-    Game game;
+    private String message;
+    private ArrayList<String> nicknames = new ArrayList<>();
+    private PlayerBoard playerBoard=null;
+    private boolean isPlayerBoardEvent = false;
+    private boolean isMapEvent = false;
+    private Square[][] map;
 
-    public ModelEvent(String message, String nickname) {
+    public ModelEvent(String message) {
         this.message = message;
-        this.nickname = nickname;
+
     }
 
     public String getMessage() {
         return message;
     }
 
-    public String getNickname() {
-        return nickname;
+    public ArrayList<String> getNickname() {
+        return nicknames;
     }
 
-    public Game getGame() {
-        return game;
+    public void setNickname(ArrayList<String> nicknames) {
+        this.nicknames = nicknames;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
+    }
+
+    public boolean isPlayerBoardEvent() {
+        return isPlayerBoardEvent;
+    }
+
+    public void setPlayerBoardEvent(boolean playerBoardEvent) {
+        isPlayerBoardEvent = playerBoardEvent;
+    }
+
+    public boolean isMapEvent() {
+        return isMapEvent;
+    }
+
+    public void setMapEvent(boolean mapEvent) {
+        isMapEvent = mapEvent;
+    }
+
+    public Square[][] getMap() {
+        return map;
+    }
+
+    public void setMap(Square[][] map) {
+        this.map = map;
     }
 }

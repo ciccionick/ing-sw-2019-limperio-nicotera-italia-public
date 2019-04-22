@@ -7,18 +7,31 @@ import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 public class RemoteView extends Observable<ViewEvent> implements Observer<ModelEvent> {
-    Client client;
-    NetworkHandler networkHandler;
+    private Client client;
+    private NetworkHandler networkHandler;
+    private PlayerBoardView playerBoardView;
+    private MapView mapView;
 
     public RemoteView(Client client, NetworkHandler networkHandler) {
         this.client = client;
         register(networkHandler);
+        playerBoardView = new PlayerBoardView();
+        mapView = new MapView();
     }
 
+    public PlayerBoardView getPlayerBoardView()
+    {
+        return playerBoardView;
+    }
+
+    public void setPlayerBoardView(PlayerBoardView playerBoardView) {
+        this.playerBoardView = playerBoardView;
+    }
+
+    public MapView getMapView() {
+        return mapView;
+    }
 
     @Override
     public void register(Observer<ViewEvent> observer) {
