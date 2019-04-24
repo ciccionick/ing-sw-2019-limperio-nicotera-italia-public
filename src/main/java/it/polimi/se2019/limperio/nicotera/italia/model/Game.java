@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.KillshotTrackEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -17,14 +14,14 @@ public class Game extends Observable<ModelEvent> {
     private Board board;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;
-    private static Game instanceOfGame=null;
+    private static Game instanceOfGame = null;
     private int numOfPlayer;
     private int playerOfTurn;
     private boolean isFirstRound = true;
     private int numOfActionOfTheTurn;
     private Square[] squareVisitedInTheTurn;
     private boolean isGameOver = false;
-    private boolean anticipatedFrenzy = true;
+    private boolean anticipatedFrenzy;
     private int firstInFrenzyMode;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
     private ArrayList<String> listOfNickname = new ArrayList<>();
@@ -46,7 +43,7 @@ public class Game extends Observable<ModelEvent> {
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
         }
-        board=Board.instanceOfBoard();
+        createBoard();
         board.createMap(typeMap);
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
         setListOfNickname();
@@ -58,11 +55,22 @@ public class Game extends Observable<ModelEvent> {
         killshotTrackEvent.setKillShotTrack(board.getKillShotTrack());
         killshotTrackEvent.setNickname(listOfNickname);
         notify(killshotTrackEvent);
+        board.createAmmoTileDeck();
+        board.createPowerUpDeck();
+        board.createWeaponsDeck();
+        startWithTheFirstTurn();
+    }
 
+    private void startWithTheFirstTurn() {
+        playerOfTurn = 1;
+        numOfActionOfTheTurn=0;
+        StartTurnEvent startTurnEvent = new StartTurnEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+        startTurnEvent.getNickname().add(listOfNickname.get(playerOfTurn-1));
+        notify(startTurnEvent);
     }
 
 
-    public void createBoard(){
+    private void createBoard(){
 
         this.board = Board.instanceOfBoard();
     }
@@ -117,7 +125,23 @@ public class Game extends Observable<ModelEvent> {
         }
     }
 
-    public void updateTurn(){}
+    public void updateTurn(){
+        if(playerOfTurn==players.size()){
+            playerOfTurn=1;
+            if(isFirstRound)
+                isFirstRound=false;
+        }
+        if(isFirstRound){
+
+
+        }
+        else{
+
+        }
+
+    }
+
+
     public void updateScore(Player player){}
     public void updateScoreForKillshot(){}
     public void showWinner(int scoreOfWinner){}

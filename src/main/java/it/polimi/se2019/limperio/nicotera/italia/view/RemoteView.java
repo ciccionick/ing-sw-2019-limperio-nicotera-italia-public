@@ -19,7 +19,7 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
         register(networkHandler);
         playerBoardView = new PlayerBoardView();
         mapView = new MapView();
-        killshotTrackView= new KillshotTrackView();
+        killshotTrackView = new KillshotTrackView();
     }
 
     public PlayerBoardView getPlayerBoardView()
@@ -57,6 +57,6 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     @Override
     public void update(ModelEvent message) {
         System.out.println(message.getMessage() + " " + message.getNickname());
-        notify(new ViewEvent("Sono pronto per giocare!", networkHandler.getClient().getNickname()));
+
     }
 }

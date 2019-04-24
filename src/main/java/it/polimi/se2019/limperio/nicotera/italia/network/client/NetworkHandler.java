@@ -145,6 +145,11 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) message);
             return;
         }
+        if(message.isStartTurnEvent()){
+            System.out.println(("L'evento arrivato è di tipo StartTurnEvent e di conseguenza chiamo l'update di remote view"));
+            remoteView.update(message);
+            return;
+        }
 
 
     }

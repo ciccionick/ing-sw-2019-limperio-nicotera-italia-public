@@ -15,11 +15,11 @@ public class ModelEvent implements Serializable {
     private boolean isPlayerBoardEvent = false;
     private boolean isMapEvent = false;
     private boolean isKillshotTrackEvent = false;
+    private boolean isStartTurnEvent = false;
 
 
     public ModelEvent(String message) {
         this.message = message;
-
     }
 
     public String getMessage() {
@@ -80,5 +80,13 @@ public class ModelEvent implements Serializable {
 
     public void setKillshotTrackEvent(boolean killshotTrackEvent) {
         isKillshotTrackEvent = killshotTrackEvent;
+    }
+
+    public boolean isStartTurnEvent() {
+        return isStartTurnEvent;
+    }
+
+    public void setStartTurnEvent(boolean startTurnEvent) {
+        isStartTurnEvent = startTurnEvent;
     }
 }

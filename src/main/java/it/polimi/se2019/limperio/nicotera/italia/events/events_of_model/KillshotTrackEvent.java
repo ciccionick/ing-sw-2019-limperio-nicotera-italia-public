@@ -4,6 +4,5 @@ public class KillshotTrackEvent extends ModelEvent {
     public KillshotTrackEvent(String message) {
         super(message);
         setKillshotTrackEvent(true);
-
     }
 }

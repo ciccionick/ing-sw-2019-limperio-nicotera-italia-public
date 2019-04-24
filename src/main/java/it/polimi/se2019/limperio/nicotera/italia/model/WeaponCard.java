@@ -57,7 +57,7 @@ public abstract class WeaponCard extends Card {
         super(color, name);
     }
 
-    public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
+     static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
         switch(typeOfWeaponCard) {
             case 0:
                 return new Cyberblade();
