@@ -44,7 +44,7 @@ public class PlayerBoard implements Serializable {
 
 
     public boolean isDeath(){
-        if(getDamages().get(10).equals(SKULL))
+        if(getDamages().size()>9)
             return true;
         return false;
     }

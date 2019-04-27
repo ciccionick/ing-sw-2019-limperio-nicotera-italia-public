@@ -13,7 +13,7 @@ public class Player implements PlayerBehaviour{
     private int score;
     private int position;
     private boolean doubleKill;
-    private Square positionOnTheMap;
+    private Square positionOnTheMap = null;
     private String nickname;
     private PlayerBoard playerBoard = null;
 
@@ -85,10 +85,10 @@ public class Player implements PlayerBehaviour{
 
 
     public void setPositionOnTheMap(Square positionOnTheMap) {
-
-        this.positionOnTheMap.getPlayerOfThisSquare().remove(this);
+       if(this.positionOnTheMap != null)
+           this.positionOnTheMap.getPlayerOfThisSquare().remove(this);
         this.positionOnTheMap = positionOnTheMap;
-        positionOnTheMap.getPlayerOfThisSquare().add(this);
+        positionOnTheMap.setPlayerOfThisSquare(this);
     }
 
     public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){
@@ -117,8 +117,10 @@ public class Player implements PlayerBehaviour{
     }
 
     public void assignMarks (ColorOfFigure_Square colorOfDamage, int numOfMarks){
-            while(numOfMarks!=0 && playerBoard.getNumOfMarksOfOneColor(colorOfDamage)<4 ){
+            int i = numOfMarks;
+            while(i!=0 && playerBoard.getNumOfMarksOfOneColor(colorOfDamage)<4 ){
                 playerBoard.getMarks().add(colorOfDamage);
+                i--;
             }
         }
 

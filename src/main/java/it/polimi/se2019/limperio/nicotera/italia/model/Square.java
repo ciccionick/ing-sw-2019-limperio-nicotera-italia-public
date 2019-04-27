@@ -37,7 +37,7 @@ public class Square implements Serializable {
 
     public void setPlayerOfThisSquare(Player player) {
         if (playerOfThisSquare==null)
-            playerOfThisSquare = new ArrayList<Player>();
+            playerOfThisSquare = new ArrayList<>();
         playerOfThisSquare.add(player);
 
     }
