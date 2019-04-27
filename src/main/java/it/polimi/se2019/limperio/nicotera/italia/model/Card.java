@@ -1,6 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card  {
     private ColorOfCard_Ammo color;
     private String name;
     private String description;
@@ -38,4 +40,6 @@ public abstract class Card {
     public void setOwnerOfCard(Player ownerOfCard) {
         this.ownerOfCard = ownerOfCard;
     }
+
+
 }

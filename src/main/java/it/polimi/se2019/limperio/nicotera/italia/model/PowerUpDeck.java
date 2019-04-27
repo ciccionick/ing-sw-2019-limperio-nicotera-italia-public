@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -38,8 +39,7 @@ public class PowerUpDeck {
     }
 
 
-
-
-
-
+    public ArrayList<PowerUpCard> getUsedPowerUpCards() {
+        return usedPowerUpCards;
+    }
 }

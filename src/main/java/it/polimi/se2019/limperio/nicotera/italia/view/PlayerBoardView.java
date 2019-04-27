@@ -1,10 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.PlayerBoardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.Ammo;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class PlayerBoardView {
 
@@ -12,6 +11,9 @@ public class PlayerBoardView {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
+    private ArrayList<ModelEvent.AliasPowerUp> powerUpCardsDeck = new ArrayList<>();
+    private ArrayList<WeaponCard> weaponCardDeck = new ArrayList<>();
+    private Scanner stdin = new Scanner(System.in);
 
     public ArrayList<ColorOfFigure_Square> getDamages() {
         return damages;
@@ -45,13 +47,30 @@ public class PlayerBoardView {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
     }
 
-    public void update (PlayerBoardEvent event){
+    public void update (ModelEvent event){
         System.out.println(event.getMessage());
+        updateStateOfPlayerBoard(event);
+    }
+
+    private void updateStateOfPlayerBoard (ModelEvent event){
         setDamages(event.getPlayerBoard().getDamages());
         setMarks(event.getPlayerBoard().getMarks());
         setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
         setAmmo(event.getPlayerBoard().getAmmo());
+        setPowerUpCardsDeck(event.getPowerUpCards());
+        getWeaponCardDeck().addAll(event.getPlayerBoard().getWeaponsOwned());
+    }
 
+    public ArrayList<ModelEvent.AliasPowerUp> getPowerUpCardsDeck() {
+        return powerUpCardsDeck;
+    }
+
+    public void setPowerUpCardsDeck(ArrayList<ModelEvent.AliasPowerUp> powerUpCardsDeck) {
+        this.powerUpCardsDeck = powerUpCardsDeck;
+    }
+
+    public ArrayList<WeaponCard> getWeaponCardDeck() {
+        return weaponCardDeck;
     }
 
 

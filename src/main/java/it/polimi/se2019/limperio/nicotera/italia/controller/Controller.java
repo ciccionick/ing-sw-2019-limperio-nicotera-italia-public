@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
+import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 
@@ -20,7 +21,7 @@ public class Controller implements Observer<ViewEvent> {
         this.game = game;
         actionController = new ActionController(game);
         catchController = new CatchController(game);
-        powerUpController = new PowerUpController(game);
+        powerUpController = new PowerUpController(game, this);
         roundController = new RoundController(game);
         runController = new RunController(game);
         shootController = new ShootController(game);
@@ -30,6 +31,20 @@ public class Controller implements Observer<ViewEvent> {
 
     public void update(ViewEvent message){
         System.out.println(message.getMessage() + " " + message.getNickname());
+        if(message.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())) {
+            if (message.isDrawTwoPowerUpCards()) {
+                powerUpController.handleDrawOfTwoCards(message.getNickname());
+            }
+        }
+    }
+
+    Player findPlayerWithThisNickname (String nickname){
+        for(Player player : game.getPlayers()){
+            if(player.getNickname().equals(nickname)){
+                return player;
+            }
+        }
+        throw new IllegalArgumentException();
     }
 
     /*private int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates) {

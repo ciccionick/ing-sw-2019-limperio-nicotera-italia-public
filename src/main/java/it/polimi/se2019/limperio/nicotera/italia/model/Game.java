@@ -25,6 +25,8 @@ public class Game extends Observable<ModelEvent> {
     private int firstInFrenzyMode;
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
     private ArrayList<String> listOfNickname = new ArrayList<>();
+    private int numOfMaxActionForTurn = 2;
+    private int round=1;
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
@@ -58,15 +60,36 @@ public class Game extends Observable<ModelEvent> {
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
+        //inserire due metodi che riempiono i normal square e i spawnsquaew con carte armi e ammo tile presi dai deck appena creati
+        if(terminatoreModeActive){
+            numOfMaxActionForTurn=3;
+            //creare player per il terminator
+        }
         startWithTheFirstTurn();
     }
 
     private void startWithTheFirstTurn() {
-        playerOfTurn = 1;
-        numOfActionOfTheTurn=0;
-        StartTurnEvent startTurnEvent = new StartTurnEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-        startTurnEvent.getNickname().add(listOfNickname.get(playerOfTurn-1));
-        notify(startTurnEvent);
+        boolean requestForDrawTwoCards = false;
+        while(!isGameOver) {
+            for (playerOfTurn = 1; playerOfTurn < players.size(); playerOfTurn++) {
+                if(round==1)
+                    requestForDrawTwoCards=false;
+                if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))) {
+                    numOfActionOfTheTurn = 0;
+                    while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
+                        if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCards) {
+                            DrawToPowerUpCardsEvent drawToPowerUpCardsEvent = new DrawToPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+                            drawToPowerUpCardsEvent.getNickname().add(listOfNickname.get(playerOfTurn - 1));
+                            notify(drawToPowerUpCardsEvent);
+                            requestForDrawTwoCards=true;
+                        }
+
+                    }
+                }
+            }
+            round++;
+        }
+
     }
 
 
@@ -257,5 +280,13 @@ public class Game extends Observable<ModelEvent> {
         for (VirtualView view : listOfVirtualView){
             view.update(message);
         }
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

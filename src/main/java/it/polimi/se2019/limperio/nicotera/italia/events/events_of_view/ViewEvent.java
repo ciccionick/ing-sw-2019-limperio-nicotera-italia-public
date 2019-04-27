@@ -10,6 +10,7 @@ public class ViewEvent implements Serializable {
 
    private String message;
    private String nickname;
+   private boolean isDrawTwoPowerUpCards = false;
 
     public ViewEvent(String message, String nickname) {
         this.message = message;
@@ -22,5 +23,13 @@ public class ViewEvent implements Serializable {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public boolean isDrawTwoPowerUpCards() {
+        return isDrawTwoPowerUpCards;
+    }
+
+    public void setDrawTwoPowerUpCards(boolean drawTwoPowerUpCards) {
+        isDrawTwoPowerUpCards = drawTwoPowerUpCards;
     }
 }

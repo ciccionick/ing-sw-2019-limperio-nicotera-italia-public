@@ -1,6 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-public enum ColorOfFigure_Square {
+import java.io.Serializable;
+
+public enum ColorOfFigure_Square implements Serializable {
     RED,
     YELLOW,
     PURPLE,

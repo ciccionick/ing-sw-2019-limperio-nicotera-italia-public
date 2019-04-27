@@ -12,6 +12,8 @@ public class PlayerBoard implements Serializable {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
+    private ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
+    private ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
 
     PlayerBoard() {
         damages = new ArrayList<>();
@@ -51,6 +53,8 @@ public class PlayerBoard implements Serializable {
         return isInFrenzyBoardPlayer;
     }
 
+
+
     public int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
         return Collections.frequency(marks, color);
     }
@@ -65,5 +69,21 @@ public class PlayerBoard implements Serializable {
 
     public ArrayList<Ammo> getAmmo() {
         return ammo;
+    }
+
+    public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
+        this.weaponsOwned = weaponsOwned;
+    }
+
+    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpCardsOwned) {
+        this.powerUpCardsOwned = powerUpCardsOwned;
+    }
+
+    public ArrayList<WeaponCard> getWeaponsOwned() {
+        return weaponsOwned;
+    }
+
+    public ArrayList<PowerUpCard> getPowerUpCardsOwned() {
+        return powerUpCardsOwned;
     }
 }

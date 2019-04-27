@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+
 import java.util.ArrayList;
 
 public class Player implements PlayerBehaviour{
@@ -15,8 +16,7 @@ public class Player implements PlayerBehaviour{
     private Square positionOnTheMap;
     private String nickname;
     private PlayerBoard playerBoard = null;
-    private ArrayList<WeaponCard>  weaponsOwned;
-    private ArrayList<PowerUpCard> powerUpCardsOwned;
+
 
     public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
         this.nickname=nickname;
@@ -30,21 +30,7 @@ public class Player implements PlayerBehaviour{
     }
 
 
-    public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
-        this.weaponsOwned = weaponsOwned;
-    }
 
-    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpCardsOwned) {
-        this.powerUpCardsOwned = powerUpCardsOwned;
-    }
-
-    public ArrayList<WeaponCard> getWeaponsOwned() {
-        return weaponsOwned;
-    }
-
-    public ArrayList<PowerUpCard> getPowerUpCardsOwned() {
-        return powerUpCardsOwned;
-    }
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
@@ -138,17 +124,23 @@ public class Player implements PlayerBehaviour{
 
     @Override
     public void run(Square square){}
+
     @Override
     public void catchAmmoTile (Square square){}
+
     @Override
     public void shoot (Player[] players, WeaponCard weaponCard, int[] typeOfAttack){}
-    @Override
-    public void catchWheapon(Square square, WeaponCard weaponCard){}
 
     @Override
-    public void drawTwoPowerUpCard() {
+    public void catchWeapon(Square square, WeaponCard weaponCard){}
+
+    @Override
+    public void drawPowerUpCard(ArrayList<PowerUpCard> powerUpCardsToDraw) {
+        playerBoard.getPowerUpCardsOwned().addAll(powerUpCardsToDraw);
+        System.out.println("Ho aggiunto due carte al mio mazzo di power up cards: " + playerBoard.getPowerUpCardsOwned().size());
 
     }
+
 
     @Override
     public void discardPowerUpCard(PowerUpCard card){}

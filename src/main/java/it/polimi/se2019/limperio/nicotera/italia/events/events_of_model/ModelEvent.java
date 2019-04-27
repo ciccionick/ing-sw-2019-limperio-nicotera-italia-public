@@ -12,11 +12,21 @@ public class ModelEvent implements Serializable {
     private PlayerBoard playerBoard = null;
     private Square[][] map = null;
     private KillShotTrack killShotTrack = null;
+    private ArrayList<AliasPowerUp> powerUpCards = null;
+
     private boolean isPlayerBoardEvent = false;
     private boolean isMapEvent = false;
     private boolean isKillshotTrackEvent = false;
-    private boolean isStartTurnEvent = false;
+    private boolean isDrawTwoPowerUpCardEvent = false;
+    private boolean isDiscardPowerUpCardToSpawnEvent = false;
 
+    public ArrayList<AliasPowerUp> getPowerUpCards() {
+        return powerUpCards;
+    }
+
+    public void setPowerUpCards(ArrayList<AliasPowerUp> powerUpCards) {
+        this.powerUpCards = powerUpCards;
+    }
 
     public ModelEvent(String message) {
         this.message = message;
@@ -82,11 +92,44 @@ public class ModelEvent implements Serializable {
         isKillshotTrackEvent = killshotTrackEvent;
     }
 
-    public boolean isStartTurnEvent() {
-        return isStartTurnEvent;
+
+    public boolean isDrawTwoPowerUpCardEvent() {
+        return isDrawTwoPowerUpCardEvent;
     }
 
-    public void setStartTurnEvent(boolean startTurnEvent) {
-        isStartTurnEvent = startTurnEvent;
+    public void setDrawTwoPowerUpCardEvent(boolean drawTwoPowerUpCard) {
+        isDrawTwoPowerUpCardEvent = drawTwoPowerUpCard;
+    }
+
+    public boolean isDiscardPowerUpCardToSpawnEvent() {
+        return isDiscardPowerUpCardToSpawnEvent;
+    }
+
+    public void setDiscardPowerUpCardToSpawnEvent(boolean discardPowerUpCardToSpawnEvent) {
+        isDiscardPowerUpCardToSpawnEvent = discardPowerUpCardToSpawnEvent;
+    }
+
+    public static class AliasPowerUp implements Serializable{
+        String name;
+        String description;
+        ColorOfCard_Ammo color;
+
+        public AliasPowerUp(String name, String description, ColorOfCard_Ammo color) {
+            this.name = name;
+            this.description = description;
+            this.color = color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public ColorOfCard_Ammo getColor() {
+            return color;
+        }
     }
 }
