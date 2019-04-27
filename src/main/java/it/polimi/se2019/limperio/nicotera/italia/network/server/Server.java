@@ -28,6 +28,7 @@ public class Server  {
     private boolean anticipatedFrenzy=true;
     private int typeMap=0;
     private boolean gameIsStarted = false;
+    private boolean terminatoreMode = false;
 
     public static void main(String[] argv) throws Exception {
         new Server();
@@ -38,6 +39,7 @@ public class Server  {
         System.out.println("Il Server è in attesa sulla porta 4000.");
         game=Game.instanceOfGame();
         controller=new Controller(game);
+
         File file = new File("C:\\Users\\Pietro\\OneDrive\\Università\\3° Anno\\II Semestre\\Progetto ISW\\adrenalina\\src\\main\\java\\it\\polimi\\se2019\\limperio\\nicotera\\italia\\utils\\timer.txt");
         FileReader inFile = new FileReader(file);
         BufferedReader bin = new BufferedReader(inFile);
@@ -47,7 +49,7 @@ public class Server  {
         run();
     }
 
-    public void run() {
+    private void run() {
 
         while (true) {
             try {
@@ -91,7 +93,7 @@ public class Server  {
             game.deregister(view);
             listOfClient.remove(client);
         }
-        if(listOfNickname.isEmpty()) {
+        if(!listOfNickname.isEmpty()) {
             System.out.println("Sono rimasti in gioco: ");
             for (String name : listOfNickname) {
                 System.out.println(name);
@@ -107,20 +109,28 @@ public class Server  {
         }
     }
 
-    private void startGame(){
+    private void startGame() throws IOException {
 
         System.out.println("I players i gioco sono: ");
-        for(int i=0 ;i<listOfNickname.size();i++){
-            game.createPlayer(listOfNickname.get(i), i==0, i+1, listOfColor.get(i).toUpperCase());
+        for (int i = 0; i < listOfNickname.size(); i++) {
+            game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }
-        if(typeMap==0){
-            setTypeMap(0, true);
+        if (typeMap == 0) {
+            setTypeMap(1, true);
         }
-        game.startGame(anticipatedFrenzy,typeMap);
-        gameIsStarted=true;
-        while(serverSocket.isBound()){
-            //server is running..
+        if(listOfClient.size()==3){
+            System.out.println("chiedo al primo giocatore se vuole giocare con il terminator");
         }
+        game.startGame(anticipatedFrenzy, typeMap);
+        gameIsStarted = true;
+        while (serverSocket.isBound()) {
+            Socket client = serverSocket.accept();
+            handleReconnectionClient(client);
+        }
+    }
+
+    private void handleReconnectionClient(Socket client){
+
     }
 
 
@@ -178,7 +188,11 @@ public class Server  {
 
         @Override
         public void run() {
-            startGame();
+            try {
+                startGame();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

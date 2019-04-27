@@ -4,7 +4,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.io.Serializable;
 
-public class Map implements Serializable {
+ class Map implements Serializable {
 
     private static Map instanceOfMap;
     private static Square[][] matrixOfSquares = new Square[3][4];
@@ -31,6 +31,9 @@ public class Map implements Serializable {
             case 3:
                 createMapOfThirdType();
                 setAdjForThirdType();
+                break;
+                default:
+                    throw new IllegalArgumentException();
         }
 
     }
@@ -38,7 +41,7 @@ public class Map implements Serializable {
 
 
 
-    public static Map instanceOfMap(int typeMap)
+     static Map instanceOfMap(int typeMap)
     {
         if(instanceOfMap==null)
             instanceOfMap = new Map(typeMap);

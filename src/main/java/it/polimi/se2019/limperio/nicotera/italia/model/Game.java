@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Game extends Observable<ModelEvent> {
 
-
+    private boolean terminatoreModeActive = false;
     private Board board;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;

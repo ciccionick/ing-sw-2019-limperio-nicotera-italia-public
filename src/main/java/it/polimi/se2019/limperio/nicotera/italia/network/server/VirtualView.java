@@ -25,7 +25,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
     private Controller controller;
     private boolean firstPlayer;
 
-    public VirtualView(Socket client, Server server, Controller controller) {
+     VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
         this.server = server;
         register(controller);
@@ -129,15 +129,17 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
 
     @Override
     public void deregister(Observer<ViewEvent> observer) {
+         // the only observer of this class is always the controller
     }
 
 
-    public void handleDisconnection(){
+    private void handleDisconnection(){
         System.out.println("Il client " + nicknameOfClient + " si è disonnesso!");
         server.getListOfNickname().remove(nicknameOfClient);
         server.getListOfColor().remove(colorOfClient);
         server.deregister(this, client);
         isClientCurrentlyOnline=false;
+        //QUI BISOGNA INVIARE UN MESSAGGIO AL CONTROLLER DICENDO CHE IL PLAYER CON IL NICKNAME nicknameOfClient SI E' DISCONNESSO IN MODO CHE IL MODEL LO SAPPIA E POSSA EVENTUALMENTE SALTARE IL SUO TURNO
         try {
             in.close();
             out.close();

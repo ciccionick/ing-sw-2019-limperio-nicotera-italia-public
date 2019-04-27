@@ -3,7 +3,6 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerNicknameEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -21,21 +20,20 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         return client;
     }
 
-    public NetworkHandler(Client client) {
+     NetworkHandler(Client client) {
         this.client = client;
         register(new RemoteView(client, this));
     }
 
 
-    public void showMessage(String message) {
+    private void showMessage(String message) {
         System.out.println(message + " ");
 
     }
 
     private String setNickname(){
         System.out.println("Scrivi nickname: ");
-        String nickname = stdin.nextLine();
-        return nickname;
+        return stdin.nextLine();
     }
 
     private String setColor(){
@@ -81,7 +79,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
     }
 
 
-    public void sendInitialization(){
+    private void sendInitialization(){
         String nickname = setNickname();
         String color = setColor();
         AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,0,false);
@@ -92,7 +90,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         }
     }
 
-    public void handleEventInitialization(RequestNicknameEvent event) throws IOException {
+     void handleEventInitialization(RequestNicknameEvent event){
 
         if(event.isMessageOfRequest()){
             showMessage(event.getMessage());
@@ -113,7 +111,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         }
     }
 
-    public void handleEvent(ModelEvent event) throws IOException {
+     void handleEvent(ModelEvent event){
         notify(event);
     }
 
@@ -125,7 +123,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
 
     @Override
     public void deregister(Observer<ModelEvent> observer) {
-
+        //this method is empty since that the only observer of Model Event is the RemoteView of the client
     }
 
     @Override

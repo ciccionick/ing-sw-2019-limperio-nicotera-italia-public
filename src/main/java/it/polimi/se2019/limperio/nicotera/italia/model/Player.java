@@ -7,6 +7,7 @@ public class Player implements PlayerBehaviour{
     private boolean isFirst;
     private boolean isUnderThreeDamage = true;
     private boolean isOverSixDamage = false;
+    private boolean isConnected = true;
     private int numOfDeath;
     private int score;
     private int position;
