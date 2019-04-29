@@ -1,12 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.Player;
-import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
+
+
+
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Collections;
 
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
 public class TestPlayerBoardMethods {
 
     private  Player player1 = new Player("player1", true, 1, ColorOfFigure_Square.YELLOW );
-    @BeforeEach
+    @Before
     public void creationBoard(){
         player1.createPlayerBoard();
     }

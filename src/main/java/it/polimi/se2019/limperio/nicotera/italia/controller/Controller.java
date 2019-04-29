@@ -49,7 +49,7 @@ public class Controller implements Observer<ViewEvent> {
     }
 
     int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates) {
-        return startCoordinates[0] - targetCoordinates[0];
+        return Math.abs(startCoordinates[0] - targetCoordinates[0]) + Math.abs(startCoordinates[1]- targetCoordinates[1]);
     }
 
     private int[] findSquareOnTheMap(Square targetSquare) {
