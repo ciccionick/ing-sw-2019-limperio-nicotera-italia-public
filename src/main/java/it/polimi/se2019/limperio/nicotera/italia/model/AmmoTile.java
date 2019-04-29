@@ -7,11 +7,11 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 
 public class AmmoTile {
 
-    //da rivedere perchè dimensione minima è 2
+
     private boolean hasPowerUpCard;
     private ArrayList<ColorOfCard_Ammo> ammos = new ArrayList<>();
 
-    public AmmoTile(int typeAmmoTile)
+     AmmoTile(int typeAmmoTile)
     {
         switch(typeAmmoTile) {
             case 1:

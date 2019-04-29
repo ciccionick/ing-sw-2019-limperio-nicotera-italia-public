@@ -1,5 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+
 import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.instanceOfAmmoTileDeck;
 import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
 import static it.polimi.se2019.limperio.nicotera.italia.model.PowerUpDeck.instanceOfPowerUpDeck;
@@ -61,5 +63,40 @@ public class Board {
 
      KillShotTrack getKillShotTrack() {
         return killShotTrack;
+    }
+
+    void addWeaponsInSpawnSquare(){
+        ArrayList<SpawnSquare> spawnSquares = new ArrayList<>();
+        for(int i = 0; i<Map.getMatrixOfSquares().length;i++){
+            for(int j=0 ; j< Map.getMatrixOfSquares()[i].length; j++){
+                if(Map.getMatrixOfSquares()[i][j].isSpawn()){
+                    spawnSquares.add((SpawnSquare) Map.getMatrixOfSquares()[i][j]);
+                }
+            }
+        }
+        for (SpawnSquare square : spawnSquares){
+            while(square.getWeaponCards().size()<3){
+                square.getWeaponCards().add(weaponsDeck.getWeaponCard());
+            }
+        }
+
+    }
+
+    void addAmmoTileInNormalSquare(){
+        ArrayList<NormalSquare> normalSquare = new ArrayList<>();
+        for(int i = 0; i<Map.getMatrixOfSquares().length;i++){
+            for(int j=0 ; j< Map.getMatrixOfSquares()[i].length; j++){
+                if(!Map.getMatrixOfSquares()[i][j].isSpawn()){
+                    normalSquare.add((NormalSquare) Map.getMatrixOfSquares()[i][j]);
+                }
+            }
+        }
+        for (NormalSquare square : normalSquare){
+            if(square.getAmmoTile()==null){
+                square.setAmmoTile(ammotiledeck.getAmmoTile().get(0));
+                ammotiledeck.getAmmoTilesOnTheMap().remove(ammotiledeck.getAmmoTile().get(0));
+            }
+        }
+
     }
 }

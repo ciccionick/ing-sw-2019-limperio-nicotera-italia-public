@@ -47,11 +47,7 @@ public class Game extends Observable<ModelEvent> {
         }
         createBoard();
         board.createMap(typeMap);
-        MapEvent mapEvent = new MapEvent("Successfull creation of map");
-        setListOfNickname();
-        mapEvent.setNickname(listOfNickname);
-        mapEvent.setMap(Map.getMatrixOfSquares());
-        notify(mapEvent);
+
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track");
         killshotTrackEvent.setKillShotTrack(board.getKillShotTrack());
@@ -60,7 +56,14 @@ public class Game extends Observable<ModelEvent> {
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
-        //inserire due metodi che riempiono i normal square e i spawnsquaew con carte armi e ammo tile presi dai deck appena creati
+        board.addWeaponsInSpawnSquare();
+        board.addAmmoTileInNormalSquare();
+        MapEvent mapEvent = new MapEvent("Successfull creation of map");
+        setListOfNickname();
+        mapEvent.setNickname(listOfNickname);
+        mapEvent.setMap(Map.getMatrixOfSquares());
+        notify(mapEvent);
+
         if(terminatoreModeActive){
             numOfMaxActionForTurn=3;
             //creare player per il terminator

@@ -1,14 +1,21 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-public class SpawnSquare extends Square {
-    private WeaponCard[] wheaponCards;
+import java.util.ArrayList;
 
-    public SpawnSquare( ColorOfFigure_Square color, boolean hasDoor) {
+public class SpawnSquare extends Square {
+
+    private ArrayList<WeaponCard> weaponCards;
+
+
+     SpawnSquare( ColorOfFigure_Square color, boolean hasDoor) {
         super(color, hasDoor);
-        wheaponCards=null;
+        weaponCards=new ArrayList<>();
+        setSpawn(true);
     }
 
-    public WeaponCard[] getWeaponCards() {
-        return wheaponCards;
+
+
+    public ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
     }
 }

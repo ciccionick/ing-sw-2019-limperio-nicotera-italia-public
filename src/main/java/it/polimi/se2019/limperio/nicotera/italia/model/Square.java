@@ -10,11 +10,20 @@ public class Square implements Serializable {
     private ArrayList<Player> playerOfThisSquare;
     private Square north, south, west, east;
     private ArrayList<Square> adjSquares;
+    private boolean isSpawn=false;
 
 
 
 
-    public Square ( ColorOfFigure_Square color, boolean hasDoor){
+    boolean isSpawn() {
+        return isSpawn;
+    }
+
+     void setSpawn(boolean spawn) {
+        isSpawn = spawn;
+    }
+
+    public Square (ColorOfFigure_Square color, boolean hasDoor){
         this.color=color;
         this.hasDoor=hasDoor;
     }
@@ -73,4 +82,9 @@ public class Square implements Serializable {
     public ArrayList<Square> getAdjSquares() {
         return adjSquares;
     }
+
+    public boolean isHasDoor() {
+        return hasDoor;
+    }
+
 }
