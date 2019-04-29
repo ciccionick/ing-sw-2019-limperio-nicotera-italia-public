@@ -1,11 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
-public class AmmoTile {
+public class AmmoTile implements Serializable {
 
 
     private boolean hasPowerUpCard;

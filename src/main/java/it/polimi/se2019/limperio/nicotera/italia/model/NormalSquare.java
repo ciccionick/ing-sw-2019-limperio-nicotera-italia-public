@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
- class NormalSquare extends Square {
+ public class NormalSquare extends Square {
     private AmmoTile ammoTile = null;
 
      NormalSquare( ColorOfFigure_Square color, boolean hasDoor){
@@ -9,7 +9,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
         setSpawn(false);
     }
 
-      AmmoTile getAmmoTile() {
+     public AmmoTile getAmmoTile() {
          return ammoTile;
      }
 

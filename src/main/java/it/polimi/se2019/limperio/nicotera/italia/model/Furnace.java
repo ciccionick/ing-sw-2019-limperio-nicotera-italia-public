@@ -17,11 +17,10 @@ public class Furnace extends WeaponCard {
         if(typeOfAttack.get(0)==1) {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 4; j++) {
-                    if (Map.getMatrixOfSquares()[i][j] != null && Map.getMatrixOfSquares()[i][j].getColor() == squareForRoom.getColor()) {
-                        for (Player player : Map.getMatrixOfSquares()[i][j].getPlayerOfThisSquare()) {
-                            basicMode(player);
+                        for (InvolvedPlayer involvedPlayer : involvedPlayers) {
+                            basicMode(involvedPlayer.getPlayer());
+
                         }
-                    }
                 }
             }
         }

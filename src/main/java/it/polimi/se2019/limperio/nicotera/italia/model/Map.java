@@ -8,7 +8,7 @@ import java.io.Serializable;
 class Map implements Serializable {
 
     private static Map instanceOfMap;
-    private static Square[][] matrixOfSquares = new Square[3][4];
+    private Square[][] matrixOfSquares = new Square[3][4];
 
 
     private SpawnSquare createSquare(boolean isSpawn, ColorOfFigure_Square color , boolean hasDoor){
@@ -154,7 +154,7 @@ class Map implements Serializable {
 
     }
 
-      static Square[][] getMatrixOfSquares() {
+    Square[][] getMatrixOfSquares() {
         return matrixOfSquares;
     }
 

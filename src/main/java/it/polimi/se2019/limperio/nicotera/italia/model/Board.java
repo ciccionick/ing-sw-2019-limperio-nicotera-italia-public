@@ -67,10 +67,10 @@ public class Board {
 
     void addWeaponsInSpawnSquare(){
         ArrayList<SpawnSquare> spawnSquares = new ArrayList<>();
-        for(int i = 0; i<Map.getMatrixOfSquares().length;i++){
-            for(int j=0 ; j< Map.getMatrixOfSquares()[i].length; j++){
-                if(Map.getMatrixOfSquares()[i][j].isSpawn()){
-                    spawnSquares.add((SpawnSquare) Map.getMatrixOfSquares()[i][j]);
+        for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
+            for(int j=0 ; j< getMap().getMatrixOfSquares()[i].length; j++){
+                if(getMap().getMatrixOfSquares()[i][j]!=null && getMap().getMatrixOfSquares()[i][j].isSpawn()){
+                    spawnSquares.add((SpawnSquare) getMap().getMatrixOfSquares()[i][j]);
                 }
             }
         }
@@ -84,10 +84,10 @@ public class Board {
 
     void addAmmoTileInNormalSquare(){
         ArrayList<NormalSquare> normalSquare = new ArrayList<>();
-        for(int i = 0; i<Map.getMatrixOfSquares().length;i++){
-            for(int j=0 ; j< Map.getMatrixOfSquares()[i].length; j++){
-                if(!Map.getMatrixOfSquares()[i][j].isSpawn()){
-                    normalSquare.add((NormalSquare) Map.getMatrixOfSquares()[i][j]);
+        for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
+            for(int j=0 ; j< getMap().getMatrixOfSquares()[i].length; j++){
+                if(getMap().getMatrixOfSquares()[i][j]!=null && !getMap().getMatrixOfSquares()[i][j].isSpawn()){
+                    normalSquare.add((NormalSquare) getMap().getMatrixOfSquares()[i][j]);
                 }
             }
         }

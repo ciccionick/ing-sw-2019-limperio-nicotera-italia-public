@@ -15,7 +15,7 @@ public class Square implements Serializable {
 
 
 
-    boolean isSpawn() {
+    public boolean isSpawn() {
         return isSpawn;
     }
 
@@ -79,7 +79,7 @@ public class Square implements Serializable {
         return east;
     }
 
-    public ArrayList<Square> getAdjSquares() {
+     ArrayList<Square> getAdjSquares() {
         return adjSquares;
     }
 

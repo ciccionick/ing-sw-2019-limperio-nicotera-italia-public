@@ -22,7 +22,7 @@ public class AmmoTileDeck {
         for(int i = 0 ; i <4 ; i++){
             ammoTilesAvailable.add(new AmmoTile(4));
         }
-        currentSize= ammoTilesAvailable.size();
+        currentSize = ammoTilesAvailable.size();
         Collections.shuffle(ammoTilesAvailable);
     }
 
@@ -42,7 +42,8 @@ public class AmmoTileDeck {
     }
 
     static AmmoTileDeck instanceOfAmmoTileDeck(){
-        if(instanceOfAmmoTileDeck==null) new AmmoTileDeck();
+        if(instanceOfAmmoTileDeck==null)
+            instanceOfAmmoTileDeck =new AmmoTileDeck();
         return instanceOfAmmoTileDeck;
     }
 

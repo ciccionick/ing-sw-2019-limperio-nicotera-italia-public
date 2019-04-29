@@ -2,9 +2,10 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.InvolvedPlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class WeaponCard extends Card {
+public abstract class WeaponCard extends Card implements Serializable {
 
     private Boolean isLoad = true;
     private ColorOfCard_Ammo[] priceToBuy;

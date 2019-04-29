@@ -1,6 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.io.Serializable;
 
 public abstract class Card  {
     private ColorOfCard_Ammo color;

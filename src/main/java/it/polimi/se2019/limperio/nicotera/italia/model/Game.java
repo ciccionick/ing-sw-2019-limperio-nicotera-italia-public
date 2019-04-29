@@ -37,6 +37,7 @@ public class Game extends Observable<ModelEvent> {
 
     public void startGame(boolean anticipatedFrenzy, int typeMap){
         this.anticipatedFrenzy=anticipatedFrenzy;
+        setListOfNickname();
         PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
@@ -47,7 +48,6 @@ public class Game extends Observable<ModelEvent> {
         }
         createBoard();
         board.createMap(typeMap);
-
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track");
         killshotTrackEvent.setKillShotTrack(board.getKillShotTrack());
@@ -59,9 +59,9 @@ public class Game extends Observable<ModelEvent> {
         board.addWeaponsInSpawnSquare();
         board.addAmmoTileInNormalSquare();
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
-        setListOfNickname();
+
         mapEvent.setNickname(listOfNickname);
-        mapEvent.setMap(Map.getMatrixOfSquares());
+        mapEvent.setMap(board.getMap().getMatrixOfSquares());
         notify(mapEvent);
 
         if(terminatoreModeActive){
