@@ -1,8 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.Game;
-import it.polimi.se2019.limperio.nicotera.italia.model.Player;
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.FirstActionOfTurnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 
@@ -36,6 +38,9 @@ public class Controller implements Observer<ViewEvent> {
             if (message.isDrawTwoPowerUpCards()) {
                 powerUpController.handleDrawOfTwoCards(message.getNickname());
             }
+            if(message.isDiscardPowerUpCardToSpawn()){
+                powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
+            }
         }
     }
 
@@ -52,8 +57,39 @@ public class Controller implements Observer<ViewEvent> {
         return Math.abs(startCoordinates[0] - targetCoordinates[0]) + Math.abs(startCoordinates[1]- targetCoordinates[1]);
     }
 
-    private int[] findSquareOnTheMap(Square targetSquare) {
-        return new int[]{0, 0};
+    private SpawnSquare findSpawnSquareWithThisColor(ColorOfCard_Ammo color){
+        for(int i=0 ; i< game.getBoard().getMap().getMatrixOfSquares().length; i++){
+            for(int j = 0 ; j< game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
+               if(game.getBoard().getMap().getMatrixOfSquares()[i][j]!=null && game.getBoard().getMap().getMatrixOfSquares()[i][j].isSpawn() && game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().toString().equals(color.toString()))
+                    return (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[i][j];
+            }
+
+        }
+        throw new IllegalArgumentException();
+    }
+
+     void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasPowerUp aliasPowerUpCard) {
+        playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned().remove(findPowerUpCardFromAliasInPlayerDeck(playerWithThisNickname,aliasPowerUpCard));
+    }
+
+    private PowerUpCard findPowerUpCardFromAliasInPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasPowerUp aliasPowerUpCard) {
+        for (PowerUpCard card : playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned()){
+            if(card.getColor().equals(aliasPowerUpCard.getColor())&&card.getName().equals(aliasPowerUpCard.getName()))
+            {
+                return card;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    void spawnPlayer(Player playerWithThisNickname, ColorOfCard_Ammo color) {
+        SpawnSquare square;
+        square=findSpawnSquareWithThisColor(color);
+        playerWithThisNickname.setPositionOnTheMap(square);
+        FirstActionOfTurnEvent newEvent = new FirstActionOfTurnEvent("Comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
+        newEvent.getNickname().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+        newEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+        game.notify(newEvent);
     }
 }
 

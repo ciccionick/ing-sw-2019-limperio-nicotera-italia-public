@@ -89,6 +89,7 @@ public class Player implements PlayerBehaviour{
            this.positionOnTheMap.getPlayerOfThisSquare().remove(this);
         this.positionOnTheMap = positionOnTheMap;
         positionOnTheMap.setPlayerOfThisSquare(this);
+        System.out.println("Il player " + this.getNickname() + "E' stato posizione nel quadrato " + positionOnTheMap.getColor());
     }
 
     public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){

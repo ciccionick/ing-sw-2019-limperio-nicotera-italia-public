@@ -5,7 +5,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 
 
-class Map implements Serializable {
+public class Map implements Serializable {
 
     private static Map instanceOfMap;
     private Square[][] matrixOfSquares = new Square[3][4];
@@ -154,9 +154,7 @@ class Map implements Serializable {
 
     }
 
-    Square[][] getMatrixOfSquares() {
+    public Square[][] getMatrixOfSquares() {
         return matrixOfSquares;
     }
-
-
 }

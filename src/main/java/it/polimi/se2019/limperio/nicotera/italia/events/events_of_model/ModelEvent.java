@@ -19,6 +19,15 @@ public class ModelEvent implements Serializable {
     private boolean isKillshotTrackEvent = false;
     private boolean isDrawTwoPowerUpCardEvent = false;
     private boolean isDiscardPowerUpCardToSpawnEvent = false;
+    private boolean isFirstActionOfTurnEvent = false;
+
+    public boolean isFirstActionOfTurnEvent() {
+        return isFirstActionOfTurnEvent;
+    }
+
+    public void setFirstActionOfTurnEvent(boolean firstActionOfTurnEvent) {
+        isFirstActionOfTurnEvent = firstActionOfTurnEvent;
+    }
 
     public ArrayList<AliasPowerUp> getPowerUpCards() {
         return powerUpCards;
@@ -42,6 +51,10 @@ public class ModelEvent implements Serializable {
 
     public void setNickname(ArrayList<String> nicknames) {
         this.nicknames = nicknames;
+    }
+
+    public ArrayList<String> getNicknames() {
+        return nicknames;
     }
 
     public PlayerBoard getPlayerBoard() {
