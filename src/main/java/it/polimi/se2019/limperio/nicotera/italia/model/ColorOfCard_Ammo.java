@@ -3,5 +3,10 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 public enum ColorOfCard_Ammo {
     RED,
     BLUE,
-    YELLOW
+    YELLOW;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

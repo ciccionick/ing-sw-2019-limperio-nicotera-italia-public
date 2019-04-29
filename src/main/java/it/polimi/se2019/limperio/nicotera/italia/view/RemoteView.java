@@ -1,8 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DrawTwoPowerUpCards;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -61,17 +63,18 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     @Override
     public void update(ModelEvent message) {
         System.out.println(message.getMessage() + " " + message.getNickname());
-        if(message.isDrawTwoPowerUpCardEvent()){
+        if (message.isDrawTwoPowerUpCardEvent()) {
             System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
             String action = stdin.nextLine();
-            while(!(action.equalsIgnoreCase("pesca"))){
+            while (!(action.equalsIgnoreCase("pesca"))) {
                 System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
-                action=stdin.nextLine();
+                action = stdin.nextLine();
             }
             notify(new DrawTwoPowerUpCards("Voglio pescare due carte", client.getNickname()));
         }
-        if(message.isDiscardPowerUpCardToSpawnEvent()) {
-            System.out.println("Hai pescato: " + playerBoardView.getPowerUpCardsDeck().get(0).getName() + " " +  playerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + playerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(1).getColor());
+
+        if (message.isDiscardPowerUpCardToSpawnEvent()) {
+            System.out.println("Hai pescato: " + playerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + playerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(1).getColor());
             System.out.println(" Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
             int choose;
             choose = stdin.nextInt();
@@ -79,9 +82,18 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
                 System.out.println("Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
                 choose = stdin.nextInt();
             }
+            if (choose == 1) {
+                discardPowerUpCard(0);
+            } else
+                discardPowerUpCard(1);
         }
 
+    }
 
-
+    private void discardPowerUpCard(int i) {
+        ModelEvent.AliasPowerUp powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
+        DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
+        newEvent.setPowerUpCard(powerUpCardToDiscard);
+        notify(newEvent);
     }
 }

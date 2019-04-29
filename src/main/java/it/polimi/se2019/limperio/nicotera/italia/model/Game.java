@@ -266,7 +266,9 @@ public class Game extends Observable<ModelEvent> {
 
     public void handleDeath(Player player){}
 
-
+    public int getRound() {
+        return round;
+    }
 
     @Override
     public void register(Observer<ModelEvent> observer) {

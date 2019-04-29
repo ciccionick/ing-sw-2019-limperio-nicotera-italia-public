@@ -153,6 +153,9 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             remoteView.getPlayerBoardView().update(message);
             remoteView.update(message);
         }
+        if(message.isFirstActionOfTurnEvent()){
+            System.out.println("E' il tuo primo turno!");
+        }
 
 
     }

@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_of_view;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
@@ -11,6 +12,8 @@ public class ViewEvent implements Serializable {
    private String message;
    private String nickname;
    private boolean isDrawTwoPowerUpCards = false;
+   private boolean isDiscardPowerUpCardToSpawn = false;
+   private ModelEvent.AliasPowerUp powerUpCard = null;
 
     public ViewEvent(String message, String nickname) {
         this.message = message;
@@ -29,7 +32,23 @@ public class ViewEvent implements Serializable {
         return isDrawTwoPowerUpCards;
     }
 
-    public void setDrawTwoPowerUpCards(boolean drawTwoPowerUpCards) {
+     void setDrawTwoPowerUpCards(boolean drawTwoPowerUpCards) {
         isDrawTwoPowerUpCards = drawTwoPowerUpCards;
+    }
+
+    public boolean isDiscardPowerUpCardToSpawn() {
+        return isDiscardPowerUpCardToSpawn;
+    }
+
+     void setDiscardPowerUpCardToSpawn(boolean discardPowerUpCardToSpawn) {
+        isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
+    }
+
+    public ModelEvent.AliasPowerUp getPowerUpCard() {
+        return powerUpCard;
+    }
+
+    public void setPowerUpCard(ModelEvent.AliasPowerUp powerUpCard) {
+        this.powerUpCard = powerUpCard;
     }
 }
