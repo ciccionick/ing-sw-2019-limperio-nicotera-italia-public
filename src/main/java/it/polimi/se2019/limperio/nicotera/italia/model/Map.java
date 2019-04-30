@@ -19,7 +19,7 @@ public class Map implements Serializable {
             return new NormalSquare(color, hasDoor, row, column);
     }
 
-    private Map(int typeMap)
+    private Map(int typeMap) throws IllegalArgumentException
     {
         switch (typeMap){
             case 1:
@@ -162,4 +162,10 @@ public class Map implements Serializable {
     public Square[][] getMatrixOfSquares() {
         return matrixOfSquares;
     }
+
+    /* this method is used in order to test the creation of different map in the same testing class*/
+    void setInstanceOfMapForTesting(){
+        instanceOfMap = null;
+    }
+
 }
