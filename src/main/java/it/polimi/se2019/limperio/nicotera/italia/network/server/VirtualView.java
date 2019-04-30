@@ -92,6 +92,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
             try {
                 System.out.println("La virtual view di " + nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
                 newEvent = (ViewEvent) in.readObject();
+                newEvent.setMyVirtualView(this);
                 notify(newEvent);
             } catch (SocketException se) {
                 handleDisconnection();
@@ -105,6 +106,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
 
 
     }
+
 
     @Override
     public void notify(ViewEvent message) {

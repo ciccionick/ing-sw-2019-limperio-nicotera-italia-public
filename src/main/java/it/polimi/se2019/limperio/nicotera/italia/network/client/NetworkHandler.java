@@ -154,7 +154,14 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             remoteView.update(message);
         }
         if(message.isFirstActionOfTurnEvent()){
-            System.out.println("E' il tuo primo turno!");
+            System.out.println("L'evento è arrivato ed è di tipo FirstTurnAction di conseguenza lo mando al remote View e al mapView");
+            remoteView.getMapView().update(message);
+            remoteView.update(message);
+        }
+        if(message.isSelectionSquareForSquareWhereCatch()){
+            System.out.println("L'evento è arrivato ed è di tipo SelectionViewForSquareWhereCatch di conseguenza lo mando al remote View");
+            remoteView.update(message);
+
         }
 
 

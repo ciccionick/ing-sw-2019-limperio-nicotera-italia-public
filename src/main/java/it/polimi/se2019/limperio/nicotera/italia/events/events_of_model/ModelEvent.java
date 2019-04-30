@@ -20,6 +20,15 @@ public class ModelEvent implements Serializable {
     private boolean isDrawTwoPowerUpCardEvent = false;
     private boolean isDiscardPowerUpCardToSpawnEvent = false;
     private boolean isFirstActionOfTurnEvent = false;
+    private boolean isSelectionSquareForSquareWhereCatch = false;
+
+    public boolean isSelectionSquareForSquareWhereCatch() {
+        return isSelectionSquareForSquareWhereCatch;
+    }
+
+    public void setSelectionSquareForSquareWhereCatch(boolean selectionSquareForSquareWhereCatch) {
+        isSelectionSquareForSquareWhereCatch = selectionSquareForSquareWhereCatch;
+    }
 
     public boolean isFirstActionOfTurnEvent() {
         return isFirstActionOfTurnEvent;

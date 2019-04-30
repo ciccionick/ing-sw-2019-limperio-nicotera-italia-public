@@ -3,8 +3,8 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
  public class NormalSquare extends Square {
     private AmmoTile ammoTile = null;
 
-     NormalSquare( ColorOfFigure_Square color, boolean hasDoor){
-        super(color, hasDoor);
+     NormalSquare( ColorOfFigure_Square color, boolean hasDoor, int row, int column){
+        super(color, hasDoor, row, column);
 
         setSpawn(false);
     }

@@ -1,10 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
+import com.sun.deploy.nativesandbox.comm.Request;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DrawTwoPowerUpCards;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.SelectionViewForSquareWhereCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.*;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -86,6 +86,48 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
                 discardPowerUpCard(0);
             } else
                 discardPowerUpCard(1);
+        }
+
+        if(message.isFirstActionOfTurnEvent()){
+            System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
+            String action;
+            action = stdin.nextLine();
+            while(!action.equalsIgnoreCase("corri")&&!action.equalsIgnoreCase("raccogli")&&!action.equalsIgnoreCase("spara")){
+                action=stdin.nextLine();
+            }
+            if(action.equalsIgnoreCase("corri")){
+                RequestToRunByPlayer newEvent = new RequestToRunByPlayer("Ho scelto corri", client.getNickname());
+                notify(newEvent);
+            }
+            if(action.equalsIgnoreCase("raccogli")){
+                RequestToCatchByPlayer newEvent = new RequestToCatchByPlayer("Ho scelto raccogli", client.getNickname());
+                notify(newEvent);
+            }
+            if(action.equalsIgnoreCase("spara")){
+                RequestToShootByPlayer newEvent = new RequestToShootByPlayer("Ho scelto spara", client.getNickname());
+                notify(newEvent);
+            }
+
+        }
+
+        if(message.isSelectionSquareForSquareWhereCatch()){
+            SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) message;
+            System.out.println("Puoi pescare nei seguenti quadrati: ");
+            for(Square square : event.getSquaresReachableForCatch() ){
+                SpawnSquare spawnSquare;
+                NormalSquare normalSquare;
+                System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
+                if(square.isSpawn()){
+                    spawnSquare= (SpawnSquare) square;
+                    for(WeaponCard card : ((SpawnSquare) square).getWeaponCards()){
+                        System.out.println(card.getName() + " " + card.getColor());
+                    }
+                }
+                else {
+                    normalSquare = (NormalSquare) square;
+                    System.out.println(normalSquare.getAmmoTile().toString());
+                }
+            }
         }
 
     }
