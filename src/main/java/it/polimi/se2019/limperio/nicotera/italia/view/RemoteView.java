@@ -1,6 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import com.sun.deploy.nativesandbox.comm.Request;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.*;
@@ -10,6 +9,7 @@ import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RemoteView extends Observable<ViewEvent> implements Observer<ModelEvent> {
@@ -33,9 +33,6 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
         return playerBoardView;
     }
 
-    public void setPlayerBoardView(PlayerBoardView playerBoardView) {
-        this.playerBoardView = playerBoardView;
-    }
 
     public MapView getMapView() {
         return mapView;
@@ -114,18 +111,12 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
             SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) message;
             System.out.println("Puoi pescare nei seguenti quadrati: ");
             for(Square square : event.getSquaresReachableForCatch() ){
-                SpawnSquare spawnSquare;
-                NormalSquare normalSquare;
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
                 if(square.isSpawn()){
-                    spawnSquare= (SpawnSquare) square;
-                    for(WeaponCard card : ((SpawnSquare) square).getWeaponCards()){
-                        System.out.println(card.getName() + " " + card.getColor());
-                    }
+                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView());
                 }
                 else {
-                    normalSquare = (NormalSquare) square;
-                    System.out.println(normalSquare.getAmmoTile().toString());
+                    System.out.println( ((NormalSquare)square).getAmmoTile().toString());
                 }
             }
         }
@@ -133,9 +124,15 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     }
 
     private void discardPowerUpCard(int i) {
-        ModelEvent.AliasPowerUp powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
+        ModelEvent.AliasCard powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
         DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
         newEvent.setPowerUpCard(powerUpCardToDiscard);
         notify(newEvent);
+    }
+
+    private void printListOfWeapons(ArrayList<ModelEvent.AliasCard> cards){
+        for(ModelEvent.AliasCard card : cards){
+            System.out.println(card.getName() + " " + card.getColor());
+        }
     }
 }

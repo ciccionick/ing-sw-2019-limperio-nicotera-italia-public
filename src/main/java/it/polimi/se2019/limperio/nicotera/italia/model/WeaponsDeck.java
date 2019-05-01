@@ -23,8 +23,11 @@ public class WeaponsDeck {
 
     }
 
-    public WeaponCard getWeaponCard() {
+    public WeaponCard removeWeaponCard() {
         return weaponCards.remove(0);
     }
 
+    public ArrayList<WeaponCard> getWeaponCards() {
+        return weaponCards;
+    }
 }

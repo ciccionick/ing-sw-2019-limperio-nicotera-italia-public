@@ -48,35 +48,35 @@ public class AmmoTile implements Serializable {
                 ammos.add(YELLOW);
                 ammos.add(YELLOW);
                 break;
+            case 7:
+                hasPowerUpCard = false;
+                ammos.add(BLUE);
+                ammos.add(YELLOW);
+                ammos.add(BLUE);
+                break;
             case 8:
                 hasPowerUpCard = false;
                 ammos.add(BLUE);
-                ammos.add(YELLOW);
-                ammos.add(BLUE);
+                ammos.add(RED);
+                ammos.add(RED);
                 break;
             case 9:
                 hasPowerUpCard = false;
-                ammos.add(BLUE);
-                ammos.add(RED);
-                ammos.add(RED);
-                break;
-            case 10:
-                hasPowerUpCard = false;
                 ammos.add(RED);
                 ammos.add(RED);
                 ammos.add(YELLOW);
                 break;
+            case 10:
+                hasPowerUpCard = true;
+                ammos.add(RED);
+                ammos.add(RED);
+                break;
             case 11:
                 hasPowerUpCard = true;
-                ammos.add(RED);
-                ammos.add(RED);
+                ammos.add(BLUE);
+                ammos.add(BLUE);
                 break;
             case 12:
-                hasPowerUpCard = true;
-                ammos.add(BLUE);
-                ammos.add(BLUE);
-                break;
-            case 13:
                 hasPowerUpCard = true;
                 ammos.add(YELLOW);
                 ammos.add(YELLOW);
@@ -103,10 +103,10 @@ public class AmmoTile implements Serializable {
         String string;
         string = "Ammo: ";
         for (ColorOfCard_Ammo color : getAmmos()){
-            string.concat(color.toString() + ",");
+            string = string.concat(color.toString() + ",");
         }
         if(hasPowerUpCard){
-            string.concat(" e puoi pescare powerUp Card");
+            string = string.concat(" e puoi pescare powerUp Card");
         }
         return string;
     }

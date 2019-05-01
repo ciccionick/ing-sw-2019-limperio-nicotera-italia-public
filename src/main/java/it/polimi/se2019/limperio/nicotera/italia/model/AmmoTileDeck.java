@@ -12,16 +12,28 @@ public class AmmoTileDeck {
     private static AmmoTileDeck instanceOfAmmoTileDeck;
 
     private AmmoTileDeck(){
-        for(int i = 0 ; i < 2; i++){
+        for(int i = 0 ; i < 4; i++){
             ammoTilesAvailable.add(new AmmoTile(1));
             ammoTilesAvailable.add(new AmmoTile(2));
-        }
-        for(int i = 0 ; i < 3; i++){
             ammoTilesAvailable.add(new AmmoTile(3));
         }
-        for(int i = 0 ; i <4 ; i++){
+
+        for(int i = 0 ; i <3 ; i++){
             ammoTilesAvailable.add(new AmmoTile(4));
+            ammoTilesAvailable.add(new AmmoTile(5));
+            ammoTilesAvailable.add(new AmmoTile(6));
+            ammoTilesAvailable.add(new AmmoTile(7));
+            ammoTilesAvailable.add(new AmmoTile(8));
+            ammoTilesAvailable.add(new AmmoTile(9));
+
         }
+
+        for(int i = 0 ; i < 2; i++){
+            ammoTilesAvailable.add(new AmmoTile(10));
+            ammoTilesAvailable.add(new AmmoTile(11));
+            ammoTilesAvailable.add(new AmmoTile(12));
+        }
+
         currentSize = ammoTilesAvailable.size();
         Collections.shuffle(ammoTilesAvailable);
     }
@@ -62,5 +74,9 @@ public class AmmoTileDeck {
 
     public int getCurrentSize() {
         return currentSize;
+    }
+
+    public ArrayList<AmmoTile> getAmmoTilesAvailable() {
+        return ammoTilesAvailable;
     }
 }

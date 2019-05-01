@@ -7,9 +7,4 @@ public class PlayerBoardEvent extends ModelEvent {
         setPlayerBoardEvent(true);
     }
 
-
-
-
-
-
 }

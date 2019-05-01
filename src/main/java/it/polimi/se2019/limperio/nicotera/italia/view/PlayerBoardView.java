@@ -11,7 +11,7 @@ public class PlayerBoardView {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
-    private ArrayList<ModelEvent.AliasPowerUp> powerUpCardsDeck = new ArrayList<>();
+    private ArrayList<ModelEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
     private ArrayList<WeaponCard> weaponCardDeck = new ArrayList<>();
     private Scanner stdin = new Scanner(System.in);
 
@@ -61,11 +61,11 @@ public class PlayerBoardView {
         getWeaponCardDeck().addAll(event.getPlayerBoard().getWeaponsOwned());
     }
 
-    public ArrayList<ModelEvent.AliasPowerUp> getPowerUpCardsDeck() {
+    public ArrayList<ModelEvent.AliasCard> getPowerUpCardsDeck() {
         return powerUpCardsDeck;
     }
 
-    public void setPowerUpCardsDeck(ArrayList<ModelEvent.AliasPowerUp> powerUpCardsDeck) {
+    public void setPowerUpCardsDeck(ArrayList<ModelEvent.AliasCard> powerUpCardsDeck) {
         this.powerUpCardsDeck = powerUpCardsDeck;
     }
 

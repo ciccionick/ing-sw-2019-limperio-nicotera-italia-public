@@ -12,7 +12,7 @@ public class ModelEvent implements Serializable {
     private PlayerBoard playerBoard = null;
     private Square[][] map = null;
     private KillShotTrack killShotTrack = null;
-    private ArrayList<AliasPowerUp> powerUpCards = null;
+    private ArrayList<AliasCard> powerUpCards = null;
 
     private boolean isPlayerBoardEvent = false;
     private boolean isMapEvent = false;
@@ -38,11 +38,11 @@ public class ModelEvent implements Serializable {
         isFirstActionOfTurnEvent = firstActionOfTurnEvent;
     }
 
-    public ArrayList<AliasPowerUp> getPowerUpCards() {
+    public ArrayList<AliasCard> getPowerUpCards() {
         return powerUpCards;
     }
 
-    public void setPowerUpCards(ArrayList<AliasPowerUp> powerUpCards) {
+    public void setPowerUpCards(ArrayList<AliasCard> powerUpCards) {
         this.powerUpCards = powerUpCards;
     }
 
@@ -131,12 +131,12 @@ public class ModelEvent implements Serializable {
         isDiscardPowerUpCardToSpawnEvent = discardPowerUpCardToSpawnEvent;
     }
 
-    public static class AliasPowerUp implements Serializable{
+    public static class AliasCard implements Serializable{
         String name;
         String description;
         ColorOfCard_Ammo color;
 
-        public AliasPowerUp(String name, String description, ColorOfCard_Ammo color) {
+        public AliasCard(String name, String description, ColorOfCard_Ammo color) {
             this.name = name;
             this.description = description;
             this.color = color;
@@ -154,4 +154,6 @@ public class ModelEvent implements Serializable {
             return color;
         }
     }
+
+
 }

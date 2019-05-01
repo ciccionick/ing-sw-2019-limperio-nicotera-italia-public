@@ -15,7 +15,7 @@ public class ViewEvent implements Serializable {
    private String nickname;
    private boolean isDrawTwoPowerUpCards = false;
    private boolean isDiscardPowerUpCardToSpawn = false;
-   private ModelEvent.AliasPowerUp powerUpCard = null;
+   private ModelEvent.AliasCard powerUpCard = null;
    private boolean isRequestToRunByPlayer = false;
    private boolean isRequestToCatchByPlayer = false;
    private boolean isRequestToShootByPlayer = false;
@@ -82,11 +82,11 @@ public class ViewEvent implements Serializable {
         isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
     }
 
-    public ModelEvent.AliasPowerUp getPowerUpCard() {
+    public ModelEvent.AliasCard getPowerUpCard() {
         return powerUpCard;
     }
 
-    public void setPowerUpCard(ModelEvent.AliasPowerUp powerUpCard) {
+    public void setPowerUpCard(ModelEvent.AliasCard powerUpCard) {
         this.powerUpCard = powerUpCard;
     }
 }

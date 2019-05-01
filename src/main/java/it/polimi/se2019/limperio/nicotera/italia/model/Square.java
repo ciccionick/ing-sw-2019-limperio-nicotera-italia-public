@@ -66,10 +66,18 @@ public class Square implements Serializable {
         this.east=east;
         this.west=west;
         adjSquares = new ArrayList<Square>();
-        adjSquares.add(this.north);
-        adjSquares.add(this.south);
+        if(this.north!=null) {
+            adjSquares.add(this.north);
+        }
+        if(this.south!=null) {
+            adjSquares.add(this.south);
+        }
+        if(this.east!=null){
         adjSquares.add(this.east);
-        adjSquares.add(this.west);
+        }
+        if(this.west!=null) {
+            adjSquares.add(this.west);
+        }
     }
 
     public Square getNord() {
@@ -88,16 +96,6 @@ public class Square implements Serializable {
         return east;
     }
 
-    void setAdjForSquare(){
-        if(north!=null)
-            adjSquares.add(north);
-        if(south!=null)
-            adjSquares.add(south);
-        if(east!=null)
-            adjSquares.add(east);
-        if(west!=null)
-            adjSquares.add(west);
-    }
 
     public ArrayList<Square> getAdjSquares() {
         return adjSquares;

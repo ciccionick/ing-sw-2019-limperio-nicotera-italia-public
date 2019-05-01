@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Game extends Observable<ModelEvent> {
 
-    private boolean terminatoreModeActive = false;
+    private boolean terminatorModeActive = false;
     private Board board;
     private ArrayList<Player> players = new ArrayList<>();
     private boolean isInFrenzy = false;
@@ -58,13 +58,9 @@ public class Game extends Observable<ModelEvent> {
         board.createWeaponsDeck();
         board.addWeaponsInSpawnSquare();
         board.addAmmoTileInNormalSquare();
-        MapEvent mapEvent = new MapEvent("Successfull creation of map");
+        updateMap();
 
-        mapEvent.setNickname(listOfNickname);
-        mapEvent.setMap(board.getMap().getMatrixOfSquares());
-        notify(mapEvent);
-
-        if(terminatoreModeActive){
+        if(terminatorModeActive){
             numOfMaxActionForTurn=3;
             //creare player per il terminator
         }
@@ -86,7 +82,6 @@ public class Game extends Observable<ModelEvent> {
                             notify(drawToPowerUpCardsEvent);
                             requestForDrawTwoCards=true;
                         }
-
                     }
                 }
             }
@@ -95,6 +90,13 @@ public class Game extends Observable<ModelEvent> {
 
     }
 
+    void updateMap(){
+        MapEvent mapEvent = new MapEvent("Successfull creation of map");
+        mapEvent.setNickname(listOfNickname);
+        mapEvent.setMap(board.getMap().getMatrixOfSquares());
+        mapEvent.setWeaponsWithTheirAlias(board.getMap().getMatrixOfSquares());
+        notify(mapEvent);
+    }
 
     private void createBoard(){
 

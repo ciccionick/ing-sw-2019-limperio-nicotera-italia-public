@@ -135,7 +135,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         }
         if(message.isMapEvent()){
             System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");
-            remoteView.getMapView().update((MapEvent) message);
+            remoteView.getMapView().update(message);
             return;
         }
         if(message.isKillshotTrackEvent()){

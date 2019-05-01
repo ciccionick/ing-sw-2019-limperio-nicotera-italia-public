@@ -76,7 +76,7 @@ public class Board {
         }
         for (SpawnSquare square : spawnSquares){
             while(square.getWeaponCards().size()<3){
-                square.getWeaponCards().add(weaponsDeck.getWeaponCard());
+                square.getWeaponCards().add(weaponsDeck.removeWeaponCard());
             }
         }
 
@@ -93,8 +93,9 @@ public class Board {
         }
         for (NormalSquare square : normalSquare){
             if(square.getAmmoTile()==null){
-                square.setAmmoTile(ammotiledeck.getAmmoTile().get(0));
-                ammotiledeck.getAmmoTilesOnTheMap().remove(ammotiledeck.getAmmoTile().get(0));
+                ammotiledeck.getAmmoTilesOnTheMap().add(ammotiledeck.getAmmoTile().get(0));
+                ammotiledeck.getAmmoTile().remove(0);
+                square.setAmmoTile(ammotiledeck.getAmmoTilesOnTheMap().get(ammotiledeck.getAmmoTilesOnTheMap().size()-1));
             }
         }
 

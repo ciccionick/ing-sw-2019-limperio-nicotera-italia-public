@@ -19,7 +19,7 @@ public class Map implements Serializable {
             return new NormalSquare(color, hasDoor, row, column);
     }
 
-    private Map(int typeMap) throws IllegalArgumentException
+    private Map(int typeMap ) throws IllegalArgumentException
     {
         switch (typeMap){
             case 1:
@@ -37,12 +37,7 @@ public class Map implements Serializable {
                 default:
                     throw new IllegalArgumentException();
         }
-        for(int i=0;i<matrixOfSquares.length;i++){
-            for(int j=0;j<matrixOfSquares[i].length;j++){
-                if(matrixOfSquares[i][j]!=null)
-                    matrixOfSquares[i][j].setAdjForSquare();
-            }
-        }
+
 
     }
 

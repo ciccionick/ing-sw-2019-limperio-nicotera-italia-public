@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
+
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
@@ -23,6 +24,8 @@ class CatchController {
         event.getMyVirtualView().update(newSelectionEvent);
 
     }
+
+
 
     private ArrayList<Square> findSquareWherePlayerCanCatch(Player player){
         ArrayList<Square> listOfSquareReachable = new ArrayList<>();

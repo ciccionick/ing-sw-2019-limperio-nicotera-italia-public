@@ -36,10 +36,10 @@ class PowerUpController {
      }
 
 
-     private ArrayList<ModelEvent.AliasPowerUp> subsitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
-         ArrayList<ModelEvent.AliasPowerUp> newArray = new ArrayList<>();
+     private ArrayList<ModelEvent.AliasCard> subsitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
+         ArrayList<ModelEvent.AliasCard> newArray = new ArrayList<>();
         for(int i = 0 ; i<arrayOfCard.size(); i++){
-            newArray.add(i, new ModelEvent.AliasPowerUp(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
+            newArray.add(i, new ModelEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
         }
         return newArray;
      }
@@ -61,11 +61,11 @@ class PowerUpController {
         throw new IllegalArgumentException();
     }
 
-    void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasPowerUp aliasPowerUpCard) {
+    void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasCard aliasPowerUpCard) {
         playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned().remove(findPowerUpCardFromAliasInPlayerDeck(playerWithThisNickname,aliasPowerUpCard));
     }
 
-    private PowerUpCard findPowerUpCardFromAliasInPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasPowerUp aliasPowerUpCard) {
+    private PowerUpCard findPowerUpCardFromAliasInPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasCard aliasPowerUpCard) {
         for (PowerUpCard card : playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned()){
             if(card.getColor().equals(aliasPowerUpCard.getColor())&&card.getName().equals(aliasPowerUpCard.getName()))
             {
