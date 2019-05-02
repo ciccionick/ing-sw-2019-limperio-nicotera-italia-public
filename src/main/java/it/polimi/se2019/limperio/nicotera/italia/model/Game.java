@@ -35,8 +35,10 @@ public class Game extends Observable<ModelEvent> {
 
 
 
-    public void startGame(boolean anticipatedFrenzy, int typeMap){
+    public void startGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
         this.anticipatedFrenzy=anticipatedFrenzy;
+        if(players.size()==3)
+            this.terminatorModeActive = terminatorModeActive;
         setListOfNickname();
         PlayerBoardEvent pbEvent;
         for (Player player : players){
@@ -59,7 +61,6 @@ public class Game extends Observable<ModelEvent> {
         board.addWeaponsInSpawnSquare();
         board.addAmmoTileInNormalSquare();
         updateMap();
-
         if(terminatorModeActive){
             numOfMaxActionForTurn=3;
             //creare player per il terminator

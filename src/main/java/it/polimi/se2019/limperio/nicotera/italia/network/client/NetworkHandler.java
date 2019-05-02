@@ -49,7 +49,8 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
     private void sendInitializationAsFirst() {
 
         String frenzy=null;
-        boolean wannaFrenzy;
+        String terminator = null;
+
         int typeOfMap=0;
         String nickname=setNickname();
         String color = setColor();
@@ -59,15 +60,19 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             System.out.println("Riprova, scrivi y se vuoi la frenzy, n altrimenti");
             frenzy = stdin.nextLine();
         }
-        if(frenzy.equalsIgnoreCase("y")) wannaFrenzy=true;
-        else wannaFrenzy=false;
-        System.out.println("Scegli la mappa (1,2 o 3): ");
+        System.out.println("Scrivi y se vuoi la terminator mode nel caso in cui la partita cominci con 3 giocatori, n altrimenti");
+        terminator = stdin.nextLine();
+        while(!terminator.equalsIgnoreCase("y") && !terminator.equalsIgnoreCase("n")) {
+            System.out.println("Riprova, scrivi y se vuoi la terminator, n altrimenti");
+            terminator = stdin.nextLine();
+        }
+        System.out.println("Scegli la mappa (1,2, 3 o 4): ");
         typeOfMap=stdin.nextInt();
-        while(typeOfMap!=1 && typeOfMap!=2 && typeOfMap!=3){
-            System.out.println("Riprova, scegli la mappa (1,2 o 3): ");
+        while(typeOfMap!=1 && typeOfMap!=2 && typeOfMap!=3 && typeOfMap!=4){
+            System.out.println("Riprova, scegli la mappa (1,2, 3 o 4): ");
             typeOfMap=stdin.nextInt();
         }
-        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,typeOfMap,wannaFrenzy);
+        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,typeOfMap,frenzy.equalsIgnoreCase("y"),terminator.equalsIgnoreCase("y"));
         try {
             stdin.nextLine();
             client.out.writeObject(ans);
@@ -82,7 +87,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
     private void sendInitialization(){
         String nickname = setNickname();
         String color = setColor();
-        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,0,false);
+        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,0,false,false);
         try {
             client.out.writeObject(ans);
         } catch (IOException e) {

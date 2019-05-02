@@ -28,7 +28,7 @@ public class Server  {
     private boolean anticipatedFrenzy=true;
     private int typeMap=0;
     private boolean gameIsStarted = false;
-    private boolean terminatoreMode = false;
+    private boolean terminatorMode = false;
 
     public static void main(String[] argv) throws Exception {
         new Server();
@@ -121,7 +121,7 @@ public class Server  {
         if(listOfClient.size()==3){
             System.out.println("chiedo al primo giocatore se vuole giocare con il terminator");
         }
-        game.startGame(anticipatedFrenzy, typeMap);
+        game.startGame(anticipatedFrenzy, typeMap, terminatorMode);
         gameIsStarted = true;
         while (serverSocket.isBound()) {
             Socket client = serverSocket.accept();
@@ -133,9 +133,15 @@ public class Server  {
 
     }
 
+     void setTerminatorMode(boolean terminatoreMode) {
+        this.terminatorMode = terminatoreMode;
+    }
 
+     boolean isTerminatorMode() {
+        return terminatorMode;
+    }
 
-     synchronized void addNickname(String newNickname, String color){
+    synchronized void addNickname(String newNickname, String color){
         listOfNickname.add(newNickname);
         listOfColor.add(color);
     }

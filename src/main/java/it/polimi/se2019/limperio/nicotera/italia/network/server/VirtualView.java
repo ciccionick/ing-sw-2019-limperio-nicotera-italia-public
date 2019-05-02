@@ -74,6 +74,8 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
                             System.out.println("Aggiornato frenzy a " + server.isAnticipatedFrenzy());
                             server.setTypeMap(ans.getMap(),false);
                             System.out.println("Aggiornata mappa a " + server.getTypeMap());
+                            server.setTerminatorMode(ans.isTerminator());
+                            System.out.println("Aggiornato terminatore a " + server.isTerminatorMode());
                         }
                     }
                 }
