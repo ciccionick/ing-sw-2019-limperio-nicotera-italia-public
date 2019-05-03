@@ -38,9 +38,9 @@ public class PlasmaGun extends WeaponCard{
 
     private void basicEffect(Player player, boolean thirdEffect){
         if(thirdEffect)
-            player.assignMarks(getOwnerOfCard().getColorOfFigure(), 3);
+            player.assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
         else
-            player.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
+            player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
 
     }
 
