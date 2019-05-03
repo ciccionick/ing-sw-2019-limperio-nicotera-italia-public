@@ -44,10 +44,6 @@ public class Square implements Serializable {
     }
 
 
-    public boolean hasDoor() {
-        return hasDoor;
-    }
-
 
     public ArrayList<Player> getPlayerOfThisSquare() {
         return playerOfThisSquare;
@@ -80,11 +76,11 @@ public class Square implements Serializable {
         }
     }
 
-    public Square getNord() {
+    public Square getNorth() {
         return north;
     }
 
-    public Square getSud() {
+    public Square getSouth() {
         return south;
     }
 

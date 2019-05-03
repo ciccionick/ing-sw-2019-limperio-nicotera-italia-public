@@ -33,6 +33,7 @@ public class Map implements Serializable {
             case 3:
                 createMapOfThirdType();
                 setAdjForThirdType();
+                break;
             case 4:
                 createMapOfFourthType();
                 setAdjForFourthType();
@@ -127,7 +128,7 @@ public class Map implements Serializable {
 
 
 
-    private void setAdjForFirstType() {
+    void setAdjForFirstType() {
         matrixOfSquares[0][0].setCardinalSquare(null, matrixOfSquares[1][0] , null, matrixOfSquares[0][1]);
         matrixOfSquares[0][1].setCardinalSquare(null, null , matrixOfSquares[0][0],   matrixOfSquares[0][2]);
         matrixOfSquares[0][2].setCardinalSquare(null,matrixOfSquares[1][2] , matrixOfSquares[0][1], null);
@@ -140,7 +141,7 @@ public class Map implements Serializable {
         matrixOfSquares[2][3].setCardinalSquare(matrixOfSquares[1][3], null, matrixOfSquares[2][2], null);
     }
 
-    private void setAdjForSecondType() {
+    void setAdjForSecondType() {
         matrixOfSquares[0][0].setCardinalSquare(null, matrixOfSquares[1][0] , null, matrixOfSquares[0][1]);
         matrixOfSquares[0][1].setCardinalSquare(null, null , matrixOfSquares[0][0],   matrixOfSquares[0][2]);
         matrixOfSquares[0][2].setCardinalSquare(null,matrixOfSquares[1][2] , matrixOfSquares[0][1], matrixOfSquares[0][3]);
@@ -155,7 +156,7 @@ public class Map implements Serializable {
 
     }
 
-    private void setAdjForThirdType() {
+    void setAdjForThirdType() {
         matrixOfSquares[0][0].setCardinalSquare(null, matrixOfSquares[1][0] , null, matrixOfSquares[0][1]);
         matrixOfSquares[0][1].setCardinalSquare(null, matrixOfSquares[1][1] , matrixOfSquares[0][0],   matrixOfSquares[0][2]);
         matrixOfSquares[0][2].setCardinalSquare(null,matrixOfSquares[1][2] , matrixOfSquares[0][1], matrixOfSquares[0][3]);
@@ -170,7 +171,7 @@ public class Map implements Serializable {
         matrixOfSquares[2][3].setCardinalSquare(matrixOfSquares[1][3], null, matrixOfSquares[2][2], null);
     }
 
-    private void setAdjForFourthType() {
+     void setAdjForFourthType() {
         matrixOfSquares[0][0].setCardinalSquare(null, matrixOfSquares[1][0] , null, matrixOfSquares[0][1]);
         matrixOfSquares[0][1].setCardinalSquare(null, matrixOfSquares[1][1] , matrixOfSquares[0][0],   matrixOfSquares[0][2]);
         matrixOfSquares[0][2].setCardinalSquare(null,matrixOfSquares[1][2] , matrixOfSquares[0][1], null);
@@ -179,7 +180,7 @@ public class Map implements Serializable {
         matrixOfSquares[1][2].setCardinalSquare(matrixOfSquares[0][2] , null, null, matrixOfSquares[1][3]);
         matrixOfSquares[1][3].setCardinalSquare(null, matrixOfSquares[2][3], matrixOfSquares[1][2],  null);
         matrixOfSquares[2][0].setCardinalSquare(matrixOfSquares[1][0],null, null, matrixOfSquares[2][1] );
-        matrixOfSquares[2][1].setCardinalSquare(null, matrixOfSquares[1][1], matrixOfSquares[2][0], matrixOfSquares[2][2] );
+        matrixOfSquares[2][1].setCardinalSquare(matrixOfSquares[1][1], null, matrixOfSquares[2][0], matrixOfSquares[2][2] );
         matrixOfSquares[2][2].setCardinalSquare(null, null, matrixOfSquares[2][1], matrixOfSquares[2][3] );
         matrixOfSquares[2][3].setCardinalSquare(matrixOfSquares[1][3], null, matrixOfSquares[2][2], null);
 
@@ -193,5 +194,6 @@ public class Map implements Serializable {
     void setInstanceOfMapForTesting(){
         instanceOfMap = null;
     }
+
 
 }
