@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public abstract class WeaponCard extends Card implements Serializable {
 
     private Boolean isLoad = true;
-    private ColorOfCard_Ammo[] priceToBuy;
+    private ColorOfCard_Ammo[] priceToBuy = null;
     private ColorOfCard_Ammo[] priceToReload;
     private Boolean[] hasThisKindOfAttack;
 

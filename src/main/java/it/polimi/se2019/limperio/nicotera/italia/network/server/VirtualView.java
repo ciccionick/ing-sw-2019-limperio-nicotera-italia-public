@@ -111,11 +111,6 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
 
 
     @Override
-    public void notify(ViewEvent message) {
-        controller.update(message);
-    }
-
-    @Override
     public void update(ModelEvent message) {
         if(message.getNickname().contains(nicknameOfClient)) {
             try {
@@ -124,16 +119,6 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void register(Observer<ViewEvent> observer) {
-        this.controller = (Controller) observer;
-    }
-
-    @Override
-    public void deregister(Observer<ViewEvent> observer) {
-         // the only observer of this class is always the controller
     }
 
 

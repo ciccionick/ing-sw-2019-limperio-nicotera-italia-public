@@ -42,20 +42,6 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
         return killshotTrackView;
     }
 
-    @Override
-    public void register(Observer<ViewEvent> observer) {
-        this.networkHandler = (NetworkHandler) observer;
-    }
-
-    @Override
-    public void deregister(Observer<ViewEvent> observer) {
-
-    }
-
-    @Override
-    public void notify(ViewEvent message) {
-        networkHandler.update(message);
-    }
 
     @Override
     public void update(ModelEvent message) {
@@ -89,7 +75,8 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
             System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
             String action;
             action = stdin.nextLine();
-            while(!action.equalsIgnoreCase("corri")&&!action.equalsIgnoreCase("raccogli")&&!action.equalsIgnoreCase("spara")){
+            while((!action.equalsIgnoreCase("corri"))&&(!action.equalsIgnoreCase("raccogli"))&&(!action.equalsIgnoreCase("spara"))){
+                System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
                 action=stdin.nextLine();
             }
             if(action.equalsIgnoreCase("corri")){
@@ -113,7 +100,7 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
             for(Square square : event.getSquaresReachableForCatch() ){
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
                 if(square.isSpawn()){
-                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView());
+                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), ((SelectionViewForSquareWhereCatch) message).getWeaponNotAvailableForLackOfAmmos());
                 }
                 else {
                     System.out.println( ((NormalSquare)square).getAmmoTile().toString());
@@ -130,9 +117,18 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
         notify(newEvent);
     }
 
-    private void printListOfWeapons(ArrayList<ModelEvent.AliasCard> cards){
+    private void printListOfWeapons(ArrayList<ModelEvent.AliasCard> cards, ArrayList<ModelEvent.AliasCard> cardsNotAvaialable){
         for(ModelEvent.AliasCard card : cards){
-            System.out.println(card.getName() + " " + card.getColor());
+            if(!isCardNotAffordable(card, cardsNotAvaialable))
+                System.out.println(card.getName() + " " + card.getColor());
         }
+    }
+
+    private boolean isCardNotAffordable(ModelEvent.AliasCard card, ArrayList<ModelEvent.AliasCard> cardsNotAvaialable) {
+        for (ModelEvent.AliasCard cardNotAvailabe : cardsNotAvaialable){
+            if(card.getName().equals(cardNotAvailabe.getName()) && card.getColor().equals(cardNotAvailabe.getColor()))
+                return true;
+        }
+        return false;
     }
 }
