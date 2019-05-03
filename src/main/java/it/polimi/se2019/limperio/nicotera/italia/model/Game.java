@@ -273,22 +273,6 @@ public class Game extends Observable<ModelEvent> {
         return round;
     }
 
-    @Override
-    public void register(Observer<ModelEvent> observer) {
-        listOfVirtualView.add((VirtualView) observer);
-    }
-
-    @Override
-    public void deregister(Observer<ModelEvent> observer) {
-        listOfVirtualView.remove(observer);
-    }
-
-    @Override
-    public void notify(ModelEvent message) {
-        for (VirtualView view : listOfVirtualView){
-            view.update(message);
-        }
-    }
 
     public ArrayList<Player> getPlayers() {
         return players;

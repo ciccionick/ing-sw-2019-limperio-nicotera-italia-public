@@ -78,6 +78,8 @@ public class Player implements PlayerBehaviour{
 
 
     public void useAmmoForPay(Ammo[] ammo){}
+
+
     public void updateScore(int newscore){}
 
 

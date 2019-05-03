@@ -90,4 +90,6 @@ class PowerUpController {
         game.notify(newEvent);
     }
 
+
+
  }

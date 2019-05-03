@@ -22,7 +22,8 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
 
      NetworkHandler(Client client) {
         this.client = client;
-        register(new RemoteView(client, this));
+        this.remoteView = new RemoteView(client, this);
+        register(this.remoteView);
     }
 
 
@@ -120,16 +121,6 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         notify(event);
     }
 
-
-    @Override
-    public void register(Observer<ModelEvent> observer) {
-        this.remoteView= (RemoteView) observer;
-    }
-
-    @Override
-    public void deregister(Observer<ModelEvent> observer) {
-        //this method is empty since that the only observer of Model Event is the RemoteView of the client
-    }
 
     @Override
     public void notify(ModelEvent message) {
