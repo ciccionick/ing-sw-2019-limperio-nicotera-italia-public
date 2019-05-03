@@ -64,9 +64,7 @@ public class Player implements PlayerBehaviour{
         return doubleKill;
     }
 
-    public Square getPositionOnTheMap() {
-        return positionOnTheMap;
-    }
+    public Square getPositionOnTheMap() { return positionOnTheMap; }
 
     public String getNickname() {
         return nickname;
