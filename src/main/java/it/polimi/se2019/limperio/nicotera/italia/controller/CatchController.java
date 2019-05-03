@@ -33,7 +33,7 @@ class CatchController {
 
 
 
-    private ArrayList<Square> findSquareWherePlayerCanCatch(Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable){
+      ArrayList<Square> findSquareWherePlayerCanCatch(Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable){
         ArrayList<Square> listOfSquareReachable = new ArrayList<>();
         SpawnSquare spawnSquare;
         NormalSquare normalSquare;
@@ -68,14 +68,14 @@ class CatchController {
 
     }
 
-    private void addWeaponNotAffordable(SpawnSquare square, Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable) {
+     void addWeaponNotAffordable(SpawnSquare square, Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable) {
         for(WeaponCard card : square.getWeaponCards()){
             if(!weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), card))
                 weaponNotAffordable.add(new ModelEvent.AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
     }
 
-    private boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
+     boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
 
         int numOfRedAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), RED);
         int numOfBlueAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), ColorOfCard_Ammo.BLUE);
@@ -85,7 +85,7 @@ class CatchController {
     }
 
 
-    private int frequencyAmmosInPriceToBuy (ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo colorToCheck){
+     private int frequencyAmmosInPriceToBuy (ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo colorToCheck){
         int frequency=0;
         if(priceToBuy!=null) {
             for (ColorOfCard_Ammo color : priceToBuy) {
@@ -98,7 +98,7 @@ class CatchController {
 
     }
 
-    private int frequencyOfAmmosUsableByPlayer (ArrayList<Ammo> ammos, ColorOfCard_Ammo colorToCheck){
+     int frequencyOfAmmosUsableByPlayer (ArrayList<Ammo> ammos, ColorOfCard_Ammo colorToCheck){
         int frequency = 0;
         for(Ammo ammo : ammos){
             if(ammo.getColor().equals(colorToCheck) && ammo.isUsable()){

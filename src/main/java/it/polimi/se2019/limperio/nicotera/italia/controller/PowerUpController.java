@@ -50,7 +50,7 @@ class PowerUpController {
         spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
      }
 
-    private SpawnSquare findSpawnSquareWithThisColor(ColorOfCard_Ammo color){
+     SpawnSquare findSpawnSquareWithThisColor(ColorOfCard_Ammo color){
         for(int i=0 ; i< game.getBoard().getMap().getMatrixOfSquares().length; i++){
             for(int j = 0 ; j< game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
                 if(game.getBoard().getMap().getMatrixOfSquares()[i][j]!=null && game.getBoard().getMap().getMatrixOfSquares()[i][j].isSpawn() && game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().toString().equals(color.toString()))

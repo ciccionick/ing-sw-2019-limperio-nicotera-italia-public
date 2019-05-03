@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +14,11 @@ public class TestBoard {
     public void setUp(){
         board = Board.instanceOfBoard();
         board.createMap(1);
+    }
+    @After
+    public void cleanUp(){
+        board.getMap().setInstanceOfMapForTesting();
+        player = null;
     }
 
     @Test

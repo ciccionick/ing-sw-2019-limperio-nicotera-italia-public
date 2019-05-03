@@ -191,7 +191,7 @@ public class Map implements Serializable {
     }
 
     /* this method is used in order to test the creation of different map in the same testing class*/
-    void setInstanceOfMapForTesting(){
+   public void setInstanceOfMapForTesting(){
         instanceOfMap = null;
     }
 

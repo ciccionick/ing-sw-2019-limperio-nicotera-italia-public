@@ -19,7 +19,7 @@ public class PlayerBoard implements Serializable {
         damages = new ArrayList<>();
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
-        ammo.add(new Ammo(RED,false));
+        ammo.add(new Ammo(RED,true));
         ammo.add(new Ammo(BLUE,true));
         ammo.add(new Ammo(YELLOW,true));
         for (int i=0; i<2; i++){
@@ -85,5 +85,14 @@ public class PlayerBoard implements Serializable {
 
     public ArrayList<PowerUpCard> getPowerUpCardsOwned() {
         return powerUpCardsOwned;
+    }
+
+    public void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
+        for (Ammo ammo : ammo) {
+            if(ammo.getColor().equals(color)) {
+                this.ammo.remove(ammo);
+                break;
+            }
+        }
     }
 }
