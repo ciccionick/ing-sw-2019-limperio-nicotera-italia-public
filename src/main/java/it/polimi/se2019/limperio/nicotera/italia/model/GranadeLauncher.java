@@ -39,6 +39,7 @@ public class GranadeLauncher extends WeaponCard {
     private void withExtraGranade(Square square){
         for(Player enemy : square.getPlayerOfThisSquare()){
             enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+
         }
     }
 
