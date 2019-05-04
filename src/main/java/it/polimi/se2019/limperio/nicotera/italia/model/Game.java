@@ -78,9 +78,9 @@ public class Game extends Observable<ModelEvent> {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCards) {
-                            DrawToPowerUpCardsEvent drawToPowerUpCardsEvent = new DrawToPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-                            drawToPowerUpCardsEvent.getNickname().add(listOfNickname.get(playerOfTurn - 1));
-                            notify(drawToPowerUpCardsEvent);
+                            DrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new DrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+                            drawTwoPowerUpCardsEvent.getNickname().add(listOfNickname.get(playerOfTurn - 1));
+                            notify(drawTwoPowerUpCardsEvent);
                             requestForDrawTwoCards=true;
                         }
                     }

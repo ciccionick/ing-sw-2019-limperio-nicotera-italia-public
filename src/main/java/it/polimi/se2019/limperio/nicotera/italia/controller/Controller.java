@@ -11,10 +11,15 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent
 
 import java.util.ArrayList;
 
+/**
+ * Class for checking the correctness of the action of the players, according to MVC pattern
+ * @author Pietro L'Imperio
+ *
+ */
 public class Controller implements Observer<ViewEvent> {
 
+
     private final Game game;
-    private ActionController actionController;
     private CatchController catchController;
     private PowerUpController powerUpController;
     private RoundController roundController;
@@ -23,9 +28,12 @@ public class Controller implements Observer<ViewEvent> {
     private TurnController turnController;
     private WeaponController weaponController;
 
+    /**
+     * Costructor of the class: it creates the instances of the other controller classes
+     * @param game: the reference to model part of MVC pattern
+     */
     public Controller(Game game) {
         this.game = game;
-        actionController = new ActionController(game);
         catchController = new CatchController(game, this);
         powerUpController = new PowerUpController(game, this);
         roundController = new RoundController(game);
@@ -35,6 +43,16 @@ public class Controller implements Observer<ViewEvent> {
         weaponController = new WeaponController(game);
     }
 
+    /**
+     * <p>
+     *     This method handles the messages that VirtualView sends to Controller.
+     * </p>
+     * <p>
+     *     It recognize which specific controller have to be called to handle the message through the if case.
+     * </p>
+     *
+     * @param message it contains the type of action that the player has done.
+     */
     public void update(ViewEvent message) {
         System.out.println(message.getMessage() + " " + message.getNickname());
         if (isTheTurnOfThisPlayer(message.getNickname())) {
@@ -56,6 +74,12 @@ public class Controller implements Observer<ViewEvent> {
         }
     }
 
+    /**
+     * This method finds the player who has the nickname that is passed as parameter
+     * @param nickname the nickname of the player that is looked for
+     * @return the player that is looked for
+     * @throws IllegalArgumentException when nickname parameter isn't associated to a player
+     */
     Player findPlayerWithThisNickname (String nickname){
         for(Player player : game.getPlayers()){
             if(player.getNickname().equals(nickname)){
@@ -65,10 +89,21 @@ public class Controller implements Observer<ViewEvent> {
         throw new IllegalArgumentException();
     }
 
+    /**
+     *This method calculates the distance between two squares on the map
+     * @param startCoordinates the coordinates of the start position
+     * @param targetCoordinates the coordinates of the end position
+     * @return the distance
+     */
     int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates) {
         return Math.abs(startCoordinates[0] - targetCoordinates[0]) + Math.abs(startCoordinates[1]- targetCoordinates[1]);
     }
 
+    /**
+     * This method checks if is the turn of the player who has the nickname that is passed
+     * @param nickname the nickname of the player
+     * @return boolean that is true if it is the turn of the player with the nickname parameter
+     */
      boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
