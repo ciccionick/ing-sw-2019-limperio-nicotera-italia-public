@@ -40,7 +40,7 @@ public class Server  {
         game=Game.instanceOfGame();
         controller=new Controller(game);
 
-        File file = new File("C:\\Users\\Pc\\IdeaProjects\\ing-sw-2019-limperio-nicotera-italia\\src\\main\\java\\it\\polimi\\se2019\\limperio\\nicotera\\italia\\utils\\timer.txt");
+        File file = new File("resources/timer/timerForStartOfGame.txt");
         FileReader inFile = new FileReader(file);
         BufferedReader bin = new BufferedReader(inFile);
         delay = Long.parseLong(bin.readLine());

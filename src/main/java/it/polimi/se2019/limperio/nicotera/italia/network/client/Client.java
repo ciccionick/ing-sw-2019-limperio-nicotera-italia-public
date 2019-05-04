@@ -6,7 +6,8 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
-
+/** Class for the handle of the socket client side
+ * @author Pietro L'Imperio */
 public class Client {
 
    private boolean invalidInitialization =true;
@@ -64,7 +65,11 @@ public class Client {
     }
 
 
-    public void setInvalidInitialization(boolean invalidInitialization) {
+    /**
+     *
+     * @param invalidInitialization means that the process of initialization is not complete
+     */
+    void setInvalidInitialization(boolean invalidInitialization) {
         this.invalidInitialization = invalidInitialization;
     }
 
