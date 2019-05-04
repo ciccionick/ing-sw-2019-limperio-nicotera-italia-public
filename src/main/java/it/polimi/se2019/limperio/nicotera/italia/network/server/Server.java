@@ -39,7 +39,6 @@ public class Server  {
         System.out.println("Il Server è in attesa sulla porta 4000.");
         game=Game.instanceOfGame();
         controller=new Controller(game);
-
         File file = new File("resources/timer/timerForStartOfGame.txt");
         FileReader inFile = new FileReader(file);
         BufferedReader bin = new BufferedReader(inFile);
@@ -58,7 +57,7 @@ public class Server  {
                     timer = new Timer();
                     task = new MyTask();
                     try{
-                        timer.schedule(task,delay);
+                        //timer.schedule(task,delay);
                     }
                     catch (IllegalStateException er){
                         er.printStackTrace();
