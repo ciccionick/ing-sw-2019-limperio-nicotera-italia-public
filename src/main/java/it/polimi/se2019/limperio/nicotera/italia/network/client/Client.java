@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestInitializationEvent;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -27,19 +27,20 @@ public class Client {
         System.out.println("Client attivo:");
         client = new Client();
 
-        try
-        {
+
             client.csocket = new Socket("localhost", 4000);
             client.out = new ObjectOutputStream(client.csocket.getOutputStream());
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");
+
             while(client.invalidInitialization) {
-                RequestNicknameEvent req = (RequestNicknameEvent) client.in.readObject();
+                RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
+                if(req.isAck())
+                    break;
                 client.myNetworkHandler.handleEventInitialization(req);
             }
-        }
-        catch(Exception e) { System.err.println(e.getMessage());
-        }
+
+
         while(true){
             try {
                 System.out.println("In attesa di messaggi..");
