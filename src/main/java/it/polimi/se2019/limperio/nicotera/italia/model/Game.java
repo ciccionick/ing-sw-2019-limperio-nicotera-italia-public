@@ -71,7 +71,7 @@ public class Game extends Observable<ModelEvent> {
     private void startWithTheFirstTurn() {
         boolean requestForDrawTwoCards = false;
         while(!isGameOver) {
-            for (playerOfTurn = 1; playerOfTurn < players.size(); playerOfTurn++) {
+            for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
                 if(round==1)
                     requestForDrawTwoCards=false;
                 if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))) {

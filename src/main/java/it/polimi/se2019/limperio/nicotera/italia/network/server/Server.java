@@ -57,7 +57,7 @@ public class Server  {
                     timer = new Timer();
                     task = new MyTask();
                     try{
-                        //timer.schedule(task,delay);
+                        timer.schedule(task,delay);
                     }
                     catch (IllegalStateException er){
                         er.printStackTrace();
@@ -140,9 +140,8 @@ public class Server  {
         return terminatorMode;
     }
 
-    synchronized void addNickname(String newNickname, String color){
+    synchronized void addNickname(String newNickname){
         listOfNickname.add(newNickname);
-        listOfColor.add(color);
     }
 
      ArrayList<Socket> getListOfClient() {

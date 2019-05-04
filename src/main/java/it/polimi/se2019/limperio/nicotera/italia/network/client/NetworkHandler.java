@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerNicknameEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class NetworkHandler extends Observable<ModelEvent> implements Observer<ViewEvent> {
 
+    private String provisoryNickname;
     private Client client;
     private Scanner stdin = new Scanner(System.in);
     private RemoteView remoteView;
@@ -32,89 +33,20 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
 
     }
 
-    private String setNickname(){
-        System.out.println("Scrivi nickname: ");
-        return stdin.nextLine();
-    }
-
-    private String setColor(){
-        System.out.println("Scrivi che colore vuoi (YELLOW, BLUE, PURPLE, GREY, GREEN): ");
-        String color = stdin.nextLine();
-        while (!color.equalsIgnoreCase("YELLOW")&& !color.equalsIgnoreCase("BLUE") && !color.equalsIgnoreCase("PURPLE") && !color.equalsIgnoreCase("GREY") && !color.equalsIgnoreCase("GREEN")){
-            System.out.println("Riprova, scrivi che colore vuoi (YELLOW, BLUE, <PURPLE, GREY, GREEN): ");
-            color = stdin.nextLine();
-        }
-        return color;
-    }
-
-    private void sendInitializationAsFirst() {
-
-        String frenzy=null;
-        String terminator = null;
-
-        int typeOfMap=0;
-        String nickname=setNickname();
-        String color = setColor();
-        System.out.println("Scrivi y se vuoi la frenzy, n altrimenti");
-        frenzy = stdin.nextLine();
-        while(!frenzy.equalsIgnoreCase("y") && !frenzy.equalsIgnoreCase("n")) {
-            System.out.println("Riprova, scrivi y se vuoi la frenzy, n altrimenti");
-            frenzy = stdin.nextLine();
-        }
-        System.out.println("Scrivi y se vuoi la terminator mode nel caso in cui la partita cominci con 3 giocatori, n altrimenti");
-        terminator = stdin.nextLine();
-        while(!terminator.equalsIgnoreCase("y") && !terminator.equalsIgnoreCase("n")) {
-            System.out.println("Riprova, scrivi y se vuoi la terminator, n altrimenti");
-            terminator = stdin.nextLine();
-        }
-        System.out.println("Scegli la mappa (1,2, 3 o 4): ");
-        typeOfMap=stdin.nextInt();
-        while(typeOfMap!=1 && typeOfMap!=2 && typeOfMap!=3 && typeOfMap!=4){
-            System.out.println("Riprova, scegli la mappa (1,2, 3 o 4): ");
-            typeOfMap=stdin.nextInt();
-        }
-        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,typeOfMap,frenzy.equalsIgnoreCase("y"),terminator.equalsIgnoreCase("y"));
+    public void replyToRequestOfInitialization(AnswerInitializationEvent event){
         try {
-            stdin.nextLine();
-            client.out.writeObject(ans);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-
-    private void sendInitialization(){
-        String nickname = setNickname();
-        String color = setColor();
-        AnswerNicknameEvent ans = new AnswerNicknameEvent(nickname,color,0,false,false);
-        try {
-            client.out.writeObject(ans);
+            if(event.getNickname()!=null)
+                provisoryNickname=event.getNickname();
+            client.out.writeObject(event);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-     void handleEventInitialization(RequestNicknameEvent event){
-
-        if(event.isMessageOfRequest()){
-            showMessage(event.getMessage());
-            if(event.isFirst())
-                sendInitializationAsFirst();
-            else
-                sendInitialization();
-        }
-        else
-        {
-            if (event.isAck()){
-                showMessage(event.getMessage());
-                if(event.isValid()){
-                    client.setInvalidInitialization(false);
-                    client.setNickname(event.getNickname());
-                }
-            }
-        }
+     void handleEventInitialization(RequestInitializationEvent event){
+        if(event.isColorRequest())
+            client.setNickname(provisoryNickname);
+        remoteView.getInitializationView().handleInitialization(event);
     }
 
      void handleEvent(ModelEvent event){

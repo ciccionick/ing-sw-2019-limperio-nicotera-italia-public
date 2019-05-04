@@ -2,8 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.network.server;
 
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestNicknameEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerNicknameEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -28,6 +28,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
      VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
         this.server = server;
+        this.controller = controller;
         register(controller);
         if (server.getListOfClient().size() == 1)
             this.firstPlayer = true;
@@ -50,35 +51,43 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
     public void run() {
         try {
             boolean invalidInizialization = true;
+            RequestInitializationEvent req;
             while (invalidInizialization) {
-                out.writeObject(new RequestNicknameEvent("Chiedo informazioni al mio player", null, true, false, false, firstPlayer));
-
-                AnswerNicknameEvent ans = (AnswerNicknameEvent) in.readObject();
-                if (server.getListOfNickname().contains(ans.getNickname()) && server.getListOfColor().contains(ans.getColor())) {
-                    out.writeObject(new RequestNicknameEvent("nickname e colori gia scelti, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
-                } else {
-                    if (server.getListOfColor().contains(ans.getColor())) {
-                        out.writeObject(new RequestNicknameEvent("colore gia scelto, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
-                    }
-                    if (server.getListOfNickname().contains(ans.getNickname())) {
-                        out.writeObject(new RequestNicknameEvent("nickname gia scelto, riprova al prossimo tentativo", null, false, true, false, firstPlayer));
-                    }
-                    if (!(server.getListOfNickname().contains(ans.getNickname())) && !(server.getListOfColor().contains(ans.getColor()))) {
-                        out.writeObject(new RequestNicknameEvent("Tutto ok " + ans.getNickname(), ans.getNickname(), false, true, true, firstPlayer));
-                        server.addNickname(ans.getNickname(), ans.getColor());
-                        nicknameOfClient = ans.getNickname();
-                        colorOfClient = ans.getColor();
-                        invalidInizialization = false;
-                        if (firstPlayer) {
-                            server.setAnticipatedFrenzy(ans.isFrenzy());
-                            System.out.println("Aggiornato frenzy a " + server.isAnticipatedFrenzy());
-                            server.setTypeMap(ans.getMap(),false);
-                            System.out.println("Aggiornata mappa a " + server.getTypeMap());
-                            server.setTerminatorMode(ans.isTerminator());
-                            System.out.println("Aggiornato terminatore a " + server.isTerminatorMode());
-                        }
-                    }
+                out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
+                AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
+                while(server.getListOfNickname().contains(ans.getNickname())){
+                    req = new RequestInitializationEvent("Digit your nickname: ", true, false, false, false, false);
+                    req.setRetake(true);
+                    out.writeObject(req);
+                    ans = (AnswerInitializationEvent) in.readObject();
                 }
+                server.addNickname(ans.getNickname());
+                nicknameOfClient = ans.getNickname();
+                out.writeObject(new RequestInitializationEvent("Digit your color:", false, true, false, false, false));
+                ans = (AnswerInitializationEvent) in.readObject();
+                while(server.getListOfColor().contains(ans.getColor().toUpperCase())){
+                    req = new RequestInitializationEvent("Digit your color: ", false, true, false, false, false);
+                    req.setRetake(true);
+                    out.writeObject(req);
+                    ans = (AnswerInitializationEvent) in.readObject();
+                }
+                server.getListOfColor().add(ans.getColor().toUpperCase());
+                colorOfClient = ans.getColor();
+                if(firstPlayer){
+                    out.writeObject(new RequestInitializationEvent("Choose if u want frenzy:", false, false, true, false, false));
+                    ans = (AnswerInitializationEvent) in.readObject();
+                    server.setAnticipatedFrenzy(ans.isFrenzy());
+                    out.writeObject(new RequestInitializationEvent("Choose which map do you want to play with:", false, false, false, false, true));
+                    ans = (AnswerInitializationEvent) in.readObject();
+                    server.setTypeMap(ans.getMap(), false);
+                    out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
+                    ans = (AnswerInitializationEvent) in.readObject();
+                    server.setTerminatorMode(ans.isTerminator());
+                }
+                req = new RequestInitializationEvent("ack: ", false, false, false, false, false);
+                req.setAck(true);
+                out.writeObject(req);
+                invalidInizialization=false;
             }
         } catch (SocketException se) {
             handleDisconnection();
@@ -90,7 +99,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
         }
 
         while (isClientCurrentlyOnline) {
-            ViewEvent newEvent = null;
+            ViewEvent newEvent;
             try {
                 System.out.println("La virtual view di " + nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
                 newEvent = (ViewEvent) in.readObject();

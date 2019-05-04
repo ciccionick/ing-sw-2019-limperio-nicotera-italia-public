@@ -9,6 +9,7 @@ import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,14 +19,17 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     private PlayerBoardView playerBoardView;
     private MapView mapView;
     private KillshotTrackView killshotTrackView;
+    private InitializationView initializationView;
     private Scanner stdin = new Scanner(System.in);
 
     public RemoteView(Client client, NetworkHandler networkHandler) {
         this.client = client;
+        this.networkHandler = networkHandler;
         register(networkHandler);
         playerBoardView = new PlayerBoardView();
         mapView = new MapView();
         killshotTrackView = new KillshotTrackView();
+        initializationView = new InitializationView(this);
     }
 
     public PlayerBoardView getPlayerBoardView()
@@ -33,6 +37,9 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
         return playerBoardView;
     }
 
+    public NetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
 
     public MapView getMapView() {
         return mapView;
@@ -130,5 +137,9 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
                 return true;
         }
         return false;
+    }
+
+    public InitializationView getInitializationView() {
+        return initializationView;
     }
 }
