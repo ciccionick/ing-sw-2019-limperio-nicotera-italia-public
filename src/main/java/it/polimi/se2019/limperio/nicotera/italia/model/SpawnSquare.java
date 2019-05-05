@@ -1,13 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
 import java.util.ArrayList;
 
 public class SpawnSquare extends Square  {
 
-    private ArrayList<ModelEvent.AliasCard> weaponsCardsForRemoteView = new ArrayList<>();
+    private ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView = new ArrayList<>();
     private ArrayList<WeaponCard> weaponCards;
 
 
@@ -17,7 +17,7 @@ public class SpawnSquare extends Square  {
         setSpawn(true);
     }
 
-    public ArrayList<ModelEvent.AliasCard> getWeaponsCardsForRemoteView() {
+    public ArrayList<ServerEvent.AliasCard> getWeaponsCardsForRemoteView() {
         return weaponsCardsForRemoteView;
     }
 
@@ -25,7 +25,7 @@ public class SpawnSquare extends Square  {
         return weaponCards;
     }
 
-    public void setWeaponsCardsForRemoteView(ArrayList<ModelEvent.AliasCard> weaponsCardsForRemoteView) {
+    public void setWeaponsCardsForRemoteView(ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView) {
         this.weaponsCardsForRemoteView = weaponsCardsForRemoteView;
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.KillshotTrackEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.KillshotTrackEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.TokenOfDeath;
 
 import java.util.ArrayList;

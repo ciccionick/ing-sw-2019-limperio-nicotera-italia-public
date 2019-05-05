@@ -1,27 +1,24 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_view;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_client;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.*;
-import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
-import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import java.io.Serializable;
 
 
-public class ViewEvent implements Serializable {
+public class ClientEvent implements Serializable {
 
    private String message;
    private String nickname;
    private boolean isDrawTwoPowerUpCards = false;
    private boolean isDiscardPowerUpCardToSpawn = false;
-   private ModelEvent.AliasCard powerUpCard = null;
+   private ServerEvent.AliasCard powerUpCard = null;
    private boolean isRequestToRunByPlayer = false;
    private boolean isRequestToCatchByPlayer = false;
    private boolean isRequestToShootByPlayer = false;
    private VirtualView myVirtualView = null;
 
-    public ViewEvent(String message, String nickname) {
+    public ClientEvent(String message, String nickname) {
         this.message = message;
         this.nickname = nickname;
     }
@@ -82,11 +79,11 @@ public class ViewEvent implements Serializable {
         isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
     }
 
-    public ModelEvent.AliasCard getPowerUpCard() {
+    public ServerEvent.AliasCard getPowerUpCard() {
         return powerUpCard;
     }
 
-    public void setPowerUpCard(ModelEvent.AliasCard powerUpCard) {
+    public void setPowerUpCard(ServerEvent.AliasCard powerUpCard) {
         this.powerUpCard = powerUpCard;
     }
 }

@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestInitializationEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 
 import java.util.Scanner;
 

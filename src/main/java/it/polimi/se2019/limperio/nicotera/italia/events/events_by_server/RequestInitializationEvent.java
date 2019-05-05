@@ -1,4 +1,4 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_model;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import java.io.Serializable;
 

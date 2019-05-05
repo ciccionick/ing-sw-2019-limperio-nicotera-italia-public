@@ -1,12 +1,15 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_model;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
 
-public class ModelEvent implements Serializable {
+
+/**
+ *
+ */
+public class ServerEvent implements Serializable {
     private String message;
     private ArrayList<String> nicknames = new ArrayList<>();
     private PlayerBoard playerBoard = null;
@@ -46,7 +49,7 @@ public class ModelEvent implements Serializable {
         this.powerUpCards = powerUpCards;
     }
 
-    public ModelEvent(String message) {
+    public ServerEvent(String message) {
         this.message = message;
     }
 

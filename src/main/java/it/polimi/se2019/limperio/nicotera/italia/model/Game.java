@@ -1,14 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
-import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
 import java.util.ArrayList;
 
 
-public class Game extends Observable<ModelEvent> {
+public class Game extends Observable<ServerEvent> {
 
     private boolean terminatorModeActive = false;
     private Board board;

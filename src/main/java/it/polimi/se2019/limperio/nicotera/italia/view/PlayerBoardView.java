@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,7 +11,7 @@ public class PlayerBoardView {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
-    private ArrayList<ModelEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
+    private ArrayList<ServerEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
     private ArrayList<WeaponCard> weaponCardDeck = new ArrayList<>();
     private Scanner stdin = new Scanner(System.in);
 
@@ -47,12 +47,12 @@ public class PlayerBoardView {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
     }
 
-    public void update (ModelEvent event){
+    public void update (ServerEvent event){
         System.out.println(event.getMessage());
         updateStateOfPlayerBoard(event);
     }
 
-    private void updateStateOfPlayerBoard (ModelEvent event){
+    private void updateStateOfPlayerBoard (ServerEvent event){
         setDamages(event.getPlayerBoard().getDamages());
         setMarks(event.getPlayerBoard().getMarks());
         setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
@@ -61,11 +61,11 @@ public class PlayerBoardView {
         getWeaponCardDeck().addAll(event.getPlayerBoard().getWeaponsOwned());
     }
 
-    public ArrayList<ModelEvent.AliasCard> getPowerUpCardsDeck() {
+    public ArrayList<ServerEvent.AliasCard> getPowerUpCardsDeck() {
         return powerUpCardsDeck;
     }
 
-    public void setPowerUpCardsDeck(ArrayList<ModelEvent.AliasCard> powerUpCardsDeck) {
+    public void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
         this.powerUpCardsDeck = powerUpCardsDeck;
     }
 

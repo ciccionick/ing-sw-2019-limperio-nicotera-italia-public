@@ -99,7 +99,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observable.html" title="class in it.polimi.se2019.limperio.nicotera.italia.utils">it.polimi.se2019.limperio.nicotera.italia.utils.Observable</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_view/ViewEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_view">ViewEvent</a>&gt;</li>
+<li><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observable.html" title="class in it.polimi.se2019.limperio.nicotera.italia.utils">it.polimi.se2019.limperio.nicotera.italia.utils.Observable</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_view/ViewEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_client">ViewEvent</a>&gt;</li>
 <li>
 <ul class="inheritance">
 <li>it.polimi.se2019.limperio.nicotera.italia.view.RemoteView</li>
@@ -113,13 +113,13 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent</a>&gt;</dd>
+<dd><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent</a>&gt;</dd>
 </dl>
 <hr>
 <br>
 <pre>public class <span class="typeNameLabel">RemoteView</span>
-extends <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observable.html" title="class in it.polimi.se2019.limperio.nicotera.italia.utils">Observable</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_view/ViewEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_view">ViewEvent</a>&gt;
-implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent</a>&gt;</pre>
+extends <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observable.html" title="class in it.polimi.se2019.limperio.nicotera.italia.utils">Observable</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_view/ViewEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_client">ViewEvent</a>&gt;
+implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent</a>&gt;</pre>
 </li>
 </ul>
 </div>
@@ -213,17 +213,17 @@ implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/ital
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>private boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#isCardNotAffordable-it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent.AliasCard-java.util.ArrayList-">isCardNotAffordable</a></span>(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&nbsp;card,
-                   java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#isCardNotAffordable-it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent.AliasCard-java.util.ArrayList-">isCardNotAffordable</a></span>(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&nbsp;card,
+                   java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>private void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#printListOfWeapons-java.util.ArrayList-java.util.ArrayList-">printListOfWeapons</a></span>(java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cards,
-                  java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#printListOfWeapons-java.util.ArrayList-java.util.ArrayList-">printListOfWeapons</a></span>(java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cards,
+                  java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</code>&nbsp;</td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#update-it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent-">update</a></span>(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent</a>&nbsp;message)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/view/RemoteView.html#update-it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent-">update</a></span>(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent</a>&nbsp;message)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -367,10 +367,10 @@ implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/ital
 <ul class="blockList">
 <li class="blockList">
 <h4>update</h4>
-<pre>public&nbsp;void&nbsp;update(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent</a>&nbsp;message)</pre>
+<pre>public&nbsp;void&nbsp;update(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent</a>&nbsp;message)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html#update-T-">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent</a>&gt;</code></dd>
+<dd><code><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html#update-T-">update</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/utils/Observer.html" title="interface in it.polimi.se2019.limperio.nicotera.italia.utils">Observer</a>&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent</a>&gt;</code></dd>
 </dl>
 </li>
 </ul>
@@ -389,8 +389,8 @@ implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/ital
 <ul class="blockList">
 <li class="blockList">
 <h4>printListOfWeapons</h4>
-<pre>private&nbsp;void&nbsp;printListOfWeapons(java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cards,
-                                java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</pre>
+<pre>private&nbsp;void&nbsp;printListOfWeapons(java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cards,
+                                java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</pre>
 </li>
 </ul>
 <a name="isCardNotAffordable-it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent.AliasCard-java.util.ArrayList-">
@@ -399,8 +399,8 @@ implements <a href="../../../../../../../it/polimi/se2019/limperio/nicotera/ital
 <ul class="blockListLast">
 <li class="blockList">
 <h4>isCardNotAffordable</h4>
-<pre>private&nbsp;boolean&nbsp;isCardNotAffordable(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&nbsp;card,
-                                    java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_of_model">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</pre>
+<pre>private&nbsp;boolean&nbsp;isCardNotAffordable(<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&nbsp;card,
+                                    java.util.ArrayList&lt;<a href="../../../../../../../it/polimi/se2019/limperio/nicotera/italia/events/events_of_model/ModelEvent.AliasCard.html" title="class in it.polimi.se2019.limperio.nicotera.italia.events.events_by_server">ModelEvent.AliasCard</a>&gt;&nbsp;cardsNotAvaialable)</pre>
 </li>
 </ul>
 </li>

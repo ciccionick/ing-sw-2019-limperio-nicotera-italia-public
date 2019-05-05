@@ -1,13 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.FirstActionOfTurnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.FirstActionOfTurnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This class handles the draught, the discard and the use of a power up card by a player
@@ -47,10 +45,10 @@ class PowerUpController {
      * @param arrayOfCard Contains the cards that have to be substituted
      * @return A list of alias card
      */
-     private ArrayList<ModelEvent.AliasCard> subsitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
-         ArrayList<ModelEvent.AliasCard> newArray = new ArrayList<>();
+     private ArrayList<ServerEvent.AliasCard> subsitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
+         ArrayList<ServerEvent.AliasCard> newArray = new ArrayList<>();
         for(int i = 0 ; i<arrayOfCard.size(); i++){
-            newArray.add(i, new ModelEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
+            newArray.add(i, new ServerEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
         }
         return newArray;
      }
@@ -59,7 +57,7 @@ class PowerUpController {
      * This method handles the draught of a power up by a player in order to be spawned in the square with the same color of the discarded card
      * @param event It is sent by the view and contains the references to the player that want to discard.
      */
-    void handleDiscardOfCardToSpawn(it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCardToSpawnEvent event){
+    void handleDiscardOfCardToSpawn(it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent event){
          System.out.println("Il player " + event.getNickname() + " ha deciso di scartare la powerUpCard " + event.getPowerUpCard().getName() + " di colore "+ event.getPowerUpCard().getColor() + " e di conseguenza sarà generato nel quadrato generazione di quel colore");
         removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
         spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
@@ -86,7 +84,7 @@ class PowerUpController {
      * @param playerWithThisNickname the player that has the deck that has to be modified
      * @param aliasPowerUpCard the card that has to be removed from player's deck
      */
-    void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasCard aliasPowerUpCard) {
+    void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ServerEvent.AliasCard aliasPowerUpCard) {
         playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned().remove(findPowerUpCardFromAliasInPlayerDeck(playerWithThisNickname,aliasPowerUpCard));
     }
 
@@ -97,7 +95,7 @@ class PowerUpController {
      * @return the card of the model that matches with the alias card
      * @throws IllegalArgumentException if the alias card isn't owned by the player, or if the player that is passed isn't in the game
      */
-    private PowerUpCard findPowerUpCardFromAliasInPlayerDeck(Player playerWithThisNickname, ModelEvent.AliasCard aliasPowerUpCard) {
+    private PowerUpCard findPowerUpCardFromAliasInPlayerDeck(Player playerWithThisNickname, ServerEvent.AliasCard aliasPowerUpCard) {
         for (PowerUpCard card : playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned()){
             if(card.getColor().equals(aliasPowerUpCard.getColor())&&card.getName().equals(aliasPowerUpCard.getName()))
             {

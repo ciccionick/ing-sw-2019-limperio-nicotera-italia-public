@@ -1,4 +1,4 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_model;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -6,7 +6,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 
 import java.util.ArrayList;
 
-public class SelectionViewForSquareWhereCatch extends ModelEvent {
+public class SelectionViewForSquareWhereCatch extends ServerEvent {
     private ArrayList<Square> SquaresReachableForCatch;
     private ArrayList<AliasCard> WeaponNotAvailableForLackOfAmmos = new ArrayList<>();
 

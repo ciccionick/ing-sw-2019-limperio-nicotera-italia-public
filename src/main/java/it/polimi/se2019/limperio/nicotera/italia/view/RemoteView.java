@@ -1,8 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.SelectionViewForSquareWhereCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
@@ -13,7 +13,7 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class RemoteView extends Observable<ViewEvent> implements Observer<ModelEvent> {
+public class RemoteView extends Observable<ClientEvent> implements Observer<ServerEvent> {
     private Client client;
     private NetworkHandler networkHandler;
     private PlayerBoardView playerBoardView;
@@ -51,7 +51,7 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
 
 
     @Override
-    public void update(ModelEvent message) {
+    public void update(ServerEvent message) {
         System.out.println(message.getMessage() + " " + message.getNickname());
         if (message.isDrawTwoPowerUpCardEvent()) {
             System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
@@ -118,21 +118,21 @@ public class RemoteView extends Observable<ViewEvent> implements Observer<ModelE
     }
 
     private void discardPowerUpCard(int i) {
-        ModelEvent.AliasCard powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
+        ServerEvent.AliasCard powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
         DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
         newEvent.setPowerUpCard(powerUpCardToDiscard);
         notify(newEvent);
     }
 
-    private void printListOfWeapons(ArrayList<ModelEvent.AliasCard> cards, ArrayList<ModelEvent.AliasCard> cardsNotAvaialable){
-        for(ModelEvent.AliasCard card : cards){
+    private void printListOfWeapons(ArrayList<ServerEvent.AliasCard> cards, ArrayList<ServerEvent.AliasCard> cardsNotAvaialable){
+        for(ServerEvent.AliasCard card : cards){
             if(!isCardNotAffordable(card, cardsNotAvaialable))
                 System.out.println(card.getName() + " " + card.getColor());
         }
     }
 
-    private boolean isCardNotAffordable(ModelEvent.AliasCard card, ArrayList<ModelEvent.AliasCard> cardsNotAvaialable) {
-        for (ModelEvent.AliasCard cardNotAvailabe : cardsNotAvaialable){
+    private boolean isCardNotAffordable(ServerEvent.AliasCard card, ArrayList<ServerEvent.AliasCard> cardsNotAvaialable) {
+        for (ServerEvent.AliasCard cardNotAvailabe : cardsNotAvaialable){
             if(card.getName().equals(cardNotAvailabe.getName()) && card.getColor().equals(cardNotAvailabe.getColor()))
                 return true;
         }

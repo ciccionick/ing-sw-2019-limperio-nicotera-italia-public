@@ -1,8 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
@@ -12,7 +12,7 @@ public class MapView {
 
    private Square[][] map;
 
-    public void update(ModelEvent event) {
+    public void update(ServerEvent event) {
         if (event.isMapEvent() || event.isFirstActionOfTurnEvent()) {
             map = event.getMap();
             if (event.isMapEvent()) {

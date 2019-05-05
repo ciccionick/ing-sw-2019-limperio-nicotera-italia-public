@@ -1,4 +1,4 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_view;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_client;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;

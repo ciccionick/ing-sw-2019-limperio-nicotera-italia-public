@@ -1,4 +1,4 @@
-package it.polimi.se2019.limperio.nicotera.italia.events.events_of_model;
+package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
@@ -7,7 +7,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
 
 import java.util.ArrayList;
 
-public class MapEvent extends ModelEvent{
+public class MapEvent extends ServerEvent {
 
     private ArrayList<AliasCard> weaponsCardsForRedSpawnSquare;
     private ArrayList<AliasCard> weaponsCardsForBlueSpawnSquare;
