@@ -5,9 +5,18 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to represent the spawn squares on the map
+ * @author Pietro L'Imperio
+ */
 public class SpawnSquare extends Square  {
-
+    /**
+     * It needs to send the weapon card to client through socket connection
+     */
     private ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView = new ArrayList<>();
+    /**
+     * Collections of weapons that the players can catch on the square
+     */
     private ArrayList<WeaponCard> weaponCards;
 
 

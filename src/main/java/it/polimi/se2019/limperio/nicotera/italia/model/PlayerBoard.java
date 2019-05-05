@@ -15,6 +15,9 @@ public class PlayerBoard implements Serializable {
     private ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
     private ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
 
+    /**
+     * The constructor marks as usable the beginning ammo according to game's rules
+     */
     PlayerBoard() {
         damages = new ArrayList<>();
         marks = new ArrayList<>();
@@ -38,11 +41,17 @@ public class PlayerBoard implements Serializable {
         return marks;
     }
 
+    /**
+     * Cleans the board from damages when a player dies
+     */
     public void cleanPlayerBoard(){
         damages.clear();
     }
 
-
+    /**
+     * Checks if the player is dead
+     * @return true if the damages are more than 9
+     */
     public boolean isDeath(){
         if(getDamages().size()>9)
             return true;
@@ -87,6 +96,10 @@ public class PlayerBoard implements Serializable {
         return powerUpCardsOwned;
     }
 
+    /**
+     * Removes an ammo of one color from the ammo deck of the player
+     * @param color the type of ammo that must be removed
+     */
     public void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
         for (Ammo ammo : ammo) {
             if(ammo.getColor().equals(color)) {

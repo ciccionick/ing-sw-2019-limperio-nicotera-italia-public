@@ -5,31 +5,56 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerI
 
 import java.util.Scanner;
 
+/**
+ * This class handles the initial record of the players in which they choose nickname and color.
+ * @author Francesco Nicotera
+ */
 public class InitializationView {
+    /**
+     * reference to specific remote view of a client
+     */
     private RemoteView remoteView;
+    /**
+     * It allows to read from command line
+     */
     private Scanner stdin = new Scanner(System.in);
 
      InitializationView(RemoteView remoteView) {
         this.remoteView = remoteView;
     }
 
+    /**
+     * Takes the nickname of a player that is recording to game.
+     * @return the nickname
+     */
     private String setNickname(){
         System.out.println("Scrivi nickname: ");
         return stdin.nextLine();
     }
 
+    /**
+     * Takes the color that a player wants.
+     * @return the chosen color.
+     */
     private String setColor(){
         System.out.println("Scrivi che colore vuoi (YELLOW, BLUE, PURPLE, GREY, GREEN): ");
         String color = stdin.nextLine();
         while (!color.equalsIgnoreCase("YELLOW")&& !color.equalsIgnoreCase("BLUE") && !color.equalsIgnoreCase("PURPLE") && !color.equalsIgnoreCase("GREY") && !color.equalsIgnoreCase("GREEN")){
-            System.out.println("Riprova, scrivi che colore vuoi (YELLOW, BLUE, <PURPLE, GREY, GREEN): ");
+            System.out.println("Riprova, scrivi che colore vuoi (YELLOW, BLUE, PURPLE, GREY, GREEN): ");
             color = stdin.nextLine();
         }
         return color;
     }
 
 
-
+    /**
+     *<p>
+     *   Handles the initialization of a player in the game: it checks that there aren't two player with the same nickname or color.
+     *   Generates a new event that it sends to remoteview, in order to ask to client the other information that it needs to register the player.
+     *</p>
+     *
+     * @param event the boolean attributes in this parameter permit to recognize the phase of record in which the player is and whether to reply or ask to it.
+     */
     public void handleInitialization(RequestInitializationEvent event){
         if(event.isNicknameRequest()){
             if(event.isRetake())

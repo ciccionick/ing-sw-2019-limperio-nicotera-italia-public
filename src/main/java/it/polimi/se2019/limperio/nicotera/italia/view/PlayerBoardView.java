@@ -5,7 +5,12 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class handles the part of view that creates the player's board in the game
+ * @author Giuseppe Italia
+ */
 public class PlayerBoardView {
+
 
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
@@ -52,6 +57,10 @@ public class PlayerBoardView {
         updateStateOfPlayerBoard(event);
     }
 
+    /**
+     * Updates the player's board
+     * @param event contains the updates of player's board
+     */
     private void updateStateOfPlayerBoard (ServerEvent event){
         setDamages(event.getPlayerBoard().getDamages());
         setMarks(event.getPlayerBoard().getMarks());
