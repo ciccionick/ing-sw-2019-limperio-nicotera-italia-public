@@ -71,7 +71,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) message);
             return;
         }
-        if(message.isDrawTwoPowerUpCardEvent()){
+        if(message.isRequestForDiscardPowerUpCardEvent()){
             System.out.println(("L'evento arrivato è di tipo DrawPowerUpCards e di conseguenza chiamo l'update di remote view"));
             remoteView.update(message);
             return;

@@ -2,14 +2,37 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import java.io.Serializable;
 
+/**
+ * Event to ask to player information for his initialization like nickname, color and, if he is the first
+ * player if he wants to play with frenzy mode at the end of normal game, if he wants to play in
+ * terminator mode in the case the game stars with only three players, and which type of map he wants
+ * to play with.
+ *<p>
+ *     For each information the event will reply with another one by the client, so to understand which
+ *     kind of request is the event addressed boolean attributes play a crucial role.
+ *</p>
+ * <p>
+ *     All the boolean attributes are set false for default.
+ * </p>
+ * @author Pietro L'Imperio
+ */
 public class RequestInitializationEvent implements Serializable {
+    /**
+     * The message stored in the event about its nature.
+     */
     private String message;
-    private boolean isNicknameRequest = false;
-    private boolean isColorRequest = false;
-    private boolean isFrenzyRequest = false;
-    private boolean isTerminatorModeRequest = false;
-    private boolean isMapRequest = false;
+    private boolean isNicknameRequest;
+    private boolean isColorRequest;
+    private boolean isFrenzyRequest;
+    private boolean isTerminatorModeRequest;
+    private boolean isMapRequest;
+    /**
+     * It's true if the request is about something already asked but not accepted for the previous choose of someone else.
+     */
     private boolean isRetake = false;
+    /**
+     * It's true at the end of the process of initialization to move the client in a phase where he remain waiting for other events.
+     */
     private boolean isAck = false;
 
     public RequestInitializationEvent(String message, boolean isNicknameRequest, boolean isColorRequest, boolean isFrenzyRequest, boolean isTerminatorModeRequest, boolean isMapRequest) {

@@ -43,7 +43,7 @@ public class Game extends Observable<ServerEvent> {
         for (Player player : players){
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent("Successfull creation of player board of " + player.getNickname());
-            pbEvent.getNickname().add(player.getNickname());
+            pbEvent.getNicknames().add(player.getNickname());
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
         }
@@ -77,8 +77,8 @@ public class Game extends Observable<ServerEvent> {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCards) {
-                            DrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new DrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-                            drawTwoPowerUpCardsEvent.getNickname().add(listOfNickname.get(playerOfTurn - 1));
+                            RequestDrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new RequestDrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+                            drawTwoPowerUpCardsEvent.getNicknames().add(listOfNickname.get(playerOfTurn - 1));
                             notify(drawTwoPowerUpCardsEvent);
                             requestForDrawTwoCards=true;
                         }

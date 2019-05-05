@@ -52,8 +52,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     @Override
     public void update(ServerEvent message) {
-        System.out.println(message.getMessage() + " " + message.getNickname());
-        if (message.isDrawTwoPowerUpCardEvent()) {
+        System.out.println(message.getMessage() + " " + message.getNicknames());
+        if (message.isRequestForDiscardPowerUpCardEvent()) {
             System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
             String action = stdin.nextLine();
             while (!(action.equalsIgnoreCase("pesca"))) {
