@@ -1,13 +1,22 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to represent the spawn squares on the map
+ * @author Pietro L'Imperio
+ */
 public class SpawnSquare extends Square  {
-
-    private ArrayList<ModelEvent.AliasCard> weaponsCardsForRemoteView = new ArrayList<>();
+    /**
+     * It needs to send the weapon card to client through socket connection
+     */
+    private ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView = new ArrayList<>();
+    /**
+     * Collections of weapons that the players can catch on the square
+     */
     private ArrayList<WeaponCard> weaponCards;
 
 
@@ -17,7 +26,7 @@ public class SpawnSquare extends Square  {
         setSpawn(true);
     }
 
-    public ArrayList<ModelEvent.AliasCard> getWeaponsCardsForRemoteView() {
+    public ArrayList<ServerEvent.AliasCard> getWeaponsCardsForRemoteView() {
         return weaponsCardsForRemoteView;
     }
 
@@ -25,7 +34,7 @@ public class SpawnSquare extends Square  {
         return weaponCards;
     }
 
-    public void setWeaponsCardsForRemoteView(ArrayList<ModelEvent.AliasCard> weaponsCardsForRemoteView) {
+    public void setWeaponsCardsForRemoteView(ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView) {
         this.weaponsCardsForRemoteView = weaponsCardsForRemoteView;
     }
 }

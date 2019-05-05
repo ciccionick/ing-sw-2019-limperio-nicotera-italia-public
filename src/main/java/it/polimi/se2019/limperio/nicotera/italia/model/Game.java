@@ -1,14 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
-import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
 import java.util.ArrayList;
 
 
-public class Game extends Observable<ModelEvent> {
+public class Game extends Observable<ServerEvent> {
 
     private boolean terminatorModeActive = false;
     private Board board;
@@ -44,7 +43,7 @@ public class Game extends Observable<ModelEvent> {
         for (Player player : players){
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent("Successfull creation of player board of " + player.getNickname());
-            pbEvent.getNickname().add(player.getNickname());
+            pbEvent.getNicknames().add(player.getNickname());
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
         }
@@ -78,8 +77,8 @@ public class Game extends Observable<ModelEvent> {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCards) {
-                            DrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new DrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-                            drawTwoPowerUpCardsEvent.getNickname().add(listOfNickname.get(playerOfTurn - 1));
+                            RequestDrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new RequestDrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+                            drawTwoPowerUpCardsEvent.getNicknames().add(listOfNickname.get(playerOfTurn - 1));
                             notify(drawTwoPowerUpCardsEvent);
                             requestForDrawTwoCards=true;
                         }

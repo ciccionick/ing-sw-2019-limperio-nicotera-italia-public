@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *  implements The AmmoTiles's deck
+ *  This class is used to represent the AmmoTiles's deck
  *
  * @author giuseppeitalia
  */

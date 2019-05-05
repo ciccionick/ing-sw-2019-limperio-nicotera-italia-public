@@ -1,13 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * handles Cyberblade of WeaponCard
+ * This class is used to represent Cyberblade of WeaponCard
  *
  * @author giuseppeitalia
  */

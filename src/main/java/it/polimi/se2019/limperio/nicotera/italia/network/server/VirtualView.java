@@ -1,10 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.server;
 
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestInitializationEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerInitializationEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
@@ -14,7 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class VirtualView extends Observable<ViewEvent> implements Observer<ModelEvent>,Runnable {
+public class VirtualView extends Observable<ClientEvent> implements Observer<ServerEvent>,Runnable {
     private Socket client;
     private boolean isClientCurrentlyOnline=true;
     private String nicknameOfClient;
@@ -99,10 +99,10 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
         }
 
         while (isClientCurrentlyOnline) {
-            ViewEvent newEvent;
+            ClientEvent newEvent;
             try {
                 System.out.println("La virtual view di " + nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
-                newEvent = (ViewEvent) in.readObject();
+                newEvent = (ClientEvent) in.readObject();
                 newEvent.setMyVirtualView(this);
                 notify(newEvent);
             } catch (SocketException se) {
@@ -120,7 +120,7 @@ public class VirtualView extends Observable<ViewEvent> implements Observer<Model
 
 
     @Override
-    public void update(ModelEvent message) {
+    public void update(ServerEvent message) {
         if(message.getNickname().contains(nicknameOfClient)) {
             try {
                 out.writeObject(message);

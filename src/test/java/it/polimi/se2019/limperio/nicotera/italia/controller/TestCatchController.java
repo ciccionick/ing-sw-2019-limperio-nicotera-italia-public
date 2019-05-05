@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class TestCatchController extends TestController {
     @Test
     public void findSquareWherePlayerCanCatchTest(){
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
-        ArrayList<ModelEvent.AliasCard> wp = new ArrayList<>();
+        ArrayList<ServerEvent.AliasCard> wp = new ArrayList<>();
         ArrayList<Square> squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(0), wp);
         assertEquals(squares.get(0).getRow(), 0);
         assertEquals(squares.get(0).getColumn(), 0);
@@ -48,7 +48,7 @@ public class TestCatchController extends TestController {
     }
 
     private void addWeaponNotAffordableTest(SpawnSquare square, Player player){
-        ArrayList<ModelEvent.AliasCard> weapons = new ArrayList<>();
+        ArrayList<ServerEvent.AliasCard> weapons = new ArrayList<>();
         catchController.addWeaponNotAffordable(square, player, weapons);
         assertEquals("Lock Rifle", weapons.get(0).getName());
     }

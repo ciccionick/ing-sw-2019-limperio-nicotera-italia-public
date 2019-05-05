@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * implements the AmmoTile
+ * This class is used to represent the AmmoTile
  *
  * @author giuseppeitalia
  */

@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 
 /**
- * handles Newton of PowerUp Card
+ * This class is used to represent the Newton of PowerUp Card
  *
  * @author giuseppeitalia
  */

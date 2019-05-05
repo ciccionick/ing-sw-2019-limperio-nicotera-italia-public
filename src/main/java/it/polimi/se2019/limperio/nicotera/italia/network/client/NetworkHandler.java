@@ -1,8 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.*;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.AnswerInitializationEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -10,7 +10,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class NetworkHandler extends Observable<ModelEvent> implements Observer<ViewEvent> {
+public class NetworkHandler extends Observable<ServerEvent> implements Observer<ClientEvent> {
 
     private String provisoryNickname;
     private Client client;
@@ -49,13 +49,13 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
         remoteView.getInitializationView().handleInitialization(event);
     }
 
-     void handleEvent(ModelEvent event){
+     void handleEvent(ServerEvent event){
         notify(event);
     }
 
 
     @Override
-    public void notify(ModelEvent message) {
+    public void notify(ServerEvent message) {
         if(message.isPlayerBoardEvent()){
             System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
             remoteView.getPlayerBoardView().update((PlayerBoardEvent) message);
@@ -71,7 +71,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) message);
             return;
         }
-        if(message.isDrawTwoPowerUpCardEvent()){
+        if(message.isRequestForDiscardPowerUpCardEvent()){
             System.out.println(("L'evento arrivato è di tipo DrawPowerUpCards e di conseguenza chiamo l'update di remote view"));
             remoteView.update(message);
             return;
@@ -96,7 +96,7 @@ public class NetworkHandler extends Observable<ModelEvent> implements Observer<V
     }
 
     @Override
-    public void update(ViewEvent message) {
+    public void update(ClientEvent message) {
         try {
             client.out.writeObject(message);
         } catch (IOException e) {

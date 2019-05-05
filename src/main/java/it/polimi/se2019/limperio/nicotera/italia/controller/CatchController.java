@@ -2,13 +2,12 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.SelectionViewForSquareWhereCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.RequestToCatchByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
@@ -37,7 +36,7 @@ class CatchController {
      * @param event it contains the information of the player that want to catch
      */
     void replyToRequestToCatch(RequestToCatchByPlayer event){
-        ArrayList<ModelEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
+        ArrayList<ServerEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
         ArrayList<Square> squareAvailableToCatch = findSquareWherePlayerCanCatch(controller.findPlayerWithThisNickname(event.getNickname()), weaponNotAffordable);
         SelectionViewForSquareWhereCatch newSelectionEvent = new SelectionViewForSquareWhereCatch("Scegli in quale fra questi quadrati vuoi raccogliere");
         newSelectionEvent.getNickname().add(event.getNickname());
@@ -60,7 +59,7 @@ class CatchController {
      * @param weaponNotAffordable this list is filled by the method with the weapons the player can't catch because of lack of ammo
      * @return A list of squares that contains the positions in which the player can catch something
      */
-      ArrayList<Square> findSquareWherePlayerCanCatch(Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable){
+      ArrayList<Square> findSquareWherePlayerCanCatch(Player player, ArrayList<ServerEvent.AliasCard> weaponNotAffordable){
         ArrayList<Square> listOfSquareReachable = new ArrayList<>();
         SpawnSquare spawnSquare;
         NormalSquare normalSquare;
@@ -101,10 +100,10 @@ class CatchController {
      * @param player the player that want to catch
      * @param weaponNotAffordable the list that, at the end of the method, will contain the weapons that can't be caught
      */
-     void addWeaponNotAffordable(SpawnSquare square, Player player, ArrayList<ModelEvent.AliasCard> weaponNotAffordable) {
+     void addWeaponNotAffordable(SpawnSquare square, Player player, ArrayList<ServerEvent.AliasCard> weaponNotAffordable) {
         for(WeaponCard card : square.getWeaponCards()){
             if(!weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), card))
-                weaponNotAffordable.add(new ModelEvent.AliasCard(card.getName(), card.getDescription(), card.getColor()));
+                weaponNotAffordable.add(new ServerEvent.AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
     }
 

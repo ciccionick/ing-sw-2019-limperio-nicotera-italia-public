@@ -2,7 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
 /**
- *  handles TagbackGranade of PowerUp Card
+ *  This class is used to represent the TagbackGranade of PowerUp Card
  *
  * @author giuseppeitalia
  */

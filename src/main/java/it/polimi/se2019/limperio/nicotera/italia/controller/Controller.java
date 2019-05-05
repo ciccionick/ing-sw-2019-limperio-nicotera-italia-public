@@ -1,22 +1,17 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.FirstActionOfTurnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCard;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.RequestToCatchByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.ViewEvent;
-
-import java.util.ArrayList;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 
 /**
  * Class for checking the correctness of the action of the players, according to MVC pattern
  * @author Pietro L'Imperio
  *
  */
-public class Controller implements Observer<ViewEvent> {
+public class Controller implements Observer<ClientEvent> {
 
 
     private final Game game;
@@ -53,7 +48,7 @@ public class Controller implements Observer<ViewEvent> {
      *
      * @param message it contains the type of action that the player has done.
      */
-    public void update(ViewEvent message) {
+    public void update(ClientEvent message) {
         System.out.println(message.getMessage() + " " + message.getNickname());
         if (isTheTurnOfThisPlayer(message.getNickname())) {
             if (message.isDrawTwoPowerUpCards()) {

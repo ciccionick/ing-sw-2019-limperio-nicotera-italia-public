@@ -3,6 +3,12 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * This class is used to represent the Weapons Deck
+ *
+ * @author giuseppeitalia
+ */
+
 public class WeaponsDeck {
     private ArrayList<WeaponCard> weaponCards = new ArrayList<>();
     static WeaponsDeck instanceOfWeaponsDeck = null;

@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 /**
- * handles the game's Cards
+ * This class is used to represent the game's Cards
  *
  * @author giuseppeitalia
  */

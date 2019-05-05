@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 
 /**
- * handles TargetingScope of PowerUp Card
+ * This class is used to represent the TargetingScope of PowerUp Card
  *
  * @author giuseppeitalia
  */

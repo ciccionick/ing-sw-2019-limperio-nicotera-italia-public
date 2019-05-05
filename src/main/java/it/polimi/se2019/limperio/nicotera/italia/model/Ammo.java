@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 
 /**
- * handles the ammo that a player can have
+ * This class is used to represent the ammo
  * @author giuseppeitali
  */
 

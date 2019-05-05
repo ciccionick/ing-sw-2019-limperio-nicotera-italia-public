@@ -2,6 +2,10 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.io.Serializable;
 
+/**
+ * This class is used to represent the token of death on killshot track
+ * @author Giuseppe Italia
+ */
 public class TokenOfDeath implements Serializable {
 
     private ColorOfDeathToken color;

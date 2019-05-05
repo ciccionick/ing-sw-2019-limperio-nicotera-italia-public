@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * handles Telereporter of PowerUp Card
+ * This class is used to represent the Telereporter of PowerUp Card
  *
  * @author giuseppeitalia
  */

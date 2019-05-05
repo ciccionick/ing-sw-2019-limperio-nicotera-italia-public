@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.InvolvedPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 import org.junit.Test;
 import org.junit.Before;
 

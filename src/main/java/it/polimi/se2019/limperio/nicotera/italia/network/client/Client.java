@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.RequestInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -44,7 +44,7 @@ public class Client {
         while(true){
             try {
                 System.out.println("In attesa di messaggi..");
-                ModelEvent eventFromModel = (ModelEvent) client.in.readObject();
+                ServerEvent eventFromModel = (ServerEvent) client.in.readObject();
                 client.myNetworkHandler.handleEvent(eventFromModel);
             }
             catch (SocketException se){

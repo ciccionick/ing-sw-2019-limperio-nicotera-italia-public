@@ -1,18 +1,28 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_model.ModelEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 
+/**
+ * This class handles the part of view that build the map in the game
+ * @author Francesco Nicotera
+ */
 public class MapView {
-
+    /**
+     *  The map that consists in a matrix of squares
+     */
    private Square[][] map;
 
-    public void update(ModelEvent event) {
+    /**
+     * Handles the creation and the set up of the map
+     * @param event contains the type of map that has to be created
+     */
+    public void update(ServerEvent event) {
         if (event.isMapEvent() || event.isFirstActionOfTurnEvent()) {
             map = event.getMap();
             if (event.isMapEvent()) {

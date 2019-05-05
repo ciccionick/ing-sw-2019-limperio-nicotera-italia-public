@@ -1,13 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.InvolvedPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
- * handles RocketLauncher of WeaponCard
+ * This class is used to represent the RocketLauncher of WeaponCard
  *
  * @author giuseppeitalia
  */
