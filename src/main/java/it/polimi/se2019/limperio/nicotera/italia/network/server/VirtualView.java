@@ -14,17 +14,63 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * View of the client in the server side. Handle the communication with the client and the exchange of event.
+ * <p>
+ *     Each client has her virtual view.
+ * </p>
+ * <p>
+ *     Run in a thread.
+ * </p>
+ *
+ * @author Pietro L'Imperio
+ */
+
 public class VirtualView extends Observable<ClientEvent> implements Observer<ServerEvent>,Runnable {
+    /**
+     * The reference of the client associated
+     */
     private Socket client;
+    /**
+     * It's true until the client is online, false later.
+     */
     private boolean isClientCurrentlyOnline=true;
+    /**
+     * The nickname of the client associated
+     */
     private String nicknameOfClient;
+    /**
+     * The color of the client associated
+     */
     private String colorOfClient;
+    /**
+     * The reference of the server
+     */
     private Server server;
+    /**
+     * The object input stream
+     */
     private ObjectInputStream in = null;
+    /**
+     * The object output stream
+     */
     private ObjectOutputStream out = null;
+    /**
+     * The reference of the controller
+     */
     private Controller controller;
+    /**
+     * It's true if the client associated represents the first player, false otherwise
+     */
     private boolean firstPlayer;
 
+
+    /**
+     * Sets first player attribute, initialize the object streams
+     * @param client The client associated
+     * @param server The server that created it
+     * @param controller The controller which he will send events by client with
+     */
      VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
         this.server = server;
@@ -47,6 +93,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         }
     }
 
+    /**
+     * Manages the first phase of initialization of the client and then will remain in listening for
+     * the handle of the event by client
+     */
     @Override
     public void run() {
         try {
@@ -118,12 +168,15 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     }
 
-
+    /**
+     * Sends events received by Model and Controller to the client through socket stream only if its client is involved
+     * @param event The event received
+     */
     @Override
-    public void update(ServerEvent message) {
-        if(message.getNickname().contains(nicknameOfClient)) {
+    public void update(ServerEvent event) {
+        if(event.getNicknames().contains(nicknameOfClient)) {
             try {
-                out.writeObject(message);
+                out.writeObject(event);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -131,6 +184,9 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     }
 
 
+    /**
+     * Handles the disconnection of the client sending information to the server and the controller
+     */
     private void handleDisconnection(){
         System.out.println("Il client " + nicknameOfClient + " si è disonnesso!");
         server.getListOfNickname().remove(nicknameOfClient);
