@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
-<<<<<<< HEAD
  * handles KillShotTrack of WeaponCard
  *
  * @author giuseppeitalia

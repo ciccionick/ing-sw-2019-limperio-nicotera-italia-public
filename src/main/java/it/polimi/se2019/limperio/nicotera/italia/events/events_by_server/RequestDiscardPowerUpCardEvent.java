@@ -5,8 +5,8 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
  *
  * @author  Pietro L'Imperio
  */
-public class RequestForDiscardPowerUpCardEvent extends ServerEvent {
-    public RequestForDiscardPowerUpCardEvent(String message) {
+public class RequestDiscardPowerUpCardEvent extends ServerEvent {
+    public RequestDiscardPowerUpCardEvent(String message) {
         super(message);
         setDiscardPowerUpCardToSpawnEvent(true);
     }

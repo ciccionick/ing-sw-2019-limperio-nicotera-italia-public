@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForDiscardPowerUpCardEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestDiscardPowerUpCardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.FirstActionOfTurnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
@@ -33,7 +33,7 @@ class PowerUpController {
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true);
          }
          controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardsToDraw);
-         RequestForDiscardPowerUpCardEvent event = new RequestForDiscardPowerUpCardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
+         RequestDiscardPowerUpCardEvent event = new RequestDiscardPowerUpCardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
          event.getNicknames().add(nickname);
          event.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
          event.setPowerUpCards(subsitutePowerUpCards(event.getPlayerBoard().getPowerUpCardsOwned()));

@@ -23,7 +23,7 @@ public class Board {
     /**
      * The reference of the ammo tiles deck
      */
-    private AmmoTileDeck ammotiledeck;
+    private AmmoTileDeck ammoTileDeck;
     /**
      * The reference of the weapons deck
      */
@@ -59,7 +59,7 @@ public class Board {
      }
 
      void createAmmoTileDeck(){
-        this.ammotiledeck = instanceOfAmmoTileDeck();
+        this.ammoTileDeck = instanceOfAmmoTileDeck();
     }
 
      void createKillShotTrack()
@@ -72,7 +72,7 @@ public class Board {
     }
 
     public AmmoTileDeck getAmmoTiledeck() {
-        return ammotiledeck;
+        return ammoTileDeck;
     }
 
     public WeaponsDeck getWeaponsDeck() {
@@ -121,9 +121,9 @@ public class Board {
         }
         for (NormalSquare square : normalSquare){
             if(square.getAmmoTile()==null){
-                ammotiledeck.getAmmoTilesOnTheMap().add(ammotiledeck.getAmmoTile().get(0));
-                ammotiledeck.getAmmoTile().remove(0);
-                square.setAmmoTile(ammotiledeck.getAmmoTilesOnTheMap().get(ammotiledeck.getAmmoTilesOnTheMap().size()-1));
+                ammoTileDeck.getAmmoTilesOnTheMap().add(ammoTileDeck.getAmmoTile().get(0));
+                ammoTileDeck.getAmmoTile().remove(0);
+                square.setAmmoTile(ammoTileDeck.getAmmoTilesOnTheMap().get(ammoTileDeck.getAmmoTilesOnTheMap().size()-1));
             }
         }
 

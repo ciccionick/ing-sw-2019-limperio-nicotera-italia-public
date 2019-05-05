@@ -65,7 +65,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
      * <p>
      *     Set the nickname of {@link Client} when receive the request for the color becuase it means that the nickname was available
      * </p>
-     * @param event
+     * @param event The event received by the server
      */
      void handleEventInitialization(RequestInitializationEvent event){
         if(event.isColorRequest())

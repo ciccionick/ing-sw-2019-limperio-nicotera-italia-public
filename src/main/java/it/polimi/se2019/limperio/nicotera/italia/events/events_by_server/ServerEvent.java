@@ -43,7 +43,7 @@ public class ServerEvent implements Serializable {
      */
     private KillShotTrack killShotTrack = null;
     /**
-     * The list of powerUp cards in alias-mode to send to clients in some kind of events like {@link RequestForDiscardPowerUpCardEvent}
+     * The list of powerUp cards in alias-mode to send to clients in some kind of events like {@link RequestDiscardPowerUpCardEvent}
      */
     private ArrayList<AliasCard> powerUpCards = null;
 
