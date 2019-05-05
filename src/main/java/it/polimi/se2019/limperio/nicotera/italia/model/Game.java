@@ -6,25 +6,80 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 
 import java.util.ArrayList;
 
-
+/**
+ * Contains all of the informations about the game
+ *
+ * @author Pietro L'Imperio
+ */
 public class Game extends Observable<ServerEvent> {
 
+    /**
+     * It's true if is enable the terminator mode, false otherwise. False for default
+     */
     private boolean terminatorModeActive = false;
+    /**
+     * The reference of the board
+     */
     private Board board;
+    /**
+     * The list of players in the game
+     */
     private ArrayList<Player> players = new ArrayList<>();
+    /**
+     * It's true if the game is in the frenzy phase, false otherwise. False for default
+     */
     private boolean isInFrenzy = false;
+    /**
+     * The instance of the game in order to implement the Singleton pattern
+     */
     private static Game instanceOfGame = null;
+    /**
+     * The number of the player in the game
+     */
     private int numOfPlayer;
+    /**
+     * The number of the player is playing the turn
+     */
     private int playerOfTurn;
+    /**
+     * It's true if the game is in the first round, false otherwise. True for default
+     */
     private boolean isFirstRound = true;
+    /**
+     * The current number of the action did by the player of the turn
+     */
     private int numOfActionOfTheTurn;
+    /**
+     * The squares visited during a turn of a player
+     */
     private Square[] squareVisitedInTheTurn;
+    /**
+     * It's true when the game is over, false otherwise. False for default
+     */
     private boolean isGameOver = false;
+    /**
+     * It's true if there will be the frenzy phase at the end of the game, false otherwise
+     */
     private boolean anticipatedFrenzy;
+    /**
+     * The number of the player that is the first at the beginning of the frenzy phase
+     */
     private int firstInFrenzyMode;
+    /**
+     * The list of the virtual view associated with the players in game
+     */
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+    /**
+     * The list of nicknames of the players in game
+     */
     private ArrayList<String> listOfNickname = new ArrayList<>();
+    /**
+     * The number of the maximum actions that a player could do during a turn. 2 for default.
+     */
     private int numOfMaxActionForTurn = 2;
+    /**
+     * The number of in which round is the game
+     */
     private int round=1;
 
     public Game(){
@@ -33,7 +88,14 @@ public class Game extends Observable<ServerEvent> {
     }
 
 
-
+    /**
+     * Handles the beginning of the game with the initialization of its parameter and the creation of
+     * player boards for each player, map and killshot track. It creates moreover the powerUp deck,
+     * weapons deck and ammo tiles deck.
+     * @param anticipatedFrenzy The boolean value that indicate if there will be the last phase in frenzy mode
+     * @param typeMap The type of map
+     * @param terminatorModeActive The boolean value that indicate if there will be the terminator mode if the number of players is 3
+     */
     public void startGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
         this.anticipatedFrenzy=anticipatedFrenzy;
         if(players.size()==3)
@@ -67,6 +129,9 @@ public class Game extends Observable<ServerEvent> {
         startWithTheFirstTurn();
     }
 
+    /**
+     * Sends the correct event towards the virtual view in accordance to the right phase of the game
+     */
     private void startWithTheFirstTurn() {
         boolean requestForDrawTwoCards = false;
         while(!isGameOver) {
@@ -90,6 +155,9 @@ public class Game extends Observable<ServerEvent> {
 
     }
 
+    /**
+     * Update the map and send an event of type {@link MapEvent}
+     */
     void updateMap(){
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
         mapEvent.setNickname(listOfNickname);
@@ -98,8 +166,8 @@ public class Game extends Observable<ServerEvent> {
         notify(mapEvent);
     }
 
-    private void createBoard(){
 
+    private void createBoard(){
         this.board = Board.instanceOfBoard();
     }
 
@@ -110,7 +178,13 @@ public class Game extends Observable<ServerEvent> {
         return instanceOfGame;
     }
 
-
+    /**
+     * Creates player in accordance with the parameter
+     * @param nickname The nickname of the player
+     * @param isFirst True if it is the first, false otherwhise
+     * @param position The position in the round
+     * @param color The color of the figure of the player
+     */
     public void createPlayer(String nickname, boolean isFirst, int position, String color){
         ColorOfFigure_Square colorOfThisPlayer=null;
         switch (color){
@@ -142,10 +216,9 @@ public class Game extends Observable<ServerEvent> {
             System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
     }
 
-    public ArrayList<String> getListOfNickname() {
-        return listOfNickname;
-    }
-
+    /**
+     * Adds for each player his nickname
+     */
     private void setListOfNickname() {
         for(Player player : players)
         {
@@ -170,108 +243,19 @@ public class Game extends Observable<ServerEvent> {
     }
 
 
-    public void updateScore(Player player){}
-    public void updateScoreForKillshot(){}
-    public void showWinner(int scoreOfWinner){}
-    public void updateScoreFinal(){}
-
-    public boolean isTurn(Player player){
-        return true;
-    }
-
-    public void calculateScore(){
-
-    }
-
-    public boolean getisGameOver(){
-        return isGameOver;
-    }
-
-    public boolean hasWon(Player player){
-        return true;
-    }
-    public void updateKillshotTrack(){}
-    public void changeMode(){}
-
-    public boolean isInFrenzy() {
-        return isInFrenzy;
-    }
-
-    public void setInFrenzy(boolean inFrenzy) {
-        isInFrenzy = inFrenzy;
-    }
-
-    public int getNumOfPlayer() {
-        return numOfPlayer;
-    }
-
-    public void setNumOfPlayer(int numOfPlayer) {
-        this.numOfPlayer = numOfPlayer;
-    }
-
     public int getPlayerOfTurn() {
         return playerOfTurn;
-    }
-
-    public void setPlayerOfTurn(int playerOfTurn) {
-        this.playerOfTurn = playerOfTurn;
-    }
-
-    public boolean isFirstRound() {
-        return isFirstRound;
-    }
-
-    public void setFirstRound(boolean firstRound) {
-        isFirstRound = firstRound;
-    }
-
-    public int getNumOfActionOfTheTurn() {
-        return numOfActionOfTheTurn;
-    }
-
-    public void setNumOfActionOfTheTurn(int numOfActionOfTheTurn) {
-        this.numOfActionOfTheTurn = numOfActionOfTheTurn;
-    }
-
-    public Square[] getSquareVisitedInTheTurn() {
-        return squareVisitedInTheTurn;
-    }
-
-    public void setSquareVisitedInTheTurn(Square[] squareVisitedInTheTurn) {
-        this.squareVisitedInTheTurn = squareVisitedInTheTurn;
     }
 
     public void setGameOver(boolean over) {
         isGameOver = over;
     }
 
-    public boolean isAnticipatedFrenzy() {
-        return anticipatedFrenzy;
-    }
 
-    public void setAnticipatedFrenzy(boolean anticipatedFrenzy) {
-        this.anticipatedFrenzy = anticipatedFrenzy;
-    }
-
-    public int getFirstInFrenzyMode() {
-        return firstInFrenzyMode;
-    }
-
-    public void setFirstInFrenzyMode(int firstInFrenzyMode) {
-        this.firstInFrenzyMode = firstInFrenzyMode;
-    }
-
-
-    public boolean checkIfIsDead(Player player){
-    return true;
-    }
-
-    public void handleDeath(Player player){}
 
     public int getRound() {
         return round;
     }
-
 
     public ArrayList<Player> getPlayers() {
         return players;

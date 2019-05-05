@@ -6,13 +6,35 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.insta
 import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
 import static it.polimi.se2019.limperio.nicotera.italia.model.PowerUpDeck.instanceOfPowerUpDeck;
 
+/**
+ * Contains all of the informations about the board
+ *
+ * @author Pietro L'Imperio
+ */
 public class Board {
+    /**
+     * The instance for the implementation of Singleton pattern
+     */
     private static Board instanceOfBoard = null;
-
+    /**
+     * The reference of the map
+     */
     private Map map;
+    /**
+     * The reference of the ammo tiles deck
+     */
     private AmmoTileDeck ammotiledeck;
+    /**
+     * The reference of the weapons deck
+     */
     private WeaponsDeck weaponsDeck;
+    /**
+     * The reference of the powerUp deck
+     */
     private PowerUpDeck powerUpDeck;
+    /**
+     * The reference of the killshot track
+     */
     private KillShotTrack killShotTrack;
 
     private Board()
@@ -49,7 +71,7 @@ public class Board {
         return map;
     }
 
-    public AmmoTileDeck getAmmotiledeck() {
+    public AmmoTileDeck getAmmoTiledeck() {
         return ammotiledeck;
     }
 
@@ -65,6 +87,9 @@ public class Board {
         return killShotTrack;
     }
 
+    /**
+     * Adds for each spawn square weapons until the number of weapons in that square is equal to 3
+     */
     void addWeaponsInSpawnSquare(){
         ArrayList<SpawnSquare> spawnSquares = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
@@ -82,6 +107,9 @@ public class Board {
 
     }
 
+    /**
+     * Adds for each normal square an ammo tile
+     */
     void addAmmoTileInNormalSquare(){
         ArrayList<NormalSquare> normalSquare = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
