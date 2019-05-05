@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
+/**
+ * This class is used to represent the RocketLauncher of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class RocketLauncher extends  WeaponCard{
 
 

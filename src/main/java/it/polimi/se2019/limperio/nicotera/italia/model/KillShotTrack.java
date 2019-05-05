@@ -5,9 +5,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * This class is used to represent the killshot track in the game
- * @author Giuseppe Italia
+<<<<<<< HEAD
+ * handles KillShotTrack of WeaponCard
+ *
+ * @author giuseppeitalia
  */
+
+
 public class KillShotTrack implements Serializable {
 
     /**

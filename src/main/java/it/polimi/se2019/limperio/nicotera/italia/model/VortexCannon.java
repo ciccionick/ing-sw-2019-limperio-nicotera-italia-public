@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
+/**
+ * This class is used to represent the VortexCannon  of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
+
 public class VortexCannon extends WeaponCard {
 
 

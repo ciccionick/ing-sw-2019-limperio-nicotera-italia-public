@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
+/**
+ * This class is used to represent Cyberblade of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Cyberblade extends WeaponCard {
 
 

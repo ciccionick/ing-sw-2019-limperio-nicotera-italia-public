@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
+/**
+ * This class is used to represent the LockRifle of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class LockRifle extends WeaponCard {
 
 

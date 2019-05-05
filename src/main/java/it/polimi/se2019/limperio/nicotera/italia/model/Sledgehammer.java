@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
+/**
+ * This class is used to represent the Sledgehammer of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Sledgehammer extends WeaponCard{
 
     @Override
@@ -31,6 +37,9 @@ public class Sledgehammer extends WeaponCard{
 
         setLoad(false);
     }
+
+
+
     private void basicEffect(Player player){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
     }
