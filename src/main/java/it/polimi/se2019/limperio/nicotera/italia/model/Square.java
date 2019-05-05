@@ -3,12 +3,25 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class is used to represent the square in the map
+ * @author Francesco Nicotera
+ */
 public class Square implements Serializable {
 
     private ColorOfFigure_Square color;
     private boolean hasDoor;
+    /**
+     * Contains a reference to all the player that are in the square during the game
+     */
     private ArrayList<Player> playerOfThisSquare;
+    /**
+     * The references to the adjacency for each cardinal direction
+     */
     private Square north, south, west, east;
+    /**
+     * Contains all the squares that are adjacent
+     */
     private ArrayList<Square> adjSquares;
     private int row;
     private int column;
