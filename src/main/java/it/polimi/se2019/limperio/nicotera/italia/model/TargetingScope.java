@@ -2,6 +2,12 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.io.Serializable;
 
+/**
+ * handles TargetingScope of PowerUp Card
+ *
+ * @author giuseppeitalia
+ */
+
  class TargetingScope extends PowerUpCard {
      int typeOfCard;
      TargetingScope(ColorOfCard_Ammo color, int typeOfCard) {

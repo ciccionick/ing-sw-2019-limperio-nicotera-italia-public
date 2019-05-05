@@ -5,6 +5,11 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_of_view.InvolvedP
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This class implements the game's weaponCards
+ *
+ * @author giuseppeitalia
+ */
 public abstract class WeaponCard extends Card implements Serializable {
 
     private Boolean isLoad = true;
@@ -18,6 +23,7 @@ public abstract class WeaponCard extends Card implements Serializable {
     public void setPriceToBuy(ColorOfCard_Ammo[] priceToBuy) {
         this.priceToBuy = priceToBuy;
     }
+
 
     public void setPriceToReload(ColorOfCard_Ammo[] priceToReload) {
         this.priceToReload = priceToReload;
@@ -51,12 +57,27 @@ public abstract class WeaponCard extends Card implements Serializable {
         return isLoad;
     }
 
+    /**
+     * generates the attack through a weapon card
+     * @param typeOfAttack list of attack types, so if only first effect or with the second etc.
+     * @param involvedPlayers the players affected by this attack
+     * @throws IllegalArgumentException is generated if one element of typeOfAttack is not between 1 and 4
+     */
 
     public abstract void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) throws IllegalArgumentException;
 
     public WeaponCard(ColorOfCard_Ammo color, String name) {
         super(color, name);
     }
+
+
+    /**
+     * Generates WeaponCard
+     * @param typeOfWeaponCard number with which we differentiate the typology of WeaponCard
+     * @return The WeaponCard generated
+     * @throws IllegalArgumentException is generated if typeOfWeaponCard is not between 0 and 20
+     */
+
 
      public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
         switch(typeOfWeaponCard) {

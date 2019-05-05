@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
+/**
+ * handles Thor  of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
+
 public class Thor extends WeaponCard {
 
 

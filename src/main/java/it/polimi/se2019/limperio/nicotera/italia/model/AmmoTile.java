@@ -6,11 +6,19 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
+/**
+ * implements the AmmoTile
+ *
+ * @author giuseppeitalia
+ */
+
 public class AmmoTile implements Serializable {
 
 
     private boolean hasPowerUpCard;
     private ArrayList<ColorOfCard_Ammo> ammos = new ArrayList<>();
+
+
 
      AmmoTile(int typeAmmoTile)
     {
@@ -89,13 +97,16 @@ public class AmmoTile implements Serializable {
     }
 
 
+
     public ArrayList<ColorOfCard_Ammo> getAmmos() {
         return ammos;
     }
 
+
     public boolean hasPowerUpCard() {
         return hasPowerUpCard;
     }
+
 
 
     @Override

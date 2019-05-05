@@ -1,5 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+/**
+ * handles the game's Cards
+ *
+ * @author giuseppeitalia
+ */
+
 
 public abstract class Card  {
     private ColorOfCard_Ammo color;
@@ -7,8 +13,6 @@ public abstract class Card  {
     private String description;
     private Player ownerOfCard;
 
-    public Card() {
-    }
 
     public Card(ColorOfCard_Ammo color, String name) {
         this.color = color;

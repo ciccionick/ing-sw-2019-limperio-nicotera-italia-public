@@ -3,6 +3,12 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ *  implements The AmmoTiles's deck
+ *
+ * @author giuseppeitalia
+ */
+
 public class AmmoTileDeck {
 
     private ArrayList<AmmoTile> ammoTilesAvailable = new ArrayList<>();
@@ -39,19 +45,49 @@ public class AmmoTileDeck {
     }
 
 
+    /**
+     *  <p>
+     *      inserts new AmmoTile into the map
+     *  </p>
+     *
+     * @param ammoTileToDraw The AmmoTile to be included in the map
+     */
+
     public void drawAmmoTile (AmmoTile ammoTileToDraw){
         ammoTilesAvailable.remove(ammoTileToDraw);
         ammoTilesOnTheMap.add(ammoTileToDraw);
     }
 
-    public boolean areThereEnoughTiles (int numOfNeedTIles){
-        return ammoTilesAvailable.size()<=numOfNeedTIles;
+    /**
+     *
+     * <p>
+     *     checks if the deck of AmmoTile Available satisfies the request
+     * </p>
+     * @param numOfNeedTiles number of AmmoTile available requested
+     * @return boolean: true if the number of AmmoTile Available is less than or equal to the request number
+     */
+
+    public boolean areThereEnoughTiles (int numOfNeedTiles){
+        return ammoTilesAvailable.size()<=numOfNeedTiles;
     }
+
+    /**
+     * <p>
+     *     puts in the map the AmmoTile Available
+     * </p>
+     * <p>
+     *     When a player's turn ends we need to insert a AmmoTile Available at the points on the map
+     *     where they were taken by the previous player. At the end of the method shuffle AmmoTiles Available
+     * </p>
+     *
+     */
 
     public void shuffleDeck(){
         ammoTilesAvailable.addAll(ammoTilesOnTheMap);
         Collections.shuffle(ammoTilesAvailable);
     }
+
+
 
     static AmmoTileDeck instanceOfAmmoTileDeck(){
         if(instanceOfAmmoTileDeck==null)
@@ -60,13 +96,17 @@ public class AmmoTileDeck {
     }
 
 
-     ArrayList<AmmoTile> getAmmoTile() {
+
+    public ArrayList<AmmoTile> getAmmoTile() {
         return ammoTilesAvailable;
     }
+
+
 
     public ArrayList<AmmoTile> getAmmoTilesOnTheMap() {
         return ammoTilesOnTheMap;
     }
+
 
     public ArrayList<AmmoTile> getAmmoTilesDiscarded() {
         return ammoTilesDiscarded;
@@ -76,7 +116,7 @@ public class AmmoTileDeck {
         return currentSize;
     }
 
-    public ArrayList<AmmoTile> getAmmoTilesAvailable() {
+    /* public ArrayList<AmmoTile> getAmmoTilesAvailable() {
         return ammoTilesAvailable;
-    }
+    }*/
 }

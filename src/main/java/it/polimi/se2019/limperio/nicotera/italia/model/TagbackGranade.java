@@ -1,6 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+/**
+ *  handles TagbackGranade of PowerUp Card
+ *
+ * @author giuseppeitalia
+ */
+
 class TagbackGranade extends PowerUpCard  {
     int typeOfCard;
      TagbackGranade(ColorOfCard_Ammo color, int typeOfCard) {

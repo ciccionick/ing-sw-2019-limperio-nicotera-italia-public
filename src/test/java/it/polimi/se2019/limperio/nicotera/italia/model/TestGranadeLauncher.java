@@ -55,12 +55,17 @@ public class TestGranadeLauncher {
         assertEquals(player2.getPositionOnTheMap(), map.getMatrixOfSquares()[1][0]);
     }
 
-    @Test
+    @Test //DA COMPLETARE
     public void TestWithExtraGranade()
     {
         granadeLauncher.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
+        assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player3.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player4.getPlayerBoard().getDamages().size(), 1);
+        assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
+        assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
+        assertEquals(player4.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
+
     }
 
 

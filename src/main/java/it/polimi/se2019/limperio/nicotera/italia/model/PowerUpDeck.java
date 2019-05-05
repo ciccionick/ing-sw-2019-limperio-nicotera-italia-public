@@ -6,6 +6,8 @@ import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard.createPowerUpCard;
 
+
+
 public class PowerUpDeck {
     private ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
     private ArrayList<PowerUpCard> usedPowerUpCards = new ArrayList<>();

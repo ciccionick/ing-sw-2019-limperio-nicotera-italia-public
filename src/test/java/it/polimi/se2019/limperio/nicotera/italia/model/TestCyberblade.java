@@ -18,7 +18,7 @@ public class TestCyberblade {
     private InvolvedPlayer involvedPlayer1;
     private InvolvedPlayer involvedPlayer2;
     private InvolvedPlayer involvedPlayer3;
-    int newdemagesBlue=0;
+    int newdamagesBlue=0;
 
     private Map map;
 
@@ -47,15 +47,15 @@ public class TestCyberblade {
     public void TestBasicEffect(){
 
 
-        newdemagesBlue=0;
+        newdamagesBlue=0;
         cyberblade.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
 
-        for(ColorOfFigure_Square demagex: player2.getPlayerBoard().getDamages())
+        for(ColorOfFigure_Square damagex: player2.getPlayerBoard().getDamages())
         {
-            if(demagex==ColorOfFigure_Square.BLUE) newdemagesBlue++;
+            if(damagex==ColorOfFigure_Square.BLUE) newdamagesBlue++;
         }
-        assertEquals(newdemagesBlue++, 2);
+        assertEquals(newdamagesBlue++, 2);
 
 
     }
@@ -63,15 +63,15 @@ public class TestCyberblade {
     @Test
     public void TestWithSliceAndDice()
     {
-        newdemagesBlue=0;
+        newdamagesBlue=0;
         cyberblade.useWeapon(new ArrayList<Integer>(){{add(3);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
         assertEquals(player3.getPlayerBoard().getDamages().size(), 2);
 
-        for(ColorOfFigure_Square demagex: player3.getPlayerBoard().getDamages())
+        for(ColorOfFigure_Square damagex: player3.getPlayerBoard().getDamages())
         {
-            if(demagex==ColorOfFigure_Square.BLUE) newdemagesBlue++;
+            if(damagex==ColorOfFigure_Square.BLUE) newdamagesBlue++;
         }
-        assertEquals(newdemagesBlue++, 2);
+        assertEquals(newdamagesBlue++, 2);
     }
 
 

@@ -6,6 +6,13 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
+/**
+ * handles Shockwave of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
+
 public class Shockwave extends WeaponCard {
 
 

@@ -2,6 +2,11 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.io.Serializable;
 
+/**
+ * handles the ammo that a player can have
+ * @author giuseppeitali
+ */
+
 public class Ammo implements Serializable {
     private final ColorOfCard_Ammo color;
     private boolean isUsable;
@@ -15,6 +20,15 @@ public class Ammo implements Serializable {
     public ColorOfCard_Ammo getColor() {
         return color;
     }
+
+    /**
+     * calculates if the ammo is usable
+     *
+     * <p>
+     *     After the ammo has been used, we need to reload it to be able to use it
+     * </p>
+     * @return a boolean variable that says if the ammo is usable
+     */
 
     public boolean isUsable() {
         return isUsable;

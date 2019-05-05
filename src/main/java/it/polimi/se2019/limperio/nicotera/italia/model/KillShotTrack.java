@@ -4,6 +4,12 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * handles KillShotTrack of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class KillShotTrack implements Serializable {
 
 

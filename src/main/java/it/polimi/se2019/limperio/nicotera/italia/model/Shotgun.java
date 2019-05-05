@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
+/**
+ * handles Shotgun of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Shotgun extends WeaponCard{
 
 

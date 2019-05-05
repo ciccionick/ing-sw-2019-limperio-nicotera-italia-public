@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
+/**
+ * handles Whisper  of  WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Whisper extends WeaponCard {
 
 
