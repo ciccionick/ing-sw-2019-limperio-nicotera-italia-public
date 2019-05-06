@@ -30,28 +30,17 @@ public class ServerEvent implements Serializable {
      * The list of nickname interested to receive the event.
      */
     private ArrayList<String> nicknames = new ArrayList<>();
+
     /**
-     * The player board updated in {@link PlayerBoardEvent}
-     */
-    private PlayerBoard playerBoard = null;
-    /**
-     * The map (only the matrix) updated in {@link MapEvent}
-     */
-    private Square[][] map = null;
-    /**
-     * The killshot track updated in {@link KillshotTrackEvent}
-     */
-    private KillShotTrack killShotTrack = null;
-    /**
-     * The list of powerUp cards in alias-mode to send to clients in some kind of events like {@link RequestForDiscardPowerUpCardEvent}
+     * The list of powerUp cards in alias-mode to send to clients in some kind of events like RequestDiscardPowerUpCardEvent
      */
     private ArrayList<AliasCard> powerUpCards = null;
 
     private boolean isPlayerBoardEvent = false;
     private boolean isMapEvent = false;
     private boolean isKillshotTrackEvent = false;
-    private boolean isRequestForDiscardPowerUpCardEvent = false;
-    private boolean isDiscardPowerUpCardToSpawnEvent = false;
+    private boolean isRequestForDrawTwoPowerUpCardsEvent = false;
+    private boolean isRequestToDiscardPowerUpCardToSpawnEvent = false;
     private boolean isFirstActionOfTurnEvent = false;
     private boolean isSelectionSquareForSquareWhereCatch = false;
 
@@ -96,14 +85,6 @@ public class ServerEvent implements Serializable {
         return nicknames;
     }
 
-    public PlayerBoard getPlayerBoard() {
-        return playerBoard;
-    }
-
-    public void setPlayerBoard(PlayerBoard playerBoard) {
-        this.playerBoard = playerBoard;
-    }
-
     public boolean isPlayerBoardEvent() {
         return isPlayerBoardEvent;
     }
@@ -120,21 +101,6 @@ public class ServerEvent implements Serializable {
         isMapEvent = mapEvent;
     }
 
-    public Square[][] getMap() {
-        return map;
-    }
-
-    public void setMap(Square[][] map) {
-        this.map = map;
-    }
-
-    public KillShotTrack getKillShotTrack() {
-        return killShotTrack;
-    }
-
-    public void setKillShotTrack(KillShotTrack killShotTrack) {
-        this.killShotTrack = killShotTrack;
-    }
 
     public boolean isKillshotTrackEvent() {
         return isKillshotTrackEvent;
@@ -145,20 +111,20 @@ public class ServerEvent implements Serializable {
     }
 
 
-    public boolean isRequestForDiscardPowerUpCardEvent() {
-        return isRequestForDiscardPowerUpCardEvent;
+    public boolean isRequestForDrawTwoPowerUpCardsEvent() {
+        return isRequestForDrawTwoPowerUpCardsEvent;
     }
 
-    public void setRequestForDiscardPowerUpCardEvent(boolean drawTwoPowerUpCard) {
-        isRequestForDiscardPowerUpCardEvent = drawTwoPowerUpCard;
+    public void setRequestForDrawTwoPowerUpCardsEvent(boolean drawTwoPowerUpCard) {
+        isRequestForDrawTwoPowerUpCardsEvent = drawTwoPowerUpCard;
     }
 
-    public boolean isDiscardPowerUpCardToSpawnEvent() {
-        return isDiscardPowerUpCardToSpawnEvent;
+    public boolean isRequestToDiscardPowerUpCardToSpawnEvent() {
+        return isRequestToDiscardPowerUpCardToSpawnEvent;
     }
 
-    public void setDiscardPowerUpCardToSpawnEvent(boolean discardPowerUpCardToSpawnEvent) {
-        isDiscardPowerUpCardToSpawnEvent = discardPowerUpCardToSpawnEvent;
+    public void setRequestToDiscardPowerUpCardToSpawnEvent(boolean requestToDiscardPowerUpCardToSpawnEvent) {
+        isRequestToDiscardPowerUpCardToSpawnEvent = requestToDiscardPowerUpCardToSpawnEvent;
     }
 
     /**

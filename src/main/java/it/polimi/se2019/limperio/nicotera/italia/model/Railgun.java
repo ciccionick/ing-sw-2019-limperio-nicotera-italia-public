@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
+/**
+ * This class is used to represent the Railgun of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Railgun extends WeaponCard  {
 
 
@@ -40,7 +46,7 @@ public class Railgun extends WeaponCard  {
     }
 
 
-    Railgun() {
+    public Railgun() {
         super(YELLOW, "Railgun");
         String description;
         description = "basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it." +

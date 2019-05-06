@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
+/**
+ * This class is used to represent the HeatSeeker of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class HeatSeeker extends WeaponCard {
 
 

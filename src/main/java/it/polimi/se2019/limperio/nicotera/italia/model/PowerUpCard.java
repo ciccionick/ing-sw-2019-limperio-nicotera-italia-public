@@ -2,6 +2,12 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import java.io.Serializable;
 
+/**
+ * handles the game's powerUp Card
+ *
+ * @author giuseppeitalia
+ */
+
 public abstract class PowerUpCard extends Card  {
 
     private int typeOfCard;

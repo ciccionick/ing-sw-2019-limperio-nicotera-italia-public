@@ -13,27 +13,80 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
-
+/**
+ * Handles all of the operation that the server does and his socket
+ *
+ * @author Pietro L'Imperio
+ */
 public class Server  {
-
+    /**
+     * The server socket used to accept connection by clients
+     */
     private ServerSocket serverSocket;
-    private Game game = null;
-    private Controller controller = null;
+    /**
+     * The reference of the game
+     */
+    private Game game;
+    /**
+     * The reference of the controller
+     */
+    private Controller controller;
+    /**
+     * The list of the client connected
+     */
     private ArrayList<Socket> listOfClient = new ArrayList<>();
+    /**
+     * The delay after which start the game
+     */
     private final long delay;
+    /**
+     * The timer that starts when 3 client will connect to play
+     */
     private Timer timer = null;
-    private MyTask task = null;
+    /**
+     * The task that starts after the delay
+     */
+    private MyTask task;
+    /**
+     * The list of the nicknames of the clients that participate to the game, in order of their connection
+     */
     private ArrayList<String> listOfNickname = new ArrayList<>();
+    /**
+     * The list of the colors of the clients that participate to the game, in order of their connection
+     */
     private ArrayList<String> listOfColor = new ArrayList<>();
+    /**
+     * It's true if the first player decides that at the end there will be the last turn in frenzy mode, false otherwise. True for default
+     */
     private boolean anticipatedFrenzy=true;
+    /**
+     * The type of map chosen by the player to play with. 0 for default to be modified later automatically
+     */
     private int typeMap=0;
+    /**
+     * It's true if the game started, false otherwise
+     */
     private boolean gameIsStarted = false;
+    /**
+     * It's true if the first player decides to play in terminator mode, false otherwise. False for default
+     */
     private boolean terminatorMode = false;
 
+
+    /**
+     * Starts when the application running on the server side
+     * @param argv Classic main parameter
+     * @throws Exception if there will be some problem of creation of the server
+     */
     public static void main(String[] argv) throws Exception {
         new Server();
     }
 
+    /**
+     * Constructor that creates an instance of the game, controller. Creates a server socket to receive connections
+     * and read from file the duration of delay, setting the timer with his task
+     * @throws IOException if there would be problems with the file where reading the delay for the timer
+     */
     private Server() throws  IOException {
         serverSocket = new ServerSocket(4000);
         System.out.println("Il Server è in attesa sulla porta 4000.");
@@ -48,6 +101,9 @@ public class Server  {
         run();
     }
 
+    /**
+     * Handles the connections of the clients creating for each one a {@link VirtualView} in a separated thread
+     */
     private void run() {
 
         while (true) {
@@ -87,6 +143,12 @@ public class Server  {
         }
     }
 
+    /**
+     * Removes in synchronized way a {@link VirtualView} from the list of virtual view in the game
+     * and a client from the list of his clients connected
+     * @param view The view to remove
+     * @param client The client to remove
+     */
      void deregister(VirtualView view, Socket client) {
         synchronized (this) {
             game.deregister(view);
@@ -108,6 +170,12 @@ public class Server  {
         }
     }
 
+
+    /**
+     * Starts the game passing to it all of the information that it needs. Remain in listening for
+     * reconnection of players.
+     * @throws IOException if there will be problems with the reconnection.
+     */
     private void startGame() throws IOException {
 
         System.out.println("I players i gioco sono: ");
@@ -116,9 +184,6 @@ public class Server  {
         }
         if (typeMap == 0) {
             setTypeMap(1, true);
-        }
-        if(listOfClient.size()==3){
-            System.out.println("chiedo al primo giocatore se vuole giocare con il terminator");
         }
         game.startGame(anticipatedFrenzy, typeMap, terminatorMode);
         gameIsStarted = true;
@@ -136,9 +201,6 @@ public class Server  {
         this.terminatorMode = terminatoreMode;
     }
 
-     boolean isTerminatorMode() {
-        return terminatorMode;
-    }
 
     synchronized void addNickname(String newNickname){
         listOfNickname.add(newNickname);
@@ -164,6 +226,11 @@ public class Server  {
         return anticipatedFrenzy;
     }
 
+    /**
+     * Sets the type of map when the first player could not do that in accordance with the number of players.
+     * @param typeMap The current type of map
+     * @param defaultValue It's true if the value was not modified by the first client, false otherwise
+     */
     void setTypeMap(int typeMap, boolean defaultValue) {
         if(!defaultValue) {
             this.typeMap = typeMap;
@@ -182,11 +249,10 @@ public class Server  {
         }
     }
 
-     int getTypeMap() {
-        return typeMap;
-    }
 
-
+    /**
+     * Calls the method that starts the game at the end of the timer
+     */
 
     class MyTask extends TimerTask{
 

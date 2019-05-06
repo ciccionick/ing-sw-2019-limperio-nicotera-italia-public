@@ -6,15 +6,29 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
-/** Class for the handle of the socket client side
+/** Handles the client and his socket
+ *
  * @author Pietro L'Imperio */
 public class Client {
-
-   private boolean invalidInitialization =true;
+    /**
+     * The reference of the network handler of the client
+     */
    private NetworkHandler myNetworkHandler;
+    /**
+     * The nickname of the player linked with this client
+     */
    private String nickname;
-   ObjectInputStream in = null;
+    /**
+     * The object input stream linked with the socket of client
+     */
+   private ObjectInputStream in = null;
+    /**
+     * The object output stream linked with the socket of client
+     */
    ObjectOutputStream out = null;
+    /**
+     * The socket of the client
+     */
    private Socket csocket = null;
 
 
@@ -22,7 +36,13 @@ public class Client {
         this.myNetworkHandler=new NetworkHandler(this);
     }
 
-    public static void main(String argv[]) throws IOException, ClassNotFoundException {
+    /**
+     * Starts when the application run in the client side
+     * @param argv Parameter of main
+     * @throws IOException if there will be some problem with initialization of the streams
+     * @throws ClassNotFoundException if there will be problems with the object received by the object input stream
+     */
+    public static void main(String[] argv) throws IOException, ClassNotFoundException {
         Client client;
         System.out.println("Client attivo:");
         client = new Client();
@@ -33,7 +53,7 @@ public class Client {
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");
 
-            while(client.invalidInitialization) {
+            while(true) {
                 RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
                 if(req.isAck())
                     break;
@@ -63,15 +83,6 @@ public class Client {
 
     public ObjectInputStream getIn() {
         return in;
-    }
-
-
-    /**
-     *
-     * @param invalidInitialization means that the process of initialization is not complete
-     */
-    void setInvalidInitialization(boolean invalidInitialization) {
-        this.invalidInitialization = invalidInitialization;
     }
 
     public void setNickname(String nickname) {

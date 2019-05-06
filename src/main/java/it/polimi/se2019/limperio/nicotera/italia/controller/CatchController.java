@@ -39,7 +39,7 @@ class CatchController {
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
         ArrayList<Square> squareAvailableToCatch = findSquareWherePlayerCanCatch(controller.findPlayerWithThisNickname(event.getNickname()), weaponNotAffordable);
         SelectionViewForSquareWhereCatch newSelectionEvent = new SelectionViewForSquareWhereCatch("Scegli in quale fra questi quadrati vuoi raccogliere");
-        newSelectionEvent.getNickname().add(event.getNickname());
+        newSelectionEvent.getNicknames().add(event.getNickname());
         newSelectionEvent.setSquaresReachableForCatch(squareAvailableToCatch);
         newSelectionEvent.setWeaponNotAvailableForLackOfAmmos(weaponNotAffordable);
         event.getMyVirtualView().update(newSelectionEvent);

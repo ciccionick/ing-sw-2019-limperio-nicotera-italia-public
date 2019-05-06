@@ -26,6 +26,10 @@ public class MapEvent extends ServerEvent {
      * List of alias cards representing weapon cards in the yellow spawn square
      */
     private ArrayList<AliasCard> weaponsCardsForYellowSpawnSquare;
+    /**
+     * The map (only the matrix) updated in {@link MapEvent}
+     */
+    private Square[][] map = null;
 
     public MapEvent(String message) {
         super(message);
@@ -57,6 +61,15 @@ public class MapEvent extends ServerEvent {
         if(square.getColor().equals(ColorOfFigure_Square.YELLOW))
             this.weaponsCardsForYellowSpawnSquare = weaponsCardsForSpawn;
 
+    }
+
+    public Square[][] getMap() {
+        return map;
+    }
+
+    public void setMap(Square[][] map) {
+        this.map = map;
+        setWeaponsWithTheirAlias(map);
     }
 
     public ArrayList<AliasCard> getWeaponsCardsForBlueSpawnSquare() {

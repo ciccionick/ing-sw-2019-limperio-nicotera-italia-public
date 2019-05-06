@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
+/**
+ * This class is used to represent Cyberblade of WeaponCard
+ *
+ * @author giuseppeitalia
+ */
+
 public class Cyberblade extends WeaponCard {
 
 
@@ -46,7 +52,7 @@ public class Cyberblade extends WeaponCard {
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
-    Cyberblade() {
+    public Cyberblade() {
         super(YELLOW, "Cyberblade");
         String description;
         description = "basic effect: Deal 2 damage to 1 target on your square.\n" +

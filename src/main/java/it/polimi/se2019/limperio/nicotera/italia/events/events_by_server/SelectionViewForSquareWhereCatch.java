@@ -28,15 +28,15 @@ public class SelectionViewForSquareWhereCatch extends ServerEvent {
         return squaresReachableForCatch;
     }
 
+    public void setSquaresReachableForCatch(ArrayList<Square> squaresReachableForCatch) {
+        this.squaresReachableForCatch = squaresReachableForCatch;
+    }
+
     public ArrayList<AliasCard> getWeaponNotAvailableForLackOfAmmos() {
         return weaponNotAvailableForLackOfAmmos;
     }
 
     public void setWeaponNotAvailableForLackOfAmmos(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmos) {
-        weaponNotAvailableForLackOfAmmos = weaponNotAvailableForLackOfAmmos;
-    }
-
-    public void setSquaresReachableForCatch(ArrayList<Square> squaresReachableForCatch) {
-        squaresReachableForCatch = squaresReachableForCatch;
+        this.weaponNotAvailableForLackOfAmmos = weaponNotAvailableForLackOfAmmos;
     }
 }

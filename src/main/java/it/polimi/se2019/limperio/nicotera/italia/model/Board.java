@@ -6,13 +6,35 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.AmmoTileDeck.insta
 import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
 import static it.polimi.se2019.limperio.nicotera.italia.model.PowerUpDeck.instanceOfPowerUpDeck;
 
+/**
+ * Contains all of the informations about the board
+ *
+ * @author Pietro L'Imperio
+ */
 public class Board {
+    /**
+     * The instance for the implementation of Singleton pattern
+     */
     private static Board instanceOfBoard = null;
-
+    /**
+     * The reference of the map
+     */
     private Map map;
-    private AmmoTileDeck ammotiledeck;
+    /**
+     * The reference of the ammo tiles deck
+     */
+    private AmmoTileDeck ammoTileDeck;
+    /**
+     * The reference of the weapons deck
+     */
     private WeaponsDeck weaponsDeck;
+    /**
+     * The reference of the powerUp deck
+     */
     private PowerUpDeck powerUpDeck;
+    /**
+     * The reference of the killshot track
+     */
     private KillShotTrack killShotTrack;
 
     private Board()
@@ -37,7 +59,7 @@ public class Board {
      }
 
      void createAmmoTileDeck(){
-        this.ammotiledeck = instanceOfAmmoTileDeck();
+        this.ammoTileDeck = instanceOfAmmoTileDeck();
     }
 
      void createKillShotTrack()
@@ -49,8 +71,8 @@ public class Board {
         return map;
     }
 
-    public AmmoTileDeck getAmmotiledeck() {
-        return ammotiledeck;
+    public AmmoTileDeck getAmmoTiledeck() {
+        return ammoTileDeck;
     }
 
     public WeaponsDeck getWeaponsDeck() {
@@ -65,6 +87,9 @@ public class Board {
         return killShotTrack;
     }
 
+    /**
+     * Adds for each spawn square weapons until the number of weapons in that square is equal to 3
+     */
     void addWeaponsInSpawnSquare(){
         ArrayList<SpawnSquare> spawnSquares = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
@@ -82,6 +107,9 @@ public class Board {
 
     }
 
+    /**
+     * Adds for each normal square an ammo tile
+     */
     void addAmmoTileInNormalSquare(){
         ArrayList<NormalSquare> normalSquare = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
@@ -93,9 +121,9 @@ public class Board {
         }
         for (NormalSquare square : normalSquare){
             if(square.getAmmoTile()==null){
-                ammotiledeck.getAmmoTilesOnTheMap().add(ammotiledeck.getAmmoTile().get(0));
-                ammotiledeck.getAmmoTile().remove(0);
-                square.setAmmoTile(ammotiledeck.getAmmoTilesOnTheMap().get(ammotiledeck.getAmmoTilesOnTheMap().size()-1));
+                ammoTileDeck.getAmmoTilesOnTheMap().add(ammoTileDeck.getAmmoTile().get(0));
+                ammoTileDeck.getAmmoTile().remove(0);
+                square.setAmmoTile(ammoTileDeck.getAmmoTilesOnTheMap().get(ammoTileDeck.getAmmoTilesOnTheMap().size()-1));
             }
         }
 

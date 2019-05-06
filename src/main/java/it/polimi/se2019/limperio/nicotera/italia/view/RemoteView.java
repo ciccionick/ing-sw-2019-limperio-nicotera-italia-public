@@ -86,7 +86,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     @Override
     public void update(ServerEvent message) {
         System.out.println(message.getMessage() + " " + message.getNicknames());
-        if (message.isRequestForDiscardPowerUpCardEvent()) {
+        if (message.isRequestForDrawTwoPowerUpCardsEvent()) {
             System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
             String action = stdin.nextLine();
             while (!(action.equalsIgnoreCase("pesca"))) {
@@ -96,7 +96,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             notify(new DrawTwoPowerUpCards("Voglio pescare due carte", client.getNickname()));
         }
 
-        if (message.isDiscardPowerUpCardToSpawnEvent()) {
+        if (message.isRequestToDiscardPowerUpCardToSpawnEvent()) {
             System.out.println("Hai pescato: " + playerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + playerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(1).getColor());
             System.out.println(" Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
             int choose;
@@ -180,8 +180,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
      * @return true if the card is in the list of not available cards
      */
     private boolean isCardNotAffordable(ServerEvent.AliasCard card, ArrayList<ServerEvent.AliasCard> cardsNotAvaialable) {
-        for (ServerEvent.AliasCard cardNotAvailabe : cardsNotAvaialable){
-            if(card.getName().equals(cardNotAvailabe.getName()) && card.getColor().equals(cardNotAvailabe.getColor()))
+        for (ServerEvent.AliasCard cardNotAvailable : cardsNotAvaialable){
+            if(card.getName().equals(cardNotAvailable.getName()) && card.getColor().equals(cardNotAvailable.getColor()))
                 return true;
         }
         return false;
