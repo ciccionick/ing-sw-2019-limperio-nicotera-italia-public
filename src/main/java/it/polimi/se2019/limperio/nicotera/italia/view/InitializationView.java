@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.view.gui.FrameForInitialization;
 
 import java.util.Scanner;
 
@@ -10,6 +11,10 @@ import java.util.Scanner;
  * @author Francesco Nicotera
  */
 public class InitializationView {
+    /**
+     * The frame utilized for the phase of initialization
+     */
+    private FrameForInitialization frameForInitialization;
     /**
      * reference to specific remote view of a client
      */
@@ -28,6 +33,7 @@ public class InitializationView {
      * @return the nickname
      */
     private String setNickname(){
+        frameForInitialization = new FrameForInitialization("Adrenaline - Setup");
         System.out.println("Scrivi nickname: ");
         return stdin.nextLine();
     }

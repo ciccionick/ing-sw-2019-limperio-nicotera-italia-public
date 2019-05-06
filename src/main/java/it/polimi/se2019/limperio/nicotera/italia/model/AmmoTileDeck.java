@@ -116,7 +116,5 @@ public class AmmoTileDeck {
         return currentSize;
     }
 
-    /* public ArrayList<AmmoTile> getAmmoTilesAvailable() {
-        return ammoTilesAvailable;
-    }*/
+
 }

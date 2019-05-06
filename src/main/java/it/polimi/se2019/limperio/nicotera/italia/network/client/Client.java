@@ -42,7 +42,7 @@ public class Client {
      * @throws IOException if there will be some problem with initialization of the streams
      * @throws ClassNotFoundException if there will be problems with the object received by the object input stream
      */
-    public static void main(String argv[]) throws IOException, ClassNotFoundException {
+    public static void main(String[] argv) throws IOException, ClassNotFoundException {
         Client client;
         System.out.println("Client attivo:");
         client = new Client();
