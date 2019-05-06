@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author giuseppeitalia
  */
-public abstract class WeaponCard extends Card implements Serializable {
+public abstract class WeaponCard extends Card  {
 
     private Boolean isLoad = true;
     private ColorOfCard_Ammo[] priceToBuy = null;

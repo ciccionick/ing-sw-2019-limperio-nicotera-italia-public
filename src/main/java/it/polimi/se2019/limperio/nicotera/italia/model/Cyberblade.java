@@ -52,7 +52,7 @@ public class Cyberblade extends WeaponCard {
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
-    Cyberblade() {
+    public Cyberblade() {
         super(YELLOW, "Cyberblade");
         String description;
         description = "basic effect: Deal 2 damage to 1 target on your square.\n" +

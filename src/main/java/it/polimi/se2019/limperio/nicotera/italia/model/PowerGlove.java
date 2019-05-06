@@ -50,7 +50,7 @@ public class PowerGlove extends WeaponCard {
     }
 
 
-    PowerGlove() {
+    public PowerGlove() {
         super(YELLOW, "PowerGlove");
         String description;
         description = "basic mode: Choose 1 target on any square exactly 1 move away. Move onto that square and give the target 1 damage and 2 marks." +

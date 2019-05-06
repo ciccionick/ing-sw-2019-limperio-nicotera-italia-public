@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestDiscardPowerUpCardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.FirstActionOfTurnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
@@ -13,7 +12,7 @@ import java.util.ArrayList;
  */
 
 class PowerUpController {
-     private final Game game;
+     private  Game game = null;
      private final Controller controller;
 
      PowerUpController(Game game, Controller controller) {
@@ -110,19 +109,22 @@ class PowerUpController {
      * @param playerWithThisNickname the player that has to be spawned
      * @param color the color of the square in which the player has to be spawned
      */
-    void spawnPlayer(Player playerWithThisNickname, ColorOfCard_Ammo color) {
+    private void spawnPlayer(Player playerWithThisNickname, ColorOfCard_Ammo color) {
         SpawnSquare square;
         square=findSpawnSquareWithThisColor(color);
         playerWithThisNickname.setPositionOnTheMap(square);
-        FirstActionOfTurnEvent newEvent;
+        ServerEvent firstActionOfTurnEvent;
         if(game.getRound()==1 || game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(playerWithThisNickname.getNickname())) {
-             newEvent = new FirstActionOfTurnEvent("Sei stato generato e comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
+             firstActionOfTurnEvent = new ServerEvent("Sei stato generato e comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
+             firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
         }
-        else
-            newEvent = new FirstActionOfTurnEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
-        newEvent.getNicknames().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
-        newEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
-        game.notify(newEvent);
+        else {
+            firstActionOfTurnEvent = new ServerEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
+            firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
+        }
+        firstActionOfTurnEvent.getNicknames().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+        firstActionOfTurnEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+        game.notify(firstActionOfTurnEvent);
     }
 
 

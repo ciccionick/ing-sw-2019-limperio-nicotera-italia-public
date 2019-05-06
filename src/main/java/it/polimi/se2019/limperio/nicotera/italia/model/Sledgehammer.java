@@ -49,7 +49,7 @@ public class Sledgehammer extends WeaponCard{
         player.setPositionOnTheMap(square);
     }
 
-    Sledgehammer() {
+    public Sledgehammer() {
         super(YELLOW, "Sledgehammer");
         String description;
         description ="Basic mode: Deal 2 damage to 1 target on your square.\n" +

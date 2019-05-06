@@ -47,7 +47,7 @@ public class Shockwave extends WeaponCard {
         }
     }
 
-    Shockwave() {
+    public Shockwave() {
         super(YELLOW, "Shockwave");
         String description;
         description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target." +

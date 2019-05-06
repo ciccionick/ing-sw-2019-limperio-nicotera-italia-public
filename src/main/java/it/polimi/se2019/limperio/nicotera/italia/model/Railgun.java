@@ -46,7 +46,7 @@ public class Railgun extends WeaponCard  {
     }
 
 
-    Railgun() {
+    public Railgun() {
         super(YELLOW, "Railgun");
         String description;
         description = "basic mode: Choose a cardinal direction and 1 target in that direction. Deal 3 damage to it." +

@@ -17,7 +17,7 @@ public class SpawnSquare extends Square  {
     /**
      * Collections of weapons that the players can catch on the square
      */
-    private ArrayList<WeaponCard> weaponCards;
+    private transient ArrayList<WeaponCard> weaponCards;
 
 
      SpawnSquare( ColorOfFigure_Square color, boolean hasDoor, int row, int column) {

@@ -38,10 +38,7 @@ public class ServerEvent implements Serializable {
      * The map (only the matrix) updated in {@link MapEvent}
      */
     private Square[][] map = null;
-    /**
-     * The killshot track updated in {@link KillshotTrackEvent}
-     */
-    private KillShotTrack killShotTrack = null;
+
     /**
      * The list of powerUp cards in alias-mode to send to clients in some kind of events like {@link RequestDiscardPowerUpCardEvent}
      */
@@ -126,14 +123,6 @@ public class ServerEvent implements Serializable {
 
     public void setMap(Square[][] map) {
         this.map = map;
-    }
-
-    public KillShotTrack getKillShotTrack() {
-        return killShotTrack;
-    }
-
-    public void setKillShotTrack(KillShotTrack killShotTrack) {
-        this.killShotTrack = killShotTrack;
     }
 
     public boolean isKillshotTrackEvent() {

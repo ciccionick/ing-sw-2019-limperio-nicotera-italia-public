@@ -112,8 +112,7 @@ public class Game extends Observable<ServerEvent> {
         createBoard();
         board.createMap(typeMap);
         board.createKillShotTrack();
-        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track");
-        killshotTrackEvent.setKillShotTrack(board.getKillShotTrack());
+        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track", board.getKillShotTrack());
         killshotTrackEvent.setNickname(listOfNickname);
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
