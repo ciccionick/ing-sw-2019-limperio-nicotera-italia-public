@@ -8,7 +8,6 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 /**
  * Handles all the events received by the server and choose the right piece of remote view where
@@ -91,32 +90,32 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         if(event.isPlayerBoardEvent()){
             System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
             remoteView.getPlayerBoardView().update((PlayerBoardEvent) event);
-            return;
+
         }
         if(event.isMapEvent()){
             System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");
-            remoteView.getMapView().update(event);
-            return;
+            remoteView.getMapView().update((MapEvent)event);
+
         }
         if(event.isKillshotTrackEvent()){
             System.out.println(("L'evento arrivato è di tipo KillshotTrack e di conseguenza chiamo l'update di KillshotTrackView"));
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) event);
-            return;
+
         }
-        if(event.isRequestForDiscardPowerUpCardEvent()){
+        if(event.isRequestForDrawTwoPowerUpCardsEvent()){
             System.out.println(("L'evento arrivato è di tipo DrawPowerUpCards e di conseguenza chiamo l'update di remote view"));
             remoteView.update(event);
             return;
         }
-        if(event.isDiscardPowerUpCardToSpawnEvent()){
+        if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
             System.out.println(("L'evento arrivato è di tipo DiscardPowerUpCard e di conseguenza chiamo l'update di remote view"));
-            remoteView.getPlayerBoardView().update(event);
             remoteView.update(event);
+            return;
         }
         if(event.isFirstActionOfTurnEvent()){
             System.out.println("L'evento è arrivato ed è di tipo FirstTurnAction di conseguenza lo mando al remote View e al mapView");
-            remoteView.getMapView().update(event);
             remoteView.update(event);
+            return;
         }
         if(event.isSelectionSquareForSquareWhereCatch()){
             System.out.println("L'evento è arrivato ed è di tipo SelectionViewForSquareWhereCatch di conseguenza lo mando al remote View");

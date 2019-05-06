@@ -1,6 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestDiscardPowerUpCardEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
@@ -32,11 +34,12 @@ class PowerUpController {
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true);
          }
          controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardsToDraw);
-         RequestDiscardPowerUpCardEvent event = new RequestDiscardPowerUpCardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
-         event.getNicknames().add(nickname);
-         event.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
-         event.setPowerUpCards(subsitutePowerUpCards(event.getPlayerBoard().getPowerUpCardsOwned()));
-         game.notify(event);
+         PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
+         requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
+         requestDiscardPowerUpCardEvent.getNicknames().add(nickname);
+         requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
+         requestDiscardPowerUpCardEvent.setPowerUpCards(subsitutePowerUpCards(requestDiscardPowerUpCardEvent.getPlayerBoard().getPowerUpCardsOwned()));
+         game.notify(requestDiscardPowerUpCardEvent);
      }
 
     /**
@@ -56,7 +59,7 @@ class PowerUpController {
      * This method handles the draught of a power up by a player in order to be spawned in the square with the same color of the discarded card
      * @param event It is sent by the view and contains the references to the player that want to discard.
      */
-    void handleDiscardOfCardToSpawn(it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent event){
+    void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event){
          System.out.println("Il player " + event.getNickname() + " ha deciso di scartare la powerUpCard " + event.getPowerUpCard().getName() + " di colore "+ event.getPowerUpCard().getColor() + " e di conseguenza sarà generato nel quadrato generazione di quel colore");
         removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
         spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
@@ -83,7 +86,7 @@ class PowerUpController {
      * @param playerWithThisNickname the player that has the deck that has to be modified
      * @param aliasPowerUpCard the card that has to be removed from player's deck
      */
-    void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ServerEvent.AliasCard aliasPowerUpCard) {
+    private void removePowerCardFromPlayerDeck(Player playerWithThisNickname, ServerEvent.AliasCard aliasPowerUpCard) {
         playerWithThisNickname.getPlayerBoard().getPowerUpCardsOwned().remove(findPowerUpCardFromAliasInPlayerDeck(playerWithThisNickname,aliasPowerUpCard));
     }
 
@@ -113,15 +116,16 @@ class PowerUpController {
         SpawnSquare square;
         square=findSpawnSquareWithThisColor(color);
         playerWithThisNickname.setPositionOnTheMap(square);
-        ServerEvent firstActionOfTurnEvent;
+        MapEvent firstActionOfTurnEvent;
         if(game.getRound()==1 || game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(playerWithThisNickname.getNickname())) {
-             firstActionOfTurnEvent = new ServerEvent("Sei stato generato e comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
+             firstActionOfTurnEvent = new MapEvent("Sei stato generato e comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
              firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
         }
         else {
-            firstActionOfTurnEvent = new ServerEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
+            firstActionOfTurnEvent = new MapEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
             firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
         }
+
         firstActionOfTurnEvent.getNicknames().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
         firstActionOfTurnEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
         game.notify(firstActionOfTurnEvent);

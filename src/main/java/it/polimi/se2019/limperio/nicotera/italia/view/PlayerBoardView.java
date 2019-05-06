@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class PlayerBoardView {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
     }
 
-    public void update (ServerEvent event){
+    public void update (PlayerBoardEvent event){
         System.out.println(event.getMessage());
         updateStateOfPlayerBoard(event);
     }
@@ -61,7 +62,7 @@ public class PlayerBoardView {
      * Updates the player's board
      * @param event contains the updates of player's board
      */
-    private void updateStateOfPlayerBoard (ServerEvent event){
+    private void updateStateOfPlayerBoard (PlayerBoardEvent event){
         setDamages(event.getPlayerBoard().getDamages());
         setMarks(event.getPlayerBoard().getMarks());
         setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());

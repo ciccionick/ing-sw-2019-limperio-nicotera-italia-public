@@ -132,19 +132,20 @@ public class Game extends Observable<ServerEvent> {
      * Sends the correct event towards the virtual view in accordance to the right phase of the game
      */
     private void startWithTheFirstTurn() {
-        boolean requestForDrawTwoCards = false;
+        boolean requestForDrawTwoCardsDone = false;
         while(!isGameOver) {
             for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
                 if(round==1)
-                    requestForDrawTwoCards=false;
+                    requestForDrawTwoCardsDone=false;
                 if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))) {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
-                        if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCards) {
-                            RequestDrawTwoPowerUpCardsEvent drawTwoPowerUpCardsEvent = new RequestDrawTwoPowerUpCardsEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-                            drawTwoPowerUpCardsEvent.getNicknames().add(listOfNickname.get(playerOfTurn - 1));
-                            notify(drawTwoPowerUpCardsEvent);
-                            requestForDrawTwoCards=true;
+                        if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCardsDone) {
+                            ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
+                            requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
+                            requestDrawTwoPowerUpCardsEvent.getNicknames().add(listOfNickname.get(playerOfTurn - 1));
+                            notify(requestDrawTwoPowerUpCardsEvent);
+                            requestForDrawTwoCardsDone=true;
                         }
                     }
                 }
@@ -161,7 +162,6 @@ public class Game extends Observable<ServerEvent> {
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
         mapEvent.setNickname(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
-        mapEvent.setWeaponsWithTheirAlias(board.getMap().getMatrixOfSquares());
         notify(mapEvent);
     }
 

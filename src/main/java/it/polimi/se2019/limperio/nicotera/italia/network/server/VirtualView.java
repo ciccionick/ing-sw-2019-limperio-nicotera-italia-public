@@ -100,9 +100,9 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     @Override
     public void run() {
         try {
-            boolean invalidInizialization = true;
+            boolean invalidInitialization = true;
             RequestInitializationEvent req;
-            while (invalidInizialization) {
+            while (invalidInitialization) {
                 out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
                 AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
                 while(server.getListOfNickname().contains(ans.getNickname())){
@@ -122,7 +122,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     ans = (AnswerInitializationEvent) in.readObject();
                 }
                 server.getListOfColor().add(ans.getColor().toUpperCase());
-                colorOfClient = ans.getColor();
+                colorOfClient = ans.getColor().toUpperCase();
                 if(firstPlayer){
                     out.writeObject(new RequestInitializationEvent("Choose if u want frenzy:", false, false, true, false, false));
                     ans = (AnswerInitializationEvent) in.readObject();
@@ -137,7 +137,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                 req = new RequestInitializationEvent("ack: ", false, false, false, false, false);
                 req.setAck(true);
                 out.writeObject(req);
-                invalidInizialization=false;
+                invalidInitialization=false;
             }
         } catch (SocketException se) {
             handleDisconnection();

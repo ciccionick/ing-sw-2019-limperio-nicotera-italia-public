@@ -2,9 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 
@@ -14,50 +12,43 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
  */
 public class MapView {
     /**
-     *  The map that consists in a matrix of squares
+     * The map that consists in a matrix of squares
      */
-   private Square[][] map;
+    private Square[][] map;
 
     /**
      * Handles the creation and the set up of the map
+     *
      * @param event contains the type of map that has to be created
      */
-    public void update(ServerEvent event) {
-        if (event.isMapEvent() || event.isFirstActionOfTurnEvent()) {
-            map = event.getMap();
-            if (event.isMapEvent()) {
-                System.out.println("Mappa aggiornata con successo");
-                for (int i = 0; i < map.length; i++) {
-                    SpawnSquare spawnSquare;
-                    NormalSquare normalSquare;
-                    for (int j = 0; j < map[i].length; j++) {
-                        if (map[i][j] != null) {
-                            // System.out.println(map[i][j].getColor());
-                            if (map[i][j].isSpawn()) {
-                                spawnSquare = (SpawnSquare) map[i][j];
-                                if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))
-                                    spawnSquare.setWeaponsCardsForRemoteView(((MapEvent) event).getWeaponsCardsForRedSpawnSquare());
-                                if (spawnSquare.getColor().equals(ColorOfFigure_Square.BLUE))
-                                    spawnSquare.setWeaponsCardsForRemoteView(((MapEvent) event).getWeaponsCardsForBlueSpawnSquare());
-                                if (spawnSquare.getColor().equals(ColorOfFigure_Square.YELLOW))
-                                    spawnSquare.setWeaponsCardsForRemoteView(((MapEvent) event).getWeaponsCardsForYellowSpawnSquare());
-                                // System.out.println("Con: " + spawnSquare.getWeaponCards().size() + " carte armi");
-                                //   System.out.println("Prima carta arma " + spawnSquare.getWeaponCards().get(0).getName());
-                                //  } else {
-                                //      normalSquare = (NormalSquare) map[i][j];
-                                //    System.out.println("Con ammo tile: " + normalSquare.getAmmoTile().getAmmos().size());
-                                // }
-                            } //else
-                            //      System.out.println("NULL");
-                        }
-                    }
+    public void update(MapEvent event) {
+        map = event.getMap();
+        updateMap(event);
+        System.out.println("Mappa aggiornata con successo");
+
+    }
+
+    private void updateMap(MapEvent event) {
+        for (int i = 0; i < map.length; i++) {
+            SpawnSquare spawnSquare;
+            for (int j = 0; j < map[i].length; j++) {
+                if ((map[i][j] != null) && (map[i][j].isSpawn())) {
+                    spawnSquare = (SpawnSquare) map[i][j];
+                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))
+                        spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForRedSpawnSquare());
+                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.BLUE))
+                        spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForBlueSpawnSquare());
+                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.YELLOW))
+                        spawnSquare.setWeaponsCardsForRemoteView(event.getWeaponsCardsForYellowSpawnSquare());
                 }
             }
-
         }
     }
+
 
     public Square[][] getMap() {
         return map;
     }
+
 }
+
