@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -106,7 +105,7 @@ public abstract class WeaponCard extends Card  {
             case 11:
                 return new Hellion();
             case 12:
-                return new Flamethower();
+                return new Flamethrower();
             case 13:
                 return new Zx2();
             case 14:

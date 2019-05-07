@@ -26,16 +26,19 @@ public class Cyberblade extends WeaponCard {
                         if (involvedPlayers.get(j).getEffects().contains(1))
                             this.basicEffect(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
                 case 2:
                     for (int j = 0; j < involvedPlayers.size(); j++) {
                         if (involvedPlayers.get(j).getEffects().contains(2))
                             this.withShadowstepEffect(involvedPlayers.get(j).getSquare());
                     }
+                    break;
                 case 3:
                     for (int j = 0; j < involvedPlayers.size(); j++) {
                         if (involvedPlayers.get(j).getEffects().contains(3))
                             this.withSliceAndDice(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
 
             }
         }
