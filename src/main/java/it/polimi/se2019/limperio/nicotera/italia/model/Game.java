@@ -118,8 +118,6 @@ public class Game extends Observable<ServerEvent> {
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
-        board.addWeaponsInSpawnSquare();
-        board.addAmmoTileInNormalSquare();
         updateMap();
         if(terminatorModeActive){
             numOfMaxActionForTurn=3;

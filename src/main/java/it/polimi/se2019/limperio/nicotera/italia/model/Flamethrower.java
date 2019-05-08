@@ -8,12 +8,12 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
- * This class is used to represent Flamethower of WeaponCard
+ * This class is used to represent Flamethrower of WeaponCard
  *
  * @author giuseppeitalia
  */
 
-public class Flamethower extends WeaponCard {
+public class Flamethrower extends WeaponCard {
 
 
     @Override
@@ -30,8 +30,8 @@ public class Flamethower extends WeaponCard {
         setLoad(false);
     }
 
-    public Flamethower() {
-        super(BLUE, "Flamethower");
+    public Flamethrower() {
+        super(BLUE, "Flamethrower");
         String description;
         description = "basic mode: Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage." +
                 "in barbecue mode: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square." +

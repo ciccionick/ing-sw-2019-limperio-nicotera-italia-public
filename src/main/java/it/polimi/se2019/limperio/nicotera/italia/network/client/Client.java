@@ -55,10 +55,10 @@ public class Client {
 
             while(true) {
                 RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
+                client.myNetworkHandler.handleEventInitialization(req);
                 if(req.isAck())
                     break;
-                client.myNetworkHandler.handleEventInitialization(req);
-            }
+                }
 
 
         while(true){

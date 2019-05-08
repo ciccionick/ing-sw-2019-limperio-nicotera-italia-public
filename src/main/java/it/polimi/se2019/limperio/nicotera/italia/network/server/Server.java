@@ -183,7 +183,7 @@ public class Server  {
             game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }
         if (typeMap == 0) {
-            setTypeMap(1, true);
+            setTypeMap(typeMap);
         }
         game.startGame(anticipatedFrenzy, typeMap, terminatorMode);
         gameIsStarted = true;
@@ -229,23 +229,19 @@ public class Server  {
     /**
      * Sets the type of map when the first player could not do that in accordance with the number of players.
      * @param typeMap The current type of map
-     * @param defaultValue It's true if the value was not modified by the first client, false otherwise
+     *
      */
-    void setTypeMap(int typeMap, boolean defaultValue) {
-        if(!defaultValue) {
-            this.typeMap = typeMap;
-        }
-        else{
-            switch (listOfClient.size()){
-                case 4:
-                    setTypeMap(2, false);
-                    break;
-                case 5:
-                    setTypeMap(3, false);
-                    break;
-                default:
-                    setTypeMap(1, false);
-            }
+    void setTypeMap(int typeMap) {
+        if(typeMap!=0)
+            this.typeMap=typeMap;
+        else
+        {
+            if(listOfNickname.size()==3)
+                this.typeMap=1;
+            if(listOfNickname.size()==4)
+                this.typeMap=2;
+            if(listOfNickname.size()==5)
+                this.typeMap=3;
         }
     }
 
