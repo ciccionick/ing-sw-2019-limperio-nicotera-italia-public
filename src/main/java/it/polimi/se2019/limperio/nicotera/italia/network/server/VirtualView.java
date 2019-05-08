@@ -129,7 +129,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     server.setAnticipatedFrenzy(ans.isFrenzy());
                     out.writeObject(new RequestInitializationEvent("Choose which map do you want to play with:", false, false, false, false, true));
                     ans = (AnswerInitializationEvent) in.readObject();
-                    server.setTypeMap(ans.getMap(), false);
+                    if(ans.getMap()!=0)
+                        server.setTypeMap(ans.getMap());
                     out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
                     ans = (AnswerInitializationEvent) in.readObject();
                     server.setTerminatorMode(ans.isTerminator());
