@@ -24,19 +24,22 @@ public class Thor extends WeaponCard {
                 case 1:
                     for(InvolvedPlayer player: involvedPlayers){
                         if(player.getEffects().contains(1))
-                            basicEffect(player.getPlayer());
+                            this.basicEffect(player.getPlayer());
                     }
+                    break;
                 case 2:
                     for (InvolvedPlayer player: involvedPlayers){
                         if(player.getEffects().contains(2))
-                            withChainReaction(player.getPlayer());
+                            this.withChainReaction(player.getPlayer());
 
                     }
+                    break;
                 case 3:
                     for(InvolvedPlayer player: involvedPlayers){
                         if(player.getEffects().contains(3))
-                            withHighVoltage(player.getPlayer());
+                            this.withHighVoltage(player.getPlayer());
                     }
+                    break;
 
             }
         }

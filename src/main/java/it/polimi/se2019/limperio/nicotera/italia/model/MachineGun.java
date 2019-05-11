@@ -17,8 +17,8 @@ public class MachineGun extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int i;
-        int j;
+        int i=0;
+        int j=0;
         int typeOfCurrentAttack;
         for (i=0; i<typeOfAttack.size(); i++){
             typeOfCurrentAttack=typeOfAttack.get(i);
@@ -28,16 +28,20 @@ public class MachineGun extends WeaponCard {
                         if(involvedPlayers.get(j).getEffects().contains(1))
                             basicEffect(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
                 case 2:
                     for(j=0;j<involvedPlayers.size();j++){
                         if(involvedPlayers.get(j).getEffects().contains(2))
                             withFocusShot(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
                 case 3:
                     for(j=0;j<involvedPlayers.size();j++){
                         if(involvedPlayers.get(j).getEffects().contains(3))
                             withTurretTripod(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
+
                     default:
                         throw new IllegalArgumentException();
             }
@@ -62,7 +66,7 @@ public class MachineGun extends WeaponCard {
     }
 
     private void basicEffect(Player player){
-        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
     private void withFocusShot(Player player){

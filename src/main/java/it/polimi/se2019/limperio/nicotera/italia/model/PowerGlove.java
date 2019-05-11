@@ -18,22 +18,20 @@ public class PowerGlove extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
-                case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
-                case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.rocketFirstMode(involvedPlayers.get(j).getPlayer(),involvedPlayers.get(j).getSquare());
-                    }
-            }
+        if(typeOfAttack.get(0)== 1)
+        {
+            this.basicEffect(involvedPlayers.get(0).getPlayer());
         }
+         else {
+
+             this.rocketFirstMode(involvedPlayers.get(0).getPlayer(),involvedPlayers.get(0).getSquare());
+             if(involvedPlayers.size()==2){
+                 this.rocketFirstMode(involvedPlayers.get(1).getPlayer(), involvedPlayers.get(1).getSquare());
+             }
+
+
+            }
+
         setLoad(false);
     }
 

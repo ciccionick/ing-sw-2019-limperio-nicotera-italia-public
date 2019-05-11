@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 /**
  * This class is used to represent the Hellion of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class Hellion extends WeaponCard {
@@ -29,8 +29,13 @@ public class Hellion extends WeaponCard {
     private void basicMode(Player player){
         player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
-            otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+
+            if(!otherPlayer.getNickname().equals(player.getNickname()))
+            {
+                otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
+            }
         }
 
     }
@@ -39,7 +44,11 @@ public class Hellion extends WeaponCard {
         player.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
-            otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
+
+            if(otherPlayer.getNickname()!= player.getNickname())
+            {
+                otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
+            }
         }
     }
 
