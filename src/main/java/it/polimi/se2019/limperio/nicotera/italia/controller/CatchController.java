@@ -2,6 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
@@ -41,12 +43,69 @@ class CatchController {
         SelectionViewForSquareWhereCatch newSelectionEvent = new SelectionViewForSquareWhereCatch("Scegli in quale fra questi quadrati vuoi raccogliere");
         newSelectionEvent.getNicknames().add(event.getNickname());
         newSelectionEvent.setSquaresReachableForCatch(squareAvailableToCatch);
-        newSelectionEvent.setWeaponNotAvailableForLackOfAmmos(weaponNotAffordable);
+        newSelectionEvent.setWeaponNotAvailableForLackOfAmmo(weaponNotAffordable);
         event.getMyVirtualView().update(newSelectionEvent);
 
     }
 
+    void handleCatching(CatchEvent event){
+        Square square = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
+        Player player = controller.findPlayerWithThisNickname(event.getNickname());
+        if(square.isSpawn()){
+            RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Scegli arma");
+            ArrayList<WeaponCard> weaponsAffordable = new ArrayList<>();
+            for(WeaponCard weapon : ((SpawnSquare) square).getWeaponCards()){
+                if(weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), weapon))
+                    weaponsAffordable.add(weapon);
+            }
+            newRequest.setWeaponsAvailableToCatch(controller.substituteWeaponsCardWithTheirAlias(weaponsAffordable));
+            game.notify(newRequest);
+        }
+        else{
+           addAmmoToPlayer(player.getPlayerBoard(), ((NormalSquare) square).getAmmoTile().getAmmos());
+           if(((NormalSquare) square).getAmmoTile().hasPowerUpCard()){
+               ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
+               powerUpCards.add(game.getBoard().getPowerUpDeck().getPowerUpCards().get(0));
+               player.drawPowerUpCard(powerUpCards);
+               game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(0, powerUpCards.get(0));
+               game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
+               powerUpCards.get(0).setInTheDeckOfSomePlayer(true);
+           }
+           game.incrementNumOfActionsOfThisTurn();
 
+        }
+    }
+
+    private void addAmmoToPlayer(PlayerBoard playerBoard, ArrayList<ColorOfCard_Ammo> ammoCaught){
+        int blueAmmo = 0;
+        int redAmmo = 0;
+        int yellowAmmo = 0;
+        for(ColorOfCard_Ammo ammo : ammoCaught){
+            if(ammo.equals(BLUE))
+                blueAmmo++;
+            if(ammo.equals(RED))
+                redAmmo++;
+            if(ammo.equals(YELLOW))
+                yellowAmmo++;
+        }
+        for(int i=0; i<playerBoard.getAmmo().size();i++) {
+            if (blueAmmo > 0 && playerBoard.getAmmo().get(i).getColor().equals(BLUE) && !playerBoard.getAmmo().get(i).isUsable()) {
+                playerBoard.getAmmo().get(i).setIsUsable(true);
+                blueAmmo--;
+            }
+            if(redAmmo>0 && playerBoard.getAmmo().get(i).getColor().equals(RED) && !playerBoard.getAmmo().get(i).isUsable()){
+                playerBoard.getAmmo().get(i).setIsUsable(true);
+                redAmmo--;
+            }
+            if(yellowAmmo>0 && playerBoard.getAmmo().get(i).getColor().equals(YELLOW) && !playerBoard.getAmmo().get(i).isUsable()){
+                playerBoard.getAmmo().get(i).setIsUsable(true);
+                yellowAmmo--;
+            }
+        }
+
+
+
+    }
     /**
      * <p>
      *     This method return the squares in which the player can catch something.
@@ -118,7 +177,7 @@ class CatchController {
         int numOfRedAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), RED);
         int numOfBlueAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), ColorOfCard_Ammo.BLUE);
         int numOfYellowAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), ColorOfCard_Ammo.YELLOW);
-        return frequencyOfAmmosUsableByPlayer(ammos, RED) >= numOfRedAmmoRequired && frequencyOfAmmosUsableByPlayer(ammos, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmosUsableByPlayer(ammos, YELLOW)>=numOfYellowAmmoRequired;
+        return frequencyOfAmmoUsableByPlayer(ammos, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, YELLOW)>=numOfYellowAmmoRequired;
 
     }
 
@@ -143,17 +202,38 @@ class CatchController {
 
     /**
      * This method calculates the frequency of ammo that a player can use
-     * @param ammos this list contains ALL the ammo of a player, both available and not available
+     * @param ammoContained this list contains ALL the ammo of a player, both available and not available
      * @param colorToCheck the color of the ammo of which the method has to calculate the frequency
      * @return the number of ammo that can be used
      */
-     int frequencyOfAmmosUsableByPlayer (ArrayList<Ammo> ammos, ColorOfCard_Ammo colorToCheck){
+     int frequencyOfAmmoUsableByPlayer(ArrayList<Ammo> ammoContained, ColorOfCard_Ammo colorToCheck){
         int frequency = 0;
-        for(Ammo ammo : ammos){
+        for(Ammo ammo : ammoContained){
             if(ammo.getColor().equals(colorToCheck) && ammo.isUsable()){
                 frequency++;
             }
         }
         return frequency;
+    }
+
+
+
+    /**
+     * Checks if in the square there is something the player can be catch
+     * @param square the position that has to be checked
+     * @return true if there is something that can be caught in the square passed as parameter
+     */
+    boolean canCatchSomethingInThisSquare(Square square){
+        boolean canCatch = false;
+        if(square.isSpawn()){
+            if(((SpawnSquare) square).getWeaponCards() != null){
+                canCatch = true;
+            }
+            else{
+                if(((NormalSquare) square).getAmmoTile()!= null)
+                    canCatch = true;
+            }
+        }
+        return canCatch;
     }
 }

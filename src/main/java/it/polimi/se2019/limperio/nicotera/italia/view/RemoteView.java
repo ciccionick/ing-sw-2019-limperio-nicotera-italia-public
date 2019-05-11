@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
@@ -15,6 +16,8 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
  * @author Pietro L'Imperio
  */
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class RemoteView extends Observable<ClientEvent> implements Observer<ServerEvent> {
@@ -29,7 +32,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     /**
      * the reference to player board view
      */
-    private PlayerBoardView playerBoardView;
+    private PlayerBoardView myPlayerBoardView;
     /**
      * the reference to map view
      */
@@ -46,6 +49,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
      * It permits to read from command line
      */
     private Scanner stdin = new Scanner(System.in);
+    /**
+     * The owner of player board
+     */
+    private Map<String, PlayerBoard> listOfPlayerBoardsOfTheOthersPlayer = new HashMap<>();
 
     /**
      * The constructor creates and instance of all the parts of the view and it matches them to the specific client that is passed by parameter.
@@ -56,15 +63,19 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         this.client = client;
         this.networkHandler = networkHandler;
         register(networkHandler);
-        playerBoardView = new PlayerBoardView();
+        myPlayerBoardView = new PlayerBoardView();
         mapView = new MapView();
         killshotTrackView = new KillshotTrackView();
         initializationView = new InitializationView(this);
     }
 
-    public PlayerBoardView getPlayerBoardView()
+    public Map<String, PlayerBoard> getListOfPlayerBoardsOfTheOthersPlayer() {
+        return listOfPlayerBoardsOfTheOthersPlayer;
+    }
+
+    public PlayerBoardView getMyPlayerBoardView()
     {
-        return playerBoardView;
+        return myPlayerBoardView;
     }
 
     public NetworkHandler getNetworkHandler() {
@@ -97,7 +108,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
         if (message.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-            System.out.println("Hai pescato: " + playerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + playerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(1).getColor());
+            System.out.println("Hai pescato: " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getColor());
             System.out.println(" Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
             int choose;
             choose = stdin.nextInt();
@@ -140,11 +151,24 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             for(Square square : event.getSquaresReachableForCatch() ){
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
                 if(square.isSpawn()){
-                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), ((SelectionViewForSquareWhereCatch) message).getWeaponNotAvailableForLackOfAmmos());
+                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), ((SelectionViewForSquareWhereCatch) message).getWeaponNotAvailableForLackOfAmmo());
                 }
                 else {
                     System.out.println( ((NormalSquare)square).getAmmoTile().toString());
                 }
+            }
+            System.out.println("Digita 1 se vuoi raccogliere nel primo quadrato, 2 per il secondo, 3 per il terzo");
+            if(stdin.nextInt() == 1){
+                CatchEvent catchEvent =  new CatchEvent("voglio raccogliere", client.getNickname(), event.getSquaresReachableForCatch().get(0).getRow(), event.getSquaresReachableForCatch().get(0).getColumn());
+                notify(catchEvent);
+            }
+            else if(stdin.nextInt() == 2) {
+                CatchEvent catchEvent = new CatchEvent("voglio raccogliere", client.getNickname(), event.getSquaresReachableForCatch().get(1).getRow(), event.getSquaresReachableForCatch().get(1).getColumn());
+                notify(catchEvent);
+            }
+            else if(stdin.nextInt() == 3) {
+                CatchEvent catchEvent = new CatchEvent("voglio raccogliere", client.getNickname(), event.getSquaresReachableForCatch().get(2).getRow(), event.getSquaresReachableForCatch().get(2).getColumn());
+                notify(catchEvent);
             }
         }
 
@@ -155,7 +179,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
      * @param i It permit to distinguish which card has to be removed from player's deck.
      */
     private void discardPowerUpCard(int i) {
-        ServerEvent.AliasCard powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
+        ServerEvent.AliasCard powerUpCardToDiscard = myPlayerBoardView.getPowerUpCardsDeck().remove(i);
         DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
         newEvent.setPowerUpCard(powerUpCardToDiscard);
         notify(newEvent);

@@ -42,9 +42,6 @@ public class PowerUpDeck {
         return powerUpCards;
     }
 
-    public void addUsedPowerUpCard (PowerUpCard card){
-        usedPowerUpCards.add(card);
-    }
 
     public void shuffleDeck (){
         powerUpCards.addAll(usedPowerUpCards);

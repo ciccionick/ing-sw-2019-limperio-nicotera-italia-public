@@ -17,7 +17,7 @@ public class SelectionViewForSquareWhereCatch extends ServerEvent {
     /**
      * List of weapons placed in spawn square but not available for the player because he has not enough ammos to pay their price.
      */
-    private ArrayList<AliasCard> weaponNotAvailableForLackOfAmmos = new ArrayList<>();
+    private ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo = new ArrayList<>();
 
     public SelectionViewForSquareWhereCatch(String message) {
         super(message);
@@ -32,11 +32,11 @@ public class SelectionViewForSquareWhereCatch extends ServerEvent {
         this.squaresReachableForCatch = squaresReachableForCatch;
     }
 
-    public ArrayList<AliasCard> getWeaponNotAvailableForLackOfAmmos() {
-        return weaponNotAvailableForLackOfAmmos;
+    public ArrayList<AliasCard> getWeaponNotAvailableForLackOfAmmo() {
+        return weaponNotAvailableForLackOfAmmo;
     }
 
-    public void setWeaponNotAvailableForLackOfAmmos(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmos) {
-        this.weaponNotAvailableForLackOfAmmos = weaponNotAvailableForLackOfAmmos;
+    public void setWeaponNotAvailableForLackOfAmmo(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo) {
+        this.weaponNotAvailableForLackOfAmmo = weaponNotAvailableForLackOfAmmo;
     }
 }

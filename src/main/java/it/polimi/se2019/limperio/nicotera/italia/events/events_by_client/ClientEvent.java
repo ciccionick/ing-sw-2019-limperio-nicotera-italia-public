@@ -44,6 +44,7 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToRunByPlayer = false;
    private boolean isRequestToCatchByPlayer = false;
    private boolean isRequestToShootByPlayer = false;
+   private boolean isCatchEvent = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -113,5 +114,13 @@ public class ClientEvent implements Serializable {
 
     public void setPowerUpCard(ServerEvent.AliasCard powerUpCard) {
         this.powerUpCard = powerUpCard;
+    }
+
+    public boolean isCatchEvent() {
+        return isCatchEvent;
+    }
+
+    public void setCatchEvent(boolean catchEvent) {
+        isCatchEvent = catchEvent;
     }
 }

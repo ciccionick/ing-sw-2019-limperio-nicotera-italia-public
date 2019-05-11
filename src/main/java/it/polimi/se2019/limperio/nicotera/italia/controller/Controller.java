@@ -2,9 +2,13 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
+import sun.plugin.dom.exception.NoModificationAllowedException;
+
+import java.util.ArrayList;
 
 /**
  * Class for checking the correctness of the action of the players, according to MVC pattern
@@ -24,7 +28,7 @@ public class Controller implements Observer<ClientEvent> {
     private WeaponController weaponController;
 
     /**
-     * Costructor of the class: it creates the instances of the other controller classes
+     * Constructor of the class: it creates the instances of the other controller classes
      * @param game: the reference to model part of MVC pattern
      */
     public Controller(Game game) {
@@ -60,6 +64,10 @@ public class Controller implements Observer<ClientEvent> {
             if (message.isRequestToCatchByPlayer()) {
                 catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
             }
+
+            if(message.isCatchEvent()){
+                //catchController.
+            }
             if (message.isRequestToRunByPlayer()) {
                 //runController.replyToReqeustToCatch(message);
             }
@@ -85,6 +93,30 @@ public class Controller implements Observer<ClientEvent> {
     }
 
     /**
+     * Finds the squares that can be reached with the number of movements that are passed as parameter
+     * @param currentPosition start position
+     * @param numOfMovements number of the movements usable to reach the squares
+     * @param listOfSquareReachable It is filled with the reachable squares
+     */
+    void findSquaresReachableWithThisMovements(Square currentPosition, int numOfMovements, ArrayList<Square> listOfSquareReachable){
+        listOfSquareReachable.add(currentPosition);
+        for(Square square : currentPosition.getAdjSquares()) {
+            if (!listOfSquareReachable.contains(square)) {
+                listOfSquareReachable.add(square);
+
+            }
+            if(numOfMovements-1 > 0)
+            {
+                findSquaresReachableWithThisMovements(square, numOfMovements -1, listOfSquareReachable);
+            }
+            else{
+                return;
+            }
+        }
+    }
+
+
+    /**
      *This method calculates the distance between two squares on the map
      * @param startCoordinates the coordinates of the start position
      * @param targetCoordinates the coordinates of the end position
@@ -103,6 +135,13 @@ public class Controller implements Observer<ClientEvent> {
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
+    ArrayList<ServerEvent.AliasCard> substituteWeaponsCardWithTheirAlias(ArrayList<WeaponCard> weapons){
+        ArrayList<ServerEvent.AliasCard> weaponsAsAlias = new ArrayList<>();
+        for(WeaponCard weapon : weapons){
+            weaponsAsAlias.add(new ServerEvent.AliasCard(weapon.getName(), weapon.getDescription(), weapon.getColor()));
+        }
+        return weaponsAsAlias;
+    }
 
 
 

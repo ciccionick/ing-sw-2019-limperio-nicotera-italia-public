@@ -42,9 +42,9 @@ public class TestCatchController extends TestController {
     }
 
     private void frequencyOfAmmosUsableByPlayerTest(){
-        assertEquals(1, catchController.frequencyOfAmmosUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.RED));
-        assertEquals(1, catchController.frequencyOfAmmosUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.YELLOW));
-        assertEquals(0, catchController.frequencyOfAmmosUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.BLUE));
+        assertEquals(1, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.RED));
+        assertEquals(1, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.YELLOW));
+        assertEquals(0, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.BLUE));
     }
 
     private void addWeaponNotAffordableTest(SpawnSquare square, Player player){

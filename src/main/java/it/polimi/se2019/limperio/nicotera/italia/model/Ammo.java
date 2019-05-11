@@ -33,4 +33,6 @@ public class Ammo implements Serializable {
     public boolean isUsable() {
         return isUsable;
     }
+
+    public void setIsUsable(boolean bool){ isUsable = bool;}
 }

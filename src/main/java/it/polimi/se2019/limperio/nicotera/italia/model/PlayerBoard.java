@@ -1,5 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,8 +14,10 @@ public class PlayerBoard implements Serializable {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
-    private ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
-    private ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
+    private transient ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
+    private transient ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
+    private ArrayList<ServerEvent.AliasCard> weaponsOwnedAsAlias;
+    private ArrayList<ServerEvent.AliasCard> powerUpCardsOwnedAsAlias;
 
     /**
      * The constructor marks as usable the beginning ammo according to game's rules
@@ -62,7 +66,13 @@ public class PlayerBoard implements Serializable {
         return isInFrenzyBoardPlayer;
     }
 
+    public void setWeaponsOwnedAsAlias(ArrayList<ServerEvent.AliasCard> weaponsOwnedAsAlias) {
+        this.weaponsOwnedAsAlias = weaponsOwnedAsAlias;
+    }
 
+    public void setPowerUpCardsOwnedAsAlias(ArrayList<ServerEvent.AliasCard> powerUpCardsOwnedAsAlias) {
+        this.powerUpCardsOwnedAsAlias = powerUpCardsOwnedAsAlias;
+    }
 
     public int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
         return Collections.frequency(marks, color);
@@ -80,13 +90,6 @@ public class PlayerBoard implements Serializable {
         return ammo;
     }
 
-    public void setWeaponsOwned(ArrayList<WeaponCard> weaponsOwned) {
-        this.weaponsOwned = weaponsOwned;
-    }
-
-    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpCardsOwned) {
-        this.powerUpCardsOwned = powerUpCardsOwned;
-    }
 
     public ArrayList<WeaponCard> getWeaponsOwned() {
         return weaponsOwned;
@@ -95,6 +98,7 @@ public class PlayerBoard implements Serializable {
     public ArrayList<PowerUpCard> getPowerUpCardsOwned() {
         return powerUpCardsOwned;
     }
+
 
     /**
      * Removes an ammo of one color from the ammo deck of the player

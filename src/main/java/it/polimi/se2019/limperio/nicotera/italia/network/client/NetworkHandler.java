@@ -89,7 +89,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
             System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
-            remoteView.getPlayerBoardView().update((PlayerBoardEvent) event);
+            remoteView.getMyPlayerBoardView().update((PlayerBoardEvent) event);
 
         }
         if(event.isMapEvent()){
@@ -113,6 +113,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             return;
         }
         if(event.isFirstActionOfTurnEvent()){
+            //if se player del turno chiama update, altrimenti chiamo remoteviwe che deve stamoare attendi il turno di ..
             System.out.println("L'evento è arrivato ed è di tipo FirstTurnAction di conseguenza lo mando al remote View e al mapView");
             remoteView.update(event);
             return;

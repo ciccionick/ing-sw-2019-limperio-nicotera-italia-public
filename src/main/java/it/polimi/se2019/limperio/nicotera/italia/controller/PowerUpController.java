@@ -38,7 +38,7 @@ class PowerUpController {
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.getNicknames().add(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
-         requestDiscardPowerUpCardEvent.setPowerUpCards(subsitutePowerUpCards(requestDiscardPowerUpCardEvent.getPlayerBoard().getPowerUpCardsOwned()));
+         requestDiscardPowerUpCardEvent.setPowerUpCards(substitutePowerUpCards(requestDiscardPowerUpCardEvent.getPlayerBoard().getPowerUpCardsOwned()));
          game.notify(requestDiscardPowerUpCardEvent);
      }
 
@@ -47,7 +47,7 @@ class PowerUpController {
      * @param arrayOfCard Contains the cards that have to be substituted
      * @return A list of alias card
      */
-     private ArrayList<ServerEvent.AliasCard> subsitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
+     private ArrayList<ServerEvent.AliasCard> substitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
          ArrayList<ServerEvent.AliasCard> newArray = new ArrayList<>();
         for(int i = 0 ; i<arrayOfCard.size(); i++){
             newArray.add(i, new ServerEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
@@ -125,7 +125,7 @@ class PowerUpController {
             firstActionOfTurnEvent = new MapEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
             firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
         }
-
+        //settare nickname del player del turno e mettere tutti i nickname dei players
         firstActionOfTurnEvent.getNicknames().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
         firstActionOfTurnEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
         game.notify(firstActionOfTurnEvent);

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  *     situations according to the values of the different boolean attributes.
  * </p>
  * <p>
- *     The way to understand, by the client, which wind of Event was sent by Server is evaluated
+ *     The way to understand, by the client, which kind of Event was sent by Server is evaluated
  *     the state of the relative boolean attribute.
  *     Example: if an event is the type of MapEvent, all the boolean attributes will be false apart
  *     isMapEvent.
@@ -41,8 +41,10 @@ public class ServerEvent implements Serializable {
     private boolean isKillshotTrackEvent = false;
     private boolean isRequestForDrawTwoPowerUpCardsEvent = false;
     private boolean isRequestToDiscardPowerUpCardToSpawnEvent = false;
-    private boolean isFirstActionOfTurnEvent = false;
+    private boolean isActionOfTurnEvent = false;
     private boolean isSelectionSquareForSquareWhereCatch = false;
+    private boolean isRequestForChooseAWeaponToCatch = false;
+    private int numOfAction;
 
     public boolean isSelectionSquareForSquareWhereCatch() {
         return isSelectionSquareForSquareWhereCatch;
@@ -53,11 +55,11 @@ public class ServerEvent implements Serializable {
     }
 
     public boolean isFirstActionOfTurnEvent() {
-        return isFirstActionOfTurnEvent;
+        return isActionOfTurnEvent;
     }
 
     public void setFirstActionOfTurnEvent(boolean firstActionOfTurnEvent) {
-        isFirstActionOfTurnEvent = firstActionOfTurnEvent;
+        isActionOfTurnEvent = firstActionOfTurnEvent;
     }
 
     public ArrayList<AliasCard> getPowerUpCards() {
@@ -127,6 +129,14 @@ public class ServerEvent implements Serializable {
         isRequestToDiscardPowerUpCardToSpawnEvent = requestToDiscardPowerUpCardToSpawnEvent;
     }
 
+    public boolean isRequestForChooseAWeaponToCatch() {
+        return isRequestForChooseAWeaponToCatch;
+    }
+
+    public void setRequestForChooseAWeaponToCatch(boolean requestForChooseAWeaponToCatch) {
+        isRequestForChooseAWeaponToCatch = requestForChooseAWeaponToCatch;
+    }
+
     /**
      * Represents a simplified structure to encapsulate the main attributes of cards
      * (Weapon and PowerUp) to send them to clients removing from them the possibility to use
@@ -148,6 +158,8 @@ public class ServerEvent implements Serializable {
          */
         ColorOfCard_Ammo color;
 
+        boolean isLoaded = true;
+
         public AliasCard(String name, String description, ColorOfCard_Ammo color) {
             this.name = name;
             this.description = description;
@@ -164,6 +176,14 @@ public class ServerEvent implements Serializable {
 
         public ColorOfCard_Ammo getColor() {
             return color;
+        }
+
+        public boolean isLoaded() {
+            return isLoaded;
+        }
+
+        public void setLoaded(boolean loaded) {
+            isLoaded = loaded;
         }
     }
 
