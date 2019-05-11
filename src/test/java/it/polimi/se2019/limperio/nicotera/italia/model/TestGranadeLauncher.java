@@ -55,7 +55,7 @@ public class TestGranadeLauncher {
         assertEquals(player2.getPositionOnTheMap(), map.getMatrixOfSquares()[1][0]);
     }
 
-    @Test //DA COMPLETARE
+    @Test
     public void TestWithExtraGranade()
     {
         granadeLauncher.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});

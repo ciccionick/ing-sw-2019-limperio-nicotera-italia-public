@@ -18,20 +18,20 @@ public class Shockwave extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
-                case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
+       int j=0;
+        if(typeOfAttack.get(0)==1)
+        {
 
-                    }
-                case 2:
-                    this.tsunamiMode();
-            }
+            for(j=0; j<involvedPlayers.size(); j++)
+            {this.basicEffect(involvedPlayers.get(j).getPlayer());}
+
         }
+        else
+        {
+
+            this.tsunamiMode();
+        }
+
         setLoad(false);
     }
 

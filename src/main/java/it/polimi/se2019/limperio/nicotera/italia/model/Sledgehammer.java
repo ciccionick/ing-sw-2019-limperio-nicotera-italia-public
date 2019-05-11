@@ -28,7 +28,7 @@ public class Sledgehammer extends WeaponCard{
             }
                 else {
                 for (int j = 0; j < involvedPlayers.size(); j++) {
-                    if (involvedPlayers.get(j).getEffects().contains(2))
+                    if (involvedPlayers.get(j).getEffects().contains(4))
                         this.pulverizeMode(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
                 }
             }

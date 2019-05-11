@@ -13,29 +13,28 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
  * @author giuseppeitalia
  */
 
-public class Railgun extends WeaponCard  {
+public class Railgun extends WeaponCard {
 
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
-                case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
-                case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
-                            this.piercingMode(involvedPlayers.get(j).getPlayer());
-                    }
-            }
+
+        switch (typeOfAttack.get(0)) {
+            case 1:
+                   this.basicEffect(involvedPlayers.get(0).getPlayer());
+
+                break;
+            case 4:
+                for (int j = 0; j < involvedPlayers.size(); j++) {
+                        this.piercingMode(involvedPlayers.get(j).getPlayer());
+                }
+                break;
         }
-        setLoad(false);
-    }
+
+
+    setLoad(false);
+
+}
 
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 3);

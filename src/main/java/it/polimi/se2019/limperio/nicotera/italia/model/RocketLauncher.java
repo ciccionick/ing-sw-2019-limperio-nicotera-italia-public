@@ -47,7 +47,14 @@ public class RocketLauncher extends  WeaponCard{
     private void basicEffect(Player player, Square position, boolean withThirdEffect){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
         if(withThirdEffect)
-            player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+        {
+
+            for(Player otherplayer : player.getPositionOnTheMap().getPlayerOfThisSquare())
+            {
+                otherplayer.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+            }
+        }
+
         if(position != null)
             player.setPositionOnTheMap(position);
     }

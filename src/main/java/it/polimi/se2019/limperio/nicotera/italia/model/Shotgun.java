@@ -26,11 +26,13 @@ public class Shotgun extends WeaponCard{
                         if (involvedPlayers.get(j).getEffects().contains(1))
                             this.basicEffect(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
                     }
-                case 2:
+                    break;
+                case 4:
                     for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
+                        if (involvedPlayers.get(j).getEffects().contains(4))
                             this.longBarrelMode(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
             }
         }
         setLoad(false);
