@@ -6,7 +6,7 @@ import java.util.Collections;
 /**
  * This class is used to represent the Weapons Deck
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class WeaponsDeck {

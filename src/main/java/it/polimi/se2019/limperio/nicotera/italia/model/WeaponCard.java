@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * This class implements the game's weaponCards
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 public abstract class WeaponCard extends Card  {
 

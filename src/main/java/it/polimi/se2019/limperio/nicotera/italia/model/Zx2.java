@@ -17,22 +17,22 @@ public class Zx2 extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
+
+            switch (typeOfAttack.get(0)) {
                 case 1:
                     for (int j = 0; j < involvedPlayers.size(); j++) {
                         if (involvedPlayers.get(j).getEffects().contains(1))
                             this.basicEffect(involvedPlayers.get(j).getPlayer());
                     }
-                case 2:
+                    break;
+                case 4:
                     for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
+                        if (involvedPlayers.get(j).getEffects().contains(4))
                             this.scannerMode(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
             }
-        }
+
         setLoad(false);
     }
 

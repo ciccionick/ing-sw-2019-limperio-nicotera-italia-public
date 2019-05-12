@@ -10,7 +10,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 /**
  * This class is used to represent the Whisper  of  WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class Whisper extends WeaponCard {
