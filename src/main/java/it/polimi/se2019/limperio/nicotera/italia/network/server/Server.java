@@ -38,7 +38,7 @@ public class Server  {
     /**
      * The delay after which start the game
      */
-    private final long delay;
+    private long delay;
     /**
      * The timer that starts when 3 client will connect to play
      */
@@ -87,16 +87,44 @@ public class Server  {
      * and read from file the duration of delay, setting the timer with his task
      * @throws IOException if there would be problems with the file where reading the delay for the timer
      */
-    private Server() throws  IOException {
-        serverSocket = new ServerSocket(4000);
+    private Server() {
+        try {
+            serverSocket = new ServerSocket(4000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Il Server è in attesa sulla porta 4000.");
         game=Game.instanceOfGame();
         controller=new Controller(game);
-        File file = new File("resources/timer/timerForStartOfGame.txt");
-        FileReader inFile = new FileReader(file);
-        BufferedReader bin = new BufferedReader(inFile);
-        delay = Long.parseLong(bin.readLine());
-        System.out.println("Il timer è a: " + delay/1000 + " secondi");
+        File file;
+        FileReader inFile = null;
+        BufferedReader bin=null;
+        file = new File("resources/timer/timerForStartOfGame.txt");
+
+        try {
+            inFile = new FileReader(file);
+            bin = new BufferedReader(inFile);
+            try {
+                    delay = Long.parseLong(bin.readLine());
+            } catch (IOException ex) {
+                    ex.printStackTrace();
+            }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        finally {
+            try {
+                if(bin!=null)
+                    bin.close();
+                if(inFile!=null)
+                    inFile.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
         task = new MyTask();
         run();
     }
@@ -120,11 +148,13 @@ public class Server  {
                     }
                 }
                 if (listOfClient.size()==5){
-                    timer.cancel();
+                    if(timer!=null)
+                        timer.cancel();
                     timer=null;
                     System.out.println("Il timer e' stato fermato perchè sta per cominciare il gioco!");
                     TimeUnit.SECONDS.sleep(10);
                     startGame();
+                    break;
                 }
 
                 System.out.println("In attesa di Connessione.");

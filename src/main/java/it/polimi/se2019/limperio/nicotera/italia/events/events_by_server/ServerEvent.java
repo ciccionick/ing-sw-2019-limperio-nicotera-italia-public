@@ -44,6 +44,7 @@ public class ServerEvent implements Serializable {
     private boolean isActionOfTurnEvent = false;
     private boolean isSelectionSquareForSquareWhereCatch = false;
     private boolean isRequestForChooseAWeaponToCatch = false;
+    private boolean isFinished=false;
     private int numOfAction;
 
     public boolean isSelectionSquareForSquareWhereCatch() {
@@ -103,6 +104,13 @@ public class ServerEvent implements Serializable {
         isMapEvent = mapEvent;
     }
 
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
 
     public boolean isKillshotTrackEvent() {
         return isKillshotTrackEvent;

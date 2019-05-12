@@ -65,6 +65,8 @@ public class Client {
             try {
                 System.out.println("In attesa di messaggi..");
                 ServerEvent eventFromModel = (ServerEvent) client.in.readObject();
+                if(eventFromModel.isFinished())
+                    break;
                 client.myNetworkHandler.handleEvent(eventFromModel);
             }
             catch (SocketException se){

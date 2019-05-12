@@ -6,7 +6,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import sun.plugin.dom.exception.NoModificationAllowedException;
+
 
 import java.util.ArrayList;
 

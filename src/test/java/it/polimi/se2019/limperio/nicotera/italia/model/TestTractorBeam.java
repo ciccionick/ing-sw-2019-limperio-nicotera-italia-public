@@ -63,7 +63,7 @@ public class TestTractorBeam {
     }
 
 
-    @Test
+    /*@Test
     public void TestBasicMode() {
         tractorBeam.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
@@ -71,7 +71,7 @@ public class TestTractorBeam {
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
 
 
-    }
+    }*/
 
     @Test
     public void TestInPunisherMode()

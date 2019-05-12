@@ -231,21 +231,7 @@ public class Game extends Observable<ServerEvent> {
         }
     }
 
-    public void updateTurn(){
-        if(playerOfTurn==players.size()){
-            playerOfTurn=1;
-            if(isFirstRound)
-                isFirstRound=false;
-        }
-        if(isFirstRound){
 
-
-        }
-        else{
-
-        }
-
-    }
 
 
     public int getPlayerOfTurn() {
