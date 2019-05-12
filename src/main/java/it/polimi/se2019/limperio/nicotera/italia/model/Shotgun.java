@@ -12,7 +12,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
  * @author giuseppeitalia
  */
 
-public class Shotgun extends WeaponCard{
+public class Shotgun extends WeaponCard {
 
 
     @Override

@@ -86,6 +86,7 @@ public class Map implements Serializable {
             instanceOfMap = new Map(typeMap);
         return instanceOfMap;
     }
+    private int typeOfMap;
 
 
     /**
@@ -93,7 +94,7 @@ public class Map implements Serializable {
      */
     private void createMapOfFirstType() {
 
-
+        this.typeOfMap=1;
         matrixOfSquares[0][0] = createSquare( ColorOfFigure_Square.BLUE, true, 0, 0);
         matrixOfSquares[0][1] = createSquare(  ColorOfFigure_Square.BLUE, false, 0, 1);
         matrixOfSquares[0][2] = createSquare(true, ColorOfFigure_Square.BLUE, true,0,2);
@@ -114,7 +115,7 @@ public class Map implements Serializable {
      */
     private void createMapOfSecondType(){
 
-
+        this.typeOfMap=2;
         matrixOfSquares[0][0] = createSquare( ColorOfFigure_Square.BLUE, true,0,0);
         matrixOfSquares[0][1] = createSquare( ColorOfFigure_Square.BLUE, false,0,1);
         matrixOfSquares[0][2] = createSquare(true, ColorOfFigure_Square.BLUE, true,0,2);
@@ -136,6 +137,7 @@ public class Map implements Serializable {
      */
     private void createMapOfThirdType(){
 
+        this.typeOfMap=3;
         matrixOfSquares[0][0] = createSquare( ColorOfFigure_Square.RED, true,0,0);
         matrixOfSquares[0][1] = createSquare( ColorOfFigure_Square.BLUE, false,0,1);
         matrixOfSquares[0][2] = createSquare(true,  ColorOfFigure_Square.BLUE, true,0,2);
@@ -155,6 +157,8 @@ public class Map implements Serializable {
      * Creates a map of fourth type
      */
     private void createMapOfFourthType() {
+
+        this.typeOfMap=4;
         matrixOfSquares[0][0] = createSquare( ColorOfFigure_Square.RED, true,0,0);
         matrixOfSquares[0][1] = createSquare( ColorOfFigure_Square.BLUE, true,0,1);
         matrixOfSquares[0][2] = createSquare(true,  ColorOfFigure_Square.BLUE, true,0,2);

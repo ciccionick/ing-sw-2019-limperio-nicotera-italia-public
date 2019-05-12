@@ -17,6 +17,7 @@ public class AmmoTile implements Serializable {
 
     private boolean hasPowerUpCard;
     private ArrayList<ColorOfCard_Ammo> ammos = new ArrayList<>();
+    private int typeOfAmmoTile;
 
 
 
@@ -92,6 +93,7 @@ public class AmmoTile implements Serializable {
             default:
                 throw  new IllegalArgumentException();
         }
+        this.typeOfAmmoTile=typeAmmoTile;
 
 
     }

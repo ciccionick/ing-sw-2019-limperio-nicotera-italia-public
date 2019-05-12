@@ -89,7 +89,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
             System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
-            remoteView.getMyPlayerBoardView().update((PlayerBoardEvent) event);
+            remoteView.getPlayerBoardView().update((PlayerBoardEvent) event);
 
         }
         if(event.isMapEvent()){

@@ -78,4 +78,8 @@ public class InitializationView {
     public RemoteView getRemoteView() {
         return remoteView;
     }
+
+    public FrameForInitialization getFrameForInitialization() {
+        return frameForInitialization;
+    }
 }

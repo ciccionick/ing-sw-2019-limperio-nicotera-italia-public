@@ -21,10 +21,14 @@ public class FrameForInitialization {
         return initializationView;
     }
 
+    public JFrame getFrame() {
+        return frame;
+    }
+
     public FrameForInitialization(String title, InitializationView initializationView) {
         frame.setTitle(title);
         this.initializationView = initializationView;
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/images/favicon.jpg"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(600, 300);

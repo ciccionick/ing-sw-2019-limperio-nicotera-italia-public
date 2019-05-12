@@ -6,6 +6,8 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 
+import java.rmi.Remote;
+
 /**
  * This class handles the part of view that build the map in the game
  * @author Francesco Nicotera
@@ -16,6 +18,12 @@ public class MapView {
      */
     private Square[][] map;
 
+    private RemoteView remoteView;
+
+    public MapView(RemoteView remoteView) {
+        this.remoteView = remoteView;
+    }
+
     /**
      * Handles the creation and the set up of the map
      *
@@ -23,6 +31,7 @@ public class MapView {
      */
     public void update(MapEvent event) {
         map = event.getMap();
+        remoteView.getInitializationView().getFrameForInitialization().getFrame().setVisible(false);
         updateMap(event);
         System.out.println("Mappa aggiornata con successo");
 
