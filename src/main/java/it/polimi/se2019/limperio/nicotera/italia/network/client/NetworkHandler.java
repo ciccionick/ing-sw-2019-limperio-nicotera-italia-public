@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerI
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
+import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import java.io.IOException;
@@ -89,8 +90,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
             System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
-            remoteView.getPlayerBoardView().update((PlayerBoardEvent) event);
-
+            remoteView.handlePlayerBoardEvent(((PlayerBoardEvent) event));
         }
         if(event.isMapEvent()){
             System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");

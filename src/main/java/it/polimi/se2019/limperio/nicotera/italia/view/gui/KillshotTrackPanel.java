@@ -3,11 +3,11 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import javax.swing.*;
 import java.awt.*;
 
-class PanelKillshotTrack extends JPanel {
+class KillshotTrackPanel extends JPanel {
 
      private JFrame mainFrame;
 
-      PanelKillshotTrack(JFrame mainFrame) {
+      KillshotTrackPanel(JFrame mainFrame) {
          this.mainFrame = mainFrame;
 
          this.setBackground(Color.DARK_GRAY);

@@ -30,7 +30,7 @@ public class TestCatchController extends TestController {
 
     }
 
-    @Test
+  /*  @Test
     public void weaponIsAffordableByPlayerTest(){
         SpawnSquare square = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
         square.getWeaponCards().add(0, WeaponCard.createWeaponCard(1));
@@ -39,7 +39,7 @@ public class TestCatchController extends TestController {
         assertFalse(catchController.weaponIsAffordableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), square.getWeaponCards().get(0)));
         frequencyOfAmmosUsableByPlayerTest();
         addWeaponNotAffordableTest(square, game.getPlayers().get(0));
-    }
+    }*/
 
     private void frequencyOfAmmosUsableByPlayerTest(){
         assertEquals(1, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.RED));

@@ -3,11 +3,11 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelOfActions extends JPanel {
+ class PanelOfActions extends JPanel {
 
-    private JFrame mainFrame;
+    private MainFrame mainFrame;
 
-    public PanelOfActions(JFrame mainFrame) {
+     PanelOfActions(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -19,13 +19,13 @@ public class PanelOfActions extends JPanel {
         text.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_text = new GridBagConstraints();
         gbc_text.fill = GridBagConstraints.BOTH;
-        gbc_text.insets = new Insets(0, 0, (int)(mainFrame.getSize().getHeight()/54), 0);
+        gbc_text.insets = new Insets(0, 0, (int)(mainFrame.getFrame().getSize().getHeight()/54), 0);
         gbc_text.gridwidth = 3;
         gbc_text.gridx = 0;
         gbc_text.gridy = 0;
         add(text, gbc_text);
 
-        int insetTop = (int)(mainFrame.getSize().getHeight()/54);
+        int insetTop = (int)(mainFrame.getFrame().getSize().getHeight()/54);
         int insetBottom = insetTop/4;
 
         JButton buttonRun = new JButton("Run");

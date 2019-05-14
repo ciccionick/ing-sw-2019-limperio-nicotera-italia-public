@@ -1,13 +1,15 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class PlayerBoardPanel extends JPanel {
+ class PlayerBoardPanel extends JPanel {
 
     private MainFrame mainFrame;
 
-    public PlayerBoardPanel(MainFrame mainFrame) {
+     PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -19,7 +21,7 @@ public class PlayerBoardPanel extends JPanel {
 
         String folderPath = null;
 
-        switch (mainFrame.getRemoteView().getPlayerBoardView().getColorOfPlayer()){
+        switch (playerBoardView.getColorOfPlayer()){
             case BLUE:
                 folderPath = "resources/playerboards/blue/";
                 break;

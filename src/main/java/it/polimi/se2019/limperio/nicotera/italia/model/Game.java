@@ -105,8 +105,8 @@ public class Game extends Observable<ServerEvent> {
         for (Player player : players){
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent("Successfull creation of player board of " + player.getNickname());
-            //mettere tutti i nickname dei players e notificare a tutti la creazione di una player board
-            pbEvent.getNicknames().add(player.getNickname());
+            pbEvent.setNicknameInvolved(player.getNickname());
+            pbEvent.setNicknames(listOfNickname);
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
         }
@@ -114,7 +114,7 @@ public class Game extends Observable<ServerEvent> {
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track", board.getKillShotTrack());
-        killshotTrackEvent.setNickname(listOfNickname);
+        killshotTrackEvent.setNicknames(listOfNickname);
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
@@ -162,7 +162,7 @@ public class Game extends Observable<ServerEvent> {
      */
     void updateMap(){
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
-        mapEvent.setNickname(listOfNickname);
+        mapEvent.setNicknames(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
         mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
         notify(mapEvent);

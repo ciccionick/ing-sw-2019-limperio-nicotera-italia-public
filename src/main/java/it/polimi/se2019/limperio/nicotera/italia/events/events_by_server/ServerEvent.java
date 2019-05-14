@@ -31,6 +31,8 @@ public class ServerEvent implements Serializable {
      */
     private ArrayList<String> nicknames = new ArrayList<>();
 
+    private String nicknameInvolved;
+
     /**
      * The list of powerUp cards in alias-mode to send to clients in some kind of events like RequestDiscardPowerUpCardEvent
      */
@@ -74,12 +76,20 @@ public class ServerEvent implements Serializable {
     }
 
 
-    public void setNickname(ArrayList<String> nicknames) {
+    public void setNicknames(ArrayList<String> nicknames) {
         this.nicknames = nicknames;
     }
 
     public ArrayList<String> getNicknames() {
         return nicknames;
+    }
+
+    public String getNicknameInvolved() {
+        return nicknameInvolved;
+    }
+
+    public void setNicknameInvolved(String nicknameInvolved) {
+        this.nicknameInvolved = nicknameInvolved;
     }
 
     public boolean isPlayerBoardEvent() {

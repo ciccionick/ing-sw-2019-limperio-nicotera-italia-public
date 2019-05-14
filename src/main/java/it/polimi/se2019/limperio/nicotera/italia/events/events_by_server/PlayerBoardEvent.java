@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 
+import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
 import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
@@ -54,6 +55,7 @@ public class PlayerBoardEvent extends ServerEvent {
         this.playerBoard = playerBoard;
         setWeaponCardsOwned(playerBoard.getWeaponsOwned());
         setPowerUpCardsOwned(playerBoard.getPowerUpCardsOwned());
+
     }
 
 }

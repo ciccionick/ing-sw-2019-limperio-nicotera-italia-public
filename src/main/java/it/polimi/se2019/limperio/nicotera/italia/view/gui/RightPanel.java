@@ -3,32 +3,32 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class RightPanel extends JPanel {
+ class RightPanel extends JPanel {
 
-    private JFrame mainFrame;
+    private MainFrame mainFrame;
 
-    public RightPanel(JFrame mainFrame) {
+     RightPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.setBackground(Color.DARK_GRAY);
         this.setLayout(new GridBagLayout());
-        int insetLeftRight = (int) (mainFrame.getSize().getWidth()/96);
-        int insetBottom = (int) (mainFrame.getSize().getHeight()/27);
+        int insetLeftRight = (int) (mainFrame.getFrame().getSize().getWidth()/96);
+        int insetBottom = (int) (mainFrame.getFrame().getSize().getHeight()/27);
 
         PanelOfPlayers panelOfPlayers = new PanelOfPlayers(mainFrame);
-        GridBagConstraints gbc_panelOfPlayers = new GridBagConstraints();
-        gbc_panelOfPlayers.gridx = 0;
-        gbc_panelOfPlayers.gridy=0;
-        gbc_panelOfPlayers.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
-        this.add(panelOfPlayers, gbc_panelOfPlayers);
+        GridBagConstraints gbcPanelOfPlayers = new GridBagConstraints();
+        gbcPanelOfPlayers.gridx = 0;
+        gbcPanelOfPlayers.gridy=0;
+        gbcPanelOfPlayers.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
+        this.add(panelOfPlayers, gbcPanelOfPlayers);
 
 
 
         PanelOfActions panelOfActions = new PanelOfActions(mainFrame);
-        GridBagConstraints gbc_panelOfActions = new GridBagConstraints();
-        gbc_panelOfActions.gridx = 0;
-        gbc_panelOfActions.gridy=2;
-        gbc_panelOfActions.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
+        GridBagConstraints gbcPanelOfActions = new GridBagConstraints();
+        gbcPanelOfActions.gridx = 0;
+        gbcPanelOfActions.gridy=2;
+        gbcPanelOfActions.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
 
-        this.add(panelOfActions, gbc_panelOfActions);
+        this.add(panelOfActions, gbcPanelOfActions);
     }
 }

@@ -3,37 +3,32 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
+import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class LeftPanel extends JPanel {
+ class LeftPanel extends JPanel {
 
     private MainFrame mainFrame;
 
-    public LeftPanel(MainFrame mainFrame) {
+     LeftPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         this.setBackground(Color.DARK_GRAY);
         int widthCard;
         int heightCard;
-        int widthBoard;
-        int heightBoard;
         int widthHeightAmmo;
 
         if(mainFrame.getFrame().getSize().getWidth()/mainFrame.getFrame().getSize().getHeight()<1.80) {
             widthCard = (int) (mainFrame.getFrame().getSize().getWidth()/16);
             heightCard = (int) (widthCard*1.70);
-            widthBoard = (int) (mainFrame.getFrame().getSize().getWidth()/2.85);
-            heightBoard = (int) (widthBoard/4.15);
             widthHeightAmmo = (int) (mainFrame.getFrame().getSize().getWidth()/64);
         }
         else
         {
             heightCard = (int) (mainFrame.getFrame().getSize().getHeight()/5.29);
             widthCard = (int) (heightCard*0.59);
-            heightBoard = (int) (mainFrame.getFrame().getSize().getHeight()/6.50);
-            widthBoard = (int) (heightBoard*4.15);
             widthHeightAmmo = (int) (mainFrame.getFrame().getSize().getHeight()/36);
         }
 
@@ -43,14 +38,14 @@ public class LeftPanel extends JPanel {
 
 
 
-        PlayerBoardPanel playerBoard = new PlayerBoardPanel(mainFrame);
+        PlayerBoardPanel playerBoardPanel = new PlayerBoardPanel(mainFrame, playerBoardView);
         GridBagConstraints gbcPlayerBoard = new GridBagConstraints();
         gbcPlayerBoard.insets = new Insets(0, (int)(mainFrame.getFrame().getSize().getWidth()/192), (int)(mainFrame.getFrame().getSize().getHeight()/216), (int)(mainFrame.getFrame().getSize().getWidth()/192));
         gbcPlayerBoard.anchor = GridBagConstraints.NORTHWEST;
         gbcPlayerBoard.gridx = 0;
         gbcPlayerBoard.gridy = 0;
         gbcPlayerBoard.gridwidth = 3;
-        this.add(playerBoard, gbcPlayerBoard);
+        this.add(playerBoardPanel, gbcPlayerBoard);
 
 
         int insetTop = (int) (mainFrame.getFrame().getSize().getHeight()/108);
@@ -61,7 +56,7 @@ public class LeftPanel extends JPanel {
         String weaponFolderPath = "resources/weapons/";
 
         JLabel weapon1 = new JLabel("");
-        ImageIcon imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(mainFrame.getRemoteView().getPlayerBoardView().getWeaponCardDeck(),1)));
+        ImageIcon imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),1)));
         Image image = imageIcon.getImage();
         Image newimg = image.getScaledInstance(widthCard, heightCard,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -75,7 +70,7 @@ public class LeftPanel extends JPanel {
 
 
         JLabel weapon2 = new JLabel("");
-        imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(mainFrame.getRemoteView().getPlayerBoardView().getWeaponCardDeck(),2)));
+        imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),2)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -88,7 +83,7 @@ public class LeftPanel extends JPanel {
         this.add(weapon2, gbcWeapon2);
 
         JLabel weapon3 = new JLabel("");
-        imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(mainFrame.getRemoteView().getPlayerBoardView().getWeaponCardDeck(),3)));
+        imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),3)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -106,7 +101,7 @@ public class LeftPanel extends JPanel {
 
 
         JLabel powerCard1 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(mainFrame.getRemoteView().getPlayerBoardView().getPowerUpCardsDeck(), 1)));
+        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -119,7 +114,7 @@ public class LeftPanel extends JPanel {
         this.add(powerCard1, gbcPowerUp1);
 
         JLabel powerCard2 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(mainFrame.getRemoteView().getPlayerBoardView().getPowerUpCardsDeck(), 2)));
+        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 2)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -132,7 +127,7 @@ public class LeftPanel extends JPanel {
         this.add(powerCard2, gbcPowerUp2);
 
         JLabel powerCard3 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(mainFrame.getRemoteView().getPlayerBoardView().getPowerUpCardsDeck(), 3)));
+        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 3)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -148,7 +143,7 @@ public class LeftPanel extends JPanel {
 
         JLabel blueAmmo = new JLabel("");
         int numOfBlueAmmo;
-        numOfBlueAmmo = getNumOfAmmo(mainFrame.getRemoteView().getPlayerBoardView().getAmmo(),ColorOfCard_Ammo.BLUE);
+        numOfBlueAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.BLUE);
         blueAmmo.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
         blueAmmo.setForeground(Color.WHITE);
         imageIcon = new ImageIcon("resources/playerboards/blueammo.png");
@@ -165,7 +160,7 @@ public class LeftPanel extends JPanel {
 
         JLabel redAmmo = new JLabel();
         int numOfRedAmmo;
-        numOfRedAmmo = getNumOfAmmo(mainFrame.getRemoteView().getPlayerBoardView().getAmmo(),ColorOfCard_Ammo.RED);
+        numOfRedAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.RED);
         imageIcon = new ImageIcon("resources/playerboards/redammo.png");
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo,  java.awt.Image.SCALE_SMOOTH);
@@ -182,7 +177,7 @@ public class LeftPanel extends JPanel {
 
         JLabel yellowAmmo = new JLabel();
         int numOfYellowAmmo;
-        numOfYellowAmmo = getNumOfAmmo(mainFrame.getRemoteView().getPlayerBoardView().getAmmo(),ColorOfCard_Ammo.YELLOW);
+        numOfYellowAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.YELLOW);
         imageIcon = new ImageIcon("resources/playerboards/yellowammo.png");
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo,  java.awt.Image.SCALE_SMOOTH);

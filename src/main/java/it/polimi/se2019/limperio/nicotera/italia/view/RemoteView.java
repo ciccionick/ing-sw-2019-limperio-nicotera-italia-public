@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
@@ -17,6 +18,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
  * @author Pietro L'Imperio
  */
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class RemoteView extends Observable<ClientEvent> implements Observer<ServerEvent> {
@@ -31,7 +33,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     /**
      * the reference to player board view
      */
-    private PlayerBoardView playerBoardView;
+    private PlayerBoardView myPlayerBoardView;
     /**
      * the reference to map view
      */
@@ -39,6 +41,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     /**
      * the reference to killshot track view
      */
+    private ArrayList<PlayerBoardView> listOfPlayerBoardViews = new ArrayList<>();
+
     private KillshotTrackView killshotTrackView;
     /**
      * the reference to initialization view
@@ -60,15 +64,19 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         this.client = client;
         this.networkHandler = networkHandler;
         register(networkHandler);
-        playerBoardView = new PlayerBoardView();
+        myPlayerBoardView = new PlayerBoardView();
         mapView = new MapView(this);
         killshotTrackView = new KillshotTrackView();
         initializationView = new InitializationView(this);
     }
 
-    public PlayerBoardView getPlayerBoardView()
+    public void setMyPlayerBoardView(PlayerBoardView myPlayerBoardView) {
+        this.myPlayerBoardView = myPlayerBoardView;
+    }
+
+    public PlayerBoardView getMyPlayerBoardView()
     {
-        return playerBoardView;
+        return myPlayerBoardView;
     }
 
     public NetworkHandler getNetworkHandler() {
@@ -101,7 +109,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
         if (message.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-            System.out.println("Hai pescato: " + playerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + playerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + playerBoardView.getPowerUpCardsDeck().get(1).getColor());
+            System.out.println("Hai pescato: " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getColor());
             System.out.println(" Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
             int choose;
             choose = stdin.nextInt();
@@ -168,7 +176,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
      * @param i It permit to distinguish which card has to be removed from player's deck.
      */
     private void discardPowerUpCard(int i) {
-        ServerEvent.AliasCard powerUpCardToDiscard = playerBoardView.getPowerUpCardsDeck().remove(i);
+        ServerEvent.AliasCard powerUpCardToDiscard = myPlayerBoardView.getPowerUpCardsDeck().remove(i);
         DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
         newEvent.setPowerUpCard(powerUpCardToDiscard);
         notify(newEvent);
@@ -208,7 +216,47 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         return mainFrame;
     }
 
-    public void setMainFrame(MainFrame mainFrame) {
+    void setMainFrame(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
+    }
+
+    public ArrayList<PlayerBoardView> getListOfPlayerBoardViews() {
+        return listOfPlayerBoardViews;
+    }
+
+
+    public void handlePlayerBoardEvent(PlayerBoardEvent event){
+        if(listOfPlayerBoardViews.isEmpty() || !(playerBoardViewAlreadyExists(event.getNicknameInvolved()))){
+            listOfPlayerBoardViews.add(new PlayerBoardView());
+            if(event.getNicknameInvolved().equals(client.getNickname()))
+                myPlayerBoardView=listOfPlayerBoardViews.get(listOfPlayerBoardViews.size()-1);
+            else {
+                for (int i = 0; i < event.getPowerUpCardsOwned().size(); i++) {
+                    event.getPowerUpCardsOwned().remove(i);
+                }
+            }
+            listOfPlayerBoardViews.get(listOfPlayerBoardViews.size()-1).update(event);
+        }
+        else{
+
+            getPlayerBoardViewOfThisPlayer(event.getNicknameInvolved()).update(event);
+        }
+
+    }
+
+    private boolean playerBoardViewAlreadyExists(String nickname){
+        for (PlayerBoardView playerBoardView: listOfPlayerBoardViews){
+            if(playerBoardView.getNicknameOfPlayer().equals(nickname))
+                return true;
+        }
+        return false;
+    }
+
+    public PlayerBoardView getPlayerBoardViewOfThisPlayer(String nickname){
+        for (PlayerBoardView playerBoardView: listOfPlayerBoardViews){
+            if(playerBoardView.getNicknameOfPlayer().equals(nickname))
+                return playerBoardView;
+        }
+        throw new IllegalArgumentException();
     }
 }
