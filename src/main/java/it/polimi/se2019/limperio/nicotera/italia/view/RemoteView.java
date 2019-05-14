@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
@@ -144,6 +145,15 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 }
                 else {
                     System.out.println( ((NormalSquare)square).getAmmoTile().toString());
+                }
+            }
+        }
+
+        if(message.isCatchActionDone()){
+            if(((CatchActionDoneEvent) message).isCatchActionOfAmmoTile()){
+                System.out.println("Hai pescato");
+                for(ColorOfCard_Ammo ammo : ((CatchActionDoneEvent) message).getAmmo()){
+                    System.out.println("/t" + ammo.toString());
                 }
             }
         }

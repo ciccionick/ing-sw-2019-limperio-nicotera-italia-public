@@ -118,9 +118,15 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
             return;
         }
-        if(event.isSelectionSquareForSquareWhereCatch()){
+        if(event.isSelectionSquareForSquareWhereCatch()) {
             System.out.println("L'evento è arrivato ed è di tipo SelectionViewForSquareWhereCatch di conseguenza lo mando al remote View");
             remoteView.update(event);
+        }
+        if(event.isCatchActionDone()){
+            if(((CatchActionDoneEvent) event).isCatchActionOfAmmoTile()){
+                System.out.println("E' stata effettuata la raccolta di un ammotile");
+                remoteView.update(event);
+            }
 
         }
 

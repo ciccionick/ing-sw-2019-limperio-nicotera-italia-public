@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
@@ -72,7 +73,9 @@ class CatchController {
                powerUpCards.get(0).setInTheDeckOfSomePlayer(true);
            }
            game.incrementNumOfActionsOfThisTurn();
-
+           CatchActionDoneEvent actionDoneEvent = new CatchActionDoneEvent("avvenuta raccolta", ((NormalSquare) square).getAmmoTile().getAmmos());
+           actionDoneEvent.setCatchActionOfAmmoTile(true);
+           actionDoneEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
         }
     }
 

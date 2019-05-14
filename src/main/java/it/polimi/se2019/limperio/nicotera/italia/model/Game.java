@@ -255,4 +255,8 @@ public class Game extends Observable<ServerEvent> {
     public Board getBoard() {
         return board;
     }
+
+    public int getNumOfActionOfTheTurn() {
+        return numOfActionOfTheTurn;
+    }
 }

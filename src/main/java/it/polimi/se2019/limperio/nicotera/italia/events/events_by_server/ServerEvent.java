@@ -45,6 +45,7 @@ public class ServerEvent implements Serializable {
     private boolean isSelectionSquareForSquareWhereCatch = false;
     private boolean isRequestForChooseAWeaponToCatch = false;
     private boolean isFinished=false;
+    private boolean isCatchActionDone = false;
     private int numOfAction;
 
     public boolean isSelectionSquareForSquareWhereCatch() {
@@ -143,6 +144,22 @@ public class ServerEvent implements Serializable {
 
     public void setRequestForChooseAWeaponToCatch(boolean requestForChooseAWeaponToCatch) {
         isRequestForChooseAWeaponToCatch = requestForChooseAWeaponToCatch;
+    }
+
+    public boolean isCatchActionDone() {
+        return isCatchActionDone;
+    }
+
+    public void setCatchActionDone(boolean catchActionDone) {
+        isCatchActionDone = catchActionDone;
+    }
+
+    public int getNumOfAction() {
+        return numOfAction;
+    }
+
+    public void setNumOfAction(int numOfAction) {
+        this.numOfAction = numOfAction;
     }
 
     /**
