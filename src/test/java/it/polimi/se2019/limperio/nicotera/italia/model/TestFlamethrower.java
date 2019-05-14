@@ -16,13 +16,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestFlamethrower {
 
+    /**
+     * player attacking
+     */
     private Player player1 = new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
+    /**
+     * player who receives one damage with BasicMode or two damage with BarbecueMode
+     */
     private Player player2= new Player("player2", false, 2, ColorOfFigure_Square.GREY);
+    /**
+     * player who receives one damage with BasicMode or one damage with BarbecueMode
+     */
     private Player player3= new Player("player3", false, 3, ColorOfFigure_Square.YELLOW);
     private Flamethrower flamethrower;
     private InvolvedPlayer involvedPlayer2;
     private InvolvedPlayer involvedPlayer3;
-    private InvolvedPlayer involvedPlayer4;
+
     private Map map;
 
 

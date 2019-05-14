@@ -10,9 +10,21 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+/**
+ * Test for PlasmaGun of Weapon Card
+ *
+ * @author Giuseppe Italia
+ */
+
 public class TestPlasmaGun {
 
+    /**
+     * player attacking and he is moved by one or two squares with PhaseGlide
+     */
     private Player player1 = new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
+    /**
+     * player who receives 2 damage with basicEffect and another damage with third Effect
+     */
     private Player player2= new Player("player2", false, 2, ColorOfFigure_Square.GREY);
     private PlasmaGun plasmaGun;
     private InvolvedPlayer involvedPlayer;

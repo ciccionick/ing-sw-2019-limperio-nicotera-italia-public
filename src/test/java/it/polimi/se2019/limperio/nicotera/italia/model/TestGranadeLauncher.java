@@ -8,11 +8,29 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test of GranadeLauncher of Weapon Card
+ *
+ * @author Giuseppe Italia
+ */
+
 public class TestGranadeLauncher {
 
+    /**
+     * player attacking
+     */
     private Player player1= new Player("player1", true, 1,ColorOfFigure_Square.BLUE);
+    /**
+     * player who receives one damage and is moved by a square with BasicEffect
+     */
     private Player player2= new Player("player2", false, 2,ColorOfFigure_Square.RED);
+    /**
+     * player who receives one damage with ExtraGranade
+     */
     private Player player3= new Player("player3", false, 3,ColorOfFigure_Square.YELLOW);
+    /**
+     * player who receives one damage with ExtraGranade
+     */
     private Player player4= new Player("player4", false, 4,ColorOfFigure_Square.GREY);
     private Map map;
     private GranadeLauncher granadeLauncher;

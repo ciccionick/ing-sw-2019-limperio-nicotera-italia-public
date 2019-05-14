@@ -10,7 +10,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 /**
  * handles PowerGlove of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class PowerGlove extends WeaponCard {

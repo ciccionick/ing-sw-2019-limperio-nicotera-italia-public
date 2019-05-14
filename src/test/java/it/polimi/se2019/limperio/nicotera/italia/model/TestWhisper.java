@@ -25,9 +25,6 @@ public class TestWhisper {
      */
     private Player player2 = new Player("player2", false, 2, ColorOfFigure_Square.RED);
 
-
-
-
     private Map map;
     private Whisper whisper;
     private InvolvedPlayer involvedPlayer2;
@@ -41,16 +38,8 @@ public class TestWhisper {
         map = Map.instanceOfMap(2);
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[0][0]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][2]);
-
-
-
-
-
         player1.createPlayerBoard();
         player2.createPlayerBoard();
-
-
-
         whisper = new Whisper();
         whisper.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(whisper);
