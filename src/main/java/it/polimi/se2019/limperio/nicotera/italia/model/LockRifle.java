@@ -40,7 +40,7 @@ public class LockRifle extends WeaponCard {
     }
 
     public LockRifle() {
-        super(BLUE, "Lock Rifle");
+        super(BLUE, "Lockrifle");
         String description;
         description = "basic effect: Deal 2 damage and 1 mark to 1 target you can see.\n" +
                 "with second lock: Deal 1 mark to a different target you can see.";

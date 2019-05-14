@@ -50,7 +50,7 @@ public class MachineGun extends WeaponCard {
     }
 
     public MachineGun() {
-        super(BLUE, "Machine Gun");
+        super(BLUE, "Machine gun");
         String description;
         description = "basic effect: Choose 1 or 2 targets you can see and deal 1 damage to each.\n" +
                 "with focus shot: Deal 1 additional damage to one of those targets.\n" +

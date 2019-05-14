@@ -31,6 +31,8 @@ public class MapEvent extends ServerEvent {
      */
     private Square[][] map = null;
 
+    private int typeOfMap;
+
     public MapEvent(String message) {
         super(message);
         setMapEvent(true);
@@ -70,6 +72,14 @@ public class MapEvent extends ServerEvent {
     public void setMap(Square[][] map) {
         this.map = map;
         setWeaponsWithTheirAlias(map);
+    }
+
+    public int getTypeOfMap() {
+        return typeOfMap;
+    }
+
+    public void setTypeOfMap(int typeOfMap) {
+        this.typeOfMap = typeOfMap;
     }
 
     public ArrayList<AliasCard> getWeaponsCardsForBlueSpawnSquare() {

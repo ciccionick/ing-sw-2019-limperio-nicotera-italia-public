@@ -172,7 +172,9 @@ public class Map implements Serializable {
         matrixOfSquares[2][3] = createSquare(true,  ColorOfFigure_Square.YELLOW, true,2,3);
     }
 
-
+    public int getTypeOfMap() {
+        return typeOfMap;
+    }
 
     /**
      * Sets the adjacency of every squares in a first type map

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author Pietro L'Imperio
  */
 public class PlayerBoardEvent extends ServerEvent {
-    private ArrayList<AliasCard> weaponsCardOwned = new ArrayList<>();
+    private ArrayList<AliasCard> weaponCardsOwned = new ArrayList<>();
     private ArrayList<AliasCard> powerUpCardsOwned = new ArrayList<>();
 
     /**
@@ -26,28 +26,24 @@ public class PlayerBoardEvent extends ServerEvent {
         setPlayerBoardEvent(true);
     }
 
-    private void setWeaponsCardOwned(PlayerBoard playerBoard) {
-        ArrayList<AliasCard> weaponsOwned = new ArrayList<>();
-        for(WeaponCard card : playerBoard.getWeaponsOwned()){
-            weaponsOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));
+    private void setWeaponCardsOwned(ArrayList<WeaponCard> weaponsOwned) {
+        for(WeaponCard card : weaponsOwned){
+            this.weaponCardsOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
-        playerBoard.setWeaponsOwnedAsAlias(weaponsOwned);
     }
 
-    private void setPowerUpCardsOwned(PlayerBoard playerBoard) {
-        ArrayList<AliasCard> powerUpOwned = new ArrayList<>();
-        for(PowerUpCard card : playerBoard.getPowerUpCardsOwned()){
-            powerUpOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));
+    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpOwned) {
+        for(PowerUpCard card : powerUpOwned){
+            this.powerUpCardsOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
-        playerBoard.setPowerUpCardsOwnedAsAlias(powerUpOwned);
     }
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
     }
 
-    public ArrayList<AliasCard> getWeaponsCardOwned() {
-        return weaponsCardOwned;
+    public ArrayList<AliasCard> getWeaponCardsOwned() {
+        return weaponCardsOwned;
     }
 
     public ArrayList<AliasCard> getPowerUpCardsOwned() {
@@ -56,8 +52,8 @@ public class PlayerBoardEvent extends ServerEvent {
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
-        setWeaponsCardOwned(playerBoard);
-        setPowerUpCardsOwned(playerBoard);
+        setWeaponCardsOwned(playerBoard.getWeaponsOwned());
+        setPowerUpCardsOwned(playerBoard.getPowerUpCardsOwned());
     }
 
 }

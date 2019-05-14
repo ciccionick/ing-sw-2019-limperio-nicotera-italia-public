@@ -14,9 +14,6 @@ public class TestElectroScythe {
     private Player player2= new Player("player2", false, 2, ColorOfFigure_Square.GREY);
     private Player player3= new Player("player3", false, 3, ColorOfFigure_Square.YELLOW);
     private ElectroScythe electroScythe;
-    /*private InvolvedPlayer involvedPlayer;
-    private InvolvedPlayer involvedPlayer3;
-    private InvolvedPlayer involvedPlayer4;*/
     private Map map;
 
 

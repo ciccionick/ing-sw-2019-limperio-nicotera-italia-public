@@ -4,7 +4,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerB
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class handles the part of view that creates the player's board in the game
@@ -19,7 +18,10 @@ public class PlayerBoardView {
     private boolean isInFrenzyBoardPlayer=false;
     private ArrayList<ServerEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
     private ArrayList<ServerEvent.AliasCard> weaponCardDeck = new ArrayList<>();
-    private Scanner stdin = new Scanner(System.in);
+    private String nicknameOfPlayer;
+    private ColorOfFigure_Square colorOfPlayer;
+
+
 
     public ArrayList<ColorOfFigure_Square> getDamages() {
         return damages;
@@ -67,20 +69,30 @@ public class PlayerBoardView {
         setMarks(event.getPlayerBoard().getMarks());
         setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
         setAmmo(event.getPlayerBoard().getAmmo());
-        setPowerUpCardsDeck(event.getPowerUpCards());
-        setWeaponCardDeck(event.getWeaponsCardOwned());
+        setPowerUpCardsDeck(event.getPowerUpCardsOwned());
+        setWeaponCardDeck(event.getWeaponCardsOwned());
+        this.nicknameOfPlayer = event.getPlayerBoard().getNicknameOfPlayer();
+        this.colorOfPlayer = event.getPlayerBoard().getColorOfPlayer();
     }
 
     public ArrayList<ServerEvent.AliasCard> getPowerUpCardsDeck() {
         return powerUpCardsDeck;
     }
 
-    public void setWeaponCardDeck(ArrayList<ServerEvent.AliasCard> weaponCardDeck) {
+    private void setWeaponCardDeck(ArrayList<ServerEvent.AliasCard> weaponCardDeck) {
         this.weaponCardDeck = weaponCardDeck;
     }
 
-    public void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
+    private void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
         this.powerUpCardsDeck = powerUpCardsDeck;
+    }
+
+    public ColorOfFigure_Square getColorOfPlayer() {
+        return colorOfPlayer;
+    }
+
+    public String getNicknameOfPlayer() {
+        return nicknameOfPlayer;
     }
 
     public ArrayList<ServerEvent.AliasCard> getWeaponCardDeck() {

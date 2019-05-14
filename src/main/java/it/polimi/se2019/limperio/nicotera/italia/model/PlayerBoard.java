@@ -10,19 +10,21 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken.SKULL;
 
 public class PlayerBoard implements Serializable {
+    private String nicknameOfPlayer;
+    private ColorOfFigure_Square colorOfPlayer;
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
     private transient ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
     private transient ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
-    private ArrayList<ServerEvent.AliasCard> weaponsOwnedAsAlias;
-    private ArrayList<ServerEvent.AliasCard> powerUpCardsOwnedAsAlias;
 
     /**
      * The constructor marks as usable the beginning ammo according to game's rules
      */
-    PlayerBoard() {
+    PlayerBoard(String nickname, ColorOfFigure_Square color) {
+        this.nicknameOfPlayer = nickname;
+        this.colorOfPlayer = color;
         damages = new ArrayList<>();
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
@@ -66,13 +68,6 @@ public class PlayerBoard implements Serializable {
         return isInFrenzyBoardPlayer;
     }
 
-    public void setWeaponsOwnedAsAlias(ArrayList<ServerEvent.AliasCard> weaponsOwnedAsAlias) {
-        this.weaponsOwnedAsAlias = weaponsOwnedAsAlias;
-    }
-
-    public void setPowerUpCardsOwnedAsAlias(ArrayList<ServerEvent.AliasCard> powerUpCardsOwnedAsAlias) {
-        this.powerUpCardsOwnedAsAlias = powerUpCardsOwnedAsAlias;
-    }
 
     public int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
         return Collections.frequency(marks, color);
@@ -99,6 +94,13 @@ public class PlayerBoard implements Serializable {
         return powerUpCardsOwned;
     }
 
+    public String getNicknameOfPlayer() {
+        return nicknameOfPlayer;
+    }
+
+    public ColorOfFigure_Square getColorOfPlayer() {
+        return colorOfPlayer;
+    }
 
     /**
      * Removes an ammo of one color from the ammo deck of the player

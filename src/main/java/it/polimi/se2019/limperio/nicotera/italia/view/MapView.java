@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEven
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
 
 import java.rmi.Remote;
 
@@ -16,9 +17,11 @@ public class MapView {
     /**
      * The map that consists in a matrix of squares
      */
-    private Square[][] map;
+    private Square[][] map = null;
 
     private RemoteView remoteView;
+
+    private int typeOfMap;
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -30,8 +33,15 @@ public class MapView {
      * @param event contains the type of map that has to be created
      */
     public void update(MapEvent event) {
-        map = event.getMap();
-        remoteView.getInitializationView().getFrameForInitialization().getFrame().setVisible(false);
+        if(map==null) {
+            map = event.getMap();
+            typeOfMap = event.getTypeOfMap();
+            remoteView.getInitializationView().getFrameForInitialization().getFrame().setVisible(false);
+            remoteView.setMainFrame(new MainFrame(remoteView));
+        }
+        else{
+            map = event.getMap();
+        }
         updateMap(event);
         System.out.println("Mappa aggiornata con successo");
 
@@ -54,6 +64,9 @@ public class MapView {
         }
     }
 
+    public int getTypeOfMap() {
+        return typeOfMap;
+    }
 
     public Square[][] getMap() {
         return map;

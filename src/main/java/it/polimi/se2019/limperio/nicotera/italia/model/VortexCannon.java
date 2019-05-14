@@ -47,7 +47,7 @@ public class VortexCannon extends WeaponCard {
     }
 
     public VortexCannon() {
-        super(RED, "VortexCannon");
+        super(RED, "Vortex cannon");
         String description;
         description = "basic effect: Choose a square you can see, but not your square. Call it \"the vortex\". Choose a target on the vortex or 1 move away from it. Move it onto the vortex and give it 2 damage.\n" +
                 "with black hole: Choose up to 2 other targets on the vortex or 1 move away from it. Move them onto the vortex and give them each 1 damage.\n" +
