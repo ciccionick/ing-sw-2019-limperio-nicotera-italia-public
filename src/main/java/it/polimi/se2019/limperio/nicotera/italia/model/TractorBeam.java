@@ -30,7 +30,7 @@ public class TractorBeam extends WeaponCard {
     }
 
     public TractorBeam() {
-        super(BLUE, "TractorBeam");
+        super(BLUE, "Tractor beam");
         String description;
         description = "basic mode: Move a target 0, 1, or 2 squares to a square you can see, and give it 1 damage.\n" +
                 "in punisher mode: Choose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n" +

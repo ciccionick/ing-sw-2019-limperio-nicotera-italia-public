@@ -63,7 +63,7 @@ public class Player implements PlayerBehaviour{
     }
 
     public void createPlayerBoard(){
-        playerBoard = new PlayerBoard();
+        playerBoard = new PlayerBoard(this.nickname, this.colorOfFigure);
     }
 
 

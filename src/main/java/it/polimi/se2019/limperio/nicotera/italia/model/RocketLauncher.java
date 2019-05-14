@@ -60,7 +60,7 @@ public class RocketLauncher extends  WeaponCard{
     }
 
     public RocketLauncher() {
-        super(RED, "Rocket Launcher");
+        super(RED, "Rocket launcher");
         String description;
         description = "basic effect: Deal 2 damage to 1 target you can see that is not on your square. Then you may move the target 1 square." +
                       "with rocket jump: Move 1 or 2 squares. This effect can be used either before or after the basic effect." +

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Test for HeatSeeker of Weapon Card
+ * Test for Heatseeker of Weapon Card
  *
  * @author Giuseppe Italia
  */
@@ -25,7 +25,7 @@ public class TestHeatSeeker {
      */
     private Player player2= new Player("player2", false, 2,ColorOfFigure_Square.RED);
     private Map map;
-    private HeatSeeker heatSeeker;
+    private Heatseeker heatSeeker;
     private InvolvedPlayer involvedPlayer1;
 
 
@@ -42,7 +42,7 @@ public class TestHeatSeeker {
         player1.createPlayerBoard();
         player2.createPlayerBoard();
 
-        heatSeeker= new HeatSeeker();
+        heatSeeker= new Heatseeker();
         heatSeeker.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(heatSeeker);
         involvedPlayer1= new InvolvedPlayer(player2, null, null);

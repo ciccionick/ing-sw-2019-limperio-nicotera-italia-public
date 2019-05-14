@@ -101,7 +101,7 @@ public abstract class WeaponCard extends Card  {
             case 9:
                 return new Whisper();
             case 10:
-                return new HeatSeeker();
+                return new Heatseeker();
             case 11:
                 return new Hellion();
             case 12:

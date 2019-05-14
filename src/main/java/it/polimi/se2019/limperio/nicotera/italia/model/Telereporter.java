@@ -12,7 +12,7 @@ import java.io.Serializable;
  class Telereporter extends PowerUpCard {
      int typeOfCard;
      Telereporter(ColorOfCard_Ammo color, int typeOfCard){
-        super(color , "Telereporter", "bla bla bla");
+        super(color , "Teleporter", "bla bla bla");
         this.typeOfCard = typeOfCard;
     }
 

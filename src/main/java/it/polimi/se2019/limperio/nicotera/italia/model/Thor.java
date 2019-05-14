@@ -47,7 +47,7 @@ public class Thor extends WeaponCard {
     }
 
     public Thor() {
-        super(BLUE, "Thor");
+        super(BLUE, "THOR");
         String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with chain reaction: Deal 1 damage to a second target that your first target can see.\n" +
                 "with high voltage: Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +

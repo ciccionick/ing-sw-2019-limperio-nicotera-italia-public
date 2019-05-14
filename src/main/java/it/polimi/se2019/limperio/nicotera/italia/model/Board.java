@@ -35,7 +35,7 @@ public class Board {
     /**
      * The reference of the killshot track
      */
-    private KillShotTrack killShotTrack;
+    private KillshotTrack killShotTrack;
 
     private Board()
     { }
@@ -64,7 +64,7 @@ public class Board {
 
      void createKillShotTrack()
     {
-        killShotTrack = KillShotTrack.instanceOfKillShotTrack();
+        killShotTrack = KillshotTrack.instanceOfKillShotTrack();
     }
 
     public Map getMap() {
@@ -83,7 +83,7 @@ public class Board {
         return powerUpDeck;
     }
 
-     KillShotTrack getKillShotTrack() {
+     KillshotTrack getKillShotTrack() {
         return killShotTrack;
     }
 

@@ -63,13 +63,6 @@ public class ServerEvent implements Serializable {
         isActionOfTurnEvent = firstActionOfTurnEvent;
     }
 
-    public ArrayList<AliasCard> getPowerUpCards() {
-        return powerUpCards;
-    }
-
-    public void setPowerUpCards(ArrayList<AliasCard> powerUpCards) {
-        this.powerUpCards = powerUpCards;
-    }
 
     public ServerEvent(String message) {
         this.message = message;

@@ -38,7 +38,6 @@ class PowerUpController {
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.getNicknames().add(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
-         requestDiscardPowerUpCardEvent.setPowerUpCards(substitutePowerUpCards(requestDiscardPowerUpCardEvent.getPlayerBoard().getPowerUpCardsOwned()));
          game.notify(requestDiscardPowerUpCardEvent);
      }
 
@@ -47,13 +46,13 @@ class PowerUpController {
      * @param arrayOfCard Contains the cards that have to be substituted
      * @return A list of alias card
      */
-     private ArrayList<ServerEvent.AliasCard> substitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
+     /*private ArrayList<ServerEvent.AliasCard> substitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
          ArrayList<ServerEvent.AliasCard> newArray = new ArrayList<>();
         for(int i = 0 ; i<arrayOfCard.size(); i++){
             newArray.add(i, new ServerEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
         }
         return newArray;
-     }
+     }*/
 
     /**
      * This method handles the draught of a power up by a player in order to be spawned in the square with the same color of the discarded card

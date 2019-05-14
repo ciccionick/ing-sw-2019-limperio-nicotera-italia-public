@@ -8,6 +8,7 @@ import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
+import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
 
 
 /**
@@ -46,6 +47,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
      * It permits to read from command line
      */
     private Scanner stdin = new Scanner(System.in);
+
+    private MainFrame mainFrame;
 
     /**
      * The constructor creates and instance of all the parts of the view and it matches them to the specific client that is passed by parameter.
@@ -189,5 +192,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     public InitializationView getInitializationView() {
         return initializationView;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
     }
 }

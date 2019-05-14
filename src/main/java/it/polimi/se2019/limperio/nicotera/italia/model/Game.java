@@ -164,6 +164,7 @@ public class Game extends Observable<ServerEvent> {
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
         mapEvent.setNickname(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
+        mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
         notify(mapEvent);
     }
 

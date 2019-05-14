@@ -58,7 +58,7 @@ public class PlasmaGun extends WeaponCard{
 
 
     public PlasmaGun() {
-        super(BLUE, "PlasmaGun");
+        super(BLUE, "Plasma gun");
         String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
                 "with phase glide: Move 1 or 2 squares. This effect can be used either before or after the basic effect.\n" +
                 "with charged shot: Deal 1 additional damage to your target.\n" +
