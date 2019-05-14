@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,6 +60,11 @@ public class TestPowerGlove {
         involvedPlayer3 = new InvolvedPlayer(player3, null, map.getMatrixOfSquares()[2][1]);
         involvedPlayer4 = new InvolvedPlayer(player4, null, map.getMatrixOfSquares()[0][1]);
 
+    }
+
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
     }
 
 

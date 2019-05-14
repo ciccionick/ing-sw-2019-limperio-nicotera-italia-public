@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,6 +65,10 @@ public class TestZx2 {
 
     }
 
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
+    }
 
     @Test
     public void TestBasicEffect() {

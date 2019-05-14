@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,6 +67,11 @@ public class TestThor {
         involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(2);}}, null);
         involvedPlayer4= new InvolvedPlayer(player4, new ArrayList<Integer>(){{add(3);}}, null);
 
+    }
+
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
     }
 
 

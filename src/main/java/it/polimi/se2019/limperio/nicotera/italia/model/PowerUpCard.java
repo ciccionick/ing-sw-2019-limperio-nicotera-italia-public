@@ -15,9 +15,12 @@ public abstract class PowerUpCard extends Card  {
     private boolean isInTheDeckOfSomePlayer = false;
 
 
-    public void useAsAmmo(){}
+    public void useAsAmmo()
+    {
 
-    public void useAsPowerUp(){}
+    }
+
+    public void useAsPowerUp(Player player, Square square) {}
 
 
     public PowerUpCard(ColorOfCard_Ammo color, String name, String description){
@@ -79,5 +82,7 @@ public abstract class PowerUpCard extends Card  {
     public int getTypeOfCard() {
         return typeOfCard;
     }
+
+
 }
 
