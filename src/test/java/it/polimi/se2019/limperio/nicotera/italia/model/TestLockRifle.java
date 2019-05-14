@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test for LockRifle of Weapon Card
+ *
+ * @author Giuseppe Italia
  */
 
 public class TestLockRifle {

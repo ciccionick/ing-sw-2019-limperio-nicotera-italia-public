@@ -27,28 +27,24 @@ public class Hellion extends WeaponCard {
     }
 
     private void basicMode(Player player){
-        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
 
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
 
-            if(!otherPlayer.getNickname().equals(player.getNickname()))
-            {
-                otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
-            }
+            otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
+
         }
 
     }
 
     private void inNanoTracerMode(Player player){
-        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
 
-            if(otherPlayer.getNickname()!= player.getNickname())
-            {
-                otherPlayer.assignMarks(getOwnerOfCard().getColorOfFigure(), 2);
-            }
+                otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
+
         }
     }
 

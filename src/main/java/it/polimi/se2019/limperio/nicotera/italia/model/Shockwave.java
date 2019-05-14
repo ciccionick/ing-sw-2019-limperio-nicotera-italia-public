@@ -40,6 +40,7 @@ public class Shockwave extends WeaponCard {
     }
 
     private void tsunamiMode(){
+
         for(Square square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
             for(Player enemy : square.getPlayerOfThisSquare()){
                 enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);

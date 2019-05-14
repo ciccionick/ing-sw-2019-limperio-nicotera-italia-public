@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 
+
 import org.junit.Test;
 import org.junit.Before;
 
@@ -9,10 +10,25 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test for Cyberblade of Weapon Card
+ *
+ * @author Giuseppe Italia
+ */
+
 public class TestCyberblade {
 
+    /**
+     * attacking player and who movies by one square with ShadowstepEffect
+     */
     private Player player1 = new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
+    /**
+     * player who receives two damage with BasicEffect
+     */
     private Player player2= new Player("player2", false, 2, ColorOfFigure_Square.GREY);
+    /**
+     * player who receives two damage with SliceAndDice
+     */
     private Player player3= new Player("player2", false, 2, ColorOfFigure_Square.YELLOW);
     private Cyberblade cyberblade;
     private InvolvedPlayer involvedPlayer1;

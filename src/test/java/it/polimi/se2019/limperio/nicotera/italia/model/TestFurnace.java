@@ -8,10 +8,25 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test for Furnace of Weapon Card
+ *
+ * @author Giuseppe Italia
+ */
+
 public class TestFurnace {
 
+    /**
+     * player attacking
+     */
     private Player player1 = new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
+    /**
+     * player who receives one damage with BasicMode or one damage with InCozyFireMode
+     */
     private Player player2= new Player("player2", false, 2, ColorOfFigure_Square.GREY);
+    /**
+     * player who receives one damage with BasicMode
+     */
     private Player player3= new Player("player3", false, 3, ColorOfFigure_Square.YELLOW);
     private Furnace furnace;
     private InvolvedPlayer involvedPlayer2;

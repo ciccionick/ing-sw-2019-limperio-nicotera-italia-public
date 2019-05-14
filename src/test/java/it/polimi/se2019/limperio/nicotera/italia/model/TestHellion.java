@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * DA RIFARE; NON VIENE e da rifare anche la documentazione dei player
+ * Test of TestHellion of Weapon Card
+ *
+ * @author Giuseppe Italia
  */
 
 public class TestHellion {
@@ -20,15 +22,15 @@ public class TestHellion {
      */
     private Player player1= new Player("player1", true, 1,ColorOfFigure_Square.BLUE);
     /**
-     * player who receives the damage and the mark with basic attack
+     * player who receives one damage and one mark with basicMode or one damage and two marks with InNanoTracerMode
      */
     private Player player2= new Player("player2", false, 2,ColorOfFigure_Square.RED);
     /**
-     * player who receives the mark with basic attack because he stays in the same square of player 2
+     * player who receives one mark with basicMode or two marks with InNanoTracerMode
      */
     private Player player3= new Player("player3", false, 3,ColorOfFigure_Square.YELLOW);
     /**
-     * player who receives the mark with basic attack because he stays in the same square of player 2
+     * player who receives one mark with basicMode or two marks with InNanoTracerMode
      */
     private Player player4= new Player("player4", false, 4,ColorOfFigure_Square.GREY);
     private Map map;
@@ -63,7 +65,7 @@ public class TestHellion {
     }
 
 
-   /* @Test
+   @Test
     public void TestBasicMode()
     {
         hellion.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
@@ -77,9 +79,9 @@ public class TestHellion {
         assertEquals(player4.getPlayerBoard().getMarks().size(), 1);
         assertEquals(player4.getPlayerBoard().getMarks().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player4.getPlayerBoard().getDamages().size(), 0);
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void TestInNanoTracerMode()
     {
         hellion.useWeapon(new ArrayList<Integer>(){{add(4);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
@@ -97,6 +99,6 @@ public class TestHellion {
         assertEquals(player4.getPlayerBoard().getMarks().get(1), ColorOfFigure_Square.BLUE);
         assertEquals(player4.getPlayerBoard().getDamages().size(), 0);
 
-    }*/
+    }
 
 }

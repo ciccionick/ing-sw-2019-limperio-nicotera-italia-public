@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test for TractorBeam of Weapon Card
+ *
+ * @author Giuseppe Italia
  */
 
 public class TestTractorBeam {
@@ -63,15 +65,16 @@ public class TestTractorBeam {
     }
 
 
-    /*@Test
+    @Test
     public void TestBasicMode() {
         tractorBeam.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
+        assertEquals(map.getMatrixOfSquares()[1][2], player2.getPositionOnTheMap());
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
 
 
-    }*/
+    }
 
     @Test
     public void TestInPunisherMode()

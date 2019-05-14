@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test for Thor of Weapon Card
+ *
+ * @author Giuseppe Italia
  */
 
 public class TestThor {

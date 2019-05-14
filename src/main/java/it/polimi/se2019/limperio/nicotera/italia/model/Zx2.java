@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 /**
  * This class is used to represent the Zx2 of  WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class Zx2 extends WeaponCard {

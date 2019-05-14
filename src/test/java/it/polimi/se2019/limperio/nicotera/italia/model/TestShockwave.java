@@ -57,12 +57,14 @@ public class TestShockwave {
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[2][2]);
         player3.setPositionOnTheMap(map.getMatrixOfSquares()[2][2]);
         player4.setPositionOnTheMap(map.getMatrixOfSquares()[2][3]);
-        player4.setPositionOnTheMap(map.getMatrixOfSquares()[2][3]);
+        player5.setPositionOnTheMap(map.getMatrixOfSquares()[2][3]);
+        player1.getPositionOnTheMap().setCardinalSquare(map.getMatrixOfSquares()[2][2],map.getMatrixOfSquares()[2][3],null,null);
 
         player1.createPlayerBoard();
         player2.createPlayerBoard();
         player3.createPlayerBoard();
         player4.createPlayerBoard();
+        player5.createPlayerBoard();
         shockwave = new Shockwave();
         shockwave.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(shockwave);
@@ -88,11 +90,12 @@ public class TestShockwave {
 
     }
 
-   /* @Test
+    @Test
     public void TestTsunamiMode()
     {
         shockwave.useWeapon(new ArrayList<Integer>() {{ add(4);}}, null);
 
+        assertEquals(player1.getPlayerBoard().getDamages().size(), 0);
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player3.getPlayerBoard().getDamages().size(), 1);
@@ -101,5 +104,5 @@ public class TestShockwave {
         assertEquals(player4.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player5.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player5.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
-    }*/
+    }
 }

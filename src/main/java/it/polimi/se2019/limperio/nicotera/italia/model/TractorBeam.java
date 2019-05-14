@@ -21,8 +21,10 @@ public class TractorBeam extends WeaponCard {
         switch (typeOfAttack.get(0)){
             case 1:
                 basicMode(involvedPlayers.get(0).getPlayer(), involvedPlayers.get(0).getSquare());
+                break;
             case 4:
                 inPunisherMode(involvedPlayers.get(0).getPlayer());
+                break;
 
 
         }
