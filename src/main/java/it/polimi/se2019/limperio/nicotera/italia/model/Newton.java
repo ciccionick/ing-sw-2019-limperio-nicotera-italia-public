@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * This class is used to represent the Newton of PowerUp Card
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 class Newton extends PowerUpCard {
@@ -17,5 +17,12 @@ class Newton extends PowerUpCard {
 
     public int getTypeOfCard() {
         return typeOfCard;
+    }
+
+
+    @Override
+    public void useAsPowerUp(Player player, Square square)
+    {
+        player.setPositionOnTheMap(square);
     }
 }

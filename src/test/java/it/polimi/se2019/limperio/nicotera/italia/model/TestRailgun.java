@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import com.sun.imageio.spi.RAFImageInputStreamSpi;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +62,10 @@ public class TestRailgun {
         involvedPlayer3 = new InvolvedPlayer(player3, null, null);
         involvedPlayer4 = new InvolvedPlayer(player4, null, null);
 
+    }
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
     }
 
 

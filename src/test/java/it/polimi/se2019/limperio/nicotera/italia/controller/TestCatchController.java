@@ -50,7 +50,7 @@ public class TestCatchController extends TestController {
     private void addWeaponNotAffordableTest(SpawnSquare square, Player player){
         ArrayList<ServerEvent.AliasCard> weapons = new ArrayList<>();
         catchController.addWeaponNotAffordable(square, player, weapons);
-        assertEquals("Lock Rifle", weapons.get(0).getName());
+        assertEquals("Lockrifle", weapons.get(0).getName());
     }
 
 }

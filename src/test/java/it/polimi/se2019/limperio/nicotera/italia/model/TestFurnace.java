@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,6 +57,12 @@ public class TestFurnace {
         involvedPlayer4= new InvolvedPlayer(null, null , map.getMatrixOfSquares()[1][2]);
 
     }
+
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
+    }
+
 
 
 

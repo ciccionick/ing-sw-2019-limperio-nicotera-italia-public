@@ -1,22 +1,37 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.io.Serializable;
+
 
 /**
  * This class is used to represent the TargetingScope of PowerUp Card
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
  class TargetingScope extends PowerUpCard {
      int typeOfCard;
+
+
      TargetingScope(ColorOfCard_Ammo color, int typeOfCard) {
-            super(color, "Targeting scope", "This power up bla bla bla");
+            super(color, "Targeting scope", "You may play this card when you are dealing damage to one or more targets.\n" +
+                    " Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this \n" +
+                    "to do 1 damage to a target that is receiving only marks.");
             this.typeOfCard=typeOfCard;
         }
 
      public int getTypeOfCard() {
          return typeOfCard;
      }
+
+     @Override
+     public void useAsPowerUp(Player player, Square square)
+     {
+         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+
+     }
+
+
  }
+
+
 

@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -45,6 +46,10 @@ public class TestPlasmaGun {
         involvedPlayer= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);add(3);}}, player2.getPositionOnTheMap());
         involvedPlayer1= new InvolvedPlayer(player1, new ArrayList<Integer>(){{add(2);}}, map.getMatrixOfSquares()[1][0]);
 
+    }
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
     }
 
     @Test

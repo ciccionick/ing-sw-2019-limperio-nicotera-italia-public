@@ -231,12 +231,12 @@ class CatchController {
         if(square.isSpawn()){
             if(((SpawnSquare) square).getWeaponCards() != null){
                 canCatch = true;
-            }
+            }}
             else{
                 if(((NormalSquare) square).getAmmoTile()!= null)
                     canCatch = true;
             }
-        }
+
         return canCatch;
     }
 }

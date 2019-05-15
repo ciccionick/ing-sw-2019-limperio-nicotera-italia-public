@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,6 +63,11 @@ public class TestVortexCannon {
         involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(2);}} , map.getMatrixOfSquares()[1][1]);
 
 
+    }
+
+    @After
+    public void deleteMap(){
+        map.setInstanceOfMapForTesting();
     }
 
 
