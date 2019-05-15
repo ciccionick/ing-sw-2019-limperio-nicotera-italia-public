@@ -20,9 +20,9 @@ public class ElectroScythe extends WeaponCard
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         ArrayList<Player> players = new ArrayList<Player>();
         int j;
-        for(j=0;j<this.getOwnerOfCard().getPositionOnTheMap().getPlayerOfThisSquare().size();j++) {
-            if(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOfThisSquare().get(j).getNickname()!= this.getOwnerOfCard().getNickname()){
-                players.add(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOfThisSquare().get(j));
+        for(j=0; j<this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().size(); j++) {
+            if(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().get(j).getNickname()!= this.getOwnerOfCard().getNickname()){
+                players.add(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().get(j));
             }
         }
         switch (typeOfAttack.get(0)) {

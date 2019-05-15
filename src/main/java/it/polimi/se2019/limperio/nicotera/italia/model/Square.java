@@ -11,10 +11,12 @@ public class Square implements Serializable {
 
     private ColorOfFigure_Square color;
     private boolean hasDoor;
+
+    private ArrayList<String> nicknamesOfPlayersOnThisSquare = new ArrayList<>();
     /**
      * Contains a reference to all the player that are in the square during the game
      */
-    private ArrayList<Player> playerOfThisSquare;
+    private transient ArrayList<Player> playerOnThisSquare;
     /**
      * The references to the adjacency for each cardinal direction
      */
@@ -58,23 +60,23 @@ public class Square implements Serializable {
 
 
 
-    public ArrayList<Player> getPlayerOfThisSquare() {
-        return playerOfThisSquare;
+    public ArrayList<Player> getPlayerOnThisSquare() {
+        return playerOnThisSquare;
     }
 
-    public void setPlayerOfThisSquare(Player player) {
-        if (playerOfThisSquare==null)
-            playerOfThisSquare = new ArrayList<>();
-        playerOfThisSquare.add(player);
+    public void setPlayerOnThisSquare(Player player) {
+        if (playerOnThisSquare ==null)
+            playerOnThisSquare = new ArrayList<>();
+        playerOnThisSquare.add(player);
 
     }
 
-    public void setCardinalSquare(Square north, Square south, Square west, Square east){
+     void setCardinalSquare(Square north, Square south, Square west, Square east){
         this.north=north;
         this.south=south;
         this.east=east;
         this.west=west;
-        adjSquares = new ArrayList<Square>();
+        adjSquares = new ArrayList<>();
         if(this.north!=null) {
             adjSquares.add(this.north);
         }
@@ -114,4 +116,7 @@ public class Square implements Serializable {
         return hasDoor;
     }
 
+    public ArrayList<String> getNicknamesOfPlayersOnThisSquare() {
+        return nicknamesOfPlayersOnThisSquare;
+    }
 }

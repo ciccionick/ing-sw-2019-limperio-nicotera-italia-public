@@ -30,7 +30,7 @@ public class Hellion extends WeaponCard {
 
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
 
-        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
+        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOnThisSquare()){
 
             otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
 
@@ -41,7 +41,7 @@ public class Hellion extends WeaponCard {
     private void inNanoTracerMode(Player player){
 
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOfThisSquare()){
+        for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOnThisSquare()){
 
                 otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
 

@@ -14,7 +14,7 @@ public class MainFrame {
     private RemoteView remoteView;
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
-    private PanelMap panelMap;
+    private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
 
     public MainFrame(RemoteView remoteView) {
@@ -33,8 +33,8 @@ public class MainFrame {
         contentPane.addComponentListener(new ContentListener(this));
 
 
-        panelMap = new PanelMap(this);
-        contentPane.add(panelMap,BorderLayout.CENTER);
+        mapPanel = new MapPanel(this);
+        contentPane.add(mapPanel,BorderLayout.CENTER);
 
         killshotTrackPanel = new KillshotTrackPanel(frame);
         contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
@@ -61,8 +61,12 @@ public class MainFrame {
         this.leftPanel = leftPanel;
     }
 
-    public LeftPanel getLeftPanel() {
+     LeftPanel getLeftPanel() {
         return leftPanel;
+    }
+
+    public MapPanel getMapPanel() {
+        return mapPanel;
     }
 
     private class ContentListener implements ComponentListener {
@@ -79,8 +83,8 @@ public class MainFrame {
             contentPane.validate();
             contentPane.repaint();
 
-            panelMap = new PanelMap(mainFrame);
-            contentPane.add(panelMap,BorderLayout.CENTER);
+            mapPanel = new MapPanel(mainFrame);
+            contentPane.add(mapPanel,BorderLayout.CENTER);
 
             killshotTrackPanel = new KillshotTrackPanel(frame);
             contentPane.add(killshotTrackPanel, BorderLayout.NORTH);

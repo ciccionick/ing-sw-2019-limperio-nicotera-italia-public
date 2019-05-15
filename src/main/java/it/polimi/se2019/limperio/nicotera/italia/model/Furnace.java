@@ -30,7 +30,7 @@ public class Furnace extends WeaponCard {
 
         }
         else {
-            for(Player player : squareForRoom.getPlayerOfThisSquare()){
+            for(Player player : squareForRoom.getPlayerOnThisSquare()){
                 inCozyFireMode(player);
             }
 

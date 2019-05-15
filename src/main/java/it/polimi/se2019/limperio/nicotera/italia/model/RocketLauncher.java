@@ -49,7 +49,7 @@ public class RocketLauncher extends  WeaponCard{
         if(withThirdEffect)
         {
 
-            for(Player otherplayer : player.getPositionOnTheMap().getPlayerOfThisSquare())
+            for(Player otherplayer : player.getPositionOnTheMap().getPlayerOnThisSquare())
             {
                 otherplayer.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
             }

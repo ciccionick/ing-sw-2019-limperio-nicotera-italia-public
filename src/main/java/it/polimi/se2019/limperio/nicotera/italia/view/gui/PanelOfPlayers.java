@@ -1,9 +1,14 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import it.polimi.se2019.limperio.nicotera.italia.view.MapView;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 class PanelOfPlayers extends JPanel {
 
@@ -226,7 +231,6 @@ class PanelOfPlayers extends JPanel {
         }
 
 
-
         ButtonGroup pbButtonGroup = new ButtonGroup();
         pbButtonGroup.add(buttonPB1);
         pbButtonGroup.add(buttonPB2);
@@ -236,12 +240,14 @@ class PanelOfPlayers extends JPanel {
         if(buttonPB5!=null)
            pbButtonGroup.add(buttonPB5);
 
-
+      ButtonMListener buttonMListener = new ButtonMListener(mainFrame.getRemoteView().getMapView(), mainFrame.getMapPanel());
 
 
         JToggleButton buttonM1 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM1 = new GridBagConstraints();
         buttonM1.setBackground(Color.BLACK);
+        buttonM1.addActionListener(buttonMListener);
+        buttonM1.setActionCommand(labelPlayer1.getText());
         gbcButtonM1.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM1.gridx = 2;
         gbcButtonM1.gridy = 2;
@@ -250,6 +256,8 @@ class PanelOfPlayers extends JPanel {
         JToggleButton buttonM2 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM2 = new GridBagConstraints();
         buttonM2.setBackground(Color.BLACK);
+        buttonM2.addActionListener(buttonMListener);
+        buttonM2.setActionCommand(labelPlayer2.getText());
         gbcButtonM2.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM2.gridx = 2;
         gbcButtonM2.gridy = 3;
@@ -258,6 +266,8 @@ class PanelOfPlayers extends JPanel {
         JToggleButton buttonM3 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM3 = new GridBagConstraints();
         buttonM3.setBackground(Color.BLACK);
+        buttonM3.addActionListener(buttonMListener);
+        buttonM3.setActionCommand(labelPlayer3.getText());
         gbcButtonM3.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM3.gridx = 2;
         gbcButtonM3.gridy = 4;
@@ -270,6 +280,9 @@ class PanelOfPlayers extends JPanel {
            buttonM4 = new JToggleButton(" ");
            GridBagConstraints gbcButtonM4 = new GridBagConstraints();
            buttonM4.setBackground(Color.BLACK);
+           buttonM4.addActionListener(buttonMListener);
+           if(labelPlayer4!=null)
+            buttonM4.setActionCommand(labelPlayer4.getText());
            gbcButtonM4.insets = new Insets(insetTopForButtons, 0, 0, 0);
            gbcButtonM4.gridx = 2;
            gbcButtonM4.gridy = 5;
@@ -278,6 +291,9 @@ class PanelOfPlayers extends JPanel {
            if (mainFrame.getRemoteView().getListOfPlayerBoardViews().size() > 4) {
               buttonM5 = new JToggleButton(" ");
               buttonM5.setBackground(Color.BLACK);
+              buttonM5.addActionListener(buttonMListener);
+              if(labelPlayer5!=null)
+                 buttonM5.setActionCommand(labelPlayer5.getText());
               GridBagConstraints gbcButtonM5 = new GridBagConstraints();
               gbcButtonM5.insets = new Insets(insetTopForButtons, 0, 0, 0);
               gbcButtonM5.gridx = 2;
@@ -290,6 +306,8 @@ class PanelOfPlayers extends JPanel {
         JToggleButton buttonMAll = new JToggleButton(" ");
         GridBagConstraints gbcButtonMAll = new GridBagConstraints();
         buttonMAll.setBackground(Color.BLACK);
+        buttonMAll.addActionListener(buttonMListener);
+        buttonMAll.setActionCommand("All");
         gbcButtonMAll.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonMAll.gridx = 2;
         gbcButtonMAll.gridy = indexForLabellAll;
@@ -298,6 +316,8 @@ class PanelOfPlayers extends JPanel {
         JToggleButton buttonMNone = new JToggleButton(" ");
         buttonMNone.setSelected(true);
         buttonMNone.setBackground(Color.BLACK);
+        buttonMNone.addActionListener(buttonMListener);
+        buttonMNone.setActionCommand("None");
         GridBagConstraints gbcButtonMNone = new GridBagConstraints();
         gbcButtonMNone.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonMNone.gridx = 2;
@@ -338,5 +358,63 @@ class PanelOfPlayers extends JPanel {
           mainFrame.getFrame().getContentPane().repaint();
           mainFrame.getFrame().getContentPane().validate();
        }
+    }
+
+    class ButtonMListener implements ActionListener{
+
+        private MapView mapView;
+        private MapPanel mapPanel;
+
+        ButtonMListener(MapView mapView, MapPanel mapPanel) {
+          this.mapView = mapView;
+          this.mapPanel = mapPanel;
+       }
+
+       @Override
+       public void actionPerformed(ActionEvent e) {
+           String nameForHashMap;
+           String actionCommand = e.getActionCommand();
+           Square[][] matrix = mapView.getMap();
+           if(!(actionCommand.equals("All")||actionCommand.equals("None"))){
+               for (int i = 0 ; i<matrix.length;i++){
+                  for(int j=0; j<matrix[i].length; j++){
+                     nameForHashMap = "cell";
+                     nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
+                     if(matrix[i][j]==null || !(matrix[i][j].getNicknamesOfPlayersOnThisSquare().contains(actionCommand))){
+                        mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(false);
+                     }
+                     else{
+                        mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
+                     }
+                  }
+               }
+               return;
+           }
+
+           if(actionCommand.equals("None")){
+              for (int i = 0 ; i<matrix.length;i++){
+                 for(int j=0; j<matrix[i].length; j++){
+                       nameForHashMap = "cell";
+                       nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
+                       mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
+                 }
+              }
+              return;
+           }
+
+              for (int i = 0 ; i<matrix.length;i++){
+                 for(int j=0; j<matrix[i].length; j++){
+                    nameForHashMap = "cell";
+                    nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
+                    if(matrix[i][j] == null || matrix[i][j].getNicknamesOfPlayersOnThisSquare().isEmpty())
+                      mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(false);
+                    else
+                       mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
+                 }
+              }
+
+       }
+
+
     }
 }

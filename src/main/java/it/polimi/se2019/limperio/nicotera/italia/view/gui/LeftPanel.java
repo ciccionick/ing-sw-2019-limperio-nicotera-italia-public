@@ -12,6 +12,17 @@ import java.util.ArrayList;
  class LeftPanel extends JPanel {
 
     private MainFrame mainFrame;
+    private PlayerBoardPanel playerBoardPanel;
+    private JLabel weapon1;
+    private JLabel weapon2;
+    private JLabel weapon3;
+    private JLabel powerCard1;
+    private JLabel powerCard2;
+    private JLabel powerCard3;
+    private JLabel blueAmmo;
+    private JLabel redAmmo;
+    private JLabel yellowAmmo;
+
 
      LeftPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
@@ -38,7 +49,7 @@ import java.util.ArrayList;
 
 
 
-        PlayerBoardPanel playerBoardPanel = new PlayerBoardPanel(mainFrame, playerBoardView);
+        playerBoardPanel = new PlayerBoardPanel(mainFrame, playerBoardView);
         GridBagConstraints gbcPlayerBoard = new GridBagConstraints();
         gbcPlayerBoard.insets = new Insets(0, (int)(mainFrame.getFrame().getSize().getWidth()/192), (int)(mainFrame.getFrame().getSize().getHeight()/216), (int)(mainFrame.getFrame().getSize().getWidth()/192));
         gbcPlayerBoard.anchor = GridBagConstraints.NORTHWEST;
@@ -55,7 +66,7 @@ import java.util.ArrayList;
 
         String weaponFolderPath = "resources/weapons/";
 
-        JLabel weapon1 = new JLabel("");
+        weapon1 = new JLabel("");
         ImageIcon imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),1)));
         Image image = imageIcon.getImage();
         Image newimg = image.getScaledInstance(widthCard, heightCard,  java.awt.Image.SCALE_SMOOTH);
@@ -69,7 +80,7 @@ import java.util.ArrayList;
         this.add(weapon1, gbcWeapon1);
 
 
-        JLabel weapon2 = new JLabel("");
+        weapon2 = new JLabel("");
         imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),2)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
@@ -82,7 +93,7 @@ import java.util.ArrayList;
         gbcWeapon2.fill = GridBagConstraints.BOTH;
         this.add(weapon2, gbcWeapon2);
 
-        JLabel weapon3 = new JLabel("");
+        weapon3 = new JLabel("");
         imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(),3)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
@@ -100,7 +111,7 @@ import java.util.ArrayList;
         String powerUpFolderPath = "resources/powerupcards/";
 
 
-        JLabel powerCard1 = new JLabel("");
+        powerCard1 = new JLabel("");
         imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
@@ -113,7 +124,7 @@ import java.util.ArrayList;
         gbcPowerUp1.fill = GridBagConstraints.BOTH;
         this.add(powerCard1, gbcPowerUp1);
 
-        JLabel powerCard2 = new JLabel("");
+         powerCard2 = new JLabel("");
         imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 2)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
@@ -126,7 +137,7 @@ import java.util.ArrayList;
         gbcPowerUp2.fill = GridBagConstraints.BOTH;
         this.add(powerCard2, gbcPowerUp2);
 
-        JLabel powerCard3 = new JLabel("");
+         powerCard3 = new JLabel("");
         imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 3)));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
@@ -141,7 +152,7 @@ import java.util.ArrayList;
 
         String space = "      ";
 
-        JLabel blueAmmo = new JLabel("");
+        blueAmmo = new JLabel("");
         int numOfBlueAmmo;
         numOfBlueAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.BLUE);
         blueAmmo.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
@@ -158,7 +169,7 @@ import java.util.ArrayList;
         gbcBlueAmmo.gridy = 3;
         this.add(blueAmmo, gbcBlueAmmo);
 
-        JLabel redAmmo = new JLabel();
+        redAmmo = new JLabel();
         int numOfRedAmmo;
         numOfRedAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.RED);
         imageIcon = new ImageIcon("resources/playerboards/redammo.png");
@@ -175,7 +186,7 @@ import java.util.ArrayList;
         gbcRedAmmo.gridy = 4;
         this.add(redAmmo, gbcRedAmmo);
 
-        JLabel yellowAmmo = new JLabel();
+        yellowAmmo = new JLabel();
         int numOfYellowAmmo;
         numOfYellowAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.YELLOW);
         imageIcon = new ImageIcon("resources/playerboards/yellowammo.png");
@@ -229,4 +240,44 @@ import java.util.ArrayList;
         }
         return nameOfCard;
     }
-}
+
+    public PlayerBoardPanel getPlayerBoardPanel() {
+       return playerBoardPanel;
+    }
+
+    public JLabel getWeapon1() {
+       return weapon1;
+    }
+
+    public JLabel getWeapon2() {
+       return weapon2;
+    }
+
+    public JLabel getWeapon3() {
+       return weapon3;
+    }
+
+    public JLabel getPowerCard1() {
+       return powerCard1;
+    }
+
+    public JLabel getPowerCard2() {
+       return powerCard2;
+    }
+
+    public JLabel getPowerCard3() {
+       return powerCard3;
+    }
+
+    public JLabel getBlueAmmo() {
+       return blueAmmo;
+    }
+
+    public JLabel getRedAmmo() {
+       return redAmmo;
+    }
+
+    public JLabel getYellowAmmo() {
+       return yellowAmmo;
+    }
+ }

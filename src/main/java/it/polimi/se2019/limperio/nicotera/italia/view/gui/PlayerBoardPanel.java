@@ -9,6 +9,7 @@ import java.awt.*;
 
     private MainFrame mainFrame;
 
+
      PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
