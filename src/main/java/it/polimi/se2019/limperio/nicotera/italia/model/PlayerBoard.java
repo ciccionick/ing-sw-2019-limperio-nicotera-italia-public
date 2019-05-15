@@ -109,7 +109,7 @@ public class PlayerBoard implements Serializable {
     public void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
         for (Ammo ammo : ammo) {
             if(ammo.getColor().equals(color)) {
-                this.ammo.remove(ammo);
+                ammo.setIsUsable(false);
                 break;
             }
         }

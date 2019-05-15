@@ -21,7 +21,7 @@ public class SelectionViewForSquareWhereCatch extends ServerEvent {
 
     public SelectionViewForSquareWhereCatch(String message) {
         super(message);
-        setSelectionSquareForSquareWhereCatch(true);
+        setSelectionSquareForCatching(true);
     }
 
     public ArrayList<Square> getSquaresReachableForCatch() {

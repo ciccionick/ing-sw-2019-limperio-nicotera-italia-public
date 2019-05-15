@@ -9,6 +9,7 @@ public class CatchActionDoneEvent extends ServerEvent {
     private boolean isCatchActionOfAmmoTile = false;
     private boolean isCatchActionOfWeapon = false;
     private ArrayList<ColorOfCard_Ammo> ammo = new ArrayList<>();
+    private String nameOfWeaponCaught;
 
     public CatchActionDoneEvent(String message, ArrayList<ColorOfCard_Ammo> ammoCaught){
         super(message);
@@ -34,12 +35,13 @@ public class CatchActionDoneEvent extends ServerEvent {
 
     public void setCatchActionOfWeapon(boolean catchActionOfWeapon) {
         isCatchActionOfWeapon = catchActionOfWeapon;
-
-
-
     }
 
+    public String getNameOfWeaponCaught() {
+        return nameOfWeaponCaught;
+    }
 
-
-
+    public void setNameOfWeaponCaught(String nameOfWeaponCaught) {
+        this.nameOfWeaponCaught = nameOfWeaponCaught;
+    }
 }

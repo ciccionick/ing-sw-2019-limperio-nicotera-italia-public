@@ -175,7 +175,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     @Override
     public void update(ServerEvent event) {
-        if(event.getNicknames().contains(nicknameOfClient)) {
+        if(event.getNicknames().contains(nicknameOfClient) || event.getNicknameInvolved().equals(nicknameOfClient)) {
             try {
                 out.writeObject(event);
             } catch (IOException e) {

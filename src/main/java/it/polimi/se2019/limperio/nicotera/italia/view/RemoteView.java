@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
@@ -18,7 +15,6 @@ import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
  * @author Pietro L'Imperio
  */
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class RemoteView extends Observable<ClientEvent> implements Observer<ServerEvent> {
@@ -146,27 +142,77 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         }
 
-        if(message.isSelectionSquareForSquareWhereCatch()){
+        if(message.isSelectionSquareForCatching()){
             SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) message;
             System.out.println("Puoi pescare nei seguenti quadrati: ");
             for(Square square : event.getSquaresReachableForCatch() ){
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
                 if(square.isSpawn()){
-                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), ((SelectionViewForSquareWhereCatch) message).getWeaponNotAvailableForLackOfAmmo());
+                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), event.getWeaponNotAvailableForLackOfAmmo());
                 }
                 else {
                     System.out.println( ((NormalSquare)square).getAmmoTile().toString());
                 }
             }
+            System.out.println("Digita le coordinate del quadrato dove vuoi raccogliere");
+            int row = stdin.nextInt();
+            int column = stdin.nextInt();
+            CatchEvent newEvent = new CatchEvent("Quadrato selezionato", client.getNickname(), row, column);
+            notify(newEvent);
         }
+
+        if(message.isRequestForChooseAWeaponToCatch())
+        {
+            RequestForChooseAWeaponToCatch event = (RequestForChooseAWeaponToCatch) message;
+            System.out.println("Puoi pescare le seguenti armi:");
+            for(ServerEvent.AliasCard card : event.getWeaponsAvailableToCatch()){
+                System.out.println(card.getName() + "\t");
+            }
+            System.out.println("Digita 1 se vuoi pescare la prima arma, 2 per la seconda, 3 per la terza");
+            int choose = stdin.nextInt();
+            SelectionWeaponToCatch newEvent = new SelectionWeaponToCatch("Scelto arma", client.getNickname());
+            if(choose == 1 ){
+                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(0).getName());
+                newEvent.setRow(event.getRow());
+                newEvent.setColumn(event.getColumn());
+            }
+            else if(choose == 2){
+                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(1).getName());
+                newEvent.setRow(event.getRow());
+                newEvent.setColumn(event.getColumn());
+            }
+            else if (choose == 3){
+                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(2).getName());
+                newEvent.setRow(event.getRow());
+                newEvent.setColumn(event.getColumn());
+            }
+            notify(newEvent);
+        }
+
 
         if(message.isCatchActionDone()){
             if(((CatchActionDoneEvent) message).isCatchActionOfAmmoTile()){
-                System.out.println("Hai pescato");
+                System.out.println("Hai pescato un ammo tile con le seguenti munizioni: ");
                 for(ColorOfCard_Ammo ammo : ((CatchActionDoneEvent) message).getAmmo()){
                     System.out.println("/t" + ammo.toString());
                 }
             }
+            else{
+                System.out.println("Hai pescato una weapon card: " + ((CatchActionDoneEvent)message).getNameOfWeaponCaught());
+            }
+         }
+
+        if(message.isRequestSelectionSquareForRun()){
+            RequestSelectionSquareForRun event = (RequestSelectionSquareForRun) message;
+            System.out.println("Ecco i quadrati raggiungibili: ");
+            for(Square square : event.getSquaresReachableWithRunAction()){
+                System.out.println("["+ square.getRow()+"]" + " ["+square.getColumn()+"]");
+            }
+            System.out.println("Scrivi le coordinate del quadrato che vuoi raggiungere:");
+            int row = stdin.nextInt();
+            int column = stdin.nextInt();
+            SelectionSquareForRun newEvent = new SelectionSquareForRun("selezionato quadrato", client.getNickname(), row, column);
+            notify(newEvent);
         }
 
     }

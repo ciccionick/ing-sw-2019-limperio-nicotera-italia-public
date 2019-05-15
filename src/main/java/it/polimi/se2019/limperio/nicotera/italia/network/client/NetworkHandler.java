@@ -5,7 +5,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerI
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
-import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import java.io.IOException;
@@ -118,7 +117,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
             return;
         }
-        if(event.isSelectionSquareForSquareWhereCatch()) {
+        if(event.isSelectionSquareForCatching()) {
             System.out.println("L'evento è arrivato ed è di tipo SelectionViewForSquareWhereCatch di conseguenza lo mando al remote View");
             remoteView.update(event);
         }

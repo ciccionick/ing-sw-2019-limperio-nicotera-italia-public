@@ -36,7 +36,7 @@ class PowerUpController {
          controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardsToDraw);
          PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
-         requestDiscardPowerUpCardEvent.getNicknames().add(nickname);
+         requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
          game.notify(requestDiscardPowerUpCardEvent);
      }

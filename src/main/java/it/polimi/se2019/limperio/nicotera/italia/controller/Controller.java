@@ -1,11 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 
 
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ public class Controller implements Observer<ClientEvent> {
         catchController = new CatchController(game, this);
         powerUpController = new PowerUpController(game, this);
         roundController = new RoundController(game);
-        runController = new RunController(game);
+        runController = new RunController(game, this);
         shootController = new ShootController(game);
         turnController = new TurnController(game);
         weaponController = new WeaponController(game);
@@ -66,10 +64,20 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isCatchEvent()){
-                //catchController.
+                catchController.handleCatching((CatchEvent) message);
+            }
+
+            if(message.isSelectionWeaponToCatch()){
+                catchController.addWeaponToPlayer((SelectionWeaponToCatch) message);
+                //manca notificare l'avvenuta raccolta
             }
             if (message.isRequestToRunByPlayer()) {
-                //runController.replyToReqeustToCatch(message);
+               runController.handleRunAction((RequestToRunByPlayer) message);
+            }
+
+            if(message.isSelectionSquareForRun()){
+                runController.doRunAction((SelectionSquareForRun) message);
+                //manca notificare l'avvenuto spostamento del player
             }
             if (message.isRequestToShootByPlayer()) {
                 //shootController.replyToRequestToShoot(message);
@@ -131,7 +139,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param nickname the nickname of the player
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
-     boolean isTheTurnOfThisPlayer(String nickname){
+     private boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
