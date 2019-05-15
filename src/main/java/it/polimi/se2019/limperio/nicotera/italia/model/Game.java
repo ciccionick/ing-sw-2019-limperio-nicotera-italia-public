@@ -161,9 +161,6 @@ public class Game extends Observable<ServerEvent> {
      * Update the map and send an event of type {@link MapEvent}
      */
     void updateMap(){
-        players.get(0).setPositionOnTheMap(board.getMap().getMatrixOfSquares()[1][0]);
-        players.get(1).setPositionOnTheMap(board.getMap().getMatrixOfSquares()[2][2]);
-        players.get(2).setPositionOnTheMap(board.getMap().getMatrixOfSquares()[0][2]);
         MapEvent mapEvent = new MapEvent("Successfull creation of map");
         mapEvent.setNicknames(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());

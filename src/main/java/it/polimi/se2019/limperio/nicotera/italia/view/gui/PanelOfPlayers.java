@@ -375,46 +375,30 @@ class PanelOfPlayers extends JPanel {
            String nameForHashMap;
            String actionCommand = e.getActionCommand();
            Square[][] matrix = mapView.getMap();
-           if(!(actionCommand.equals("All")||actionCommand.equals("None"))){
-               for (int i = 0 ; i<matrix.length;i++){
-                  for(int j=0; j<matrix[i].length; j++){
-                     nameForHashMap = "cell";
-                     nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
-                     if(matrix[i][j]==null || !(matrix[i][j].getNicknamesOfPlayersOnThisSquare().contains(actionCommand))){
-                        mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(false);
-                     }
-                     else{
-                        mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
-                     }
-                  }
+           for (int i = 0 ; i<matrix.length;i++) {
+
+               for (int j = 0; j < matrix[i].length; j++) {
+
+                   nameForHashMap = "cell";
+                   nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
+
+                   switch (actionCommand) {
+                       case "None":
+                           mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
+                           break;
+                       case "All":
+                           mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && !(matrix[i][j].getNicknamesOfPlayersOnThisSquare().isEmpty()));
+                           break;
+                       default:
+                           nameForHashMap = "cell";
+                           nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
+                           mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && matrix[i][j].getNicknamesOfPlayersOnThisSquare().contains(actionCommand));
+                   }
                }
-               return;
            }
-
-           if(actionCommand.equals("None")){
-              for (int i = 0 ; i<matrix.length;i++){
-                 for(int j=0; j<matrix[i].length; j++){
-                       nameForHashMap = "cell";
-                       nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
-                       mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
-                 }
-              }
-              return;
-           }
-
-              for (int i = 0 ; i<matrix.length;i++){
-                 for(int j=0; j<matrix[i].length; j++){
-                    nameForHashMap = "cell";
-                    nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
-                    if(matrix[i][j] == null || matrix[i][j].getNicknamesOfPlayersOnThisSquare().isEmpty())
-                      mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(false);
-                    else
-                       mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
-                 }
-              }
-
        }
-
-
     }
+
+
+
 }
