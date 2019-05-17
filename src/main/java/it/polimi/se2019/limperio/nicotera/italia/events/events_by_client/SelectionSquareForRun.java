@@ -1,20 +1,16 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_client;
 
-
-
-public class CatchEvent extends ClientEvent {
+public class SelectionSquareForRun extends ClientEvent{
 
     private int row;
     private int column;
 
-
-    public CatchEvent(String message, String nickname, int row, int column){
+    public SelectionSquareForRun(String message,String nickname,  int row, int column){
         super(message, nickname);
-        setCatchEvent(true);
-        this.row =row;
+        setSelectionSquareForRun(true);
+        this.row = row;
         this.column = column;
     }
-
 
     public int getRow() {
         return row;

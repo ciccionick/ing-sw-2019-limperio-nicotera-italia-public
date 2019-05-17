@@ -45,6 +45,8 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToCatchByPlayer = false;
    private boolean isRequestToShootByPlayer = false;
    private boolean isCatchEvent = false;
+   private boolean isSelectionSquareForRun = false;
+   private boolean isSelectionWeaponToCatch = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -122,5 +124,21 @@ public class ClientEvent implements Serializable {
 
     public void setCatchEvent(boolean catchEvent) {
         isCatchEvent = catchEvent;
+    }
+
+    public boolean isSelectionSquareForRun() {
+        return isSelectionSquareForRun;
+    }
+
+    public void setSelectionSquareForRun(boolean selectionSquareForRun) {
+        isSelectionSquareForRun = selectionSquareForRun;
+    }
+
+    public boolean isSelectionWeaponToCatch() {
+        return isSelectionWeaponToCatch;
+    }
+
+    public void setSelectionWeaponToCatch(boolean selectionWeaponToCatch) {
+        isSelectionWeaponToCatch = selectionWeaponToCatch;
     }
 }

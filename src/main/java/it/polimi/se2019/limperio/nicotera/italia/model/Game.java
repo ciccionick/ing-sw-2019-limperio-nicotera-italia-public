@@ -260,4 +260,12 @@ public class Game extends Observable<ServerEvent> {
     public int getNumOfActionOfTheTurn() {
         return numOfActionOfTheTurn;
     }
+
+    public boolean isInFrenzy() {
+        return isInFrenzy;
+    }
+
+    public int getFirstInFrenzyMode() {
+        return firstInFrenzyMode;
+    }
 }

@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
@@ -59,7 +60,10 @@ class CatchController {
                 if(weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), weapon))
                     weaponsAffordable.add(weapon);
             }
+            newRequest.setNicknameInvolved(event.getNickname());
             newRequest.setWeaponsAvailableToCatch(controller.substituteWeaponsCardWithTheirAlias(weaponsAffordable));
+            newRequest.setRow(event.getRow());
+            newRequest.setColumn(event.getColumn());
             game.notify(newRequest);
         }
         else{
@@ -123,39 +127,79 @@ class CatchController {
      */
       ArrayList<Square> findSquareWherePlayerCanCatch(Player player, ArrayList<ServerEvent.AliasCard> weaponNotAffordable){
         ArrayList<Square> listOfSquareReachable = new ArrayList<>();
-        SpawnSquare spawnSquare;
-        NormalSquare normalSquare;
-        if(player.getPositionOnTheMap().isSpawn()) {
-            spawnSquare = (SpawnSquare) player.getPositionOnTheMap();
-            if(!spawnSquare.getWeaponCards().isEmpty()) {
-                addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
-                listOfSquareReachable.add(player.getPositionOnTheMap());
+        if(!game.isInFrenzy()) {
+            if(player.isUnderThreeDamage()) {
+                ArrayList<Square> squaresReachableWithOneMovement = new ArrayList<>();
+                controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 1, squaresReachableWithOneMovement);
+                findSquaresWithSomethingToCatch(player, squaresReachableWithOneMovement, listOfSquareReachable, weaponNotAffordable);
+                return listOfSquareReachable;
+            }
+            else{
+                ArrayList<Square> squaresReachableWithTwoMovement = new ArrayList<>();
+                controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 2, squaresReachableWithTwoMovement);
+                findSquaresWithSomethingToCatch(player, squaresReachableWithTwoMovement, listOfSquareReachable, weaponNotAffordable);
+                return  listOfSquareReachable;
             }
         }
         else{
-            normalSquare= (NormalSquare) player.getPositionOnTheMap();
-            if(normalSquare.getAmmoTile()!=null)
-                listOfSquareReachable.add(player.getPositionOnTheMap());
+            listOfSquareReachable.addAll(findSquaresWherePlayerCanCatchInFrenzyMode(player, weaponNotAffordable, listOfSquareReachable));
+            return listOfSquareReachable;
+
         }
-        for(Square square : player.getPositionOnTheMap().getAdjSquares()){
-            if(square!=null) {
-                if (square.isSpawn()) {
-                    spawnSquare = (SpawnSquare) square;
-                    if (!spawnSquare.getWeaponCards().isEmpty()){
-                        addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
-                        listOfSquareReachable.add(square);
-                    }
-                } else {
-                    normalSquare = (NormalSquare) square;
-                    if (normalSquare.getAmmoTile() != null)
-                        listOfSquareReachable.add(normalSquare);
-                }
-            }
-        }
-        return listOfSquareReachable;
 
     }
 
+    private void findSquaresWithSomethingToCatch(Player player, ArrayList<Square> listOfSquares, ArrayList<Square> squaresWithSomething, ArrayList<ServerEvent.AliasCard> weaponNotAffordable) {
+        for (Square square : listOfSquares) {
+            if (square.isSpawn()) {
+                SpawnSquare spawnSquare = (SpawnSquare) square;
+                if (canCatchSomethingInThisSquare(spawnSquare)) {
+                    addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
+                    squaresWithSomething.add(square);
+                }
+            }
+            else if (canCatchSomethingInThisSquare(square)) {
+                squaresWithSomething.add(square);
+            }
+        }
+    }
+
+    private ArrayList<Square> findSquaresWherePlayerCanCatchInFrenzyMode(Player player, ArrayList<ServerEvent.AliasCard> weaponNotAffordable, ArrayList<Square> listOfSquareReachable){
+          if(player.getPosition() >= game.getFirstInFrenzyMode()){
+              ArrayList<Square> squaresReachableWithTwoMovements = new ArrayList<>();
+              controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 2, squaresReachableWithTwoMovements);
+              findSquaresWithSomethingToCatch(player, squaresReachableWithTwoMovements, listOfSquareReachable, weaponNotAffordable);
+              return listOfSquareReachable;
+          }
+          else
+          {
+              ArrayList<Square> squaresReachableWithThreeMovements = new ArrayList<>();
+              controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 3, squaresReachableWithThreeMovements);
+              findSquaresWithSomethingToCatch(player, squaresReachableWithThreeMovements, listOfSquareReachable, weaponNotAffordable);
+              return listOfSquareReachable;
+          }
+    }
+
+    void addWeaponToPlayer(SelectionWeaponToCatch event) {
+        Player player = controller.findPlayerWithThisNickname(event.getNickname());
+        SpawnSquare square = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
+        String nameOfWeaponCaught = null;
+        for (WeaponCard card : square.getWeaponCards()) {
+            if (card.getName().equals(event.getNameOfWeaponCard())) {
+                nameOfWeaponCaught = card.getName();
+                player.getPlayerBoard().getWeaponsOwned().add(card);
+                card.setOwnerOfCard(player);
+                for (ColorOfCard_Ammo ammo : card.getPriceToBuy()) {
+                    player.getPlayerBoard().removeAmmoOfThisColor(ammo);
+                }
+                square.getWeaponCards().remove(card);
+            }
+        }
+        game.incrementNumOfActionsOfThisTurn();
+        CatchActionDoneEvent catchWeaponDone = new CatchActionDoneEvent("Avvenuta raccolta dell'arma", null);
+        catchWeaponDone.setNameOfWeaponCaught(nameOfWeaponCaught);
+        catchWeaponDone.setNicknameInvolved(event.getNickname());
+    }
     /**
      * This method fills the array that is passed with the weapons that the player can't catch in the square because of lack of ammo
      * @param square the spawn square in which the player would like to catch weapons
@@ -175,7 +219,7 @@ class CatchController {
      * @param card the weapon that contains the price that the method has to check if it would be payed with the ammo
      * @return a boolean that is true if the ammo are more than the weapon's price
      */
-     boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
+     private boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
 
         int numOfRedAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), RED);
         int numOfBlueAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), ColorOfCard_Ammo.BLUE);
@@ -226,7 +270,7 @@ class CatchController {
      * @param square the position that has to be checked
      * @return true if there is something that can be caught in the square passed as parameter
      */
-    boolean canCatchSomethingInThisSquare(Square square){
+    private boolean canCatchSomethingInThisSquare(Square square){
         boolean canCatch = false;
         if(square.isSpawn()){
             if(((SpawnSquare) square).getWeaponCards() != null){
