@@ -13,7 +13,7 @@ class TagbackGranade extends PowerUpCard  {
 
 
      TagbackGranade(ColorOfCard_Ammo color, int typeOfCard) {
-        super(color, "Tagback granade", "You may play this card when you receive damage from a player you can see. Give that player 1 mark.");
+        super(color, "Tagback granade", "You may play this card when you receive damage from a player you can see.\nGive that player 1 mark.");
         this.typeOfCard=typeOfCard;
     }
 

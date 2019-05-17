@@ -18,7 +18,8 @@ import java.awt.event.ComponentListener;
     private RightPanel rightPanel;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
-    private DialogForRequestToDraw2PC dialogForRequestToDraw;
+    private DialogForMessage dialogForMessage;
+    private boolean hasToChoosePowerUpCardForSpawn = false;
 
     public MainFrame(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -69,14 +70,34 @@ import java.awt.event.ComponentListener;
 
 
     public void handleRequestForDrawTwoPowerUpCard(ServerEvent receivedEvent) {
-        dialogForRequestToDraw = new DialogForRequestToDraw2PC(this, receivedEvent);
+        dialogForMessage = new DialogForMessage(this, receivedEvent);
     }
 
-    public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
-        if(getLeftPanel().getPlayerBoardPanel().getNicknameOfPlayerBoard().equals(receivedEvent.getNicknameInvolved())){
+
+
+     public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
+        setHasToChoosePowerUpCardForSpawn(true);
+        if(getLeftPanel().getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(receivedEvent.getNicknameInvolved())){
+            contentPane.remove(leftPanel);
             leftPanel = new LeftPanel(this,remoteView.getMyPlayerBoardView());
+            contentPane.add(leftPanel,BorderLayout.WEST);
+            contentPane.validate();
+            contentPane.repaint();
+            dialogForMessage = new DialogForMessage(this, receivedEvent);
         }
+
     }
+
+     public boolean hasToChoosePowerUpCard() {
+         return hasToChoosePowerUpCardForSpawn;
+     }
+
+     public void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
+         this.hasToChoosePowerUpCardForSpawn = hasToChoosePowerUpCardForSpawn;
+     }
+
+
+
 
 
     private class FrameListener implements ComponentListener {

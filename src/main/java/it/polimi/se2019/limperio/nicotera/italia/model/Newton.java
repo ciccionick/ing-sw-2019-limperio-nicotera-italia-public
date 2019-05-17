@@ -11,7 +11,10 @@ import java.io.Serializable;
 class Newton extends PowerUpCard {
     int typeOfCard;
      Newton(ColorOfCard_Ammo color, int typeOfCard) {
-        super(color, "Newton", "bla bla bla");
+        super(color, "Newton", "You may play this card on your turn before or after any action.\n" +
+                "Choose any other player's figure and move it 1 or 2 squares in one direction.\n" +
+                "(You can't use this to move a figure after it respawns at the end of your turn.\n" +
+                "That would be too late.)");
         this.typeOfCard=typeOfCard;
     }
 

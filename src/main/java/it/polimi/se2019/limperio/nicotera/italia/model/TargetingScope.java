@@ -14,7 +14,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
      TargetingScope(ColorOfCard_Ammo color, int typeOfCard) {
             super(color, "Targeting scope", "You may play this card when you are dealing damage to one or more targets.\n" +
-                    " Pay 1 ammo cube of any color. Choose 1 of those targets and give it an extra point of damage. Note: You cannot use this \n" +
+                    "Pay 1 ammo cube of any color. \nChoose 1 of those targets and give it an extra point of damage.\nNote: You cannot use this " +
                     "to do 1 damage to a target that is receiving only marks.");
             this.typeOfCard=typeOfCard;
         }

@@ -92,7 +92,12 @@ class PanelOfPlayers extends JPanel {
         add(labelMap, gbcLabelMap);
 
 
-        JLabel labelPlayer1 = new JLabel(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(0).getNicknameOfPlayer());
+        JLabel labelPlayer1 = new JLabel();
+         if (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(0).getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())) {
+             labelPlayer1.setText("ME");
+         }
+         else
+             labelPlayer1.setText(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(0).getNicknameOfPlayer());
         labelPlayer1.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
         labelPlayer1.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer1 = new GridBagConstraints();
@@ -102,7 +107,12 @@ class PanelOfPlayers extends JPanel {
         gbcLabelPlayer1.gridy = 2;
         add(labelPlayer1, gbcLabelPlayer1);
 
-        JLabel labelPlayer2 = new JLabel(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(1).getNicknameOfPlayer());
+        JLabel labelPlayer2 = new JLabel();
+         if (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(1).getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())) {
+             labelPlayer2.setText("ME");
+         }
+         else
+             labelPlayer2.setText(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(1).getNicknameOfPlayer());
         labelPlayer2.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
         labelPlayer2.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer2 = new GridBagConstraints();
@@ -112,7 +122,12 @@ class PanelOfPlayers extends JPanel {
         gbcLabelPlayer2.gridy = 3;
         add(labelPlayer2, gbcLabelPlayer2);
 
-        JLabel labelPlayer3 = new JLabel(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(2).getNicknameOfPlayer());
+        JLabel labelPlayer3 = new JLabel();
+         if (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(2).getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())) {
+             labelPlayer3.setText("ME");
+         }
+         else
+             labelPlayer3.setText(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(2).getNicknameOfPlayer());
         labelPlayer3.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
         labelPlayer3.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer3 = new GridBagConstraints();
@@ -126,7 +141,12 @@ class PanelOfPlayers extends JPanel {
         JLabel labelPlayer5 = null;
 
         if(mainFrame.getRemoteView().getListOfPlayerBoardViews().size()>3) {
-           labelPlayer4 = new JLabel(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(3).getNicknameOfPlayer());
+           labelPlayer4 = new JLabel();
+            if (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(3).getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())) {
+                labelPlayer4.setText("ME");
+            }
+            else
+                labelPlayer4.setText(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(3).getNicknameOfPlayer());
            labelPlayer4.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
            labelPlayer4.setForeground(Color.WHITE);
            GridBagConstraints gbcLabelPlayer4 = new GridBagConstraints();
@@ -137,7 +157,12 @@ class PanelOfPlayers extends JPanel {
            add(labelPlayer4, gbcLabelPlayer4);
 
            if(mainFrame.getRemoteView().getListOfPlayerBoardViews().size()>4) {
-              labelPlayer5 = new JLabel(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(4).getNicknameOfPlayer());
+              labelPlayer5 = new JLabel();
+               if (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(4).getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())) {
+                   labelPlayer5.setText("ME");
+               }
+               else
+                   labelPlayer5.setText(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(4).getNicknameOfPlayer());
               labelPlayer5.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
               labelPlayer5.setForeground(Color.WHITE);
               GridBagConstraints gbcLabelPlayer5 = new GridBagConstraints();
@@ -268,7 +293,10 @@ class PanelOfPlayers extends JPanel {
         GridBagConstraints gbcButtonM1 = new GridBagConstraints();
         buttonM1.setBackground(colorsOfPlayers.get(0));
         buttonM1.addActionListener(buttonMListener);
-        buttonM1.setActionCommand(labelPlayer1.getText());
+        if(labelPlayer1.getText().equalsIgnoreCase("ME"))
+            buttonM1.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+        else
+            buttonM1.setActionCommand(labelPlayer1.getText());
         gbcButtonM1.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM1.gridx = 2;
         gbcButtonM1.gridy = 2;
@@ -278,7 +306,10 @@ class PanelOfPlayers extends JPanel {
         GridBagConstraints gbcButtonM2 = new GridBagConstraints();
         buttonM2.setBackground(colorsOfPlayers.get(1));
         buttonM2.addActionListener(buttonMListener);
-        buttonM2.setActionCommand(labelPlayer2.getText());
+         if(labelPlayer2.getText().equalsIgnoreCase("ME"))
+             buttonM2.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+         else
+             buttonM2.setActionCommand(labelPlayer2.getText());
         gbcButtonM2.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM2.gridx = 2;
         gbcButtonM2.gridy = 3;
@@ -288,7 +319,10 @@ class PanelOfPlayers extends JPanel {
         GridBagConstraints gbcButtonM3 = new GridBagConstraints();
         buttonM3.setBackground(colorsOfPlayers.get(2));
         buttonM3.addActionListener(buttonMListener);
-        buttonM3.setActionCommand(labelPlayer3.getText());
+         if(labelPlayer3.getText().equalsIgnoreCase("ME"))
+             buttonM3.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+         else
+             buttonM3.setActionCommand(labelPlayer3.getText());
         gbcButtonM3.insets = new Insets(insetTopForButtons, 0, 0, 0);
         gbcButtonM3.gridx = 2;
         gbcButtonM3.gridy = 4;
@@ -302,8 +336,12 @@ class PanelOfPlayers extends JPanel {
            GridBagConstraints gbcButtonM4 = new GridBagConstraints();
            buttonM4.setBackground(colorsOfPlayers.get(3));
            buttonM4.addActionListener(buttonMListener);
-           if(labelPlayer4!=null)
-            buttonM4.setActionCommand(labelPlayer4.getText());
+           if(labelPlayer4!=null) {
+               if(labelPlayer4.getText().equalsIgnoreCase("ME"))
+                   buttonM4.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+               else
+                   buttonM4.setActionCommand(labelPlayer4.getText());
+           }
            gbcButtonM4.insets = new Insets(insetTopForButtons, 0, 0, 0);
            gbcButtonM4.gridx = 2;
            gbcButtonM4.gridy = 5;
@@ -313,8 +351,12 @@ class PanelOfPlayers extends JPanel {
               buttonM5 = new JToggleButton(" ");
               buttonM5.setBackground(colorsOfPlayers.get(4));
               buttonM5.addActionListener(buttonMListener);
-              if(labelPlayer5!=null)
-                 buttonM5.setActionCommand(labelPlayer5.getText());
+              if(labelPlayer5!=null) {
+                  if(labelPlayer5.getText().equalsIgnoreCase("ME"))
+                      buttonM5.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                  else
+                      buttonM5.setActionCommand(labelPlayer5.getText());
+              }
               GridBagConstraints gbcButtonM5 = new GridBagConstraints();
               gbcButtonM5.insets = new Insets(insetTopForButtons, 0, 0, 0);
               gbcButtonM5.gridx = 2;

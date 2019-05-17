@@ -29,11 +29,7 @@ public class ClientEvent implements Serializable {
      * The nickname of the Player who is sending the event.
      */
    private String nickname;
-    /**
-     * The powerUp card that a player wants to discard. It will be not null only if the event is of the type
-     * {@link DiscardPowerUpCardToSpawnEvent}
-     */
-   private ServerEvent.AliasCard powerUpCard = null;
+
     /**
      * Reference to the Virtual View of the player that is sending the event
      *
@@ -110,13 +106,6 @@ public class ClientEvent implements Serializable {
         isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
     }
 
-    public ServerEvent.AliasCard getPowerUpCard() {
-        return powerUpCard;
-    }
-
-    public void setPowerUpCard(ServerEvent.AliasCard powerUpCard) {
-        this.powerUpCard = powerUpCard;
-    }
 
     public boolean isCatchEvent() {
         return isCatchEvent;

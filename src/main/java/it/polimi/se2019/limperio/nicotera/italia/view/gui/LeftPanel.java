@@ -112,43 +112,89 @@ import java.util.ArrayList;
 
 
         powerCard1 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1)));
+        String path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1));
+        imageIcon = new ImageIcon(path);
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         powerCard1.setIcon(imageIcon);
+        if (path.equals("resources/powerupcards/noCard.png"))
+         powerCard1.setEnabled(false);
         GridBagConstraints gbcPowerUp1 = new GridBagConstraints();
         gbcPowerUp1.insets = new Insets(insetTop, insetLeft*2, insetBottom, insetRight);
         gbcPowerUp1.gridx = 0;
         gbcPowerUp1.gridy = 2;
-        gbcPowerUp1.fill = GridBagConstraints.BOTH;
+        //gbcPowerUp1.fill = GridBagConstraints.BOTH;
         this.add(powerCard1, gbcPowerUp1);
+        ListenerForPowerUpCard listenerForPowerUpCard1 = new ListenerForPowerUpCard(powerCard1,mainFrame,1);
+        powerCard1.addMouseListener(listenerForPowerUpCard1);
 
-         powerCard2 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 2)));
+        JButton buttonPC1 = new JButton("SELECT");
+        GridBagConstraints gbcButtonPC1 = new GridBagConstraints();
+        gbcButtonPC1.insets = new Insets(insetTop/2, insetLeft*2, insetBottom, insetRight);
+        gbcButtonPC1.gridx = 0;
+        gbcButtonPC1.gridy = 3;
+        gbcButtonPC1.fill = GridBagConstraints.BOTH;
+        buttonPC1.setEnabled(powerCard1.isEnabled());
+        this.add(buttonPC1, gbcButtonPC1);
+        buttonPC1.addActionListener(listenerForPowerUpCard1);
+
+
+        powerCard2 = new JLabel("");
+        path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 2));
+        imageIcon = new ImageIcon(path);
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         powerCard2.setIcon(imageIcon);
+        if (path.equals("resources/powerupcards/noCard.png"))
+           powerCard2.setEnabled(false);
         GridBagConstraints gbcPowerUp2 = new GridBagConstraints();
         gbcPowerUp2.insets = new Insets(insetTop, insetLeft, insetBottom, insetRight);
         gbcPowerUp2.gridx = 1;
         gbcPowerUp2.gridy = 2;
         gbcPowerUp2.fill = GridBagConstraints.BOTH;
         this.add(powerCard2, gbcPowerUp2);
+        ListenerForPowerUpCard listenerForPowerUpCard2 = new ListenerForPowerUpCard(powerCard2, mainFrame, 2);
+        powerCard2.addMouseListener(listenerForPowerUpCard2);
 
-         powerCard3 = new JLabel("");
-        imageIcon = new ImageIcon(powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 3)));
+        JButton buttonPC2 = new JButton("SELECT");
+        GridBagConstraints gbcButtonPC2 = new GridBagConstraints();
+        gbcButtonPC2.insets = new Insets(insetTop/2, 0, insetBottom, insetRight);
+        gbcButtonPC2.gridx = 1;
+        gbcButtonPC2.gridy = 3;
+        gbcButtonPC2.fill = GridBagConstraints.BOTH;
+        buttonPC2.setEnabled(powerCard2.isEnabled());
+        this.add(buttonPC2, gbcButtonPC2);
+        buttonPC2.addActionListener(listenerForPowerUpCard2);
+
+        powerCard3 = new JLabel("");
+        path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 3));
+        imageIcon = new ImageIcon(path);
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthCard, heightCard , java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         powerCard3.setIcon(imageIcon);
+        if (path.equals("resources/powerupcards/noCard.png"))
+           powerCard3.setEnabled(false);
         GridBagConstraints gbcPowerUp3 = new GridBagConstraints();
         gbcPowerUp3.insets = new Insets(insetTop, insetLeft, insetBottom, insetRight);
         gbcPowerUp3.gridx = 2;
         gbcPowerUp3.gridy = 2;
         gbcPowerUp3.fill = GridBagConstraints.BOTH;
         this.add(powerCard3, gbcPowerUp3);
+        ListenerForPowerUpCard listenerForPowerUpCard3 = new ListenerForPowerUpCard(powerCard3, mainFrame, 3);
+        powerCard3.addMouseListener(listenerForPowerUpCard3);
+
+        JButton buttonPC3 = new JButton("SELECT");
+        GridBagConstraints gbcButtonPC3 = new GridBagConstraints();
+        gbcButtonPC3.insets = new Insets(insetTop/2, 0, insetBottom, insetRight);
+        gbcButtonPC3.gridx = 2;
+        gbcButtonPC3.gridy = 3;
+        gbcButtonPC3.fill = GridBagConstraints.BOTH;
+        buttonPC3.setEnabled(powerCard3.isEnabled());
+        this.add(buttonPC3, gbcButtonPC3);
+        buttonPC3.addActionListener(listenerForPowerUpCard3);
 
         String space = "      ";
 
@@ -166,7 +212,7 @@ import java.util.ArrayList;
         GridBagConstraints gbcBlueAmmo = new GridBagConstraints();
         gbcBlueAmmo.insets = new Insets(insetTop*5/2, 0, insetBottom, insetRight);
         gbcBlueAmmo.gridx = 0;
-        gbcBlueAmmo.gridy = 3;
+        gbcBlueAmmo.gridy = 4;
         this.add(blueAmmo, gbcBlueAmmo);
 
         redAmmo = new JLabel();
@@ -183,7 +229,7 @@ import java.util.ArrayList;
         GridBagConstraints gbcRedAmmo = new GridBagConstraints();
         gbcRedAmmo.insets = new Insets(insetTop/2, 0, insetBottom, insetRight);
         gbcRedAmmo.gridx = 0;
-        gbcRedAmmo.gridy = 4;
+        gbcRedAmmo.gridy = 5;
         this.add(redAmmo, gbcRedAmmo);
 
         yellowAmmo = new JLabel();
@@ -200,7 +246,7 @@ import java.util.ArrayList;
         GridBagConstraints gbcYellowAmmo = new GridBagConstraints();
         gbcYellowAmmo.insets = new Insets(insetTop/2, 0, insetBottom, insetRight);
         gbcYellowAmmo.gridx = 0;
-        gbcYellowAmmo.gridy = 5;
+        gbcYellowAmmo.gridy = 6;
         this.add(yellowAmmo, gbcYellowAmmo);
     }
 
@@ -241,43 +287,9 @@ import java.util.ArrayList;
         return nameOfCard;
     }
 
-    public PlayerBoardPanel getPlayerBoardPanel() {
+     PlayerBoardPanel getPlayerBoardPanel() {
        return playerBoardPanel;
     }
 
-    public JLabel getWeapon1() {
-       return weapon1;
-    }
 
-    public JLabel getWeapon2() {
-       return weapon2;
-    }
-
-    public JLabel getWeapon3() {
-       return weapon3;
-    }
-
-    public JLabel getPowerCard1() {
-       return powerCard1;
-    }
-
-    public JLabel getPowerCard2() {
-       return powerCard2;
-    }
-
-    public JLabel getPowerCard3() {
-       return powerCard3;
-    }
-
-    public JLabel getBlueAmmo() {
-       return blueAmmo;
-    }
-
-    public JLabel getRedAmmo() {
-       return redAmmo;
-    }
-
-    public JLabel getYellowAmmo() {
-       return yellowAmmo;
-    }
  }

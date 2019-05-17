@@ -3,15 +3,14 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
- class DialogForRequestToDraw2PC {
+ class DialogForMessage {
 
     private JDialog dialog;
     private MainFrame mainFrame;
 
-     DialogForRequestToDraw2PC(MainFrame mainFrame, ServerEvent receivedEvent) {
+     DialogForMessage(MainFrame mainFrame, ServerEvent receivedEvent) {
         this.mainFrame = mainFrame;
         dialog = new JDialog();
         JFrame frame = mainFrame.getFrame();
@@ -24,8 +23,7 @@ import java.awt.*;
         dialog.getContentPane().setLayout(new BorderLayout());
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(SystemColor.menu);
-        contentPanel.setLayout(new FlowLayout());
-        contentPanel.setBorder(new EmptyBorder(70, 5, 5, 5));
+        contentPanel.setLayout(new GridBagLayout());
         dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
         JTextArea message;
         if(mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved()))
@@ -35,14 +33,17 @@ import java.awt.*;
         message.setEditable(false);
         message.setLineWrap(true);
         message.setBackground(SystemColor.menu);
-        message.setColumns(35);
-        message.setFont(new Font("Serif", Font.PLAIN, 16));
-        contentPanel.add(message);
+        message.setColumns(32);
+        message.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
+        GridBagConstraints gbcMessage = new GridBagConstraints();
+        gbcMessage.gridx = 0;
+        gbcMessage.gridy = 0;
+        contentPanel.add(message, gbcMessage);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         JButton button;
-        if(mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved())) {
+        if(mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved())&&receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
             button = new JButton("DRAW");
             button.setActionCommand("DRAW");
         }
@@ -55,5 +56,9 @@ import java.awt.*;
         dialog.getRootPane().setDefaultButton(button);
         dialog.setVisible(true);
     }
-}
+
+    public DialogForMessage(MainFrame mainFrame, String message) {
+       this.mainFrame = mainFrame;
+    }
+ }
 
