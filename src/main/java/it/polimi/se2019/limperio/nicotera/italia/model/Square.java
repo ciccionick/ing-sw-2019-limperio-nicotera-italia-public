@@ -83,12 +83,13 @@ public class Square implements Serializable {
         if(this.south!=null) {
             adjSquares.add(this.south);
         }
-        if(this.east!=null){
-        adjSquares.add(this.east);
-        }
         if(this.west!=null) {
             adjSquares.add(this.west);
         }
+        if(this.east!=null){
+            adjSquares.add(this.east);
+        }
+
     }
 
     public Square getNorth() {

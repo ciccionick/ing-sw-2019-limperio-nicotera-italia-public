@@ -22,6 +22,10 @@ public class RunController {
         this.controller = controller;
     }
 
+    /**
+     * Handles the run request of a player: the method sends an event in which there are the reachable squares from the player that want to run
+     * @param event contains the player's nickname
+     */
     void handleRunAction(RequestToRunByPlayer event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         Square square = player.getPositionOnTheMap();
@@ -41,6 +45,10 @@ public class RunController {
         }
     }
 
+    /**
+     * Moves the player in the square it has chosen
+     * @param event contains the coordinates of the square in which the player want to go and its nickname.
+     */
     void doRunAction(SelectionSquareForRun event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);

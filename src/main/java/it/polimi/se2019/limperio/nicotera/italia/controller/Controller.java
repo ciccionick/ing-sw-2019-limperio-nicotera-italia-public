@@ -107,20 +107,21 @@ public class Controller implements Observer<ClientEvent> {
      * @param listOfSquareReachable It is filled with the reachable squares
      */
     void findSquaresReachableWithThisMovements(Square currentPosition, int numOfMovements, ArrayList<Square> listOfSquareReachable){
-        listOfSquareReachable.add(currentPosition);
+        if(numOfMovements == 0 && !listOfSquareReachable.contains(currentPosition)){
+            listOfSquareReachable.add(0,currentPosition);
+            return;
+        }
         for(Square square : currentPosition.getAdjSquares()) {
-            if (!listOfSquareReachable.contains(square)) {
-                listOfSquareReachable.add(square);
-
-            }
-            if(numOfMovements-1 > 0)
+            if(numOfMovements-1 >= 0)
             {
                 findSquaresReachableWithThisMovements(square, numOfMovements -1, listOfSquareReachable);
-            }
-            else{
-                return;
+
             }
         }
+        if(!listOfSquareReachable.contains(currentPosition)){
+            listOfSquareReachable.add(0,currentPosition);
+        }
+
     }
 
 
