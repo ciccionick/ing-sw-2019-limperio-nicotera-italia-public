@@ -16,21 +16,13 @@ public class TestCatchController extends TestController {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
         ArrayList<ServerEvent.AliasCard> wp = new ArrayList<>();
         ArrayList<Square> squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(0), wp);
-        assertEquals(squares.get(0).getRow(), 0);
-        assertEquals(squares.get(0).getColumn(), 0);
-        assertEquals(squares.get(1).getRow(), 1);
-        assertEquals(squares.get(1).getColumn(), 0);
-        assertEquals(squares.get(2).getRow(), 0);
-        assertEquals(squares.get(2).getColumn(), 1);
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
-        squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(0), wp);
-        assertEquals(squares.get(0).getRow(), 1);
-        assertEquals(squares.get(0).getColumn(), 0);
-        assertTrue(squares.get(0).isSpawn());
-
     }
 
-  /*  @Test
+   /*@Test
     public void weaponIsAffordableByPlayerTest(){
         SpawnSquare square = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
         square.getWeaponCards().add(0, WeaponCard.createWeaponCard(1));

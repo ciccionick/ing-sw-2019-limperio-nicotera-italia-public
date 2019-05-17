@@ -3,10 +3,14 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class TestController {
@@ -33,6 +37,24 @@ public class TestController {
       assertEquals(controller.findPlayerWithThisNickname("player1").getNickname(), "player1");
       assertEquals(controller.findPlayerWithThisNickname("player2").getNickname(), "player2");
       assertEquals(controller.findPlayerWithThisNickname("player3").getNickname(), "player3");
+   }
+
+   @Test
+   public void findSquaresReachableWithThisMovementsTest() {
+      ArrayList<Square> listOfSquaresReachable = new ArrayList<>();
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+      controller.findSquaresReachableWithThisMovements(game.getPlayers().get(0).getPositionOnTheMap(), 1, listOfSquaresReachable);
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
+      listOfSquaresReachable.clear();
+      controller.findSquaresReachableWithThisMovements(game.getPlayers().get(0).getPositionOnTheMap(), 2, listOfSquaresReachable);
+      assertEquals(5, listOfSquaresReachable.size());
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[0][2]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
+      assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
    }
 
 }

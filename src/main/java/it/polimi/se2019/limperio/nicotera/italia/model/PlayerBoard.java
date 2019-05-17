@@ -114,4 +114,19 @@ public class PlayerBoard implements Serializable {
             }
         }
     }
+
+    /**
+     * Adds ammo to player's deck of ammo
+     * @param color the color of the ammo that has to be added
+     * @param numOfAmmoCaught the number of ammo thhat has to be added
+     */
+    public void addAmmoToPlayer(ColorOfCard_Ammo color, int numOfAmmoCaught){
+        int numOFAmmoUsable = numOfAmmoCaught;
+        for(int i=0; i<3 && numOFAmmoUsable>0; i++){
+            if(getAmmo().get(i).getColor().equals(color) && !getAmmo().get(i).isUsable()){
+                getAmmo().get(i).setIsUsable(true);
+                numOFAmmoUsable--;
+            }
+        }
+    }
 }

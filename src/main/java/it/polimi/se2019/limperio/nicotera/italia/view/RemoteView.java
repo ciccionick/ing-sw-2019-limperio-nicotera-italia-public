@@ -8,14 +8,14 @@ import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
-
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * This class represents the view on client side of client-server architecture.
  * @author Pietro L'Imperio
  */
-import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class RemoteView extends Observable<ClientEvent> implements Observer<ServerEvent> {
     /**
