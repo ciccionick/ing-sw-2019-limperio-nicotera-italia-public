@@ -1,12 +1,21 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
+import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
+import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 class MapPanel extends JPanel {
 
-    private MainFrame mainFrame;
+    private transient  MainFrame mainFrame;
     private JLabel cell00;
     private JLabel cell01;
     private JLabel cell02;
@@ -19,6 +28,10 @@ class MapPanel extends JPanel {
     private JLabel cell21;
     private JLabel cell22;
     private JLabel cell23;
+
+
+    private boolean isRequestForChooseASquare = false;
+
     private HashMap<String, JLabel> hashMapForCell = new HashMap<>();
 
 
@@ -54,6 +67,7 @@ class MapPanel extends JPanel {
               folderPath = "resources/board/maps/map1/";
         }
 
+        String tip = "Tap and hold to see what there is in the square";
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -64,25 +78,22 @@ class MapPanel extends JPanel {
         java.awt.Image newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell00 = new JLabel(imageIcon);
+        cell00.setToolTipText(tip);
         this.add(cell00,gbc);
 
-        gbc.gridx=1;
-        gbc.gridy=0;
-        imageIcon = new ImageIcon(folderPath.concat("01.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
+         gbc.gridx=1;
+         gbc.gridy=0;
+         imageIcon = new ImageIcon(folderPath.concat("01.png"));
+
+         image = imageIcon.getImage();
+        newimg = image.getScaledInstance(dim,dim,java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell01 = new JLabel(imageIcon);
         this.add(cell01,gbc);
 
-        gbc.gridx=0;
-        gbc.gridy=1;
-        imageIcon = new ImageIcon(folderPath.concat("10.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell10 = new JLabel(imageIcon);
-        this.add(cell10,gbc);
+
+
+
 
         gbc.gridx=2;
         gbc.gridy=0;
@@ -93,36 +104,53 @@ class MapPanel extends JPanel {
         cell02 = new JLabel(imageIcon);
         this.add(cell02,gbc);
 
-        gbc.gridx=3;
-        gbc.gridy=0;
-        imageIcon = new ImageIcon(folderPath.concat("03.png"));
+
+         gbc.gridx=3;
+         gbc.gridy=0;
+         imageIcon = new ImageIcon(folderPath.concat("03.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell03 = new JLabel(imageIcon);
         this.add(cell03,gbc);
 
-        gbc.gridx=1;
-        gbc.gridy=1;
-        imageIcon = new ImageIcon(folderPath.concat("11.png"));
+         gbc.gridx=0;
+         gbc.gridy=1;
+         imageIcon = new ImageIcon(folderPath.concat("10.png"));
+
+         image = imageIcon.getImage();
+        newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newimg);
+        cell10 = new JLabel(imageIcon);
+        this.add(cell10,gbc);
+
+
+         gbc.gridx=1;
+         gbc.gridy=1;
+
+         imageIcon = new ImageIcon(folderPath.concat("11.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell11 = new JLabel(imageIcon);
         this.add(cell11,gbc);
 
-        gbc.gridx=2;
-        gbc.gridy=1;
-        imageIcon = new ImageIcon(folderPath.concat("12.png"));
+
+         gbc.gridx=2;
+         gbc.gridy=1;
+
+         imageIcon = new ImageIcon(folderPath.concat("12.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell12 = new JLabel(imageIcon);
         this.add(cell12,gbc);
 
-        gbc.gridx=3;
-        gbc.gridy=1;
-        imageIcon = new ImageIcon(folderPath.concat("13.png"));
+
+         gbc.gridx=3;
+         gbc.gridy=1;
+
+         imageIcon = new ImageIcon(folderPath.concat("13.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -130,8 +158,10 @@ class MapPanel extends JPanel {
         this.add(cell13,gbc);
 
 
-        gbc.gridx=0;
-        gbc.gridy=2;
+
+         gbc.gridx=0;
+
+         gbc.gridy=2;
         imageIcon = new ImageIcon(folderPath.concat("20.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
@@ -139,18 +169,22 @@ class MapPanel extends JPanel {
         cell20 = new JLabel(imageIcon);
         this.add(cell20,gbc);
 
-        gbc.gridx=1;
-        gbc.gridy=2;
-        imageIcon = new ImageIcon(folderPath.concat("21.png"));
+
+         gbc.gridx=1;
+         gbc.gridy=2;
+
+         imageIcon = new ImageIcon(folderPath.concat("21.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell21 = new JLabel(imageIcon);
         this.add(cell21,gbc);
 
-        gbc.gridx=2;
-        gbc.gridy=2;
-        imageIcon = new ImageIcon(folderPath.concat("22.png"));
+
+         gbc.gridx=2;
+         gbc.gridy=2;
+
+         imageIcon = new ImageIcon(folderPath.concat("22.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -158,20 +192,38 @@ class MapPanel extends JPanel {
         this.add(cell22,gbc);
 
 
+         gbc.gridx=3;
+         gbc.gridy=2;
 
-        gbc.gridx=3;
-        gbc.gridy=2;
-        imageIcon = new ImageIcon(folderPath.concat("23.png"));
+         imageIcon = new ImageIcon(folderPath.concat("23.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell23 = new JLabel(imageIcon);
         this.add(cell23,gbc);
 
-        createHashMap();
-    }
+         addMouseListenerToCells();
+         createHashMap();
 
-      private void createHashMap(){
+     }
+
+   private void addMouseListenerToCells() {
+      cell00.addMouseListener(new MapPanel.SquareListener(0, 0, mainFrame.getRemoteView().getMapView().getMap()));
+      cell01.addMouseListener(new MapPanel.SquareListener(0, 1, mainFrame.getRemoteView().getMapView().getMap()));
+      cell02.addMouseListener(new MapPanel.SquareListener(0, 2, mainFrame.getRemoteView().getMapView().getMap()));
+      cell03.addMouseListener(new MapPanel.SquareListener(0, 3, mainFrame.getRemoteView().getMapView().getMap()));
+      cell10.addMouseListener(new MapPanel.SquareListener(1, 0, mainFrame.getRemoteView().getMapView().getMap()));
+      cell11.addMouseListener(new MapPanel.SquareListener(1, 1, mainFrame.getRemoteView().getMapView().getMap()));
+      cell12.addMouseListener(new MapPanel.SquareListener(1, 2, mainFrame.getRemoteView().getMapView().getMap()));
+      cell13.addMouseListener(new MapPanel.SquareListener(1, 3, mainFrame.getRemoteView().getMapView().getMap()));
+      cell20.addMouseListener(new MapPanel.SquareListener(2, 0, mainFrame.getRemoteView().getMapView().getMap()));
+      cell21.addMouseListener(new MapPanel.SquareListener(2, 1, mainFrame.getRemoteView().getMapView().getMap()));
+      cell22.addMouseListener(new MapPanel.SquareListener(2, 2, mainFrame.getRemoteView().getMapView().getMap()));
+      cell23.addMouseListener(new MapPanel.SquareListener(2, 3, mainFrame.getRemoteView().getMapView().getMap()));
+
+   }
+
+   private void createHashMap(){
          hashMapForCell.put("cell00", cell00);
          hashMapForCell.put("cell01", cell01);
          hashMapForCell.put("cell02", cell02);
@@ -186,7 +238,94 @@ class MapPanel extends JPanel {
          hashMapForCell.put("cell23", cell23);
       }
 
-   public HashMap<String, JLabel> getHashMapForCell() {
+    HashMap<String, JLabel> getHashMapForCell() {
       return hashMapForCell;
+   }
+
+
+
+
+
+
+
+
+    class SquareListener implements MouseListener{
+
+        int row;
+        int column;
+        Square[][] matrix;
+        PopupForSquare popupForSquare =null;
+        Square square;
+        ArrayList<ServerEvent.AliasCard> listOfWeaponOnTheSquare;
+        AmmoTile ammoTileOnTheSquare;
+
+       SquareListener(int row, int column, Square[][] matrix) {
+         this.row = row;
+         this.column = column;
+         this.matrix = matrix;
+         square = matrix[row][column];
+         if(square!=null){
+             if(square.isSpawn())
+                 listOfWeaponOnTheSquare = ((SpawnSquare)square).getWeaponsCardsForRemoteView();
+             else
+                 ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
+         }
+
+      }
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+
+           if(square!=null && !isRequestForChooseASquare) {
+               updatePopup(square);
+               popupForSquare.getPopup().setVisible(true);
+           }
+
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+           if(square!=null) {
+               popupForSquare.getPopup().setVisible(false);
+           }
+      }
+
+      @Override
+      public void mouseEntered(MouseEvent e) {
+      }
+
+      @Override
+      public void mouseExited(MouseEvent e) {
+
+
+      }
+
+        private void updatePopup(Square square){
+           ArrayList<String> listOfNicknames = new ArrayList<>();
+                if (!(square.getNicknamesOfPlayersOnThisSquare().isEmpty()))
+                    listOfNicknames = square.getNicknamesOfPlayersOnThisSquare();
+                Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
+                Point positionOfPanel = mainFrame.getMapPanel().getLocation();
+                Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
+
+
+            if (square.isSpawn()) {
+                popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame.getFrame().getLocation(), dimensionOfFrame, listOfWeaponOnTheSquare );
+                } else {
+                    popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, dimensionOfFrame, positionOfPanel, positionOfSquare);
+                }
+
+        }
+
+
+
+
+
+
    }
 }
