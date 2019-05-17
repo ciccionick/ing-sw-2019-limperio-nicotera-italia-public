@@ -22,7 +22,7 @@ public class PlayerBoard implements Serializable {
     /**
      * The constructor marks as usable the beginning ammo according to game's rules
      */
-    PlayerBoard(String nickname, ColorOfFigure_Square color) {
+    public PlayerBoard(String nickname, ColorOfFigure_Square color) {
         this.nicknameOfPlayer = nickname;
         this.colorOfPlayer = color;
         damages = new ArrayList<>();
@@ -122,7 +122,7 @@ public class PlayerBoard implements Serializable {
      */
     public void addAmmoToPlayer(ColorOfCard_Ammo color, int numOfAmmoCaught){
         int numOFAmmoUsable = numOfAmmoCaught;
-        for(int i=0; i<3 && numOFAmmoUsable>0; i++){
+        for(int i=0; i<9 && numOFAmmoUsable>0; i++){
             if(getAmmo().get(i).getColor().equals(color) && !getAmmo().get(i).isUsable()){
                 getAmmo().get(i).setIsUsable(true);
                 numOFAmmoUsable--;

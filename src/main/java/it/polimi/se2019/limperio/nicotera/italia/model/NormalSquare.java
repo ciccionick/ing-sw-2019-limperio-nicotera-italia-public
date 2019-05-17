@@ -20,7 +20,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
          return ammoTile;
      }
 
-      void setAmmoTile(AmmoTile ammoTile) {
+     public void setAmmoTile(AmmoTile ammoTile) {
          this.ammoTile = ammoTile;
      }
  }

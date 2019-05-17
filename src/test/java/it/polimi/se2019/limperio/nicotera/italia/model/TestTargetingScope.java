@@ -5,6 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test for TargetingScope PowerUp Card
+ */
+
 public class TestTargetingScope {
 
 

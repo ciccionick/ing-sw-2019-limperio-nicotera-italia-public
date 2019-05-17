@@ -5,6 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test for Telereporter of PowerUp Card
+ */
+
 public class TestTelereporter {
 
     Player player1= new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
