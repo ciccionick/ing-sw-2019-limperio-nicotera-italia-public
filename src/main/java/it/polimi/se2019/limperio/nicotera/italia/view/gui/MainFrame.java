@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.HashMap;
 
 public class MainFrame {
 
@@ -45,11 +46,15 @@ public class MainFrame {
         rightPanel = new RightPanel(this);
         contentPane.add(rightPanel, BorderLayout.EAST);
 
+
+
         frame.setVisible(true);
 
     }
 
-     RemoteView getRemoteView() {
+
+
+    RemoteView getRemoteView() {
         return remoteView;
     }
 

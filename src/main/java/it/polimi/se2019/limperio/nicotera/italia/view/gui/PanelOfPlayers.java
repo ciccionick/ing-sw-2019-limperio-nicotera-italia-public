@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.MapView;
@@ -23,6 +24,26 @@ class PanelOfPlayers extends JPanel {
         int insetTopForButtons;
         int insetRightForLabel = (int) (mainFrame.getFrame().getSize().getWidth()/64);
         int indexForLabellAll = 7;
+        ArrayList<Color> colorsOfPlayers = new ArrayList<>();
+
+         for(int i = 0 ;i<mainFrame.getRemoteView().getListOfPlayerBoardViews().size(); i++){
+             switch (mainFrame.getRemoteView().getListOfPlayerBoardViews().get(i).getColorOfPlayer()){
+                 case BLUE:
+                     colorsOfPlayers.add(Color.BLUE);
+                     break;
+                 case PURPLE:
+                     colorsOfPlayers.add(Color.RED);
+                     break;
+                 case GREY:
+                     colorsOfPlayers.add(Color.GRAY);
+                     break;
+                 case GREEN:
+                     colorsOfPlayers.add(Color.GREEN);
+                     break;
+                     default:
+                         colorsOfPlayers.add(Color.YELLOW);
+             }
+         }
 
         insetTopForText = (int) (mainFrame.getFrame().getSize().getHeight()/108);
         insetTopForButtons = 2*insetTopForText;
@@ -156,7 +177,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonPB1 = new JToggleButton(" ");
 
-        buttonPB1.setBackground(Color.BLACK);
+        buttonPB1.setBackground(colorsOfPlayers.get(0));
         buttonPB1.setActionCommand(labelPlayer1.getText());
         buttonPB1.addActionListener(buttonPBListener);
         GridBagConstraints gbcButtonPB1 = new GridBagConstraints();
@@ -170,7 +191,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonPB2 = new JToggleButton(" ");
         GridBagConstraints gbcButtonPB2 = new GridBagConstraints();
-        buttonPB2.setBackground(Color.BLACK);
+        buttonPB2.setBackground(colorsOfPlayers.get(1));
         buttonPB2.addActionListener(buttonPBListener);
         buttonPB2.setActionCommand(labelPlayer2.getText());
         gbcButtonPB2.insets = new Insets(insetTopForButtons, 0, 0, 0);
@@ -183,7 +204,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonPB3 = new JToggleButton(" ");
         GridBagConstraints gbcButtonPB3 = new GridBagConstraints();
-        buttonPB3.setBackground(Color.BLACK);
+        buttonPB3.setBackground(colorsOfPlayers.get(2));
         buttonPB3.addActionListener(buttonPBListener);
         buttonPB3.setActionCommand(labelPlayer3.getText());
         gbcButtonPB3.insets = new Insets(insetTopForButtons, 0, 0, 0);
@@ -200,7 +221,7 @@ class PanelOfPlayers extends JPanel {
         if(mainFrame.getRemoteView().getListOfPlayerBoardViews().size()>3) {
            buttonPB4 = new JToggleButton(" ");
            GridBagConstraints gbcButtonPB4 = new GridBagConstraints();
-           buttonPB4.setBackground(Color.BLACK);
+           buttonPB4.setBackground(colorsOfPlayers.get(3));
            buttonPB4.addActionListener(buttonPBListener);
            if(labelPlayer4!=null)
             buttonPB4.setActionCommand(labelPlayer4.getText());
@@ -216,7 +237,7 @@ class PanelOfPlayers extends JPanel {
 
               buttonPB5 = new JToggleButton(" ");
               GridBagConstraints gbcButtonPB5 = new GridBagConstraints();
-              buttonPB5.setBackground(Color.BLACK);
+              buttonPB5.setBackground(colorsOfPlayers.get(4));
               buttonPB5.addActionListener(buttonPBListener);
               if (labelPlayer5!=null)
                buttonPB5.setActionCommand(labelPlayer5.getText());
@@ -245,7 +266,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonM1 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM1 = new GridBagConstraints();
-        buttonM1.setBackground(Color.BLACK);
+        buttonM1.setBackground(colorsOfPlayers.get(0));
         buttonM1.addActionListener(buttonMListener);
         buttonM1.setActionCommand(labelPlayer1.getText());
         gbcButtonM1.insets = new Insets(insetTopForButtons, 0, 0, 0);
@@ -255,7 +276,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonM2 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM2 = new GridBagConstraints();
-        buttonM2.setBackground(Color.BLACK);
+        buttonM2.setBackground(colorsOfPlayers.get(1));
         buttonM2.addActionListener(buttonMListener);
         buttonM2.setActionCommand(labelPlayer2.getText());
         gbcButtonM2.insets = new Insets(insetTopForButtons, 0, 0, 0);
@@ -265,7 +286,7 @@ class PanelOfPlayers extends JPanel {
 
         JToggleButton buttonM3 = new JToggleButton(" ");
         GridBagConstraints gbcButtonM3 = new GridBagConstraints();
-        buttonM3.setBackground(Color.BLACK);
+        buttonM3.setBackground(colorsOfPlayers.get(2));
         buttonM3.addActionListener(buttonMListener);
         buttonM3.setActionCommand(labelPlayer3.getText());
         gbcButtonM3.insets = new Insets(insetTopForButtons, 0, 0, 0);
@@ -279,7 +300,7 @@ class PanelOfPlayers extends JPanel {
         if(mainFrame.getRemoteView().getListOfPlayerBoardViews().size()>3) {
            buttonM4 = new JToggleButton(" ");
            GridBagConstraints gbcButtonM4 = new GridBagConstraints();
-           buttonM4.setBackground(Color.BLACK);
+           buttonM4.setBackground(colorsOfPlayers.get(3));
            buttonM4.addActionListener(buttonMListener);
            if(labelPlayer4!=null)
             buttonM4.setActionCommand(labelPlayer4.getText());
@@ -290,7 +311,7 @@ class PanelOfPlayers extends JPanel {
 
            if (mainFrame.getRemoteView().getListOfPlayerBoardViews().size() > 4) {
               buttonM5 = new JToggleButton(" ");
-              buttonM5.setBackground(Color.BLACK);
+              buttonM5.setBackground(colorsOfPlayers.get(4));
               buttonM5.addActionListener(buttonMListener);
               if(labelPlayer5!=null)
                  buttonM5.setActionCommand(labelPlayer5.getText());

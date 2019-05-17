@@ -109,18 +109,7 @@ public class AmmoTile implements Serializable {
         return hasPowerUpCard;
     }
 
-
-
-    @Override
-    public String toString() {
-        String string;
-        string = "Ammo: ";
-        for (ColorOfCard_Ammo color : getAmmos()){
-            string = string.concat(color.toString() + ",");
-        }
-        if(hasPowerUpCard){
-            string = string.concat(" e puoi pescare powerUp Card");
-        }
-        return string;
+    public int getTypeOfAmmoTile() {
+        return typeOfAmmoTile;
     }
 }
