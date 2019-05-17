@@ -14,7 +14,13 @@ public class CatchActionDoneEvent extends ServerEvent {
     public CatchActionDoneEvent(String message, ArrayList<ColorOfCard_Ammo> ammoCaught){
         super(message);
         setCatchActionDone(true);
-        ammo.addAll(ammoCaught);
+        try{
+            ammo.addAll(ammoCaught);
+        }
+        catch (NullPointerException e){
+
+        }
+
     }
 
     public boolean isCatchActionOfAmmoTile() {

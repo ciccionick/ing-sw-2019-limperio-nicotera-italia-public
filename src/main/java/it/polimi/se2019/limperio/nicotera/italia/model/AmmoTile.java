@@ -21,7 +21,7 @@ public class AmmoTile implements Serializable {
 
 
 
-     AmmoTile(int typeAmmoTile)
+    public  AmmoTile(int typeAmmoTile)
     {
         switch(typeAmmoTile) {
             case 1:
