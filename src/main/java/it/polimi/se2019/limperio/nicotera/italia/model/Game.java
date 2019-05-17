@@ -96,15 +96,19 @@ public class Game extends Observable<ServerEvent> {
      * @param typeMap The type of map
      * @param terminatorModeActive The boolean value that indicate if there will be the terminator mode if the number of players is 3
      */
-    public void startGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
+    public void initializeGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
         this.anticipatedFrenzy=anticipatedFrenzy;
         if(players.size()==3)
             this.terminatorModeActive = terminatorModeActive;
+        if(terminatorModeActive){
+            numOfMaxActionForTurn=3;
+            players.add(new Player("terminator", false, 4, findColorAvailable()));
+        }
         setListOfNickname();
         PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
-            pbEvent = new PlayerBoardEvent("Successfull creation of player board of " + player.getNickname());
+            pbEvent = new PlayerBoardEvent("");
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
             pbEvent.setPlayerBoard(player.getPlayerBoard());
@@ -113,7 +117,7 @@ public class Game extends Observable<ServerEvent> {
         createBoard();
         board.createMap(typeMap);
         board.createKillShotTrack();
-        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("Successfull creation of killshot track", board.getKillShotTrack());
+        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
         killshotTrackEvent.setNicknames(listOfNickname);
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
@@ -122,17 +126,26 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         updateMap();
-        if(terminatorModeActive){
-            numOfMaxActionForTurn=3;
-            //creare player per il terminator
+        startGame();
+    }
+
+    private ColorOfFigure_Square findColorAvailable() {
+        ArrayList<ColorOfFigure_Square> colors = new ArrayList<>();
+        colors.add(ColorOfFigure_Square.YELLOW);
+        colors.add(ColorOfFigure_Square.BLUE);
+        colors.add(ColorOfFigure_Square.GREEN);
+        colors.add(ColorOfFigure_Square.GREY);
+        colors.add(ColorOfFigure_Square.PURPLE);
+        for (Player player : players){
+            colors.remove(player.getColorOfFigure());
         }
-        startWithTheFirstTurn();
+        return colors.get(0);
     }
 
     /**
      * Sends the correct event towards the virtual view in accordance to the right phase of the game
      */
-    private void startWithTheFirstTurn() {
+    private void startGame() {
         boolean requestForDrawTwoCardsDone = false;
         while(!isGameOver) {
             for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
@@ -142,14 +155,17 @@ public class Game extends Observable<ServerEvent> {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCardsDone) {
-                            ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent("E' il tuo primo turno e devi pescare due carte potenziamento e scartarne una per decidere il tuo punto di generazione ");
-                            //settare e inviare all'evento il nickname del player del turno
+                            ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
+                            requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
+                            requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of "+ listOfNickname.get(playerOfTurn-1) + ". Press OK and wait for some news!");
                             requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
-                            requestDrawTwoPowerUpCardsEvent.getNicknames().add(listOfNickname.get(playerOfTurn - 1));
+                            requestDrawTwoPowerUpCardsEvent.setNicknames(listOfNickname);
+                            requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(listOfNickname.get(playerOfTurn-1));
                             notify(requestDrawTwoPowerUpCardsEvent);
                             requestForDrawTwoCardsDone=true;
                         }
                     }
+                    updateMap();
                 }
             }
             round++;
@@ -161,7 +177,7 @@ public class Game extends Observable<ServerEvent> {
      * Update the map and send an event of type {@link MapEvent}
      */
     void updateMap(){
-        MapEvent mapEvent = new MapEvent("Successfull creation of map");
+        MapEvent mapEvent = new MapEvent("");
         mapEvent.setNicknames(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
         mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
@@ -211,15 +227,7 @@ public class Game extends Observable<ServerEvent> {
                 break;
             default: throw new IllegalArgumentException();
         }
-
         players.add(new Player(nickname, isFirst, position, colorOfThisPlayer));
-        System.out.println(players.get((players.size()-1)).getNickname() + " in " + players.get((players.size()-1)).getPosition() + "^ posizione nel turno");
-        if(players.get(players.size()-1).isFirst()){
-            System.out.println("Ed è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
-
-        }
-        else
-            System.out.println("E non è il primo del turno con il colore " + players.get(players.size()-1).getColorOfFigure());
     }
 
     /**

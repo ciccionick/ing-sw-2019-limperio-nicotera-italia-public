@@ -32,7 +32,7 @@ public class KillshotTrackView {
         setTokensOfDeath(event.getKillShotTrack().getTokensOfDeath());
         setTokensOfDoubleKill(event.getKillShotTrack().getTokensOfDoubleKill());
         setTokenOfFranzyMode(event.getKillShotTrack().getTokenOfFranzyMode());
-        System.out.println(event.getMessage());
+        //System.out.println(event.getMessage());
     }
 
     public ArrayList<TokenOfDeath> getTokensOfDeath() {

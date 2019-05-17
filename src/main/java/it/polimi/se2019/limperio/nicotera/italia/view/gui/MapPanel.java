@@ -312,8 +312,6 @@ class MapPanel extends JPanel {
                 Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
                 Point positionOfPanel = mainFrame.getMapPanel().getLocation();
                 Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
-
-
             if (square.isSpawn()) {
                 popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame.getFrame().getLocation(), dimensionOfFrame, listOfWeaponOnTheSquare );
                 } else {

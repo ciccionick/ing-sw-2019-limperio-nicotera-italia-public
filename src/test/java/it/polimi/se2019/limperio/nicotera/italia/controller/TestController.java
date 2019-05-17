@@ -19,7 +19,7 @@ public class TestController {
       game.createPlayer("player2", false, 2, "YELLOW");
       game.createPlayer("player3", false, 3, "GREY");
       game.setGameOver(true);
-      game.startGame(false, 1, false);
+      game.initializeGame(false, 1, false);
    }
 
    @Test

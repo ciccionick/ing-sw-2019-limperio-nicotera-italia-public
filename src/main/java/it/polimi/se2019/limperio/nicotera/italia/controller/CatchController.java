@@ -69,12 +69,12 @@ class CatchController {
         else{
            addAmmoToPlayer(player.getPlayerBoard(), ((NormalSquare) square).getAmmoTile().getAmmos());
            if(((NormalSquare) square).getAmmoTile().hasPowerUpCard()){
-               ArrayList<PowerUpCard> powerUpCards = new ArrayList<>();
-               powerUpCards.add(game.getBoard().getPowerUpDeck().getPowerUpCards().get(0));
-               player.drawPowerUpCard(powerUpCards);
-               game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(0, powerUpCards.get(0));
+               PowerUpCard powerUpCard;
+               powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
+               player.drawPowerUpCard(powerUpCard);
+               game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(0, powerUpCard);
                game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
-               powerUpCards.get(0).setInTheDeckOfSomePlayer(true);
+               powerUpCard.setInTheDeckOfSomePlayer(true);
            }
            game.incrementNumOfActionsOfThisTurn();
            CatchActionDoneEvent actionDoneEvent = new CatchActionDoneEvent("avvenuta raccolta", ((NormalSquare) square).getAmmoTile().getAmmos());

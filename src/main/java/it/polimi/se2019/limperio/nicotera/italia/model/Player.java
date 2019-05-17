@@ -210,10 +210,8 @@ public class Player implements PlayerBehaviour{
      * @param powerUpCardsToDraw the cards that must be drawn
      */
     @Override
-    public void drawPowerUpCard(ArrayList<PowerUpCard> powerUpCardsToDraw) {
-        playerBoard.getPowerUpCardsOwned().addAll(powerUpCardsToDraw);
-        System.out.println("Ho aggiunto due carte al mio mazzo di power up cards: " + playerBoard.getPowerUpCardsOwned().size());
-
+    public void drawPowerUpCard(PowerUpCard powerUpCardsToDraw) {
+        playerBoard.getPowerUpCardsOwned().add(powerUpCardsToDraw);
     }
 
     /**

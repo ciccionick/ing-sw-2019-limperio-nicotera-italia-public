@@ -88,13 +88,10 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     @Override
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
-            System.out.println("L'evento è di tipo PlayerBoard event e di conseguenza chiamo l'update di PlayerBoardView");
             remoteView.handlePlayerBoardEvent(((PlayerBoardEvent) event));
         }
         if(event.isMapEvent()){
-            System.out.println("L'evento arrivato è di tipo MapEvent e di conseguenza chiamo l'update di MapView");
             remoteView.getMapView().update((MapEvent)event);
-
         }
         if(event.isKillshotTrackEvent()){
             System.out.println(("L'evento arrivato è di tipo KillshotTrack e di conseguenza chiamo l'update di KillshotTrackView"));
@@ -102,7 +99,6 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
 
         }
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){
-            System.out.println(("L'evento arrivato è di tipo DrawPowerUpCards e di conseguenza chiamo l'update di remote view"));
             remoteView.update(event);
             return;
         }

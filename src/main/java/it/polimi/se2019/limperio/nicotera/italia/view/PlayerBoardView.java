@@ -56,7 +56,7 @@ public class PlayerBoardView {
     }
 
     public void update (PlayerBoardEvent event){
-        System.out.println(event.getMessage());
+        //System.out.println(event.getMessage());
         updateStateOfPlayerBoard(event);
     }
 
@@ -83,7 +83,7 @@ public class PlayerBoardView {
         this.weaponCardDeck = weaponCardDeck;
     }
 
-    private void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
+     void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
         this.powerUpCardsDeck = powerUpCardsDeck;
     }
 

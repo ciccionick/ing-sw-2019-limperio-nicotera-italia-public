@@ -27,6 +27,10 @@ public class PlayerBoardEvent extends ServerEvent {
         setPlayerBoardEvent(true);
     }
 
+    public PlayerBoardEvent() {
+
+    }
+
     private void setWeaponCardsOwned(ArrayList<WeaponCard> weaponsOwned) {
         for(WeaponCard card : weaponsOwned){
             this.weaponCardsOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));

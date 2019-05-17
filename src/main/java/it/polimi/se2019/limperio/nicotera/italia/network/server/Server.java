@@ -215,7 +215,7 @@ public class Server  {
         if (typeMap == 0) {
             setTypeMap(typeMap);
         }
-        game.startGame(anticipatedFrenzy, typeMap, terminatorMode);
+        game.initializeGame(anticipatedFrenzy, typeMap, terminatorMode);
         gameIsStarted = true;
         while (serverSocket.isBound()) {
             Socket client = serverSocket.accept();

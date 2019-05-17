@@ -27,14 +27,15 @@ class PowerUpController {
      * @param nickname the nickname of the player that want to draw the cards
      */
      void handleDrawOfTwoCards(String nickname) {
-         ArrayList<PowerUpCard> powerUpCardsToDraw = new ArrayList<>();
+         PowerUpCard powerUpCardToDraw;
          for (int i = 0; i < 2; i++) {
-             powerUpCardsToDraw.add(game.getBoard().getPowerUpDeck().getPowerUpCards().get(0));
-             game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0));
-             game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true);
+             powerUpCardToDraw = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
+             game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0)); //add to used deck the first of normal deck and remove from this one
+             game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true); //set boolean attribute to the card
+             powerUpCardToDraw.setOwnerOfCard(controller.findPlayerWithThisNickname(nickname));
+             controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardToDraw);
          }
-         controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardsToDraw);
-         PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent("Hai pescato due carte potenziamento, ora scegline una da scartare per decidere dove essere generato");
+         PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent();
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());

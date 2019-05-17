@@ -8,10 +8,11 @@ import java.awt.*;
  class PlayerBoardPanel extends JPanel {
 
     private MainFrame mainFrame;
-
+    private String nicknameOfPlayerBoard;
 
      PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
+        nicknameOfPlayerBoard = playerBoardView.getNicknameOfPlayer();
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
 
@@ -313,4 +314,8 @@ import java.awt.*;
         cell29.setIcon(imageIcon);
         add(cell29, gbcCell29);
     }
-}
+
+    public String getNicknameOfPlayerBoard() {
+       return nicknameOfPlayerBoard;
+    }
+ }

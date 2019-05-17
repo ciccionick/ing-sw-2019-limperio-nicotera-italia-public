@@ -8,7 +8,7 @@ public interface PlayerBehaviour {
     void catchAmmoTile (Square square);
     void shoot (Player[] players, WeaponCard weaponCard, int[] typeOfAttack);
     void catchWeapon(Square square, WeaponCard weaponCard);
-    void drawPowerUpCard(ArrayList<PowerUpCard> powerUpCardsToDraw);
+    void drawPowerUpCard(PowerUpCard powerUpCardsToDraw);
     void discardPowerUpCard(PowerUpCard card);
 
 }

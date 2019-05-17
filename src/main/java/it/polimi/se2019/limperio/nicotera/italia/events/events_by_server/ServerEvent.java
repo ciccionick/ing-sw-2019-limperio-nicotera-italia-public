@@ -25,7 +25,10 @@ public class ServerEvent implements Serializable {
     /**
      * The message stored in the event.
      */
-    private String message;
+    private String messageForInvolved;
+
+    private String messageForOthers;
+
     /**
      * The list of nickname interested to receive the event.
      */
@@ -67,15 +70,29 @@ public class ServerEvent implements Serializable {
         isActionOfTurnEvent = firstActionOfTurnEvent;
     }
 
+    public ServerEvent(){
+
+    }
 
     public ServerEvent(String message) {
-        this.message = message;
+        this.messageForInvolved = message;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageForInvolved() {
+        return messageForInvolved;
     }
 
+    public void setMessageForInvolved(String messageForInvolved) {
+        this.messageForInvolved = messageForInvolved;
+    }
+
+    public String getMessageForOthers() {
+        return messageForOthers;
+    }
+
+    public void setMessageForOthers(String messageForOthers) {
+        this.messageForOthers = messageForOthers;
+    }
 
     public void setNicknames(ArrayList<String> nicknames) {
         this.nicknames = nicknames;

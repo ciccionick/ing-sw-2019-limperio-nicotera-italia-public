@@ -89,37 +89,21 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     /**
      * Handles all the interactions with the player and through the parameter it asks or notifies something to the client that is playing.
-     * @param message allows to distinguish what to ask for to the player.
+     * @param receivedEvent allows to distinguish what to ask for to the player.
      */
     @Override
-    public void update(ServerEvent message) {
-        System.out.println(message.getMessage() + " " + message.getNicknames());
-        if (message.isRequestForDrawTwoPowerUpCardsEvent()) {
-            System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
-            String action = stdin.nextLine();
-            while (!(action.equalsIgnoreCase("pesca"))) {
-                System.out.println("Digita 'pesca' se vuoi pescare le due carte potenziamento ");
-                action = stdin.nextLine();
-            }
-            notify(new DrawTwoPowerUpCards("Voglio pescare due carte", client.getNickname()));
+    public void update(ServerEvent receivedEvent) {
+
+        if (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
+            mainFrame.handleRequestForDrawTwoPowerUpCard(receivedEvent);
         }
 
-        if (message.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-            System.out.println("Hai pescato: " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(0).getColor() + " e " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getName() + " " + myPlayerBoardView.getPowerUpCardsDeck().get(1).getColor());
-            System.out.println(" Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
-            int choose;
-            choose = stdin.nextInt();
-            while (choose != 1 && choose != 2) {
-                System.out.println("Digita 1 se vuoi scartare la prima o 2 se vuoi scartare la seconda");
-                choose = stdin.nextInt();
-            }
-            if (choose == 1) {
-                discardPowerUpCard(0);
-            } else
-                discardPowerUpCard(1);
+        if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
+            myPlayerBoardView.setPowerUpCardsDeck(((PlayerBoardEvent)receivedEvent).getPowerUpCardsOwned());
+            mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }
 
-        if(message.isFirstActionOfTurnEvent()){
+        if(receivedEvent.isFirstActionOfTurnEvent()){
             System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
             String action;
             action = stdin.nextLine();
@@ -142,8 +126,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         }
 
-        if(message.isSelectionSquareForCatching()){
-            SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) message;
+        if(receivedEvent.isSelectionSquareForCatching()){
+            SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) receivedEvent;
             System.out.println("Puoi pescare nei seguenti quadrati: ");
             for(Square square : event.getSquaresReachableForCatch() ){
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
@@ -161,9 +145,9 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             notify(newEvent);
         }
 
-        if(message.isRequestForChooseAWeaponToCatch())
+        if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
-            RequestForChooseAWeaponToCatch event = (RequestForChooseAWeaponToCatch) message;
+            RequestForChooseAWeaponToCatch event = (RequestForChooseAWeaponToCatch) receivedEvent;
             System.out.println("Puoi pescare le seguenti armi:");
             for(ServerEvent.AliasCard card : event.getWeaponsAvailableToCatch()){
                 System.out.println(card.getName() + "\t");
@@ -190,20 +174,20 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
 
-        if(message.isCatchActionDone()){
-            if(((CatchActionDoneEvent) message).isCatchActionOfAmmoTile()){
+        if(receivedEvent.isCatchActionDone()){
+            if(((CatchActionDoneEvent) receivedEvent).isCatchActionOfAmmoTile()){
                 System.out.println("Hai pescato un ammo tile con le seguenti munizioni: ");
-                for(ColorOfCard_Ammo ammo : ((CatchActionDoneEvent) message).getAmmo()){
+                for(ColorOfCard_Ammo ammo : ((CatchActionDoneEvent) receivedEvent).getAmmo()){
                     System.out.println("/t" + ammo.toString());
                 }
             }
             else{
-                System.out.println("Hai pescato una weapon card: " + ((CatchActionDoneEvent)message).getNameOfWeaponCaught());
+                System.out.println("Hai pescato una weapon card: " + ((CatchActionDoneEvent)receivedEvent).getNameOfWeaponCaught());
             }
          }
 
-        if(message.isRequestSelectionSquareForRun()){
-            RequestSelectionSquareForRun event = (RequestSelectionSquareForRun) message;
+        if(receivedEvent.isRequestSelectionSquareForRun()){
+            RequestSelectionSquareForRun event = (RequestSelectionSquareForRun) receivedEvent;
             System.out.println("Ecco i quadrati raggiungibili: ");
             for(Square square : event.getSquaresReachableWithRunAction()){
                 System.out.println("["+ square.getRow()+"]" + " ["+square.getColumn()+"]");

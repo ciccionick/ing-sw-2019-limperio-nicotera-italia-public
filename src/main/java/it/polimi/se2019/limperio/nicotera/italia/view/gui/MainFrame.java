@@ -1,14 +1,15 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.util.HashMap;
 
-public class MainFrame {
+
+ public class MainFrame {
 
     private JFrame frame;
     private JPanel contentPane;
@@ -17,6 +18,7 @@ public class MainFrame {
     private RightPanel rightPanel;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
+    private DialogForRequestToDraw2PC dialogForRequestToDraw;
 
     public MainFrame(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -31,7 +33,7 @@ public class MainFrame {
         contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
-        contentPane.addComponentListener(new ContentListener(this));
+        contentPane.addComponentListener(new FrameListener(this));
 
 
         mapPanel = new MapPanel(this);
@@ -45,48 +47,49 @@ public class MainFrame {
 
         rightPanel = new RightPanel(this);
         contentPane.add(rightPanel, BorderLayout.EAST);
-
-
-
         frame.setVisible(true);
-
     }
-
-
 
     RemoteView getRemoteView() {
         return remoteView;
     }
-
-     JFrame getFrame() {
+    JFrame getFrame() {
         return frame;
     }
-
-     void setLeftPanel(LeftPanel leftPanel) {
+    void setLeftPanel(LeftPanel leftPanel) {
         this.leftPanel = leftPanel;
     }
-
-     LeftPanel getLeftPanel() {
+    LeftPanel getLeftPanel() {
         return leftPanel;
     }
-
-    public MapPanel getMapPanel() {
+    MapPanel getMapPanel() {
         return mapPanel;
     }
 
-    private class ContentListener implements ComponentListener {
+
+
+    public void handleRequestForDrawTwoPowerUpCard(ServerEvent receivedEvent) {
+        dialogForRequestToDraw = new DialogForRequestToDraw2PC(this, receivedEvent);
+    }
+
+    public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
+        if(getLeftPanel().getPlayerBoardPanel().getNicknameOfPlayerBoard().equals(receivedEvent.getNicknameInvolved())){
+            leftPanel = new LeftPanel(this,remoteView.getMyPlayerBoardView());
+        }
+    }
+
+
+    private class FrameListener implements ComponentListener {
 
         private MainFrame mainFrame;
 
-         ContentListener(MainFrame mainFrame) {
+         FrameListener(MainFrame mainFrame) {
             this.mainFrame = mainFrame;
         }
 
         @Override
         public void componentResized(ComponentEvent e) {
             contentPane.removeAll();
-            contentPane.validate();
-            contentPane.repaint();
 
             mapPanel = new MapPanel(mainFrame);
             contentPane.add(mapPanel,BorderLayout.CENTER);
