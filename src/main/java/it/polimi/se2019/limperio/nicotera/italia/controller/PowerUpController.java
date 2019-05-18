@@ -63,7 +63,7 @@ class PowerUpController {
     void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event){
          System.out.println("Il player " + event.getNickname() + " ha deciso di scartare la powerUpCard " + event.getPowerUpCard().getName() + " di colore "+ event.getPowerUpCard().getColor() + " e di conseguenza sarà generato nel quadrato generazione di quel colore");
         removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
-        spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
+        //spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
      }
 
     /**

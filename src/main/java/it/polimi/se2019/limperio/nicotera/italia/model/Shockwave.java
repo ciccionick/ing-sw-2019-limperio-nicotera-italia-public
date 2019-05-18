@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 /**
  * This class is used to represent the Shockwave of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 
@@ -51,8 +51,8 @@ public class Shockwave extends WeaponCard {
     public Shockwave() {
         super(YELLOW, "Shockwave");
         String description;
-        description = "basic mode: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target." +
-        "in tsunami mode: Deal 1 damage to all targets that are exactly 1 move away.\n";
+        description = "BASIC MODE: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
+        "IN TSUNAMI MODE: Deal 1 damage to all targets that are exactly 1 move away.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);

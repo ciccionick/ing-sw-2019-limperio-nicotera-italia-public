@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 /**
  * This class is used to represent the Shotgun of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class Shotgun extends WeaponCard {
@@ -51,8 +51,8 @@ public class Shotgun extends WeaponCard {
     public Shotgun() {
         super(YELLOW, "Shotgun");
         String description;
-        description = "basic mode: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square." +
-                      "in long barrel mode: Deal 2 damage to 1 target on any square exactly one move away.";
+        description = "BASIC MODE: Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\n" +
+                      "IN LONG BARREL MODE: Deal 2 damage to 1 target on any square exactly one move away.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);

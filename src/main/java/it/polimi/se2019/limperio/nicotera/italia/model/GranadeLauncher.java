@@ -53,8 +53,8 @@ public class GranadeLauncher extends WeaponCard {
     public GranadeLauncher() {
         super(RED, "Granade launcher");
         String description;
-        description = "basic effect: Deal 1 damage to 1 target you can see. Then you may move the target 1 square." +
-                "with extra grenade: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move." +
+        description = "BASIC EFFECT: Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\n" +
+                "WITH EXTRA GRANADE: Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\n" +
                 "Notes: For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};

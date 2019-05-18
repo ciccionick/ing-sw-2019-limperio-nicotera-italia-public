@@ -42,8 +42,8 @@ public class ElectroScythe extends WeaponCard
     public ElectroScythe() {
         super(BLUE, "Electroscythe");
         String description;
-        description = "basic mode: Deal 1 damage to every other player on your square. \n" +
-                "in reaper mode: Deal 2 damage to every other player on your square.";
+        description = "BASIC MODE: Deal 1 damage to every other player on your square. \n" +
+                "IN REAPER MODE: Deal 2 damage to every other player on your square.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
