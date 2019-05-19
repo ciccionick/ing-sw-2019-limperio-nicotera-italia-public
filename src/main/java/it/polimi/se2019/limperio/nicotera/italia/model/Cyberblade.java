@@ -58,9 +58,9 @@ public class Cyberblade extends WeaponCard {
     public Cyberblade() {
         super(YELLOW, "Cyberblade");
         String description;
-        description = "basic effect: Deal 2 damage to 1 target on your square.\n" +
-        "with shadowstep: Move 1 square before or after the basic effect.\n" +
-        "with slice and dice: Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
+        description = "BASIC EFFECT: Deal 2 damage to 1 target on your square.\n" +
+        "WITH SHADOWSTEP: Move 1 square before or after the basic effect.\n" +
+        "WITH SLICE AND DICE: Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
         "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};

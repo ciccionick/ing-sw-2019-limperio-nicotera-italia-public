@@ -11,10 +11,22 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test for CatchController
+ *
+ * @author Giuseppe Italia
+ */
+
 public class TestCatchController extends TestController {
     private CatchController catchController = new CatchController(game, controller);
 
 
+
+    @After
+    public void inizialize()
+    {
+        game.initializeGame(false, 1, false);
+    }
 
     @Test
     public void findSquareWherePlayerCanCatchTest(){
@@ -102,6 +114,8 @@ public class TestCatchController extends TestController {
     @Test
     public void handleCatchingTest()
     {
+
+        // To catch the Ammotile in a Normal Square
         game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
         NormalSquare normalSquare= (NormalSquare) game.getBoard().getMap().getMatrixOfSquares()[1][1];
         normalSquare.setAmmoTile(new AmmoTile(1));
@@ -122,6 +136,36 @@ public class TestCatchController extends TestController {
 
         assertEquals(j, 5);
 
+        /*NOn ho realizzato da qui la raccolta delle weapon e ho fatto il test direttamente del metodo addWeaponToplayer perchè
+        non so come gestire la richiesta e la scelta della carta da parte del client all'interno di un test*/
+
+    }
+
+    @Test
+    public void addWeaponNotAffordableTest()
+    {
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+        PlasmaGun plasmaGun= new PlasmaGun();
+        ((SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[0][2]).getWeaponCards().add(plasmaGun);
+        int i;
+        for(i=0;i<9;i++)
+        {
+            if(game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).getColor().equals(ColorOfCard_Ammo.YELLOW))
+            {
+                game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+            }
+        }
+        ArrayList<ServerEvent.AliasCard> weaponNotAffordable= new ArrayList<>();
+
+
+        catchController.addWeaponNotAffordable(((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[0][2]), game.getPlayers().get(0), weaponNotAffordable);
+
+        boolean trovato=false;
+        for(ServerEvent.AliasCard weaponNotAffordablex: weaponNotAffordable)
+        {
+            if(weaponNotAffordablex.getName().equals(plasmaGun.getName())) trovato=true;
+        }
+        assertTrue(trovato);
 
     }
 

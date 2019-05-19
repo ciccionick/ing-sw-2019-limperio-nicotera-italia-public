@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 /**
  * This class is used to represent the TractorBeam  of  WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 
@@ -34,8 +34,8 @@ public class TractorBeam extends WeaponCard {
     public TractorBeam() {
         super(BLUE, "Tractor beam");
         String description;
-        description = "basic mode: Move a target 0, 1, or 2 squares to a square you can see, and give it 1 damage.\n" +
-                "in punisher mode: Choose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n" +
+        description = "BASIC MODE: Move a target 0, 1, or 2 squares to a square you can see, and give it 1 damage.\n" +
+                "IN PUNISHER MODE: Choose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n" +
                 "Notes: You can move a target even if you can't see it. The target ends up in a place where you can see and damage it. The moves do not have to be in the same direction.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};

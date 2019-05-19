@@ -10,7 +10,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.R
 /**
  * This class is used to represent the Thor of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 
@@ -48,9 +48,9 @@ public class Thor extends WeaponCard {
 
     public Thor() {
         super(BLUE, "THOR");
-        String description = "basic effect: Deal 2 damage to 1 target you can see.\n" +
-                "with chain reaction: Deal 1 damage to a second target that your first target can see.\n" +
-                "with high voltage: Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +
+        String description = "BASIC EFFECT: Deal 2 damage to 1 target you can see.\n" +
+                "WITH CHAIN REACTION: Deal 1 damage to a second target that your first target can see.\n" +
+                "WITH HIGH VOLTAGE: Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +
                 "Notes: This card constrains the order in which you can use its effects. (Most cards don't.) Also note that each target must be a different player.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};

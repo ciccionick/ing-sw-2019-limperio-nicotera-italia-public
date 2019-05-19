@@ -51,8 +51,8 @@ public class Furnace extends WeaponCard {
 
     public Furnace() {
         super(RED, "Furnace");
-        String description = "basic mode: Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n" +
-                "in cozy fire mode: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.";
+        String description = "BASIC MODE: Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n" +
+                "IN COZY FIRE MODE: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);

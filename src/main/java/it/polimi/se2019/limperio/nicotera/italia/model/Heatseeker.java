@@ -24,7 +24,7 @@ public class Heatseeker extends WeaponCard {
     public Heatseeker() {
         super(RED, "Heatseeker");
         Boolean[] kindOfAttack = {true, false, false, false};
-        String description = "effect: Choose 1 target you cannot see and deal 3 damage to it.\n" +
+        String description = "EFFECT: Choose 1 target you cannot see and deal 3 damage to it.\n" +
                 "Notes: Yes, this can only hit targets you cannot see.";
         setDescription(description);
         setHasThisKindOfAttack(kindOfAttack);

@@ -13,6 +13,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
+/**
+ * Test for Controller
+ *
+ * @author  Giuseppe Italia
+ */
+
+
 public class TestController {
     Game game = Game.instanceOfGame();
     Controller controller = new Controller(game);

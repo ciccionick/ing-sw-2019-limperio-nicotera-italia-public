@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 /**
  * This class is used to represent the Sledgehammer of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class Sledgehammer extends WeaponCard{
@@ -52,8 +52,8 @@ public class Sledgehammer extends WeaponCard{
     public Sledgehammer() {
         super(YELLOW, "Sledgehammer");
         String description;
-        description ="Basic mode: Deal 2 damage to 1 target on your square.\n" +
-        "in pulverize mode: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
+        description ="BASIC MODE: Deal 2 damage to 1 target on your square.\n" +
+        "IN PULVERIZE MODE: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
         "Notes: Remember that moves go through doors, but not walls.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};

@@ -54,8 +54,8 @@ public class Hellion extends WeaponCard {
         super(RED, "Hellion");
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
-        String description = "basic mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
-                "in nano-tracer mode: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
+        String description = "BASIC MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
+                "IN NANO-TRACER MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
         setDescription(description);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);

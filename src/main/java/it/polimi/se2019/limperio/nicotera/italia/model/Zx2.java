@@ -48,8 +48,8 @@ public class Zx2 extends WeaponCard {
     public Zx2() {
         super(YELLOW, "Zx-2");
         String description;
-        description = "basic mode: Deal 1 damage and 2 marks to 1 target you can see." +
-                "in scanner mode: Choose up to 3 targets you can see and deal 1 mark to each." +
+        description = "BASIC MODE: Deal 1 damage and 2 marks to 1 target you can see.\n" +
+                "IN SCANNER MODE: Choose up to 3 targets you can see and deal 1 mark to each.\n" +
                 "Notes: Remember that the 3 targets can be in 3 different rooms.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};

@@ -9,7 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.R
 /**
  * This class is used to represent the RocketLauncher of WeaponCard
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class RocketLauncher extends  WeaponCard{
