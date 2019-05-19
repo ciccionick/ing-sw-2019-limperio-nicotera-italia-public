@@ -283,6 +283,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     }
 
     public PlayerBoardView getPlayerBoardViewOfThisPlayer(String nickname){
+        if(nickname.equals("ME"))
+            return myPlayerBoardView;
         for (PlayerBoardView playerBoardView: listOfPlayerBoardViews){
             if(playerBoardView.getNicknameOfPlayer().equals(nickname))
                 return playerBoardView;

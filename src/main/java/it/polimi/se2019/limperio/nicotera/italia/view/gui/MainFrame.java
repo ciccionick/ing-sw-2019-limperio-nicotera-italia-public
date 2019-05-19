@@ -20,6 +20,10 @@ import java.awt.event.ComponentListener;
     private KillshotTrackPanel killshotTrackPanel;
     private DialogForMessage dialogForMessage;
     private boolean hasToChoosePowerUpCardForSpawn = false;
+    private boolean canUseNewton = false;
+    private boolean canUseTeleporter = false;
+    private boolean canUseTagbackGranade = false;
+    private boolean hasToChooseAWeapon = false;
 
     public MainFrame(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -88,19 +92,37 @@ import java.awt.event.ComponentListener;
 
     }
 
-     public boolean hasToChoosePowerUpCard() {
+    boolean hasToChoosePowerUpCard() {
          return hasToChoosePowerUpCardForSpawn;
      }
 
-     public void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
+     void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
          this.hasToChoosePowerUpCardForSpawn = hasToChoosePowerUpCardForSpawn;
+     }
+
+      boolean isCanUseNewton() {
+         return canUseNewton;
+     }
+
+      boolean isCanUseTeleporter() {
+         return canUseTeleporter;
+     }
+
+
+      boolean isCanUseTagbackGranade() {
+         return canUseTagbackGranade;
+     }
+
+
+     public boolean isHasToChooseAWeapon() {
+         return hasToChooseAWeapon;
      }
 
 
 
 
 
-    private class FrameListener implements ComponentListener {
+     private class FrameListener implements ComponentListener {
 
         private MainFrame mainFrame;
 

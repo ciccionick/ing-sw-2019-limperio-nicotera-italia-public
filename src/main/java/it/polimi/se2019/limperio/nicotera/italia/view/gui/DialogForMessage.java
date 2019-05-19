@@ -13,9 +13,11 @@ import java.awt.*;
      DialogForMessage(MainFrame mainFrame, ServerEvent receivedEvent) {
         this.mainFrame = mainFrame;
         dialog = new JDialog();
+        dialog.setModal(true);
+        dialog.setLocationRelativeTo(mainFrame.getFrame());
         JFrame frame = mainFrame.getFrame();
-        dialog.setAlwaysOnTop(true);
         dialog.setUndecorated(true);
+        dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setSize((int)(frame.getWidth()/4.2), (int)(frame.getHeight()/3.6));
         int xPosition = (frame.getX()+frame.getWidth()- dialog.getWidth())/2;
         int yPosition = (frame.getY()+frame.getHeight()- dialog.getHeight())/2;
@@ -33,7 +35,7 @@ import java.awt.*;
         message.setEditable(false);
         message.setLineWrap(true);
         message.setBackground(SystemColor.menu);
-        message.setColumns(32);
+        message.setColumns(34);
         message.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
         GridBagConstraints gbcMessage = new GridBagConstraints();
         gbcMessage.gridx = 0;
@@ -57,8 +59,5 @@ import java.awt.*;
         dialog.setVisible(true);
     }
 
-    public DialogForMessage(MainFrame mainFrame, String message) {
-       this.mainFrame = mainFrame;
-    }
  }
 

@@ -36,7 +36,7 @@ class PowerUpController {
              controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardToDraw);
          }
          PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent();
-         requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be spawn in the square of that color");
+         requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be generated in the square of that color. \n(You can tap and hold on the card too see more info)");
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
