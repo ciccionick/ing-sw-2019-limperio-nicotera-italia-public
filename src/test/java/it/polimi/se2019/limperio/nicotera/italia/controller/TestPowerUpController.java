@@ -37,8 +37,7 @@ public class TestPowerUpController extends TestController {
        assertTrue(square2.isHasDoor());
     }
 
-    @Test
-    public void handleDrawOfTwoCardsAndHandleDiscardOfCardToSpawnTest()
+   /*lic void handleDrawOfTwoCardsAndHandleDiscardOfCardToSpawnTest()
     {
         powerUpController.handleDrawOfTwoCards(game.getPlayers().get(0).getNickname());
         assertEquals(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().size(), 2);
@@ -48,7 +47,7 @@ public class TestPowerUpController extends TestController {
         event.setPowerUpCard(new ServerEvent.AliasCard(powerUpCardChoice.getName(),  powerUpCardChoice.getDescription(), powerUpCardChoice.getColor() ));
         powerUpController.handleDiscardOfCardToSpawn(event);
         assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCardChoice));
-    }
+    }*/
 
 
 
