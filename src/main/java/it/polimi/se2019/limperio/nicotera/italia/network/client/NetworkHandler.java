@@ -88,28 +88,28 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     @Override
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
-            remoteView.handlePlayerBoardEvent(((PlayerBoardEvent) event));
+            remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }
         if(event.isMapEvent()){
-            remoteView.getMapView().update((MapEvent)event);
+            if(event.isGenerationEvent())
+                remoteView.getMapView().update((MapEvent) event);
+            remoteView.getMapView().update((MapEvent) event);
         }
         if(event.isKillshotTrackEvent()){
-            System.out.println(("L'evento arrivato è di tipo KillshotTrack e di conseguenza chiamo l'update di KillshotTrackView"));
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) event);
 
+        }
+        if(event.isGenerationEvent()){
+            remoteView.update(event);
         }
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){
             remoteView.update(event);
             return;
         }
         if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
-            System.out.println(("L'evento arrivato è di tipo DiscardPowerUpCard e di conseguenza chiamo l'update di remote view"));
             remoteView.update(event);
-            return;
         }
         if(event.isFirstActionOfTurnEvent()){
-            //if se player del turno chiama update, altrimenti chiamo remoteviwe che deve stamoare attendi il turno di ..
-            System.out.println("L'evento è arrivato ed è di tipo FirstTurnAction di conseguenza lo mando al remote View e al mapView");
             remoteView.update(event);
             return;
         }

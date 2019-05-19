@@ -11,7 +11,6 @@ class PopupForNormalSquare extends PopupForSquare {
     private int typeOfAmmo;
 
 
-
      PopupForNormalSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare, AmmoTile ammoTile, Dimension dimensionOfFrame, Point positionOfPanel, Point positionOfSquare)  {
          String folderPath = "resources/board/ammotiles/";
          popup.setAutoRequestFocus(false);
@@ -51,60 +50,8 @@ class PopupForNormalSquare extends PopupForSquare {
          }
          panelForPlayers.add(textForPlayers, gbcTextForPlayers);
 
+         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare);
 
-
-
-
-         if (!(nicknamesOfPlayersOnThisSquare.isEmpty())) {
-             labelPlayer1 = new JLabel(nicknamesOfPlayersOnThisSquare.get(0));
-             GridBagConstraints gbcLabelPlayer1 = new GridBagConstraints();
-             gbcLabelPlayer1.insets = new Insets(5,20, 0, 20);
-             gbcLabelPlayer1.gridx = 0;
-             gbcLabelPlayer1.gridy = 1;
-             labelPlayer1.setHorizontalAlignment(SwingConstants.CENTER);
-             panelForPlayers.add(labelPlayer1, gbcLabelPlayer1 );
-         }
-
-
-         if (nicknamesOfPlayersOnThisSquare.size() > 1) {
-             labelPlayer2 = new JLabel(nicknamesOfPlayersOnThisSquare.get(1));
-             labelPlayer2.setHorizontalAlignment(SwingConstants.CENTER);
-             GridBagConstraints gbcLabelPlayer2 = new GridBagConstraints();
-             gbcLabelPlayer2.insets = new Insets(5,20, 0, 20);
-             gbcLabelPlayer2.gridx = 0;
-             gbcLabelPlayer2.gridy = 2;
-             panelForPlayers.add(labelPlayer2, gbcLabelPlayer2);
-         }
-
-         if (nicknamesOfPlayersOnThisSquare.size() > 2) {
-             labelPlayer3 = new JLabel(nicknamesOfPlayersOnThisSquare.get(2));
-             labelPlayer3.setHorizontalAlignment(SwingConstants.CENTER);
-             GridBagConstraints gbcLabelPlayer3 = new GridBagConstraints();
-             gbcLabelPlayer3.insets = new Insets(5,20, 0, 20);
-             gbcLabelPlayer3.gridx = 0;
-             gbcLabelPlayer3.gridy = 3;
-             panelForPlayers.add(labelPlayer3, gbcLabelPlayer3);
-         }
-
-         if (nicknamesOfPlayersOnThisSquare.size() > 3) {
-             labelPlayer4 = new JLabel(nicknamesOfPlayersOnThisSquare.get(3));
-             labelPlayer4.setHorizontalAlignment(SwingConstants.CENTER);
-             GridBagConstraints gbcLabelPlayer4 = new GridBagConstraints();
-             gbcLabelPlayer4.insets = new Insets(5,20, 0, 20);
-             gbcLabelPlayer4.gridx = 0;
-             gbcLabelPlayer4.gridy = 4;
-             panelForPlayers.add(labelPlayer4, gbcLabelPlayer4);
-         }
-
-         if (nicknamesOfPlayersOnThisSquare.size() > 4) {
-             labelPlayer5 = new JLabel(nicknamesOfPlayersOnThisSquare.get(4));
-             labelPlayer5.setHorizontalAlignment(SwingConstants.CENTER);
-             GridBagConstraints gbcLabelPlayer5 = new GridBagConstraints();
-             gbcLabelPlayer5.insets = new Insets(5,20, 0, 20);
-             gbcLabelPlayer5.gridx = 0;
-             gbcLabelPlayer5.gridy = 5;
-             panelForPlayers.add(labelPlayer5, gbcLabelPlayer5);
-         }
 
          JPanel panelForAmmoTile = new JPanel();
          panelForAmmoTile.setBackground(SystemColor.menu);

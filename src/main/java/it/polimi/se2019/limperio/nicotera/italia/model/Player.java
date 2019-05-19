@@ -123,12 +123,13 @@ public class Player implements PlayerBehaviour{
      * @param positionOnTheMap the square in which the player has to be moved
      */
     public void setPositionOnTheMap(Square positionOnTheMap) {
-       if(this.positionOnTheMap != null)
+       if(this.positionOnTheMap != null) {
            this.positionOnTheMap.getPlayerOnThisSquare().remove(this);
+           this.positionOnTheMap.getNicknamesOfPlayersOnThisSquare().remove(getNickname());
+       }
         this.positionOnTheMap = positionOnTheMap;
         positionOnTheMap.setPlayerOnThisSquare(this);
-        positionOnTheMap.getNicknamesOfPlayersOnThisSquare().add(this.nickname);
-        System.out.println("Il player " + this.getNickname() + "E' stato posizionato nel quadrato " + positionOnTheMap.getColor());
+        System.out.println("Il player " + this.getNickname() + " e' stato posizionato nel quadrato " + positionOnTheMap.getColor());
     }
 
     /**

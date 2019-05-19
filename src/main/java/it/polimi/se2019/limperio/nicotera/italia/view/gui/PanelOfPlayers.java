@@ -4,6 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.MapView;
+import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -286,7 +287,7 @@ class PanelOfPlayers extends JPanel {
         if(buttonPB5!=null)
            pbButtonGroup.add(buttonPB5);
 
-      ButtonMListener buttonMListener = new ButtonMListener(mainFrame.getRemoteView().getMapView(), mainFrame.getMapPanel());
+      ButtonMListener buttonMListener = new ButtonMListener(mainFrame, mainFrame.getMapPanel());
 
 
         JToggleButton buttonM1 = new JToggleButton(" ");
@@ -425,11 +426,11 @@ class PanelOfPlayers extends JPanel {
 
     class ButtonMListener implements ActionListener{
 
-        private MapView mapView;
+        private MainFrame mainFrame;
         private MapPanel mapPanel;
 
-        ButtonMListener(MapView mapView, MapPanel mapPanel) {
-          this.mapView = mapView;
+        ButtonMListener(MainFrame mainFrame, MapPanel mapPanel) {
+          this.mainFrame = mainFrame;
           this.mapPanel = mapPanel;
        }
 
@@ -437,7 +438,7 @@ class PanelOfPlayers extends JPanel {
        public void actionPerformed(ActionEvent e) {
            String nameForHashMap;
            String actionCommand = e.getActionCommand();
-           Square[][] matrix = mapView.getMap();
+           Square[][] matrix = mainFrame.getRemoteView().getMapView().getMap();
            for (int i = 0 ; i<matrix.length;i++) {
 
                for (int j = 0; j < matrix[i].length; j++) {

@@ -16,7 +16,7 @@ public class Square implements Serializable {
     /**
      * Contains a reference to all the player that are in the square during the game
      */
-    private transient ArrayList<Player> playerOnThisSquare;
+    private transient ArrayList<Player> playerOnThisSquare = new ArrayList<>();
     /**
      * The references to the adjacency for each cardinal direction
      */
@@ -64,10 +64,11 @@ public class Square implements Serializable {
         return playerOnThisSquare;
     }
 
-    public void setPlayerOnThisSquare(Player player) {
+     void setPlayerOnThisSquare(Player player) {
         if (playerOnThisSquare ==null)
             playerOnThisSquare = new ArrayList<>();
         playerOnThisSquare.add(player);
+        nicknamesOfPlayersOnThisSquare.add(player.getNickname());
 
     }
 
@@ -119,5 +120,9 @@ public class Square implements Serializable {
 
     public ArrayList<String> getNicknamesOfPlayersOnThisSquare() {
         return nicknamesOfPlayersOnThisSquare;
+    }
+
+    public void setNicknamesOfPlayersOnThisSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare) {
+        this.nicknamesOfPlayersOnThisSquare = nicknamesOfPlayersOnThisSquare;
     }
 }

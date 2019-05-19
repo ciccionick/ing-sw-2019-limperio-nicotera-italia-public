@@ -55,12 +55,10 @@ public class ListenerForPowerUpCard implements MouseListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(mainFrame.hasToChoosePowerUpCard()){
+
             DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
             event.setPowerUpCard(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(numOfCard-1));
             mainFrame.getRemoteView().notify(event);
-            mainFrame.setHasToChoosePowerUpCardForSpawn(false);
-        }
-
+            mainFrame.getRemoteView().getMyPlayerBoardView().setHasToChooseAWeapon(false);
     }
 }

@@ -95,35 +95,19 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     public void update(ServerEvent receivedEvent) {
 
         if (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
-            mainFrame.handleRequestForDrawTwoPowerUpCard(receivedEvent);
+            mainFrame.showMessage(receivedEvent);
         }
 
-        if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-            myPlayerBoardView.setPowerUpCardsDeck(((PlayerBoardEvent)receivedEvent).getPowerUpCardsOwned());
+        if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) { //quando ricevi la richiesta di scartare una power up. Devi aggiornare la pb dato che hai appena pescato almeno una carta
             mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }
 
-        if(receivedEvent.isFirstActionOfTurnEvent()){
-            System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
-            String action;
-            action = stdin.nextLine();
-            while((!action.equalsIgnoreCase("corri"))&&(!action.equalsIgnoreCase("raccogli"))&&(!action.equalsIgnoreCase("spara"))){
-                System.out.println("Digita 'corri' se vuoi correre, 'raccogli' se vuoi raccogliere o 'spara' se vuoi attaccare");
-                action=stdin.nextLine();
-            }
-            if(action.equalsIgnoreCase("corri")){
-                RequestToRunByPlayer newEvent = new RequestToRunByPlayer("Ho scelto corri", client.getNickname());
-                notify(newEvent);
-            }
-            if(action.equalsIgnoreCase("raccogli")){
-                RequestToCatchByPlayer newEvent = new RequestToCatchByPlayer("Ho scelto raccogli", client.getNickname());
-                notify(newEvent);
-            }
-            if(action.equalsIgnoreCase("spara")){
-                RequestToShootByPlayer newEvent = new RequestToShootByPlayer("Ho scelto spara", client.getNickname());
-                notify(newEvent);
-            }
+        if(receivedEvent.isGenerationEvent()){
+            mainFrame.showMessage(receivedEvent);
+        }
 
+        if(receivedEvent.isFirstActionOfTurnEvent()){
+            System.out.println("Scegli la prima azione");
         }
 
         if(receivedEvent.isSelectionSquareForCatching()){
@@ -132,7 +116,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             for(Square square : event.getSquaresReachableForCatch() ){
                 System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
                 if(square.isSpawn()){
-                        printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), event.getWeaponNotAvailableForLackOfAmmo());
+                        //printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), event.getWeaponNotAvailableForLackOfAmmo());
                 }
                 else {
                     System.out.println( ((NormalSquare)square).getAmmoTile().toString());
@@ -201,42 +185,6 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     }
 
-    /**
-     * It is called when a player wants to discard a power up card in order to be spawn
-     * @param i It permit to distinguish which card has to be removed from player's deck.
-     */
-    private void discardPowerUpCard(int i) {
-        ServerEvent.AliasCard powerUpCardToDiscard = myPlayerBoardView.getPowerUpCardsDeck().remove(i);
-        DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("Ho deciso di scartare questa carta", client.getNickname());
-        newEvent.setPowerUpCard(powerUpCardToDiscard);
-        notify(newEvent);
-    }
-
-    /**
-     * Prints on command line the cards that are passed as parameter and that are available.
-     * @param cards the cards the method has to print
-     * @param cardsNotAvailable they aren't print because they are not available
-     */
-    private void printListOfWeapons(ArrayList<ServerEvent.AliasCard> cards, ArrayList<ServerEvent.AliasCard> cardsNotAvailable){
-        for(ServerEvent.AliasCard card : cards){
-            if(!isCardNotAffordable(card, cardsNotAvailable))
-                System.out.println(card.getName() + " " + card.getColor());
-        }
-    }
-
-    /**
-     * It looks for the card in the list of not available cards and, if it find them it will return true
-     * @param card it are looked for in the list
-     * @param cardsNotAvaialable the list of the cards not available
-     * @return true if the card is in the list of not available cards
-     */
-    private boolean isCardNotAffordable(ServerEvent.AliasCard card, ArrayList<ServerEvent.AliasCard> cardsNotAvaialable) {
-        for (ServerEvent.AliasCard cardNotAvailable : cardsNotAvaialable){
-            if(card.getName().equals(cardNotAvailable.getName()) && card.getColor().equals(cardNotAvailable.getColor()))
-                return true;
-        }
-        return false;
-    }
 
     public InitializationView getInitializationView() {
         return initializationView;
@@ -261,17 +209,17 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             if(event.getNicknameInvolved().equals(client.getNickname()))
                 myPlayerBoardView=listOfPlayerBoardViews.get(listOfPlayerBoardViews.size()-1);
             else {
-                for (int i = 0; i < event.getPowerUpCardsOwned().size(); i++) {
-                    event.getPowerUpCardsOwned().remove(i);
-                }
+                removePowerUpCardsDeckFromEvent(event);
             }
             listOfPlayerBoardViews.get(listOfPlayerBoardViews.size()-1).update(event);
         }
         else{
-
+            if(!(event.getNicknameInvolved().equals(client.getNickname())))
+                removePowerUpCardsDeckFromEvent(event);
             getPlayerBoardViewOfThisPlayer(event.getNicknameInvolved()).update(event);
         }
-
+        if(mainFrame!=null)
+            mainFrame.updateLeftPanelForWhoIsViewing(event);
     }
 
     private boolean playerBoardViewAlreadyExists(String nickname){
@@ -280,6 +228,12 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 return true;
         }
         return false;
+    }
+
+    private void removePowerUpCardsDeckFromEvent(PlayerBoardEvent event){
+        for (int i = 0; i < event.getPowerUpCardsOwned().size(); i++) {
+            event.getPowerUpCardsOwned().remove(i);
+        }
     }
 
     public PlayerBoardView getPlayerBoardViewOfThisPlayer(String nickname){

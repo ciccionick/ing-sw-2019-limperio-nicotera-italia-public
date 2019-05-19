@@ -6,6 +6,8 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Event for notify a player about creation or update of map.
@@ -31,10 +33,11 @@ public class MapEvent extends ServerEvent {
      */
     private Square[][] map = null;
 
+    private Map<String, ArrayList<String>> hashMapForPlayersInSquare = new HashMap<>();
+
     private int typeOfMap;
 
-    public MapEvent(String message) {
-        super(message);
+    public MapEvent() {
         setMapEvent(true);
     }
 
@@ -71,8 +74,26 @@ public class MapEvent extends ServerEvent {
 
     public void setMap(Square[][] map) {
         this.map = map;
+        setNicknamesInHashMap(map);
         setWeaponsWithTheirAlias(map);
     }
+
+    private void setNicknamesInHashMap(Square[][] map) {
+        for(int i=0; i<map.length;i++){
+            for(int j=0; j<map[i].length; j++){
+                if(map[i][j]!=null) {
+                    hashMapForPlayersInSquare.put(String.valueOf(i).concat(String.valueOf(j)), new ArrayList<>());
+                    for (String nickname : map[i][j].getNicknamesOfPlayersOnThisSquare()) {
+                        hashMapForPlayersInSquare.get(String.valueOf(i).concat(String.valueOf(j))).add(nickname);
+                    }
+                }
+                    else
+                        hashMapForPlayersInSquare.put(String.valueOf(i).concat(String.valueOf(j)), null);
+
+                }
+            }
+        }
+
 
     public int getTypeOfMap() {
         return typeOfMap;
@@ -89,6 +110,10 @@ public class MapEvent extends ServerEvent {
 
     public ArrayList<AliasCard> getWeaponsCardsForYellowSpawnSquare() {
         return weaponsCardsForYellowSpawnSquare;
+    }
+
+    public Map<String, ArrayList<String>> getHashMapForPlayersInSquare() {
+        return hashMapForPlayersInSquare;
     }
 
     /**

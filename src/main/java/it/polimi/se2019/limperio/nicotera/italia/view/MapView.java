@@ -33,32 +33,34 @@ public class MapView {
      * @param event contains the type of map that has to be created
      */
     public void update(MapEvent event) {
+
         if(map==null) {
             map = event.getMap();
             typeOfMap = event.getTypeOfMap();
             remoteView.getInitializationView().getFrameForInitialization().getFrame().setVisible(false);
             remoteView.setMainFrame(new MainFrame(remoteView));
         }
-        else{
+        else {
             map = event.getMap();
         }
         updateMap(event);
-        System.out.println("Mappa aggiornata con successo");
-
     }
 
     private void updateMap(MapEvent event) {
         for (int i = 0; i < map.length; i++) {
             SpawnSquare spawnSquare;
             for (int j = 0; j < map[i].length; j++) {
-                if ((map[i][j] != null) && (map[i][j].isSpawn())) {
-                    spawnSquare = (SpawnSquare) map[i][j];
-                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))
-                        spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForRedSpawnSquare());
-                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.BLUE))
-                        spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForBlueSpawnSquare());
-                    if (spawnSquare.getColor().equals(ColorOfFigure_Square.YELLOW))
-                        spawnSquare.setWeaponsCardsForRemoteView(event.getWeaponsCardsForYellowSpawnSquare());
+                if (map[i][j]!=null) {
+                    map[i][j].setNicknamesOfPlayersOnThisSquare(event.getHashMapForPlayersInSquare().get(String.valueOf(i).concat(String.valueOf(j))));
+                    if ((map[i][j].isSpawn())) {
+                        spawnSquare = (SpawnSquare) map[i][j];
+                        if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))
+                            spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForRedSpawnSquare());
+                        if (spawnSquare.getColor().equals(ColorOfFigure_Square.BLUE))
+                            spawnSquare.setWeaponsCardsForRemoteView((event).getWeaponsCardsForBlueSpawnSquare());
+                        if (spawnSquare.getColor().equals(ColorOfFigure_Square.YELLOW))
+                            spawnSquare.setWeaponsCardsForRemoteView(event.getWeaponsCardsForYellowSpawnSquare());
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -208,18 +209,18 @@ class MapPanel extends JPanel {
      }
 
    private void addMouseListenerToCells() {
-      cell00.addMouseListener(new MapPanel.SquareListener(0, 0, mainFrame.getRemoteView().getMapView().getMap()));
-      cell01.addMouseListener(new MapPanel.SquareListener(0, 1, mainFrame.getRemoteView().getMapView().getMap()));
-      cell02.addMouseListener(new MapPanel.SquareListener(0, 2, mainFrame.getRemoteView().getMapView().getMap()));
-      cell03.addMouseListener(new MapPanel.SquareListener(0, 3, mainFrame.getRemoteView().getMapView().getMap()));
-      cell10.addMouseListener(new MapPanel.SquareListener(1, 0, mainFrame.getRemoteView().getMapView().getMap()));
-      cell11.addMouseListener(new MapPanel.SquareListener(1, 1, mainFrame.getRemoteView().getMapView().getMap()));
-      cell12.addMouseListener(new MapPanel.SquareListener(1, 2, mainFrame.getRemoteView().getMapView().getMap()));
-      cell13.addMouseListener(new MapPanel.SquareListener(1, 3, mainFrame.getRemoteView().getMapView().getMap()));
-      cell20.addMouseListener(new MapPanel.SquareListener(2, 0, mainFrame.getRemoteView().getMapView().getMap()));
-      cell21.addMouseListener(new MapPanel.SquareListener(2, 1, mainFrame.getRemoteView().getMapView().getMap()));
-      cell22.addMouseListener(new MapPanel.SquareListener(2, 2, mainFrame.getRemoteView().getMapView().getMap()));
-      cell23.addMouseListener(new MapPanel.SquareListener(2, 3, mainFrame.getRemoteView().getMapView().getMap()));
+      cell00.addMouseListener(new MapPanel.SquareListener(0, 0, mainFrame));
+      cell01.addMouseListener(new MapPanel.SquareListener(0, 1, mainFrame));
+      cell02.addMouseListener(new MapPanel.SquareListener(0, 2, mainFrame));
+      cell03.addMouseListener(new MapPanel.SquareListener(0, 3, mainFrame));
+      cell10.addMouseListener(new MapPanel.SquareListener(1, 0, mainFrame));
+      cell11.addMouseListener(new MapPanel.SquareListener(1, 1, mainFrame));
+      cell12.addMouseListener(new MapPanel.SquareListener(1, 2, mainFrame));
+      cell13.addMouseListener(new MapPanel.SquareListener(1, 3, mainFrame));
+      cell20.addMouseListener(new MapPanel.SquareListener(2, 0, mainFrame));
+      cell21.addMouseListener(new MapPanel.SquareListener(2, 1, mainFrame));
+      cell22.addMouseListener(new MapPanel.SquareListener(2, 2, mainFrame));
+      cell23.addMouseListener(new MapPanel.SquareListener(2, 3, mainFrame));
 
    }
 
@@ -259,10 +260,10 @@ class MapPanel extends JPanel {
         ArrayList<ServerEvent.AliasCard> listOfWeaponOnTheSquare;
         AmmoTile ammoTileOnTheSquare;
 
-       SquareListener(int row, int column, Square[][] matrix) {
+       SquareListener(int row, int column, MainFrame mainFrame) {
          this.row = row;
          this.column = column;
-         this.matrix = matrix;
+         this.matrix = mainFrame.getRemoteView().getMapView().getMap();
          square = matrix[row][column];
          if(square!=null){
              if(square.isSpawn())
@@ -307,8 +308,9 @@ class MapPanel extends JPanel {
 
         private void updatePopup(Square square){
            ArrayList<String> listOfNicknames = new ArrayList<>();
-                if (!(square.getNicknamesOfPlayersOnThisSquare().isEmpty()))
+                if (!(square.getNicknamesOfPlayersOnThisSquare().isEmpty())) {
                     listOfNicknames = square.getNicknamesOfPlayersOnThisSquare();
+                }
                 Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
                 Point positionOfPanel = mainFrame.getMapPanel().getLocation();
                 Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();

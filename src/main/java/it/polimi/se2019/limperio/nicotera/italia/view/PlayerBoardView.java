@@ -21,6 +21,12 @@ public class PlayerBoardView {
     private String nicknameOfPlayer;
     private ColorOfFigure_Square colorOfPlayer;
 
+    private boolean hasToChoosePowerUpCardForSpawn = false;
+    private boolean canUseNewton = false;
+    private boolean canUseTeleporter = false;
+    private boolean canUseTagbackGranade = false;
+    private boolean hasToChooseAWeapon = false;
+
 
 
     public ArrayList<ColorOfFigure_Square> getDamages() {
@@ -55,25 +61,31 @@ public class PlayerBoardView {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
     }
 
-    public void update (PlayerBoardEvent event){
-        //System.out.println(event.getMessage());
-        updateStateOfPlayerBoard(event);
-    }
+
 
     /**
      * Updates the player's board
      * @param event contains the updates of player's board
      */
-    private void updateStateOfPlayerBoard (PlayerBoardEvent event){
-        setDamages(event.getPlayerBoard().getDamages());
-        setMarks(event.getPlayerBoard().getMarks());
-        setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
-        setAmmo(event.getPlayerBoard().getAmmo());
-        setPowerUpCardsDeck(event.getPowerUpCardsOwned());
-        setWeaponCardDeck(event.getWeaponCardsOwned());
-        this.nicknameOfPlayer = event.getPlayerBoard().getNicknameOfPlayer();
-        this.colorOfPlayer = event.getPlayerBoard().getColorOfPlayer();
+    public void update(PlayerBoardEvent event){
+
+            setDamages(event.getPlayerBoard().getDamages());
+            setMarks(event.getPlayerBoard().getMarks());
+            setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
+            setAmmo(event.getPlayerBoard().getAmmo());
+            setPowerUpCardsDeck(event.getPowerUpCardsOwned());
+            setWeaponCardDeck(event.getWeaponCardsOwned());
+            setCanUseNewton(event.isCanUseNewton());
+            setCanUseTagbackGranade(event.isCanUseTagbackGranade());
+            setCanUseTeleporter(event.isCanUseTeleporter());
+            setHasToChoosePowerUpCardForSpawn(event.isHasToDiscardCard());
+            setHasToChooseAWeapon(event.isCanShoot());
+            this.nicknameOfPlayer = event.getPlayerBoard().getNicknameOfPlayer();
+            this.colorOfPlayer = event.getPlayerBoard().getColorOfPlayer();
+
     }
+
+
 
     public ArrayList<ServerEvent.AliasCard> getPowerUpCardsDeck() {
         return powerUpCardsDeck;
@@ -100,4 +112,43 @@ public class PlayerBoardView {
     }
 
 
+    public boolean isHasToChoosePowerUpCardForSpawn() {
+        return hasToChoosePowerUpCardForSpawn;
+    }
+
+    public void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
+        this.hasToChoosePowerUpCardForSpawn = hasToChoosePowerUpCardForSpawn;
+    }
+
+    public boolean isCanUseNewton() {
+        return canUseNewton;
+    }
+
+    public void setCanUseNewton(boolean canUseNewton) {
+        this.canUseNewton = canUseNewton;
+    }
+
+    public boolean isCanUseTeleporter() {
+        return canUseTeleporter;
+    }
+
+    public void setCanUseTeleporter(boolean canUseTeleporter) {
+        this.canUseTeleporter = canUseTeleporter;
+    }
+
+    public boolean isCanUseTagbackGranade() {
+        return canUseTagbackGranade;
+    }
+
+    public void setCanUseTagbackGranade(boolean canUseTagbackGranade) {
+        this.canUseTagbackGranade = canUseTagbackGranade;
+    }
+
+    public boolean isHasToChooseAWeapon() {
+        return hasToChooseAWeapon;
+    }
+
+    public void setHasToChooseAWeapon(boolean hasToChooseAWeapon) {
+        this.hasToChooseAWeapon = hasToChooseAWeapon;
+    }
 }

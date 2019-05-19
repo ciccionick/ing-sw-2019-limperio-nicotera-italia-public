@@ -153,7 +153,22 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+     boolean hasWeaponLoaded(Player playerWithThisNickname) {
+         if(playerWithThisNickname.getPlayerBoard().getWeaponsOwned().isEmpty())
+             return false;
+         else
+         {
+             for (WeaponCard weaponCard : playerWithThisNickname.getPlayerBoard().getWeaponsOwned()){
+                 if(weaponCard.isLoad())
+                     return true;
+             }
+         }
+         return false;
+    }
 
+    public Game getGame() {
+        return game;
+    }
 }
 
 

@@ -52,6 +52,8 @@ public class ServerEvent implements Serializable {
     private boolean isFinished=false;
     private boolean isCatchActionDone = false;
     private boolean isRequestSelectionSquareForRun = false;
+    private boolean isGenerationEvent = false;
+
     private int numOfAction;
 
     public boolean isSelectionSquareForCatching() {
@@ -130,6 +132,7 @@ public class ServerEvent implements Serializable {
         return isFinished;
     }
 
+
     public void setFinished(boolean finished) {
         isFinished = finished;
     }
@@ -189,6 +192,18 @@ public class ServerEvent implements Serializable {
 
     public void setRequestSelectionSquareForRun(boolean requestSelectionSquareForRun) {
         isRequestSelectionSquareForRun = requestSelectionSquareForRun;
+    }
+
+
+
+    public boolean isGenerationEvent() {
+        return isGenerationEvent;
+    }
+
+
+
+    public void setGenerationEvent(boolean generationEvent) {
+        isGenerationEvent = generationEvent;
     }
 
     /**

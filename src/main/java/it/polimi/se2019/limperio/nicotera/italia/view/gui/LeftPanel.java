@@ -116,7 +116,7 @@ import java.util.ArrayList;
 
         JButton buttonW1 = new JButton("SELECT");
         GridBagConstraints gbcButtonW1 = new GridBagConstraints();
-        if(weapon1.isEnabled()&&mainFrame.isHasToChooseAWeapon())
+        if(weapon1.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
            buttonW1.setEnabled(true);
         else
            buttonW1.setEnabled(false);
@@ -129,7 +129,7 @@ import java.util.ArrayList;
 
         JButton buttonW2 = new JButton("SELECT");
         GridBagConstraints gbcButtonW2 = new GridBagConstraints();
-        if(buttonW2.isEnabled()&&mainFrame.isHasToChooseAWeapon())
+        if(weapon2.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
            buttonW2.setEnabled(true);
         else
            buttonW2.setEnabled(false);
@@ -141,7 +141,7 @@ import java.util.ArrayList;
 
         JButton buttonW3 = new JButton("SELECT");
         GridBagConstraints gbcButtonW3 = new GridBagConstraints();
-        if(weapon3.isEnabled()&&mainFrame.isHasToChooseAWeapon())
+        if(weapon3.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
            buttonW3.setEnabled(true);
         else
            buttonW3.setEnabled(false);
@@ -218,7 +218,7 @@ import java.util.ArrayList;
         gbcButtonPC1.gridx = 0;
         gbcButtonPC1.gridy = 4;
         gbcButtonPC1.fill = GridBagConstraints.BOTH;
-        if(!(powerCard1.isEnabled()))
+        if(!(powerCard1.isEnabled())||!(playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())))
            buttonPC1.setEnabled(false);
         else
            buttonPC1.setEnabled(checkStateOfButton(gbcPowerUp1));
@@ -231,7 +231,7 @@ import java.util.ArrayList;
         gbcButtonPC2.gridx = 1;
         gbcButtonPC2.gridy = 4;
         gbcButtonPC2.fill = GridBagConstraints.BOTH;
-        if(!(powerCard2.isEnabled()))
+        if(!(powerCard2.isEnabled())||!(playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())))
            buttonPC2.setEnabled(false);
         else
            buttonPC2.setEnabled(checkStateOfButton(gbcPowerUp2));
@@ -245,7 +245,7 @@ import java.util.ArrayList;
         gbcButtonPC3.gridx = 2;
         gbcButtonPC3.gridy = 4;
         gbcButtonPC3.fill = GridBagConstraints.BOTH;
-        if(!(powerCard3.isEnabled()))
+        if(!(powerCard3.isEnabled())||!(playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())))
            buttonPC3.setEnabled(false);
         else
            buttonPC3.setEnabled(checkStateOfButton(gbcPowerUp3));
@@ -308,17 +308,17 @@ import java.util.ArrayList;
     }
 
     private boolean checkStateOfButton(GridBagConstraints gbcPC) {
-        if(mainFrame.hasToChoosePowerUpCard())
+        if(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChoosePowerUpCardForSpawn())
            return true;
         for(int i = 0; i<3; i++){
            if(gbcPC.gridx==i){
               switch (mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(i).getName()){
                  case "Newton":
-                    return mainFrame.isCanUseNewton();
+                    return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseNewton();
                  case "Tagback granade":
-                    return mainFrame.isCanUseTagbackGranade();
+                    return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseTagbackGranade();
                  case "Teleporter":
-                    return mainFrame.isCanUseTeleporter();
+                    return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseTeleporter();
                     default:
                        return false;
               }

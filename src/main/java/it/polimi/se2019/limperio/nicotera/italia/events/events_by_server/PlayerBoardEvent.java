@@ -16,19 +16,19 @@ import java.util.ArrayList;
 public class PlayerBoardEvent extends ServerEvent {
     private ArrayList<AliasCard> weaponCardsOwned = new ArrayList<>();
     private ArrayList<AliasCard> powerUpCardsOwned = new ArrayList<>();
+    private boolean canShoot = false;
+    private boolean canUseNewton = false;
+    private boolean canUseTeleporter = false;
+    private boolean canUseTagbackGranade = false;
+    private boolean hasToDiscardCard = false;
 
     /**
      * The player board updated in {@link PlayerBoardEvent}
      */
     private PlayerBoard playerBoard = null;
 
-    public PlayerBoardEvent(String message) {
-        super(message);
-        setPlayerBoardEvent(true);
-    }
-
     public PlayerBoardEvent() {
-
+        setPlayerBoardEvent(true);
     }
 
     private void setWeaponCardsOwned(ArrayList<WeaponCard> weaponsOwned) {
@@ -62,4 +62,43 @@ public class PlayerBoardEvent extends ServerEvent {
 
     }
 
+    public boolean isCanShoot() {
+        return canShoot;
+    }
+
+    public void setCanShoot(boolean canShoot) {
+        this.canShoot = canShoot;
+    }
+
+    public boolean isCanUseNewton() {
+        return canUseNewton;
+    }
+
+    public void setCanUseNewton(boolean canUseNewton) {
+        this.canUseNewton = canUseNewton;
+    }
+
+    public boolean isCanUseTeleporter() {
+        return canUseTeleporter;
+    }
+
+    public void setCanUseTeleporter(boolean canUseTeleporter) {
+        this.canUseTeleporter = canUseTeleporter;
+    }
+
+    public boolean isCanUseTagbackGranade() {
+        return canUseTagbackGranade;
+    }
+
+    public void setCanUseTagbackGranade(boolean canUseTagbackGranade) {
+        this.canUseTagbackGranade = canUseTagbackGranade;
+    }
+
+    public boolean isHasToDiscardCard() {
+        return hasToDiscardCard;
+    }
+
+    public void setHasToDiscardCard(boolean hasToDiscardCard) {
+        this.hasToDiscardCard = hasToDiscardCard;
+    }
 }

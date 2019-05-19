@@ -208,7 +208,6 @@ public class Server  {
      */
     private void startGame() throws IOException {
 
-        System.out.println("I players i gioco sono: ");
         for (int i = 0; i < listOfNickname.size(); i++) {
             game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }

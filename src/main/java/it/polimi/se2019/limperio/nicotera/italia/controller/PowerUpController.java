@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEven
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
 
 import java.util.ArrayList;
 
@@ -39,31 +40,19 @@ class PowerUpController {
          requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be generated in the square of that color. \n(You can tap and hold on the card too see more info)");
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
+         requestDiscardPowerUpCardEvent.setHasToDiscardCard(true);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
          game.notify(requestDiscardPowerUpCardEvent);
      }
 
-    /**
-     * This method substitutes the cards of model (power up and weapon card) with alias cards in order to send them through the socket to remote view.
-     * @param arrayOfCard Contains the cards that have to be substituted
-     * @return A list of alias card
-     */
-     /*private ArrayList<ServerEvent.AliasCard> substitutePowerUpCards(ArrayList<PowerUpCard> arrayOfCard) {
-         ArrayList<ServerEvent.AliasCard> newArray = new ArrayList<>();
-        for(int i = 0 ; i<arrayOfCard.size(); i++){
-            newArray.add(i, new ServerEvent.AliasCard(arrayOfCard.get(i).getName(), arrayOfCard.get(i).getDescription(), arrayOfCard.get(i).getColor()));
-        }
-        return newArray;
-     }*/
 
     /**
      * This method handles the draught of a power up by a player in order to be spawned in the square with the same color of the discarded card
      * @param event It is sent by the view and contains the references to the player that want to discard.
      */
     void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event){
-         System.out.println("Il player " + event.getNickname() + " ha deciso di scartare la powerUpCard " + event.getPowerUpCard().getName() + " di colore "+ event.getPowerUpCard().getColor() + " e di conseguenza sarà generato nel quadrato generazione di quel colore");
         removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
-        //spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
+        spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
      }
 
     /**
@@ -71,11 +60,11 @@ class PowerUpController {
       * @param color the color of the square that is found.
      * @return the spawn square that has the same color of the parameter.
      */
-     SpawnSquare findSpawnSquareWithThisColor(ColorOfCard_Ammo color){
+     Square findSpawnSquareWithThisColor(ColorOfCard_Ammo color){
         for(int i=0 ; i< game.getBoard().getMap().getMatrixOfSquares().length; i++){
             for(int j = 0 ; j< game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
                 if(game.getBoard().getMap().getMatrixOfSquares()[i][j]!=null && game.getBoard().getMap().getMatrixOfSquares()[i][j].isSpawn() && game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().toString().equals(color.toString()))
-                    return (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[i][j];
+                    return game.getBoard().getMap().getMatrixOfSquares()[i][j];
             }
 
         }
@@ -114,22 +103,38 @@ class PowerUpController {
      * @param color the color of the square in which the player has to be spawned
      */
     private void spawnPlayer(Player playerWithThisNickname, ColorOfCard_Ammo color) {
-        SpawnSquare square;
-        square=findSpawnSquareWithThisColor(color);
-        playerWithThisNickname.setPositionOnTheMap(square);
-        MapEvent firstActionOfTurnEvent;
-        if(game.getRound()==1 || game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(playerWithThisNickname.getNickname())) {
-             firstActionOfTurnEvent = new MapEvent("Sei stato generato e comincia il tuo turno, decidi se vuoi raccogliere, muoverti o sparare");
-             firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
-        }
-        else {
-            firstActionOfTurnEvent = new MapEvent("Sei stato generato nel quadrato generazione del colore che hai scelto ma non è il tuo turno");
+        Square square;
+        square = findSpawnSquareWithThisColor(color);
+        playerWithThisNickname.setPositionOnTheMap(controller.getGame().getBoard().getMap().getMatrixOfSquares()[square.getRow()][square.getColumn()]);
+        MapEvent generationEvent;
+        generationEvent = new MapEvent();
+        generationEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+        generationEvent.setMessageForInvolved("You have been generated in the " + square.getColor().toString() + " spawn square.");
+        generationEvent.setMessageForOthers(playerWithThisNickname.getNickname() + " has been generated in the " + square.getColor().toString() + " spawn square.\nNow it begins his turn.");
+        generationEvent.setGenerationEvent(true);
+        generationEvent.setNicknames(game.getListOfNickname());
+        generationEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
+        game.notify(generationEvent);
+
+        PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+        pbEvent.setPlayerBoard(playerWithThisNickname.getPlayerBoard());
+        pbEvent.setNicknames(game.getListOfNickname());
+        pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
+        game.notify(pbEvent);
+
+        if(game.getRound()==1){
+            PlayerBoardEvent firstActionOfTurnEvent = new PlayerBoardEvent();
             firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
+            firstActionOfTurnEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+            firstActionOfTurnEvent.setMessageForInvolved(playerWithThisNickname.getNickname());
+            firstActionOfTurnEvent.setMessageForInvolved("Choose one action you want to do");
+            pbEvent.setCanUseTeleporter(true);
+            if (game.getRound()>1 || game.getPlayerOfTurn() > 1)
+                pbEvent.setCanUseNewton(true);
+            firstActionOfTurnEvent.setPlayerBoard(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard());
+            firstActionOfTurnEvent.setCanShoot(controller.hasWeaponLoaded(playerWithThisNickname));
+            game.notify(firstActionOfTurnEvent);
         }
-        //settare nickname del player del turno e mettere tutti i nickname dei players
-        firstActionOfTurnEvent.getNicknames().add(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
-        firstActionOfTurnEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
-        game.notify(firstActionOfTurnEvent);
     }
 
 

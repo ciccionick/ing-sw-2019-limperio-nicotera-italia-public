@@ -108,7 +108,7 @@ public class Game extends Observable<ServerEvent> {
         PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
-            pbEvent = new PlayerBoardEvent("");
+            pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
             pbEvent.setPlayerBoard(player.getPlayerBoard());
@@ -177,7 +177,7 @@ public class Game extends Observable<ServerEvent> {
      * Update the map and send an event of type {@link MapEvent}
      */
     void updateMap(){
-        MapEvent mapEvent = new MapEvent("");
+        MapEvent mapEvent = new MapEvent();
         mapEvent.setNicknames(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
         mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
@@ -275,5 +275,9 @@ public class Game extends Observable<ServerEvent> {
 
     public int getFirstInFrenzyMode() {
         return firstInFrenzyMode;
+    }
+
+    public ArrayList<String> getListOfNickname() {
+        return listOfNickname;
     }
 }

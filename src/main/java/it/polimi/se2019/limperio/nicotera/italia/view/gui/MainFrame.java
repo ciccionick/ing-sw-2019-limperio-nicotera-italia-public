@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
@@ -19,11 +20,7 @@ import java.awt.event.ComponentListener;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
     private DialogForMessage dialogForMessage;
-    private boolean hasToChoosePowerUpCardForSpawn = false;
-    private boolean canUseNewton = false;
-    private boolean canUseTeleporter = false;
-    private boolean canUseTagbackGranade = false;
-    private boolean hasToChooseAWeapon = false;
+
 
     public MainFrame(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -73,53 +70,25 @@ import java.awt.event.ComponentListener;
 
 
 
-    public void handleRequestForDrawTwoPowerUpCard(ServerEvent receivedEvent) {
+    public void showMessage(ServerEvent receivedEvent) {
+        dialogForMessage = new DialogForMessage(this, receivedEvent);
+    }
+
+     public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
         dialogForMessage = new DialogForMessage(this, receivedEvent);
     }
 
 
-
-     public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
-        setHasToChoosePowerUpCardForSpawn(true);
-        if(getLeftPanel().getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(receivedEvent.getNicknameInvolved())){
+     public void updateLeftPanelForWhoIsViewing(PlayerBoardEvent receivedEvent) {
+        if(leftPanel.getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(receivedEvent.getPlayerBoard().getNicknameOfPlayer())){
+            LeftPanel newLeftPanel = new LeftPanel(this, remoteView.getPlayerBoardViewOfThisPlayer(receivedEvent.getPlayerBoard().getNicknameOfPlayer()));
             contentPane.remove(leftPanel);
-            leftPanel = new LeftPanel(this,remoteView.getMyPlayerBoardView());
-            contentPane.add(leftPanel,BorderLayout.WEST);
+            contentPane.add(newLeftPanel,BorderLayout.WEST);
+            leftPanel= newLeftPanel;
             contentPane.validate();
             contentPane.repaint();
-            dialogForMessage = new DialogForMessage(this, receivedEvent);
         }
-
-    }
-
-    boolean hasToChoosePowerUpCard() {
-         return hasToChoosePowerUpCardForSpawn;
      }
-
-     void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
-         this.hasToChoosePowerUpCardForSpawn = hasToChoosePowerUpCardForSpawn;
-     }
-
-      boolean isCanUseNewton() {
-         return canUseNewton;
-     }
-
-      boolean isCanUseTeleporter() {
-         return canUseTeleporter;
-     }
-
-
-      boolean isCanUseTagbackGranade() {
-         return canUseTagbackGranade;
-     }
-
-
-     public boolean isHasToChooseAWeapon() {
-         return hasToChooseAWeapon;
-     }
-
-
-
 
 
      private class FrameListener implements ComponentListener {
