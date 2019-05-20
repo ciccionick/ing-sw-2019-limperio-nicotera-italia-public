@@ -34,8 +34,8 @@ import java.awt.*;
             case GREY:
                 folderPath = "resources/playerboards/grey/";
                 break;
-            case RED:
-                folderPath = "resources/playerboards/red/";
+           case PURPLE:
+                folderPath = "resources/playerboards/purple/";
                 break;
             case YELLOW:
                 folderPath = "resources/playerboards/yellow/";
@@ -96,133 +96,13 @@ import java.awt.*;
         GridBagConstraints gbcCell11 = new GridBagConstraints();
         gbcCell11.gridx = 1;
         gbcCell11.gridy = 1;
+        gbcCell11.gridwidth = 12;
         imageIcon = new ImageIcon(folderPath.concat("cell11.png"));
         image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
+        newimg = image.getScaledInstance(widthOfMiddleCells*12,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell11.setIcon(imageIcon);
         add(cell11, gbcCell11);
-
-        JLabel cell12 = new JLabel("");
-        GridBagConstraints gbcCell12 = new GridBagConstraints();
-        gbcCell12.gridx = 2;
-        gbcCell12.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell12.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell12.setIcon(imageIcon);
-        add(cell12, gbcCell12);
-
-        JLabel cell13 = new JLabel("");
-        GridBagConstraints gbcCell13 = new GridBagConstraints();
-        gbcCell13.gridx = 3;
-        gbcCell13.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell13.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell13.setIcon(imageIcon);
-        add(cell13, gbcCell13);
-
-        JLabel cell14 = new JLabel("");
-        GridBagConstraints gbcCell14 = new GridBagConstraints();
-        gbcCell14.gridx = 4;
-        gbcCell14.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell14.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell14.setIcon(imageIcon);
-        add(cell14, gbcCell14);
-
-        JLabel cell15 = new JLabel("");
-        GridBagConstraints gbcCell15 = new GridBagConstraints();
-        gbcCell15.gridx = 5;
-        gbcCell15.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell15.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell15.setIcon(imageIcon);
-        add(cell15, gbcCell15);
-
-        JLabel cell16 = new JLabel("");
-        GridBagConstraints gbcCell16 = new GridBagConstraints();
-        gbcCell16.gridx = 6;
-        gbcCell16.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell16.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell16.setIcon(imageIcon);
-        add(cell16, gbcCell16);
-
-        JLabel cell17 = new JLabel("");
-        GridBagConstraints gbcCell17 = new GridBagConstraints();
-        gbcCell17.gridx = 7;
-        gbcCell17.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell17.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell17.setIcon(imageIcon);
-        add(cell17, gbcCell17);
-
-        JLabel cell18 = new JLabel("");
-        GridBagConstraints gbcCell18 = new GridBagConstraints();
-        gbcCell18.gridx = 8;
-        gbcCell18.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell18.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell18.setIcon(imageIcon);
-        add(cell18, gbcCell18);
-
-        JLabel cell19 = new JLabel("");
-        GridBagConstraints gbcCell19 = new GridBagConstraints();
-        gbcCell19.gridx = 9;
-        gbcCell19.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell19.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell19.setIcon(imageIcon);
-        add(cell19, gbcCell19);
-
-        JLabel cell110 = new JLabel("");
-        GridBagConstraints gbcCell110 = new GridBagConstraints();
-        gbcCell110.gridx = 10;
-        gbcCell110.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell110.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell110.setIcon(imageIcon);
-        add(cell110, gbcCell110);
-
-        JLabel cell111 = new JLabel("");
-        GridBagConstraints gbcCell111 = new GridBagConstraints();
-        gbcCell111.gridx = 11;
-        gbcCell111.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell111.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell111.setIcon(imageIcon);
-        add(cell111, gbcCell111);
-
-        JLabel cell112 = new JLabel("");
-        GridBagConstraints gbcCell112 = new GridBagConstraints();
-        gbcCell112.gridx = 12;
-        gbcCell112.gridy = 1;
-        imageIcon = new ImageIcon(folderPath.concat("cell112.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell112.setIcon(imageIcon);
-        add(cell112, gbcCell112);
 
         JLabel cell21 = new JLabel("");
         GridBagConstraints gbcCell21 = new GridBagConstraints();

@@ -46,13 +46,14 @@ public class ServerEvent implements Serializable {
     private boolean isKillshotTrackEvent = false;
     private boolean isRequestForDrawTwoPowerUpCardsEvent = false;
     private boolean isRequestToDiscardPowerUpCardToSpawnEvent = false;
-    private boolean isActionOfTurnEvent = false;
+    private boolean isRequestActionEvent = false;
     private boolean isSelectionSquareForCatching = false;
     private boolean isRequestForChooseAWeaponToCatch = false;
     private boolean isFinished=false;
     private boolean isCatchActionDone = false;
     private boolean isRequestSelectionSquareForRun = false;
     private boolean isGenerationEvent = false;
+    private boolean isNotifyAboutActionDone = false;
 
     private int numOfAction;
 
@@ -64,13 +65,6 @@ public class ServerEvent implements Serializable {
         isSelectionSquareForCatching = selectionSquareForCatching;
     }
 
-    public boolean isFirstActionOfTurnEvent() {
-        return isActionOfTurnEvent;
-    }
-
-    public void setFirstActionOfTurnEvent(boolean firstActionOfTurnEvent) {
-        isActionOfTurnEvent = firstActionOfTurnEvent;
-    }
 
     public ServerEvent(){
 
@@ -132,6 +126,13 @@ public class ServerEvent implements Serializable {
         return isFinished;
     }
 
+    public boolean isRequestActionEvent() {
+        return isRequestActionEvent;
+    }
+
+    public void setRequestActionEvent(boolean requestActionEvent) {
+        isRequestActionEvent = requestActionEvent;
+    }
 
     public void setFinished(boolean finished) {
         isFinished = finished;
@@ -194,7 +195,13 @@ public class ServerEvent implements Serializable {
         isRequestSelectionSquareForRun = requestSelectionSquareForRun;
     }
 
+    public boolean isNotifyAboutActionDone() {
+        return isNotifyAboutActionDone;
+    }
 
+    public void setNotifyAboutActionDone(boolean notifyAboutActionDone) {
+        isNotifyAboutActionDone = notifyAboutActionDone;
+    }
 
     public boolean isGenerationEvent() {
         return isGenerationEvent;

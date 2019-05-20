@@ -79,6 +79,7 @@ public class MapEvent extends ServerEvent {
     }
 
     private void setNicknamesInHashMap(Square[][] map) {
+        hashMapForPlayersInSquare = new HashMap<>();
         for(int i=0; i<map.length;i++){
             for(int j=0; j<map[i].length; j++){
                 if(map[i][j]!=null) {

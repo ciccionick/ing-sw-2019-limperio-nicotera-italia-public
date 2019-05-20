@@ -106,27 +106,26 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
-        if(receivedEvent.isFirstActionOfTurnEvent()){
-            System.out.println("Scegli la prima azione");
+        if(receivedEvent.isRequestActionEvent()){
+            myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent)receivedEvent);
+            mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
+            mainFrame.updatePanelOfAction();
+            mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isRequestSelectionSquareForRun()){
+            mapView.setHasToChooseASquare(true);
+            mainFrame.updateEnableSquares(((RequestSelectionSquareForRun)receivedEvent).getSquaresReachableWithRunAction());
+            mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isNotifyAboutActionDone())
+        {
+            mainFrame.showMessage(receivedEvent);
         }
 
         if(receivedEvent.isSelectionSquareForCatching()){
-            SelectionViewForSquareWhereCatch event = (SelectionViewForSquareWhereCatch) receivedEvent;
-            System.out.println("Puoi pescare nei seguenti quadrati: ");
-            for(Square square : event.getSquaresReachableForCatch() ){
-                System.out.println("[" + square.getRow()+ "] [" + square.getColumn() + "]" );
-                if(square.isSpawn()){
-                        //printListOfWeapons(((SpawnSquare)mapView.getMap()[square.getRow()][square.getColumn()]).getWeaponsCardsForRemoteView(), event.getWeaponNotAvailableForLackOfAmmo());
-                }
-                else {
-                    System.out.println( ((NormalSquare)square).getAmmoTile().toString());
-                }
-            }
-            System.out.println("Digita le coordinate del quadrato dove vuoi raccogliere");
-            int row = stdin.nextInt();
-            int column = stdin.nextInt();
-            CatchEvent newEvent = new CatchEvent("Quadrato selezionato", client.getNickname(), row, column);
-            notify(newEvent);
+
         }
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
@@ -219,7 +218,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             getPlayerBoardViewOfThisPlayer(event.getNicknameInvolved()).update(event);
         }
         if(mainFrame!=null)
-            mainFrame.updateLeftPanelForWhoIsViewing(event);
+            mainFrame.updateLeftPanelForWhoIsViewing(event.getPlayerBoard().getNicknameOfPlayer());
     }
 
     private boolean playerBoardViewAlreadyExists(String nickname){

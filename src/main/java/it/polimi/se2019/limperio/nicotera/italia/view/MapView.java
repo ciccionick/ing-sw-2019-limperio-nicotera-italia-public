@@ -23,6 +23,8 @@ public class MapView {
 
     private int typeOfMap;
 
+    private boolean hasToChooseASquare = false;
+
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
     }
@@ -73,6 +75,15 @@ public class MapView {
     public Square[][] getMap() {
         return map;
     }
+
+    public boolean isHasToChooseASquare() {
+        return hasToChooseASquare;
+    }
+
+    public void setHasToChooseASquare(boolean hasToChooseASquare) {
+        this.hasToChooseASquare = hasToChooseASquare;
+    }
+
 
 }
 

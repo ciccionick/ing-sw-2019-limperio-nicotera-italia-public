@@ -3,11 +3,9 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
-
-import java.util.ArrayList;
 
 /**
  * This class handles the draught, the discard and the use of a power up card by a player
@@ -122,18 +120,8 @@ class PowerUpController {
         pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
         game.notify(pbEvent);
 
-        if(game.getRound()==1){
-            PlayerBoardEvent firstActionOfTurnEvent = new PlayerBoardEvent();
-            firstActionOfTurnEvent.setFirstActionOfTurnEvent(true);
-            firstActionOfTurnEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
-            firstActionOfTurnEvent.setMessageForInvolved(playerWithThisNickname.getNickname());
-            firstActionOfTurnEvent.setMessageForInvolved("Choose one action you want to do");
-            pbEvent.setCanUseTeleporter(true);
-            if (game.getRound()>1 || game.getPlayerOfTurn() > 1)
-                pbEvent.setCanUseNewton(true);
-            firstActionOfTurnEvent.setPlayerBoard(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard());
-            firstActionOfTurnEvent.setCanShoot(controller.hasWeaponLoaded(playerWithThisNickname));
-            game.notify(firstActionOfTurnEvent);
+        if(game.getRound()==1) {
+            controller.sendRequestForAction();
         }
     }
 

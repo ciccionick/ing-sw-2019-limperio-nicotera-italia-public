@@ -7,14 +7,19 @@ import java.awt.*;
 
     private MainFrame mainFrame;
 
+    private JPanel panelOfPlayers;
+    private JPanel panelOfActions;
+    private int insetLeftRight;
+    private int insetBottom;
+
      RightPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         this.setBackground(Color.DARK_GRAY);
         this.setLayout(new GridBagLayout());
-        int insetLeftRight = (int) (mainFrame.getFrame().getSize().getWidth()/96);
-        int insetBottom = (int) (mainFrame.getFrame().getSize().getHeight()/27);
+        insetLeftRight = (int) (mainFrame.getFrame().getSize().getWidth()/96);
+        insetBottom = (int) (mainFrame.getFrame().getSize().getHeight()/27);
 
-        PanelOfPlayers panelOfPlayers = new PanelOfPlayers(mainFrame);
+        panelOfPlayers = new PanelOfPlayers(mainFrame);
         GridBagConstraints gbcPanelOfPlayers = new GridBagConstraints();
         gbcPanelOfPlayers.gridx = 0;
         gbcPanelOfPlayers.gridy=0;
@@ -23,7 +28,7 @@ import java.awt.*;
 
 
 
-        PanelOfActions panelOfActions = new PanelOfActions(mainFrame);
+        panelOfActions = new PanelOfActions(mainFrame);
         GridBagConstraints gbcPanelOfActions = new GridBagConstraints();
         gbcPanelOfActions.gridx = 0;
         gbcPanelOfActions.gridy=2;
@@ -31,4 +36,24 @@ import java.awt.*;
 
         this.add(panelOfActions, gbcPanelOfActions);
     }
-}
+
+    public JPanel getPanelOfPlayers() {
+       return panelOfPlayers;
+    }
+
+    public void setPanelOfPlayers(JPanel panelOfPlayers) {
+       this.panelOfPlayers = panelOfPlayers;
+    }
+
+     JPanel getPanelOfActions() {
+       return panelOfActions;
+    }
+
+     int getInsetLeftRight() {
+       return insetLeftRight;
+    }
+
+     int getInsetBottom() {
+       return insetBottom;
+    }
+ }

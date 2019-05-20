@@ -91,8 +91,6 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }
         if(event.isMapEvent()){
-            if(event.isGenerationEvent())
-                remoteView.getMapView().update((MapEvent) event);
             remoteView.getMapView().update((MapEvent) event);
         }
         if(event.isKillshotTrackEvent()){
@@ -109,12 +107,22 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
             remoteView.update(event);
         }
-        if(event.isFirstActionOfTurnEvent()){
+        if(event.isRequestActionEvent()){
             remoteView.update(event);
             return;
         }
+
+        if(event.isRequestSelectionSquareForRun()){
+            remoteView.update(event);
+            return;
+        }
+
+        if (event.isNotifyAboutActionDone()){
+            remoteView.update(event);
+            return;
+        }
+
         if(event.isSelectionSquareForCatching()) {
-            System.out.println("L'evento è arrivato ed è di tipo SelectionViewForSquareWhereCatch di conseguenza lo mando al remote View");
             remoteView.update(event);
         }
         if(event.isCatchActionDone()){

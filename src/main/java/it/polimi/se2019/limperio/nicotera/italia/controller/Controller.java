@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
@@ -72,12 +73,12 @@ public class Controller implements Observer<ClientEvent> {
                 //manca notificare l'avvenuta raccolta
             }
             if (message.isRequestToRunByPlayer()) {
-               runController.handleRunAction((RequestToRunByPlayer) message);
+               runController.handleRunActionRequest((RequestToRunByPlayer) message);
             }
 
             if(message.isSelectionSquareForRun()){
                 runController.doRunAction((SelectionSquareForRun) message);
-                //manca notificare l'avvenuto spostamento del player
+
             }
             if (message.isRequestToShootByPlayer()) {
                 //shootController.replyToRequestToShoot(message);
@@ -153,22 +154,41 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
-     boolean hasWeaponLoaded(Player playerWithThisNickname) {
-         if(playerWithThisNickname.getPlayerBoard().getWeaponsOwned().isEmpty())
+
+    void sendRequestForAction(){
+        RequestActionEvent requestActionEvent = new RequestActionEvent();
+        requestActionEvent.setRequestActionEvent(true);
+        requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+        requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn()+1);
+        requestActionEvent.setRound(game.getRound());
+        requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\n Remember you can use power up cards enabled.");
+        requestActionEvent.setCanUseNewton(true);
+        requestActionEvent.setCanUseTeleporter(true);
+        if(!(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().isEmpty()))
+            requestActionEvent.setCanUseWeapon1(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(0)));
+        if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().size()>1)
+            requestActionEvent.setCanUseWeapon2(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(1)));
+        if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().size()>2)
+            requestActionEvent.setCanUseWeapon3(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(2)));
+        requestActionEvent.setCanShoot(requestActionEvent.isCanUseWeapon1()||requestActionEvent.isCanUseWeapon2()||requestActionEvent.isCanUseWeapon3());
+
+        game.notify(requestActionEvent);
+    }
+
+    private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
+         if(game.getRound()==1 && game.getPlayerOfTurn()==1)
              return false;
          else
-         {
-             for (WeaponCard weaponCard : playerWithThisNickname.getPlayerBoard().getWeaponsOwned()){
-                 if(weaponCard.isLoad())
-                     return true;
-             }
-         }
-         return false;
+            return weaponCard.isLoad();
+         //In realtà questo metodo deve chiamare un metodo di weapon controller (della corrispondente arma) che restituisce true se esiste un player da poter sparare
     }
+
 
     public Game getGame() {
         return game;
     }
+
+
 }
 
 

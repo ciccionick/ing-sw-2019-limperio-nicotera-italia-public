@@ -280,4 +280,12 @@ public class Game extends Observable<ServerEvent> {
     public ArrayList<String> getListOfNickname() {
         return listOfNickname;
     }
+
+    public int getNumOfMaxActionForTurn() {
+        return numOfMaxActionForTurn;
+    }
+
+    public boolean isTerminatorModeActive() {
+        return terminatorModeActive;
+    }
 }

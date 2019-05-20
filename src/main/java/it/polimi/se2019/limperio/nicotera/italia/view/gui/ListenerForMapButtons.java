@@ -16,6 +16,7 @@ public class ListenerForMapButtons implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         int typeMap;
         AnswerInitializationEvent ans;
         switch (e.getActionCommand()){

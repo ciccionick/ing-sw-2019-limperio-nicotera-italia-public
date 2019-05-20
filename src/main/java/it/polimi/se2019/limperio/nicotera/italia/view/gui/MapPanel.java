@@ -1,11 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquareForRun;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -243,9 +243,14 @@ class MapPanel extends JPanel {
       return hashMapForCell;
    }
 
-
-
-
+     void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {
+         for(JLabel label : hashMapForCell.values()){
+             label.setEnabled(false);
+         }
+         for(Square square : squaresReachableWithRunAction){
+             hashMapForCell.get("cell".concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()))).setEnabled(true);
+         }
+    }
 
 
 
@@ -276,22 +281,30 @@ class MapPanel extends JPanel {
 
       @Override
       public void mouseClicked(MouseEvent e) {
-
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-
-           if(square!=null && !isRequestForChooseASquare) {
-               updatePopup(square);
-               popupForSquare.getPopup().setVisible(true);
+           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).isEnabled()){
+               mainFrame.getRemoteView().notify(new SelectionSquareForRun("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               for(JLabel label : hashMapForCell.values()){
+                   label.setEnabled(true);
+               }
+               mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
            }
 
       }
 
       @Override
+      public void mousePressed(MouseEvent e) {
+          if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())) {
+              if (square != null && !isRequestForChooseASquare) {
+                  updatePopup(square);
+                  popupForSquare.getPopup().setVisible(true);
+              }
+          }
+
+      }
+
+      @Override
       public void mouseReleased(MouseEvent e) {
-           if(square!=null) {
+           if(square!=null&&popupForSquare!=null) {
                popupForSquare.getPopup().setVisible(false);
            }
       }

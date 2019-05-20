@@ -2,15 +2,17 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.ArrayList;
 
 
- public class MainFrame {
+public class MainFrame {
 
     private JFrame frame;
     private JPanel contentPane;
@@ -79,15 +81,32 @@ import java.awt.event.ComponentListener;
     }
 
 
-     public void updateLeftPanelForWhoIsViewing(PlayerBoardEvent receivedEvent) {
-        if(leftPanel.getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(receivedEvent.getPlayerBoard().getNicknameOfPlayer())){
-            LeftPanel newLeftPanel = new LeftPanel(this, remoteView.getPlayerBoardViewOfThisPlayer(receivedEvent.getPlayerBoard().getNicknameOfPlayer()));
+     public void updateLeftPanelForWhoIsViewing(String nicknameOfThePlayerInvolvedInTheUpdate) {
+        if(leftPanel.getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(nicknameOfThePlayerInvolvedInTheUpdate)){
+            LeftPanel newLeftPanel = new LeftPanel(this, remoteView.getPlayerBoardViewOfThisPlayer(nicknameOfThePlayerInvolvedInTheUpdate));
             contentPane.remove(leftPanel);
             contentPane.add(newLeftPanel,BorderLayout.WEST);
             leftPanel= newLeftPanel;
             contentPane.validate();
             contentPane.repaint();
         }
+     }
+
+     public void updatePanelOfAction() {
+        rightPanel.remove(rightPanel.getPanelOfActions());
+         GridBagConstraints gbcPanelOfActions = new GridBagConstraints();
+         gbcPanelOfActions.gridx = 0;
+         gbcPanelOfActions.gridy=2;
+         gbcPanelOfActions.insets = new Insets(0, rightPanel.getInsetLeftRight(), rightPanel.getInsetBottom(), rightPanel.getInsetLeftRight());
+         rightPanel.add(new PanelOfActions(this), gbcPanelOfActions);
+         rightPanel.validate();
+         rightPanel.repaint();
+         contentPane.validate();
+         contentPane.repaint();
+     }
+
+     public void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {
+        mapPanel.updateEnableSquares(squaresReachableWithRunAction);
      }
 
 

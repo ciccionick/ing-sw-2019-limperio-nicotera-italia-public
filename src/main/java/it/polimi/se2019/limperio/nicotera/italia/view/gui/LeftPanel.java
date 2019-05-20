@@ -6,7 +6,6 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -116,7 +115,7 @@ import java.util.ArrayList;
 
         JButton buttonW1 = new JButton("SELECT");
         GridBagConstraints gbcButtonW1 = new GridBagConstraints();
-        if(weapon1.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
+        if(weapon1.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
            buttonW1.setEnabled(true);
         else
            buttonW1.setEnabled(false);
@@ -129,7 +128,7 @@ import java.util.ArrayList;
 
         JButton buttonW2 = new JButton("SELECT");
         GridBagConstraints gbcButtonW2 = new GridBagConstraints();
-        if(weapon2.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
+        if(weapon2.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
            buttonW2.setEnabled(true);
         else
            buttonW2.setEnabled(false);
@@ -141,7 +140,7 @@ import java.util.ArrayList;
 
         JButton buttonW3 = new JButton("SELECT");
         GridBagConstraints gbcButtonW3 = new GridBagConstraints();
-        if(weapon3.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChooseAWeapon())
+        if(weapon3.isEnabled()&& playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer())&&mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
            buttonW3.setEnabled(true);
         else
            buttonW3.setEnabled(false);
@@ -153,8 +152,6 @@ import java.util.ArrayList;
 
 
         String powerUpFolderPath = "resources/powerupcards/";
-
-
 
         powerCard1 = new JLabel("");
         String path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1));

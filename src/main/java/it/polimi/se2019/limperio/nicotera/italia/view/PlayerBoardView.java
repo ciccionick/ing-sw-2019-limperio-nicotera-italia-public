@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
@@ -25,7 +26,14 @@ public class PlayerBoardView {
     private boolean canUseNewton = false;
     private boolean canUseTeleporter = false;
     private boolean canUseTagbackGranade = false;
-    private boolean hasToChooseAWeapon = false;
+    private boolean canUseTargetingScope = false;
+    private boolean canChooseWeapon1 = false;
+    private boolean canChooseWeapon2 = false;
+    private boolean canChooseWeapon3 = false;
+    private boolean canShoot = false;
+    private boolean canRun = false;
+    private boolean canCatch = false;
+    private boolean canReload = false;
 
 
 
@@ -61,7 +69,13 @@ public class PlayerBoardView {
         isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
     }
 
+    public boolean isCanShoot() {
+        return canShoot;
+    }
 
+    public void setCanShoot(boolean canShoot) {
+        this.canShoot = canShoot;
+    }
 
     /**
      * Updates the player's board
@@ -75,11 +89,7 @@ public class PlayerBoardView {
             setAmmo(event.getPlayerBoard().getAmmo());
             setPowerUpCardsDeck(event.getPowerUpCardsOwned());
             setWeaponCardDeck(event.getWeaponCardsOwned());
-            setCanUseNewton(event.isCanUseNewton());
-            setCanUseTagbackGranade(event.isCanUseTagbackGranade());
-            setCanUseTeleporter(event.isCanUseTeleporter());
             setHasToChoosePowerUpCardForSpawn(event.isHasToDiscardCard());
-            setHasToChooseAWeapon(event.isCanShoot());
             this.nicknameOfPlayer = event.getPlayerBoard().getNicknameOfPlayer();
             this.colorOfPlayer = event.getPlayerBoard().getColorOfPlayer();
 
@@ -144,11 +154,74 @@ public class PlayerBoardView {
         this.canUseTagbackGranade = canUseTagbackGranade;
     }
 
-    public boolean isHasToChooseAWeapon() {
-        return hasToChooseAWeapon;
+    public boolean isCanChooseWeapon1() {
+        return canChooseWeapon1;
     }
 
-    public void setHasToChooseAWeapon(boolean hasToChooseAWeapon) {
-        this.hasToChooseAWeapon = hasToChooseAWeapon;
+    public void setCanChooseWeapon1(boolean canChooseWeapon1) {
+        this.canChooseWeapon1 = canChooseWeapon1;
     }
+
+    public boolean isCanChooseWeapon2() {
+        return canChooseWeapon2;
+    }
+
+    public void setCanChooseWeapon2(boolean canChooseWeapon2) {
+        this.canChooseWeapon2 = canChooseWeapon2;
+    }
+
+    public boolean isCanChooseWeapon3() {
+        return canChooseWeapon3;
+    }
+
+    public void setCanChooseWeapon3(boolean canChooseWeapon3) {
+        this.canChooseWeapon3 = canChooseWeapon3;
+    }
+
+    public boolean isCanUseTargetingScope() {
+        return canUseTargetingScope;
+    }
+
+    public void setCanUseTargetingScope(boolean canUseTargetingScope) {
+        this.canUseTargetingScope = canUseTargetingScope;
+    }
+
+    public boolean isCanRun() {
+        return canRun;
+    }
+
+    public void setCanRun(boolean canRun) {
+        this.canRun = canRun;
+    }
+
+    public boolean isCanCatch() {
+        return canCatch;
+    }
+
+    public void setCanCatch(boolean canCatch) {
+        this.canCatch = canCatch;
+    }
+
+    public boolean isCanReload() {
+        return canReload;
+    }
+
+    public void setCanReload(boolean canReload) {
+        this.canReload = canReload;
+    }
+
+    void updateThingsPlayerCanDo(RequestActionEvent receivedEvent) {
+        setCanUseTeleporter(receivedEvent.isCanUseTeleporter());
+        setCanUseTagbackGranade(receivedEvent.isCanUseTagbackGranade());
+        setCanUseNewton(receivedEvent.isCanUseNewton());
+        setCanChooseWeapon1(receivedEvent.isCanUseWeapon1());
+        setCanChooseWeapon2(receivedEvent.isCanUseWeapon2());
+        setCanChooseWeapon3(receivedEvent.isCanUseWeapon3());
+        setCanShoot(receivedEvent.isCanShoot());
+        setCanRun(true);
+        setCanCatch(true);
+        setCanReload(false);
+    }
+
+
 }
