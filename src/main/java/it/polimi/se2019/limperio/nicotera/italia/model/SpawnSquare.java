@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This class is used to represent the spawn squares on the map
  * @author Pietro L'Imperio
  */
-public class SpawnSquare extends Square  {
+public class SpawnSquare extends Square implements  Cloneable  {
     /**
      * It needs to send the weapon card to client through socket connection
      */
@@ -36,5 +36,15 @@ public class SpawnSquare extends Square  {
 
     public void setWeaponsCardsForRemoteView(ArrayList<ServerEvent.AliasCard> weaponsCardsForRemoteView) {
         this.weaponsCardsForRemoteView = weaponsCardsForRemoteView;
+    }
+
+    public Object clone(){
+         SpawnSquare spawnSquare = null;
+         try{
+             spawnSquare = (SpawnSquare) super.clone();
+         } catch (CloneNotSupportedException e) {
+             spawnSquare = new SpawnSquare(this.getColor(), this.isHasDoor(), this.getRow(), this.getColumn());
+         }
+         return spawnSquare;
     }
 }

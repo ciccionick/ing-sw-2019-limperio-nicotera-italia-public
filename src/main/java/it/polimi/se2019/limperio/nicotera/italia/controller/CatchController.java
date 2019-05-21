@@ -76,7 +76,8 @@ class CatchController {
             game.notify(newRequest);
         }
         else{
-           addAmmoToPlayer(player.getPlayerBoard(), ((NormalSquare) square).getAmmoTile().getAmmos());
+            player.setPositionOnTheMap(square);
+           addAmmoToPlayer(player.getPlayerBoard(), ((NormalSquare) square).getAmmoTile().getListOfAmmo());
            if(((NormalSquare) square).getAmmoTile().hasPowerUpCard()){
                PowerUpCard powerUpCard;
                powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
@@ -85,6 +86,7 @@ class CatchController {
                game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
                powerUpCard.setInTheDeckOfSomePlayer(true);
            }
+            ((NormalSquare)square).setAmmoTile(null);
             sendNotifyAfterCatching(player);
         }
 
@@ -96,6 +98,12 @@ class CatchController {
         pBEvent.setNicknameInvolved(player.getNickname());
         pBEvent.setNicknames(game.getListOfNickname());
         game.notify(pBEvent);
+
+        MapEvent mapEvent = new MapEvent();
+        mapEvent.setMessageForInvolved("Ciao");
+        mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+        mapEvent.setNicknames(game.getListOfNickname());
+        game.notify(mapEvent);
 
         ServerEvent notifyActionDoneEvent = new ServerEvent();
         notifyActionDoneEvent.setNotifyAboutActionDone(true);

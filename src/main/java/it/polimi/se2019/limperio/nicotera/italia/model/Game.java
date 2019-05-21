@@ -152,8 +152,8 @@ public class Game extends Observable<ServerEvent> {
             for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
                 if(round==1) {
                     requestForDrawTwoCardsDone = false;
-                    if(playerOfTurn==1)
-                        hasToDoTerminatorAction=true;
+                    if(playerOfTurn==1 && isTerminatorModeActive())
+                        hasToDoTerminatorAction=false;
                 }
                 if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))|| !(players.get(playerOfTurn-1).isConnected())) {
                     numOfActionOfTheTurn = 0;
@@ -172,7 +172,7 @@ public class Game extends Observable<ServerEvent> {
 
                     if(terminatorModeActive) {
                         numOfMaxActionForTurn = 3;
-                        hasToDoTerminatorAction = false;
+                        hasToDoTerminatorAction = true;
                     }
                     updateMap();
                 }

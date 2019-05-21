@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +28,7 @@ public class MapEvent extends ServerEvent {
     /**
      * The map (only the matrix) updated in {@link MapEvent}
      */
-    private Square[][] map = null;
+    private Square[][] map = new Square[3][4];
 
     private Map<String, ArrayList<String>> hashMapForPlayersInSquare = new HashMap<>();
 
@@ -75,7 +72,16 @@ public class MapEvent extends ServerEvent {
     }
 
     public void setMap(Square[][] map) {
-        this.map = map;
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j<map[i].length;j++){
+                if(map[i][j]!=null) {
+                    if (map[i][j].isSpawn())
+                        this.map[i][j] = (Square) ((SpawnSquare) map[i][j]).clone();
+                    else
+                        this.map[i][j] = (Square) ((NormalSquare) map[i][j]).clone();
+                }
+            }
+        }
         setNicknamesInHashMap(map);
         setWeaponsWithTheirAlias(map);
     }

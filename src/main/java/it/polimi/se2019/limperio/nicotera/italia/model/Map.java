@@ -8,7 +8,7 @@ import java.io.Serializable;
  * This class is used to represent the map in the game
  * @author Pietro L'Imperio
  */
-public class Map implements Serializable {
+public class Map implements Serializable, Cloneable {
     /**
      * Contains the instance of map according to singleton pattern
      */
@@ -73,6 +73,7 @@ public class Map implements Serializable {
 
 
     }
+
 
 
     /**

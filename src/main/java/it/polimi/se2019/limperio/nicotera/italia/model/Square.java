@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * This class is used to represent the square in the map
  * @author Francesco Nicotera
  */
-public class Square implements Serializable {
+public class Square implements Serializable{
 
     private ColorOfFigure_Square color;
     private boolean hasDoor;
@@ -92,6 +92,7 @@ public class Square implements Serializable {
         }
 
     }
+
 
     public Square getNorth() {
         return north;

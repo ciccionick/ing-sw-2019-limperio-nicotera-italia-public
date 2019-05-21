@@ -1,10 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
-import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
-import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
-import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
 
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 public class PlayerBoardEvent extends ServerEvent {
     private ArrayList<AliasCard> weaponCardsOwned = new ArrayList<>();
     private ArrayList<AliasCard> powerUpCardsOwned = new ArrayList<>();
+    private ArrayList<ColorOfCard_Ammo> ammoAvailable = new ArrayList<>();
     private boolean hasToDiscardCard = false;
 
     /**
@@ -33,7 +31,7 @@ public class PlayerBoardEvent extends ServerEvent {
         }
     }
 
-    public void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpOwned) {
+    private void setPowerUpCardsOwned(ArrayList<PowerUpCard> powerUpOwned) {
         for(PowerUpCard card : powerUpOwned){
             this.powerUpCardsOwned.add(new AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
@@ -53,12 +51,23 @@ public class PlayerBoardEvent extends ServerEvent {
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
+        setAmmoAvailable(playerBoard.getAmmo());
         setWeaponCardsOwned(playerBoard.getWeaponsOwned());
         setPowerUpCardsOwned(playerBoard.getPowerUpCardsOwned());
 
     }
 
+    private void setAmmoAvailable(ArrayList<Ammo> ammo) {
+        ammoAvailable = new ArrayList<>();
+        for(Ammo ammoItem : ammo){
+            if(ammoItem.isUsable())
+                ammoAvailable.add(ammoItem.getColor());
+        }
+    }
 
+    public ArrayList<ColorOfCard_Ammo> getAmmoAvailable() {
+        return ammoAvailable;
+    }
 
     public boolean isHasToDiscardCard() {
         return hasToDiscardCard;

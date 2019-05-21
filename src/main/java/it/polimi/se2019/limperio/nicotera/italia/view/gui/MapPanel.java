@@ -298,6 +298,8 @@ class MapPanel extends JPanel {
       public void mousePressed(MouseEvent e) {
           if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())) {
               if (square != null) {
+                  matrix = mainFrame.getRemoteView().getMapView().getMap();
+                  square=matrix[row][column];
                   updatePopup(square);
                   popupForSquare.getPopup().setVisible(true);
               }
@@ -331,8 +333,10 @@ class MapPanel extends JPanel {
                 Point positionOfPanel = mainFrame.getMapPanel().getLocation();
                 Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
             if (square.isSpawn()) {
+                listOfWeaponOnTheSquare = ((SpawnSquare) square).getWeaponsCardsForRemoteView();
                 popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame.getFrame().getLocation(), dimensionOfFrame, listOfWeaponOnTheSquare );
                 } else {
+                    ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
                     popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, dimensionOfFrame, positionOfPanel, positionOfSquare);
                 }
 
