@@ -24,6 +24,8 @@ public class MapView {
     private int typeOfMap;
 
     private boolean hasToChooseASquare = false;
+    private boolean isSelectionForRun = false;
+    private boolean isSelectionForCatch = false;
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -85,6 +87,20 @@ public class MapView {
         this.hasToChooseASquare = hasToChooseASquare;
     }
 
+    public boolean isSelectionForRun() {
+        return isSelectionForRun;
+    }
 
+    public void setSelectionForRun(boolean selectionForRun) {
+        isSelectionForRun = selectionForRun;
+    }
+
+    public boolean isSelectionForCatch() {
+        return isSelectionForCatch;
+    }
+
+    public void setSelectionForCatch(boolean selectionForCatch) {
+        isSelectionForCatch = selectionForCatch;
+    }
 }
 

@@ -169,6 +169,7 @@ public class Game extends Observable<ServerEvent> {
                             requestForDrawTwoCardsDone=true;
                         }
                     }
+
                     if(terminatorModeActive) {
                         numOfMaxActionForTurn = 3;
                         hasToDoTerminatorAction = false;

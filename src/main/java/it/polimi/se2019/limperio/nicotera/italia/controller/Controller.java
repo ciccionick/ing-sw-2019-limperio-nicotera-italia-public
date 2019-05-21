@@ -65,7 +65,8 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isCatchEvent()){
-                catchController.handleCatching((CatchEvent) message);
+                if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
+                    catchController.handleCatching((CatchEvent) message);
             }
 
             if(message.isSelectionWeaponToCatch()){
@@ -77,7 +78,7 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isSelectionSquareForRun()){
-                runController.doRunAction((SelectionSquareForRun) message);
+                runController.doRunAction((RunEvent) message);
 
             }
             if (message.isRequestToShootByPlayer()) {
@@ -161,7 +162,7 @@ public class Controller implements Observer<ClientEvent> {
         requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
         requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn()+1);
         requestActionEvent.setRound(game.getRound());
-        requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\n Remember you can use power up cards enabled.");
+        requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\nRemember you can use power up cards enabled.");
         if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             requestActionEvent.setCanUseNewton(false);
         else
@@ -169,6 +170,15 @@ public class Controller implements Observer<ClientEvent> {
         requestActionEvent.setCanUseTeleporter(true);
         requestActionEvent.setCanShoot(checkIfPlayerCanShoot(findPlayerWithThisNickname(requestActionEvent.getNicknameInvolved()).getPlayerBoard().getWeaponsOwned()));
         requestActionEvent.setHasToDoTerminatorAction(game.isHasToDoTerminatorAction());
+        if(game.isHasToDoTerminatorAction()&&game.getNumOfActionOfTheTurn()+1==game.getNumOfMaxActionForTurn()){
+            requestActionEvent.setCanCatch(false);
+            requestActionEvent.setCanRun(false);
+        }
+        else
+        {
+            requestActionEvent.setCanCatch(true);
+            requestActionEvent.setCanRun(true);
+        }
         game.notify(requestActionEvent);
     }
 

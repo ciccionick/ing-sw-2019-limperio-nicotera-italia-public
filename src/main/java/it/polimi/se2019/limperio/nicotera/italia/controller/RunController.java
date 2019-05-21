@@ -1,9 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquareForRun;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RunEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForRun;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForAction;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -31,17 +31,18 @@ public class RunController {
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         Square square = player.getPositionOnTheMap();
         ArrayList<Square> listOfSquaresReachable = new ArrayList<>();
-        RequestSelectionSquareForRun newEvent = new RequestSelectionSquareForRun("Press on the square where you want arrive! \nYou can press CANCEL to choose another action");
+        RequestSelectionSquareForAction newEvent = new RequestSelectionSquareForAction("Press on the square where you want arrive! \nYou can press CANCEL to choose another action");
+        newEvent.setSelectionForRun(true);
         newEvent.setNicknameInvolved(event.getNickname());
         if(!game.isInFrenzy()){
             controller.findSquaresReachableWithThisMovements(square, 3, listOfSquaresReachable);
-            newEvent.setSquaresReachableWithRunAction(listOfSquaresReachable);
+            newEvent.setSquaresReachable(listOfSquaresReachable);
             game.notify(newEvent);
         }
         else{
             if((controller.getGame().getNumOfMaxActionForTurn()==3&&controller.getGame().isTerminatorModeActive())||(controller.getGame().getNumOfMaxActionForTurn()==2 && !controller.getGame().isTerminatorModeActive())) {
                 controller.findSquaresReachableWithThisMovements(square, 4, listOfSquaresReachable);
-                newEvent.setSquaresReachableWithRunAction(listOfSquaresReachable);
+                newEvent.setSquaresReachable(listOfSquaresReachable);
                 game.notify(newEvent);
             }
         }
@@ -51,7 +52,7 @@ public class RunController {
      * Moves the player in the square it has chosen
      * @param event contains the coordinates of the square in which the player want to go and its nickname.
      */
-    void doRunAction(SelectionSquareForRun event){
+    void doRunAction(RunEvent event){
         if(event.getNickname().equals(controller.getGame().getPlayers().get(controller.getGame().getPlayerOfTurn()-1).getNickname())) {
             Player player = controller.findPlayerWithThisNickname(event.getNickname());
             player.setPositionOnTheMap(controller.getGame().getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
@@ -63,6 +64,9 @@ public class RunController {
             newEvent.setNicknameInvolved(event.getNickname());
             newEvent.setNicknames(controller.getGame().getListOfNickname());
             controller.getGame().notify(newEvent);
+            game.incrementNumOfActionsOfThisTurn();
+            if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn())
+                controller.sendRequestForAction();
         }
     }
 

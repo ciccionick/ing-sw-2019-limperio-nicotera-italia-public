@@ -216,10 +216,24 @@ public class PlayerBoardView {
         canChooseWeapon3 = receivedEvent.isCanUseWeapon3();
         canShoot = receivedEvent.isCanShoot();
         hasToDoTerminatorAction= receivedEvent.isHasToDoTerminatorAction();
-        canRun = true;
-        canCatch = true;
+        canCatch = receivedEvent.isCanCatch();
+        canRun = receivedEvent.isCanRun();
 
     }
 
 
+     void disableEveryThingPlayerCanDo() {
+        hasToChoosePowerUpCardForSpawn = false;
+        canUseNewton = false;
+        canUseTeleporter = false;
+        canUseTagbackGranade = false;
+        canUseTargetingScope = false;
+        canChooseWeapon1 = false;
+        canChooseWeapon2 = false;
+        canChooseWeapon3 = false;
+        canShoot = false;
+        canRun = false;
+        canCatch = false;
+        hasToDoTerminatorAction = false;
+    }
 }

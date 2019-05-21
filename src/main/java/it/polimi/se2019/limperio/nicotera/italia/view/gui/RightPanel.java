@@ -7,8 +7,8 @@ import java.awt.*;
 
     private MainFrame mainFrame;
 
-    private JPanel panelOfPlayers;
-    private JPanel panelOfActions;
+    private PanelOfPlayers panelOfPlayers;
+    private PanelOfActions panelOfActions;
     private int insetLeftRight;
     private int insetBottom;
 
@@ -41,11 +41,9 @@ import java.awt.*;
        return panelOfPlayers;
     }
 
-    public void setPanelOfPlayers(JPanel panelOfPlayers) {
-       this.panelOfPlayers = panelOfPlayers;
-    }
 
-     JPanel getPanelOfActions() {
+
+     PanelOfActions getPanelOfActions() {
        return panelOfActions;
     }
 

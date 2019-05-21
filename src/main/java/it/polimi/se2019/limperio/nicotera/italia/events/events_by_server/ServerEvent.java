@@ -47,23 +47,16 @@ public class ServerEvent implements Serializable {
     private boolean isRequestForDrawTwoPowerUpCardsEvent = false;
     private boolean isRequestToDiscardPowerUpCardToSpawnEvent = false;
     private boolean isRequestActionEvent = false;
-    private boolean isSelectionSquareForCatching = false;
     private boolean isRequestForChooseAWeaponToCatch = false;
     private boolean isFinished=false;
     private boolean isCatchActionDone = false;
-    private boolean isRequestSelectionSquareForRun = false;
+    private boolean isRequestSelectionSquareForAction = false;
     private boolean isGenerationEvent = false;
     private boolean isNotifyAboutActionDone = false;
 
     private int numOfAction;
 
-    public boolean isSelectionSquareForCatching() {
-        return isSelectionSquareForCatching;
-    }
 
-    public void setSelectionSquareForCatching(boolean selectionSquareForCatching) {
-        isSelectionSquareForCatching = selectionSquareForCatching;
-    }
 
 
     public ServerEvent(){
@@ -187,12 +180,12 @@ public class ServerEvent implements Serializable {
         this.numOfAction = numOfAction;
     }
 
-    public boolean isRequestSelectionSquareForRun() {
-        return isRequestSelectionSquareForRun;
+    public boolean isRequestSelectionSquareForAction() {
+        return isRequestSelectionSquareForAction;
     }
 
-    public void setRequestSelectionSquareForRun(boolean requestSelectionSquareForRun) {
-        isRequestSelectionSquareForRun = requestSelectionSquareForRun;
+    public void setRequestSelectionSquareForAction(boolean requestSelectionSquareForAction) {
+        isRequestSelectionSquareForAction = requestSelectionSquareForAction;
     }
 
     public boolean isNotifyAboutActionDone() {

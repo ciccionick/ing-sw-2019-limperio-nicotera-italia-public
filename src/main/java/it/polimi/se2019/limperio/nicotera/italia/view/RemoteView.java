@@ -9,7 +9,6 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * This class represents the view on client side of client-server architecture.
@@ -113,38 +112,28 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
-        if(receivedEvent.isRequestSelectionSquareForRun()){
+        if(receivedEvent.isRequestSelectionSquareForAction()){
             mapView.setHasToChooseASquare(true);
-            mainFrame.updateEnableSquares(((RequestSelectionSquareForRun)receivedEvent).getSquaresReachableWithRunAction());
+            mapView.setSelectionForCatch(((RequestSelectionSquareForAction)receivedEvent).isSelectionForCatch());
+            mapView.setSelectionForRun(((RequestSelectionSquareForAction)receivedEvent).isSelectionForRun());
+            mainFrame.updateEnableSquares(((RequestSelectionSquareForAction)receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
         }
 
         if(receivedEvent.isNotifyAboutActionDone())
         {
+            if(receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())){
+                myPlayerBoardView.disableEveryThingPlayerCanDo();
+                mainFrame.updateLeftPanelForWhoIsViewing(receivedEvent.getNicknameInvolved());
+                mainFrame.updatePanelOfAction();
+            }
             mainFrame.showMessage(receivedEvent);
-        }
-
-        if(receivedEvent.isSelectionSquareForCatching()){
-
         }
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
 
         }
-
-
-        if(receivedEvent.isCatchActionDone()){
-            if(((CatchActionDoneEvent) receivedEvent).isCatchActionOfAmmoTile()){
-                System.out.println("Hai pescato un ammo tile con le seguenti munizioni: ");
-                for(ColorOfCard_Ammo ammo : ((CatchActionDoneEvent) receivedEvent).getAmmo()){
-                    System.out.println("/t" + ammo.toString());
-                }
-            }
-            else{
-                System.out.println("Hai pescato una weapon card: " + ((CatchActionDoneEvent)receivedEvent).getNameOfWeaponCaught());
-            }
-         }
 
     }
 

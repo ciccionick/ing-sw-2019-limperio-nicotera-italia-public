@@ -274,7 +274,7 @@ import java.util.ArrayList;
 
         redAmmo = new JLabel();
         int numOfRedAmmo;
-        numOfRedAmmo = getNumOfAmmo(playerBoardView.getAmmo(),ColorOfCard_Ammo.RED);
+        numOfRedAmmo = getNumOfAmmo(mainFrame.getRemoteView().getMyPlayerBoardView().getAmmo(),ColorOfCard_Ammo.RED);
         imageIcon = new ImageIcon("resources/playerboards/redammo.png");
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo,  java.awt.Image.SCALE_SMOOTH);
@@ -342,7 +342,7 @@ import java.util.ArrayList;
     private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
         int counterOfAvailableAmmo=0;
         for (Ammo ammoItem : ammo){
-            if (ammoItem.getColor()==color && ammoItem.isUsable()){
+            if (ammoItem.getColor().equals(color) && ammoItem.isUsable()){
                 counterOfAvailableAmmo++;
             }
         }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class RequestActionEvent extends ServerEvent {
 
+    private boolean canRun = false;
+    private boolean canCatch = false;
     private boolean canShoot = false;
     private boolean canUseNewton = false;
     private boolean canUseTeleporter = false;
@@ -90,6 +92,22 @@ public class RequestActionEvent extends ServerEvent {
 
     public void setHasToDoTerminatorAction(boolean hasToDoTerminatorAction) {
         this.hasToDoTerminatorAction = hasToDoTerminatorAction;
+    }
+
+    public boolean isCanRun() {
+        return canRun;
+    }
+
+    public void setCanRun(boolean canRun) {
+        this.canRun = canRun;
+    }
+
+    public boolean isCanCatch() {
+        return canCatch;
+    }
+
+    public void setCanCatch(boolean canCatch) {
+        this.canCatch = canCatch;
     }
 
     @Override

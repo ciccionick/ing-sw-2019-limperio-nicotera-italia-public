@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquareForRun;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RunEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
@@ -31,7 +32,6 @@ class MapPanel extends JPanel {
     private JLabel cell23;
 
 
-    private boolean isRequestForChooseASquare = false;
 
     private HashMap<String, JLabel> hashMapForCell = new HashMap<>();
 
@@ -282,7 +282,10 @@ class MapPanel extends JPanel {
       @Override
       public void mouseClicked(MouseEvent e) {
            if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).isEnabled()){
-               mainFrame.getRemoteView().notify(new SelectionSquareForRun("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
+                    mainFrame.getRemoteView().notify(new RunEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               else
+                   mainFrame.getRemoteView().notify(new CatchEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                for(JLabel label : hashMapForCell.values()){
                    label.setEnabled(true);
                }
@@ -294,7 +297,7 @@ class MapPanel extends JPanel {
       @Override
       public void mousePressed(MouseEvent e) {
           if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())) {
-              if (square != null && !isRequestForChooseASquare) {
+              if (square != null) {
                   updatePopup(square);
                   popupForSquare.getPopup().setVisible(true);
               }

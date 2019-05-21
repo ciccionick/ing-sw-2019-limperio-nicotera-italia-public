@@ -121,11 +121,11 @@ public class PlayerBoard implements Serializable {
      * @param numOfAmmoCaught the number of ammo thhat has to be added
      */
     public void addAmmoToPlayer(ColorOfCard_Ammo color, int numOfAmmoCaught){
-        int numOFAmmoUsable = numOfAmmoCaught;
-        for(int i=0; i<9 && numOFAmmoUsable>0; i++){
+        int numOfAmmoUsable = numOfAmmoCaught;
+        for(int i=0; i<9 && numOfAmmoUsable>0; i++){
             if(getAmmo().get(i).getColor().equals(color) && !getAmmo().get(i).isUsable()){
                 getAmmo().get(i).setIsUsable(true);
-                numOFAmmoUsable--;
+                numOfAmmoUsable--;
             }
         }
     }

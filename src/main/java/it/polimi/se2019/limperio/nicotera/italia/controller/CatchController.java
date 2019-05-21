@@ -4,14 +4,10 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.CatchActionDoneEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.SelectionViewForSquareWhereCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
@@ -43,9 +39,10 @@ class CatchController {
     void replyToRequestToCatch(RequestToCatchByPlayer event){
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
         ArrayList<Square> squareAvailableToCatch = findSquareWherePlayerCanCatch(controller.findPlayerWithThisNickname(event.getNickname()), weaponNotAffordable);
-        SelectionViewForSquareWhereCatch newSelectionEvent = new SelectionViewForSquareWhereCatch("Scegli in quale fra questi quadrati vuoi raccogliere");
-        newSelectionEvent.getNicknames().add(event.getNickname());
-        newSelectionEvent.setSquaresReachableForCatch(squareAvailableToCatch);
+        RequestSelectionSquareForAction newSelectionEvent = new RequestSelectionSquareForAction("Choose one of the enabled squares to catch something on that.\nRemember, before to choose, you can use enable powerUp cards.");
+        newSelectionEvent.setSelectionForCatch(true);
+        newSelectionEvent.setNicknameInvolved(event.getNickname());
+        newSelectionEvent.setSquaresReachable(squareAvailableToCatch);
         newSelectionEvent.setWeaponNotAvailableForLackOfAmmo(weaponNotAffordable);
         event.getMyVirtualView().update(newSelectionEvent);
 
@@ -88,11 +85,32 @@ class CatchController {
                game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
                powerUpCard.setInTheDeckOfSomePlayer(true);
            }
-           game.incrementNumOfActionsOfThisTurn();
-           CatchActionDoneEvent actionDoneEvent = new CatchActionDoneEvent("avvenuta raccolta", ((NormalSquare) square).getAmmoTile().getAmmos());
-           actionDoneEvent.setCatchActionOfAmmoTile(true);
-           actionDoneEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
+            sendNotifyAfterCatching(player);
         }
+
+    }
+
+    private void sendNotifyAfterCatching(Player player) {
+        PlayerBoardEvent pBEvent = new PlayerBoardEvent();
+        pBEvent.setPlayerBoard(player.getPlayerBoard());
+        pBEvent.setNicknameInvolved(player.getNickname());
+        pBEvent.setNicknames(game.getListOfNickname());
+        game.notify(pBEvent);
+
+        ServerEvent notifyActionDoneEvent = new ServerEvent();
+        notifyActionDoneEvent.setNotifyAboutActionDone(true);
+        notifyActionDoneEvent.setNicknameInvolved(player.getNickname());
+        notifyActionDoneEvent.setNicknames(game.getListOfNickname());
+        notifyActionDoneEvent.setMessageForInvolved("Your catch has gone well!");
+        notifyActionDoneEvent.setMessageForOthers(player.getNickname() + " has decided to catch! \nLook up his player board to see what he caught!");
+        game.notify(notifyActionDoneEvent);
+
+        game.incrementNumOfActionsOfThisTurn();
+
+        if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
+            controller.sendRequestForAction();
+        }
+
     }
 
     /**
@@ -167,7 +185,7 @@ class CatchController {
             if (square.isSpawn()) {
                 SpawnSquare spawnSquare = (SpawnSquare) square;
                 if (canCatchSomethingInThisSquare(spawnSquare)) {
-                    addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
+                    addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);  //aggiungere array temporaneo per ogni spawn square, controllare se la sua dimensione è minore di 3 e nel caso aggiuungere il quadrato alla lista e le armi not affordable all'array principale
                     squaresWithSomething.add(square);
                 }
             }

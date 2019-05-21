@@ -93,16 +93,7 @@ public class MainFrame {
      }
 
      public void updatePanelOfAction() {
-        rightPanel.remove(rightPanel.getPanelOfActions());
-         GridBagConstraints gbcPanelOfActions = new GridBagConstraints();
-         gbcPanelOfActions.gridx = 0;
-         gbcPanelOfActions.gridy=2;
-         gbcPanelOfActions.insets = new Insets(0, rightPanel.getInsetLeftRight(), rightPanel.getInsetBottom(), rightPanel.getInsetLeftRight());
-         rightPanel.add(new PanelOfActions(this), gbcPanelOfActions);
-         rightPanel.validate();
-         rightPanel.repaint();
-         contentPane.validate();
-         contentPane.repaint();
+        rightPanel.getPanelOfActions().updateStateOfButton();
      }
 
      public void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {

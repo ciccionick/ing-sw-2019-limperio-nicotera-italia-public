@@ -114,6 +114,13 @@ class PanelOfActions extends JPanel {
     }
 
 
+    void updateStateOfButton(){
+       buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
+       buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
+       buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanShoot());
+       buttonTerminator.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToDoTerminatorAction());
+       buttonCancel.setEnabled(false);
+    }
 
     class ActionButtonListener implements ActionListener{
 
@@ -134,11 +141,7 @@ class PanelOfActions extends JPanel {
                 System.out.println("Non ancora implementato");
                 break;
              case "Cancel":
-                buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
-                buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
-                buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanShoot());
-                buttonTerminator.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToDoTerminatorAction());
-                buttonCancel.setEnabled(false);
+                updateStateOfButton();
                 mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 for(JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()){
                    label.setEnabled(true);
