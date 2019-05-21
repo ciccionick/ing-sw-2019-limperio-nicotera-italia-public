@@ -6,6 +6,8 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -19,6 +21,8 @@ import static org.junit.Assert.*;
 
 public class TestPowerUpController extends TestController {
     PowerUpController powerUpController = new PowerUpController(this.game, this.controller);
+
+
 
     @Test
     public void findSpawnSquareWithThisColorTest(){
@@ -37,8 +41,13 @@ public class TestPowerUpController extends TestController {
        assertTrue(square2.isHasDoor());
     }
 
-   /*lic void handleDrawOfTwoCardsAndHandleDiscardOfCardToSpawnTest()
+
+    @Test
+    public void handleDrawOfTwoCardsANDHandleDiscardOfCardToSpawnANDSpawnPlayerTest()
     {
+
+
+        game.setPlayerOfTurn(1);
         powerUpController.handleDrawOfTwoCards(game.getPlayers().get(0).getNickname());
         assertEquals(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().size(), 2);
         //powerUpCardChoice is the card that game.getPlayers().get(0) wants to discard
@@ -47,16 +56,9 @@ public class TestPowerUpController extends TestController {
         event.setPowerUpCard(new ServerEvent.AliasCard(powerUpCardChoice.getName(),  powerUpCardChoice.getDescription(), powerUpCardChoice.getColor() ));
         powerUpController.handleDiscardOfCardToSpawn(event);
         assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCardChoice));
-    }*/
+    }
 
 
 
-    /*@Test
-    public void  handleDiscardOfCardToSpawnTest()
-    {
-        assertEquals(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().size(), 2);
-        DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", game.getPlayers().get(0).getNickname());
-        event.setPowerUpCard(new ServerEvent.AliasCard());
 
-    }*/
 }

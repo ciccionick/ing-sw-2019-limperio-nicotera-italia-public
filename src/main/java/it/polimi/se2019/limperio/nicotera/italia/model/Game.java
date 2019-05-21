@@ -305,5 +305,10 @@ public class Game extends Observable<ServerEvent> {
         return terminatorModeActive;
     }
 
+    public void setPlayerOfTurn(int i)
+    {
+        this.playerOfTurn=i;
+    }
+
 
 }

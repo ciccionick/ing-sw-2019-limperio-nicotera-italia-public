@@ -90,4 +90,9 @@ public class Client {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public NetworkHandler getMyNetworkHandler()
+    {
+        return myNetworkHandler;
+    }
 }
