@@ -90,10 +90,10 @@ public class TestCatchController extends TestController {
     {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
         SpawnSquare spawnSquare= (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
-        WeaponCard card= new Railgun();
-        spawnSquare.getWeaponCards().add(card);
+        WeaponCard card= spawnSquare.getWeaponCards().get(0);
+
         SelectionWeaponToCatch event= new SelectionWeaponToCatch("", game.getPlayers().get(0).getNickname());
-        event.setNameOfWeaponCard("Railgun");
+        event.setNameOfWeaponCard(card.getName());
         event.setColumn(0);
         event.setRow(1);
         catchController.addWeaponToPlayer(event);
@@ -107,7 +107,7 @@ public class TestCatchController extends TestController {
         {
             if(ammox.isUsable()) i++;
         }
-        assertEquals(i, 1);
+        assertEquals(i, 3-card.getPriceToBuy().length);
     }
 
 
@@ -141,19 +141,19 @@ public class TestCatchController extends TestController {
 
     }
 
+
+
     @Test
     public void addWeaponNotAffordableTest()
     {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
-        PlasmaGun plasmaGun= new PlasmaGun();
-        ((SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[0][2]).getWeaponCards().add(plasmaGun);
+        WeaponCard card= ((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[0][2]).getWeaponCards().get(0);
+
         int i;
         for(i=0;i<9;i++)
         {
-            if(game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).getColor().equals(ColorOfCard_Ammo.YELLOW))
-            {
                 game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
-            }
+
         }
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable= new ArrayList<>();
 
@@ -163,33 +163,12 @@ public class TestCatchController extends TestController {
         boolean trovato=false;
         for(ServerEvent.AliasCard weaponNotAffordablex: weaponNotAffordable)
         {
-            if(weaponNotAffordablex.getName().equals(plasmaGun.getName())) trovato=true;
+            if(weaponNotAffordablex.getName().equals(card.getName())) trovato=true;
         }
         assertTrue(trovato);
 
     }
 
-   /*@Test
-    public void weaponIsAffordableByPlayerTest(){
-        SpawnSquare square = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
-        square.getWeaponCards().add(0, WeaponCard.createWeaponCard(1));
-        assertTrue(catchController.weaponIsAffordableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), square.getWeaponCards().get(0)));
-        game.getPlayers().get(0).getPlayerBoard().removeAmmoOfThisColor(ColorOfCard_Ammo.BLUE);
-        assertFalse(catchController.weaponIsAffordableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), square.getWeaponCards().get(0)));
-        frequencyOfAmmosUsableByPlayerTest();
-        addWeaponNotAffordableTest(square, game.getPlayers().get(0));
-    }
 
-    private void frequencyOfAmmosUsableByPlayerTest(){
-        assertEquals(1, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.RED));
-        assertEquals(1, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.YELLOW));
-        assertEquals(0, catchController.frequencyOfAmmoUsableByPlayer(game.getPlayers().get(0).getPlayerBoard().getAmmo(), ColorOfCard_Ammo.BLUE));
-    }
-
-    private void addWeaponNotAffordableTest(SpawnSquare square, Player player){
-        ArrayList<ServerEvent.AliasCard> weapons = new ArrayList<>();
-        catchController.addWeaponNotAffordable(square, player, weapons);
-        assertEquals("Lockrifle", weapons.get(0).getName());
-    }*/
 
 }

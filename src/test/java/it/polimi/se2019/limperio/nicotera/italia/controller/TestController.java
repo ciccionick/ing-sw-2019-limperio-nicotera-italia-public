@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
+import it.polimi.se2019.limperio.nicotera.italia.model.Railgun;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import org.junit.Before;
 import org.junit.Test;
@@ -63,5 +64,7 @@ public class TestController {
       assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
       assertTrue(listOfSquaresReachable.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
    }
+
+
 
 }
