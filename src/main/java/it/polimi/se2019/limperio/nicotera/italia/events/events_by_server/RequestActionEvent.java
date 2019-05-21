@@ -11,6 +11,7 @@ public class RequestActionEvent extends ServerEvent {
     private boolean canUseWeapon1 = false;
     private boolean canUseWeapon2 = false;
     private boolean canUseWeapon3 = false;
+    private boolean hasToDoTerminatorAction = false;
 
     private int round;
     private int numOfAction;
@@ -44,6 +45,8 @@ public class RequestActionEvent extends ServerEvent {
     public boolean isCanUseTagbackGranade() {
         return canUseTagbackGranade;
     }
+
+
 
     public void setCanUseTagbackGranade(boolean canUseTagbackGranade) {
         this.canUseTagbackGranade = canUseTagbackGranade;
@@ -79,6 +82,14 @@ public class RequestActionEvent extends ServerEvent {
 
     public void setRound(int round) {
         this.round = round;
+    }
+
+    public boolean isHasToDoTerminatorAction() {
+        return hasToDoTerminatorAction;
+    }
+
+    public void setHasToDoTerminatorAction(boolean hasToDoTerminatorAction) {
+        this.hasToDoTerminatorAction = hasToDoTerminatorAction;
     }
 
     @Override

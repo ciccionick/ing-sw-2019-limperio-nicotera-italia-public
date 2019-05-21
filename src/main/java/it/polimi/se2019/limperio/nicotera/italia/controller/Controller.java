@@ -162,16 +162,13 @@ public class Controller implements Observer<ClientEvent> {
         requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn()+1);
         requestActionEvent.setRound(game.getRound());
         requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\n Remember you can use power up cards enabled.");
-        requestActionEvent.setCanUseNewton(true);
+        if(game.getRound()==1 && game.getPlayerOfTurn()==1)
+            requestActionEvent.setCanUseNewton(false);
+        else
+            requestActionEvent.setCanUseNewton(true);
         requestActionEvent.setCanUseTeleporter(true);
-        if(!(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().isEmpty()))
-            requestActionEvent.setCanUseWeapon1(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(0)));
-        if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().size()>1)
-            requestActionEvent.setCanUseWeapon2(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(1)));
-        if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().size()>2)
-            requestActionEvent.setCanUseWeapon3(checkIfThisWeaponIsUsable(game.getPlayers().get(game.getPlayerOfTurn()-1).getPlayerBoard().getWeaponsOwned().get(2)));
-        requestActionEvent.setCanShoot(requestActionEvent.isCanUseWeapon1()||requestActionEvent.isCanUseWeapon2()||requestActionEvent.isCanUseWeapon3());
-
+        requestActionEvent.setCanShoot(checkIfPlayerCanShoot(findPlayerWithThisNickname(requestActionEvent.getNicknameInvolved()).getPlayerBoard().getWeaponsOwned()));
+        requestActionEvent.setHasToDoTerminatorAction(game.isHasToDoTerminatorAction());
         game.notify(requestActionEvent);
     }
 
@@ -181,6 +178,14 @@ public class Controller implements Observer<ClientEvent> {
          else
             return weaponCard.isLoad();
          //In realtà questo metodo deve chiamare un metodo di weapon controller (della corrispondente arma) che restituisce true se esiste un player da poter sparare
+    }
+
+    private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+         for(WeaponCard weaponCard : weaponDeck){
+             if(checkIfThisWeaponIsUsable(weaponCard))
+                 return true;
+         }
+         return false;
     }
 
 

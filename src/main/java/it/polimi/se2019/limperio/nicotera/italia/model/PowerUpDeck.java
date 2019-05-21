@@ -31,7 +31,7 @@ public class PowerUpDeck {
     }
 
     private PowerUpDeck() {
-        for (int i = 1; i < 13; i++) {
+        for (int i = 4; i < 7; i++) { //riporta da 1 a 13
             powerUpCards.add(createPowerUpCard(i));
             powerUpCards.add(createPowerUpCard(i));
         }

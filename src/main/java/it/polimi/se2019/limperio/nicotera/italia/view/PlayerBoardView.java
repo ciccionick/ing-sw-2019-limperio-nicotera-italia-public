@@ -33,7 +33,7 @@ public class PlayerBoardView {
     private boolean canShoot = false;
     private boolean canRun = false;
     private boolean canCatch = false;
-    private boolean canReload = false;
+    private boolean hasToDoTerminatorAction = false;
 
 
 
@@ -202,25 +202,23 @@ public class PlayerBoardView {
         this.canCatch = canCatch;
     }
 
-    public boolean isCanReload() {
-        return canReload;
-    }
 
-    public void setCanReload(boolean canReload) {
-        this.canReload = canReload;
+    public boolean isHasToDoTerminatorAction() {
+        return hasToDoTerminatorAction;
     }
 
     void updateThingsPlayerCanDo(RequestActionEvent receivedEvent) {
-        setCanUseTeleporter(receivedEvent.isCanUseTeleporter());
-        setCanUseTagbackGranade(receivedEvent.isCanUseTagbackGranade());
-        setCanUseNewton(receivedEvent.isCanUseNewton());
-        setCanChooseWeapon1(receivedEvent.isCanUseWeapon1());
-        setCanChooseWeapon2(receivedEvent.isCanUseWeapon2());
-        setCanChooseWeapon3(receivedEvent.isCanUseWeapon3());
-        setCanShoot(receivedEvent.isCanShoot());
-        setCanRun(true);
-        setCanCatch(true);
-        setCanReload(false);
+        canUseTeleporter = receivedEvent.isCanUseTeleporter();
+        canUseTagbackGranade = receivedEvent.isCanUseTagbackGranade();
+        canUseNewton = receivedEvent.isCanUseNewton();
+        canChooseWeapon1 = receivedEvent.isCanUseWeapon1();
+        canChooseWeapon2 = receivedEvent.isCanUseWeapon2();
+        canChooseWeapon3 = receivedEvent.isCanUseWeapon3();
+        canShoot = receivedEvent.isCanShoot();
+        hasToDoTerminatorAction= receivedEvent.isHasToDoTerminatorAction();
+        canRun = true;
+        canCatch = true;
+
     }
 
 

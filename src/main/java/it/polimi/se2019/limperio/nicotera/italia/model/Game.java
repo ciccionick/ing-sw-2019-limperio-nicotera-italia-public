@@ -82,6 +82,8 @@ public class Game extends Observable<ServerEvent> {
      */
     private int round=1;
 
+    private boolean hasToDoTerminatorAction = false;
+
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
         // a reference towards to the game instance.
@@ -98,10 +100,9 @@ public class Game extends Observable<ServerEvent> {
      */
     public void initializeGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
         this.anticipatedFrenzy=anticipatedFrenzy;
-        if(players.size()==3)
+        if(players.size()==3 || players.size()==4)
             this.terminatorModeActive = terminatorModeActive;
         if(terminatorModeActive){
-            numOfMaxActionForTurn=3;
             players.add(new Player("terminator", false, 4, findColorAvailable()));
         }
         setListOfNickname();
@@ -149,9 +150,12 @@ public class Game extends Observable<ServerEvent> {
         boolean requestForDrawTwoCardsDone = false;
         while(!isGameOver) {
             for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
-                if(round==1)
-                    requestForDrawTwoCardsDone=false;
-                if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))) {
+                if(round==1) {
+                    requestForDrawTwoCardsDone = false;
+                    if(playerOfTurn==1)
+                        hasToDoTerminatorAction=true;
+                }
+                if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))|| !(players.get(playerOfTurn-1).isConnected())) {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCardsDone) {
@@ -164,6 +168,10 @@ public class Game extends Observable<ServerEvent> {
                             notify(requestDrawTwoPowerUpCardsEvent);
                             requestForDrawTwoCardsDone=true;
                         }
+                    }
+                    if(terminatorModeActive) {
+                        numOfMaxActionForTurn = 3;
+                        hasToDoTerminatorAction = false;
                     }
                     updateMap();
                 }
@@ -178,6 +186,7 @@ public class Game extends Observable<ServerEvent> {
      */
     void updateMap(){
         MapEvent mapEvent = new MapEvent();
+        mapEvent.setTerminatorMode(isTerminatorModeActive());
         mapEvent.setNicknames(listOfNickname);
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
         mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
@@ -251,7 +260,13 @@ public class Game extends Observable<ServerEvent> {
         isGameOver = over;
     }
 
+    public boolean isHasToDoTerminatorAction() {
+        return hasToDoTerminatorAction;
+    }
 
+    public void setHasToDoTerminatorAction(boolean hasToDoTerminatorAction) {
+        this.hasToDoTerminatorAction = hasToDoTerminatorAction;
+    }
 
     public int getRound() {
         return round;
@@ -288,4 +303,6 @@ public class Game extends Observable<ServerEvent> {
     public boolean isTerminatorModeActive() {
         return terminatorModeActive;
     }
+
+
 }

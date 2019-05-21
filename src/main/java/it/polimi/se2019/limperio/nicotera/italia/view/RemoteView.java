@@ -47,7 +47,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     /**
      * It permits to read from command line
      */
-    private Scanner stdin = new Scanner(System.in);
+    private boolean terminatorMode= false;
 
     private MainFrame mainFrame;
 
@@ -98,7 +98,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
-        if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) { //quando ricevi la richiesta di scartare una power up. Devi aggiornare la pb dato che hai appena pescato almeno una carta
+        if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
             mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }
 
@@ -130,30 +130,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
-            RequestForChooseAWeaponToCatch event = (RequestForChooseAWeaponToCatch) receivedEvent;
-            System.out.println("Puoi pescare le seguenti armi:");
-            for(ServerEvent.AliasCard card : event.getWeaponsAvailableToCatch()){
-                System.out.println(card.getName() + "\t");
-            }
-            System.out.println("Digita 1 se vuoi pescare la prima arma, 2 per la seconda, 3 per la terza");
-            int choose = stdin.nextInt();
-            SelectionWeaponToCatch newEvent = new SelectionWeaponToCatch("Scelto arma", client.getNickname());
-            if(choose == 1 ){
-                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(0).getName());
-                newEvent.setRow(event.getRow());
-                newEvent.setColumn(event.getColumn());
-            }
-            else if(choose == 2){
-                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(1).getName());
-                newEvent.setRow(event.getRow());
-                newEvent.setColumn(event.getColumn());
-            }
-            else if (choose == 3){
-                newEvent.setNameOfWeaponCard(event.getWeaponsAvailableToCatch().get(2).getName());
-                newEvent.setRow(event.getRow());
-                newEvent.setColumn(event.getColumn());
-            }
-            notify(newEvent);
+
         }
 
 
@@ -168,19 +145,6 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 System.out.println("Hai pescato una weapon card: " + ((CatchActionDoneEvent)receivedEvent).getNameOfWeaponCaught());
             }
          }
-
-        if(receivedEvent.isRequestSelectionSquareForRun()){
-            RequestSelectionSquareForRun event = (RequestSelectionSquareForRun) receivedEvent;
-            System.out.println("Ecco i quadrati raggiungibili: ");
-            for(Square square : event.getSquaresReachableWithRunAction()){
-                System.out.println("["+ square.getRow()+"]" + " ["+square.getColumn()+"]");
-            }
-            System.out.println("Scrivi le coordinate del quadrato che vuoi raggiungere:");
-            int row = stdin.nextInt();
-            int column = stdin.nextInt();
-            SelectionSquareForRun newEvent = new SelectionSquareForRun("selezionato quadrato", client.getNickname(), row, column);
-            notify(newEvent);
-        }
 
     }
 
@@ -243,5 +207,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 return playerBoardView;
         }
         throw new IllegalArgumentException();
+    }
+
+    public boolean isTerminatorMode() {
+        return terminatorMode;
+    }
+
+    public void setTerminatorMode(boolean terminatorMode) {
+        this.terminatorMode = terminatorMode;
     }
 }

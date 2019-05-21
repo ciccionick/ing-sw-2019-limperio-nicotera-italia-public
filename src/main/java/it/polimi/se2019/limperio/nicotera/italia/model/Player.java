@@ -175,6 +175,10 @@ public class Player implements PlayerBehaviour{
             }
         }
 
+    public boolean isConnected() {
+        return isConnected;
+    }
+
     /**
      * It is called when a player decides to do a run action
      * @param square the final position the player wants to reach

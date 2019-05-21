@@ -39,6 +39,7 @@ public class MapView {
         if(map==null) {
             map = event.getMap();
             typeOfMap = event.getTypeOfMap();
+            remoteView.setTerminatorMode(event.isTerminatorMode());
             remoteView.getInitializationView().getFrameForInitialization().getFrame().setVisible(false);
             remoteView.setMainFrame(new MainFrame(remoteView));
         }

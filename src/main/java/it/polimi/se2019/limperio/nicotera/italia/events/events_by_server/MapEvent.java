@@ -37,6 +37,8 @@ public class MapEvent extends ServerEvent {
 
     private int typeOfMap;
 
+    private boolean terminatorMode;
+
     public MapEvent() {
         setMapEvent(true);
     }
@@ -134,5 +136,11 @@ public class MapEvent extends ServerEvent {
         }
     }
 
+    public boolean isTerminatorMode() {
+        return terminatorMode;
+    }
 
+    public void setTerminatorMode(boolean terminatorMode) {
+        this.terminatorMode = terminatorMode;
+    }
 }

@@ -253,7 +253,7 @@ public class FrameForInitialization {
         ListenerForYesNoButtons listenerForYesNoButtons = new ListenerForYesNoButtons(initializationView);
 
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
-        labelText.setText("Would you like play with terminator if the game will start with three players? ");
+        labelText.setText("Would you like play with terminator if the game will start with three/four players? ");
 
         panelForButtons = (JPanel) mapOfComponents.get("PanelForTextField");
         panelForButtons.remove(mapOfComponents.remove("Map1"));

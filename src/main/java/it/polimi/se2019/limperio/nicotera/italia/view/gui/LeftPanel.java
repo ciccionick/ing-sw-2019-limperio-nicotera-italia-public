@@ -19,6 +19,9 @@ import java.util.ArrayList;
     private JLabel powerCard1;
     private JLabel powerCard2;
     private JLabel powerCard3;
+    private JButton buttonPC1;
+    private JButton buttonPC2;
+    private JButton buttonPC3;
     private JLabel blueAmmo;
     private JLabel redAmmo;
     private JLabel yellowAmmo;
@@ -209,7 +212,7 @@ import java.util.ArrayList;
 
 
 
-        JButton buttonPC1 = new JButton("SELECT");
+        buttonPC1 = new JButton("SELECT");
         GridBagConstraints gbcButtonPC1 = new GridBagConstraints();
         gbcButtonPC1.insets = new Insets(insetTop/2, insetLeft*2, 0, 0);
         gbcButtonPC1.gridx = 0;
@@ -222,7 +225,7 @@ import java.util.ArrayList;
         this.add(buttonPC1, gbcButtonPC1);
         buttonPC1.addActionListener(listenerForPowerUpCard1);
 
-        JButton buttonPC2 = new JButton("SELECT");
+        buttonPC2 = new JButton("SELECT");
         GridBagConstraints gbcButtonPC2 = new GridBagConstraints();
         gbcButtonPC2.insets = new Insets(insetTop/2, insetLeft, 0, 0);
         gbcButtonPC2.gridx = 1;
@@ -236,7 +239,7 @@ import java.util.ArrayList;
         buttonPC2.addActionListener(listenerForPowerUpCard2);
 
 
-        JButton buttonPC3 = new JButton("SELECT");
+        buttonPC3 = new JButton("SELECT");
         GridBagConstraints gbcButtonPC3 = new GridBagConstraints();
         gbcButtonPC3.insets = new Insets(insetTop/2, insetLeft, 0, insetRight);
         gbcButtonPC3.gridx = 2;
@@ -322,6 +325,18 @@ import java.util.ArrayList;
            }
         }
       return false;
+    }
+
+    public JButton getButtonPC1() {
+       return buttonPC1;
+    }
+
+    public JButton getButtonPC2() {
+       return buttonPC2;
+    }
+
+    public JButton getButtonPC3() {
+       return buttonPC3;
     }
 
     private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {

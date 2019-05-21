@@ -52,16 +52,17 @@ public class RunController {
      * @param event contains the coordinates of the square in which the player want to go and its nickname.
      */
     void doRunAction(SelectionSquareForRun event){
-        if(event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())) {
+        if(event.getNickname().equals(controller.getGame().getPlayers().get(controller.getGame().getPlayerOfTurn()-1).getNickname())) {
             Player player = controller.findPlayerWithThisNickname(event.getNickname());
-            player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
+            player.setPositionOnTheMap(controller.getGame().getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
             MapEvent newEvent = new MapEvent();
+            newEvent.setMap(controller.getGame().getBoard().getMap().getMatrixOfSquares());
             newEvent.setNotifyAboutActionDone(true);
             newEvent.setMessageForInvolved("You have been moved in the square required!");
             newEvent.setMessageForOthers(event.getNickname() + " has ran in another square! \nLook the map to discover where.");
             newEvent.setNicknameInvolved(event.getNickname());
-            newEvent.setNicknames(game.getListOfNickname());
-            game.notify(newEvent);
+            newEvent.setNicknames(controller.getGame().getListOfNickname());
+            controller.getGame().notify(newEvent);
         }
     }
 

@@ -15,7 +15,7 @@ class PanelOfActions extends JPanel {
     private JButton buttonRun;
     private JButton buttonCatch;
     private JButton buttonShoot;
-    private JButton buttonReload;
+    private JButton buttonTerminator = new JButton();
     private JButton buttonCancel;
 
      PanelOfActions(MainFrame mainFrame) {
@@ -49,6 +49,7 @@ class PanelOfActions extends JPanel {
         gbcButtonRun.insets = new Insets(insetTop/2, 0, insetBottom, 0);
         gbcButtonRun.gridx = 2;
         gbcButtonRun.gridy = 1;
+        gbcButtonRun.fill = GridBagConstraints.BOTH;
         buttonRun.addActionListener(actionButtonListener);
         add(buttonRun, gbcButtonRun);
 
@@ -61,6 +62,7 @@ class PanelOfActions extends JPanel {
         gbcButtonCatch.insets = new Insets(insetTop, 0, insetBottom, 0);
         gbcButtonCatch.gridx = 2;
         gbcButtonCatch.gridy = 2;
+        gbcButtonCatch.fill = GridBagConstraints.BOTH;
         buttonCatch.addActionListener(actionButtonListener);
         add(buttonCatch, gbcButtonCatch);
 
@@ -73,20 +75,25 @@ class PanelOfActions extends JPanel {
         gbcButtonShoot.insets = new Insets(insetTop, 0, insetBottom, 0);
         gbcButtonShoot.gridx = 2;
         gbcButtonShoot.gridy = 3;
+        gbcButtonShoot.fill = GridBagConstraints.BOTH;
         buttonShoot.addActionListener(actionButtonListener);
         add(buttonShoot, gbcButtonShoot);
 
-        buttonReload = new JButton("Reload");
-        buttonReload.setActionCommand(buttonReload.getText());
-        buttonReload.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanReload());
-        buttonReload.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
-        buttonReload.setForeground(new Color(0, 0, 0));
-        GridBagConstraints gbcButtonReload = new GridBagConstraints();
-        gbcButtonReload.insets = new Insets(insetTop, 0, insetBottom, 0);
-        gbcButtonReload.gridx = 2;
-        gbcButtonReload.gridy = 4;
-        buttonReload.addActionListener(actionButtonListener);
-        add(buttonReload, gbcButtonReload);
+
+        if(mainFrame.getRemoteView().isTerminatorMode()) {
+        buttonTerminator = new JButton("Terminator");
+        buttonTerminator.setActionCommand(buttonTerminator.getText());
+        buttonTerminator.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToDoTerminatorAction());
+        buttonTerminator.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
+        buttonTerminator.setForeground(new Color(0, 0, 0));
+        GridBagConstraints gbcButtonTerminator = new GridBagConstraints();
+        gbcButtonTerminator.insets = new Insets(insetTop, 0, insetBottom, 0);
+        gbcButtonTerminator.gridx = 2;
+        gbcButtonTerminator.gridy = 4;
+        gbcButtonTerminator.fill = GridBagConstraints.BOTH;
+        buttonTerminator.addActionListener(actionButtonListener);
+        add(buttonTerminator, gbcButtonTerminator);
+        }
 
         buttonCancel = new JButton("Cancel");
         buttonCancel.setActionCommand(buttonCancel.getText());
@@ -96,7 +103,11 @@ class PanelOfActions extends JPanel {
         GridBagConstraints gbcButtonCancel = new GridBagConstraints();
         gbcButtonCancel.insets = new Insets(insetTop, 0, insetBottom, 0);
         gbcButtonCancel.gridx = 2;
-        gbcButtonCancel.gridy = 5;
+        if(mainFrame.getRemoteView().isTerminatorMode())
+            gbcButtonCancel.gridy = 5;
+        else
+           gbcButtonCancel.gridy = 4;
+        gbcButtonCancel.fill = GridBagConstraints.BOTH;
         buttonCancel.addActionListener(actionButtonListener);
         add(buttonCancel, gbcButtonCancel);
 
@@ -119,15 +130,16 @@ class PanelOfActions extends JPanel {
              case "Shoot":
                 mainFrame.getRemoteView().notify(new RequestToShootByPlayer("", nickname));
                 break;
-             case "Reload":
+             case "Terminator":
                 System.out.println("Non ancora implementato");
                 break;
              case "Cancel":
                 buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
                 buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
                 buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanShoot());
-                buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanReload());
+                buttonTerminator.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToDoTerminatorAction());
                 buttonCancel.setEnabled(false);
+                mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 for(JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()){
                    label.setEnabled(true);
                 }
@@ -135,26 +147,19 @@ class PanelOfActions extends JPanel {
              default: throw new IllegalArgumentException();
           }
           if(!(e.getActionCommand().equals("Cancel"))) {
-             disableAllButtonsAndCards();
-             mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+             disableCards();
              buttonCatch.setEnabled(false);
              buttonRun.setEnabled(false);
              buttonShoot.setEnabled(false);
-             buttonReload.setEnabled(false);
+             buttonTerminator.setEnabled(false);
              buttonCancel.setEnabled(true);
           }
        }
 
-       private void disableAllButtonsAndCards(){
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon1(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon2(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon3(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanUseNewton(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanUseTeleporter(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanUseTargetingScope(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setCanUseTagbackGranade(false);
-          mainFrame.getRemoteView().getMyPlayerBoardView().setHasToChoosePowerUpCardForSpawn(false);
-
+       private void disableCards(){
+          mainFrame.getLeftPanel().getButtonPC1().setEnabled(false);
+          mainFrame.getLeftPanel().getButtonPC2().setEnabled(false);
+          mainFrame.getLeftPanel().getButtonPC3().setEnabled(false);
        }
     }
 }
