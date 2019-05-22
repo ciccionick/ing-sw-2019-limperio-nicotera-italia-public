@@ -334,7 +334,7 @@ class MapPanel extends JPanel {
                 Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
             if (square.isSpawn()) {
                 listOfWeaponOnTheSquare = ((SpawnSquare) square).getWeaponsCardsForRemoteView();
-                popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame.getFrame().getLocation(), dimensionOfFrame, listOfWeaponOnTheSquare );
+                popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame, listOfWeaponOnTheSquare );
                 } else {
                     ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
                     popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, dimensionOfFrame, positionOfPanel, positionOfSquare);

@@ -70,7 +70,8 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isSelectionWeaponToCatch()){
-                catchController.addWeaponToPlayer((SelectionWeaponToCatch) message);
+                System.out.println("Arma selezionato");
+                //catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
                 //manca notificare l'avvenuta raccolta
             }
             if (message.isRequestToRunByPlayer()) {

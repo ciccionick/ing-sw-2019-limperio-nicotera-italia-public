@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
+
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -22,6 +23,7 @@ public class MainFrame {
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
     private DialogForMessage dialogForMessage;
+    private PopupForChooseWeaponCardToCatch popupForChooseWeaponCardToCatch;
 
 
     public MainFrame(RemoteView remoteView) {
@@ -100,8 +102,15 @@ public class MainFrame {
         mapPanel.updateEnableSquares(squaresReachableWithRunAction);
      }
 
+    public void showPopupForChooseWeapon(RequestForChooseAWeaponToCatch receivedEvent) {
+        popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCardToCatch(receivedEvent, this);
+    }
 
-     private class FrameListener implements ComponentListener {
+
+
+
+
+    private class FrameListener implements ComponentListener {
 
         private MainFrame mainFrame;
 
@@ -119,7 +128,7 @@ public class MainFrame {
             killshotTrackPanel = new KillshotTrackPanel(frame);
             contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
 
-            leftPanel = new LeftPanel(mainFrame,remoteView.getMyPlayerBoardView());
+            leftPanel = new LeftPanel(mainFrame,leftPanel.getPlayerBoardView());
             contentPane.add(leftPanel, BorderLayout.WEST);
 
             rightPanel = new RightPanel(mainFrame);

@@ -114,9 +114,11 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         if(receivedEvent.isRequestSelectionSquareForAction()){
             mapView.setHasToChooseASquare(true);
-            mapView.setSelectionForCatch(((RequestSelectionSquareForAction)receivedEvent).isSelectionForCatch());
-            mapView.setSelectionForRun(((RequestSelectionSquareForAction)receivedEvent).isSelectionForRun());
-            mainFrame.updateEnableSquares(((RequestSelectionSquareForAction)receivedEvent).getSquaresReachable());
+            if(receivedEvent instanceof RequestSelectionSquareForAction) {
+                mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
+                mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
+                mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
+            }
             mainFrame.showMessage(receivedEvent);
         }
 
@@ -132,7 +134,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
-
+            mainFrame.showMessage(receivedEvent);
+            mainFrame.showPopupForChooseWeapon((RequestForChooseAWeaponToCatch)receivedEvent);
         }
 
     }

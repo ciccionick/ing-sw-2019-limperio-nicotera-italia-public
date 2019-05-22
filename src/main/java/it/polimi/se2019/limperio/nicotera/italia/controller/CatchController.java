@@ -4,6 +4,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
@@ -63,7 +64,7 @@ class CatchController {
         Square square = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         if(square.isSpawn()){
-            RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Choose which ");
+            RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Choose which weapon do you want to catch. ");
             ArrayList<WeaponCard> weaponsAffordable = new ArrayList<>();
             for(WeaponCard weapon : ((SpawnSquare) square).getWeaponCards()){
                 if(weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), weapon))
@@ -71,8 +72,6 @@ class CatchController {
             }
             newRequest.setNicknameInvolved(event.getNickname());
             newRequest.setWeaponsAvailableToCatch(controller.substituteWeaponsCardWithTheirAlias(weaponsAffordable));
-            newRequest.setRow(event.getRow());
-            newRequest.setColumn(event.getColumn());
             game.notify(newRequest);
         }
         else{
@@ -192,6 +191,7 @@ class CatchController {
             if (square.isSpawn()) {
                 SpawnSquare spawnSquare = (SpawnSquare) square;
                 if (canCatchSomethingInThisSquare(spawnSquare)) {
+                    //quello che succede adesso è che anche se un quadrato ha tutte armi che non mi posso permettere risulta lo stesso selezionato
                     addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);  //aggiungere array temporaneo per ogni spawn square, controllare se la sua dimensione è minore di 3 e nel caso aggiuungere il quadrato alla lista e le armi not affordable all'array principale
                     squaresWithSomething.add(square);
                 }
@@ -229,27 +229,74 @@ class CatchController {
      * Adds to player's deck the weapon that the player want to catch
      * @param event contains the player's nickname, the coordinates of the spawn square in which the player want to catch and the name of the weapon
      */
-    void addWeaponToPlayer(SelectionWeaponToCatch event) {
+    void handleSelectionWeaponToCatch(SelectionWeaponToCatch event) {
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
-        SpawnSquare square = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
-        String nameOfWeaponCaught = null;
-        for (WeaponCard card : square.getWeaponCards()) {
-            if (card.getName().equals(event.getNameOfWeaponCard())) {
-                nameOfWeaponCaught = card.getName();
-                player.getPlayerBoard().getWeaponsOwned().add(card);
-                card.setOwnerOfCard(player);
-                for (ColorOfCard_Ammo ammo : card.getPriceToBuy()) {
-                    player.getPlayerBoard().removeAmmoOfThisColor(ammo);
-                }
-                square.getWeaponCards().remove(card);
-                break;
+        if(player.getPlayerBoard().getWeaponsOwned().size()<3) {
+            addWeaponCardToPlayerDeck(player, event.getNameOfWeaponCard());
+            sendNotifyAfterCatching(player);
+        }
+        else{
+            RequestToDiscardWeaponCard requestToDiscardWeaponCard = new RequestToDiscardWeaponCard("Choose one of your weapon card to discard", event.getNameOfWeaponCard());
+            requestToDiscardWeaponCard.setNicknameInvolved(event.getNickname());
+            game.notify(requestToDiscardWeaponCard);
+        }
+    }
+
+    private void addWeaponCardToPlayerDeck(Player player, String nameOfWeaponCard) {
+        SpawnSquare squareWhereRemoveCard = findSpawnSquareWithThisCard(nameOfWeaponCard);
+        for(WeaponCard weaponCard : squareWhereRemoveCard.getWeaponCards()){
+            if(weaponCard.getName().equals(nameOfWeaponCard)) {
+                squareWhereRemoveCard.getWeaponCards().remove(weaponCard);
+                player.getPlayerBoard().getWeaponsOwned().add(weaponCard);
             }
         }
-        game.incrementNumOfActionsOfThisTurn();
-        CatchActionDoneEvent catchWeaponDone = new CatchActionDoneEvent("Avvenuta raccolta dell'arma", null);
-        catchWeaponDone.setNameOfWeaponCaught(nameOfWeaponCaught);
-        catchWeaponDone.setNicknameInvolved(event.getNickname());
+
+
     }
+
+    private SpawnSquare findSpawnSquareWithThisCard(String nameOfWeaponCard) throws IllegalArgumentException {
+        Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
+        for(int i = 0; i< matrixOfSquare.length; i++){
+            for (int j = 0; j< matrixOfSquare[i].length; j++){
+                if(matrixOfSquare[i][j]!=null && matrixOfSquare[i][j].isSpawn()){
+                    for(WeaponCard weaponCard : ((SpawnSquare)matrixOfSquare[i][j]).getWeaponCards())
+                        if(weaponCard.getName().equals(nameOfWeaponCard))
+                            return ((SpawnSquare)matrixOfSquare[i][j]);
+                }
+            }
+        }
+        throw  new IllegalArgumentException();
+    }
+
+    void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
+        Player player = controller.findPlayerWithThisNickname(event.getNickname());
+        changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
+        sendNotifyAfterCatching(player);
+
+
+    }
+
+    private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemove, String nameOfWeaponCardToAdd) {
+        SpawnSquare squareWhereDoCange = findSpawnSquareWithThisCard(nameOfWeaponCardToAdd);
+        WeaponCard weaponCardToAddToDeck = null;
+        WeaponCard weaponCardToAddToSquare = null;
+        for(WeaponCard weaponCard : squareWhereDoCange.getWeaponCards()){
+            if(weaponCard.getName().equals(nameOfWeaponCardToAdd)){
+                squareWhereDoCange.getWeaponCards().remove(weaponCard);
+                weaponCardToAddToDeck = weaponCard;
+            }
+        }
+        for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
+            if(weaponCard.getName().equals(nameOfWeaponCardToRemove)){
+                player.getPlayerBoard().getWeaponsOwned().remove(weaponCard);
+                weaponCardToAddToSquare.setLoad(true);
+                weaponCardToAddToSquare = weaponCard;
+            }
+        }
+        squareWhereDoCange.getWeaponCards().add(weaponCardToAddToSquare);
+        player.getPlayerBoard().getWeaponsOwned().add(weaponCardToAddToDeck);
+    }
+
     /**
      * This method fills the array that is passed with the weapons that the player can't catch in the square because of lack of ammo
      * @param square the spawn square in which the player would like to catch weapons
@@ -271,9 +318,9 @@ class CatchController {
      */
      private boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
 
-        int numOfRedAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), RED);
-        int numOfBlueAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), BLUE);
-        int numOfYellowAmmoRequired = frequencyAmmosInPriceToBuy(card.getPriceToBuy(), YELLOW);
+        int numOfRedAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), RED);
+        int numOfBlueAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), BLUE);
+        int numOfYellowAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), YELLOW);
         return frequencyOfAmmoUsableByPlayer(ammos, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, YELLOW)>=numOfYellowAmmoRequired;
 
     }
@@ -284,7 +331,7 @@ class CatchController {
      * @param colorToCheck the color of which the method has to calculate the frequency
      * @return the frequency of the colorToCheck in priceToBuy
      */
-     private int frequencyAmmosInPriceToBuy (ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo colorToCheck){
+     private int frequencyAmmoInPriceToBuy(ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo colorToCheck){
         int frequency=0;
         if(priceToBuy!=null) {
             for (ColorOfCard_Ammo color : priceToBuy) {

@@ -121,6 +121,10 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
         }
 
+        if (event.isRequestForChooseAWeaponToCatch()){
+            remoteView.update(event);
+        }
+
 
 
     }
