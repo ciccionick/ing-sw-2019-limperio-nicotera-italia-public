@@ -70,6 +70,8 @@ class PopupForNormalSquare extends PopupForSquare {
 
          JLabel labelForAmmotile = new JLabel("");
          ImageIcon imageIcon = new ImageIcon(folderPath);
+         if (typeOfAmmo==0)
+             labelForAmmotile.setEnabled(false);
          java.awt.Image image = imageIcon.getImage();
          java.awt.Image newimg = image.getScaledInstance(popup.getWidth()/3, popup.getHeight()/3,  java.awt.Image.SCALE_SMOOTH);
          imageIcon = new ImageIcon(newimg);

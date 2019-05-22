@@ -15,7 +15,7 @@ public class PlayerBoardView {
 
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
-    private ArrayList<ColorOfCard_Ammo> ammo;
+    private ArrayList<Ammo> ammo;
     private boolean isInFrenzyBoardPlayer=false;
     private ArrayList<ServerEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
     private ArrayList<ServerEvent.AliasCard> weaponCardDeck = new ArrayList<>();
@@ -53,11 +53,11 @@ public class PlayerBoardView {
         this.marks = marks;
     }
 
-    public ArrayList<ColorOfCard_Ammo> getAmmo() {
+    public ArrayList<Ammo> getAmmo() {
         return ammo;
     }
 
-    public void setAmmo(ArrayList<ColorOfCard_Ammo> ammo) {
+    public void setAmmo(ArrayList<Ammo> ammo) {
         this.ammo = ammo;
     }
 
@@ -86,7 +86,7 @@ public class PlayerBoardView {
             setDamages(event.getPlayerBoard().getDamages());
             setMarks(event.getPlayerBoard().getMarks());
             setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
-            setAmmo(event.getAmmoAvailable());
+            setAmmo(event.getPlayerBoard().getAmmo());
             setPowerUpCardsDeck(event.getPowerUpCardsOwned());
             setWeaponCardDeck(event.getWeaponCardsOwned());
             setHasToChoosePowerUpCardForSpawn(event.isHasToDiscardCard());

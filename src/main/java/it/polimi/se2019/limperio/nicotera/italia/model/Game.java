@@ -159,6 +159,7 @@ public class Game extends Observable<ServerEvent> {
                     numOfActionOfTheTurn = 0;
                     while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
                         if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCardsDone) {
+                            System.out.println("Porco dio");
                             ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
                             requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
                             requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of "+ listOfNickname.get(playerOfTurn-1) + ". Press OK and wait for some news!");

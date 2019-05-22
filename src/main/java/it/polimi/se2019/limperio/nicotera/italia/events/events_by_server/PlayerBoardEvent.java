@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class PlayerBoardEvent extends ServerEvent {
     private ArrayList<AliasCard> weaponCardsOwned = new ArrayList<>();
     private ArrayList<AliasCard> powerUpCardsOwned = new ArrayList<>();
-    private ArrayList<ColorOfCard_Ammo> ammoAvailable = new ArrayList<>();
     private boolean hasToDiscardCard = false;
 
     /**
@@ -50,24 +49,14 @@ public class PlayerBoardEvent extends ServerEvent {
     }
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
-        this.playerBoard = playerBoard;
-        setAmmoAvailable(playerBoard.getAmmo());
+        this.playerBoard = (PlayerBoard) playerBoard.clone();
+
         setWeaponCardsOwned(playerBoard.getWeaponsOwned());
         setPowerUpCardsOwned(playerBoard.getPowerUpCardsOwned());
 
     }
 
-    private void setAmmoAvailable(ArrayList<Ammo> ammo) {
-        ammoAvailable = new ArrayList<>();
-        for(Ammo ammoItem : ammo){
-            if(ammoItem.isUsable())
-                ammoAvailable.add(ammoItem.getColor());
-        }
-    }
 
-    public ArrayList<ColorOfCard_Ammo> getAmmoAvailable() {
-        return ammoAvailable;
-    }
 
     public boolean isHasToDiscardCard() {
         return hasToDiscardCard;

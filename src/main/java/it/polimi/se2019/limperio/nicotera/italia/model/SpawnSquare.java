@@ -45,6 +45,7 @@ public class SpawnSquare extends Square implements  Cloneable  {
          } catch (CloneNotSupportedException e) {
              spawnSquare = new SpawnSquare(this.getColor(), this.isHasDoor(), this.getRow(), this.getColumn());
          }
+         spawnSquare.nicknamesOfPlayersOnThisSquare = (ArrayList<String>) this.getNicknamesOfPlayersOnThisSquare().clone();
          return spawnSquare;
     }
 }

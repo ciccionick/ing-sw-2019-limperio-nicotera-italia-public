@@ -63,7 +63,7 @@ class CatchController {
         Square square = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         if(square.isSpawn()){
-            RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Scegli arma");
+            RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Choose which ");
             ArrayList<WeaponCard> weaponsAffordable = new ArrayList<>();
             for(WeaponCard weapon : ((SpawnSquare) square).getWeaponCards()){
                 if(weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), weapon))
@@ -100,7 +100,6 @@ class CatchController {
         game.notify(pBEvent);
 
         MapEvent mapEvent = new MapEvent();
-        mapEvent.setMessageForInvolved("Ciao");
         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
         mapEvent.setNicknames(game.getListOfNickname());
         game.notify(mapEvent);

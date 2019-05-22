@@ -129,7 +129,6 @@ public class Player implements PlayerBehaviour{
        }
         this.positionOnTheMap = positionOnTheMap;
         positionOnTheMap.setPlayerOnThisSquare(this);
-        System.out.println("Il player " + this.getNickname() + " e' stato posizionato nel quadrato " + positionOnTheMap.getColor());
     }
 
     /**

@@ -1,5 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import java.util.ArrayList;
+
 /**
  * This class is used to represents a normal square on the map
  * @author Francesco Nicotera
@@ -28,6 +30,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
             normalSquare.ammoTile = (AmmoTile) this.ammoTile.clone();
          else
              normalSquare.ammoTile=null;
+         normalSquare.nicknamesOfPlayersOnThisSquare = (ArrayList<String>) this.getNicknamesOfPlayersOnThisSquare().clone();
          return normalSquare;
 
     }

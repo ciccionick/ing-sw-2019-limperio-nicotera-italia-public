@@ -30,8 +30,6 @@ public class MapEvent extends ServerEvent {
      */
     private Square[][] map = new Square[3][4];
 
-    private Map<String, ArrayList<String>> hashMapForPlayersInSquare = new HashMap<>();
-
     private int typeOfMap;
 
     private boolean terminatorMode;
@@ -82,26 +80,8 @@ public class MapEvent extends ServerEvent {
                 }
             }
         }
-        setNicknamesInHashMap(map);
         setWeaponsWithTheirAlias(map);
     }
-
-    private void setNicknamesInHashMap(Square[][] map) {
-        hashMapForPlayersInSquare = new HashMap<>();
-        for(int i=0; i<map.length;i++){
-            for(int j=0; j<map[i].length; j++){
-                if(map[i][j]!=null) {
-                    hashMapForPlayersInSquare.put(String.valueOf(i).concat(String.valueOf(j)), new ArrayList<>());
-                    for (String nickname : map[i][j].getNicknamesOfPlayersOnThisSquare()) {
-                        hashMapForPlayersInSquare.get(String.valueOf(i).concat(String.valueOf(j))).add(nickname);
-                    }
-                }
-                    else
-                        hashMapForPlayersInSquare.put(String.valueOf(i).concat(String.valueOf(j)), null);
-
-                }
-            }
-        }
 
 
     public int getTypeOfMap() {
@@ -119,10 +99,6 @@ public class MapEvent extends ServerEvent {
 
     public ArrayList<AliasCard> getWeaponsCardsForYellowSpawnSquare() {
         return weaponsCardsForYellowSpawnSquare;
-    }
-
-    public Map<String, ArrayList<String>> getHashMapForPlayersInSquare() {
-        return hashMapForPlayersInSquare;
     }
 
     /**

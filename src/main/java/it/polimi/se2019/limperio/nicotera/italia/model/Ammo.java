@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author giuseppeitali
  */
 
-public class Ammo implements Serializable {
+public class Ammo implements Serializable, Cloneable {
     private final ColorOfCard_Ammo color;
     private boolean isUsable;
 
@@ -35,4 +35,15 @@ public class Ammo implements Serializable {
     }
 
     public void setIsUsable(boolean bool){ isUsable = bool;}
+
+    public Object clone(){
+        Ammo ammo = null;
+        try {
+            ammo = (Ammo) super.clone();
+        } catch (CloneNotSupportedException e) {
+            ammo = new Ammo(this.color, this.isUsable);
+        }
+        ammo.isUsable = isUsable;
+        return ammo;
+    }
 }
