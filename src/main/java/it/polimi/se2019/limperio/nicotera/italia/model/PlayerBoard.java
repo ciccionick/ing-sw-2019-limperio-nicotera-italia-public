@@ -1,15 +1,14 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
-import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken.SKULL;
 
-public class PlayerBoard implements Serializable {
+
+public class PlayerBoard implements Serializable, Cloneable {
     private String nicknameOfPlayer;
     private ColorOfFigure_Square colorOfPlayer;
     private ArrayList<ColorOfFigure_Square> damages;
@@ -37,6 +36,20 @@ public class PlayerBoard implements Serializable {
             ammo.add(new Ammo(YELLOW,false));
         }
 
+    }
+
+    public Object clone(){
+        PlayerBoard playerBoard = null;
+        try{
+            playerBoard = (PlayerBoard) super.clone();
+        } catch (CloneNotSupportedException e) {
+            playerBoard = new PlayerBoard(this.nicknameOfPlayer, this.colorOfPlayer);
+        }
+        playerBoard.ammo=new ArrayList<>();
+        for(Ammo ammoItem : this.ammo) {
+            playerBoard.ammo.add ( (Ammo) ammoItem.clone());
+        }
+        return playerBoard;
     }
 
     public ArrayList<ColorOfFigure_Square> getDamages() {

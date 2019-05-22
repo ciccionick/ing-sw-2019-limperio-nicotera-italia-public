@@ -12,7 +12,7 @@ public class Square implements Serializable{
     private ColorOfFigure_Square color;
     private boolean hasDoor;
 
-    private ArrayList<String> nicknamesOfPlayersOnThisSquare = new ArrayList<>();
+    protected ArrayList<String> nicknamesOfPlayersOnThisSquare = new ArrayList<>();
     /**
      * Contains a reference to all the player that are in the square during the game
      */

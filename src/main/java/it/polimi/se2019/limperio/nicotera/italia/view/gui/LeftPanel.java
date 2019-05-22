@@ -339,10 +339,10 @@ import java.util.ArrayList;
        return buttonPC3;
     }
 
-    private int getNumOfAmmo(ArrayList<ColorOfCard_Ammo> ammo, ColorOfCard_Ammo color) {
+    private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
         int counterOfAvailableAmmo=0;
-        for (ColorOfCard_Ammo ammoItem : ammo){
-            if (ammoItem.equals(color)){
+        for (Ammo ammoItem : ammo){
+            if (ammoItem.getColor().equals(color)&&ammoItem.isUsable()){
                 counterOfAvailableAmmo++;
             }
         }
