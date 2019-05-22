@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
  class LeftPanel extends JPanel {
 
-    private MainFrame mainFrame;
+    private transient MainFrame mainFrame;
     private PlayerBoardPanel playerBoardPanel;
+    private PlayerBoardView playerBoardView;
     private JLabel weapon1;
     private JLabel weapon2;
     private JLabel weapon3;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 
      LeftPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
+        this.playerBoardView = playerBoardView;
         this.setBackground(Color.DARK_GRAY);
         int widthCard;
         int heightCard;
@@ -325,6 +327,10 @@ import java.util.ArrayList;
            }
         }
       return false;
+    }
+
+    public PlayerBoardView getPlayerBoardView() {
+       return playerBoardView;
     }
 
     public JButton getButtonPC1() {
