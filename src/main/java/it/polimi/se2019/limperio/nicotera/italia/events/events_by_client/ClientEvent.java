@@ -43,6 +43,7 @@ public class ClientEvent implements Serializable {
    private boolean isCatchEvent = false;
    private boolean isSelectionSquareForRun = false;
    private boolean isSelectionWeaponToCatch = false;
+   private boolean isSelectionWeaponToDiscard = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -106,6 +107,13 @@ public class ClientEvent implements Serializable {
         isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
     }
 
+    public boolean isSelectionWeaponToDiscard() {
+        return isSelectionWeaponToDiscard;
+    }
+
+    public void setSelectionWeaponToDiscard(boolean selectionWeaponToDiscard) {
+        isSelectionWeaponToDiscard = selectionWeaponToDiscard;
+    }
 
     public boolean isCatchEvent() {
         return isCatchEvent;

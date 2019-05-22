@@ -88,6 +88,8 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     @Override
     public void notify(ServerEvent event) {
         if(event.isPlayerBoardEvent()){
+            if(event.getMessageForOthers()!=null && event.getMessageForOthers().equals("Controlla"))
+                System.out.println("Controlla");
             remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }
         if(event.isMapEvent()){
@@ -122,6 +124,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         }
 
         if (event.isRequestForChooseAWeaponToCatch()){
+            remoteView.update(event);
+        }
+        if(event.isRequestToDiscardWeaponCard()){
             remoteView.update(event);
         }
 

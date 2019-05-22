@@ -72,7 +72,7 @@ class CatchController {
             }
             newRequest.setNicknameInvolved(event.getNickname());
             newRequest.setWeaponsAvailableToCatch(controller.substituteWeaponsCardWithTheirAlias(weaponsAffordable));
-            game.notify(newRequest);
+            event.getMyVirtualView().update(newRequest);
         }
         else{
             player.setPositionOnTheMap(square);
@@ -94,6 +94,7 @@ class CatchController {
     private void sendNotifyAfterCatching(Player player) {
         PlayerBoardEvent pBEvent = new PlayerBoardEvent();
         pBEvent.setPlayerBoard(player.getPlayerBoard());
+        pBEvent.setMessageForOthers("Controlla");
         pBEvent.setNicknameInvolved(player.getNickname());
         pBEvent.setNicknames(game.getListOfNickname());
         game.notify(pBEvent);
@@ -111,11 +112,7 @@ class CatchController {
         notifyActionDoneEvent.setMessageForOthers(player.getNickname() + " has decided to catch! \nLook up his player board to see what he caught!");
         game.notify(notifyActionDoneEvent);
 
-        game.incrementNumOfActionsOfThisTurn();
-
-        if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
-            controller.sendRequestForAction();
-        }
+        controller.handleTheEndOfAnAction();
 
     }
 
@@ -232,37 +229,37 @@ class CatchController {
     void handleSelectionWeaponToCatch(SelectionWeaponToCatch event) {
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         if(player.getPlayerBoard().getWeaponsOwned().size()<3) {
-            addWeaponCardToPlayerDeck(player, event.getNameOfWeaponCard());
             player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCard()));
+            addWeaponCardToPlayerDeck(player, event.getNameOfWeaponCard());
             sendNotifyAfterCatching(player);
         }
         else{
             RequestToDiscardWeaponCard requestToDiscardWeaponCard = new RequestToDiscardWeaponCard("Choose one of your weapon card to discard", event.getNameOfWeaponCard());
             requestToDiscardWeaponCard.setNicknameInvolved(event.getNickname());
-            game.notify(requestToDiscardWeaponCard);
+            event.getMyVirtualView().update(requestToDiscardWeaponCard);
         }
     }
 
     private void addWeaponCardToPlayerDeck(Player player, String nameOfWeaponCard) {
-        SpawnSquare squareWhereRemoveCard = findSpawnSquareWithThisCard(nameOfWeaponCard);
-        for(WeaponCard weaponCard : squareWhereRemoveCard.getWeaponCards()){
+        Square squareWhereRemoveCard = findSpawnSquareWithThisCard(nameOfWeaponCard);
+        WeaponCard weaponCardToAddToDeck = null;
+        for(WeaponCard weaponCard : ((SpawnSquare)squareWhereRemoveCard).getWeaponCards()){
             if(weaponCard.getName().equals(nameOfWeaponCard)) {
-                squareWhereRemoveCard.getWeaponCards().remove(weaponCard);
-                player.catchWeapon(weaponCard);
+                weaponCardToAddToDeck = weaponCard;
             }
         }
-
-
+        ((SpawnSquare)squareWhereRemoveCard).getWeaponCards().remove(weaponCardToAddToDeck);
+        player.catchWeapon(weaponCardToAddToDeck);
     }
 
-    private SpawnSquare findSpawnSquareWithThisCard(String nameOfWeaponCard) throws IllegalArgumentException {
+    private Square findSpawnSquareWithThisCard(String nameOfWeaponCard) throws IllegalArgumentException {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         for(int i = 0; i< matrixOfSquare.length; i++){
             for (int j = 0; j< matrixOfSquare[i].length; j++){
                 if(matrixOfSquare[i][j]!=null && matrixOfSquare[i][j].isSpawn()){
                     for(WeaponCard weaponCard : ((SpawnSquare)matrixOfSquare[i][j]).getWeaponCards())
                         if(weaponCard.getName().equals(nameOfWeaponCard))
-                            return ((SpawnSquare)matrixOfSquare[i][j]);
+                            return matrixOfSquare[i][j];
                 }
             }
         }
@@ -271,20 +268,18 @@ class CatchController {
 
     void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
-        changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
         player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToAdd()));
+        changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
         sendNotifyAfterCatching(player);
-
-
     }
 
     private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemove, String nameOfWeaponCardToAdd) {
-        SpawnSquare squareWhereDoCange = findSpawnSquareWithThisCard(nameOfWeaponCardToAdd);
+        Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToAdd);
         WeaponCard weaponCardToAddToDeck = null;
         WeaponCard weaponCardToAddToSquare = null;
-        for(WeaponCard weaponCard : squareWhereDoCange.getWeaponCards()){
+        for(WeaponCard weaponCard : ((SpawnSquare)squareWhereDoChange).getWeaponCards()){
             if(weaponCard.getName().equals(nameOfWeaponCardToAdd)){
-                squareWhereDoCange.getWeaponCards().remove(weaponCard);
+                ((SpawnSquare)squareWhereDoChange).getWeaponCards().remove(weaponCard);
                 weaponCardToAddToDeck = weaponCard;
             }
         }
@@ -295,7 +290,7 @@ class CatchController {
                 weaponCardToAddToSquare = weaponCard;
             }
         }
-        squareWhereDoCange.getWeaponCards().add(weaponCardToAddToSquare);
+        ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
         player.catchWeapon(weaponCardToAddToDeck);
     }
 

@@ -6,5 +6,10 @@ public class RequestToDiscardWeaponCard extends ServerEvent {
     public RequestToDiscardWeaponCard(String message, String nameOfWeaponCardToAdd) {
         super(message);
         this.nameOfWeaponCardToAdd = nameOfWeaponCardToAdd;
+        setRequestToDiscardWeaponCard(true);
+    }
+
+    public String getNameOfWeaponCardToAdd() {
+        return nameOfWeaponCardToAdd;
     }
 }

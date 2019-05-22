@@ -128,4 +128,13 @@ public class Board {
         }
 
     }
+
+
+    public void reshuffleAmmoTileDeck(){
+
+    }
+
+    public void reshufflePowerUpDeck(){
+
+    }
 }

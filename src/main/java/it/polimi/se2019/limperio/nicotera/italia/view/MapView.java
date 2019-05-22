@@ -55,7 +55,6 @@ public class MapView {
             SpawnSquare spawnSquare;
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j] != null) {
-                    //  map[i][j].setNicknamesOfPlayersOnThisSquare(event.getHashMapForPlayersInSquare().get(String.valueOf(i).concat(String.valueOf(j))));
                     if ((map[i][j].isSpawn())) {
                         spawnSquare = (SpawnSquare) map[i][j];
                         if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))

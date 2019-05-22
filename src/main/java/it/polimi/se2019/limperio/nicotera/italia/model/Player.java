@@ -209,8 +209,10 @@ public class Player implements PlayerBehaviour{
     @Override
     public void catchWeapon(WeaponCard weaponCard){
         playerBoard.getWeaponsOwned().add(weaponCard);
-        for(ColorOfCard_Ammo ammo : weaponCard.getPriceToBuy()){
-            playerBoard.removeAmmoOfThisColor(ammo);
+        if(weaponCard.getPriceToBuy()!=null) {
+            for (ColorOfCard_Ammo ammo : weaponCard.getPriceToBuy()) {
+                playerBoard.removeAmmoOfThisColor(ammo);
+            }
         }
 
     }

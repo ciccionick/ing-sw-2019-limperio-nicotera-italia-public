@@ -37,13 +37,13 @@ public class RunController {
         if(!game.isInFrenzy()){
             controller.findSquaresReachableWithThisMovements(square, 3, listOfSquaresReachable);
             newEvent.setSquaresReachable(listOfSquaresReachable);
-            game.notify(newEvent);
+            event.getMyVirtualView().update(newEvent);
         }
         else{
-            if((controller.getGame().getNumOfMaxActionForTurn()==3&&controller.getGame().isTerminatorModeActive())||(controller.getGame().getNumOfMaxActionForTurn()==2 && !controller.getGame().isTerminatorModeActive())) {
+            if((game.getNumOfMaxActionForTurn()==3&&game.isTerminatorModeActive())||(game.getNumOfMaxActionForTurn()==2 && !game.isTerminatorModeActive())) {
                 controller.findSquaresReachableWithThisMovements(square, 4, listOfSquaresReachable);
                 newEvent.setSquaresReachable(listOfSquaresReachable);
-                game.notify(newEvent);
+                event.getMyVirtualView().update(newEvent);
             }
         }
     }
@@ -53,20 +53,18 @@ public class RunController {
      * @param event contains the coordinates of the square in which the player want to go and its nickname.
      */
     void doRunAction(RunEvent event){
-        if(event.getNickname().equals(controller.getGame().getPlayers().get(controller.getGame().getPlayerOfTurn()-1).getNickname())) {
+        if(event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())) {
             Player player = controller.findPlayerWithThisNickname(event.getNickname());
-            player.setPositionOnTheMap(controller.getGame().getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
+            player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
             MapEvent newEvent = new MapEvent();
-            newEvent.setMap(controller.getGame().getBoard().getMap().getMatrixOfSquares());
+            newEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
             newEvent.setNotifyAboutActionDone(true);
             newEvent.setMessageForInvolved("You have been moved in the square required!");
             newEvent.setMessageForOthers(event.getNickname() + " has ran in another square! \nLook the map to discover where.");
             newEvent.setNicknameInvolved(event.getNickname());
-            newEvent.setNicknames(controller.getGame().getListOfNickname());
-            controller.getGame().notify(newEvent);
-            game.incrementNumOfActionsOfThisTurn();
-            if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn())
-                controller.sendRequestForAction();
+            newEvent.setNicknames(game.getListOfNickname());
+            game.notify(newEvent);
+            controller.handleTheEndOfAnAction();
         }
     }
 

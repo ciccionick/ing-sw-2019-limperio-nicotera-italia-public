@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
@@ -17,10 +17,10 @@ import java.util.ArrayList;
     private JLabel weapon1;
     private JLabel weapon2;
     private JLabel weapon3;
-    private RequestForChooseAWeaponToCatch receivedEvent;
 
-     PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, RequestForChooseAWeaponToCatch receivedEvent, JDialog popupForChooseW) {
-         this.receivedEvent = receivedEvent;
+
+     PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, PopupForChooseWeaponCard popupForChooseW) {
+
          this.mainFrame = mainFrame;
         int widthCard;
         int heightCard;
@@ -73,6 +73,7 @@ import java.util.ArrayList;
             JTextArea descriptionOfWeapon1 = new JTextArea();
             descriptionOfWeapon1.setBackground(SystemColor.menu);
             descriptionOfWeapon1.setLineWrap(true);
+            descriptionOfWeapon1.setEditable(false);
             descriptionOfWeapon1.setText(listOfWeapons.get(0).getDescription());
             descriptionOfWeapon1.setTabSize(10);
             GridBagConstraints gbcDescriptionOfWeapon1 = new GridBagConstraints();
@@ -116,6 +117,7 @@ import java.util.ArrayList;
             JTextArea descriptionForWeapon2 = new JTextArea();
             descriptionForWeapon2.setBackground(SystemColor.menu);
             descriptionForWeapon2.setLineWrap(true);
+            descriptionForWeapon2.setEditable(false);
             descriptionForWeapon2.setText(listOfWeapons.get(1).getDescription());
             GridBagConstraints gbcDescriptionForWeapon2 = new GridBagConstraints();
             descriptionForWeapon2.setWrapStyleWord(true);
@@ -158,6 +160,7 @@ import java.util.ArrayList;
             JTextArea descriptionWeapon3 = new JTextArea();
             descriptionWeapon3.setBackground(SystemColor.menu);
             descriptionWeapon3.setLineWrap(true);
+            descriptionWeapon3.setEditable(false);
             descriptionWeapon3.setText(listOfWeapons.get(2).getDescription());
             GridBagConstraints gbcDescriptionWeapon3 = new GridBagConstraints();
             gbcDescriptionWeapon3.insets = new Insets(5, 0, 0, 15);
@@ -176,9 +179,9 @@ import java.util.ArrayList;
 
     class WeaponListener implements MouseListener{
         private String nameOfWeaponCard;
-        private JDialog popup = null;
+        private PopupForChooseWeaponCard popup = null;
 
-         WeaponListener(String nameOfWeaponCard, JDialog popup) {
+         WeaponListener(String nameOfWeaponCard, PopupForChooseWeaponCard popup) {
             this.nameOfWeaponCard = nameOfWeaponCard;
             this.popup = popup;
         }
@@ -186,10 +189,17 @@ import java.util.ArrayList;
         @Override
         public void mouseClicked(MouseEvent e) {
              if(popup!=null) {
-                 SelectionWeaponToCatch newEvent = new SelectionWeaponToCatch("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                 newEvent.setNameOfWeaponCard(nameOfWeaponCard);
-                 popup.setVisible(false);
-                 mainFrame.getRemoteView().notify(newEvent);
+                 if(popup.getNameOfCardToStoreForDiscardEvent()==null) {
+                     SelectionWeaponToCatch newEvent = new SelectionWeaponToCatch("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                     newEvent.setNameOfWeaponCard(nameOfWeaponCard);
+                     popup.getPopupForChooseW().setVisible(false);
+                     mainFrame.getRemoteView().notify(newEvent);
+                 }
+                 else{
+                     SelectionWeaponToDiscard selectionWeaponToDiscard = new SelectionWeaponToDiscard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), nameOfWeaponCard, popup.getNameOfCardToStoreForDiscardEvent());
+                     popup.getPopupForChooseW().setVisible(false);
+                     mainFrame.getRemoteView().notify(selectionWeaponToDiscard);
+                 }
              }
         }
 

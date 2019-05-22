@@ -70,9 +70,7 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isSelectionWeaponToCatch()){
-                System.out.println("Arma selezionato");
-                //catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
-                //manca notificare l'avvenuta raccolta
+                catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
             }
             if (message.isRequestToRunByPlayer()) {
                runController.handleRunActionRequest((RequestToRunByPlayer) message);
@@ -80,7 +78,10 @@ public class Controller implements Observer<ClientEvent> {
 
             if(message.isSelectionSquareForRun()){
                 runController.doRunAction((RunEvent) message);
+            }
 
+            if(message.isSelectionWeaponToDiscard()){
+                catchController.handleSelectionWeaponToCatchAfterDiscard((SelectionWeaponToDiscard) message);
             }
             if (message.isRequestToShootByPlayer()) {
                 //shootController.replyToRequestToShoot(message);
@@ -156,6 +157,18 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+    void handleTheEndOfAnAction(){
+        game.incrementNumOfActionsOfThisTurn();
+
+        if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
+            sendRequestForAction();
+        }
+        else{
+            game.updateTurn();
+            if(game.getRound()>1)
+                sendRequestForAction();
+        }
+    }
 
     void sendRequestForAction(){
         RequestActionEvent requestActionEvent = new RequestActionEvent();
@@ -163,7 +176,13 @@ public class Controller implements Observer<ClientEvent> {
         requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
         requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn()+1);
         requestActionEvent.setRound(game.getRound());
-        requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\nRemember you can use power up cards enabled.");
+        if(game.getRound()>1 && game.getNumOfActionOfTheTurn()==0) {
+            requestActionEvent.setMessageForInvolved("It's your turn! Choose you first action!");
+            requestActionEvent.setMessageForOthers("Change turn! Now it's the turn of " + game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname() + "\nWait for some news!");
+            requestActionEvent.setNicknames(game.getListOfNickname());
+        }
+        else
+             requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\nRemember you can use power up cards enabled.");
         if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             requestActionEvent.setCanUseNewton(false);
         else

@@ -106,9 +106,11 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
         if(receivedEvent.isRequestActionEvent()){
-            myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent)receivedEvent);
-            mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
-            mainFrame.updatePanelOfAction();
+            if(receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent) receivedEvent);
+                mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
+                mainFrame.updatePanelOfAction();
+            }
             mainFrame.showMessage(receivedEvent);
         }
 
@@ -135,7 +137,11 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
             mainFrame.showMessage(receivedEvent);
-            mainFrame.showPopupForChooseWeapon((RequestForChooseAWeaponToCatch)receivedEvent);
+            mainFrame.showPopupForChooseWeapon(receivedEvent);
+        }
+        if(receivedEvent.isRequestToDiscardWeaponCard()){
+            mainFrame.showMessage(receivedEvent);
+            mainFrame.showPopupForChooseWeapon(receivedEvent);
         }
 
     }
@@ -186,8 +192,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     }
 
     private void removePowerUpCardsDeckFromEvent(PlayerBoardEvent event){
-        for (int i = 0; i < event.getPowerUpCardsOwned().size(); i++) {
-            event.getPowerUpCardsOwned().remove(i);
+        while(!(event.getPowerUpCardsOwned().isEmpty())){
+            event.getPowerUpCardsOwned().remove(0);
         }
     }
 

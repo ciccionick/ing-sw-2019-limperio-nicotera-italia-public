@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardWeaponCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -23,7 +24,7 @@ public class MainFrame {
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
     private DialogForMessage dialogForMessage;
-    private PopupForChooseWeaponCardToCatch popupForChooseWeaponCardToCatch;
+    private PopupForChooseWeaponCard popupForChooseWeaponCardToCatch;
 
 
     public MainFrame(RemoteView remoteView) {
@@ -102,9 +103,13 @@ public class MainFrame {
         mapPanel.updateEnableSquares(squaresReachableWithRunAction);
      }
 
-    public void showPopupForChooseWeapon(RequestForChooseAWeaponToCatch receivedEvent) {
-        popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCardToCatch(receivedEvent, this);
+    public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
+        if(receivedEvent.isRequestForChooseAWeaponToCatch())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(((RequestForChooseAWeaponToCatch)receivedEvent), null,this);
+        if(receivedEvent.isRequestToDiscardWeaponCard())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(null, ((RequestToDiscardWeaponCard)receivedEvent), this);
     }
+
 
 
 

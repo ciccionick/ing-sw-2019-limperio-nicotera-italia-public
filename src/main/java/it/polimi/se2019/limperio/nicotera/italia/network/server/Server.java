@@ -104,13 +104,9 @@ public class Server  {
         try {
             inFile = new FileReader(file);
             bin = new BufferedReader(inFile);
-            try {
-                    delay = Long.parseLong(bin.readLine());
-            } catch (IOException ex) {
-                    ex.printStackTrace();
-            }
+            delay = Long.parseLong(bin.readLine());
 
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         finally {
