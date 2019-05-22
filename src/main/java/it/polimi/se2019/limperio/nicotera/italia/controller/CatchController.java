@@ -233,6 +233,7 @@ class CatchController {
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         if(player.getPlayerBoard().getWeaponsOwned().size()<3) {
             addWeaponCardToPlayerDeck(player, event.getNameOfWeaponCard());
+            player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCard()));
             sendNotifyAfterCatching(player);
         }
         else{
@@ -247,7 +248,7 @@ class CatchController {
         for(WeaponCard weaponCard : squareWhereRemoveCard.getWeaponCards()){
             if(weaponCard.getName().equals(nameOfWeaponCard)) {
                 squareWhereRemoveCard.getWeaponCards().remove(weaponCard);
-                player.getPlayerBoard().getWeaponsOwned().add(weaponCard);
+                player.catchWeapon(weaponCard);
             }
         }
 
@@ -271,6 +272,7 @@ class CatchController {
     void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
+        player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToAdd()));
         sendNotifyAfterCatching(player);
 
 
@@ -294,7 +296,7 @@ class CatchController {
             }
         }
         squareWhereDoCange.getWeaponCards().add(weaponCardToAddToSquare);
-        player.getPlayerBoard().getWeaponsOwned().add(weaponCardToAddToDeck);
+        player.catchWeapon(weaponCardToAddToDeck);
     }
 
     /**
