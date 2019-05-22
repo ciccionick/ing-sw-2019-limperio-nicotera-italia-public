@@ -203,11 +203,17 @@ public class Player implements PlayerBehaviour{
 
     /**
      * It is called when a player decides to catch a weapon
-     * @param square the position in which the player want to catch
+     *
      * @param weaponCard the weapon the player want to catch
      */
     @Override
-    public void catchWeapon(Square square, WeaponCard weaponCard){}
+    public void catchWeapon(WeaponCard weaponCard){
+        playerBoard.getWeaponsOwned().add(weaponCard);
+        for(ColorOfCard_Ammo ammo : weaponCard.getPriceToBuy()){
+            playerBoard.removeAmmoOfThisColor(ammo);
+        }
+
+    }
 
     /**
      * It is called when a player decides to draw a power up card
