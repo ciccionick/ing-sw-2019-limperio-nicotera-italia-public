@@ -52,7 +52,7 @@ public class Zx2 extends WeaponCard {
                 "IN SCANNER MODE: Choose up to 3 targets you can see and deal 1 mark to each.\n" +
                 "Notes: Remember that the 3 targets can be in 3 different rooms.";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
