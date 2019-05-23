@@ -67,7 +67,7 @@ public class RocketLauncher extends  WeaponCard{
                       "with fragmenting warhead: During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it." +
                       "Notes: If you use the rocket jump before the basic effect, you consider only your new square when determining if a target is legal. You can even move off a square so you can shoot someone on it. If you use the fragmenting warhead, you deal damage to everyone on the target's square before you move the target – your target will take 3 damage total.";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};

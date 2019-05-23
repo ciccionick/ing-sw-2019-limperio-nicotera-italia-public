@@ -37,7 +37,7 @@ public class Flamethrower extends WeaponCard {
                 "IN BARBECUE MODE: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n" +
                 "Notes: This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};
