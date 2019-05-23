@@ -263,7 +263,7 @@ public class WeaponController {
         return ok;
     }
 
-    private int numberOfSquareDistant(Square square, Player player)
+    /*private int numberOfSquareDistant(Square square, Player player)
     {
 
         return  Math.abs(player.getPositionOnTheMap().getRow()-square.getRow()) + Math.abs(player.getPositionOnTheMap().getColumn() - square.getColumn());
