@@ -49,6 +49,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     private MainFrame mainFrame;
 
+    private boolean isMyTurn;
+
     /**
      * The constructor creates and instance of all the parts of the view and it matches them to the specific client that is passed by parameter.
      * @param client the specific client to which to connect the other parts of view.
@@ -104,11 +106,19 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
-        if(receivedEvent.isRequestActionEvent()){
-            if(receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+        if(receivedEvent.isRequestActionEvent()) {
+            if (receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
                 myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent) receivedEvent);
                 mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
                 mainFrame.updatePanelOfAction();
+            }
+            if (receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && receivedEvent.getNumOfAction() == 0) {
+                isMyTurn = true;
+                mainFrame.updateNorthPanel();
+            }
+            if(!receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())&& receivedEvent.getNumOfAction()==0 && isMyTurn){
+                isMyTurn = false;
+                mainFrame.updateNorthPanel();
             }
             mainFrame.showMessage(receivedEvent);
         }
@@ -125,7 +135,15 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
         if(receivedEvent.isTimerOverEvent()){
+            myPlayerBoardView.disableEveryThingPlayerCanDo();
+            mapView.setHasToChooseASquare(false);
+            mainFrame.updatePanelOfAction();
+            mainFrame.updateLeftPanelForWhoIsViewing(myPlayerBoardView.getNicknameOfPlayer());
+            mainFrame.updateEnableSquares(mapView.getListOfSquareAsArrayList());
             mainFrame.showMessage(receivedEvent);
+            mainFrame.hidePopup();
+            isMyTurn=false;
+            mainFrame.updateNorthPanel();
         }
 
         if(receivedEvent.isNotifyAboutActionDone())
@@ -217,5 +235,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     public void setTerminatorMode(boolean terminatorMode) {
         this.terminatorMode = terminatorMode;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }

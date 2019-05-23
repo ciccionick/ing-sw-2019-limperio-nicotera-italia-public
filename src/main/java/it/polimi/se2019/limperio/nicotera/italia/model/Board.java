@@ -90,7 +90,7 @@ public class Board {
     /**
      * Adds for each spawn square weapons until the number of weapons in that square is equal to 3
      */
-    void addWeaponsInSpawnSquare(){
+    public void addWeaponsInSpawnSquare(){
         ArrayList<SpawnSquare> spawnSquares = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
             for(int j=0 ; j< getMap().getMatrixOfSquares()[i].length; j++){
@@ -110,7 +110,7 @@ public class Board {
     /**
      * Adds for each normal square an ammo tile
      */
-    void addAmmoTileInNormalSquare(){
+    public void addAmmoTileInNormalSquare(){
         ArrayList<NormalSquare> normalSquare = new ArrayList<>();
         for(int i = 0; i<getMap().getMatrixOfSquares().length;i++){
             for(int j=0 ; j< getMap().getMatrixOfSquares()[i].length; j++){

@@ -80,7 +80,7 @@ public class FrameForInitialization {
     public void handleRetakeForNickname() {
         JLabel labelText;
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
-        labelText.setText("Nickname already used! Try again: ");
+        labelText.setText("Nickname invalid or already used! Try again: ");
     }
 
     public void handleRetakeForColor() {

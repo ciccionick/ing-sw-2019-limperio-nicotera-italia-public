@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -94,6 +95,8 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.getMapView().update((MapEvent) event);
         }
         if(event.isKillshotTrackEvent()){
+            if (remoteView.getMainFrame()==null)
+                remoteView.setMyTurn(((KillshotTrackEvent)event).getNicknamePlayerOfTheTurn().equals(client.getNickname()));
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) event);
 
         }

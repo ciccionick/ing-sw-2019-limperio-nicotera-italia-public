@@ -15,6 +15,7 @@ public class RequestActionEvent extends ServerEvent {
     private boolean canUseWeapon3 = false;
     private boolean hasToDoTerminatorAction = false;
 
+
     private int round;
     private int numOfAction;
     private ArrayList<String> nicknamesOfPlayersAttacked = new ArrayList<>();
@@ -135,4 +136,6 @@ public class RequestActionEvent extends ServerEvent {
     public void setMessageForPlayersAttacked(ArrayList<String> messageForPlayersAttacked) {
         this.messageForPlayersAttacked = messageForPlayersAttacked;
     }
+
+
 }

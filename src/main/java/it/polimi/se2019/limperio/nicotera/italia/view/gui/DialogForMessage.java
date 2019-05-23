@@ -1,6 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import javax.swing.*;
@@ -9,12 +8,13 @@ import java.awt.*;
  class DialogForMessage {
 
     private JDialog dialog;
-    private MainFrame mainFrame;
+    private JButton button;
 
      DialogForMessage(MainFrame mainFrame, ServerEvent receivedEvent) {
-        this.mainFrame = mainFrame;
-        dialog = new JDialog();
+        //this.mainFrame = mainFrame;
+        dialog = new JDialog(mainFrame.getFrame());
         dialog.setModal(true);
+
         dialog.setLocationRelativeTo(mainFrame.getFrame());
         JFrame frame = mainFrame.getFrame();
         dialog.setUndecorated(true);
@@ -45,7 +45,7 @@ import java.awt.*;
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        JButton button;
+
         if(mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved())&&receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
             button = new JButton("DRAW");
             button.setActionCommand("DRAW");
@@ -60,5 +60,12 @@ import java.awt.*;
         dialog.setVisible(true);
     }
 
+     JDialog getDialog() {
+       return dialog;
+    }
+
+     JButton getButton() {
+       return button;
+    }
  }
 

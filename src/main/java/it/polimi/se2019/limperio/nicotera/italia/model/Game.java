@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -9,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 /**
  * Contains all of the informations about the game
@@ -25,6 +27,7 @@ public class Game extends Observable<ServerEvent> {
      * The reference of the board
      */
     private Board board;
+    private Controller controller;
     /**
      * The list of players in the game
      */
@@ -77,6 +80,8 @@ public class Game extends Observable<ServerEvent> {
     private long delay;
 
     private boolean hasToDoTerminatorAction = false;
+
+    private boolean hasToBeGenerated = false;
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
@@ -139,6 +144,7 @@ public class Game extends Observable<ServerEvent> {
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
         killshotTrackEvent.setNicknames(listOfNickname);
+        killshotTrackEvent.setNicknamePlayerOfTheTurn(listOfNickname.get(0));
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
@@ -146,7 +152,7 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
-        sendInitialRequest();
+        controller.sendInitialRequest();
     }
 
     private ColorOfFigure_Square findColorAvailable() {
@@ -165,45 +171,18 @@ public class Game extends Observable<ServerEvent> {
     /**
      * Sends the correct event towards the virtual view in accordance to the right phase of the game
      */
-    private void sendInitialRequest() {
-        ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
-        requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
-        requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of " + listOfNickname.get(playerOfTurn - 1) + ". Press OK and wait for some news!");
-        requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
-        requestDrawTwoPowerUpCardsEvent.setNicknames(listOfNickname);
-        requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(listOfNickname.get(playerOfTurn - 1));
-        notify(requestDrawTwoPowerUpCardsEvent);
 
+
+
+
+    public boolean isHasToBeGenerated() {
+        return hasToBeGenerated;
     }
-
-    public void updateTurn(){
-        if(playerOfTurn==players.size()){
-            playerOfTurn=1;
-            round++;
-        }
-        else
-            playerOfTurn++;
-        numOfActionOfTheTurn = 0;
-        if(isTerminatorModeActive()) {
-            hasToDoTerminatorAction = true;
-            if(numOfMaxActionForTurn==2)
-                numOfMaxActionForTurn=3;
-        }
-        board.addWeaponsInSpawnSquare();
-        board.addAmmoTileInNormalSquare();
-        sendMapEvent();
-        if(round==1)
-            sendInitialRequest();
-
-
-    }
-
-
 
     /**
      * Update the map and send an event of type {@link MapEvent}
      */
-    private void sendMapEvent(){
+    public void sendMapEvent(){
         MapEvent mapEvent = new MapEvent();
         mapEvent.setTerminatorMode(isTerminatorModeActive());
         mapEvent.setNicknames(listOfNickname);
@@ -212,6 +191,9 @@ public class Game extends Observable<ServerEvent> {
         notify(mapEvent);
     }
 
+    public void setHasToBeGenerated(boolean hasToBeGenerated) {
+        this.hasToBeGenerated = hasToBeGenerated;
+    }
 
     private void createBoard(){
         this.board = Board.instanceOfBoard();
@@ -323,12 +305,27 @@ public class Game extends Observable<ServerEvent> {
         return terminatorModeActive;
     }
 
-    public void setPlayerOfTurn(int i)
-    {
-        this.playerOfTurn=i;
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public long getDelay() {
         return delay;
+    }
+
+    public void setPlayerOfTurn(int playerOfTurn) {
+        this.playerOfTurn = playerOfTurn;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public void setNumOfActionOfTheTurn(int numOfActionOfTheTurn) {
+        this.numOfActionOfTheTurn = numOfActionOfTheTurn;
+    }
+
+    public void setNumOfMaxActionForTurn(int numOfMaxActionForTurn) {
+        this.numOfMaxActionForTurn = numOfMaxActionForTurn;
     }
 }

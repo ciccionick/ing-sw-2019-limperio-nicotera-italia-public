@@ -8,6 +8,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
 
 import java.rmi.Remote;
+import java.util.ArrayList;
 
 /**
  * This class handles the part of view that build the map in the game
@@ -70,6 +71,19 @@ public class MapView {
                 }
             }
         }
+    }
+
+    ArrayList<Square> getListOfSquareAsArrayList() {
+        ArrayList<Square> allSquares = new ArrayList<>();
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] != null) {
+                    allSquares.add(map[i][j]);
+                }
+            }
+
+        }
+        return allSquares;
     }
 
 

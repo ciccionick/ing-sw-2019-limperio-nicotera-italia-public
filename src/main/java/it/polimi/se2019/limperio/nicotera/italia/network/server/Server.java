@@ -96,6 +96,7 @@ public class Server  {
         System.out.println("Il Server è in attesa sulla porta 4000.");
         game=Game.instanceOfGame();
         controller=new Controller(game);
+        game.setController(controller);
         File file;
         FileReader inFile = null;
         BufferedReader bin=null;
@@ -150,6 +151,7 @@ public class Server  {
                     System.out.println("Il timer e' stato fermato perchè sta per cominciare il gioco!");
                     TimeUnit.SECONDS.sleep(10);
                     startGame();
+
                     break;
                 }
 
@@ -203,7 +205,7 @@ public class Server  {
      * @throws IOException if there will be problems with the reconnection.
      */
     private void startGame() throws IOException {
-
+        gameIsStarted =true;
         for (int i = 0; i < listOfNickname.size(); i++) {
             game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }
@@ -247,8 +249,8 @@ public class Server  {
         this.anticipatedFrenzy = anticipatedFrenzy;
     }
 
-     boolean isAnticipatedFrenzy() {
-        return anticipatedFrenzy;
+    public boolean isGameIsStarted() {
+        return gameIsStarted;
     }
 
     /**

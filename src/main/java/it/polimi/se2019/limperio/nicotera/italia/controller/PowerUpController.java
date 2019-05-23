@@ -74,10 +74,14 @@ class PowerUpController {
      * This method handles the draught of a power up by a player in order to be spawned in the square with the same color of the discarded card
      * @param event It is sent by the view and contains the references to the player that want to discard.
      */
-    void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event){
-        removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
-        spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard().getColor());
-     }
+    void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event) {
+        if (event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname())) {
+            removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
+            Square square;
+            square = findSpawnSquareWithThisColor(event.getPowerUpCard().getColor());
+            spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()),square);
+        }
+    }
 
     /**
      * This method finds the spawn square with the color that is passed.
@@ -124,12 +128,11 @@ class PowerUpController {
     /**
      * This method places the player in the right spawn square and then generates the event in order to start the turn of the player
      * @param playerWithThisNickname the player that has to be spawned
-     * @param color the color of the square in which the player has to be spawned
+     *
      */
-    private void spawnPlayer(Player playerWithThisNickname, ColorOfCard_Ammo color) {
-        Square square;
-        square = findSpawnSquareWithThisColor(color);
-        playerWithThisNickname.setPositionOnTheMap(controller.getGame().getBoard().getMap().getMatrixOfSquares()[square.getRow()][square.getColumn()]);
+     void spawnPlayer(Player playerWithThisNickname, Square square) {
+        playerWithThisNickname.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[square.getRow()][square.getColumn()]);
+        game.setHasToBeGenerated(false);
         MapEvent generationEvent;
         generationEvent = new MapEvent();
         generationEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
@@ -137,16 +140,16 @@ class PowerUpController {
         generationEvent.setMessageForOthers(playerWithThisNickname.getNickname() + " has been generated in the " + square.getColor().toString() + " spawn square.\nNow it begins his turn.");
         generationEvent.setGenerationEvent(true);
         generationEvent.setNicknames(game.getListOfNickname());
-        generationEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
+        generationEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
         game.notify(generationEvent);
+         PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+         pbEvent.setPlayerBoard(playerWithThisNickname.getPlayerBoard());
+         pbEvent.setNicknames(game.getListOfNickname());
+         pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
+         game.notify(pbEvent);
 
-        PlayerBoardEvent pbEvent = new PlayerBoardEvent();
-        pbEvent.setPlayerBoard(playerWithThisNickname.getPlayerBoard());
-        pbEvent.setNicknames(game.getListOfNickname());
-        pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
-        game.notify(pbEvent);
 
-        if(game.getRound()==1) {
+        if(game.getRound()==1 && playerWithThisNickname.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())  ) {
             controller.sendRequestForAction();
         }
     }

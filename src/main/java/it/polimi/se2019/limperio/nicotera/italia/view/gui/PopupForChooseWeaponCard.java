@@ -12,7 +12,7 @@ class PopupForChooseWeaponCard {
     private String nameOfCardToStoreForDiscardEvent = null;
 
      PopupForChooseWeaponCard(RequestForChooseAWeaponToCatch requestForChooseAWeaponToCatch, RequestToDiscardWeaponCard requestToDiscardWeaponCard, MainFrame mainFrame) {
-         popupForChooseW = new JDialog();
+         popupForChooseW = new JDialog(mainFrame.getFrame());
          this.mainFrame = mainFrame;
          int width = (int) (mainFrame.getFrame().getWidth() / 2.08);
          int height = (int) (mainFrame.getFrame().getHeight() / 1.56);

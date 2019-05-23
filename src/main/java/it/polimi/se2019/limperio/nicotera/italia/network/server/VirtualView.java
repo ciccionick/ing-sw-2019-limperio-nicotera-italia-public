@@ -76,10 +76,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         this.server = server;
         this.controller = controller;
         register(controller);
-        if (server.getListOfClient().size() == 1)
-            this.firstPlayer = true;
-        else
-            this.firstPlayer = false;
+        this.firstPlayer = server.getListOfClient().size() ==1;
+
         try {
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
@@ -105,7 +103,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             while (invalidInitialization) {
                 out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
                 AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
-                while(server.getListOfNickname().contains(ans.getNickname())){
+                while(isNotValidNickname(ans.getNickname())){
                     req = new RequestInitializationEvent("Digit your nickname: ", true, false, false, false, false);
                     req.setRetake(true);
                     out.writeObject(req);
@@ -135,38 +133,43 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     ans = (AnswerInitializationEvent) in.readObject();
                     server.setTerminatorMode(ans.isTerminator());
                 }
-                req = new RequestInitializationEvent("ack: ", false, false, false, false, false);
+                req = new RequestInitializationEvent("", false, false, false, false, false);
                 req.setAck(true);
                 out.writeObject(req);
                 invalidInitialization=false;
             }
-        } catch (SocketException se) {
+        } catch (IOException se) {
             handleDisconnection();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        }catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         while (isClientCurrentlyOnline) {
             ClientEvent newEvent;
             try {
-                System.out.println("La virtual view di " + nicknameOfClient + " e in attesa di messaggi provenienti dalla remote view..");
                 newEvent = (ClientEvent) in.readObject();
                 newEvent.setMyVirtualView(this);
                 notify(newEvent);
             } catch (SocketException se) {
                 handleDisconnection();
                 break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
 
+    }
+
+    private boolean isNotValidNickname(String nickname) {
+        if(server.getListOfNickname().contains(nickname))
+            return true;
+        if(nickname.equalsIgnoreCase("me"))
+            return true;
+        if(nickname.equalsIgnoreCase("terminator"))
+            return true;
+        return nickname.length()<2;
     }
 
     /**
@@ -189,17 +192,20 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      * Handles the disconnection of the client sending information to the server and the controller
      */
     private void handleDisconnection(){
-        System.out.println("Il client " + nicknameOfClient + " si è disonnesso!");
-        server.getListOfNickname().remove(nicknameOfClient);
-        server.getListOfColor().remove(colorOfClient);
-        server.deregister(this, client);
         isClientCurrentlyOnline=false;
-        //QUI BISOGNA INVIARE UN MESSAGGIO AL CONTROLLER DICENDO CHE IL PLAYER CON IL NICKNAME nicknameOfClient SI E' DISCONNESSO IN MODO CHE IL MODEL LO SAPPIA E POSSA EVENTUALMENTE SALTARE IL SUO TURNO
+        if(!server.isGameIsStarted()) {
+            server.getListOfNickname().remove(nicknameOfClient);
+            server.getListOfColor().remove(colorOfClient);
+            server.deregister(this, client);
+        }
+        else{
+            //QUI BISOGNA INVIARE UN MESSAGGIO AL CONTROLLER DICENDO CHE IL PLAYER CON IL NICKNAME nicknameOfClient SI E' DISCONNESSO IN MODO CHE IL MODEL LO SAPPIA E POSSA EVENTUALMENTE SALTARE IL SUO TURNO
+        }
+
+
         try {
             in.close();
             out.close();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
