@@ -8,6 +8,8 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Class for checking the correctness of the action of the players, according to MVC pattern
@@ -25,6 +27,9 @@ public class Controller implements Observer<ClientEvent> {
     private ShootController shootController;
     private TurnController turnController;
     private WeaponController weaponController;
+    private TerminatorController terminatorController;
+    private Timer timer = null;
+    private TurnTask turnTask;
 
     /**
      * Constructor of the class: it creates the instances of the other controller classes
@@ -39,6 +44,7 @@ public class Controller implements Observer<ClientEvent> {
         shootController = new ShootController(game);
         turnController = new TurnController(game);
         weaponController = new WeaponController(game);
+
     }
 
     /**
@@ -52,10 +58,12 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        System.out.println(message.getMessage() + " " + message.getNickname());
         if (isTheTurnOfThisPlayer(message.getNickname())) {
             if (message.isDrawTwoPowerUpCards()) {
-                powerUpController.handleDrawOfTwoCards(message.getNickname());
+                if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
+                    terminatorController = new TerminatorController(this, game);
+                }
+                powerUpController.handleDrawOfTwoCards((DrawTwoPowerUpCards) message);
             }
             if (message.isDiscardPowerUpCardToSpawn()) {
                 powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
@@ -67,6 +75,10 @@ public class Controller implements Observer<ClientEvent> {
             if(message.isCatchEvent()){
                 if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
                     catchController.handleCatching((CatchEvent) message);
+            }
+
+            if(message.isGenerationTerminatorEvent()){
+                terminatorController.handleSpawnOfTerminator(message);
             }
 
             if(message.isSelectionWeaponToCatch()){
@@ -200,6 +212,16 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setCanRun(true);
         }
         game.notify(requestActionEvent);
+
+        if(game.getNumOfActionOfTheTurn()==0) {
+            timer = new Timer();
+            turnTask = new TurnTask();
+            try {
+                timer.schedule(turnTask, game.getDelay());
+            } catch (IllegalStateException er) {
+                er.printStackTrace();
+            }
+        }
     }
 
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
@@ -223,7 +245,26 @@ public class Controller implements Observer<ClientEvent> {
         return game;
     }
 
+    public PowerUpController getPowerUpController() {
+        return powerUpController;
+    }
 
+    private class TurnTask extends TimerTask {
+
+        @Override
+        public void run() {
+            //considerare il caso in cui il timer scada prima della generazione iniziale (eventualmente anche quelle dopo la morte) e quindi creare una generazione casuale in uno degli spawn square. per fare ciò probabilmente serve un boolean nel game che segnali la cosa
+            ServerEvent timerOverEvent = new ServerEvent();
+            timerOverEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+            timerOverEvent.setMessageForInvolved("The time for your turn is over. \nWait for the next turn!");
+            timerOverEvent.setTimerOverEvent(true);
+            game.notify(timerOverEvent);
+            game.updateTurn();
+            if(game.getRound()!=1){
+                sendRequestForAction();
+            }
+        }
+    }
 }
 
 

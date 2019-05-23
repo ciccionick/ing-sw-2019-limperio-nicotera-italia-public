@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
-import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 
@@ -10,8 +9,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Contains all of the informations about the game
@@ -76,10 +73,6 @@ public class Game extends Observable<ServerEvent> {
      * The number of in which round is the game
      */
     private int round=1;
-
-    private Timer timer = null;
-
-    private GameTimerTask task;
 
     private long delay;
 
@@ -152,7 +145,7 @@ public class Game extends Observable<ServerEvent> {
         board.createWeaponsDeck();
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
-        updateMap();
+        sendMapEvent();
         sendInitialRequest();
     }
 
@@ -173,18 +166,14 @@ public class Game extends Observable<ServerEvent> {
      * Sends the correct event towards the virtual view in accordance to the right phase of the game
      */
     private void sendInitialRequest() {
-            if (playerOfTurn == 2 && isTerminatorModeActive()) {
-                //terminator
-            }
-            else {
-                ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
-                requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
-                requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of " + listOfNickname.get(playerOfTurn - 1) + ". Press OK and wait for some news!");
-                requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
-                requestDrawTwoPowerUpCardsEvent.setNicknames(listOfNickname);
-                requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(listOfNickname.get(playerOfTurn - 1));
-                notify(requestDrawTwoPowerUpCardsEvent);
-            }
+        ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
+        requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
+        requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of " + listOfNickname.get(playerOfTurn - 1) + ". Press OK and wait for some news!");
+        requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
+        requestDrawTwoPowerUpCardsEvent.setNicknames(listOfNickname);
+        requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(listOfNickname.get(playerOfTurn - 1));
+        notify(requestDrawTwoPowerUpCardsEvent);
+
     }
 
     public void updateTurn(){
@@ -202,18 +191,11 @@ public class Game extends Observable<ServerEvent> {
         }
         board.addWeaponsInSpawnSquare();
         board.addAmmoTileInNormalSquare();
-        updateMap();
+        sendMapEvent();
         if(round==1)
             sendInitialRequest();
 
-        timer = new Timer();
-        task = new GameTimerTask();
-        try{
-            timer.schedule(task,delay);
-        }
-        catch (IllegalStateException er){
-            er.printStackTrace();
-        }
+
     }
 
 
@@ -221,7 +203,7 @@ public class Game extends Observable<ServerEvent> {
     /**
      * Update the map and send an event of type {@link MapEvent}
      */
-    private void updateMap(){
+    private void sendMapEvent(){
         MapEvent mapEvent = new MapEvent();
         mapEvent.setTerminatorMode(isTerminatorModeActive());
         mapEvent.setNicknames(listOfNickname);
@@ -346,13 +328,7 @@ public class Game extends Observable<ServerEvent> {
         this.playerOfTurn=i;
     }
 
-
-    private class GameTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            updateTurn();
-        }
+    public long getDelay() {
+        return delay;
     }
-
-
 }

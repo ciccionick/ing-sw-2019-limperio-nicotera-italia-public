@@ -1,11 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawTwoPowerUpCards;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+
+import java.util.ArrayList;
 
 /**
  * This class handles the draught, the discard and the use of a power up card by a player
@@ -23,9 +23,9 @@ class PowerUpController {
 
     /**
      * This method moves two power up cards from the deck to the player's deck and then it notifies to view part
-     * @param nickname the nickname of the player that want to draw the cards
      */
-     void handleDrawOfTwoCards(String nickname) {
+     void handleDrawOfTwoCards(DrawTwoPowerUpCards event) {
+         String nickname = event.getNickname();
          PowerUpCard powerUpCardToDraw;
          for (int i = 0; i < 2; i++) {
              powerUpCardToDraw = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
@@ -34,11 +34,37 @@ class PowerUpController {
              powerUpCardToDraw.setOwnerOfCard(controller.findPlayerWithThisNickname(nickname));
              controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardToDraw);
          }
+
+         if(game.getPlayerOfTurn()==2 && game.isTerminatorModeActive() && controller.findPlayerWithThisNickname("terminator").getPositionOnTheMap()==null) {
+             PlayerBoardEvent pBEvent = new PlayerBoardEvent();
+             pBEvent.setPlayerBoard(game.getPlayers().get(game.getPlayerOfTurn() - 1).getPlayerBoard());
+             pBEvent.setNicknames(game.getListOfNickname());
+             pBEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
+             game.notify(pBEvent);
+             RequestSelectionSquareForAction requestSelectionSquareForTerminator = new RequestSelectionSquareForAction("Look up the cards you have drawn and choose a\nspawn square where generate the terminator!");
+             requestSelectionSquareForTerminator.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
+             requestSelectionSquareForTerminator.setSelectionForSpawnTerminator(true);
+             ArrayList<Square> squareReachable = new ArrayList<>();
+             Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+             for (int i = 0; i < matrix.length; i++) {
+                 for (int j = 0; j < matrix[i].length; j++) {
+                     if (matrix[i][j] != null && matrix[i][j].isSpawn())
+                         squareReachable.add(matrix[i][j]);
+                 }
+             }
+             requestSelectionSquareForTerminator.setSquaresReachable(squareReachable);
+             event.getMyVirtualView().update(requestSelectionSquareForTerminator);
+         }
+         else
+             sendRequestToDiscardPowerUpCardToBeGenerate(nickname);
+     }
+
+     void sendRequestToDiscardPowerUpCardToBeGenerate(String nickname){
          PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent();
          requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be generated in the square of that color. \n(You can tap and hold on the card too see more info)");
+         requestDiscardPowerUpCardEvent.setHasToDiscardCard(true);
          requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
          requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
-         requestDiscardPowerUpCardEvent.setHasToDiscardCard(true);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
          game.notify(requestDiscardPowerUpCardEvent);
      }

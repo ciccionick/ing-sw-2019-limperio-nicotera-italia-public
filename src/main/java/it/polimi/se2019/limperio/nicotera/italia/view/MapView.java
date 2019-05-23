@@ -26,6 +26,7 @@ public class MapView {
     private boolean hasToChooseASquare = false;
     private boolean isSelectionForRun = false;
     private boolean isSelectionForCatch = false;
+    private boolean isSelectionForGenerationOfTerminator = false;
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -46,6 +47,8 @@ public class MapView {
             remoteView.setMainFrame(new MainFrame(remoteView));
         } else {
             map = event.getMap();
+            if(event.getNicknameInvolved()!=null && event.getNicknameInvolved().equals("terminator"))
+                remoteView.getMainFrame().showMessage(event);
         }
         updateMap(event);
     }
@@ -101,6 +104,14 @@ public class MapView {
 
     public void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
+    }
+
+    public boolean isSelectionForGenerationOfTerminator() {
+        return isSelectionForGenerationOfTerminator;
+    }
+
+    public void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
+        isSelectionForGenerationOfTerminator = selectionForGenerationOfTerminator;
     }
 }
 

@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
-import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -119,8 +118,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             if(receivedEvent instanceof RequestSelectionSquareForAction) {
                 mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
                 mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
+                mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForSpawnTerminator());
                 mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             }
+            mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isTimerOverEvent()){
             mainFrame.showMessage(receivedEvent);
         }
 
