@@ -55,7 +55,7 @@ public class PowerGlove extends WeaponCard {
                 "in rocket fist mode: Choose a square exactly 1 move away. Move onto that square. You may deal 2 damage to 1 target there. If you want, you may move 1 more square in that same direction (but only if it is a legal move). You may deal 2 damage to 1 target there, as well." +
                 "Notes: In rocket fist mode, you're flying 2 squares in a straight line, punching 1 person per square.";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};
