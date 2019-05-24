@@ -120,6 +120,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     ans = (AnswerInitializationEvent) in.readObject();
                 }
                 server.getListOfColor().add(ans.getColor().toUpperCase());
+                if(server.getListOfColor().size() == 3)
+                    server.startTimer();
                 colorOfClient = ans.getColor().toUpperCase();
                 if(firstPlayer){
                     out.writeObject(new RequestInitializationEvent("Choose if u want frenzy:", false, false, true, false, false));

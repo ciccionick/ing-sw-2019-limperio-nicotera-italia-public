@@ -188,9 +188,10 @@ class CatchController {
             if (square.isSpawn()) {
                 SpawnSquare spawnSquare = (SpawnSquare) square;
                 if (canCatchSomethingInThisSquare(spawnSquare)) {
-                    //quello che succede adesso è che anche se un quadrato ha tutte armi che non mi posso permettere risulta lo stesso selezionato
-                    addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);  //aggiungere array temporaneo per ogni spawn square, controllare se la sua dimensione è minore di 3 e nel caso aggiuungere il quadrato alla lista e le armi not affordable all'array principale
-                    squaresWithSomething.add(square);
+                    addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
+                    ArrayList<ServerEvent.AliasCard> weaponsNotAffordable = new ArrayList<>(weaponNotAffordable);
+                    if(weaponsNotAffordable.size() < 3)
+                        squaresWithSomething.add(square);
                 }
             }
             else if (canCatchSomethingInThisSquare(square)) {

@@ -91,7 +91,6 @@ public class TestCatchController extends TestController {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
         SpawnSquare spawnSquare= (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
         WeaponCard card= spawnSquare.getWeaponCards().get(0);
-
         SelectionWeaponToCatch event= new SelectionWeaponToCatch("", game.getPlayers().get(0).getNickname());
         event.setNameOfWeaponCard(card.getName());
         event.setColumn(0);
@@ -141,19 +140,19 @@ public class TestCatchController extends TestController {
 
     }
 
-
-
     @Test
     public void addWeaponNotAffordableTest()
     {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
-        WeaponCard card= ((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[0][2]).getWeaponCards().get(0);
-
+        PlasmaGun plasmaGun= new PlasmaGun();
+        ((SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[0][2]).getWeaponCards().add(plasmaGun);
         int i;
         for(i=0;i<9;i++)
         {
+            if(game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).getColor().equals(ColorOfCard_Ammo.YELLOW))
+            {
                 game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
-
+            }
         }
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable= new ArrayList<>();
 
@@ -163,12 +162,10 @@ public class TestCatchController extends TestController {
         boolean trovato=false;
         for(ServerEvent.AliasCard weaponNotAffordablex: weaponNotAffordable)
         {
-            if(weaponNotAffordablex.getName().equals(card.getName())) trovato=true;
+            if(weaponNotAffordablex.getName().equals(plasmaGun.getName())) trovato=true;
         }
         assertTrue(trovato);
 
     }
-
-
 
 }
