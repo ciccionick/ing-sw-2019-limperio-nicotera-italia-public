@@ -153,10 +153,11 @@ public class Server  {
                 listOfClient.add(client);
                 System.out.println("Connessione accettata da: " + client.getInetAddress());
                 VirtualView virtualView = new VirtualView(client, this, controller);
-                listOfVirtualView.add(virtualView);
-                game.register(virtualView);
                 Thread thread = new Thread(virtualView);
                 thread.start();
+                listOfVirtualView.add(virtualView);
+                game.register(virtualView);
+
             }
             catch (Exception e) {
                 e.printStackTrace();

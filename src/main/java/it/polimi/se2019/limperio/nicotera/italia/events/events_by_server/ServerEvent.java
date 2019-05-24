@@ -229,6 +229,7 @@ public class ServerEvent implements Serializable {
      */
 
     public static class AliasCard implements Serializable{
+        static final long serialVersionUID = 420000000;
         /**
          * The name of card
          */
@@ -245,6 +246,7 @@ public class ServerEvent implements Serializable {
         boolean isLoaded = true;
 
         public AliasCard(String name, String description, ColorOfCard_Ammo color) {
+
             this.name = name;
             this.description = description;
             this.color = color;

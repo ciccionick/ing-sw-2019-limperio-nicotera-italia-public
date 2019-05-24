@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 
 public class Ammo implements Serializable, Cloneable {
+    static final long serialVersionUID = 420000002;
     private final ColorOfCard_Ammo color;
     private boolean isUsable;
 

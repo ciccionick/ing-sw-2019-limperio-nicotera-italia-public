@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @author Pietro L'Imperio
  */
 public class Map implements Serializable, Cloneable {
+    static final long serialVersionUID = 420000003;
     /**
      * Contains the instance of map according to singleton pattern
      */

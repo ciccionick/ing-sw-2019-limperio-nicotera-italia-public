@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 
 public class KillshotTrack implements Serializable {
+    static final long serialVersionUID = 420000005;
 
     /**
      * Contains the unique instance of Killshot track according to singleton pattern

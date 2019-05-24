@@ -9,6 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 
 
 public class PlayerBoard implements Serializable, Cloneable {
+    static final long serialVersionUID = 420000001;
     private String nicknameOfPlayer;
     private ColorOfFigure_Square colorOfPlayer;
     private ArrayList<ColorOfFigure_Square> damages;

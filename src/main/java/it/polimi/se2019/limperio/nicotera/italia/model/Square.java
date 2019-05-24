@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author Francesco Nicotera
  */
 public class Square implements Serializable{
+    static final long serialVersionUID = 420000004;
 
     private ColorOfFigure_Square color;
     private boolean hasDoor;
