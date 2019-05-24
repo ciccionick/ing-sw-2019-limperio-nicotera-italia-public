@@ -13,6 +13,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
  */
 
 public class AmmoTile implements Serializable, Cloneable {
+    static final long serialVersionUID = 420000010;
 
 
     private boolean hasPowerUpCard;

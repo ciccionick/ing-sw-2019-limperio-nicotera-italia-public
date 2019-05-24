@@ -21,6 +21,7 @@ import java.io.Serializable;
  * @author Pietro L'Imperio
  */
 public class ClientEvent implements Serializable {
+    static final long serialVersionUID = 420000014;
     /**
      * The message stored in event.
      */
@@ -46,6 +47,9 @@ public class ClientEvent implements Serializable {
    private boolean isSelectionWeaponToDiscard = false;
    private boolean isRequestTerminatorActionByPlayer = false;
    private boolean isGenerationTerminatorEvent = false;
+   private boolean isRequestToMoveTerminator = false;
+   private boolean isRequestToShootWithTerminator = false;
+   private boolean isRequestToGoOn = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -133,6 +137,14 @@ public class ClientEvent implements Serializable {
         isSelectionSquareForRun = selectionSquareForRun;
     }
 
+    public boolean isRequestTerminatorActionByPlayer() {
+        return isRequestTerminatorActionByPlayer;
+    }
+
+    public void setRequestTerminatorActionByPlayer(boolean requestTerminatorActionByPlayer) {
+        isRequestTerminatorActionByPlayer = requestTerminatorActionByPlayer;
+    }
+
     public boolean isSelectionWeaponToCatch() {
         return isSelectionWeaponToCatch;
     }
@@ -147,5 +159,29 @@ public class ClientEvent implements Serializable {
 
     public void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
         isGenerationTerminatorEvent = generationTerminatorEvent;
+    }
+
+    public boolean isRequestToMoveTerminator() {
+        return isRequestToMoveTerminator;
+    }
+
+    public void setRequestToMoveTerminator(boolean requestToMoveTerminator) {
+        isRequestToMoveTerminator = requestToMoveTerminator;
+    }
+
+    public boolean isRequestToShootWithTerminator() {
+        return isRequestToShootWithTerminator;
+    }
+
+    public void setRequestToShootWithTerminator(boolean requestToShootWithTerminator) {
+        isRequestToShootWithTerminator = requestToShootWithTerminator;
+    }
+
+    public boolean isRequestToGoOn() {
+        return isRequestToGoOn;
+    }
+
+    public void setRequestToGoOn(boolean requestToGoOn) {
+        isRequestToGoOn = requestToGoOn;
     }
 }

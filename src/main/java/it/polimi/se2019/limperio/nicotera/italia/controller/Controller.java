@@ -81,6 +81,23 @@ public class Controller implements Observer<ClientEvent> {
                 terminatorController.handleSpawnOfTerminator(message);
             }
 
+            if(message.isRequestTerminatorActionByPlayer()){
+                terminatorController.handleFirstRequestAction(message);
+            }
+
+            if(message.isRequestToShootWithTerminator()){
+
+            }
+
+            if (message.isRequestToMoveTerminator()) {
+
+
+            }
+
+            if(message.isRequestToGoOn()){
+                
+            }
+
             if(message.isSelectionWeaponToCatch()){
                 catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
             }
@@ -253,6 +270,10 @@ public class Controller implements Observer<ClientEvent> {
          else
             return weaponCard.isLoad();
          //In realtà questo metodo deve chiamare un metodo di weapon controller (della corrispondente arma) che restituisce true se esiste un player da poter sparare
+    }
+
+    public WeaponController getWeaponController() {
+        return weaponController;
     }
 
     private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){

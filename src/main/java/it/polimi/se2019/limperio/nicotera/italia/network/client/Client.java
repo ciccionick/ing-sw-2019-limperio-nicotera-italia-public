@@ -52,13 +52,14 @@ public class Client {
         Client client;
         client = new Client();
 
-        client.frameForRequestIP = new FrameForRequestIP(client);
+
+        /*client.frameForRequestIP = new FrameForRequestIP(client);
         while(client.hasToInsertIP){
-            System.out.println("Ciao");
-        }
+            num++;
+        }*/
 
 
-            client.csocket = new Socket(client.ipAddress, 4000);
+            client.csocket = new Socket("localhost", 4000);
             client.out = new ObjectOutputStream(client.csocket.getOutputStream());
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");

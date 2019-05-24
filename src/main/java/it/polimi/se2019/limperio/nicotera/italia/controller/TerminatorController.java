@@ -3,9 +3,12 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestChooseActionForTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+
+import java.util.ArrayList;
 
 class TerminatorController {
     private Controller controller;
@@ -33,5 +36,24 @@ class TerminatorController {
          if(game.getRound()==1){
              controller.getPowerUpController().sendRequestToDiscardPowerUpCardToBeGenerate(message.getNickname());
          }
+    }
+
+     void handleFirstRequestAction(ClientEvent message) {
+        boolean terminatorCanShoot=false;
+        boolean terminatorCanMove = true;
+
+        Player terminator = controller.findPlayerWithThisNickname("terminator");
+        if(!controller.getWeaponController().canSee(terminator).isEmpty())
+            terminatorCanShoot = true;
+
+        RequestChooseActionForTerminator requestChooseActionForTerminator = new RequestChooseActionForTerminator();
+        requestChooseActionForTerminator.setTerminatorCanShoot(terminatorCanShoot);
+        requestChooseActionForTerminator.setTerminatorCanMove(terminatorCanMove);
+        requestChooseActionForTerminator.setNicknameInvolved(message.getNickname());
+        requestChooseActionForTerminator.setMessageForInvolved("Choose what action do you want the terminator does");
+        message.getMyVirtualView().update(requestChooseActionForTerminator);
+
+
+
     }
 }

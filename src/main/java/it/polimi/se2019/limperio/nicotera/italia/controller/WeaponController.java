@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,23 +64,23 @@ public class WeaponController {
                         break;
 
                     case "Lock rifle":
-                        if(canSee(weaponCard)!=null) usableCards.put("Lock rifle", new ArrayList<Integer>(){{add(1);add(2);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("Lock rifle", new ArrayList<Integer>(){{add(1);add(2);}});
                         break;
 
                     case "Zx-2":
-                        if(canSee(weaponCard)!=null) usableCards.put("Zx-2", new ArrayList<Integer>(){{add(1);add(4);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("Zx-2", new ArrayList<Integer>(){{add(1);add(4);}});
                         break;
 
                     case "Machine gun":
-                        if(canSee(weaponCard)!=null)  usableCards.put("Machine gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null)  usableCards.put("Machine gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
                         break;
 
                     case "Granade launcher":
-                        if(canSee(weaponCard)!=null) usableCards.put("Granade launcher", new ArrayList<Integer>(){{add(1);add(2);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("Granade launcher", new ArrayList<Integer>(){{add(1);add(2);}});
                         break;
 
                     case "Plasma gun":
-                        if(canSee(weaponCard)!=null) usableCards.put("Plasma gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("Plasma gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
                         break;
 
                     case "Railgun":
@@ -91,12 +92,12 @@ public class WeaponController {
                         break;
 
                     case "THOR":
-                        if(canSee(weaponCard)!=null) usableCards.put("THOR", new ArrayList<Integer>(){{add(1);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("THOR", new ArrayList<Integer>(){{add(1);}});
                         //mancano gli altri due effetti: bisogna ricevere il bersaglio scelto dal player e analizzare la sua visibilità
                         break;
 
                     case "Rocket launcher":
-                        if(canSee(weaponCard)!=null && canUseWeaponCard(weaponCard,0)==null) usableCards.put("Rocket launcher", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null && canUseWeaponCard(weaponCard,0)==null) usableCards.put("Rocket launcher", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
                         break;
 
                     case "Hellion":
@@ -108,7 +109,7 @@ public class WeaponController {
                         break;
 
                     case "Thor":
-                        if(canSee(weaponCard)!=null) usableCards.put("Thor", new ArrayList<Integer>(){{add(1);}});
+                        if(canSee(weaponCard.getOwnerOfCard())!=null) usableCards.put("Thor", new ArrayList<Integer>(){{add(1);}});
                         //mancano il secondo e il terzo effetto
                         break;
 
@@ -166,48 +167,48 @@ public class WeaponController {
 
     /**
      * Ti dice se c'e' qualcuno negli square visibili dal player
-     * @param weaponCard
+     *
      * @return
      */
-    private ArrayList<Player> canSee(WeaponCard weaponCard)
+     ArrayList<Player> canSee(Player player)
     {
-        int i,j,k;
-        ArrayList<Player> players= new ArrayList<>();
-        ColorOfFigure_Square color;
+        ArrayList<Player> playersVisible = new ArrayList<>();
+        ColorOfFigure_Square colorOfSquareOfPlayer = player.getPositionOnTheMap().getColor();
+        HashMap<ColorOfFigure_Square,ArrayList<Square>> hashMapOfSquares = new HashMap<>();
+        hashMapOfSquares.put(ColorOfFigure_Square.GREEN, new ArrayList<>());
+        hashMapOfSquares.put(ColorOfFigure_Square.RED, new ArrayList<>());
+        hashMapOfSquares.put(ColorOfFigure_Square.BLUE, new ArrayList<>());
+        hashMapOfSquares.put(ColorOfFigure_Square.GREY, new ArrayList<>());
+        hashMapOfSquares.put(ColorOfFigure_Square.YELLOW, new ArrayList<>());
+        hashMapOfSquares.put(ColorOfFigure_Square.PURPLE, new ArrayList<>());
+        ArrayList<Square> squaresVisible = new ArrayList<>();
 
-
-        for(i=0;i<=3;i++)
-
-        {
-            for(j=0;j<=3;j++)
-                {
-                    if(game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().equals(weaponCard.getOwnerOfCard().getPositionOnTheMap().getColor()) && game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().size()!=0) players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare());
-                }
-        }
-        if(weaponCard.getOwnerOfCard().getPositionOnTheMap().isHasDoor())
-        {
-            //Vedo quale è il colore della stanza a cui mi affaccio con la porta
-            for(k=0;k<4;k++)
-            {
-                if(weaponCard.getOwnerOfCard().getPositionOnTheMap().getAdjSquares().get(k).getColor()!=weaponCard.getOwnerOfCard().getPositionOnTheMap().getColor())
-                {
-                    color=weaponCard.getOwnerOfCard().getPositionOnTheMap().getAdjSquares().get(k).getColor();
-                    for(i=0;i<=3;i++)
-
-                    {
-                    for(j=0;j<=3;j++)
-                    {
-                        if(game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().equals(color) && game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().size()!=0) players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare());
-                    }
-                    }
-                }
-
+        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+        for(int i = 0; i< matrix.length; i++){
+            for (int j=0;j< matrix[i].length;j++){
+                if(matrix[i][j] != null)
+                    hashMapOfSquares.get(matrix[i][j].getColor()).add(matrix[i][j]);
             }
-
         }
-        return players;
+
+        for(Square adjSquare : player.getPositionOnTheMap().getAdjSquares()){
+            if(!adjSquare.getColor().equals(colorOfSquareOfPlayer))
+                squaresVisible.addAll(hashMapOfSquares.get(adjSquare.getColor()));
+            if(!squaresVisible.contains(adjSquare))
+                squaresVisible.add(adjSquare);
+        }
+        squaresVisible.add(player.getPositionOnTheMap());
+
+        for(Square square : squaresVisible){
+            if(square.getPlayerOnThisSquare()!=null)
+                playersVisible.addAll(square.getPlayerOnThisSquare());
+        }
+
+        return playersVisible;
 
     }
+
+
 
 
     private ArrayList<Player> otherRoom(WeaponCard weaponCard)
@@ -298,7 +299,7 @@ public class WeaponController {
         ArrayList<Player> players= new ArrayList<>();
 
 
-        players.addAll(canSee(weaponCard));
+        players.addAll(canSee(weaponCard.getOwnerOfCard()));
         for(Player playerx: players)
         {
             //giocatore nella mappa

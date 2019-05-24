@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * @author Pietro L'Imperio
  */
 public class ServerEvent implements Serializable {
+    static final long serialVersionUID = 420000013;
     /**
      * The message stored in the event.
      */
@@ -55,8 +56,10 @@ public class ServerEvent implements Serializable {
     private boolean isNotifyAboutActionDone = false;
     private boolean isRequestToDiscardWeaponCard = false;
     private boolean isTimerOverEvent = false;
+    private boolean isRequestToChooseTerminatorAction = false;
 
     private int numOfAction;
+    private int numOfMaxAction;
 
 
 
@@ -97,8 +100,17 @@ public class ServerEvent implements Serializable {
         return nicknameInvolved;
     }
 
+
     public void setNicknameInvolved(String nicknameInvolved) {
         this.nicknameInvolved = nicknameInvolved;
+    }
+
+    public int getNumOfMaxAction() {
+        return numOfMaxAction;
+    }
+
+    public void setNumOfMaxAction(int numOfMaxAction) {
+        this.numOfMaxAction = numOfMaxAction;
     }
 
     public boolean isPlayerBoardEvent() {
@@ -205,6 +217,8 @@ public class ServerEvent implements Serializable {
         isNotifyAboutActionDone = notifyAboutActionDone;
     }
 
+
+
     public boolean isGenerationEvent() {
         return isGenerationEvent;
     }
@@ -219,6 +233,14 @@ public class ServerEvent implements Serializable {
 
     public void setGenerationEvent(boolean generationEvent) {
         isGenerationEvent = generationEvent;
+    }
+
+    public boolean isRequestToChooseTerminatorAction() {
+        return isRequestToChooseTerminatorAction;
+    }
+
+    public void setRequestToChooseTerminatorAction(boolean requestToChooseTerminatorAction) {
+        isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
     }
 
     /**

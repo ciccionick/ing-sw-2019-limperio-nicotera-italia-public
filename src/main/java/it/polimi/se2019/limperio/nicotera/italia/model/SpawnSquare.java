@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * @author Pietro L'Imperio
  */
 public class SpawnSquare extends Square implements  Cloneable  {
+    static final long serialVersionUID = 420000012;
     /**
      * It needs to send the weapon card to client through socket connection
      */

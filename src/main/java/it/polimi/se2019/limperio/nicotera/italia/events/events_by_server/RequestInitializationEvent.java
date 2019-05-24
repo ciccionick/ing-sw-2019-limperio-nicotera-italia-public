@@ -17,6 +17,7 @@ import java.io.Serializable;
  * @author Pietro L'Imperio
  */
 public class RequestInitializationEvent implements Serializable {
+    static final long serialVersionUID = 420000016;
     /**
      * The message stored in the event about its nature.
      */

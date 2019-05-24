@@ -94,7 +94,6 @@ class CatchController {
     private void sendNotifyAfterCatching(Player player) {
         PlayerBoardEvent pBEvent = new PlayerBoardEvent();
         pBEvent.setPlayerBoard(player.getPlayerBoard());
-        pBEvent.setMessageForOthers("Controlla");
         pBEvent.setNicknameInvolved(player.getNickname());
         pBEvent.setNicknames(game.getListOfNickname());
         game.notify(pBEvent);
@@ -106,6 +105,8 @@ class CatchController {
 
         ServerEvent notifyActionDoneEvent = new ServerEvent();
         notifyActionDoneEvent.setNotifyAboutActionDone(true);
+        notifyActionDoneEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
+        notifyActionDoneEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
         notifyActionDoneEvent.setNicknameInvolved(player.getNickname());
         notifyActionDoneEvent.setNicknames(game.getListOfNickname());
         notifyActionDoneEvent.setMessageForInvolved("Your catch has gone well!");

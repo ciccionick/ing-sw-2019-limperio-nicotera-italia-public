@@ -184,6 +184,7 @@ public class Server  {
         }
         if(listOfClient.size()==2 && gameIsStarted){
             System.out.println("Il controller conta i punti");
+
         }
     }
 
