@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -90,6 +91,9 @@ public class Server  {
     private Server() {
         try {
             serverSocket = new ServerSocket(4000);
+            InetAddress ip;
+            ip=InetAddress.getLocalHost();
+            System.out.println(ip.getHostAddress());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,12 +186,7 @@ public class Server  {
             game.deregister(view);
             listOfClient.remove(client);
         }
-        if(!listOfNickname.isEmpty()) {
-            System.out.println("Sono rimasti in gioco: ");
-            for (String name : listOfNickname) {
-                System.out.println(name);
-            }
-        }
+
         if(listOfClient.size()==2 && timer!=null && !gameIsStarted){
             timer.cancel();
             timer = null;

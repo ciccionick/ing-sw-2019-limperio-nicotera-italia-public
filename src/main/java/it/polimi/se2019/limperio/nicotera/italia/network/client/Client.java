@@ -2,9 +2,18 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
+import sun.misc.Lock;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /** Handles the client and his socket
  *
@@ -31,9 +40,20 @@ public class Client {
      */
    private Socket csocket = null;
 
+   private String ipAddress = null;
+
+   private boolean hasToInsertIP = true;
+
+   private boolean invalidIPAddress = true;
+
+   private FrameForRequestIP frameForRequestIP = null;
+
+
+
 
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
+
     }
 
     /**
@@ -42,39 +62,44 @@ public class Client {
      * @throws IOException if there will be some problem with initialization of the streams
      * @throws ClassNotFoundException if there will be problems with the object received by the object input stream
      */
-    public static void main(String[] argv) throws IOException, ClassNotFoundException {
+    public static void main(String[] argv) throws IOException, ClassNotFoundException, InterruptedException {
         Client client;
-        System.out.println("Client attivo:");
         client = new Client();
 
+        client.setFrameForRequestIP(new FrameForRequestIP(client));
 
-            client.csocket = new Socket("localhost", 4000);
-            client.out = new ObjectOutputStream(client.csocket.getOutputStream());
-            client.in = new ObjectInputStream(client.csocket.getInputStream());
-            System.out.println("In attesa del primo messaggio..");
+        while(client.hasToInsertIP){
+            System.out.println("Ciao");
+        }
 
-            while(true) {
-                RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
-                client.myNetworkHandler.handleEventInitialization(req);
-                if(req.isAck())
-                    break;
+
+                client.csocket = new Socket(client.ipAddress, 4000);
+
+
+                client.out = new ObjectOutputStream(client.csocket.getOutputStream());
+                client.in = new ObjectInputStream(client.csocket.getInputStream());
+
+                while (true) {
+                    RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
+                    client.myNetworkHandler.handleEventInitialization(req);
+                    if (req.isAck())
+                        break;
                 }
 
 
-        while(true){
-            try {
-                System.out.println("In attesa di messaggi..");
-                ServerEvent eventFromModel = (ServerEvent) client.in.readObject();
-                if(eventFromModel.isFinished())
-                    break;
-                client.myNetworkHandler.handleEvent(eventFromModel);
-            }
-            catch (SocketException se){
-                System.out.println("Disconnessione...");
-                break;
-            }
+                while (true) {
+                    try {
+                        System.out.println("In attesa di messaggi..");
+                        ServerEvent eventFromModel = (ServerEvent) client.in.readObject();
+                        if (eventFromModel.isFinished())
+                            break;
+                        client.myNetworkHandler.handleEvent(eventFromModel);
+                    } catch (SocketException se) {
+                        System.out.println("Disconnessione...");
+                        break;
+                    }
 
-        }
+                }
 
     }
 
@@ -94,5 +119,31 @@ public class Client {
     public NetworkHandler getMyNetworkHandler()
     {
         return myNetworkHandler;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public boolean hasToInsertIP() {
+        return hasToInsertIP;
+    }
+
+    public void setHasToInsertIP(boolean hasToInsertIP) {
+        this.hasToInsertIP = hasToInsertIP;
+    }
+
+
+
+    public FrameForRequestIP getFrameForRequestIP() {
+        return frameForRequestIP;
+    }
+
+    public void setFrameForRequestIP(FrameForRequestIP frameForRequestIP) {
+        this.frameForRequestIP = frameForRequestIP;
     }
 }

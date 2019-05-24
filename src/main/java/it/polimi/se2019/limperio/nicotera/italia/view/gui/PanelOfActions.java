@@ -142,6 +142,7 @@ class PanelOfActions extends JPanel {
                 break;
              case "Cancel":
                 updateStateOfButton();
+                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
                 mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 for(JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()){
                    label.setEnabled(true);

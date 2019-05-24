@@ -61,10 +61,6 @@ public class Game extends Observable<ServerEvent> {
      */
     private int firstInFrenzyMode;
     /**
-     * The list of the virtual view associated with the players in game
-     */
-    private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
-    /**
      * The list of nicknames of the players in game
      */
     private ArrayList<String> listOfNickname = new ArrayList<>();
