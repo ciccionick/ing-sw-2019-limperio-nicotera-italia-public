@@ -5,12 +5,12 @@ import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -72,6 +72,8 @@ public class Server  {
      */
     private boolean terminatorMode = false;
 
+    private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+
 
     /**
      * Starts when the application running on the server side
@@ -90,6 +92,10 @@ public class Server  {
     private Server() {
         try {
             serverSocket = new ServerSocket(4000);
+            String ip;
+            ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println(ip);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,35 +129,22 @@ public class Server  {
 
 
         task = new MyTask();
-        run();
+        acceptConnection();
     }
 
     /**
      * Handles the connections of the clients creating for each one a {@link VirtualView} in a separated thread
      */
-    private void run() {
+    private void acceptConnection() {
 
         while (true) {
             try {
-                if(listOfClient.size()==3 && timer==null){
-                    System.out.println("Il timer è partito!");
-                    timer = new Timer();
-                    task = new MyTask();
-                    try{
-                        timer.schedule(task,delay);
-                    }
-                    catch (IllegalStateException er){
-                        er.printStackTrace();
-                    }
-                }
-                if (listOfClient.size()==5){
+
+                if (listOfColor.size()==5){
                     if(timer!=null)
                         timer.cancel();
                     timer=null;
-                    System.out.println("Il timer e' stato fermato perchè sta per cominciare il gioco!");
-                    TimeUnit.SECONDS.sleep(10);
                     startGame();
-
                     break;
                 }
 
@@ -160,6 +153,7 @@ public class Server  {
                 listOfClient.add(client);
                 System.out.println("Connessione accettata da: " + client.getInetAddress());
                 VirtualView virtualView = new VirtualView(client, this, controller);
+                listOfVirtualView.add(virtualView);
                 game.register(virtualView);
                 Thread thread = new Thread(virtualView);
                 thread.start();
@@ -182,16 +176,10 @@ public class Server  {
             game.deregister(view);
             listOfClient.remove(client);
         }
-        if(!listOfNickname.isEmpty()) {
-            System.out.println("Sono rimasti in gioco: ");
-            for (String name : listOfNickname) {
-                System.out.println(name);
-            }
-        }
+
         if(listOfClient.size()==2 && timer!=null && !gameIsStarted){
             timer.cancel();
             timer = null;
-            System.out.println("Il timer è stato fermato perchè siamo scesi a due giocatori");
         }
         if(listOfClient.size()==2 && gameIsStarted){
             System.out.println("Il controller conta i punti");
@@ -272,6 +260,18 @@ public class Server  {
         }
     }
 
+    void startTimer() {
+        System.out.println("Il timer è partito!");
+        timer = new Timer();
+        task = new MyTask();
+        try{
+            timer.schedule(task,delay);
+        }
+        catch (IllegalStateException er){
+            er.printStackTrace();
+        }
+    }
+
 
     /**
      * Calls the method that starts the game at the end of the timer
@@ -282,11 +282,24 @@ public class Server  {
         @Override
         public void run() {
             try {
-                startGame();
+                if(listOfColor.size() == listOfClient.size())
+                    startGame();
+                else {
+                    int numOfClient = listOfClient.size();
+                    while(numOfClient > listOfColor.size()){
+                        listOfClient.get(numOfClient-1).close();
+                        deregister(listOfVirtualView.get(numOfClient-1), listOfClient.get(numOfClient-1));
+                        if(listOfNickname.size()>listOfColor.size())
+                            listOfNickname.remove(numOfClient-1);
+                        numOfClient--;
+                    }
+                    startGame();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
     }
 
 }

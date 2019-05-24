@@ -43,7 +43,7 @@ public class Controller implements Observer<ClientEvent> {
         runController = new RunController(game, this);
         shootController = new ShootController(game);
         turnController = new TurnController(game);
-        weaponController = new WeaponController(game);
+        weaponController = new WeaponController(game, this);
 
     }
 

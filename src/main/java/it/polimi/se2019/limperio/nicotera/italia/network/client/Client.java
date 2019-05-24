@@ -31,6 +31,12 @@ public class Client {
      */
    private Socket csocket = null;
 
+   private String ipAddress;
+
+   private boolean hasToInsertIP = true;
+
+   private FrameForRequestIP frameForRequestIP;
+
 
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
@@ -44,11 +50,15 @@ public class Client {
      */
     public static void main(String[] argv) throws IOException, ClassNotFoundException {
         Client client;
-        System.out.println("Client attivo:");
         client = new Client();
 
+        client.frameForRequestIP = new FrameForRequestIP(client);
+        while(client.hasToInsertIP){
+            System.out.println("Ciao");
+        }
 
-            client.csocket = new Socket("localhost", 4000);
+
+            client.csocket = new Socket(client.ipAddress, 4000);
             client.out = new ObjectOutputStream(client.csocket.getOutputStream());
             client.in = new ObjectInputStream(client.csocket.getInputStream());
             System.out.println("In attesa del primo messaggio..");
@@ -94,5 +104,21 @@ public class Client {
     public NetworkHandler getMyNetworkHandler()
     {
         return myNetworkHandler;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public boolean isHasToInsertIP() {
+        return hasToInsertIP;
+    }
+
+    public void setHasToInsertIP(boolean hasToInsertIP) {
+        this.hasToInsertIP = hasToInsertIP;
     }
 }
