@@ -11,7 +11,9 @@ class PopupForNormalSquare extends PopupForSquare {
     private int typeOfAmmo;
 
 
-     PopupForNormalSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare, AmmoTile ammoTile, Dimension dimensionOfFrame, Point positionOfPanel, Point positionOfSquare)  {
+     PopupForNormalSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare, AmmoTile ammoTile, MainFrame mainFrame, Point positionOfSquare)  {
+         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
+         Point positionOfPanel = mainFrame.getMapPanel().getLocation();
          String folderPath = "resources/board/ammotiles/";
          popup.setAutoRequestFocus(false);
          popup.setUndecorated(true);
@@ -50,7 +52,7 @@ class PopupForNormalSquare extends PopupForSquare {
          }
          panelForPlayers.add(textForPlayers, gbcTextForPlayers);
 
-         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare);
+         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
 
 
          JPanel panelForAmmoTile = new JPanel();

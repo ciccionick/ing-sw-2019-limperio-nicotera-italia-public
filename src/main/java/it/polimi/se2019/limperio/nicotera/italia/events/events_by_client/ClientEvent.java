@@ -43,6 +43,9 @@ public class ClientEvent implements Serializable {
    private boolean isCatchEvent = false;
    private boolean isSelectionSquareForRun = false;
    private boolean isSelectionWeaponToCatch = false;
+   private boolean isSelectionWeaponToDiscard = false;
+   private boolean isRequestTerminatorActionByPlayer = false;
+   private boolean isGenerationTerminatorEvent = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -106,6 +109,13 @@ public class ClientEvent implements Serializable {
         isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
     }
 
+    public boolean isSelectionWeaponToDiscard() {
+        return isSelectionWeaponToDiscard;
+    }
+
+    public void setSelectionWeaponToDiscard(boolean selectionWeaponToDiscard) {
+        isSelectionWeaponToDiscard = selectionWeaponToDiscard;
+    }
 
     public boolean isCatchEvent() {
         return isCatchEvent;
@@ -129,5 +139,13 @@ public class ClientEvent implements Serializable {
 
     public void setSelectionWeaponToCatch(boolean selectionWeaponToCatch) {
         isSelectionWeaponToCatch = selectionWeaponToCatch;
+    }
+
+    public boolean isGenerationTerminatorEvent() {
+        return isGenerationTerminatorEvent;
+    }
+
+    public void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
+        isGenerationTerminatorEvent = generationTerminatorEvent;
     }
 }

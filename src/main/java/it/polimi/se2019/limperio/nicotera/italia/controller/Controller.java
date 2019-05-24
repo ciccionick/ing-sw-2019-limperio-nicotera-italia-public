@@ -8,6 +8,8 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Class for checking the correctness of the action of the players, according to MVC pattern
@@ -25,6 +27,9 @@ public class Controller implements Observer<ClientEvent> {
     private ShootController shootController;
     private TurnController turnController;
     private WeaponController weaponController;
+    private TerminatorController terminatorController;
+    private Timer timer = null;
+    private TurnTask turnTask;
 
     /**
      * Constructor of the class: it creates the instances of the other controller classes
@@ -34,11 +39,12 @@ public class Controller implements Observer<ClientEvent> {
         this.game = game;
         catchController = new CatchController(game, this);
         powerUpController = new PowerUpController(game, this);
-        roundController = new RoundController(game);
+        roundController = new RoundController(this,game);
         runController = new RunController(game, this);
         shootController = new ShootController(game);
         turnController = new TurnController(game);
         weaponController = new WeaponController(game);
+
     }
 
     /**
@@ -52,10 +58,12 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        System.out.println(message.getMessage() + " " + message.getNickname());
         if (isTheTurnOfThisPlayer(message.getNickname())) {
             if (message.isDrawTwoPowerUpCards()) {
-                powerUpController.handleDrawOfTwoCards(message.getNickname());
+                if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
+                    terminatorController = new TerminatorController(this, game);
+                }
+                powerUpController.handleDrawOfTwoCards((DrawTwoPowerUpCards) message);
             }
             if (message.isDiscardPowerUpCardToSpawn()) {
                 powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
@@ -69,10 +77,12 @@ public class Controller implements Observer<ClientEvent> {
                     catchController.handleCatching((CatchEvent) message);
             }
 
+            if(message.isGenerationTerminatorEvent()){
+                terminatorController.handleSpawnOfTerminator(message);
+            }
+
             if(message.isSelectionWeaponToCatch()){
-                System.out.println("Arma selezionato");
-                //catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
-                //manca notificare l'avvenuta raccolta
+                catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
             }
             if (message.isRequestToRunByPlayer()) {
                runController.handleRunActionRequest((RequestToRunByPlayer) message);
@@ -80,7 +90,10 @@ public class Controller implements Observer<ClientEvent> {
 
             if(message.isSelectionSquareForRun()){
                 runController.doRunAction((RunEvent) message);
+            }
 
+            if(message.isSelectionWeaponToDiscard()){
+                catchController.handleSelectionWeaponToCatchAfterDiscard((SelectionWeaponToDiscard) message);
             }
             if (message.isRequestToShootByPlayer()) {
                 //shootController.replyToRequestToShoot(message);
@@ -156,32 +169,83 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+    void handleTheEndOfAnAction(){
+        game.incrementNumOfActionsOfThisTurn();
 
-    void sendRequestForAction(){
+        if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
+            sendRequestForAction();
+        }
+        else{
+            timer.cancel();
+            timer=null;
+            turnTask=null;
+            roundController.updateTurn();
+            if(game.getRound()>1)
+                sendRequestForAction();
+            else
+                sendInitialRequest();
+        }
+    }
+
+
+    void sendRequestForAction() {
+         if(game.getRound()>1 && game.getNumOfActionOfTheTurn()==0 && timer!=null) {
+
+             timer.cancel();
+             timer = null;
+             turnTask = null;
+
+         }
         RequestActionEvent requestActionEvent = new RequestActionEvent();
         requestActionEvent.setRequestActionEvent(true);
-        requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
-        requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn()+1);
+        requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
+        requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn() + 1);
         requestActionEvent.setRound(game.getRound());
-        requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() +" you want to do.\nRemember you can use power up cards enabled.");
-        if(game.getRound()==1 && game.getPlayerOfTurn()==1)
+        if (game.getRound() > 1 && game.getNumOfActionOfTheTurn() == 0) {
+            requestActionEvent.setMessageForInvolved("It's your turn! Choose you first action!");
+            requestActionEvent.setMessageForOthers("Change turn! Now it's the turn of " + game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname() + "\nWait for some news!");
+            requestActionEvent.setNicknames(game.getListOfNickname());
+        } else
+            requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() + " you want to do.\nRemember you can use power up cards enabled.");
+        if (game.getRound() == 1 && game.getPlayerOfTurn() == 1)
             requestActionEvent.setCanUseNewton(false);
         else
             requestActionEvent.setCanUseNewton(true);
         requestActionEvent.setCanUseTeleporter(true);
         requestActionEvent.setCanShoot(checkIfPlayerCanShoot(findPlayerWithThisNickname(requestActionEvent.getNicknameInvolved()).getPlayerBoard().getWeaponsOwned()));
         requestActionEvent.setHasToDoTerminatorAction(game.isHasToDoTerminatorAction());
-        if(game.isHasToDoTerminatorAction()&&game.getNumOfActionOfTheTurn()+1==game.getNumOfMaxActionForTurn()){
+        if (game.isHasToDoTerminatorAction() && game.getNumOfActionOfTheTurn() + 1 == game.getNumOfMaxActionForTurn()) {
             requestActionEvent.setCanCatch(false);
             requestActionEvent.setCanRun(false);
-        }
-        else
-        {
+            requestActionEvent.setCanShoot(false);
+        } else {
             requestActionEvent.setCanCatch(true);
             requestActionEvent.setCanRun(true);
         }
         game.notify(requestActionEvent);
+        if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() != 1) {
+            setTimerForTurn(false);
+        }
     }
+
+    public void sendInitialRequest() {
+        game.setHasToBeGenerated(true);
+        if(timer!=null){
+            timer.cancel();
+            timer=null;
+            turnTask = null;
+        }
+        ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
+        requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
+        requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of " + game.getListOfNickname().get(game.getPlayerOfTurn() - 1) + ". Press OK and wait for some news!");
+        requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
+        requestDrawTwoPowerUpCardsEvent.setNicknames(game.getListOfNickname());
+        requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(game.getListOfNickname().get(game.getPlayerOfTurn() - 1));
+        game.notify(requestDrawTwoPowerUpCardsEvent);
+        setTimerForTurn(true);
+
+    }
+
 
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
@@ -199,12 +263,86 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-
-    public Game getGame() {
-        return game;
+    PowerUpController getPowerUpController() {
+        return powerUpController;
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
 
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public TurnTask getTurnTask() {
+        return turnTask;
+    }
+
+    public void setTurnTask(TurnTask turnTask) {
+        this.turnTask = turnTask;
+    }
+
+    private void setTimerForTurn(boolean isForFirstRound) {
+        timer = new Timer();
+        turnTask = new TurnTask();
+        try {
+            if(isForFirstRound)
+                timer.schedule(turnTask, game.getDelay()+6000);
+            else
+                timer.schedule(turnTask, game.getDelay());
+        } catch (IllegalStateException er) {
+            er.printStackTrace();
+        }
+
+    }
+
+    private class TurnTask extends TimerTask {
+
+        @Override
+        public void run() {
+            Player previousPlayer = game.getPlayers().get(game.getPlayerOfTurn()-1);
+            roundController.updateTurn();
+            PowerUpCard powerUpCard;
+            if(game.isHasToBeGenerated()){
+                ColorOfCard_Ammo color;
+                Square square = null;
+                if(previousPlayer.getPlayerBoard().getPowerUpCardsOwned().size()==2){
+                    powerUpCard = previousPlayer.getPlayerBoard().getPowerUpCardsOwned().remove(1);
+                    color = powerUpCard.getColor();
+                    Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+                    for(int i=0; i<matrix.length;i++){
+                        for(int j=0 ; j<matrix[i].length;j++){
+                            if(matrix[i][j]!=null && matrix[i][j].isSpawn() && color.toString().equals(matrix[i][j].getColor().toString()))
+                                square = matrix[i][j];
+                        }
+                    }
+
+                }
+                else {
+                    powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
+                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0)); //add to used deck the first of normal deck and remove from this one
+                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true); //set boolean attribute to the card
+                    powerUpCard.setOwnerOfCard(previousPlayer);
+                    previousPlayer.drawPowerUpCard(powerUpCard);
+                    square = game.getBoard().getMap().getMatrixOfSquares()[1][0];
+                }
+
+                powerUpController.spawnPlayer(previousPlayer, square);
+            }
+            ServerEvent timerOverEvent = new ServerEvent();
+            timerOverEvent.setNicknameInvolved(previousPlayer.getNickname());
+            timerOverEvent.setMessageForInvolved("The time for your turn is over. \nWait for the next turn!");
+            timerOverEvent.setTimerOverEvent(true);
+            game.notify(timerOverEvent);
+
+            if(game.getRound()!=1){
+                sendRequestForAction();
+            }
+            else
+                sendInitialRequest();
+        }
+    }
 }
 
 

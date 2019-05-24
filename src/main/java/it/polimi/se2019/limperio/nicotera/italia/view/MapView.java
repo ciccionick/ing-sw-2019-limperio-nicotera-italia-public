@@ -8,6 +8,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
 
 import java.rmi.Remote;
+import java.util.ArrayList;
 
 /**
  * This class handles the part of view that build the map in the game
@@ -26,6 +27,7 @@ public class MapView {
     private boolean hasToChooseASquare = false;
     private boolean isSelectionForRun = false;
     private boolean isSelectionForCatch = false;
+    private boolean isSelectionForGenerationOfTerminator = false;
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -46,6 +48,8 @@ public class MapView {
             remoteView.setMainFrame(new MainFrame(remoteView));
         } else {
             map = event.getMap();
+            if(event.getNicknameInvolved()!=null && event.getNicknameInvolved().equals("terminator"))
+                remoteView.getMainFrame().showMessage(event);
         }
         updateMap(event);
     }
@@ -55,7 +59,6 @@ public class MapView {
             SpawnSquare spawnSquare;
             for (int j = 0; j < map[i].length; j++) {
                 if (map[i][j] != null) {
-                    //  map[i][j].setNicknamesOfPlayersOnThisSquare(event.getHashMapForPlayersInSquare().get(String.valueOf(i).concat(String.valueOf(j))));
                     if ((map[i][j].isSpawn())) {
                         spawnSquare = (SpawnSquare) map[i][j];
                         if (spawnSquare.getColor().equals(ColorOfFigure_Square.RED))
@@ -68,6 +71,19 @@ public class MapView {
                 }
             }
         }
+    }
+
+    ArrayList<Square> getListOfSquareAsArrayList() {
+        ArrayList<Square> allSquares = new ArrayList<>();
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] != null) {
+                    allSquares.add(map[i][j]);
+                }
+            }
+
+        }
+        return allSquares;
     }
 
 
@@ -102,6 +118,14 @@ public class MapView {
 
     public void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
+    }
+
+    public boolean isSelectionForGenerationOfTerminator() {
+        return isSelectionForGenerationOfTerminator;
+    }
+
+    public void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
+        isSelectionForGenerationOfTerminator = selectionForGenerationOfTerminator;
     }
 }
 

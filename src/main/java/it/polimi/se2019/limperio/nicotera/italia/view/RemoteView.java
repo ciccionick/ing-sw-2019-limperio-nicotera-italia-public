@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
-import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.Client;
 import it.polimi.se2019.limperio.nicotera.italia.network.client.NetworkHandler;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -49,6 +48,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     private boolean terminatorMode= false;
 
     private MainFrame mainFrame;
+
+    private boolean isMyTurn;
 
     /**
      * The constructor creates and instance of all the parts of the view and it matches them to the specific client that is passed by parameter.
@@ -105,10 +106,20 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
-        if(receivedEvent.isRequestActionEvent()){
-            myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent)receivedEvent);
-            mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
-            mainFrame.updatePanelOfAction();
+        if(receivedEvent.isRequestActionEvent()) {
+            if (receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                myPlayerBoardView.updateThingsPlayerCanDo((RequestActionEvent) receivedEvent);
+                mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
+                mainFrame.updatePanelOfAction();
+            }
+            if (receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && receivedEvent.getNumOfAction() == 0) {
+                isMyTurn = true;
+                mainFrame.updateNorthPanel();
+            }
+            if(!receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())&& receivedEvent.getNumOfAction()==0 && isMyTurn){
+                isMyTurn = false;
+                mainFrame.updateNorthPanel();
+            }
             mainFrame.showMessage(receivedEvent);
         }
 
@@ -117,9 +128,22 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             if(receivedEvent instanceof RequestSelectionSquareForAction) {
                 mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
                 mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
+                mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForSpawnTerminator());
                 mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             }
             mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isTimerOverEvent()){
+            myPlayerBoardView.disableEveryThingPlayerCanDo();
+            mapView.setHasToChooseASquare(false);
+            mainFrame.updatePanelOfAction();
+            mainFrame.updateLeftPanelForWhoIsViewing(myPlayerBoardView.getNicknameOfPlayer());
+            mainFrame.updateEnableSquares(mapView.getListOfSquareAsArrayList());
+            mainFrame.showMessage(receivedEvent);
+            mainFrame.hidePopup();
+            isMyTurn=false;
+            mainFrame.updateNorthPanel();
         }
 
         if(receivedEvent.isNotifyAboutActionDone())
@@ -135,7 +159,11 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
             mainFrame.showMessage(receivedEvent);
-            mainFrame.showPopupForChooseWeapon((RequestForChooseAWeaponToCatch)receivedEvent);
+            mainFrame.showPopupForChooseWeapon(receivedEvent);
+        }
+        if(receivedEvent.isRequestToDiscardWeaponCard()){
+            mainFrame.showMessage(receivedEvent);
+            mainFrame.showPopupForChooseWeapon(receivedEvent);
         }
 
     }
@@ -186,8 +214,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
     }
 
     private void removePowerUpCardsDeckFromEvent(PlayerBoardEvent event){
-        for (int i = 0; i < event.getPowerUpCardsOwned().size(); i++) {
-            event.getPowerUpCardsOwned().remove(i);
+        while(!(event.getPowerUpCardsOwned().isEmpty())){
+            event.getPowerUpCardsOwned().remove(0);
         }
     }
 
@@ -207,5 +235,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
     public void setTerminatorMode(boolean terminatorMode) {
         this.terminatorMode = terminatorMode;
+    }
+
+    public boolean isMyTurn() {
+        return isMyTurn;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }

@@ -53,6 +53,8 @@ public class ServerEvent implements Serializable {
     private boolean isRequestSelectionSquareForAction = false;
     private boolean isGenerationEvent = false;
     private boolean isNotifyAboutActionDone = false;
+    private boolean isRequestToDiscardWeaponCard = false;
+    private boolean isTimerOverEvent = false;
 
     private int numOfAction;
 
@@ -139,6 +141,13 @@ public class ServerEvent implements Serializable {
         isKillshotTrackEvent = killshotTrackEvent;
     }
 
+    public boolean isTimerOverEvent() {
+        return isTimerOverEvent;
+    }
+
+    public void setTimerOverEvent(boolean timerOverEvent) {
+        isTimerOverEvent = timerOverEvent;
+    }
 
     public boolean isRequestForDrawTwoPowerUpCardsEvent() {
         return isRequestForDrawTwoPowerUpCardsEvent;
@@ -200,7 +209,13 @@ public class ServerEvent implements Serializable {
         return isGenerationEvent;
     }
 
+    public boolean isRequestToDiscardWeaponCard() {
+        return isRequestToDiscardWeaponCard;
+    }
 
+    public void setRequestToDiscardWeaponCard(boolean requestToDiscardWeaponCard) {
+        isRequestToDiscardWeaponCard = requestToDiscardWeaponCard;
+    }
 
     public void setGenerationEvent(boolean generationEvent) {
         isGenerationEvent = generationEvent;

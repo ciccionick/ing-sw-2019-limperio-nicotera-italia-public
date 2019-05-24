@@ -18,7 +18,7 @@ class PopupForSquare {
     final JPanel contentPane = new JPanel();
 
 
-    void addListOfPlayersInSquare(JPanel panelForPlayers, ArrayList<String> nicknamesOfPlayersOnThisSquare){
+    void addListOfPlayersInSquare(JPanel panelForPlayers, ArrayList<String> nicknamesOfPlayersOnThisSquare, String myNickname){
        GridBagConstraints gbcTextForPlayers = new GridBagConstraints();
        JLabel textForPlayers;
        if (nicknamesOfPlayersOnThisSquare.isEmpty()) {
@@ -38,7 +38,11 @@ class PopupForSquare {
        GridBagConstraints gbcLabelPlayer = new GridBagConstraints();
 
        if (!(nicknamesOfPlayersOnThisSquare.isEmpty())) {
-          labelPlayer1 = new JLabel(nicknamesOfPlayersOnThisSquare.get(0));
+          labelPlayer1 = new JLabel();
+          if(nicknamesOfPlayersOnThisSquare.get(0).equals(myNickname))
+              labelPlayer1.setText("Me");
+          else
+              labelPlayer1.setText(nicknamesOfPlayersOnThisSquare.get(0));
           gbcLabelPlayer.insets = new Insets(5, 0, 0, 0);
           gbcLabelPlayer.gridx = 0;
           gbcLabelPlayer.gridy = 1;
@@ -48,28 +52,44 @@ class PopupForSquare {
 
 
        if (nicknamesOfPlayersOnThisSquare.size() > 1) {
-          labelPlayer2 = new JLabel(nicknamesOfPlayersOnThisSquare.get(1));
+           labelPlayer2 = new JLabel();
+           if(nicknamesOfPlayersOnThisSquare.get(1).equals(myNickname))
+               labelPlayer2.setText("Me");
+           else
+               labelPlayer2.setText(nicknamesOfPlayersOnThisSquare.get(1));
           labelPlayer2.setHorizontalAlignment(SwingConstants.CENTER);
           gbcLabelPlayer.gridy = 2;
           panelForPlayers.add(labelPlayer2, gbcLabelPlayer);
        }
 
        if (nicknamesOfPlayersOnThisSquare.size() > 2) {
-          labelPlayer3 = new JLabel(nicknamesOfPlayersOnThisSquare.get(2));
+           labelPlayer3 = new JLabel();
+           if(nicknamesOfPlayersOnThisSquare.get(2).equals(myNickname))
+               labelPlayer3.setText("Me");
+           else
+               labelPlayer3.setText(nicknamesOfPlayersOnThisSquare.get(2));
           labelPlayer3.setHorizontalAlignment(SwingConstants.CENTER);
           gbcLabelPlayer.gridy = 3;
           panelForPlayers.add(labelPlayer3, gbcLabelPlayer);
        }
 
        if (nicknamesOfPlayersOnThisSquare.size() > 3) {
-          labelPlayer4 = new JLabel(nicknamesOfPlayersOnThisSquare.get(3));
+           labelPlayer4 = new JLabel();
+           if(nicknamesOfPlayersOnThisSquare.get(3).equals(myNickname))
+               labelPlayer4.setText("Me");
+           else
+               labelPlayer4.setText(nicknamesOfPlayersOnThisSquare.get(3));
           labelPlayer4.setHorizontalAlignment(SwingConstants.CENTER);
           gbcLabelPlayer.gridy = 4;
           panelForPlayers.add(labelPlayer4, gbcLabelPlayer);
        }
 
        if (nicknamesOfPlayersOnThisSquare.size() > 4) {
-          labelPlayer5 = new JLabel(nicknamesOfPlayersOnThisSquare.get(4));
+           labelPlayer5 = new JLabel();
+           if(nicknamesOfPlayersOnThisSquare.get(4).equals(myNickname))
+               labelPlayer5.setText("Me");
+           else
+               labelPlayer5.setText(nicknamesOfPlayersOnThisSquare.get(4));
           labelPlayer5.setHorizontalAlignment(SwingConstants.CENTER);
           gbcLabelPlayer.gridy = 5;
           panelForPlayers.add(labelPlayer5, gbcLabelPlayer);

@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RunEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
@@ -284,8 +285,11 @@ class MapPanel extends JPanel {
            if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).isEnabled()){
                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
                     mainFrame.getRemoteView().notify(new RunEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
-               else
+               if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
                    mainFrame.getRemoteView().notify(new CatchEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator()){
+                   mainFrame.getRemoteView().notify(new GenerationTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               }
                for(JLabel label : hashMapForCell.values()){
                    label.setEnabled(true);
                }
@@ -329,15 +333,13 @@ class MapPanel extends JPanel {
                 if (!(square.getNicknamesOfPlayersOnThisSquare().isEmpty())) {
                     listOfNicknames = square.getNicknamesOfPlayersOnThisSquare();
                 }
-                Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
-                Point positionOfPanel = mainFrame.getMapPanel().getLocation();
                 Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
             if (square.isSpawn()) {
                 listOfWeaponOnTheSquare = ((SpawnSquare) square).getWeaponsCardsForRemoteView();
                 popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame, listOfWeaponOnTheSquare );
                 } else {
                     ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
-                    popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, dimensionOfFrame, positionOfPanel, positionOfSquare);
+                    popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, mainFrame, positionOfSquare);
                 }
 
         }

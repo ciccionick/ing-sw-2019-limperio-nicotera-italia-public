@@ -10,6 +10,7 @@ public class RequestSelectionSquareForAction extends ServerEvent {
     private ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo = new ArrayList<>();
     private boolean isSelectionForRun = false;
     private boolean isSelectionForCatch = false;
+    private boolean isSelectionForSpawnTerminator = false;
 
     public RequestSelectionSquareForAction(String message){
         super(message);
@@ -30,6 +31,14 @@ public class RequestSelectionSquareForAction extends ServerEvent {
 
     public void setWeaponNotAvailableForLackOfAmmo(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo) {
         this.weaponNotAvailableForLackOfAmmo = weaponNotAvailableForLackOfAmmo;
+    }
+
+    public boolean isSelectionForSpawnTerminator() {
+        return isSelectionForSpawnTerminator;
+    }
+
+    public void setSelectionForSpawnTerminator(boolean selectionForPutTerminator) {
+        isSelectionForSpawnTerminator = selectionForPutTerminator;
     }
 
     public boolean isSelectionForRun() {

@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardWeaponCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -22,8 +23,8 @@ public class MainFrame {
     private RightPanel rightPanel;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
-    private DialogForMessage dialogForMessage;
-    private PopupForChooseWeaponCardToCatch popupForChooseWeaponCardToCatch;
+    private DialogForMessage dialogForMessage = null;
+    private PopupForChooseWeaponCard popupForChooseWeaponCardToCatch;
 
 
     public MainFrame(RemoteView remoteView) {
@@ -45,7 +46,7 @@ public class MainFrame {
         mapPanel = new MapPanel(this);
         contentPane.add(mapPanel,BorderLayout.CENTER);
 
-        killshotTrackPanel = new KillshotTrackPanel(frame);
+        killshotTrackPanel = new KillshotTrackPanel(this);
         contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
 
         leftPanel = new LeftPanel(this,remoteView.getMyPlayerBoardView());
@@ -75,6 +76,11 @@ public class MainFrame {
 
 
     public void showMessage(ServerEvent receivedEvent) {
+        /*if(dialogForMessage!=null) {
+            dialogForMessage.getButton().removeActionListener(dialogForMessage.getButton().getActionListeners()[0]);
+            dialogForMessage.getDialog().setVisible(false);
+            frame.remove(dialogForMessage.getDialog());
+        }*/
         dialogForMessage = new DialogForMessage(this, receivedEvent);
     }
 
@@ -102,12 +108,25 @@ public class MainFrame {
         mapPanel.updateEnableSquares(squaresReachableWithRunAction);
      }
 
-    public void showPopupForChooseWeapon(RequestForChooseAWeaponToCatch receivedEvent) {
-        popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCardToCatch(receivedEvent, this);
+    public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
+        if(receivedEvent.isRequestForChooseAWeaponToCatch())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(((RequestForChooseAWeaponToCatch)receivedEvent), null,this);
+        if(receivedEvent.isRequestToDiscardWeaponCard())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(null, ((RequestToDiscardWeaponCard)receivedEvent), this);
     }
 
+    public void hidePopup(){
+        if (popupForChooseWeaponCardToCatch!=null)
+            popupForChooseWeaponCardToCatch.getPopupForChooseW().setVisible(false);
+    }
 
-
+    public void updateNorthPanel() {
+        contentPane.remove(killshotTrackPanel);
+        killshotTrackPanel = new KillshotTrackPanel(this);
+        contentPane.add(killshotTrackPanel,BorderLayout.NORTH);
+        contentPane.validate();
+        contentPane.repaint();
+    }
 
 
     private class FrameListener implements ComponentListener {
@@ -125,7 +144,7 @@ public class MainFrame {
             mapPanel = new MapPanel(mainFrame);
             contentPane.add(mapPanel,BorderLayout.CENTER);
 
-            killshotTrackPanel = new KillshotTrackPanel(frame);
+            killshotTrackPanel = new KillshotTrackPanel(mainFrame);
             contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
 
             leftPanel = new LeftPanel(mainFrame,leftPanel.getPlayerBoardView());

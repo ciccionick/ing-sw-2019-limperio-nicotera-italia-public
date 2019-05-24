@@ -15,7 +15,7 @@ import java.util.ArrayList;
         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
         popup.setAutoRequestFocus(false);
         popup.setUndecorated(true);
-        popup.setSize((int)((int)dimensionOfFrame.getWidth()/1.92), (int)((int)dimensionOfFrame.getHeight()/1.54));
+        popup.setSize((int)((int)dimensionOfFrame.getWidth()/1.92), (int)((int)dimensionOfFrame.getHeight()/1.2));
         popup.setLocation((int) (locationOfFrame.getX() + dimensionOfFrame.getWidth() - popup.getWidth()) / 2,
                 (int) (locationOfFrame.getY() + dimensionOfFrame.getHeight() - popup.getHeight()) / 2);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -32,13 +32,13 @@ import java.util.ArrayList;
         contentPane.add(panelForPlayers, gbcPanelForPlayers);
         panelForPlayers.setLayout(new GridBagLayout());
 
-        addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare);
+        addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
 
 
-        PanelForWeapons panelForWeapons = new PanelForWeapons(mainFrame, listOfWeapon, null, null);
+        PanelForWeapons panelForWeapons = new PanelForWeapons(mainFrame, listOfWeapon, null);
 
         GridBagConstraints gbcPanelForWeapons = new GridBagConstraints();
-        gbcPanelForWeapons.insets = new Insets(5, 5, 0, 5);
+        gbcPanelForWeapons.insets = new Insets(5, 10, 0, 10);
         gbcPanelForWeapons.fill = GridBagConstraints.BOTH;
         gbcPanelForWeapons.gridx = 1;
         gbcPanelForWeapons.gridy = 0;

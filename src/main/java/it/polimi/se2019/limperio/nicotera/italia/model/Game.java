@@ -1,10 +1,16 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
+import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
 
 /**
  * Contains all of the informations about the game
@@ -21,6 +27,7 @@ public class Game extends Observable<ServerEvent> {
      * The reference of the board
      */
     private Board board;
+    private Controller controller;
     /**
      * The list of players in the game
      */
@@ -34,25 +41,13 @@ public class Game extends Observable<ServerEvent> {
      */
     private static Game instanceOfGame = null;
     /**
-     * The number of the player in the game
-     */
-    private int numOfPlayer;
-    /**
      * The number of the player is playing the turn
      */
-    private int playerOfTurn;
-    /**
-     * It's true if the game is in the first round, false otherwise. True for default
-     */
-    private boolean isFirstRound = true;
+    private int playerOfTurn=1;
     /**
      * The current number of the action did by the player of the turn
      */
-    private int numOfActionOfTheTurn;
-    /**
-     * The squares visited during a turn of a player
-     */
-    private Square[] squareVisitedInTheTurn;
+    private int numOfActionOfTheTurn=0;
     /**
      * It's true when the game is over, false otherwise. False for default
      */
@@ -82,7 +77,11 @@ public class Game extends Observable<ServerEvent> {
      */
     private int round=1;
 
+    private long delay;
+
     private boolean hasToDoTerminatorAction = false;
+
+    private boolean hasToBeGenerated = false;
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
@@ -99,13 +98,38 @@ public class Game extends Observable<ServerEvent> {
      * @param terminatorModeActive The boolean value that indicate if there will be the terminator mode if the number of players is 3
      */
     public void initializeGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
+        File file;
+        FileReader inFile = null;
+        BufferedReader bin=null;
+        file = new File("resources/timer/timerForTurn.txt");
+
+        try {
+            inFile = new FileReader(file);
+            bin = new BufferedReader(inFile);
+            delay = Long.parseLong(bin.readLine());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if(bin!=null)
+                    bin.close();
+                if(inFile!=null)
+                    inFile.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.anticipatedFrenzy=anticipatedFrenzy;
+        setListOfNickname();
         if(players.size()==3 || players.size()==4)
             this.terminatorModeActive = terminatorModeActive;
         if(terminatorModeActive){
-            players.add(new Player("terminator", false, 4, findColorAvailable()));
+            players.add(new Player("terminator", false, players.size()+1, findColorAvailable()));
         }
-        setListOfNickname();
+
         PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.createPlayerBoard();
@@ -120,14 +144,15 @@ public class Game extends Observable<ServerEvent> {
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
         killshotTrackEvent.setNicknames(listOfNickname);
+        killshotTrackEvent.setNicknamePlayerOfTheTurn(listOfNickname.get(0));
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
-        updateMap();
-        startGame();
+        sendMapEvent();
+        controller.sendInitialRequest();
     }
 
     private ColorOfFigure_Square findColorAvailable() {
@@ -146,47 +171,18 @@ public class Game extends Observable<ServerEvent> {
     /**
      * Sends the correct event towards the virtual view in accordance to the right phase of the game
      */
-    private void startGame() {
-        boolean requestForDrawTwoCardsDone = false;
-        while(!isGameOver) {
-            for (playerOfTurn = 1; playerOfTurn <= players.size(); playerOfTurn++) {
-                if(round==1) {
-                    requestForDrawTwoCardsDone = false;
-                    if(playerOfTurn==1 && isTerminatorModeActive())
-                        hasToDoTerminatorAction=false;
-                }
-                if (!(players.get(playerOfTurn - 1).getNickname().equals("terminator"))|| !(players.get(playerOfTurn-1).isConnected())) {
-                    numOfActionOfTheTurn = 0;
-                    while (numOfActionOfTheTurn < numOfMaxActionForTurn) {
-                        if (numOfActionOfTheTurn == 0 && round==1 && !requestForDrawTwoCardsDone) {
-                            System.out.println("Porco dio");
-                            ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
-                            requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
-                            requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of "+ listOfNickname.get(playerOfTurn-1) + ". Press OK and wait for some news!");
-                            requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
-                            requestDrawTwoPowerUpCardsEvent.setNicknames(listOfNickname);
-                            requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(listOfNickname.get(playerOfTurn-1));
-                            notify(requestDrawTwoPowerUpCardsEvent);
-                            requestForDrawTwoCardsDone=true;
-                        }
-                    }
 
-                    if(terminatorModeActive) {
-                        numOfMaxActionForTurn = 3;
-                        hasToDoTerminatorAction = true;
-                    }
-                    updateMap();
-                }
-            }
-            round++;
-        }
 
+
+
+    public boolean isHasToBeGenerated() {
+        return hasToBeGenerated;
     }
 
     /**
      * Update the map and send an event of type {@link MapEvent}
      */
-    void updateMap(){
+    public void sendMapEvent(){
         MapEvent mapEvent = new MapEvent();
         mapEvent.setTerminatorMode(isTerminatorModeActive());
         mapEvent.setNicknames(listOfNickname);
@@ -195,6 +191,9 @@ public class Game extends Observable<ServerEvent> {
         notify(mapEvent);
     }
 
+    public void setHasToBeGenerated(boolean hasToBeGenerated) {
+        this.hasToBeGenerated = hasToBeGenerated;
+    }
 
     private void createBoard(){
         this.board = Board.instanceOfBoard();
@@ -306,10 +305,27 @@ public class Game extends Observable<ServerEvent> {
         return terminatorModeActive;
     }
 
-    public void setPlayerOfTurn(int i)
-    {
-        this.playerOfTurn=i;
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
+    public long getDelay() {
+        return delay;
+    }
 
+    public void setPlayerOfTurn(int playerOfTurn) {
+        this.playerOfTurn = playerOfTurn;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    public void setNumOfActionOfTheTurn(int numOfActionOfTheTurn) {
+        this.numOfActionOfTheTurn = numOfActionOfTheTurn;
+    }
+
+    public void setNumOfMaxActionForTurn(int numOfMaxActionForTurn) {
+        this.numOfMaxActionForTurn = numOfMaxActionForTurn;
+    }
 }
