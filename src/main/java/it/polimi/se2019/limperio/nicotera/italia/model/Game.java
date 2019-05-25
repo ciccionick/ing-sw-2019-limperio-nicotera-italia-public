@@ -324,4 +324,6 @@ public class Game extends Observable<ServerEvent> {
     public void setNumOfMaxActionForTurn(int numOfMaxActionForTurn) {
         this.numOfMaxActionForTurn = numOfMaxActionForTurn;
     }
+
+
 }

@@ -286,16 +286,17 @@ public class Controller implements Observer<ClientEvent> {
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
              return false;
-         else
-            return weaponCard.isLoad();
-         //In realtà questo metodo deve chiamare un metodo di weapon controller (della corrispondente arma) che restituisce true se esiste un player da poter sparare
+
+         if(weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}})==null) return false;
+         return true;
+
     }
 
     public WeaponController getWeaponController() {
         return weaponController;
     }
 
-    private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+    public boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          for(WeaponCard weaponCard : weaponDeck){
              if(checkIfThisWeaponIsUsable(weaponCard))
                  return true;
