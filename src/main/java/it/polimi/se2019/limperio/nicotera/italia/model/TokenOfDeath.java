@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author Giuseppe Italia
  */
 public class TokenOfDeath implements Serializable {
-
+    static final long serialVersionUID = 420000018;
     private ColorOfDeathToken color;
     private int numOfToken;
 

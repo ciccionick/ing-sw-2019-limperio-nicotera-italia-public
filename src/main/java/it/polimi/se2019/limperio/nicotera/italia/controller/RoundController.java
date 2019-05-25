@@ -12,22 +12,23 @@ public class RoundController {
         this.game = game;
     }
 
-     void updateTurn(){
-        if(game.getPlayerOfTurn()==game.getPlayers().size()){
-            game.setPlayerOfTurn(1);
-            game.setRound(game.getRound()+1);
-        }
-        else
-            game.setPlayerOfTurn(game.getPlayerOfTurn()+1);
-        game.setNumOfActionOfTheTurn(0);
-        if(game.isTerminatorModeActive()) {
-            game.setHasToDoTerminatorAction(true);
+     void updateTurn() {
+         if (game.getPlayerOfTurn() == game.getPlayers().size()) {
+             game.setPlayerOfTurn(1);
+             game.setRound(game.getRound() + 1);
+         } else
+             game.setPlayerOfTurn(game.getPlayerOfTurn() + 1);
+         if (game.getPlayers().get(game.getPlayerOfTurn() - 1).isConnected()) {
+             game.setNumOfActionOfTheTurn(0);
+             if (game.isTerminatorModeActive()) {
+                 game.setHasToDoTerminatorAction(true);
 
-            if(game.getNumOfMaxActionForTurn()==2)
-                game.setNumOfMaxActionForTurn(3);
-        }
-        game.getBoard().addWeaponsInSpawnSquare();
-        game.getBoard().addAmmoTileInNormalSquare();
-        game.sendMapEvent();
-    }
+                 if (game.getNumOfMaxActionForTurn() == 2)
+                     game.setNumOfMaxActionForTurn(3);
+             }
+             game.getBoard().addWeaponsInSpawnSquare();
+             game.getBoard().addAmmoTileInNormalSquare();
+             game.sendMapEvent();
+         }
+     }
 }

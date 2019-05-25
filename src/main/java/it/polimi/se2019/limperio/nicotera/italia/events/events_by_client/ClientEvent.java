@@ -21,6 +21,7 @@ import java.io.Serializable;
  * @author Pietro L'Imperio
  */
 public class ClientEvent implements Serializable {
+    static final long serialVersionUID = 420000014;
     /**
      * The message stored in event.
      */

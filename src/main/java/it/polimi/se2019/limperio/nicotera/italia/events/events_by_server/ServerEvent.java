@@ -22,6 +22,7 @@ import java.util.ArrayList;
  * @author Pietro L'Imperio
  */
 public class ServerEvent implements Serializable {
+    static final long serialVersionUID = 420000013;
     /**
      * The message stored in the event.
      */
@@ -55,7 +56,6 @@ public class ServerEvent implements Serializable {
     private boolean isNotifyAboutActionDone = false;
     private boolean isRequestToDiscardWeaponCard = false;
     private boolean isTimerOverEvent = false;
-
     private int numOfAction;
 
 

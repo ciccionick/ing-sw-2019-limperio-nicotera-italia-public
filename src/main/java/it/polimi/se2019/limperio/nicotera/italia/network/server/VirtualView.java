@@ -1,10 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.server;
 
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
+import it.polimi.se2019.limperio.nicotera.italia.model.Map;
+import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
@@ -13,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 /**
  * View of the client in the server side. Handle the communication with the client and the exchange of event.
@@ -64,6 +68,19 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     private boolean firstPlayer;
 
+    private ArrayList<PlayerBoard> listOfPlayerBoards = new ArrayList<>();
+
+    private PlayerBoard myPlayerBoard;
+
+    private Square[][] map;
+
+    private KillshotTrack killshotTrack;
+
+    private String IPAddress;
+
+    private boolean terminatorMode = false;
+
+    private int typeOfMap;
 
     /**
      * Sets first player attribute, initialize the object streams
@@ -73,6 +90,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
      VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
+        this.IPAddress = client.getLocalAddress().getHostAddress();
         this.server = server;
         this.controller = controller;
         register(controller);
@@ -100,45 +118,47 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         try {
             boolean invalidInitialization = true;
             RequestInitializationEvent req;
-            while (invalidInitialization) {
-                out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
-                AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
-                while(isNotValidNickname(ans.getNickname())){
-                    req = new RequestInitializationEvent("Digit your nickname: ", true, false, false, false, false);
-                    req.setRetake(true);
+            if(!server.isGameIsStarted()) {
+                while (invalidInitialization) {
+                    out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
+                    AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
+                    while (isNotValidNickname(ans.getNickname())) {
+                        req = new RequestInitializationEvent("Digit your nickname: ", true, false, false, false, false);
+                        req.setRetake(true);
+                        out.writeObject(req);
+                        ans = (AnswerInitializationEvent) in.readObject();
+                    }
+                    server.addNickname(ans.getNickname());
+                    nicknameOfClient = ans.getNickname();
+                    out.writeObject(new RequestInitializationEvent("Digit your color:", false, true, false, false, false));
+                    ans = (AnswerInitializationEvent) in.readObject();
+                    while (server.getListOfColor().contains(ans.getColor().toUpperCase())) {
+                        req = new RequestInitializationEvent("Digit your color: ", false, true, false, false, false);
+                        req.setRetake(true);
+                        out.writeObject(req);
+                        ans = (AnswerInitializationEvent) in.readObject();
+                    }
+                    server.getListOfColor().add(ans.getColor().toUpperCase());
+                    if (server.getListOfColor().size() == 3)
+                        server.startTimer();
+                    colorOfClient = ans.getColor().toUpperCase();
+                    if (firstPlayer) {
+                        out.writeObject(new RequestInitializationEvent("Choose if u want frenzy:", false, false, true, false, false));
+                        ans = (AnswerInitializationEvent) in.readObject();
+                        server.setAnticipatedFrenzy(ans.isFrenzy());
+                        out.writeObject(new RequestInitializationEvent("Choose which map do you want to play with:", false, false, false, false, true));
+                        ans = (AnswerInitializationEvent) in.readObject();
+                        if (ans.getMap() != 0)
+                            server.setTypeMap(ans.getMap());
+                        out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
+                        ans = (AnswerInitializationEvent) in.readObject();
+                        server.setTerminatorMode(ans.isTerminator());
+                    }
+                    req = new RequestInitializationEvent("", false, false, false, false, false);
+                    req.setAck(true);
                     out.writeObject(req);
-                    ans = (AnswerInitializationEvent) in.readObject();
+                    invalidInitialization = false;
                 }
-                server.addNickname(ans.getNickname());
-                nicknameOfClient = ans.getNickname();
-                out.writeObject(new RequestInitializationEvent("Digit your color:", false, true, false, false, false));
-                ans = (AnswerInitializationEvent) in.readObject();
-                while(server.getListOfColor().contains(ans.getColor().toUpperCase())){
-                    req = new RequestInitializationEvent("Digit your color: ", false, true, false, false, false);
-                    req.setRetake(true);
-                    out.writeObject(req);
-                    ans = (AnswerInitializationEvent) in.readObject();
-                }
-                server.getListOfColor().add(ans.getColor().toUpperCase());
-                if(server.getListOfColor().size() == 3)
-                    server.startTimer();
-                colorOfClient = ans.getColor().toUpperCase();
-                if(firstPlayer){
-                    out.writeObject(new RequestInitializationEvent("Choose if u want frenzy:", false, false, true, false, false));
-                    ans = (AnswerInitializationEvent) in.readObject();
-                    server.setAnticipatedFrenzy(ans.isFrenzy());
-                    out.writeObject(new RequestInitializationEvent("Choose which map do you want to play with:", false, false, false, false, true));
-                    ans = (AnswerInitializationEvent) in.readObject();
-                    if(ans.getMap()!=0)
-                        server.setTypeMap(ans.getMap());
-                    out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
-                    ans = (AnswerInitializationEvent) in.readObject();
-                    server.setTerminatorMode(ans.isTerminator());
-                }
-                req = new RequestInitializationEvent("", false, false, false, false, false);
-                req.setAck(true);
-                out.writeObject(req);
-                invalidInitialization=false;
             }
         } catch (IOException se) {
             handleDisconnection();
@@ -164,6 +184,41 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     }
 
+     void handleReconnection() {
+        RequestInitializationEvent req = new RequestInitializationEvent("The game is already started: if you were disconnected, reinsert your previous nickname and you will be readmitted to the game", true, false, false, false, false );
+         try {
+             out.writeObject(req);
+             AnswerInitializationEvent answer = (AnswerInitializationEvent) in.readObject();
+             if(server.getListOfNickname().contains(answer.getNickname())){
+                 if(!controller.findPlayerWithThisNickname(answer.getNickname()).isConnected()){
+                     PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
+                     playerBoardEvent.setNicknameInvolved(answer.getNickname());
+                     playerBoardEvent.setPlayerBoard(myPlayerBoard);
+                     out.writeObject(playerBoardEvent);
+                     KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", killshotTrack);
+                     killshotTrackEvent.setNicknameInvolved(answer.getNickname());
+                     out.writeObject(killshotTrackEvent);
+                     MapEvent mapEvent = new MapEvent();
+                     mapEvent.setMap(map);
+                     mapEvent.setNicknameInvolved(answer.getNickname());
+                     mapEvent.setTerminatorMode(terminatorMode);
+                     mapEvent.setTypeOfMap(typeOfMap);
+                     out.writeObject(mapEvent);
+                 }
+                 else{
+                     //stampare al client che il nickname inserito è di un altro player
+                 }
+             }
+             else{
+                 //stampare al client che il nickname inserito non esiste
+             }
+         } catch (IOException e) {
+             System.exit(0);
+         } catch (ClassNotFoundException e) {
+             e.printStackTrace();
+         }
+     }
+
     private boolean isNotValidNickname(String nickname) {
         if(server.getListOfNickname().contains(nickname))
             return true;
@@ -187,6 +242,47 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                 e.printStackTrace();
             }
         }
+        if(event.isKillshotTrackEvent()){
+            updateKillshotTrack(event);
+        }
+        if(event.isMapEvent()){
+            if(map == null){
+                terminatorMode = ((MapEvent) event).isTerminatorMode();
+                typeOfMap = ((MapEvent)event).getTypeOfMap();
+            }
+            updateMap(event);
+        }
+        if(event.isPlayerBoardEvent()){
+            updatePlayerBoard(event);
+        }
+    }
+
+    private void updatePlayerBoard(ServerEvent event) {
+        PlayerBoardEvent eventOfPlayerBoard = (PlayerBoardEvent) event;
+        if(listOfPlayerBoards.isEmpty() || !listOfPlayerBoards.contains(eventOfPlayerBoard.getPlayerBoard())){
+            listOfPlayerBoards.add(eventOfPlayerBoard.getPlayerBoard());
+        }
+        else{
+            for(PlayerBoard playerBoard : listOfPlayerBoards){
+                if(playerBoard.getNicknameOfPlayer().equals(eventOfPlayerBoard.getPlayerBoard().getNicknameOfPlayer())){
+                    playerBoard = eventOfPlayerBoard.getPlayerBoard();
+                    break;
+                }
+            }
+        }
+        if(eventOfPlayerBoard.getNicknameInvolved().equals(nicknameOfClient)){
+            myPlayerBoard = eventOfPlayerBoard.getPlayerBoard();
+        }
+    }
+
+    private void updateMap(ServerEvent event) {
+        MapEvent eventOfMap = (MapEvent) event;
+        this.map = eventOfMap.getMap();
+    }
+
+    private void updateKillshotTrack(ServerEvent event) {
+        KillshotTrackEvent eventKillshotTrack = (KillshotTrackEvent) event;
+        killshotTrack = eventKillshotTrack.getKillShotTrack();
     }
 
 
@@ -201,10 +297,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             server.deregister(this, client);
         }
         else{
-            //QUI BISOGNA INVIARE UN MESSAGGIO AL CONTROLLER DICENDO CHE IL PLAYER CON IL NICKNAME nicknameOfClient SI E' DISCONNESSO IN MODO CHE IL MODEL LO SAPPIA E POSSA EVENTUALMENTE SALTARE IL SUO TURNO
+            controller.handleDisconnection(nicknameOfClient);
         }
-
-
         try {
             in.close();
             out.close();
@@ -212,4 +306,26 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             e.printStackTrace();
         }
     }
+
+    public ArrayList<PlayerBoard> getListOfPlayerBoards() {
+        return listOfPlayerBoards;
+    }
+
+    public PlayerBoard getMyPlayerBoard() {
+        return myPlayerBoard;
+    }
+
+    public Square[][] getMap() {
+        return map;
+    }
+
+    public KillshotTrack getKillshotTrack() {
+        return killshotTrack;
+    }
+
+    public String getIPAddress() {
+        return IPAddress;
+    }
+
+
 }

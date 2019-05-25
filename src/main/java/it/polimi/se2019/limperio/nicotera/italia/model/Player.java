@@ -117,6 +117,9 @@ public class Player implements PlayerBehaviour{
 
     public void updateScore(int newscore){}
 
+    public void setConnected(boolean connected) {
+        isConnected = connected;
+    }
 
     /**
      * Moves the player on the square that is passed as parameter

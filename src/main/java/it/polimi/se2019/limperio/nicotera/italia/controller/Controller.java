@@ -107,7 +107,7 @@ public class Controller implements Observer<ClientEvent> {
      * @return the player that is looked for
      * @throws IllegalArgumentException when nickname parameter isn't associated to a player
      */
-    Player findPlayerWithThisNickname (String nickname){
+    public Player findPlayerWithThisNickname (String nickname){
         for(Player player : game.getPlayers()){
             if(player.getNickname().equals(nickname)){
                 return player;
@@ -175,15 +175,19 @@ public class Controller implements Observer<ClientEvent> {
         if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
             sendRequestForAction();
         }
-        else{
+        else {
             timer.cancel();
-            timer=null;
-            turnTask=null;
+            timer = null;
+            turnTask = null;
             roundController.updateTurn();
-            if(game.getRound()>1)
-                sendRequestForAction();
+            if (game.getPlayers().get(game.getPlayerOfTurn()).isConnected()) {
+                if (game.getRound() > 1)
+                    sendRequestForAction();
+                else
+                    sendInitialRequest();
+            }
             else
-                sendInitialRequest();
+                roundController.updateTurn();
         }
     }
 
@@ -294,6 +298,12 @@ public class Controller implements Observer<ClientEvent> {
         } catch (IllegalStateException er) {
             er.printStackTrace();
         }
+
+    }
+    //da completare
+    public void handleDisconnection(String nicknameOfPlayerDisconnected){
+         Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
+         player.setConnected(false);
 
     }
 
