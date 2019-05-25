@@ -211,6 +211,12 @@ public class Server  {
     }
 
     private void handleReconnectionClient(Socket client){
+        for(VirtualView virtualView : listOfVirtualView){
+            if(client.getLocalAddress().getHostAddress().equals(virtualView.getIPAddress())){
+                virtualView.handleReconnection();
+                break;
+            }
+        }
 
     }
 

@@ -65,8 +65,13 @@ public class Client {
             System.out.println("In attesa del primo messaggio..");
 
             while(true) {
-                RequestInitializationEvent req = (RequestInitializationEvent) client.in.readObject();
-                client.myNetworkHandler.handleEventInitialization(req);
+                RequestInitializationEvent req = null;
+                try {
+                    req = (RequestInitializationEvent) client.in.readObject();
+                }
+                catch(EOFException ex){
+                    System.exit(0);
+                }                client.myNetworkHandler.handleEventInitialization(req);
                 if(req.isAck())
                     break;
                 }
@@ -82,7 +87,7 @@ public class Client {
             }
             catch (SocketException se){
                 System.out.println("Disconnessione...");
-                break;
+                System.exit(0);
             }
 
         }

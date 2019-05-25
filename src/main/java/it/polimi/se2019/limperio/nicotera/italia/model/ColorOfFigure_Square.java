@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author giuseppeitalia
  */
 
-public enum ColorOfFigure_Square implements Serializable {
+public enum ColorOfFigure_Square{
     RED,
     YELLOW,
     PURPLE,
