@@ -51,6 +51,7 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToShootWithTerminator = false;
    private boolean isRequestToGoOn = false;
    private boolean isMoveTerminatorEvent = false;
+   private boolean isTerminatorShootEvent = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -192,5 +193,13 @@ public class ClientEvent implements Serializable {
 
     public void setRequestToGoOn(boolean requestToGoOn) {
         isRequestToGoOn = requestToGoOn;
+    }
+
+    public boolean isTerminatorShootEvent() {
+        return isTerminatorShootEvent;
+    }
+
+    public void setTerminatorShootEvent(boolean terminatorShootEvent) {
+        isTerminatorShootEvent = terminatorShootEvent;
     }
 }

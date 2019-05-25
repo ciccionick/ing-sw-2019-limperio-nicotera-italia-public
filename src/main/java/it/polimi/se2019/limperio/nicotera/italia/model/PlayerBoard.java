@@ -50,6 +50,17 @@ public class PlayerBoard implements Serializable, Cloneable {
         for(Ammo ammoItem : this.ammo) {
             playerBoard.ammo.add ( (Ammo) ammoItem.clone());
         }
+        playerBoard.damages = new ArrayList<>();
+
+        for (ColorOfFigure_Square damage : this.damages){
+            playerBoard.damages.add(damage);
+        }
+        playerBoard.marks = new ArrayList<>();
+        for (ColorOfFigure_Square mark : this.marks){
+            playerBoard.marks.add(mark);
+        }
+
+
         return playerBoard;
     }
 

@@ -3,10 +3,9 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.MoveTerminatorEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestChooseActionForTerminator;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForAction;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToSelectionPlayerToAttackWithTerminator;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.TerminatorShootEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
+import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -92,15 +91,48 @@ class TerminatorController {
 
          ArrayList<Player> attackedPlayers = controller.getWeaponController().canSee(terminator);
          if (attackedPlayers.isEmpty()) {
+             game.setHasToDoTerminatorAction(false);
             controller.handleTheEndOfAnAction();
          }
          else{
-             RequestToSelectionPlayerToAttackWithTerminator requestToSelectionPlayerToAttackWithTerminator = new RequestToSelectionPlayerToAttackWithTerminator();
-             requestToSelectionPlayerToAttackWithTerminator.setNicknamesOfPlayersAttachable(attackedPlayers);
-             requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());
-             requestToSelectionPlayerToAttackWithTerminator.setMessageForInvolved("Choose who the terminator has to shoot: ");
-             message.getMyVirtualView().update(requestToSelectionPlayerToAttackWithTerminator);
+             sendRequestToChoosePlayerToAttack(message);
          }
+    }
+
+    void sendRequestToChoosePlayerToAttack(ClientEvent message){
+        ArrayList<Player> attackedPlayers = controller.getWeaponController().canSee(controller.findPlayerWithThisNickname("terminator"));
+        RequestToSelectionPlayerToAttackWithTerminator requestToSelectionPlayerToAttackWithTerminator = new RequestToSelectionPlayerToAttackWithTerminator();
+        requestToSelectionPlayerToAttackWithTerminator.setNicknamesOfPlayersAttachable(attackedPlayers);
+        requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());
+        requestToSelectionPlayerToAttackWithTerminator.setMessageForInvolved("Choose who the terminator has to shoot: ");
+        message.getMyVirtualView().update(requestToSelectionPlayerToAttackWithTerminator);
+
+    }
+
+
+     void handleTerminatorShootAction(ClientEvent message) {
+         Player terminator = controller.findPlayerWithThisNickname("terminator");
+         Player playerToAttack = controller.findPlayerWithThisNickname(((TerminatorShootEvent)message).getNicknamePlayerToAttack());
+         playerToAttack.assignDamage(terminator.getColorOfFigure(), 1);
+
+         if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
+             controller.getDeathController().handleDeath(playerToAttack);
+         }
+         if(terminator.isOverSixDamage()){
+             playerToAttack.assignMarks(terminator.getColorOfFigure(), 1);
+         }
+
+         System.out.println(playerToAttack.getPlayerBoard().getDamages().get(0).toString());
+         PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+         pbEvent.setNicknameInvolved(playerToAttack.getNickname());
+         pbEvent.setNicknames(game.getListOfNickname());
+         pbEvent.setMessageForInvolved("You have been attacked by the terminator!");
+         pbEvent.setMessageForOthers(playerToAttack.getNickname() + " has been attacked by terminator");
+         pbEvent.setPlayerBoard(playerToAttack.getPlayerBoard());
+         pbEvent.setNotifyAboutActionDone(true);
+         game.notify(pbEvent);
+         game.setHasToDoTerminatorAction(false);
+         controller.handleTheEndOfAnAction();
     }
 
 

@@ -102,7 +102,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         }
 
         if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
-            System.out.println("Dobbiamo scegliere che player attaccare");
+            remoteView.update(event);
         }
 
         if(event.isRequestToChooseTerminatorAction()){

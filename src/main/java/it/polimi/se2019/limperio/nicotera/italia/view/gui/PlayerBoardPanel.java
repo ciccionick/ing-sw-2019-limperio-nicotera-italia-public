@@ -4,12 +4,15 @@ import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
- class PlayerBoardPanel extends JPanel {
+class PlayerBoardPanel extends JPanel {
 
     private MainFrame mainFrame;
 
     private PlayerBoardView playerBoardViewed;
+    private JLabel cell11;
 
      PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
@@ -78,6 +81,9 @@ import java.awt.*;
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell07.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell07.setIcon(imageIcon);
+        cell07.setToolTipText("Tap and hold to see possibly marks");
+        ListenerForMarksBoard listenerForMarksBoard = new ListenerForMarksBoard(cell07);
+        cell07.addMouseListener(listenerForMarksBoard);
         add(cell07, gbcCell07);
 
         JLabel cell013 = new JLabel("");
@@ -92,7 +98,7 @@ import java.awt.*;
         cell013.setIcon(imageIcon);
         add(cell013, gbcCell013);
 
-        JLabel cell11 = new JLabel("");
+        cell11 = new JLabel("");
         GridBagConstraints gbcCell11 = new GridBagConstraints();
         gbcCell11.gridx = 1;
         gbcCell11.gridy = 1;
@@ -102,6 +108,9 @@ import java.awt.*;
         newimg = image.getScaledInstance(widthOfMiddleCells*12,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell11.setIcon(imageIcon);
+        cell11.setToolTipText("Tap and hold to see possibly damage");
+        ListenerForDamageBoard listenerForDamageBoard = new ListenerForDamageBoard(cell11);
+        cell11.addMouseListener(listenerForDamageBoard);
         add(cell11, gbcCell11);
 
         JLabel cell21 = new JLabel("");
@@ -196,7 +205,89 @@ import java.awt.*;
         add(cell29, gbcCell29);
     }
 
-    public PlayerBoardView getPlayerBoardViewed() {
-       return playerBoardViewed;
+
+
+    PlayerBoardView getPlayerBoardViewed() {
+      return playerBoardViewed;
+   }
+
+   class ListenerForDamageBoard implements MouseListener{
+
+        private JLabel damageBoard;
+        private PopupForDamageMarks popupForDamage = null;
+
+
+        ListenerForDamageBoard(JLabel damageBoard) {
+
+          this.damageBoard = damageBoard;
+       }
+
+       @Override
+       public void mouseClicked(MouseEvent e) {
+
+       }
+
+       @Override
+       public void mousePressed(MouseEvent e) {
+           if(!(mainFrame.getLeftPanel().getPlayerBoardView().getDamages().isEmpty())) {
+              popupForDamage = new PopupForDamageMarks(damageBoard, mainFrame, true);
+           }
+       }
+
+       @Override
+       public void mouseReleased(MouseEvent e) {
+         if(popupForDamage!=null)
+            popupForDamage.getPanelForDamage().setVisible(false);
+       }
+
+       @Override
+       public void mouseEntered(MouseEvent e) {
+
+       }
+
+       @Override
+       public void mouseExited(MouseEvent e) {
+
+       }
     }
+
+    class ListenerForMarksBoard implements MouseListener{
+         private JLabel marksBoard;
+         private PopupForDamageMarks popupForDamageMarks = null;
+
+        ListenerForMarksBoard(JLabel marksBoard) {
+          this.marksBoard = marksBoard;
+       }
+
+       @Override
+       public void mouseClicked(MouseEvent e) {
+
+       }
+
+       @Override
+       public void mousePressed(MouseEvent e) {
+          if(!mainFrame.getLeftPanel().getPlayerBoardView().getMarks().isEmpty())
+             popupForDamageMarks = new PopupForDamageMarks(marksBoard, mainFrame, false);
+
+       }
+
+       @Override
+       public void mouseReleased(MouseEvent e) {
+         if(popupForDamageMarks!=null)
+            popupForDamageMarks.getPanelForDamage().setVisible(false);
+
+       }
+
+       @Override
+       public void mouseEntered(MouseEvent e) {
+
+       }
+
+       @Override
+       public void mouseExited(MouseEvent e) {
+
+       }
+    }
+
+
  }

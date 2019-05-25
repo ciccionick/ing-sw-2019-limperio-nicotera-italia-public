@@ -170,6 +170,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         }
 
+        if(receivedEvent.isRequestToSelectionPlayerToAttackWithTerminator()){
+            mainFrame.showMessage(receivedEvent);
+        }
+
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
         {
             mainFrame.showMessage(receivedEvent);

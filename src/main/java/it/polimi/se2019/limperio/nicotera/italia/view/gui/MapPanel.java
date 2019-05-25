@@ -205,8 +205,8 @@ class MapPanel extends JPanel {
         cell23 = new JLabel(imageIcon);
         this.add(cell23,gbc);
 
-         addMouseListenerToCells();
          createHashMap();
+         addMouseListenerToCells();
 
      }
 
@@ -266,11 +266,13 @@ class MapPanel extends JPanel {
         Square square;
         ArrayList<ServerEvent.AliasCard> listOfWeaponOnTheSquare;
         AmmoTile ammoTileOnTheSquare;
+        JLabel cell;
 
        SquareListener(int row, int column, MainFrame mainFrame) {
          this.row = row;
          this.column = column;
          this.matrix = mainFrame.getRemoteView().getMapView().getMap();
+         cell = hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column)));
          square = matrix[row][column];
          if(square!=null){
              if(square.isSpawn())
@@ -283,7 +285,7 @@ class MapPanel extends JPanel {
 
       @Override
       public void mouseClicked(MouseEvent e) {
-           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).isEnabled()){
+           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&cell.isEnabled()){
                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
                     mainFrame.getRemoteView().notify(new RunEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
@@ -304,7 +306,7 @@ class MapPanel extends JPanel {
 
       @Override
       public void mousePressed(MouseEvent e) {
-          if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())) {
+          if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())|| (mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&!cell.isEnabled())) {
               if (square != null) {
                   matrix = mainFrame.getRemoteView().getMapView().getMap();
                   square=matrix[row][column];

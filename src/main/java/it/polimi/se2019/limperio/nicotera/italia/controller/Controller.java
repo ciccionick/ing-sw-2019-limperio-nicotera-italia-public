@@ -28,6 +28,7 @@ public class Controller implements Observer<ClientEvent> {
     private TurnController turnController;
     private WeaponController weaponController;
     private TerminatorController terminatorController;
+    private DeathController deathController;
     private Timer timer = null;
     private TurnTask turnTask;
 
@@ -44,6 +45,7 @@ public class Controller implements Observer<ClientEvent> {
         shootController = new ShootController(game);
         turnController = new TurnController(game);
         weaponController = new WeaponController(game, this);
+        deathController = new DeathController(game, this);
 
     }
 
@@ -89,6 +91,7 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isRequestToShootWithTerminator()){
+                terminatorController.sendRequestToChoosePlayerToAttack(message);
             }
 
             if (message.isRequestToMoveTerminator()) {
@@ -99,6 +102,7 @@ public class Controller implements Observer<ClientEvent> {
                 terminatorController.handleMove(message);
 
             if(message.isRequestToGoOn()){
+                game.setHasToDoTerminatorAction(false);
                 handleTheEndOfAnAction();
             }
 
@@ -111,6 +115,10 @@ public class Controller implements Observer<ClientEvent> {
 
             if(message.isSelectionSquareForRun()){
                 runController.doRunAction((RunEvent) message);
+            }
+
+            if(message.isTerminatorShootEvent()){
+                terminatorController.handleTerminatorShootAction(message);
             }
 
             if(message.isSelectionWeaponToDiscard()){
@@ -189,6 +197,9 @@ public class Controller implements Observer<ClientEvent> {
         return weaponsAsAlias;
     }
 
+    public ShootController getShootController() {
+        return shootController;
+    }
 
     void handleTheEndOfAnAction(){
         game.incrementNumOfActionsOfThisTurn();
@@ -330,6 +341,10 @@ public class Controller implements Observer<ClientEvent> {
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
 
+    }
+
+    public DeathController getDeathController() {
+        return deathController;
     }
 
     private class TurnTask extends TimerTask {
