@@ -96,6 +96,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         if (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
             mainFrame.showMessage(receivedEvent);
+            if(receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                isMyTurn = true;
+                mainFrame.updateNorthPanel();
+            }
         }
 
         if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
@@ -103,6 +107,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
 
         if(receivedEvent.isGenerationEvent()){
+            mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isRequestToChooseTerminatorAction()){
             mainFrame.showMessage(receivedEvent);
         }
 
@@ -154,6 +162,11 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mainFrame.updatePanelOfAction();
             }
             mainFrame.showMessage(receivedEvent);
+            if(receivedEvent.getNumOfAction()+1==receivedEvent.getNumOfMaxAction()&&receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                isMyTurn = false;
+                mainFrame.updateNorthPanel();
+            }
+
         }
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())

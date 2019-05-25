@@ -101,6 +101,10 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
 
         }
 
+        if(event.isRequestToChooseTerminatorAction()){
+            remoteView.update(event);
+        }
+
         if (event.isTimerOverEvent()){
             remoteView.update(event);
         }

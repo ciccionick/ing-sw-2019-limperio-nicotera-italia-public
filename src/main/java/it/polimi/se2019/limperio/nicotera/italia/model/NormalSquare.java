@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
  public class NormalSquare extends Square implements Cloneable {
     static final long serialVersionUID = 420000011;
-     /**
+    /**
      * the reference to the ammotile card that is on the square during the game
      */
     private AmmoTile ammoTile = null;

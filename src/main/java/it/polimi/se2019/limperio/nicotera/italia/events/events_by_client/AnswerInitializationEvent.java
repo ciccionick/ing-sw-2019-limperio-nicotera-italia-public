@@ -11,7 +11,6 @@ import java.io.Serializable;
  * @author Pietro L'Imperio
  */
 public class AnswerInitializationEvent implements Serializable {
-
     static final long serialVersionUID = 420000015;
     /**
      * Nickname chosen by the client

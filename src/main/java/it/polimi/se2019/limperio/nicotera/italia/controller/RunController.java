@@ -59,6 +59,8 @@ public class RunController {
             MapEvent newEvent = new MapEvent();
             newEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
             newEvent.setNotifyAboutActionDone(true);
+            newEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
+            newEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
             newEvent.setMessageForInvolved("You have been moved in the square required!");
             newEvent.setMessageForOthers(event.getNickname() + " has ran in another square! \nLook the map to discover where.");
             newEvent.setNicknameInvolved(event.getNickname());
