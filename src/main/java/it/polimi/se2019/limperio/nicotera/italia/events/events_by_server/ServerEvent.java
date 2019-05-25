@@ -57,6 +57,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToDiscardWeaponCard = false;
     private boolean isTimerOverEvent = false;
     private boolean isRequestToChooseTerminatorAction = false;
+    private boolean isRequestToSelectionPlayerToAttackWithTerminator =false;
 
     private int numOfAction;
     private int numOfMaxAction;
@@ -70,6 +71,14 @@ public class ServerEvent implements Serializable {
 
     public ServerEvent(String message) {
         this.messageForInvolved = message;
+    }
+
+    public boolean isRequestToSelectionPlayerToAttackWithTerminator() {
+        return isRequestToSelectionPlayerToAttackWithTerminator;
+    }
+
+    public void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {
+        isRequestToSelectionPlayerToAttackWithTerminator = requestToSelectionPlayerToAttackWithTerminator;
     }
 
     public String getMessageForInvolved() {

@@ -137,6 +137,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
                 mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
                 mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForSpawnTerminator());
+                mapView.setSelectionForMoveTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForMoveTerminator());
                 mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             }
             mainFrame.showMessage(receivedEvent);

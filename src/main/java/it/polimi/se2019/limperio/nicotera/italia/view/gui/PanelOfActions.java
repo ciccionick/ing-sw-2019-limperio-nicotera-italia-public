@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToShootByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToTerminatorActionByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestTerminatorActionByPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -139,7 +139,7 @@ class PanelOfActions extends JPanel {
                 mainFrame.getRemoteView().notify(new RequestToShootByPlayer("", nickname));
                 break;
              case "Terminator":
-                mainFrame.getRemoteView().notify(new RequestToTerminatorActionByPlayer("",  mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()));
+                mainFrame.getRemoteView().notify(new RequestTerminatorActionByPlayer("",  mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()));
                 break;
              case "Cancel":
                 updateStateOfButton();

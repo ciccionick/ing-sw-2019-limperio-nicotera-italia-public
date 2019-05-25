@@ -194,16 +194,16 @@ public class WeaponController {
         for(Square adjSquare : player.getPositionOnTheMap().getAdjSquares()){
             if(!adjSquare.getColor().equals(colorOfSquareOfPlayer))
                 squaresVisible.addAll(hashMapOfSquares.get(adjSquare.getColor()));
-            if(!squaresVisible.contains(adjSquare))
-                squaresVisible.add(adjSquare);
         }
-        squaresVisible.add(player.getPositionOnTheMap());
+        squaresVisible.addAll(hashMapOfSquares.get(colorOfSquareOfPlayer));
 
         for(Square square : squaresVisible){
             if(square.getPlayerOnThisSquare()!=null)
                 playersVisible.addAll(square.getPlayerOnThisSquare());
         }
-
+        playersVisible.remove(player);
+        if(player.getNickname().equals("terminator"))
+            playersVisible.remove(game.getPlayers().get(game.getPlayerOfTurn()-1));
         return playersVisible;
 
     }

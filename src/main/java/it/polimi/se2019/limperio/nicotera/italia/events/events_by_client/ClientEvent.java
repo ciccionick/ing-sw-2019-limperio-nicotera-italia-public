@@ -50,6 +50,7 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToMoveTerminator = false;
    private boolean isRequestToShootWithTerminator = false;
    private boolean isRequestToGoOn = false;
+   private boolean isMoveTerminatorEvent = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -79,6 +80,14 @@ public class ClientEvent implements Serializable {
 
     public void setRequestToShootByPlayer(boolean requestToShootByPlayer) {
         isRequestToShootByPlayer = requestToShootByPlayer;
+    }
+
+    public boolean isMoveTerminatorEvent() {
+        return isMoveTerminatorEvent;
+    }
+
+    public void setMoveTerminatorEvent(boolean moveTerminatorEvent) {
+        isMoveTerminatorEvent = moveTerminatorEvent;
     }
 
     public void setRequestToCatchByPlayer(boolean requestToCatchByPlayer) {

@@ -71,6 +71,9 @@ public class Controller implements Observer<ClientEvent> {
             if (message.isRequestToCatchByPlayer()) {
                 catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
             }
+            if(message.isRequestToGoOn()){
+                handleTheEndOfAnAction();
+            }
 
             if(message.isCatchEvent()){
                 if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
@@ -86,16 +89,17 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isRequestToShootWithTerminator()){
-
             }
 
             if (message.isRequestToMoveTerminator()) {
-
-
+                    terminatorController.handleRequestMove(message);
             }
 
+            if(message.isMoveTerminatorEvent())
+                terminatorController.handleMove(message);
+
             if(message.isRequestToGoOn()){
-                
+                handleTheEndOfAnAction();
             }
 
             if(message.isSelectionWeaponToCatch()){

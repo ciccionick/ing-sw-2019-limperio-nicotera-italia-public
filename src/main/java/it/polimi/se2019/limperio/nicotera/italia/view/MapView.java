@@ -28,6 +28,7 @@ public class MapView {
     private boolean isSelectionForRun = false;
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForGenerationOfTerminator = false;
+    private boolean isSelectionForMoveTerminator = false;
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -126,6 +127,14 @@ public class MapView {
 
     public void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
         isSelectionForGenerationOfTerminator = selectionForGenerationOfTerminator;
+    }
+
+    public boolean isSelectionForMoveTerminator() {
+        return isSelectionForMoveTerminator;
+    }
+
+    public void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
+        isSelectionForMoveTerminator = selectionForMoveTerminator;
     }
 }
 

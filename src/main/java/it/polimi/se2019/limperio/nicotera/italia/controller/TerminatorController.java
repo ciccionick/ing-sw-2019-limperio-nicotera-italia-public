@@ -2,8 +2,11 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.MoveTerminatorEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestChooseActionForTerminator;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForAction;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToSelectionPlayerToAttackWithTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -56,4 +59,49 @@ class TerminatorController {
 
 
     }
+
+
+     void handleRequestMove(ClientEvent message) {
+         Player terminator = controller.findPlayerWithThisNickname("terminator");
+         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where you want to move the terminator!");
+         requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
+         requestSelectionSquareForAction.setSelectionForMoveTerminator(true);
+         controller.findSquaresReachableWithThisMovements(terminator.getPositionOnTheMap(), 1, requestSelectionSquareForAction.getSquaresReachable());
+         game.notify(requestSelectionSquareForAction);
+
+    }
+
+
+     void handleMove(ClientEvent message) {
+         Player terminator = controller.findPlayerWithThisNickname("terminator");
+         int row = ((MoveTerminatorEvent) message).getRow();
+         int column = ((MoveTerminatorEvent) message).getColumn();
+         Square squareWhereMove = game.getBoard().getMap().getMatrixOfSquares()[row][column];
+         terminator.setPositionOnTheMap(squareWhereMove);
+
+         MapEvent mapEvent = new MapEvent();
+         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+         mapEvent.setNotifyAboutActionDone(true);
+         mapEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
+         mapEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
+         mapEvent.setMessageForOthers("terminator" + " has been moved in another square! \nLook the map to discover where.");
+         mapEvent.setNicknames(game.getListOfNickname());
+         mapEvent.setMessageForInvolved(mapEvent.getMessageForOthers());
+         mapEvent.setNicknameInvolved(message.getNickname());
+         game.notify(mapEvent);
+
+         ArrayList<Player> attackedPlayers = controller.getWeaponController().canSee(terminator);
+         if (attackedPlayers.isEmpty()) {
+            controller.handleTheEndOfAnAction();
+         }
+         else{
+             RequestToSelectionPlayerToAttackWithTerminator requestToSelectionPlayerToAttackWithTerminator = new RequestToSelectionPlayerToAttackWithTerminator();
+             requestToSelectionPlayerToAttackWithTerminator.setNicknamesOfPlayersAttachable(attackedPlayers);
+             requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());
+             requestToSelectionPlayerToAttackWithTerminator.setMessageForInvolved("Choose who the terminator has to shoot: ");
+             message.getMyVirtualView().update(requestToSelectionPlayerToAttackWithTerminator);
+         }
+    }
+
+
 }

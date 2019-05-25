@@ -55,9 +55,12 @@ class DialogForMessage {
              buttonPanel.setLayout(new GridBagLayout());
              JButton buttonMove = new JButton("Move");
              buttonMove.setActionCommand(buttonMove.getText());
+             buttonMove.addActionListener(listenerForButtonOfTerminator);
              JButton buttonShoot = new JButton("Shoot");
+             buttonShoot.addActionListener(listenerForButtonOfTerminator);
              buttonShoot.setActionCommand(buttonShoot.getText());
              JButton buttonGoOn = new JButton("Go on");
+             buttonGoOn.addActionListener(listenerForButtonOfTerminator);
              buttonGoOn.setActionCommand(buttonGoOn.getText());
              buttonMove.setEnabled(((RequestChooseActionForTerminator) receivedEvent).isTerminatorCanMove());
              buttonShoot.setEnabled(((RequestChooseActionForTerminator) receivedEvent).isTerminatorCanShoot());
@@ -124,7 +127,9 @@ class DialogForMessage {
              if(e.getActionCommand().equals("Go on")){
                 requestToDoActionWithTerminator.setRequestToGoOn(true);
              }
+             dialog.setVisible(false);
              mainFrame.getRemoteView().notify(requestToDoActionWithTerminator);
+
          }
      }
 
