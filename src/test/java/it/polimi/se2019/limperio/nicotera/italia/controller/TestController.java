@@ -76,12 +76,14 @@ public class TestController {
 
       WeaponCard card;
       Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-      for(int i=0;i<matrix.length;i++)
-      {
-         for(int j=0;j<matrix[i].length;j++)
-         {
+
+
+      for (int i = 0; i < matrix.length; i++) {
+         for (int j = 0; j <matrix[i].length; j++) {
             if(matrix[i][j]!=null)
-            game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+            {
+               game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+            }
 
          }
       }
@@ -97,14 +99,13 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       game.setPlayerOfTurn(1);
       game.setRound(2);
-      card.setLoad(true);
       assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().size()==1);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[0][0].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
 
-      game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+      assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[0][1].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
+
 
       //Test for player with Heatseeker in his WeaponDeck
 
@@ -116,11 +117,11 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][3]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[2][3].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
 
-      /*game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
-      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[1][1].getPlayerOnThisSquare().remove( game.getPlayers().get(1));*/
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
+      //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
 
 
 
@@ -132,8 +133,11 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][3]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
-      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
       game.getBoard().getMap().getMatrixOfSquares()[1][3].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
 
       //Test for player with "Furnace" in his Weapon Deck
@@ -144,11 +148,11 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[1][1].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
 
-      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][1]);
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
       assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      game.getBoard().getMap().getMatrixOfSquares()[2][1].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
+
 
 
 
@@ -167,8 +171,44 @@ public class TestController {
       game.getBoard().getMap().getMatrixOfSquares()[0][1].getPlayerOnThisSquare().remove( game.getPlayers().get(1));
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][3]);
-      //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
+
+      //Test for player with "Hellion" in his Weapon Deck
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+      card= new Hellion();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
+
+      /*//Test for player with Whisper in his Weapon Deck
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+      card= new Whisper();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
+      /*game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));*/
+
+
+      // Test for player with Railgun in his Weapon Deck
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+      card= new Railgun();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][1]);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][3]);
+      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
 
 

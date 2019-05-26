@@ -287,8 +287,9 @@ public class Controller implements Observer<ClientEvent> {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
              return false;
 
-         if(weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}})==null) return false;
-         return true;
+
+         return (!weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}}).isEmpty());
+
 
     }
 
