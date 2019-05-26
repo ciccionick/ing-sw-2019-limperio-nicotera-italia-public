@@ -44,7 +44,10 @@ public class PowerUpDeck {
 
 
     public void shuffleDeck (){
-        powerUpCards.addAll(usedPowerUpCards);
+        for(PowerUpCard powerUpCard : usedPowerUpCards){
+            if(!powerUpCard.isInTheDeckOfSomePlayer())
+                powerUpCards.add(powerUpCard);
+        }
         Collections.shuffle(powerUpCards);
     }
 

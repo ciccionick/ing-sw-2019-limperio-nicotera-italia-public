@@ -15,7 +15,9 @@ public class PlayerBoard implements Serializable, Cloneable {
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
-    private boolean isInFrenzyBoardPlayer=false;
+    private boolean isFrenzyBoardPlayer =false;
+    private ArrayList<Integer> scoreBarForNormalMode = new ArrayList<>();
+    private ArrayList<Integer> scoreBarForFrenzyMode = new ArrayList<>();
     private transient ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
     private transient ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
 
@@ -25,6 +27,16 @@ public class PlayerBoard implements Serializable, Cloneable {
     public PlayerBoard(String nickname, ColorOfFigure_Square color) {
         this.nicknameOfPlayer = nickname;
         this.colorOfPlayer = color;
+        scoreBarForNormalMode.add(8);
+        scoreBarForNormalMode.add(6);
+        scoreBarForNormalMode.add(4);
+        scoreBarForNormalMode.add(2);
+        scoreBarForNormalMode.add(1);
+        scoreBarForNormalMode.add(1);
+        scoreBarForFrenzyMode.add(2);
+        scoreBarForFrenzyMode.add(1);
+        scoreBarForFrenzyMode.add(1);
+        scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
@@ -46,6 +58,8 @@ public class PlayerBoard implements Serializable, Cloneable {
         } catch (CloneNotSupportedException e) {
             playerBoard = new PlayerBoard(this.nicknameOfPlayer, this.colorOfPlayer);
         }
+        playerBoard.scoreBarForFrenzyMode = this.scoreBarForFrenzyMode;
+        playerBoard.scoreBarForNormalMode = this.scoreBarForNormalMode;
         playerBoard.ammo=new ArrayList<>();
         for(Ammo ammoItem : this.ammo) {
             playerBoard.ammo.add ( (Ammo) ammoItem.clone());
@@ -89,8 +103,8 @@ public class PlayerBoard implements Serializable, Cloneable {
         return false;
     }
 
-    public boolean isInFrenzyBoardPlayer() {
-        return isInFrenzyBoardPlayer;
+    public boolean isFrenzyBoardPlayer() {
+        return isFrenzyBoardPlayer;
     }
 
 
@@ -102,8 +116,8 @@ public class PlayerBoard implements Serializable, Cloneable {
         this.marks.removeAll(Collections.singleton(color));
     }
 
-    public void setInFrenzyBoardPlayer(boolean inFrenzyBoardPlayer) {
-        isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
+    public void setFrenzyBoardPlayer(boolean frenzyBoardPlayer) {
+        isFrenzyBoardPlayer = frenzyBoardPlayer;
     }
 
     public ArrayList<Ammo> getAmmo() {
@@ -126,6 +140,28 @@ public class PlayerBoard implements Serializable, Cloneable {
     public ColorOfFigure_Square getColorOfPlayer() {
         return colorOfPlayer;
     }
+
+    public ArrayList<Integer> getScoreBarForNormalMode() {
+        return scoreBarForNormalMode;
+    }
+
+    public void setScoreBarForNormalMode(ArrayList<Integer> scoreBarForNormalMode) {
+        this.scoreBarForNormalMode = scoreBarForNormalMode;
+    }
+
+    public ArrayList<Integer> getScoreBarForFrenzyMode() {
+        return scoreBarForFrenzyMode;
+    }
+
+    public void setScoreBarForFrenzyMode(ArrayList<Integer> scoreBarForFrenzyMode) {
+        this.scoreBarForFrenzyMode = scoreBarForFrenzyMode;
+    }
+
+    public void setDamages(ArrayList<ColorOfFigure_Square> damages) {
+        this.damages = damages;
+    }
+
+
 
     /**
      * Removes an ammo of one color from the ammo deck of the player

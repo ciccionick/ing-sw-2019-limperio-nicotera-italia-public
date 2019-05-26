@@ -213,14 +213,30 @@ public class Controller implements Observer<ClientEvent> {
             turnTask = null;
             roundController.updateTurn();
             if (game.getPlayers().get(game.getPlayerOfTurn()).isConnected()) {
-                if (game.getRound() > 1)
-                    sendRequestForAction();
-                else
-                    sendInitialRequest();
+                if(someoneDead()){
+                    for(Player player : game.getPlayers()){
+                        if(player.isDeath())
+                            powerUpController.handleDrawOfOneCard(player);
+                    }
+
+                }else {
+                    if (game.getRound() > 1)
+                        sendRequestForAction();
+                    else
+                        sendInitialRequest();
+                }
             }
             else
                 roundController.updateTurn();
         }
+    }
+
+    private boolean someoneDead() {
+         for(Player player : game.getPlayers()){
+             if(player.isDeath())
+                 return true;
+         }
+         return false;
     }
 
 
@@ -341,6 +357,7 @@ public class Controller implements Observer<ClientEvent> {
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
+         game.getListOfNickname().remove(player.getNickname());
 
     }
 

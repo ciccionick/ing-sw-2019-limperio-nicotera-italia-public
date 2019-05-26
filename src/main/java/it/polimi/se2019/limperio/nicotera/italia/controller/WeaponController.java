@@ -214,7 +214,7 @@ public class WeaponController {
         if(player.getNickname().equals("terminator"))
             playersVisible.remove(game.getPlayers().get(game.getPlayerOfTurn()-1));
 
-        if(playersVisible.isEmpty()) return null;
+
         return playersVisible;
 
     }

@@ -29,6 +29,7 @@ public class MapView {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForGenerationOfTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -74,7 +75,7 @@ public class MapView {
         }
     }
 
-    ArrayList<Square> getListOfSquareAsArrayList() {
+    public ArrayList<Square> getListOfSquareAsArrayList() {
         ArrayList<Square> allSquares = new ArrayList<>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -135,6 +136,14 @@ public class MapView {
 
     public void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
         isSelectionForMoveTerminator = selectionForMoveTerminator;
+    }
+
+    public ArrayList<Square> getReachableSquares() {
+        return reachableSquares;
+    }
+
+    public void setReachableSquares(ArrayList<Square> reachableSquares) {
+        this.reachableSquares = reachableSquares;
     }
 }
 

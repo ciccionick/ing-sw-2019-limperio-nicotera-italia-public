@@ -155,5 +155,7 @@ class PowerUpController {
     }
 
 
-
- }
+     void handleDrawOfOneCard(Player player) {
+         System.out.println("Pesca per generarti");
+    }
+}

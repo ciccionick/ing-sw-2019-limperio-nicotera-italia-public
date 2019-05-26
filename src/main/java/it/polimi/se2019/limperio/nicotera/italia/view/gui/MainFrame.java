@@ -128,8 +128,9 @@ public class MainFrame {
         contentPane.repaint();
     }
 
-
-
+    public RightPanel getRightPanel() {
+        return rightPanel;
+    }
 
     private class FrameListener implements ComponentListener {
 

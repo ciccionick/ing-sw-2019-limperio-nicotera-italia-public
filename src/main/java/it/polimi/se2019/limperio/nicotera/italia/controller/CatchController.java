@@ -85,6 +85,8 @@ class CatchController {
                game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
                powerUpCard.setInTheDeckOfSomePlayer(true);
            }
+           game.getBoard().getAmmoTiledeck().getAmmoTilesOnTheMap().remove(((NormalSquare)square).getAmmoTile());
+           game.getBoard().getAmmoTiledeck().getAmmoTilesDiscarded().add(((NormalSquare)square).getAmmoTile());
             ((NormalSquare)square).setAmmoTile(null);
             sendNotifyAfterCatching(player);
         }

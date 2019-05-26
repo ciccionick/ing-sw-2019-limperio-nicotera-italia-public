@@ -32,7 +32,7 @@ public class Player implements PlayerBehaviour{
     /**
      * It is used at the end of the game to calculate the final ranking
      */
-    private int score;
+    private int score=0;
     /**
      * The position of the player in the turn
      */
@@ -53,6 +53,10 @@ public class Player implements PlayerBehaviour{
      * The reference to player's board
      */
     private PlayerBoard playerBoard = null;
+
+    private boolean isDeath = false;
+
+    private int numOfKillDoneInTheTurn = 0;
 
 
     public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
@@ -115,7 +119,9 @@ public class Player implements PlayerBehaviour{
     public void useAmmoForPay(Ammo[] ammo){}
 
 
-    public void updateScore(int newscore){}
+    public void updateScore(int newScore){
+        this.score = score+newScore;
+    }
 
     public void setConnected(boolean connected) {
         isConnected = connected;
@@ -177,8 +183,26 @@ public class Player implements PlayerBehaviour{
             }
         }
 
+
+
     public boolean isConnected() {
         return isConnected;
+    }
+
+    public boolean isDeath() {
+        return isDeath;
+    }
+
+    public void setDeath(boolean death) {
+        isDeath = death;
+    }
+
+    public int getNumOfKillDoneInTheTurn() {
+        return numOfKillDoneInTheTurn;
+    }
+
+    public void setNumOfKillDoneInTheTurn(int numOfKillDoneInTheTurn) {
+        this.numOfKillDoneInTheTurn = numOfKillDoneInTheTurn;
     }
 
     /**

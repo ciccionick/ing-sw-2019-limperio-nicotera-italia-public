@@ -14,7 +14,6 @@ public class AmmoTileDeck {
     private ArrayList<AmmoTile> ammoTilesAvailable = new ArrayList<>();
     private ArrayList<AmmoTile> ammoTilesOnTheMap = new ArrayList<>();
     private ArrayList<AmmoTile> ammoTilesDiscarded = new ArrayList<>();
-    private int currentSize = 0;
     private static AmmoTileDeck instanceOfAmmoTileDeck;
 
     private AmmoTileDeck(){
@@ -39,37 +38,10 @@ public class AmmoTileDeck {
             ammoTilesAvailable.add(new AmmoTile(11));
             ammoTilesAvailable.add(new AmmoTile(12));
         }
-
-        currentSize = ammoTilesAvailable.size();
         Collections.shuffle(ammoTilesAvailable);
     }
 
 
-    /**
-     *  <p>
-     *      inserts new AmmoTile into the map
-     *  </p>
-     *
-     * @param ammoTileToDraw The AmmoTile to be included in the map
-     */
-
-    public void drawAmmoTile (AmmoTile ammoTileToDraw){
-        ammoTilesAvailable.remove(ammoTileToDraw);
-        ammoTilesOnTheMap.add(ammoTileToDraw);
-    }
-
-    /**
-     *
-     * <p>
-     *     checks if the deck of AmmoTile Available satisfies the request
-     * </p>
-     * @param numOfNeedTiles number of AmmoTile available requested
-     * @return boolean: true if the number of AmmoTile Available is less than or equal to the request number
-     */
-
-    public boolean areThereEnoughTiles (int numOfNeedTiles){
-        return ammoTilesAvailable.size()<=numOfNeedTiles;
-    }
 
     /**
      * <p>
@@ -83,7 +55,7 @@ public class AmmoTileDeck {
      */
 
     public void shuffleDeck(){
-        ammoTilesAvailable.addAll(ammoTilesOnTheMap);
+        ammoTilesAvailable.addAll(ammoTilesDiscarded);
         Collections.shuffle(ammoTilesAvailable);
     }
 
@@ -107,14 +79,7 @@ public class AmmoTileDeck {
         return ammoTilesOnTheMap;
     }
 
-
     public ArrayList<AmmoTile> getAmmoTilesDiscarded() {
         return ammoTilesDiscarded;
     }
-
-    public int getCurrentSize() {
-        return currentSize;
-    }
-
-
 }

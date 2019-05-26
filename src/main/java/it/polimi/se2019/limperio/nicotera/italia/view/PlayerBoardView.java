@@ -21,6 +21,8 @@ public class PlayerBoardView {
     private ArrayList<ServerEvent.AliasCard> weaponCardDeck = new ArrayList<>();
     private String nicknameOfPlayer;
     private ColorOfFigure_Square colorOfPlayer;
+    private ArrayList<Integer> scoreBarForNormalMode;
+    private ArrayList<Integer> scoreBarForFrenzyMode;
 
     private boolean hasToChoosePowerUpCardForSpawn = false;
     private boolean canUseNewton = false;
@@ -85,9 +87,11 @@ public class PlayerBoardView {
 
             setDamages(event.getPlayerBoard().getDamages());
             setMarks(event.getPlayerBoard().getMarks());
-            setInFrenzyBoardPlayer(event.getPlayerBoard().isInFrenzyBoardPlayer());
+            setInFrenzyBoardPlayer(event.getPlayerBoard().isFrenzyBoardPlayer());
             setAmmo(event.getPlayerBoard().getAmmo());
             setPowerUpCardsDeck(event.getPowerUpCardsOwned());
+            setScoreBarForNormalMode(event.getPlayerBoard().getScoreBarForNormalMode());
+            setScoreBarForFrenzyMode(event.getPlayerBoard().getScoreBarForFrenzyMode());
             setWeaponCardDeck(event.getWeaponCardsOwned());
             setHasToChoosePowerUpCardForSpawn(event.isHasToDiscardCard());
             this.nicknameOfPlayer = event.getPlayerBoard().getNicknameOfPlayer();
@@ -202,6 +206,21 @@ public class PlayerBoardView {
         this.canCatch = canCatch;
     }
 
+    public ArrayList<Integer> getScoreBarForNormalMode() {
+        return scoreBarForNormalMode;
+    }
+
+    public void setScoreBarForNormalMode(ArrayList<Integer> scoreBarForNormalMode) {
+        this.scoreBarForNormalMode = scoreBarForNormalMode;
+    }
+
+    public ArrayList<Integer> getScoreBarForFrenzyMode() {
+        return scoreBarForFrenzyMode;
+    }
+
+    public void setScoreBarForFrenzyMode(ArrayList<Integer> scoreBarForFrenzyMode) {
+        this.scoreBarForFrenzyMode = scoreBarForFrenzyMode;
+    }
 
     public boolean isHasToDoTerminatorAction() {
         return hasToDoTerminatorAction;

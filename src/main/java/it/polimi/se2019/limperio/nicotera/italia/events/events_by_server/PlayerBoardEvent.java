@@ -14,6 +14,7 @@ public class PlayerBoardEvent extends ServerEvent {
     private ArrayList<AliasCard> weaponCardsOwned = new ArrayList<>();
     private ArrayList<AliasCard> powerUpCardsOwned = new ArrayList<>();
     private boolean hasToDiscardCard = false;
+    private boolean isFirstFrenzyPlayerBoard = false;
 
     /**
      * The player board updated in {@link PlayerBoardEvent}
@@ -56,7 +57,13 @@ public class PlayerBoardEvent extends ServerEvent {
 
     }
 
+    public boolean isFirstFrenzyPlayerBoard() {
+        return isFirstFrenzyPlayerBoard;
+    }
 
+    public void setFirstFrenzyPlayerBoard(boolean firstFrenzyPlayerBoard) {
+        isFirstFrenzyPlayerBoard = firstFrenzyPlayerBoard;
+    }
 
     public boolean isHasToDiscardCard() {
         return hasToDiscardCard;

@@ -116,7 +116,7 @@ class TerminatorController {
          playerToAttack.assignDamage(terminator.getColorOfFigure(), 1);
 
          if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
-             controller.getDeathController().handleDeath(playerToAttack);
+             controller.getDeathController().handleDeath(terminator, playerToAttack);
          }
          if(terminator.isOverSixDamage()){
              playerToAttack.assignMarks(terminator.getColorOfFigure(), 1);
