@@ -30,6 +30,7 @@ class DeathController {
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
              }
          }
+         System.out.println("Prima dell'aggiornamento della kill");
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());
          killshotTrackEvent.setNicknames(game.getListOfNickname());
          game.notify(killshotTrackEvent);

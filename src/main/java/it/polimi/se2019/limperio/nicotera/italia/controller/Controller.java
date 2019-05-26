@@ -215,8 +215,10 @@ public class Controller implements Observer<ClientEvent> {
             if (game.getPlayers().get(game.getPlayerOfTurn()).isConnected()) {
                 if(someoneDead()){
                     for(Player player : game.getPlayers()){
-                        if(player.isDeath())
+                        if(player.isDeath()) {
+                            player.setDeath(false);
                             powerUpController.handleDrawOfOneCard(player);
+                        }
                     }
 
                 }else {
@@ -303,9 +305,9 @@ public class Controller implements Observer<ClientEvent> {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
              return false;
 
-         if(weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}})==null) return false;
-         return true;
-
+        /* if(weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}})==null) return false;
+         return true;*/
+        return true;
     }
 
     public WeaponController getWeaponController() {

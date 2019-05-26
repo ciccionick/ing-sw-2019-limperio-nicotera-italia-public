@@ -1,7 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 class KillshotTrackPanel extends JPanel {
 
@@ -32,8 +36,8 @@ class KillshotTrackPanel extends JPanel {
 
          String folderPath = "resources/board/killshottrack/";
 
-
          JLabel skull1 = new JLabel("");
+         ListenerForKillshotBoard listenerForPrincipalBoard = new ListenerForKillshotBoard(mainFrame,skull1);
 
          GridBagConstraints gbcSkull1 = new GridBagConstraints();
          gbcSkull1.gridx = 0;
@@ -45,6 +49,7 @@ class KillshotTrackPanel extends JPanel {
          java.awt.Image newimg = image.getScaledInstance(widthSkull * 8, heightSkull, java.awt.Image.SCALE_SMOOTH);
          imageIcon = new ImageIcon(newimg);
          skull1.setIcon(imageIcon);
+         skull1.addMouseListener(listenerForPrincipalBoard);
          add(skull1, gbcSkull1);
 
          JLabel skull2 = new JLabel("");
@@ -88,6 +93,45 @@ class KillshotTrackPanel extends JPanel {
          semaphore.setIcon(imageIcon);
          add(semaphore,gbcSemaphore);
 
+      }
+
+      class ListenerForKillshotBoard implements MouseListener{
+
+         private MainFrame mainFrame;
+         private JLabel label;
+         private PopupForKillshotTrack popupForKillshotTrack;
+
+         public ListenerForKillshotBoard(MainFrame mainFrame, JLabel label) {
+            this.mainFrame = mainFrame;
+            this.label = label;
+         }
+
+         @Override
+         public void mouseClicked(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mousePressed(MouseEvent e) {
+            popupForKillshotTrack = new PopupForKillshotTrack(mainFrame, label);
+         }
+
+         @Override
+         public void mouseReleased(MouseEvent e) {
+            if(popupForKillshotTrack!=null)
+               popupForKillshotTrack.getDialog().setVisible(false);
+
+         }
+
+         @Override
+         public void mouseEntered(MouseEvent e) {
+
+         }
+
+         @Override
+         public void mouseExited(MouseEvent e) {
+
+         }
       }
 
  }

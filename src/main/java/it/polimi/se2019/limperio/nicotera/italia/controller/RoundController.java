@@ -66,6 +66,7 @@ public class RoundController {
             updateScoreEvent.setMessageForOthers(message);
             game.notify(updateScoreEvent);
         }
+
         if(game.isInFrenzy()&&game.getPlayerOfTurn()==game.getPlayers().size()&&game.getFirstInFrenzyMode()==1 || game.isInFrenzy()&&game.getPlayerOfTurn()+1==game.getFirstInFrenzyMode())
             handleEndOfGame();
          if (game.getPlayerOfTurn() == game.getPlayers().size()) {

@@ -14,6 +14,8 @@ public class KillshotTrackEvent extends ServerEvent {
 
     private KillshotTrack killShotTrack = null;
 
+    private String nicknamePlayerOfTheTurn;
+
     public KillshotTrackEvent(String message, KillshotTrack killShotTrack) {
         super(message);
         setKillshotTrackEvent(true);
@@ -25,8 +27,16 @@ public class KillshotTrackEvent extends ServerEvent {
     }
 
     private void setKillShotTrack(KillshotTrack killShotTrack) {
-        this.killShotTrack = killShotTrack;
+
+        this.killShotTrack = (KillshotTrack) killShotTrack.clone();
     }
 
 
+    public String getNicknamePlayerOfTheTurn() {
+        return nicknamePlayerOfTheTurn;
+    }
+
+    public void setNicknamePlayerOfTheTurn(String nicknamePlayerOfTheTurn) {
+        this.nicknamePlayerOfTheTurn = nicknamePlayerOfTheTurn;
+    }
 }

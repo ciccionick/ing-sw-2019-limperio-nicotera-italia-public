@@ -139,6 +139,7 @@ public class Game extends Observable<ServerEvent> {
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
+        killshotTrackEvent.setNicknamePlayerOfTheTurn(players.get(playerOfTurn-1).getNickname());
         killshotTrackEvent.setNicknames(listOfNickname);
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();

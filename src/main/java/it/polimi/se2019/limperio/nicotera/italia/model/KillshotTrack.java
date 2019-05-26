@@ -72,7 +72,15 @@ public class KillshotTrack implements Serializable, Cloneable {
         } catch (CloneNotSupportedException e) {
             killshotTrack = new KillshotTrack();
         }
-        killshotTrack.tokensOfDeath = this.tokensOfDeath;
+        killshotTrack.tokensOfDeath = new ArrayList<>();
+        int i=0;
+        for(ArrayList<ColorOfDeathToken> listOfToken : this.tokensOfDeath){
+            killshotTrack.tokensOfDeath.add(new ArrayList<>());
+            for(ColorOfDeathToken token : listOfToken){
+                killshotTrack.tokensOfDeath.get(i).add(token);
+            }
+            i++;
+        }
         killshotTrack.tokenOfFrenzyMode = this.tokenOfFrenzyMode;
         return killshotTrack;
     }

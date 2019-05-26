@@ -25,7 +25,7 @@ class PopupForDamageMarks {
          dialog.setUndecorated(true);
          dialog.setAutoRequestFocus(false);
          contentPane.setOpaque(false);
-         contentPane.setBackground(new Color(0,0,0,90));
+         contentPane.setBackground(new Color(0,0,0,20));
 
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
          String folderPath = "resources/playerboards/damage/";
@@ -48,7 +48,7 @@ class PopupForDamageMarks {
          }
          for(ColorOfFigure_Square color : listOfColors){
              JLabel damageIcon = new JLabel();
-             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat(".png"));
+             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat("1.png"));
              Image image = icon.getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              damageIcon.setIcon(icon);
