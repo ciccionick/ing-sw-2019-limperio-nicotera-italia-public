@@ -50,6 +50,7 @@ public class WeaponController {
                     case "Cyberblade":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
                             usableCards.put("Cyberblade", new ArrayList<Integer>(){{add(1);add(2);}});
+                        //manca il terzo effetto
                         break;
 
                     case "Sledgehammer":
@@ -70,9 +71,10 @@ public class WeaponController {
                         break;
 
                     case "Furnace":
-                        if(!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);}});
-                        //if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null) usableCards.get("Furnace").add(4);
+                        if((!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty()) && !playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                            usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);add(4);}});
+                        else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null) usableCards.get("Furnace").add(4);
+                        else usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);}});
                         break;
 
                     case "Lock rifle":
@@ -131,10 +133,10 @@ public class WeaponController {
                         //mancano il secondo e il terzo effetto
                         break;
 
-                    case "Flamethrower":
+                    /*case "Flamethrower":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
                             usableCards.put("Flamethrower", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
+                        break;*/
 
                     case "Power glove":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
@@ -144,6 +146,8 @@ public class WeaponController {
                     case "Tractor beam":
                         break;
 
+                    case "Vortex cannon":
+                        break;
 
 
 
