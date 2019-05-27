@@ -1,5 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import javafx.scene.layout.Pane;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,7 +40,7 @@ import java.awt.*;
 
     }
 
-    public JPanel getPanelOfPlayers() {
+     PanelOfPlayers getPanelOfPlayers() {
        return panelOfPlayers;
     }
 

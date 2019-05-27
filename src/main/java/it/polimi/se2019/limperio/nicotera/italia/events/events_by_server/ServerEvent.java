@@ -58,6 +58,7 @@ public class ServerEvent implements Serializable {
     private boolean isTimerOverEvent = false;
     private boolean isRequestToChooseTerminatorAction = false;
     private boolean isRequestToSelectionPlayerToAttackWithTerminator =false;
+    private boolean isUpdateScoreEvent = false;
 
     private int numOfAction;
     private int numOfMaxAction;
@@ -164,6 +165,14 @@ public class ServerEvent implements Serializable {
 
     public boolean isTimerOverEvent() {
         return isTimerOverEvent;
+    }
+
+    public boolean isUpdateScoreEvent() {
+        return isUpdateScoreEvent;
+    }
+
+    public void setUpdateScoreEvent(boolean updateScoreEvent) {
+        isUpdateScoreEvent = updateScoreEvent;
     }
 
     public void setTimerOverEvent(boolean timerOverEvent) {

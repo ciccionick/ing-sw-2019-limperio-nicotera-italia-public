@@ -139,8 +139,8 @@ public class Game extends Observable<ServerEvent> {
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
+        killshotTrackEvent.setNicknamePlayerOfTheTurn(players.get(playerOfTurn-1).getNickname());
         killshotTrackEvent.setNicknames(listOfNickname);
-        killshotTrackEvent.setNicknamePlayerOfTheTurn(listOfNickname.get(0));
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
@@ -283,6 +283,14 @@ public class Game extends Observable<ServerEvent> {
 
     public boolean isInFrenzy() {
         return isInFrenzy;
+    }
+
+    public void setInFrenzy(boolean inFrenzy) {
+        isInFrenzy = inFrenzy;
+    }
+
+    public void setFirstInFrenzyMode(int firstInFrenzyMode) {
+        this.firstInFrenzyMode = firstInFrenzyMode;
     }
 
     public int getFirstInFrenzyMode() {

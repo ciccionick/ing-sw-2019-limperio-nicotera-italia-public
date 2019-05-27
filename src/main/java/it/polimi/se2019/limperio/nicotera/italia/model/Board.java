@@ -83,7 +83,7 @@ public class Board {
         return powerUpDeck;
     }
 
-     KillshotTrack getKillShotTrack() {
+     public KillshotTrack getKillShotTrack() {
         return killShotTrack;
     }
 
@@ -100,8 +100,9 @@ public class Board {
             }
         }
         for (SpawnSquare square : spawnSquares){
-            while(square.getWeaponCards().size()<3){
-                square.getWeaponCards().add(weaponsDeck.removeWeaponCard());
+            while(square.getWeaponCards().size()<3 && !weaponsDeck.getWeaponCards().isEmpty()){
+                if(!weaponsDeck.getWeaponCards().isEmpty())
+                    square.getWeaponCards().add(weaponsDeck.removeWeaponCard());
             }
         }
 

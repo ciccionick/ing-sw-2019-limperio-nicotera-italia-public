@@ -11,8 +11,10 @@ public class KillshotTrackEvent extends ServerEvent {
     /**
      * The killshot track updated in {@link KillshotTrackEvent}
      */
-    private String nicknamePlayerOfTheTurn;
+
     private KillshotTrack killShotTrack = null;
+
+    private String nicknamePlayerOfTheTurn;
 
     public KillshotTrackEvent(String message, KillshotTrack killShotTrack) {
         super(message);
@@ -25,8 +27,10 @@ public class KillshotTrackEvent extends ServerEvent {
     }
 
     private void setKillShotTrack(KillshotTrack killShotTrack) {
-        this.killShotTrack = killShotTrack;
+
+        this.killShotTrack = (KillshotTrack) killShotTrack.clone();
     }
+
 
     public String getNicknamePlayerOfTheTurn() {
         return nicknamePlayerOfTheTurn;

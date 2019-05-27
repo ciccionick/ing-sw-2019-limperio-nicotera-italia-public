@@ -1,11 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
-import it.polimi.se2019.limperio.nicotera.italia.model.Player;
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-import it.polimi.se2019.limperio.nicotera.italia.view.MapView;
-import sun.applet.Main;
 
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,8 +11,10 @@ import java.util.ArrayList;
 class PanelOfPlayers extends JPanel {
 
     private MainFrame mainFrame;
+    private JToggleButton buttonMSelection;
+    private JToggleButton buttonMNone;
 
-     PanelOfPlayers(MainFrame mainFrame) {
+    PanelOfPlayers(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -377,7 +375,7 @@ class PanelOfPlayers extends JPanel {
         gbcButtonMAll.gridy = indexForLabellAll;
         add(buttonMAll, gbcButtonMAll);
 
-        JToggleButton buttonMNone = new JToggleButton(" ");
+        buttonMNone = new JToggleButton(" ");
         buttonMNone.setSelected(true);
         buttonMNone.setBackground(Color.BLACK);
         buttonMNone.addActionListener(buttonMListener);
@@ -387,6 +385,18 @@ class PanelOfPlayers extends JPanel {
         gbcButtonMNone.gridx = 2;
         gbcButtonMNone.gridy = indexForLabellAll+1;
         add(buttonMNone, gbcButtonMNone);
+
+         buttonMSelection = new JToggleButton("Return to selection");
+         buttonMSelection.setSelected(false);
+         buttonMSelection.setEnabled(false);
+         buttonMSelection.setBackground(Color.WHITE);
+         buttonMSelection.addActionListener(buttonMListener);
+         buttonMSelection.setActionCommand("Selection");
+         GridBagConstraints gbcButtonSelection = new GridBagConstraints();
+         gbcButtonSelection.insets = new Insets(insetTopForButtons, 0, 0, 0);
+         gbcButtonSelection.gridx = 2;
+         gbcButtonSelection.gridy = indexForLabellAll+2;
+         add(buttonMSelection, gbcButtonSelection);
 
         ButtonGroup mapButtonGroup = new ButtonGroup();
         mapButtonGroup.add(buttonM1);
@@ -400,9 +410,13 @@ class PanelOfPlayers extends JPanel {
         mapButtonGroup.add(buttonMNone);
     }
 
+      JToggleButton getButtonMSelection() {
+        return buttonMSelection;
+    }
 
-
-
+     JToggleButton getButtonMNone() {
+        return buttonMNone;
+    }
 
     class ButtonPBListener implements ActionListener{
 
@@ -450,15 +464,24 @@ class PanelOfPlayers extends JPanel {
                    switch (actionCommand) {
                        case "None":
                            mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
+                           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
+                               getButtonMSelection().setEnabled(true);
                            break;
                        case "All":
                            mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && !(matrix[i][j].getNicknamesOfPlayersOnThisSquare().isEmpty()));
+                           break;
+                       case "Selection":
+                           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
+                               mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getReachableSquares());
                            break;
                        default:
                            nameForHashMap = "cell";
                            nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
                            mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && matrix[i][j].getNicknamesOfPlayersOnThisSquare().contains(actionCommand));
                    }
+                   if(!actionCommand.equals("Selection")&&mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
+                       getButtonMSelection().setEnabled(true);
+
                }
            }
        }

@@ -343,6 +343,7 @@ public class WeaponController {
         ColorOfFigure_Square colorOfSquare= player.getPositionOnTheMap().getColor();
 
         if (!player.getPositionOnTheMap().isHasDoor()) {
+
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < matrix[i].length; j++) {
                     if(matrix[i][j]!=null)
@@ -352,13 +353,18 @@ public class WeaponController {
                     }
                     }
 
+
             }
         } else {
+
+            colorsVisible.add(colorOfSquare);
             for (int k = 0; k < player.getPositionOnTheMap().getAdjSquares().size(); k++) {
                 if (player.getPositionOnTheMap().getAdjSquares().get(k).getColor() != colorOfSquare) {
                     colorsVisible.add(player.getPositionOnTheMap().getAdjSquares().get(k).getColor());
+
                 }
             }
+
 
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j <matrix[i].length; j++) {
@@ -370,6 +376,7 @@ public class WeaponController {
 
                 }
             }
+
         }
 
 

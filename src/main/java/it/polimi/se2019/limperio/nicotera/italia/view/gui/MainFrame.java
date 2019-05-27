@@ -128,8 +128,13 @@ public class MainFrame {
         contentPane.repaint();
     }
 
+     RightPanel getRightPanel() {
+        return rightPanel;
+    }
 
-
+     KillshotTrackPanel getKillshotTrackPanel() {
+        return killshotTrackPanel;
+    }
 
     private class FrameListener implements ComponentListener {
 

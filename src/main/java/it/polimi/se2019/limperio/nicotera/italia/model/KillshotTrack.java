@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 
-public class KillshotTrack implements Serializable {
+public class KillshotTrack implements Serializable, Cloneable {
     static final long serialVersionUID = 420000005;
 
     /**
@@ -21,24 +21,21 @@ public class KillshotTrack implements Serializable {
     /**
      * Records the killings of the players during the game
      */
-    private ArrayList<TokenOfDeath> tokensOfDeath = new ArrayList<>();
+    private ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath = new ArrayList<>();
     /**
      * Records the killings of the players during the frenzy turn
      */
-    private ArrayList<TokenOfDeath> tokenOfFrenzyMode = new ArrayList<>();
-    /**
-     * Records the players that have done a double kill
-     */
-    private ArrayList<TokenOfDeath> tokensOfDoubleKill = new ArrayList<>();
+    private ArrayList<ColorOfDeathToken> tokenOfFrenzyMode = new ArrayList<>();
 
     /**
      * Creates the killshot track and at the beginning it has filled only with skull, according to the rules
      */
     private KillshotTrack(){
 
-        for (int i=0;i<8;i++)
-            tokensOfDeath.add(new TokenOfDeath(1, ColorOfDeathToken.SKULL));
-
+        for (int i=0;i<8;i++) {
+            tokensOfDeath.add(new ArrayList<>());
+            tokensOfDeath.get(i).add(ColorOfDeathToken.SKULL);
+        }
     }
 
     /**
@@ -52,15 +49,39 @@ public class KillshotTrack implements Serializable {
     }
 
 
-    public ArrayList<TokenOfDeath> getTokensOfDeath() {
+    public ArrayList<ArrayList<ColorOfDeathToken>> getTokensOfDeath() {
         return tokensOfDeath;
     }
 
-    public ArrayList<TokenOfDeath> getTokenOfFranzyMode() {
+    public void setTokensOfDeath(ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath) {
+        this.tokensOfDeath = tokensOfDeath;
+    }
+
+    public ArrayList<ColorOfDeathToken> getTokenOfFrenzyMode() {
         return tokenOfFrenzyMode;
     }
 
-    public ArrayList<TokenOfDeath> getTokensOfDoubleKill() {
-        return tokensOfDoubleKill;
+    public void setTokenOfFrenzyMode(ArrayList<ColorOfDeathToken> tokenOfFrenzyMode) {
+        this.tokenOfFrenzyMode = tokenOfFrenzyMode;
+    }
+
+    public Object clone(){
+        KillshotTrack killshotTrack = null;
+        try{
+            killshotTrack = (KillshotTrack) super.clone();
+        } catch (CloneNotSupportedException e) {
+            killshotTrack = new KillshotTrack();
+        }
+        killshotTrack.tokensOfDeath = new ArrayList<>();
+        int i=0;
+        for(ArrayList<ColorOfDeathToken> listOfToken : this.tokensOfDeath){
+            killshotTrack.tokensOfDeath.add(new ArrayList<>());
+            for(ColorOfDeathToken token : listOfToken){
+                killshotTrack.tokensOfDeath.get(i).add(token);
+            }
+            i++;
+        }
+        killshotTrack.tokenOfFrenzyMode = this.tokenOfFrenzyMode;
+        return killshotTrack;
     }
 }

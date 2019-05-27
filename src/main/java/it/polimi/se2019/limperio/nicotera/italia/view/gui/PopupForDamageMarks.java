@@ -4,16 +4,18 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 class PopupForDamageMarks {
     private JDialog dialog;
+    private JPanel contentPane;
 
      PopupForDamageMarks(JLabel labelBoard, MainFrame mainFrame, boolean forDamage) {
          dialog = new JDialog(mainFrame.getFrame());
-         JPanel contentPane = new JPanel(new GridBagLayout());
+         contentPane = new JPanel(new GridBagLayout());
          dialog.setContentPane(contentPane);
          int yOffset = 0;
          if(!forDamage)
@@ -22,7 +24,8 @@ class PopupForDamageMarks {
          dialog.setLocation((int)location.getX()-10, (int)location.getY()-yOffset);
          dialog.setUndecorated(true);
          dialog.setAutoRequestFocus(false);
-         contentPane.setBackground(Color.DARK_GRAY);
+         contentPane.setOpaque(false);
+         contentPane.setBackground(new Color(0,0,0,20));
 
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
          String folderPath = "resources/playerboards/damage/";
@@ -45,7 +48,7 @@ class PopupForDamageMarks {
          }
          for(ColorOfFigure_Square color : listOfColors){
              JLabel damageIcon = new JLabel();
-             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat(".png"));
+             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat("1.png"));
              Image image = icon.getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              damageIcon.setIcon(icon);
@@ -58,5 +61,9 @@ class PopupForDamageMarks {
 
      JDialog getPanelForDamage() {
         return dialog;
+    }
+
+    public JPanel getContentPane() {
+        return contentPane;
     }
 }

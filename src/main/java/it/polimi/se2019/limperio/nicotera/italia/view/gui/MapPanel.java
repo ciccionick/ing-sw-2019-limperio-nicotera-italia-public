@@ -283,9 +283,22 @@ class MapPanel extends JPanel {
 
       }
 
+      private boolean isClickableForSelection(){
+          if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
+          {
+              if(cell.isEnabled()) {
+                  for(Square squareReachable : mainFrame.getRemoteView().getMapView().getReachableSquares()){
+                      if(square.getRow()==squareReachable.getRow() && square.getColumn()==squareReachable.getColumn())
+                          return true;
+                  }
+              }
+          }
+          return false;
+      }
+
       @Override
       public void mouseClicked(MouseEvent e) {
-           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&cell.isEnabled()){
+           if(isClickableForSelection()){
                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
                     mainFrame.getRemoteView().notify(new RunEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
@@ -300,6 +313,10 @@ class MapPanel extends JPanel {
                    label.setEnabled(true);
                }
                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
+              // mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getListOfSquareAsArrayList());
+               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setSelected(false);
+               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setEnabled(false);
+               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMNone().setSelected(true);
            }
 
       }

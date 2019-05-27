@@ -114,15 +114,15 @@ class TerminatorController {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          Player playerToAttack = controller.findPlayerWithThisNickname(((TerminatorShootEvent)message).getNicknamePlayerToAttack());
          playerToAttack.assignDamage(terminator.getColorOfFigure(), 1);
-
-         if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
-             controller.getDeathController().handleDeath(playerToAttack);
-         }
          if(terminator.isOverSixDamage()){
              playerToAttack.assignMarks(terminator.getColorOfFigure(), 1);
          }
 
-         System.out.println(playerToAttack.getPlayerBoard().getDamages().get(0).toString());
+         if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
+             System.out.println("Chiamo il metodo del death controller");
+             controller.getDeathController().handleDeath(terminator, playerToAttack);
+         }
+
          PlayerBoardEvent pbEvent = new PlayerBoardEvent();
          pbEvent.setNicknameInvolved(playerToAttack.getNickname());
          pbEvent.setNicknames(game.getListOfNickname());
