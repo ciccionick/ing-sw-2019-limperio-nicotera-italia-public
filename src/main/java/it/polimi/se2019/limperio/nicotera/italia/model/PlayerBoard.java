@@ -40,9 +40,22 @@ public class PlayerBoard implements Serializable, Cloneable {
         scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
         if(nickname.equals("pietro")){
-            for(int i=0;i<10;i++)
+            for(int i=0;i<4;i++)
                 damages.add(ColorOfFigure_Square.GREEN);
+            for(int i=0;i<4;i++)
+                damages.add(ColorOfFigure_Square.GREY);
+            for(int i=0;i<2;i++)
+                damages.add(ColorOfFigure_Square.YELLOW);
         }
+        if(nickname.equals("ciccio")){
+            for(int i=0;i<4;i++)
+                damages.add(ColorOfFigure_Square.BLUE);
+            for(int i=0;i<4;i++)
+                damages.add(ColorOfFigure_Square.GREY);
+            for(int i=0;i<2;i++)
+                damages.add(ColorOfFigure_Square.YELLOW);
+        }
+
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
         ammo.add(new Ammo(RED,true));
@@ -78,6 +91,12 @@ public class PlayerBoard implements Serializable, Cloneable {
         for (ColorOfFigure_Square mark : this.marks){
             playerBoard.marks.add(mark);
         }
+        playerBoard.scoreBarForFrenzyMode = new ArrayList<>();
+        for(Integer score : this.scoreBarForFrenzyMode)
+            playerBoard.scoreBarForFrenzyMode.add(score);
+        playerBoard.scoreBarForNormalMode = new ArrayList<>();
+        for(Integer score : this.scoreBarForNormalMode)
+            playerBoard.scoreBarForNormalMode.add(score);
 
 
         return playerBoard;
@@ -98,6 +117,8 @@ public class PlayerBoard implements Serializable, Cloneable {
     public void setFrenzyActionBar(boolean frenzyActionBar) {
         isFrenzyActionBar = frenzyActionBar;
     }
+
+
 
     /**
      * Cleans the board from damages when a player dies

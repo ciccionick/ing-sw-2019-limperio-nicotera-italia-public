@@ -53,9 +53,9 @@ public class Client {
         client = new Client();
 
 
-        /*client.frameForRequestIP = new FrameForRequestIP(client);
-        while(client.hasToInsertIP){
-            num++;
+        //client.frameForRequestIP = new FrameForRequestIP(client);
+        /*while(client.hasToInsertIP){
+
         }*/
 
 

@@ -16,7 +16,6 @@ public class PlayerBoardView {
     private ArrayList<ColorOfFigure_Square> damages;
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
-    private boolean isInFrenzyBoardPlayer=false;
     private ArrayList<ServerEvent.AliasCard> powerUpCardsDeck = new ArrayList<>();
     private ArrayList<ServerEvent.AliasCard> weaponCardDeck = new ArrayList<>();
     private String nicknameOfPlayer;
@@ -36,6 +35,8 @@ public class PlayerBoardView {
     private boolean canRun = false;
     private boolean canCatch = false;
     private boolean hasToDoTerminatorAction = false;
+    private boolean isFrenzyPlayerBoard = false;
+    private boolean isFrenzyActionBar = false;
 
 
 
@@ -63,13 +64,6 @@ public class PlayerBoardView {
         this.ammo = ammo;
     }
 
-    public boolean isInFrenzyBoardPlayer() {
-        return isInFrenzyBoardPlayer;
-    }
-
-    private void setInFrenzyBoardPlayer(boolean inFrenzyBoardPlayer) {
-        isInFrenzyBoardPlayer = inFrenzyBoardPlayer;
-    }
 
     public boolean isCanShoot() {
         return canShoot;
@@ -87,7 +81,8 @@ public class PlayerBoardView {
 
             setDamages(event.getPlayerBoard().getDamages());
             setMarks(event.getPlayerBoard().getMarks());
-            setInFrenzyBoardPlayer(event.getPlayerBoard().isFrenzyBoardPlayer());
+            setFrenzyPlayerBoard(event.getPlayerBoard().isFrenzyBoardPlayer());
+            setFrenzyActionBar(event.getPlayerBoard().isFrenzyActionBar());
             setAmmo(event.getPlayerBoard().getAmmo());
             setPowerUpCardsDeck(event.getPowerUpCardsOwned());
             setScoreBarForNormalMode(event.getPlayerBoard().getScoreBarForNormalMode());
@@ -192,6 +187,22 @@ public class PlayerBoardView {
 
     public boolean isCanRun() {
         return canRun;
+    }
+
+    public boolean isFrenzyPlayerBoard() {
+        return isFrenzyPlayerBoard;
+    }
+
+    public void setFrenzyPlayerBoard(boolean frenzyPlayerBoard) {
+        isFrenzyPlayerBoard = frenzyPlayerBoard;
+    }
+
+    public boolean isFrenzyActionBar() {
+        return isFrenzyActionBar;
+    }
+
+    public void setFrenzyActionBar(boolean frenzyActionBar) {
+        isFrenzyActionBar = frenzyActionBar;
     }
 
     public void setCanRun(boolean canRun) {

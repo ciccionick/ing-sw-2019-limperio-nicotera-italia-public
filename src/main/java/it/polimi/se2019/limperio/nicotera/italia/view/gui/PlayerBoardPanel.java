@@ -47,12 +47,18 @@ class PlayerBoardPanel extends JPanel {
                 throw new IllegalArgumentException();
         }
 
+        if(playerBoardView.isFrenzyPlayerBoard())
+            folderPath = folderPath.concat("frenzy/");
+
         JLabel cell00 = new JLabel("");
         GridBagConstraints gbcCell00 = new GridBagConstraints();
         gbcCell00.gridx = 0;
         gbcCell00.gridy = 0;
         gbcCell00.gridheight = 3;
-        ImageIcon imageIcon = new ImageIcon(folderPath.concat("cell00.png"));
+        String pathForAction = folderPath;
+        if(playerBoardView.isFrenzyActionBar() && !playerBoardView.isFrenzyPlayerBoard())
+            pathForAction = pathForAction.concat("frenzy/");
+        ImageIcon imageIcon = new ImageIcon(pathForAction.concat("cell00.png"));
         java.awt.Image image = imageIcon.getImage();
         java.awt.Image newimg = image.getScaledInstance(widthOfFirstCell,heightOfCell*gbcCell00.gridheight,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -63,7 +69,10 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell01 = new GridBagConstraints();
         gbcCell01.gridx = 1;
         gbcCell01.gridy = 0;
-        gbcCell01.gridwidth = 6;
+        if(playerBoardView.isFrenzyPlayerBoard())
+            gbcCell01.gridwidth=7;
+        else
+            gbcCell01.gridwidth = 6;
         imageIcon = new ImageIcon(folderPath.concat("cell01.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell01.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
@@ -71,11 +80,18 @@ class PlayerBoardPanel extends JPanel {
         cell01.setIcon(imageIcon);
         add(cell01, gbcCell01);
 
+
         JLabel cell07 = new JLabel("");
         GridBagConstraints gbcCell07 = new GridBagConstraints();
-        gbcCell07.gridx = 7;
+        if(playerBoardView.isFrenzyPlayerBoard()){
+            gbcCell07.gridx = 8;
+            gbcCell07.gridwidth = 5;
+        }
+        else {
+            gbcCell07.gridx = 7;
+            gbcCell07.gridwidth = 6;
+        }
         gbcCell07.gridy = 0;
-        gbcCell07.gridwidth = 6;
         imageIcon = new ImageIcon(folderPath.concat("cell07.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell07.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
@@ -118,7 +134,10 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell21 = new GridBagConstraints();
         gbcCell21.gridx = 1;
         gbcCell21.gridy = 2;
-        gbcCell21.gridwidth = 2;
+        if(playerBoardView.isFrenzyPlayerBoard())
+            gbcCell21.gridwidth = 2;
+        else
+            gbcCell21.gridwidth = 2;
         imageIcon = new ImageIcon(folderPath.concat("cell21.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell21.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
@@ -126,18 +145,20 @@ class PlayerBoardPanel extends JPanel {
         cell21.setIcon(imageIcon);
         add(cell21, gbcCell21);
 
-        JLabel cell23 = new JLabel("");
-        GridBagConstraints gbcCell23 = new GridBagConstraints();
-        gbcCell23.gridx = 3;
-        gbcCell23.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell23.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<6)
-            cell23.setEnabled(false);
-        cell23.setIcon(imageIcon);
-        add(cell23, gbcCell23);
+        if(!playerBoardView.isFrenzyPlayerBoard()) {
+            JLabel cell23 = new JLabel("");
+            GridBagConstraints gbcCell23 = new GridBagConstraints();
+            gbcCell23.gridx = 3;
+            gbcCell23.gridy = 2;
+            imageIcon = new ImageIcon(folderPath.concat("cell23.png"));
+            image = imageIcon.getImage();
+            newimg = image.getScaledInstance(widthOfMiddleCells, heightOfCell, java.awt.Image.SCALE_SMOOTH);
+            imageIcon = new ImageIcon(newimg);
+            if (getPlayerBoardViewed().getScoreBarForNormalMode().size() < 6)
+                cell23.setEnabled(false);
+            cell23.setIcon(imageIcon);
+            add(cell23, gbcCell23);
+        }
 
         JLabel cell24 = new JLabel("");
         GridBagConstraints gbcCell24 = new GridBagConstraints();
@@ -148,9 +169,8 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell24.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<5)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<4 && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<4)
              cell24.setEnabled(false);
-
          add(cell24, gbcCell24);
 
         JLabel cell25 = new JLabel("");
@@ -162,7 +182,7 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell25.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<4)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<3 && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<3)
              cell25.setEnabled(false);
 
          add(cell25, gbcCell25);
@@ -177,7 +197,7 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell26.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<3)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<2 && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<2)
              cell26.setEnabled(false);
 
          add(cell26, gbcCell26);
@@ -191,30 +211,37 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell27.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<2)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<1 && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<1)
              cell27.setEnabled(false);
 
          add(cell27, gbcCell27);
 
-        JLabel cell28 = new JLabel("");
-        GridBagConstraints gbcCell28 = new GridBagConstraints();
-        gbcCell28.gridx = 8;
-        gbcCell28.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell28.png"));
-        image = imageIcon.getImage();
-        newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(newimg);
-        cell28.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<1)
-             cell28.setEnabled(false);
-
-         add(cell28, gbcCell28);
+         if(!playerBoardView.isFrenzyPlayerBoard()) {
+             JLabel cell28 = new JLabel("");
+             GridBagConstraints gbcCell28 = new GridBagConstraints();
+             gbcCell28.gridx = 8;
+             gbcCell28.gridy = 2;
+             imageIcon = new ImageIcon(folderPath.concat("cell28.png"));
+             image = imageIcon.getImage();
+             newimg = image.getScaledInstance(widthOfMiddleCells, heightOfCell, java.awt.Image.SCALE_SMOOTH);
+             imageIcon = new ImageIcon(newimg);
+             cell28.setIcon(imageIcon);
+             if (getPlayerBoardViewed().getScoreBarForNormalMode().size() < 1)
+                 cell28.setEnabled(false);
+             add(cell28, gbcCell28);
+         }
 
         JLabel cell29 = new JLabel("");
         GridBagConstraints gbcCell29 = new GridBagConstraints();
-        gbcCell29.gridx = 9;
+        if(playerBoardView.isFrenzyPlayerBoard())
+            gbcCell29.gridx=8;
+        else
+            gbcCell29.gridx = 9;
         gbcCell29.gridy = 2;
-        gbcCell29.gridwidth = 4;
+        if(playerBoardView.isFrenzyPlayerBoard())
+            gbcCell29.gridwidth = 5;
+        else
+            gbcCell29.gridwidth = 4;
         imageIcon = new ImageIcon(folderPath.concat("cell29.png"));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell29.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
@@ -222,8 +249,7 @@ class PlayerBoardPanel extends JPanel {
         cell29.setIcon(imageIcon);
         add(cell29, gbcCell29);
 
-       /* if(playerBoardView.getDamages()!=null && !playerBoardView.getDamages().isEmpty())
-           new PopupForDamageMarks(cell11, mainFrame, true);*/
+
 
     }
 

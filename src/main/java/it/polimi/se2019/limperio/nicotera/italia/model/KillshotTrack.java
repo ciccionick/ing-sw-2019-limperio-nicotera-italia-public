@@ -34,7 +34,10 @@ public class KillshotTrack implements Serializable, Cloneable {
 
         for (int i=0;i<8;i++) {
             tokensOfDeath.add(new ArrayList<>());
-            tokensOfDeath.get(i).add(ColorOfDeathToken.SKULL);
+            if(i<7)
+                tokensOfDeath.get(i).add(ColorOfDeathToken.YELLOW);
+            else
+                tokensOfDeath.get(i).add(ColorOfDeathToken.SKULL);
         }
     }
 
