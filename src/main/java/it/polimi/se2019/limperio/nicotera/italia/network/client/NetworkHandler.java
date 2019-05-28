@@ -101,6 +101,10 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
 
         }
 
+        if(event.isUpdateScoreEvent()){
+            remoteView.update(event);
+        }
+
         if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
             remoteView.update(event);
         }
@@ -118,6 +122,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){
             remoteView.update(event);
             return;
+        }
+        if(event.isRequestForDrawOnePowerUpCardEvent()){
+            remoteView.update(event);
         }
         if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
             remoteView.update(event);

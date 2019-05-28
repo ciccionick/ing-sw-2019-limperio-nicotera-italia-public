@@ -25,7 +25,6 @@ public class Controller implements Observer<ClientEvent> {
     private RoundController roundController;
     private RunController runController;
     private ShootController shootController;
-    private TurnController turnController;
     private WeaponController weaponController;
     private TerminatorController terminatorController;
     private DeathController deathController;
@@ -43,7 +42,6 @@ public class Controller implements Observer<ClientEvent> {
         roundController = new RoundController(this,game);
         runController = new RunController(game, this);
         shootController = new ShootController(game);
-        turnController = new TurnController(game);
         weaponController = new WeaponController(game, this);
         deathController = new DeathController(game, this);
 
@@ -60,14 +58,14 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())) {
-            if (message.isDrawTwoPowerUpCards()) {
+        if (isTheTurnOfThisPlayer(message.getNickname())|| findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
+            if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
                 }
-                powerUpController.handleDrawOfTwoCards((DrawTwoPowerUpCards) message);
+                powerUpController.handleDrawOfPowerUpCards((DrawPowerUpCards) message);
             }
-            if (message.isDiscardPowerUpCardToSpawn()) {
+            if (message.isDiscardPowerUpCardToSpawn()&&findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
             }
             if (message.isRequestToCatchByPlayer()) {
@@ -212,30 +210,20 @@ public class Controller implements Observer<ClientEvent> {
             timer = null;
             turnTask = null;
             roundController.updateTurn();
-            if (game.getPlayers().get(game.getPlayerOfTurn()).isConnected()) {
-                if(someoneDead()){
-                    for(Player player : game.getPlayers()){
-                        if(player.isDeath()) {
-                            player.setDeath(false);
-                            powerUpController.handleDrawOfOneCard(player);
-                        }
-                    }
+            if (!isSomeoneDied()) {
 
-                }else {
                     if (game.getRound() > 1)
                         sendRequestForAction();
                     else
-                        sendInitialRequest();
-                }
+                        sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
+
             }
-            else
-                roundController.updateTurn();
         }
     }
 
-    private boolean someoneDead() {
+    private boolean isSomeoneDied() {
          for(Player player : game.getPlayers()){
-             if(player.isDeath())
+             if(player.isDead())
                  return true;
          }
          return false;
@@ -278,25 +266,41 @@ public class Controller implements Observer<ClientEvent> {
         }
         game.notify(requestActionEvent);
         if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() != 1) {
-            setTimerForTurn(false);
+            setTimerForTurn(false,false);
         }
     }
 
-    public void sendInitialRequest() {
-        game.setHasToBeGenerated(true);
+    public void sendRequestToDrawPowerUpCard(Player playerHasToDraw, int numOfPowerUpCardToDraw) {
+        playerHasToDraw.setHasToBeGenerated(true);
         if(timer!=null){
             timer.cancel();
             timer=null;
             turnTask = null;
         }
-        ServerEvent requestDrawTwoPowerUpCardsEvent = new ServerEvent();
-        requestDrawTwoPowerUpCardsEvent.setMessageForInvolved("Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!");
-        requestDrawTwoPowerUpCardsEvent.setMessageForOthers("Wait! It's not your turn but the turn of " + game.getListOfNickname().get(game.getPlayerOfTurn() - 1) + ". Press OK and wait for some news!");
-        requestDrawTwoPowerUpCardsEvent.setRequestForDrawTwoPowerUpCardsEvent(true);
-        requestDrawTwoPowerUpCardsEvent.setNicknames(game.getListOfNickname());
-        requestDrawTwoPowerUpCardsEvent.setNicknameInvolved(game.getListOfNickname().get(game.getPlayerOfTurn() - 1));
-        game.notify(requestDrawTwoPowerUpCardsEvent);
-        setTimerForTurn(true);
+        String messageForInvolved;
+        String messageForOthers;
+        ServerEvent event = new ServerEvent();
+
+        if(numOfPowerUpCardToDraw==1){
+            messageForInvolved = "Draw a power up card and then discard one of yours to decide where you will be spawn";
+            messageForOthers = playerHasToDraw.getNickname() + " has to draw power up card to decide where he'll be spawn";
+            event.setRequestForDrawOnePowerUpCardEvent(true);
+        }
+        else{
+            messageForInvolved = "Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!";
+            messageForOthers = "Wait! It's not your turn but the turn of " + game.getListOfNickname().get(game.getPlayerOfTurn() - 1) + ". Press OK and wait for some news!";
+            event.setRequestForDrawTwoPowerUpCardsEvent(true);
+        }
+
+        event.setMessageForInvolved(messageForInvolved);
+        event.setMessageForOthers(messageForOthers);
+        event.setNicknames(game.getListOfNickname());
+        event.setNicknameInvolved(playerHasToDraw.getNickname());
+        game.notify(event);
+        if(numOfPowerUpCardToDraw==2)
+            setTimerForTurn(true,false);
+        else
+            setTimerForTurn(false, true);
 
     }
 
@@ -304,9 +308,6 @@ public class Controller implements Observer<ClientEvent> {
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
              return false;
-
-        /* if(weaponController.controlUseWeaponCards(new ArrayList<WeaponCard>(){{add(weaponCard);}})==null) return false;
-         return true;*/
         return true;
     }
 
@@ -342,14 +343,18 @@ public class Controller implements Observer<ClientEvent> {
         this.turnTask = turnTask;
     }
 
-    private void setTimerForTurn(boolean isForFirstRound) {
+    private void setTimerForTurn(boolean isForFirstRound, boolean isForRegeneration) {
         timer = new Timer();
         turnTask = new TurnTask();
         try {
             if(isForFirstRound)
                 timer.schedule(turnTask, game.getDelay()+6000);
-            else
-                timer.schedule(turnTask, game.getDelay());
+            else {
+                if(!isForRegeneration)
+                    timer.schedule(turnTask, game.getDelay());
+                else
+                    timer.schedule(turnTask, game.getDelay()/3);
+            }
         } catch (IllegalStateException er) {
             er.printStackTrace();
         }
@@ -363,7 +368,7 @@ public class Controller implements Observer<ClientEvent> {
 
     }
 
-    public DeathController getDeathController() {
+     DeathController getDeathController() {
         return deathController;
     }
 
@@ -374,7 +379,7 @@ public class Controller implements Observer<ClientEvent> {
             Player previousPlayer = game.getPlayers().get(game.getPlayerOfTurn()-1);
             roundController.updateTurn();
             PowerUpCard powerUpCard;
-            if(game.isHasToBeGenerated()){
+            if(previousPlayer.isHasToBeGenerated()){
                 ColorOfCard_Ammo color;
                 Square square = null;
                 if(previousPlayer.getPlayerBoard().getPowerUpCardsOwned().size()==2){
@@ -410,7 +415,7 @@ public class Controller implements Observer<ClientEvent> {
                 sendRequestForAction();
             }
             else
-                sendInitialRequest();
+                sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
         }
     }
 }

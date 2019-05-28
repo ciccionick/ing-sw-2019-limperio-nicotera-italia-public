@@ -1,7 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawTwoPowerUpCards;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawPowerUpCards;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
@@ -24,18 +24,18 @@ class PowerUpController {
     /**
      * This method moves two power up cards from the deck to the player's deck and then it notifies to view part
      */
-     void handleDrawOfTwoCards(DrawTwoPowerUpCards event) {
+     void handleDrawOfPowerUpCards(DrawPowerUpCards event) {
          String nickname = event.getNickname();
          PowerUpCard powerUpCardToDraw;
-         for (int i = 0; i < 2; i++) {
+         for (int i = 0; i < event.getNumOfCards(); i++) { //occhio che la powerup card potrebbero essere momentanemante quattro nel personal deck
              powerUpCardToDraw = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0)); //add to used deck the first of normal deck and remove from this one
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true); //set boolean attribute to the card
              powerUpCardToDraw.setOwnerOfCard(controller.findPlayerWithThisNickname(nickname));
              controller.findPlayerWithThisNickname(nickname).drawPowerUpCard(powerUpCardToDraw);
-         }
 
-         if(game.getPlayerOfTurn()==2 && game.isTerminatorModeActive() && controller.findPlayerWithThisNickname("terminator").getPositionOnTheMap()==null) {
+         }
+         if(game.getPlayerOfTurn()==2 && game.getRound()==1 && game.isTerminatorModeActive() && controller.findPlayerWithThisNickname("terminator").getPositionOnTheMap()==null) {
              PlayerBoardEvent pBEvent = new PlayerBoardEvent();
              pBEvent.setPlayerBoard(game.getPlayers().get(game.getPlayerOfTurn() - 1).getPlayerBoard());
              pBEvent.setNicknames(game.getListOfNickname());
@@ -75,12 +75,11 @@ class PowerUpController {
      * @param event It is sent by the view and contains the references to the player that want to discard.
      */
     void handleDiscardOfCardToSpawn(DiscardPowerUpCardToSpawnEvent event) {
-        if (event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname())) {
             removePowerCardFromPlayerDeck(controller.findPlayerWithThisNickname(event.getNickname()), event.getPowerUpCard());
             Square square;
             square = findSpawnSquareWithThisColor(event.getPowerUpCard().getColor());
-            spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()),square);
-        }
+            spawnPlayer(controller.findPlayerWithThisNickname(event.getNickname()), square);
+
     }
 
     /**
@@ -132,7 +131,8 @@ class PowerUpController {
      */
      void spawnPlayer(Player playerWithThisNickname, Square square) {
         playerWithThisNickname.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[square.getRow()][square.getColumn()]);
-        game.setHasToBeGenerated(false);
+        playerWithThisNickname.setDead(false);
+        playerWithThisNickname.setHasToBeGenerated(false);
         MapEvent generationEvent;
         generationEvent = new MapEvent();
         generationEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
@@ -148,14 +148,20 @@ class PowerUpController {
          pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
          game.notify(pbEvent);
 
-
-        if(game.getRound()==1 && playerWithThisNickname.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())  ) {
-            controller.sendRequestForAction();
-        }
+         Player playerOfTurn = game.getPlayers().get(game.getPlayerOfTurn()-1);
+         ArrayList<Player> playerStillDead = new ArrayList<>();
+         for(Player player : game.getPlayers()){
+             if(player.isDead())
+                 playerStillDead.add(player);
+         }
+         if(playerStillDead.isEmpty()) {
+             if (playerOfTurn.isHasToBeGenerated() && !playerOfTurn.isDead())
+                 controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn() - 1), 2);
+             else
+                 controller.sendRequestForAction();
+         }
     }
 
 
-     void handleDrawOfOneCard(Player player) {
-         System.out.println("Pesca per generarti");
-    }
+
 }

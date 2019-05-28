@@ -94,15 +94,18 @@ class DialogForMessage {
                  JPanel buttonPanel = new JPanel();
                  buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                  dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-                 if (mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved()) && receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
+                 if (mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved()) && (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()||receivedEvent.isRequestForDrawOnePowerUpCardEvent())) {
                      button = new JButton("DRAW");
                      button.setActionCommand("DRAW");
                  } else {
                      button = new JButton("OK");
                      button.setActionCommand("OK");
                  }
-
-                 button.addActionListener(new DrawOkButtonListener(dialog, mainFrame));
+                 button.addActionListener(new DrawOkButtonListener(dialog, mainFrame, 0));
+                if(receivedEvent.isRequestForDrawOnePowerUpCardEvent())
+                    button.addActionListener(new DrawOkButtonListener(dialog, mainFrame,1));
+                if(receivedEvent.isRequestForDrawTwoPowerUpCardsEvent())
+                    button.addActionListener(new DrawOkButtonListener(dialog, mainFrame,2));
                  buttonPanel.add(button);
                  dialog.getRootPane().setDefaultButton(button);
              }

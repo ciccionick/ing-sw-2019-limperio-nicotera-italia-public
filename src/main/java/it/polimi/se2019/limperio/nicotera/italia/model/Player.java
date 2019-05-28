@@ -1,8 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
-import java.util.ArrayList;
-
 /**
  * This class is used to represent the players in the game
  * @author Francesco Nicotera
@@ -54,9 +52,11 @@ public class Player implements PlayerBehaviour{
      */
     private PlayerBoard playerBoard = null;
 
-    private boolean isDeath = false;
+    private boolean isDead = false;
 
     private int numOfKillDoneInTheTurn = 0;
+
+    private boolean hasToBeGenerated = true;
 
 
     public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
@@ -115,6 +115,13 @@ public class Player implements PlayerBehaviour{
         return position;
     }
 
+    public boolean isHasToBeGenerated() {
+        return hasToBeGenerated;
+    }
+
+    public void setHasToBeGenerated(boolean hasToBeGenerated) {
+        this.hasToBeGenerated = hasToBeGenerated;
+    }
 
     public void useAmmoForPay(Ammo[] ammo){}
 
@@ -189,12 +196,12 @@ public class Player implements PlayerBehaviour{
         return isConnected;
     }
 
-    public boolean isDeath() {
-        return isDeath;
+    public boolean isDead() {
+        return isDead;
     }
 
-    public void setDeath(boolean death) {
-        isDeath = death;
+    public void setDead(boolean dead) {
+        isDead = dead;
     }
 
     public int getNumOfKillDoneInTheTurn() {

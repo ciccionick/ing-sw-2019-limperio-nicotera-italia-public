@@ -102,6 +102,14 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             }
         }
 
+        if(receivedEvent.isRequestForDrawOnePowerUpCardEvent()){
+            mainFrame.showMessage(receivedEvent);
+        }
+
+        if(receivedEvent.isUpdateScoreEvent()){
+            mainFrame.showMessage(receivedEvent);
+        }
+
         if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
             mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }

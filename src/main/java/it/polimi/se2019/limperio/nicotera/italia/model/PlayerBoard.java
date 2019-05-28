@@ -16,6 +16,7 @@ public class PlayerBoard implements Serializable, Cloneable {
     private ArrayList<ColorOfFigure_Square> marks;
     private ArrayList<Ammo> ammo;
     private boolean isFrenzyBoardPlayer =false;
+    private boolean isFrenzyActionBar = false;
     private ArrayList<Integer> scoreBarForNormalMode = new ArrayList<>();
     private ArrayList<Integer> scoreBarForFrenzyMode = new ArrayList<>();
     private transient ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
@@ -88,6 +89,14 @@ public class PlayerBoard implements Serializable, Cloneable {
 
     public ArrayList<ColorOfFigure_Square> getMarks() {
         return marks;
+    }
+
+    public boolean isFrenzyActionBar() {
+        return isFrenzyActionBar;
+    }
+
+    public void setFrenzyActionBar(boolean frenzyActionBar) {
+        isFrenzyActionBar = frenzyActionBar;
     }
 
     /**

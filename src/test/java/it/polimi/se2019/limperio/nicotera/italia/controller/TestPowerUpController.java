@@ -48,7 +48,7 @@ public class TestPowerUpController extends TestController {
 
 
         game.setPlayerOfTurn(1);
-        powerUpController.handleDrawOfTwoCards(game.getPlayers().get(0).getNickname());
+        powerUpController.handleDrawOfPowerUpCards(game.getPlayers().get(0).getNickname());
         assertEquals(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().size(), 2);
         //powerUpCardChoice is the card that game.getPlayers().get(0) wants to discard
         PowerUpCard powerUpCardChoice= game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().get(0);

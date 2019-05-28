@@ -119,20 +119,21 @@ class TerminatorController {
          }
 
          if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
-             System.out.println("Chiamo il metodo del death controller");
              controller.getDeathController().handleDeath(terminator, playerToAttack);
          }
+         else {
 
-         PlayerBoardEvent pbEvent = new PlayerBoardEvent();
-         pbEvent.setNicknameInvolved(playerToAttack.getNickname());
-         pbEvent.setNicknames(game.getListOfNickname());
-         pbEvent.setMessageForInvolved("You have been attacked by the terminator!");
-         pbEvent.setMessageForOthers(playerToAttack.getNickname() + " has been attacked by terminator");
-         pbEvent.setPlayerBoard(playerToAttack.getPlayerBoard());
-         pbEvent.setNotifyAboutActionDone(true);
-         game.notify(pbEvent);
-         game.setHasToDoTerminatorAction(false);
-         controller.handleTheEndOfAnAction();
+             PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+             pbEvent.setNicknameInvolved(playerToAttack.getNickname());
+             pbEvent.setNicknames(game.getListOfNickname());
+             pbEvent.setMessageForInvolved("You have been attacked by the terminator!");
+             pbEvent.setMessageForOthers(playerToAttack.getNickname() + " has been attacked by terminator");
+             pbEvent.setPlayerBoard(playerToAttack.getPlayerBoard());
+             pbEvent.setNotifyAboutActionDone(true);
+             game.notify(pbEvent);
+             game.setHasToDoTerminatorAction(false);
+             controller.handleTheEndOfAnAction();
+         }
     }
 
 

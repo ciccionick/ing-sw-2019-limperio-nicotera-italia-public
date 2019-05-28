@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.KillshotTrackEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 class DeathController {
@@ -14,10 +15,31 @@ class DeathController {
     }
 
      void handleDeath(Player killerPlayer, Player deadPlayer) {
+         String messageForInvolved;
+         String messageForOthers;
+         if(deadPlayer.getPlayerBoard().getDamages().size()==11){
+             messageForInvolved = "You have been attacked and killed by " + killerPlayer.getNickname();
+             messageForOthers = deadPlayer.getNickname() + " has been attacked and killed by " + killerPlayer.getNickname();
+         }
+         else{
+             messageForInvolved = "You have been attacked and overkilled by " + killerPlayer.getNickname();
+             messageForOthers = deadPlayer.getNickname() + " has been attacked and overkilled by " + killerPlayer.getNickname();
+         }
+         PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+         pbEvent.setNicknameInvolved(deadPlayer.getNickname());
+         pbEvent.setNicknames(game.getListOfNickname());
+         pbEvent.setPlayerBoard(deadPlayer.getPlayerBoard());
+         pbEvent.setMessageForInvolved(messageForInvolved);
+         pbEvent.setMessageForOthers(messageForOthers);
+         pbEvent.setNotifyAboutActionDone(true);
+         game.notify(pbEvent);
+
          Player playerOfTheTurn = game.getPlayers().get(game.getPlayerOfTurn()-1);
-         ColorOfDeathToken colorOfKiller = convertColorOfFigureInColorOfToken(killerPlayer.getColorOfFigure());
          playerOfTheTurn.setNumOfKillDoneInTheTurn(playerOfTheTurn.getNumOfKillDoneInTheTurn()+1);
-         deadPlayer.setDeath(true);
+
+         ColorOfDeathToken colorOfKiller = convertColorOfFigureInColorOfToken(killerPlayer.getColorOfFigure());
+         deadPlayer.setDead(true);
+
          if(game.isInFrenzy()) {
              game.getBoard().getKillShotTrack().getTokenOfFrenzyMode().add(colorOfKiller);
          }
@@ -30,11 +52,11 @@ class DeathController {
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
              }
          }
-         System.out.println("Prima dell'aggiornamento della kill");
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());
          killshotTrackEvent.setNicknames(game.getListOfNickname());
          game.notify(killshotTrackEvent);
-
+         game.setHasToDoTerminatorAction(false);
+         controller.handleTheEndOfAnAction();
     }
 
     private int firstSkullPosition() {

@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
-import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 
 import java.io.BufferedReader;
@@ -77,7 +76,7 @@ public class Game extends Observable<ServerEvent> {
 
     private boolean hasToDoTerminatorAction = false;
 
-    private boolean hasToBeGenerated = false;
+
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
@@ -148,7 +147,7 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
-        controller.sendInitialRequest();
+        controller.sendRequestToDrawPowerUpCard(players.get(playerOfTurn-1),2);
     }
 
     private ColorOfFigure_Square findColorAvailable() {
@@ -171,9 +170,7 @@ public class Game extends Observable<ServerEvent> {
 
 
 
-    public boolean isHasToBeGenerated() {
-        return hasToBeGenerated;
-    }
+
 
     /**
      * Update the map and send an event of type {@link MapEvent}
@@ -187,9 +184,6 @@ public class Game extends Observable<ServerEvent> {
         notify(mapEvent);
     }
 
-    public void setHasToBeGenerated(boolean hasToBeGenerated) {
-        this.hasToBeGenerated = hasToBeGenerated;
-    }
 
     private void createBoard(){
         this.board = Board.instanceOfBoard();
@@ -246,8 +240,9 @@ public class Game extends Observable<ServerEvent> {
         }
     }
 
-
-
+    public boolean isAnticipatedFrenzy() {
+        return anticipatedFrenzy;
+    }
 
     public int getPlayerOfTurn() {
         return playerOfTurn;

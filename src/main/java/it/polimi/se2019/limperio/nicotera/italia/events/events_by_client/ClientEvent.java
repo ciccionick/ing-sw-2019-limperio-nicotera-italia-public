@@ -1,6 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_client;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 
 import java.io.Serializable;
@@ -36,7 +35,7 @@ public class ClientEvent implements Serializable {
      *
      */
    private VirtualView myVirtualView = null;
-   private boolean isDrawTwoPowerUpCards = false;
+   private boolean isDrawPowerUpCard = false;
    private boolean isDiscardPowerUpCardToSpawn = false;
    private boolean isRequestToRunByPlayer = false;
    private boolean isRequestToCatchByPlayer = false;
@@ -107,12 +106,12 @@ public class ClientEvent implements Serializable {
         return nickname;
     }
 
-    public boolean isDrawTwoPowerUpCards() {
-        return isDrawTwoPowerUpCards;
+    public boolean isDrawPowerUpCard() {
+        return isDrawPowerUpCard;
     }
 
-     void setDrawTwoPowerUpCards(boolean drawTwoPowerUpCards) {
-        isDrawTwoPowerUpCards = drawTwoPowerUpCards;
+     void setDrawPowerUpCard(boolean drawPowerUpCard) {
+        isDrawPowerUpCard = drawPowerUpCard;
     }
 
     public boolean isDiscardPowerUpCardToSpawn() {

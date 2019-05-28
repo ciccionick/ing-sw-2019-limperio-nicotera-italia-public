@@ -59,6 +59,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToChooseTerminatorAction = false;
     private boolean isRequestToSelectionPlayerToAttackWithTerminator =false;
     private boolean isUpdateScoreEvent = false;
+    private boolean isRequestForDrawOnePowerUpCardEvent = false;
 
     private int numOfAction;
     private int numOfMaxAction;
@@ -137,6 +138,14 @@ public class ServerEvent implements Serializable {
 
     public void setMapEvent(boolean mapEvent) {
         isMapEvent = mapEvent;
+    }
+
+    public boolean isRequestForDrawOnePowerUpCardEvent() {
+        return isRequestForDrawOnePowerUpCardEvent;
+    }
+
+    public void setRequestForDrawOnePowerUpCardEvent(boolean requestForDrawOnePowerUpCardEvent) {
+        isRequestForDrawOnePowerUpCardEvent = requestForDrawOnePowerUpCardEvent;
     }
 
     public boolean isFinished() {

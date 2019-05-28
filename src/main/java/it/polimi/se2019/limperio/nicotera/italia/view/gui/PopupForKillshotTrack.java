@@ -18,23 +18,23 @@ import java.util.ArrayList;
         dialog.setUndecorated(true);
         dialog.setAutoRequestFocus(false);
          contentPane = new JPanel(new GridBagLayout());
-        //contentPane.setOpaque(false);
         contentPane.setBackground(Color.GRAY);
         dialog.setContentPane(contentPane);
-        int yOffset=labelBoard.getHeight()/5;
+        int yOffset=labelBoard.getHeight()/4;
+        int xOffset = labelBoard.getWidth()/25;
 
         Point location = SwingUtilities.convertPoint(labelBoard, 0, 0, mainFrame.getFrame());
-        dialog.setLocation((int)location.getX(), (int)location.getY()+yOffset);
+        dialog.setLocation((int)location.getX()+xOffset, (int)location.getY()+yOffset);
 
         String folderPath = "resources/playerboards/damage/";
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(0, 0, 0, 10);
 
         ArrayList<ArrayList<ColorOfDeathToken>> listOfToken = mainFrame.getRemoteView().getKillshotTrackView().getTokensOfDeath();
-        int width = labelBoard.getWidth()/8;
-        int height = (int) (labelBoard.getHeight()/1.7);
+        int width = labelBoard.getWidth()/12;
+        int height = (int) (labelBoard.getHeight()/3);
         int numOfToken;
         ColorOfDeathToken color;
         for(ArrayList<ColorOfDeathToken> token : listOfToken){
