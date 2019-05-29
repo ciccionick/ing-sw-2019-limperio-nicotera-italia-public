@@ -32,9 +32,6 @@ public class WeaponController {
          */
         HashMap<String, ArrayList<Integer>> usableCards= new HashMap<>();
 
-
-
-
         if(weapons.isEmpty()) return null;
         for(WeaponCard weaponCard : weapons)
         {
@@ -73,7 +70,8 @@ public class WeaponController {
                     case "Furnace":
                         if((!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty()) && !playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
                             usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);add(4);}});
-                        else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null) usableCards.get("Furnace").add(4);
+                        else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null)
+                            usableCards.get("Furnace").add(4);
                         else usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);}});
                         break;
 

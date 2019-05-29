@@ -76,6 +76,7 @@ public class Game extends Observable<ServerEvent> {
 
     private boolean hasToDoTerminatorAction = false;
 
+    private Player playerHasToRespawn = null;
 
 
     public Game(){
@@ -126,13 +127,16 @@ public class Game extends Observable<ServerEvent> {
         }
 
         PlayerBoardEvent pbEvent;
+        int position=1;
         for (Player player : players){
+            player.setPosition(position);
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
+            position++;
         }
         createBoard();
         board.createMap(typeMap);
@@ -246,6 +250,14 @@ public class Game extends Observable<ServerEvent> {
 
     public int getPlayerOfTurn() {
         return playerOfTurn;
+    }
+
+    public Player getPlayerHasToRespawn() {
+        return playerHasToRespawn;
+    }
+
+    public void setPlayerHasToRespawn(Player playerHasToRespawn) {
+        this.playerHasToRespawn = playerHasToRespawn;
     }
 
     public void setGameOver(boolean over) {

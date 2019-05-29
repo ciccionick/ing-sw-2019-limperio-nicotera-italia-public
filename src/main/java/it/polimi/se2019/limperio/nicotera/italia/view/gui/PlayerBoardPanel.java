@@ -135,7 +135,7 @@ class PlayerBoardPanel extends JPanel {
         gbcCell21.gridx = 1;
         gbcCell21.gridy = 2;
         if(playerBoardView.isFrenzyPlayerBoard())
-            gbcCell21.gridwidth = 2;
+            gbcCell21.gridwidth = 3;
         else
             gbcCell21.gridwidth = 2;
         imageIcon = new ImageIcon(folderPath.concat("cell21.png"));

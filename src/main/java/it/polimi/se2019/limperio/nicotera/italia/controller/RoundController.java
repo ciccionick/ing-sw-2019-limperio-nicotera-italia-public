@@ -52,12 +52,14 @@ public class RoundController {
              countScoreForDeaths(deadPlayers);
              handleRespawnOfDeadPlayers(deadPlayers);
          }
+         game.setPlayerHasToRespawn(null);
 
 
      }
 
     private void handleRespawnOfDeadPlayers(ArrayList<Player> deadPlayers) {
         for(Player deadPlayer : deadPlayers){
+            game.setPlayerHasToRespawn(deadPlayer);
             controller.sendRequestToDrawPowerUpCard(deadPlayer, 1);
         }
     }
@@ -81,7 +83,7 @@ public class RoundController {
     }
 
     private void updatePlayerOfTurn() {
-        if (game.getPlayerOfTurn() == game.getPlayers().size()) {
+        if (game.getPlayerOfTurn() == game.getPlayers().size() || game.isTerminatorModeActive()&&game.getPlayerOfTurn()+1==game.getPlayers().size()) {
             game.setPlayerOfTurn(1);
             game.setRound(game.getRound() + 1);
         } else
@@ -163,9 +165,13 @@ public class RoundController {
     }
 
     private void handleEndOfGame() {
+        System.out.println("Gioco finito");
+        for(Player player : game.getPlayers())
+            System.out.println(player.getNickname() + ": " + player.getScore());
     }
 
     private void initializeScoreForPlayers() {
+        scoreForPlayers = new ArrayList<>();
         for(int i=0 ; i<game.getPlayers().size();i++)
             scoreForPlayers.add(0);
     }

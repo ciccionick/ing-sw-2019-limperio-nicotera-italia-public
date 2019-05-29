@@ -96,14 +96,15 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
         if (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()) {
             mainFrame.showMessage(receivedEvent);
-            if(receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
-                isMyTurn = true;
-                mainFrame.updateNorthPanel();
-            }
+            isMyTurn = receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer());
+            mainFrame.updateNorthPanel();
+            mainFrame.getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
         }
 
         if(receivedEvent.isRequestForDrawOnePowerUpCardEvent()){
             mainFrame.showMessage(receivedEvent);
+            isMyTurn = receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer());
+            mainFrame.updateNorthPanel();
         }
 
         if(receivedEvent.isUpdateScoreEvent()){
@@ -128,27 +129,22 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
                 mainFrame.updatePanelOfAction();
             }
-            if (receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && receivedEvent.getNumOfAction() == 0) {
-                isMyTurn = true;
-                mainFrame.updateNorthPanel();
-            }
-            if(!receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())&& receivedEvent.getNumOfAction()==0 && isMyTurn){
-                isMyTurn = false;
-                mainFrame.updateNorthPanel();
-            }
+            isMyTurn = receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer());
+            mainFrame.updateNorthPanel();
+
             mainFrame.showMessage(receivedEvent);
         }
 
-        if(receivedEvent.isRequestSelectionSquareForAction()){
+        if(receivedEvent.isRequestSelectionSquareForAction()) {
             mapView.setHasToChooseASquare(true);
-            mapView.setReachableSquares(((RequestSelectionSquareForAction)receivedEvent).getSquaresReachable());
-            if(receivedEvent instanceof RequestSelectionSquareForAction) {
-                mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
-                mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
-                mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForSpawnTerminator());
-                mapView.setSelectionForMoveTerminator(((RequestSelectionSquareForAction)receivedEvent).isSelectionForMoveTerminator());
-                mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
-            }
+            mapView.setReachableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
+            //if(receivedEvent instanceof RequestSelectionSquareForAction) {
+            mapView.setSelectionForCatch(((RequestSelectionSquareForAction) receivedEvent).isSelectionForCatch());
+            mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
+            mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForSpawnTerminator());
+            mapView.setSelectionForMoveTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForMoveTerminator());
+            mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
+            //}
             mainFrame.showMessage(receivedEvent);
         }
 
@@ -172,10 +168,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mainFrame.updatePanelOfAction();
             }
             mainFrame.showMessage(receivedEvent);
-            if(receivedEvent.getNumOfAction()+1==receivedEvent.getNumOfMaxAction()&&receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+           /* if(receivedEvent.getNumOfAction()+1==receivedEvent.getNumOfMaxAction()&&receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
                 isMyTurn = false;
                 mainFrame.updateNorthPanel();
-            }
+            }*/
 
         }
 

@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class PanelOfActions extends JPanel {
+public class PanelOfActions extends JPanel {
 
     private MainFrame mainFrame;
     private JButton buttonRun;
@@ -123,7 +123,11 @@ class PanelOfActions extends JPanel {
        buttonCancel.setEnabled(false);
     }
 
-    class ActionButtonListener implements ActionListener{
+   public JButton getButtonCancel() {
+      return buttonCancel;
+   }
+
+   class ActionButtonListener implements ActionListener{
 
        @Override
        public void actionPerformed(ActionEvent e) {

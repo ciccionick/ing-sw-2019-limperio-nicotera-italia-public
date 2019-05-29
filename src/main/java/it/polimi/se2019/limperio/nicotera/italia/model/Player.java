@@ -70,8 +70,9 @@ public class Player implements PlayerBehaviour{
         playerBoard = new PlayerBoard(this.nickname, this.colorOfFigure);
     }
 
-
-
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;

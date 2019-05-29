@@ -18,7 +18,7 @@ import java.util.ArrayList;
         dialog.setUndecorated(true);
         dialog.setAutoRequestFocus(false);
          contentPane = new JPanel(new GridBagLayout());
-        contentPane.setBackground(Color.GRAY);
+        contentPane.setBackground(Color.DARK_GRAY);
         dialog.setContentPane(contentPane);
         int yOffset=labelBoard.getHeight()/4;
         int xOffset = labelBoard.getWidth()/25;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 0, 10);
+        gbc.insets = new Insets(0, 0, 0, 14);
 
         ArrayList<ArrayList<ColorOfDeathToken>> listOfToken = mainFrame.getRemoteView().getKillshotTrackView().getTokensOfDeath();
         int width = labelBoard.getWidth()/12;

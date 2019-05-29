@@ -148,17 +148,13 @@ class PowerUpController {
          pbEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
          game.notify(pbEvent);
 
-         Player playerOfTurn = game.getPlayers().get(game.getPlayerOfTurn()-1);
          ArrayList<Player> playerStillDead = new ArrayList<>();
          for(Player player : game.getPlayers()){
              if(player.isDead())
                  playerStillDead.add(player);
          }
          if(playerStillDead.isEmpty()) {
-             if (playerOfTurn.isHasToBeGenerated() && !playerOfTurn.isDead())
-                 controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn() - 1), 2);
-             else
-                 controller.sendRequestForAction();
+             controller.sendRequestForAction();
          }
     }
 

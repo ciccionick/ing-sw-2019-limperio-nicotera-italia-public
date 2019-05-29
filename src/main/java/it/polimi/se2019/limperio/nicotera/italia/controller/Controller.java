@@ -58,7 +58,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())|| findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead()) {
             if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
@@ -71,9 +71,7 @@ public class Controller implements Observer<ClientEvent> {
             if (message.isRequestToCatchByPlayer()) {
                 catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
             }
-            if(message.isRequestToGoOn()){
-                handleTheEndOfAnAction();
-            }
+
 
             if(message.isCatchEvent()){
                 if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
@@ -206,17 +204,17 @@ public class Controller implements Observer<ClientEvent> {
             sendRequestForAction();
         }
         else {
-            timer.cancel();
+            if(timer!=null)
+                timer.cancel();
             timer = null;
             turnTask = null;
             roundController.updateTurn();
             if (!isSomeoneDied()) {
-
                     if (game.getRound() > 1)
                         sendRequestForAction();
-                    else
-                        sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
-
+                    else {
+                        sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn() - 1), 2);
+                    }
             }
         }
     }
@@ -265,7 +263,7 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setCanRun(true);
         }
         game.notify(requestActionEvent);
-        if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() != 1) {
+        if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() > 1) {
             setTimerForTurn(false,false);
         }
     }
@@ -297,16 +295,16 @@ public class Controller implements Observer<ClientEvent> {
         event.setNicknames(game.getListOfNickname());
         event.setNicknameInvolved(playerHasToDraw.getNickname());
         game.notify(event);
-        if(numOfPowerUpCardToDraw==2)
-            setTimerForTurn(true,false);
-        else
-            setTimerForTurn(false, true);
+        setTimerForTurn(numOfPowerUpCardToDraw==2,numOfPowerUpCardToDraw==1);
+
 
     }
 
 
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
+            return false;
+         if(!weaponCard.isLoad())
              return false;
         return true;
     }

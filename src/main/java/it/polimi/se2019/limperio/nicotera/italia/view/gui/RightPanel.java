@@ -1,24 +1,23 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import javafx.scene.layout.Pane;
-
 import javax.swing.*;
 import java.awt.*;
 
- class RightPanel extends JPanel {
+ public class RightPanel {
 
     private MainFrame mainFrame;
-
+    private JPanel panel;
     private PanelOfPlayers panelOfPlayers;
     private PanelOfActions panelOfActions;
     private int insetLeftRight;
     private int insetBottom;
 
      RightPanel(MainFrame mainFrame) {
+         panel = new JPanel();
         this.mainFrame = mainFrame;
-        this.setBackground(Color.DARK_GRAY);
+        this.panel.setBackground(Color.DARK_GRAY);
 
-            this.setLayout(new GridBagLayout());
+            this.panel.setLayout(new GridBagLayout());
             insetLeftRight = (int) (mainFrame.getFrame().getSize().getWidth() / 96);
             insetBottom = (int) (mainFrame.getFrame().getSize().getHeight() / 27);
 
@@ -27,7 +26,7 @@ import java.awt.*;
             gbcPanelOfPlayers.gridx = 0;
             gbcPanelOfPlayers.gridy = 0;
             gbcPanelOfPlayers.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
-            this.add(panelOfPlayers, gbcPanelOfPlayers);
+            this.panel.add(panelOfPlayers, gbcPanelOfPlayers);
 
 
             panelOfActions = new PanelOfActions(mainFrame);
@@ -36,7 +35,7 @@ import java.awt.*;
             gbcPanelOfActions.gridy = 2;
             gbcPanelOfActions.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
 
-            this.add(panelOfActions, gbcPanelOfActions);
+            this.panel.add(panelOfActions, gbcPanelOfActions);
 
     }
 
@@ -44,9 +43,11 @@ import java.awt.*;
        return panelOfPlayers;
     }
 
+     public JPanel getPanel() {
+         return panel;
+     }
 
-
-     PanelOfActions getPanelOfActions() {
+     public PanelOfActions getPanelOfActions() {
        return panelOfActions;
     }
 

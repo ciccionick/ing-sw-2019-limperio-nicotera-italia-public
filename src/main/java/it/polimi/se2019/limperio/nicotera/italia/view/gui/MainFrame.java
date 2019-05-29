@@ -53,7 +53,7 @@ public class MainFrame {
         contentPane.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new RightPanel(this);
-        contentPane.add(rightPanel, BorderLayout.EAST);
+        contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
         frame.setVisible(true);
     }
 
@@ -87,6 +87,8 @@ public class MainFrame {
      public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
         dialogForMessage = new DialogForMessage(this, receivedEvent);
     }
+
+
 
 
      public void updateLeftPanelForWhoIsViewing(String nicknameOfThePlayerInvolvedInTheUpdate) {
@@ -128,7 +130,7 @@ public class MainFrame {
         contentPane.repaint();
     }
 
-     RightPanel getRightPanel() {
+     public RightPanel getRightPanel() {
         return rightPanel;
     }
 
@@ -158,7 +160,7 @@ public class MainFrame {
             contentPane.add(leftPanel, BorderLayout.WEST);
 
             rightPanel = new RightPanel(mainFrame);
-            contentPane.add(rightPanel, BorderLayout.EAST);
+            contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
 
             contentPane.validate();
             contentPane.repaint();
