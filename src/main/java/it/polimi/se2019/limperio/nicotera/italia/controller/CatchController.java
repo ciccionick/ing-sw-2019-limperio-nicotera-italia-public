@@ -93,7 +93,8 @@ class CatchController {
 
     }
 
-    private void sendNotifyAfterCatching(Player player) {
+    private void
+    sendNotifyAfterCatching(Player player) {
         PlayerBoardEvent pBEvent = new PlayerBoardEvent();
         pBEvent.setPlayerBoard(player.getPlayerBoard());
         pBEvent.setNicknameInvolved(player.getNickname());
@@ -271,29 +272,32 @@ class CatchController {
     }
 
     void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
+        System.out.println(event.getNameOfWeaponCardToAdd()); //to add to square
+        System.out.println(event.getNameOfWeaponCardToRemove()); // to remove from square
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
-        player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToAdd()));
+        player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToRemove())); //questo solo come conseguenza del catch
         changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
         sendNotifyAfterCatching(player);
     }
 
     private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemove, String nameOfWeaponCardToAdd) {
-        Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToAdd);
+        Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToRemove);
         WeaponCard weaponCardToAddToDeck = null;
         WeaponCard weaponCardToAddToSquare = null;
         for(WeaponCard weaponCard : ((SpawnSquare)squareWhereDoChange).getWeaponCards()){
-            if(weaponCard.getName().equals(nameOfWeaponCardToAdd)){
-                ((SpawnSquare)squareWhereDoChange).getWeaponCards().remove(weaponCard);
+            if(weaponCard.getName().equals(nameOfWeaponCardToRemove)){
                 weaponCardToAddToDeck = weaponCard;
             }
         }
+        ((SpawnSquare)squareWhereDoChange).getWeaponCards().remove(weaponCardToAddToDeck);
         for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
-            if(weaponCard.getName().equals(nameOfWeaponCardToRemove)){
-                player.getPlayerBoard().getWeaponsOwned().remove(weaponCard);
-                weaponCardToAddToSquare.setLoad(true);
+            if(weaponCard.getName().equals(nameOfWeaponCardToAdd)){
+                if(weaponCardToAddToSquare!=null)
+                    weaponCardToAddToSquare.setLoad(true);
                 weaponCardToAddToSquare = weaponCard;
             }
         }
+        player.getPlayerBoard().getWeaponsOwned().remove(weaponCardToAddToSquare);
         ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
         player.catchWeapon(weaponCardToAddToDeck);
     }

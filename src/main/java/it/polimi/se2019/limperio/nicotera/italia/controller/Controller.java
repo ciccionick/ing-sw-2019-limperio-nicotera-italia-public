@@ -197,6 +197,10 @@ public class Controller implements Observer<ClientEvent> {
         return shootController;
     }
 
+    public RoundController getRoundController() {
+        return roundController;
+    }
+
     void handleTheEndOfAnAction(){
         game.incrementNumOfActionsOfThisTurn();
 
@@ -209,7 +213,7 @@ public class Controller implements Observer<ClientEvent> {
             timer = null;
             turnTask = null;
             roundController.updateTurn();
-            if (!isSomeoneDied()) {
+            if (!isSomeoneDied() && !game.isGameOver()) {
                     if (game.getRound() > 1)
                         sendRequestForAction();
                     else {
@@ -260,7 +264,14 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setCanShoot(false);
         } else {
             requestActionEvent.setCanCatch(true);
-            requestActionEvent.setCanRun(true);
+            if(!game.isInFrenzy())
+                requestActionEvent.setCanRun(true);
+            else {
+                if (game.getPlayers().get(game.getPlayerOfTurn() - 1).getPosition() >= game.getFirstInFrenzyMode())
+                    requestActionEvent.setCanRun(true);
+                else
+                    requestActionEvent.setCanRun(false);
+            }
         }
         game.notify(requestActionEvent);
         if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() > 1) {
@@ -301,7 +312,7 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
-    private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard) {
+    private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
          if(!weaponCard.isLoad())
@@ -314,8 +325,15 @@ public class Controller implements Observer<ClientEvent> {
     }
 
     public boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+         int movementCanDoBeforeReloadAndShoot = 0;
+         if(game.isInFrenzy()){
+             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())
+                 movementCanDoBeforeReloadAndShoot=1;
+             else
+                 movementCanDoBeforeReloadAndShoot=2;
+         }
          for(WeaponCard weaponCard : weaponDeck){
-             if(checkIfThisWeaponIsUsable(weaponCard))
+             if(checkIfThisWeaponIsUsable(weaponCard, movementCanDoBeforeReloadAndShoot))
                  return true;
          }
          return false;

@@ -182,9 +182,11 @@ public class Server  {
             timer.cancel();
             timer = null;
         }
-        if(listOfClient.size()==2 && gameIsStarted){
-            System.out.println("Il controller conta i punti");
-
+        if(listOfClient.size()==2 && gameIsStarted && !game.isGameOver()){
+            controller.getRoundController().handleEndOfGame();
+        }
+        if(listOfClient.isEmpty() && game.isGameOver()) {
+            System.exit(0);
         }
     }
 

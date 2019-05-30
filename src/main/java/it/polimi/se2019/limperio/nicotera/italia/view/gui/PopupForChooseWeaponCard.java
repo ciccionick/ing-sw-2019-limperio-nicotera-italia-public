@@ -1,9 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardWeaponCard;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 
 class PopupForChooseWeaponCard {
@@ -12,6 +15,7 @@ class PopupForChooseWeaponCard {
     private String nameOfCardToStoreForDiscardEvent = null;
 
      PopupForChooseWeaponCard(RequestForChooseAWeaponToCatch requestForChooseAWeaponToCatch, RequestToDiscardWeaponCard requestToDiscardWeaponCard, MainFrame mainFrame) {
+         ClosingListener closingListener = new ClosingListener(mainFrame);
          popupForChooseW = new JDialog(mainFrame.getFrame());
          this.mainFrame = mainFrame;
          int width = (int) (mainFrame.getFrame().getWidth() / 2.08);
@@ -39,5 +43,49 @@ class PopupForChooseWeaponCard {
 
      JDialog getPopupForChooseW() {
         return popupForChooseW;
+    }
+
+    class ClosingListener implements WindowListener {
+
+         private MainFrame mainFrame;
+
+         ClosingListener(MainFrame mainFrame) {
+            this.mainFrame = mainFrame;
+        }
+
+        @Override
+        public void windowOpened(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+
+        }
     }
 }

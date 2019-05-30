@@ -148,6 +148,9 @@ public class Game extends Observable<ServerEvent> {
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
+        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
+        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
+        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
@@ -202,6 +205,10 @@ public class Game extends Observable<ServerEvent> {
 
     public void incrementNumOfActionsOfThisTurn(){
         numOfActionOfTheTurn++;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
     }
 
     /**

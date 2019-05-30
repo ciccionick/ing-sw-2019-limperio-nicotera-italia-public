@@ -129,8 +129,14 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
                 mainFrame.updatePanelOfAction();
             }
-            isMyTurn = receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer());
-            mainFrame.updateNorthPanel();
+            if(isMyTurn && !receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                isMyTurn = false;
+                mainFrame.updateNorthPanel();
+            }
+            if(!isMyTurn && receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
+                isMyTurn = true;
+                mainFrame.updateNorthPanel();
+            }
 
             mainFrame.showMessage(receivedEvent);
         }

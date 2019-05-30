@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
@@ -44,6 +45,15 @@ public class RoundController {
 
              if (game.getNumOfMaxActionForTurn() == 2)
                  game.setNumOfMaxActionForTurn(3);
+         }
+         if(game.isInFrenzy()){
+             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()<game.getFirstInFrenzyMode()){
+                 if(game.isTerminatorModeActive()){
+                     game.setNumOfMaxActionForTurn(2);
+                 }
+                 else
+                     game.setNumOfMaxActionForTurn(1);
+             }
          }
          updateDecksAndSquares();
 
@@ -94,7 +104,10 @@ public class RoundController {
         return game.isInFrenzy()&&game.getPlayerOfTurn()==game.getPlayers().size()&&game.getFirstInFrenzyMode()==1 || game.isInFrenzy()&&game.getPlayerOfTurn()+1==game.getFirstInFrenzyMode();
     }
 
-    private void countScoreForDeaths(ArrayList<Player> deadPlayers) {
+
+
+
+     void countScoreForDeaths(ArrayList<Player> deadPlayers) {
         initializeScoreForPlayers();
         assignScoreForDoubleKill();
         initializeNumOfKillDoneInTheTurn();
@@ -110,17 +123,12 @@ public class RoundController {
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             game.notify(pbEvent);
         }
-        sendUpdateOfScore();
+            sendUpdateOfScore(false);
 
-        if(isPassingFromNormalToFrenzyMode()) {
-                if (game.isAnticipatedFrenzy()) {
-                    game.setInFrenzy(true);
-                    game.setFirstInFrenzyMode(game.getPlayerOfTurn());
-                    updatePlayerBoardForFrenzyMode();
-
-                }
-        else
-            handleEndOfGame();
+        if(isPassingFromNormalToFrenzyMode() && game.isAnticipatedFrenzy()) {
+            game.setInFrenzy(true);
+            game.setFirstInFrenzyMode(game.getPlayerOfTurn());
+            updatePlayerBoardForFrenzyMode();
         }
     }
 
@@ -144,12 +152,25 @@ public class RoundController {
 
 
 
-    private void sendUpdateOfScore() {
-        String message = "Updating score: \n";
-        for(int i=0;i<scoreForPlayers.size();i++){
-            game.getPlayers().get(i).updateScore(scoreForPlayers.get(i));
-            if(scoreForPlayers.get(i)!=0)
-                message = message.concat(game.getPlayers().get(i).getNickname() + ": " + scoreForPlayers.get(i)+ " points added\n");
+    private void sendUpdateOfScore(boolean finalUpdate) {
+        String message;
+        if(!finalUpdate)
+            message = "Updating score: \n";
+        else
+            message = "Final ranking: \n";
+        if(!finalUpdate) {
+            for (int i = 0; i < scoreForPlayers.size(); i++) {
+                game.getPlayers().get(i).updateScore(scoreForPlayers.get(i));
+                if (scoreForPlayers.get(i) != 0)
+                    message = message.concat(game.getPlayers().get(i).getNickname() + ": " + scoreForPlayers.get(i) + " points added\n");
+            }
+        }
+        else{
+            for (int i = 0; i < game.getPlayers().size(); i++) {
+                    //da ordinare i player per score
+                    message = message.concat(game.getPlayers().get(i).getNickname() + ": " + game.getPlayers().get(i).getScore() + " points");
+            }
+
         }
         System.out.println(message);
         ServerEvent updateScoreEvent = new ServerEvent();
@@ -164,10 +185,94 @@ public class RoundController {
         return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(7).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
     }
 
-    private void handleEndOfGame() {
-        System.out.println("Gioco finito");
+    public void handleEndOfGame() {
+        game.setGameOver(true);
+        initializeScoreForPlayers();
+        ArrayList<Integer> scoreForDamageInKillShotTrack = new ArrayList<>();
+        scoreForDamageInKillShotTrack.add(8);
+        scoreForDamageInKillShotTrack.add(6);
+        scoreForDamageInKillShotTrack.add(4);
+        scoreForDamageInKillShotTrack.add(2);
+        scoreForDamageInKillShotTrack.add(1);
+        scoreForDamageInKillShotTrack.add(1);
+
+        countScoreForKillshoTrack(scoreForDamageInKillShotTrack);
         for(Player player : game.getPlayers())
-            System.out.println(player.getNickname() + ": " + player.getScore());
+            countScoreForPlayerDeath(player);
+        int i=0;
+        for(Player player :game.getPlayers()) {
+            player.updateScore(scoreForPlayers.get(i));
+            i++;
+        }
+
+        sendUpdateOfScore(true);
+    }
+
+    private void countScoreForKillshoTrack(ArrayList<Integer> scoreForDamageInKillShotTrack) {
+        HashMap<ColorOfFigure_Square, Integer> hashMapForDamage = countFrequencyOfDamageInKillShotTrack();
+        int indexOfScoreToAssign = 0;
+        int scoreToAssign;
+        while(!hashMapForDamage.isEmpty()){
+            scoreToAssign = scoreForDamageInKillShotTrack.get(indexOfScoreToAssign);
+            int max = findMaxFrequency(hashMapForDamage);
+            ColorOfFigure_Square colorOfPlayerToAddScore;
+            colorOfPlayerToAddScore = findColorWithMaxFrequency(hashMapForDamage,max);
+            if(!maxIsUnique(hashMapForDamage,max)){
+                ArrayList<ColorOfFigure_Square> colorsWithMaxFrequency = getColorsWithMaximumFrequency(hashMapForDamage,max);
+                colorOfPlayerToAddScore = getFirstOfMaximumColor(colorsWithMaxFrequency, convertDamageFromKillshotTrack(game.getBoard().getKillShotTrack().getTokensOfDeath()));
+            }
+            scoreForPlayers.set(findIndexOfPlayerOfThisColor(colorOfPlayerToAddScore), scoreForPlayers.get(findIndexOfPlayerOfThisColor(colorOfPlayerToAddScore))+scoreToAssign);
+            hashMapForDamage.remove(colorOfPlayerToAddScore);
+            indexOfScoreToAssign++;
+        }
+    }
+
+    private HashMap<ColorOfFigure_Square, Integer> countFrequencyOfDamageInKillShotTrack() {
+        ArrayList<ArrayList<ColorOfDeathToken>> damageForNormalMode = game.getBoard().getKillShotTrack().getTokensOfDeath();
+        ArrayList<ColorOfDeathToken> damageForFrenzyMode = game.getBoard().getKillShotTrack().getTokenOfFrenzyMode();
+        ArrayList<ColorOfFigure_Square> damage = convertDamageFromKillshotTrack(damageForNormalMode);
+
+        if(!damageForFrenzyMode.isEmpty()){
+            for(ColorOfDeathToken token : damageForFrenzyMode)
+                damage.add(convertColorOfTokenInColorOfFigure(token));
+        }
+        HashMap<ColorOfFigure_Square, Integer> hashMapToReturn = new HashMap<>();
+        for(ColorOfFigure_Square color : ColorOfFigure_Square.values()){
+            hashMapToReturn.put(color, Collections.frequency(damage, color));
+        }
+        for(ColorOfFigure_Square color : ColorOfFigure_Square.values()){
+            if(hashMapToReturn.get(color)==0)
+                hashMapToReturn.remove(color);
+        }
+        return hashMapToReturn;
+    }
+
+    private ArrayList<ColorOfFigure_Square> convertDamageFromKillshotTrack(ArrayList<ArrayList<ColorOfDeathToken>> damageForNormalMode) {
+        ArrayList<ColorOfFigure_Square> damageToReturn = new ArrayList<>();
+        for(ArrayList<ColorOfDeathToken> listOfToken : damageForNormalMode){
+            for(ColorOfDeathToken token : listOfToken) {
+                    damageToReturn.add(convertColorOfTokenInColorOfFigure(token));
+                }
+            }
+
+        return damageToReturn;
+    }
+
+    private ColorOfFigure_Square convertColorOfTokenInColorOfFigure(ColorOfDeathToken token){
+        switch (token.toString()){
+            case "GREEN":
+                return ColorOfFigure_Square.GREEN;
+            case "BLUE":
+                return ColorOfFigure_Square.BLUE;
+            case "PURPLE":
+                return ColorOfFigure_Square.PURPLE;
+            case "YELLOW":
+                return ColorOfFigure_Square.YELLOW;
+            case "GREY":
+                return ColorOfFigure_Square.GREY;
+                default:
+                    throw new IllegalArgumentException();
+        }
     }
 
     private void initializeScoreForPlayers() {
@@ -188,7 +293,7 @@ public class RoundController {
             ColorOfFigure_Square colorOfFirstDamage = deadPlayer.getPlayerBoard().getDamages().get(0);
             scoreForPlayers.set(findIndexOfPlayerOfThisColor(colorOfFirstDamage), scoreForPlayers.get(findIndexOfPlayerOfThisColor(colorOfFirstDamage)) + 1);
         }
-        HashMap<ColorOfFigure_Square, Integer> hashMapForDamage = countFrequencyOfDamage(deadPlayer);
+        HashMap<ColorOfFigure_Square, Integer> hashMapForDamage = countFrequencyOfDamageInPlayerBoard(deadPlayer);
         int indexOfScoreToAssign = 0;
         int scoreToAssign;
 
@@ -259,7 +364,7 @@ public class RoundController {
         throw new IllegalArgumentException();
     }
 
-    private HashMap<ColorOfFigure_Square, Integer> countFrequencyOfDamage(Player deadPlayer) {
+    private HashMap<ColorOfFigure_Square, Integer> countFrequencyOfDamageInPlayerBoard(Player deadPlayer) {
         ArrayList<ColorOfFigure_Square> damage = deadPlayer.getPlayerBoard().getDamages();
         HashMap<ColorOfFigure_Square, Integer> hashMapToReturn = new HashMap<>();
         for(ColorOfFigure_Square color : ColorOfFigure_Square.values()){
@@ -271,6 +376,7 @@ public class RoundController {
         }
         return hashMapToReturn;
     }
+
 
     private int findIndexOfPlayerOfThisColor(ColorOfFigure_Square color) {
         for(int i=0; i<game.getPlayers().size();i++){

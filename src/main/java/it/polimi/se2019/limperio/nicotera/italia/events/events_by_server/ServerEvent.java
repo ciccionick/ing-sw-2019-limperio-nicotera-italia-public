@@ -61,6 +61,7 @@ public class ServerEvent implements Serializable {
     private boolean isUpdateScoreEvent = false;
     private boolean isRequestForDrawOnePowerUpCardEvent = false;
 
+
     private int numOfAction;
     private int numOfMaxAction;
 

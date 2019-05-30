@@ -4,6 +4,8 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Killsho
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
+import java.util.ArrayList;
+
 class DeathController {
 
     private Game game;
@@ -56,7 +58,17 @@ class DeathController {
          killshotTrackEvent.setNicknames(game.getListOfNickname());
          game.notify(killshotTrackEvent);
          game.setHasToDoTerminatorAction(false);
-         controller.handleTheEndOfAnAction();
+         if(!game.isAnticipatedFrenzy() && !game.getBoard().getKillShotTrack().getTokensOfDeath().get(7).get(0).equals(ColorOfDeathToken.SKULL)) {
+             ArrayList<Player> deadPlayers = new ArrayList<>();
+             for(Player player : game.getPlayers()){
+                 if (player.isDead())
+                     deadPlayers.add(player);
+             }
+             controller.getRoundController().countScoreForDeaths(deadPlayers);
+             controller.getRoundController().handleEndOfGame();
+         }
+         else
+            controller.handleTheEndOfAnAction();
     }
 
     private int firstSkullPosition() {

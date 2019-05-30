@@ -21,7 +21,7 @@ import java.util.ArrayList;
         contentPane.setBackground(Color.DARK_GRAY);
         dialog.setContentPane(contentPane);
         int yOffset=labelBoard.getHeight()/4;
-        int xOffset = labelBoard.getWidth()/25;
+        int xOffset = labelBoard.getWidth()/27;
 
         Point location = SwingUtilities.convertPoint(labelBoard, 0, 0, mainFrame.getFrame());
         dialog.setLocation((int)location.getX()+xOffset, (int)location.getY()+yOffset);
