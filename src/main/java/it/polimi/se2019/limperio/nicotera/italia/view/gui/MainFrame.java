@@ -76,16 +76,11 @@ public class MainFrame {
 
 
     public void showMessage(ServerEvent receivedEvent) {
-        /*if(dialogForMessage!=null) {
-            dialogForMessage.getButton().removeActionListener(dialogForMessage.getButton().getActionListeners()[0]);
-            dialogForMessage.getDialog().setVisible(false);
-            frame.remove(dialogForMessage.getDialog());
-        }*/
         dialogForMessage = new DialogForMessage(this, receivedEvent);
     }
 
      public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
-        dialogForMessage = new DialogForMessage(this, receivedEvent);
+        new PopupForDiscardPowerUp( this, receivedEvent);
     }
 
 

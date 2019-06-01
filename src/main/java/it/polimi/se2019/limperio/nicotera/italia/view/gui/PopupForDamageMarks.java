@@ -48,7 +48,7 @@ class PopupForDamageMarks {
          }
          for(ColorOfFigure_Square color : listOfColors){
              JLabel damageIcon = new JLabel();
-             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat("1.png"));
+             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat(".png"));
              Image image = icon.getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              damageIcon.setIcon(icon);

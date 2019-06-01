@@ -37,7 +37,8 @@ class KillshotTrackPanel extends JPanel {
          String folderPath = "resources/board/killshottrack/";
 
          JLabel skull1 = new JLabel("");
-         ListenerForKillshotBoard listenerForPrincipalBoard = new ListenerForKillshotBoard(mainFrame,skull1);
+         ListenerForKillshotBoard listenerForPrincipalBoard = new ListenerForKillshotBoard(mainFrame,skull1,false);
+
 
          GridBagConstraints gbcSkull1 = new GridBagConstraints();
          gbcSkull1.gridx = 0;
@@ -45,7 +46,7 @@ class KillshotTrackPanel extends JPanel {
          gbcSkull1.insets = new Insets(insetTop, insetLeft, 0, 0);
          gbcSkull1.anchor = GridBagConstraints.WEST;
          ImageIcon imageIcon = new ImageIcon(folderPath.concat("cell0.png"));
-         java.awt.Image image = imageIcon.getImage(); // transform it
+         java.awt.Image image = imageIcon.getImage();
          java.awt.Image newimg = image.getScaledInstance(widthSkull * 8, heightSkull, java.awt.Image.SCALE_SMOOTH);
          imageIcon = new ImageIcon(newimg);
          skull1.setIcon(imageIcon);
@@ -53,16 +54,18 @@ class KillshotTrackPanel extends JPanel {
          add(skull1, gbcSkull1);
 
          JLabel skull2 = new JLabel("");
+         ListenerForKillshotBoard listenerForKillshotFrenzyBoard = new ListenerForKillshotBoard(mainFrame, skull2, true);
          GridBagConstraints gbcSkull2 = new GridBagConstraints();
          gbcSkull2.gridx = 1;
          gbcSkull2.gridy = 0;
          gbcSkull2.insets = new Insets(insetTop, 0, 0, 0);
          imageIcon = new ImageIcon(folderPath.concat("cell1.png"));
-         image = imageIcon.getImage(); // transform it
+         image = imageIcon.getImage();
          newimg = image.getScaledInstance(widthSkull, heightSkull, java.awt.Image.SCALE_SMOOTH);
          imageIcon = new ImageIcon(newimg);
          skull2.setIcon(imageIcon);
          add(skull2, gbcSkull2);
+         skull2.addMouseListener(listenerForKillshotFrenzyBoard);
 
          JLabel skull3 = new JLabel("");
          GridBagConstraints gbcSkull3 = new GridBagConstraints();
@@ -100,10 +103,12 @@ class KillshotTrackPanel extends JPanel {
          private MainFrame mainFrame;
          private JLabel label;
          private PopupForKillshotTrack popupForKillshotTrack;
+         private boolean frenzyBoard;
 
-         public ListenerForKillshotBoard(MainFrame mainFrame, JLabel label) {
+         public ListenerForKillshotBoard(MainFrame mainFrame, JLabel label, boolean frenzyBoard) {
             this.mainFrame = mainFrame;
             this.label = label;
+            this.frenzyBoard = frenzyBoard;
          }
 
          @Override
@@ -113,7 +118,7 @@ class KillshotTrackPanel extends JPanel {
 
          @Override
          public void mousePressed(MouseEvent e) {
-            popupForKillshotTrack = new PopupForKillshotTrack(mainFrame, label);
+            popupForKillshotTrack = new PopupForKillshotTrack(mainFrame, label, frenzyBoard);
          }
 
          @Override

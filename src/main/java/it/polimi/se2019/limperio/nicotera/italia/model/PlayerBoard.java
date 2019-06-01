@@ -56,6 +56,7 @@ public class PlayerBoard implements Serializable, Cloneable {
                 damages.add(ColorOfFigure_Square.YELLOW);
         }
 
+
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
         ammo.add(new Ammo(RED,true));

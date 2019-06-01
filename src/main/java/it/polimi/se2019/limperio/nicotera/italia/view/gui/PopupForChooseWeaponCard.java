@@ -17,6 +17,7 @@ class PopupForChooseWeaponCard {
      PopupForChooseWeaponCard(RequestForChooseAWeaponToCatch requestForChooseAWeaponToCatch, RequestToDiscardWeaponCard requestToDiscardWeaponCard, MainFrame mainFrame) {
          ClosingListener closingListener = new ClosingListener(mainFrame);
          popupForChooseW = new JDialog(mainFrame.getFrame());
+         popupForChooseW.addWindowListener(closingListener);
          this.mainFrame = mainFrame;
          int width = (int) (mainFrame.getFrame().getWidth() / 2.08);
          int height = (int) (mainFrame.getFrame().getHeight() / 1.56);

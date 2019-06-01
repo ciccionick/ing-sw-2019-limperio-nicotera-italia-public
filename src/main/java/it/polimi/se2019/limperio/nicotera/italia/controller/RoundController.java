@@ -7,10 +7,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class RoundController {
@@ -154,30 +151,68 @@ public class RoundController {
 
     private void sendUpdateOfScore(boolean finalUpdate) {
         String message;
-        if(!finalUpdate)
+        if (!finalUpdate)
             message = "Updating score: \n";
         else
             message = "Final ranking: \n";
-        if(!finalUpdate) {
+        if (!finalUpdate) {
             for (int i = 0; i < scoreForPlayers.size(); i++) {
                 game.getPlayers().get(i).updateScore(scoreForPlayers.get(i));
                 if (scoreForPlayers.get(i) != 0)
                     message = message.concat(game.getPlayers().get(i).getNickname() + ": " + scoreForPlayers.get(i) + " points added\n");
             }
-        }
-        else{
+        } else {
+            Collections.sort(game.getPlayers(), new Player.ScoreComparator());
+            checkAnyParity();
             for (int i = 0; i < game.getPlayers().size(); i++) {
-                    //da ordinare i player per score
-                    message = message.concat(game.getPlayers().get(i).getNickname() + ": " + game.getPlayers().get(i).getScore() + " points");
+                message = message.concat(game.getPlayers().get(i).getNickname() + ": " + game.getPlayers().get(i).getScore() + " points\n");
             }
 
         }
-        System.out.println(message);
+
         ServerEvent updateScoreEvent = new ServerEvent();
         updateScoreEvent.setUpdateScoreEvent(true);
         updateScoreEvent.setNicknames(game.getListOfNickname());
-        updateScoreEvent.setMessageForOthers(message);
+        if (finalUpdate) {
+            updateScoreEvent.setNicknameInvolved(game.getPlayers().get(0).getNickname());
+            String messageForInvolved = "Congratulations, You have won!\n";
+            messageForInvolved = messageForInvolved.concat(message);
+            updateScoreEvent.setMessageForInvolved(messageForInvolved);
+            String messageForOthers = "It's not your lucky day, you have lost!\n".concat(message);
+            updateScoreEvent.setMessageForOthers(messageForOthers);
+
+        } else {
+            updateScoreEvent.setMessageForOthers(message);
+        }
         game.notify(updateScoreEvent);
+
+    }
+
+    private void checkAnyParity() {
+        int maxScore = game.getPlayers().get(0).getScore();
+        ArrayList<Player> playersWithMaxScore = new ArrayList<>();
+        ArrayList<ColorOfFigure_Square> colorOfPlayersWithMaxScore = new ArrayList<>();
+        for(Player player : game.getPlayers()){
+            if(player.getScore()==maxScore) {
+                playersWithMaxScore.add(player);
+                colorOfPlayersWithMaxScore.add(player.getColorOfFigure());
+            }
+        }
+
+        if(playersWithMaxScore.size()!=1){
+            for(ColorOfFigure_Square colorOfDamage : convertDamageFromKillshotTrack(game.getBoard().getKillShotTrack().getTokensOfDeath())){
+                if(colorOfPlayersWithMaxScore.contains(colorOfDamage)){
+                    for (Player player : playersWithMaxScore){
+                        if(player.getColorOfFigure().equals(colorOfDamage) && !game.getPlayers().get(0).equals(player)){
+                            game.getPlayers().set(game.getPlayers().indexOf(player),game.getPlayers().get(0));
+                            game.getPlayers().set(0, player);
+                            return;
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 
@@ -198,7 +233,8 @@ public class RoundController {
 
         countScoreForKillshoTrack(scoreForDamageInKillShotTrack);
         for(Player player : game.getPlayers())
-            countScoreForPlayerDeath(player);
+            if(!player.getPlayerBoard().getDamages().isEmpty())
+                countScoreForPlayerDeath(player);
         int i=0;
         for(Player player :game.getPlayers()) {
             player.updateScore(scoreForPlayers.get(i));

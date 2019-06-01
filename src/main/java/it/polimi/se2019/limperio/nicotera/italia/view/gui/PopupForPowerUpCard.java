@@ -71,6 +71,11 @@ import java.awt.*;
          descriptionOfCard.setEditable(false);
          panelForDescription.add(descriptionOfCard);
 
+         popupForPC.pack();
+         popupForPC.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - popupForPC.getWidth()) / 2,
+                 (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - popupForPC.getHeight()) / 2);
+
+
 
      }
 

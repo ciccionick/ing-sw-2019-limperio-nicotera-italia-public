@@ -185,9 +185,7 @@ public class Server  {
         if(listOfClient.size()==2 && gameIsStarted && !game.isGameOver()){
             controller.getRoundController().handleEndOfGame();
         }
-        if(listOfClient.isEmpty() && game.isGameOver()) {
-            System.exit(0);
-        }
+
     }
 
 

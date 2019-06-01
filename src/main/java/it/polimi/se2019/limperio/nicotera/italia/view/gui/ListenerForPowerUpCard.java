@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -55,9 +56,6 @@ public class ListenerForPowerUpCard implements MouseListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-            event.setPowerUpCard(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(numOfCard-1));
-            mainFrame.getRemoteView().notify(event);
-            //mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon1(false);
+
     }
 }

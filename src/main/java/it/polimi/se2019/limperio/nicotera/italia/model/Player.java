@@ -1,11 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+import java.util.Comparator;
+
 /**
  * This class is used to represent the players in the game
  * @author Francesco Nicotera
  */
-public class Player implements PlayerBehaviour{
+public class Player implements PlayerBehaviour, Comparable<Player>{
     /**
      * Records the colour of the player
      */
@@ -64,6 +66,8 @@ public class Player implements PlayerBehaviour{
         this.isFirst=isFirst;
         this.position=position;
         this.colorOfFigure = colorOfFigure;
+        if(nickname.equals("ciccio"))
+            score=1;
     }
 
     public void createPlayerBoard(){
@@ -268,6 +272,20 @@ public class Player implements PlayerBehaviour{
     @Override
     public void discardPowerUpCard(PowerUpCard card){}
 
+    @Override
+    public int compareTo(Player o) {
+        int result;
+        result = nickname.compareTo(o.getNickname());
+        return result;
+    }
+
+   public static class ScoreComparator implements Comparator<Player>{
+
+       @Override
+       public int compare(Player o1, Player o2) {
+           return o2.getScore()-o1.getScore();
+       }
+   }
 }
 
 
