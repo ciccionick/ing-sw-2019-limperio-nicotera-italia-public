@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 class FrameForRequestIP {
 
@@ -98,9 +99,15 @@ class FrameForRequestIP {
         public void actionPerformed(ActionEvent e) {
             buttonOK.setEnabled(false);
             client.setIpAddress(frameForRequestIP.getTextField().getText());
-            client.setHasToInsertIP(false);
             frame.setVisible(false);
+            try {
+                client.handleConnectionWithServer();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
+
+
 
 
     }

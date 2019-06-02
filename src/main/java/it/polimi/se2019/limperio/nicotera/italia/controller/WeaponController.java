@@ -27,7 +27,7 @@ public class WeaponController {
 
 
 
-    /*public HashMap<String, ArrayList<Integer>> controlUseWeaponCards(ArrayList<WeaponCard> weapons)
+    public HashMap<String, ArrayList<Integer>> controlUseWeaponCards(ArrayList<WeaponCard> weapons)
     {
 
         HashMap<String, ArrayList<Integer>> usableCards= new HashMap<>();
@@ -131,7 +131,7 @@ public class WeaponController {
                         //mancano il secondo e il terzo effetto
                         break;
 
-                    /*case "Flamethrower":
+                    case "Flamethrower":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
                             usableCards.put("Flamethrower", new ArrayList<Integer>(){{add(1);add(4);}});
                         break;
@@ -158,7 +158,7 @@ public class WeaponController {
 
         return usableCards;
 
-    }*/
+    }
 
 
     /**

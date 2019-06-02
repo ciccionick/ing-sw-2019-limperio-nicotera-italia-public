@@ -128,6 +128,8 @@ public class Game extends Observable<ServerEvent> {
 
         PlayerBoardEvent pbEvent;
         int position=1;
+
+
         for (Player player : players){
             player.setPosition(position);
             player.createPlayerBoard();
@@ -167,9 +169,6 @@ public class Game extends Observable<ServerEvent> {
         return colors.get(0);
     }
 
-    /**
-     * Sends the correct event towards the virtual view in accordance to the right phase of the game
-     */
 
 
 

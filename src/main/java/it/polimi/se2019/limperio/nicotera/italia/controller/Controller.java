@@ -193,9 +193,7 @@ public class Controller implements Observer<ClientEvent> {
         return weaponsAsAlias;
     }
 
-    public ShootController getShootController() {
-        return shootController;
-    }
+
 
     public RoundController getRoundController() {
         return roundController;
@@ -267,7 +265,7 @@ public class Controller implements Observer<ClientEvent> {
             if(!game.isInFrenzy())
                 requestActionEvent.setCanRun(true);
             else {
-                if (game.getPlayers().get(game.getPlayerOfTurn() - 1).getPosition() >= game.getFirstInFrenzyMode())
+                if (game.getFirstInFrenzyMode()!=1 && game.getPlayers().get(game.getPlayerOfTurn() - 1).getPosition() >= game.getFirstInFrenzyMode())
                     requestActionEvent.setCanRun(true);
                 else
                     requestActionEvent.setCanRun(false);
@@ -320,11 +318,13 @@ public class Controller implements Observer<ClientEvent> {
         return true;
     }
 
-    public WeaponController getWeaponController() {
+
+
+     WeaponController getWeaponController() {
         return weaponController;
     }
 
-    public boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+    private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
          if(game.isInFrenzy()){
              if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())
@@ -343,21 +343,6 @@ public class Controller implements Observer<ClientEvent> {
         return powerUpController;
     }
 
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
-    }
-
-    public TurnTask getTurnTask() {
-        return turnTask;
-    }
-
-    public void setTurnTask(TurnTask turnTask) {
-        this.turnTask = turnTask;
-    }
 
     private void setTimerForTurn(boolean isForFirstRound, boolean isForRegeneration) {
         timer = new Timer();
@@ -376,11 +361,14 @@ public class Controller implements Observer<ClientEvent> {
         }
 
     }
-    //da completare
+
+
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
          game.getListOfNickname().remove(player.getNickname());
+         if(findPlayerWithThisNickname(nicknameOfPlayerDisconnected).getPosition()==game.getPlayerOfTurn())
+             roundController.updateTurn();
 
     }
 

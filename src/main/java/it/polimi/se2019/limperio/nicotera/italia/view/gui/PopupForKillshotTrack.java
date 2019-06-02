@@ -34,8 +34,12 @@ import java.util.ArrayList;
 
         ArrayList<ArrayList<ColorOfDeathToken>> listOfToken = mainFrame.getRemoteView().getKillshotTrackView().getTokensOfDeath();
         ArrayList<ColorOfDeathToken> listOfTokenForFrenzyKillShoot = mainFrame.getRemoteView().getKillshotTrackView().getTokenOfFrenzyMode();
-        int width = labelBoard.getWidth()/12;
-        int height = (int) (labelBoard.getHeight()/3);
+        int width;
+        if(frenzyMode)
+            width = labelBoard.getWidth();
+        else
+            width = labelBoard.getWidth()/12;
+        int height = (labelBoard.getHeight()/3);
         int numOfToken;
         ColorOfDeathToken firstColor;
         ColorOfDeathToken secondColor;

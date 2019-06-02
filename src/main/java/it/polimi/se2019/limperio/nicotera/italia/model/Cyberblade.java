@@ -51,7 +51,8 @@ public class Cyberblade extends WeaponCard {
     private void withShadowstepEffect(Square square){
         this.getOwnerOfCard().setPositionOnTheMap(square);
     }
-    private void basicEffect(Player player){
+
+    public void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
@@ -63,7 +64,15 @@ public class Cyberblade extends WeaponCard {
         "WITH SLICE AND DICE: Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
         "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        getNamesOfAttack().add("BASIC EFFECT");
+        getNamesOfAttack().add("WITH SHADOWSTEP");
+        getNamesOfAttack().add("WITH SLICE AND DICE");
+        getDescriptionsOfAttack().add("Deal 2 damage to 1 target on your square");
+        getDescriptionsOfAttack().add("Move 1 square before or after the basic effect");
+        getDescriptionsOfAttack().add("Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect");
+        setPriceToPayForEffect1(null);
+        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
+        Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};

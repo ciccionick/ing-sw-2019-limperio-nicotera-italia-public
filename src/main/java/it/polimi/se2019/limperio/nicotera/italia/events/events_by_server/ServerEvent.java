@@ -293,6 +293,9 @@ public class ServerEvent implements Serializable {
          */
         ColorOfCard_Ammo color;
 
+        ArrayList<String> nameOfEffects;
+        ArrayList<String> descriptionOfEffects;
+
         boolean isLoaded = true;
 
         public AliasCard(String name, String description, ColorOfCard_Ammo color) {
@@ -320,6 +323,22 @@ public class ServerEvent implements Serializable {
 
         public void setLoaded(boolean loaded) {
             isLoaded = loaded;
+        }
+
+        public ArrayList<String> getNameOfEffects() {
+            return nameOfEffects;
+        }
+
+        public void setNameOfEffects(ArrayList<String> nameOfEffects) {
+            this.nameOfEffects = nameOfEffects;
+        }
+
+        public ArrayList<String> getDescriptionOfEffects() {
+            return descriptionOfEffects;
+        }
+
+        public void setDescriptionOfEffects(ArrayList<String> descriptionOfEffects) {
+            this.descriptionOfEffects = descriptionOfEffects;
         }
     }
 

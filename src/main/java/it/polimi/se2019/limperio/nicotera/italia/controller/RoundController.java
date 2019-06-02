@@ -125,6 +125,8 @@ public class RoundController {
         if(isPassingFromNormalToFrenzyMode() && game.isAnticipatedFrenzy()) {
             game.setInFrenzy(true);
             game.setFirstInFrenzyMode(game.getPlayerOfTurn());
+            if(game.getPlayerOfTurn()==1)
+                game.setNumOfMaxActionForTurn(game.getNumOfMaxActionForTurn()-1);
             updatePlayerBoardForFrenzyMode();
         }
     }
