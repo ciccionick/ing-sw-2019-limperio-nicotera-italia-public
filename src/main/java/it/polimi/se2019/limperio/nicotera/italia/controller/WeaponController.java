@@ -15,6 +15,8 @@ public class WeaponController {
 
     private final Game game;
     private final Controller controller;
+
+
     public WeaponController(Game game, Controller controller) {
         this.game = game;
         this.controller = controller;
@@ -25,11 +27,9 @@ public class WeaponController {
 
 
 
-    public HashMap<String, ArrayList<Integer>> controlUseWeaponCards(ArrayList<WeaponCard> weapons)
+    /*public HashMap<String, ArrayList<Integer>> controlUseWeaponCards(ArrayList<WeaponCard> weapons)
     {
-        /**
-         * is the map with weaponCards that the player can use
-         */
+
         HashMap<String, ArrayList<Integer>> usableCards= new HashMap<>();
 
         if(weapons.isEmpty()) return null;
@@ -134,7 +134,7 @@ public class WeaponController {
                     /*case "Flamethrower":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
                             usableCards.put("Flamethrower", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;*/
+                        break;
 
                     case "Power glove":
                         if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
@@ -158,7 +158,7 @@ public class WeaponController {
 
         return usableCards;
 
-    }
+    }*/
 
 
     /**

@@ -148,9 +148,6 @@ public class Game extends Observable<ServerEvent> {
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
         board.createWeaponsDeck();
-        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
-        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
-        controller.findPlayerWithThisNickname("pietro").getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();

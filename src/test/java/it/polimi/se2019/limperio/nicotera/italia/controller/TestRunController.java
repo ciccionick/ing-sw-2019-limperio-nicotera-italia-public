@@ -16,9 +16,8 @@ public class TestRunController extends TestController{
 
     RunController runController= new RunController(this.game, this.controller);
 
-
-    //@Test
-  /*  public void doRunActionTest()
+    @Test
+    public void doRunActionTest()
     {
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
         RunEvent event= new RunEvent("", game.getPlayers().get(0).getNickname(), 1,1);
@@ -26,7 +25,7 @@ public class TestRunController extends TestController{
 
         assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[1][1]);
 
-    }*/
+    }
 
 
 
