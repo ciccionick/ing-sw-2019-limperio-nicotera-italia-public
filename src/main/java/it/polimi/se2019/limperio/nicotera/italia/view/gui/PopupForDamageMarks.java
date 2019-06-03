@@ -24,8 +24,8 @@ class PopupForDamageMarks {
          dialog.setLocation((int)location.getX()-10, (int)location.getY()-yOffset);
          dialog.setUndecorated(true);
          dialog.setAutoRequestFocus(false);
-         contentPane.setOpaque(false);
-         contentPane.setBackground(new Color(0,0,0,20));
+         //contentPane.setOpaque(false);
+         contentPane.setBackground(Color.DARK_GRAY);
 
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
          String folderPath = "resources/playerboards/damage/";

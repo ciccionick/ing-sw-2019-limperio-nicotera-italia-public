@@ -323,23 +323,23 @@ class CatchController {
      */
      private boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
 
-        int numOfRedAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), RED);
-        int numOfBlueAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), BLUE);
-        int numOfYellowAmmoRequired = frequencyAmmoInPriceToBuy(card.getPriceToBuy(), YELLOW);
+        int numOfRedAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), RED);
+        int numOfBlueAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), BLUE);
+        int numOfYellowAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), YELLOW);
         return frequencyOfAmmoUsableByPlayer(ammos, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, YELLOW)>=numOfYellowAmmoRequired;
 
     }
 
     /**
      * This method calculates the frequency of a specific color of ammo in the price that is passed
-     * @param priceToBuy the price in which the method has to calculate the frequency of a color
+     * @param price the price in which the method has to calculate the frequency of a color
      * @param colorToCheck the color of which the method has to calculate the frequency
      * @return the frequency of the colorToCheck in priceToBuy
      */
-     private int frequencyAmmoInPriceToBuy(ColorOfCard_Ammo[] priceToBuy, ColorOfCard_Ammo colorToCheck){
+    int frequencyAmmoInPrice(ColorOfCard_Ammo[] price, ColorOfCard_Ammo colorToCheck){
         int frequency=0;
-        if(priceToBuy!=null) {
-            for (ColorOfCard_Ammo color : priceToBuy) {
+        if(price!=null) {
+            for (ColorOfCard_Ammo color : price) {
                 if (color.equals(colorToCheck)) {
                     frequency++;
                 }

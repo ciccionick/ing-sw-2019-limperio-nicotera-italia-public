@@ -57,6 +57,15 @@ public class Hellion extends WeaponCard {
         String description = "BASIC MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
                 "IN NANO-TRACER MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
         setDescription(description);
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("IN NANO-TRACER MODE");
+        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square");
+        setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{RED});
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {RED, YELLOW};

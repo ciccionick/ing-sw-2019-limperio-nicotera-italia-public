@@ -6,6 +6,9 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
+
 /**
  * This class checks the right use of a weapon. It collaborates with ShootController.
  *
@@ -416,6 +419,16 @@ public class WeaponController {
     }
 
 
+    public boolean checkIfThereIsAtLeastOneEffectUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
+    return false;
+    }
 
+     boolean canReload(WeaponCard weaponCard) {
+        Player player = weaponCard.getOwnerOfCard();
+         int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), RED);
+         int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), BLUE);
+         int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), YELLOW);
+         return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player.getPlayerBoard().getAmmo(), RED) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player.getPlayerBoard().getAmmo(), BLUE) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player.getPlayerBoard().getAmmo(), YELLOW)>=numOfYellowAmmoRequired;
 
+     }
 }

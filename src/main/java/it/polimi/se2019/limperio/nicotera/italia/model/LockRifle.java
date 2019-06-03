@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Involve
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
  * This class is used to represent the LockRifle of WeaponCard
@@ -28,11 +29,14 @@ public class LockRifle extends WeaponCard {
                         if(involvedPlayers.get(j).getEffects().contains(1))
                             basicEffect(involvedPlayers.get(j).getPlayer());
                     }
+                    break;
                 case 2:
                     for (j=0; j<involvedPlayers.size(); j++){
                         if(involvedPlayers.get(j).getEffects().contains(2))
                             withSecondLock(involvedPlayers.get(j).getPlayer());
                     }
+                    default:
+                        throw  new IllegalArgumentException();
 
             }
         }
@@ -46,6 +50,11 @@ public class LockRifle extends WeaponCard {
                 "WITH SECOND LOCK: Deal 1 mark to a different target you can see.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
+        getNamesOfAttack().add("BASIC EFFECT");
+        getNamesOfAttack().add("WITH SECOND LOCK");
+        getDescriptionsOfAttack().add("Deal 2 damage and 1 mark to 1 target you can see");
+        getDescriptionsOfAttack().add("Deal 1 mark to a different target you can see");
+        setPriceToPayForEffect1(new ColorOfCard_Ammo[]{RED});
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = {BLUE};
         setPriceToBuy(buyPrice);
