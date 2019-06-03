@@ -39,12 +39,12 @@ public class PlayerBoard implements Serializable, Cloneable {
         scoreBarForFrenzyMode.add(1);
         scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
-      /*  if(nickname.equals("pietro")){
+        if(nickname.equals("pietro")){
             for(int i=0;i<4;i++)
                 damages.add(ColorOfFigure_Square.GREEN);
             for(int i=0;i<4;i++)
                 damages.add(ColorOfFigure_Square.GREY);
-            for(int i=0;i<2;i++)
+            for(int i=0;i<3;i++)
                 damages.add(ColorOfFigure_Square.YELLOW);
         }
         if(nickname.equals("ciccio")){
@@ -54,7 +54,7 @@ public class PlayerBoard implements Serializable, Cloneable {
                 damages.add(ColorOfFigure_Square.GREY);
             for(int i=0;i<2;i++)
                 damages.add(ColorOfFigure_Square.YELLOW);
-        }*/
+        }
 
 
         marks = new ArrayList<>();

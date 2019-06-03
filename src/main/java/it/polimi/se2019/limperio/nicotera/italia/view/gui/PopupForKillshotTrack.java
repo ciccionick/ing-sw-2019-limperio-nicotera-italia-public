@@ -20,7 +20,7 @@ import java.util.ArrayList;
          contentPane = new JPanel(new GridBagLayout());
         contentPane.setBackground(Color.DARK_GRAY);
         dialog.setContentPane(contentPane);
-        int yOffset=labelBoard.getHeight()/5;
+        int yOffset= (int) (labelBoard.getHeight()/3.5);
         int xOffset = labelBoard.getWidth()/28;
 
         Point location = SwingUtilities.convertPoint(labelBoard, 0, 0, mainFrame.getFrame());
@@ -30,12 +30,16 @@ import java.util.ArrayList;
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 0, 20);
+        gbc.insets = new Insets(0, 0, 0, 16);
 
         ArrayList<ArrayList<ColorOfDeathToken>> listOfToken = mainFrame.getRemoteView().getKillshotTrackView().getTokensOfDeath();
         ArrayList<ColorOfDeathToken> listOfTokenForFrenzyKillShoot = mainFrame.getRemoteView().getKillshotTrackView().getTokenOfFrenzyMode();
-        int width = labelBoard.getWidth()/12;
-        int height = (int) (labelBoard.getHeight()/3);
+        int width;
+        if(frenzyMode)
+            width = labelBoard.getWidth();
+        else
+            width = labelBoard.getWidth()/12;
+        int height = (labelBoard.getHeight()/3);
         int numOfToken;
         ColorOfDeathToken firstColor;
         ColorOfDeathToken secondColor;

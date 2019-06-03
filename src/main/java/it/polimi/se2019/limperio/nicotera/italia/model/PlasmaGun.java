@@ -65,6 +65,13 @@ public class PlasmaGun extends WeaponCard{
                 "Notes: The two moves have no ammo cost. You don't have to be able to see your target when you play the card. For example, you can move 2 squares and shoot a target you now see. You cannot use 1 move before shooting and 1 move after.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
+        getNamesOfAttack().add("BASIC EFFECT");
+        getNamesOfAttack().add("WITH PHASE GLIDE");
+        getNamesOfAttack().add("WITH CHARGED SHOT");
+        getDescriptionsOfAttack().add("Deal 2 damage to 1 target you can see");
+        getDescriptionsOfAttack().add("Move 1 or 2 squares. This effect can be used either before or after the basic effect");
+        getDescriptionsOfAttack().add("Deal 1 additional damage to your target");
+        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);

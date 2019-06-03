@@ -89,13 +89,14 @@ import java.util.ArrayList;
            Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            weapon1.setIcon(imageIcon);
-           if (playerBoardView.getWeaponCardDeck().isEmpty())
+           if (playerBoardView.getWeaponCardDeck().isEmpty()|| !playerBoardView.getWeaponCardDeck().get(0).isLoaded())
               weapon1.setEnabled(false);
            GridBagConstraints gbcWeapon1 = new GridBagConstraints();
            gbcWeapon1.insets = new Insets(insetTop, insetLeft * 2, insetBottom, insetRight);
            gbcWeapon1.gridx = 0;
            gbcWeapon1.gridy = 1;
            gbcWeapon1.fill = GridBagConstraints.BOTH;
+           weapon1.addMouseListener(new ListenerForWeaponCard(1, mainFrame));
            this.add(weapon1, gbcWeapon1);
 
 
@@ -105,13 +106,14 @@ import java.util.ArrayList;
            newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            weapon2.setIcon(imageIcon);
-           if (playerBoardView.getWeaponCardDeck().size() < 2)
+           if (playerBoardView.getWeaponCardDeck().size() < 2 || !playerBoardView.getWeaponCardDeck().get(1).isLoaded())
               weapon2.setEnabled(false);
            GridBagConstraints gbcWeapon2 = new GridBagConstraints();
            gbcWeapon2.insets = new Insets(insetTop, insetLeft, insetBottom, insetRight);
            gbcWeapon2.gridx = 1;
            gbcWeapon2.gridy = 1;
            gbcWeapon2.fill = GridBagConstraints.BOTH;
+           weapon2.addMouseListener(new ListenerForWeaponCard(2, mainFrame));
            this.add(weapon2, gbcWeapon2);
 
            weapon3 = new JLabel("");
@@ -120,13 +122,14 @@ import java.util.ArrayList;
            newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            weapon3.setIcon(imageIcon);
-           if (playerBoardView.getWeaponCardDeck().size() < 3)
+           if (playerBoardView.getWeaponCardDeck().size() < 3 || !playerBoardView.getWeaponCardDeck().get(2).isLoaded())
               weapon3.setEnabled(false);
            GridBagConstraints gbcWeapon3 = new GridBagConstraints();
            gbcWeapon3.insets = new Insets(insetTop, insetLeft, insetBottom, insetRight);
            gbcWeapon3.gridx = 2;
            gbcWeapon3.gridy = 1;
            gbcWeapon3.fill = GridBagConstraints.BOTH;
+           weapon3.addMouseListener(new ListenerForWeaponCard(3, mainFrame));
            this.add(weapon3, gbcWeapon3);
 
 

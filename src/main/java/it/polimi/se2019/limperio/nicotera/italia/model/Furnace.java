@@ -54,6 +54,14 @@ public class Furnace extends WeaponCard {
         String description = "BASIC MODE: Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n" +
                 "IN COZY FIRE MODE: Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.";
         setDescription(description);
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("IN COZY FIRE MODE");
+        getDescriptionsOfAttack().add("Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square");
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};

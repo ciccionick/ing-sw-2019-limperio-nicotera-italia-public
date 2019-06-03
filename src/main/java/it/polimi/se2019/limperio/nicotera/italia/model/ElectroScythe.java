@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Involve
 import java.util.ArrayList;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
  * This class is used to represent ElectroScythee of WeaponCard
@@ -44,6 +45,15 @@ public class ElectroScythe extends WeaponCard
         String description;
         description = "BASIC MODE: Deal 1 damage to every other player on your square. \n" +
                 "IN REAPER MODE: Deal 2 damage to every other player on your square.";
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add(null);
+        getNamesOfAttack().add(null);
+        getNamesOfAttack().add("IN REAPER MODE");
+        getDescriptionsOfAttack().add("Deal 1 damage to every other player on your square");
+        getDescriptionsOfAttack().add(null);
+        getDescriptionsOfAttack().add(null);
+        getDescriptionsOfAttack().add("Deal 2 damage to every other player on your square");
+        setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{BLUE, RED});
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);

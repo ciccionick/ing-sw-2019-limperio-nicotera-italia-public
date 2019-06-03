@@ -15,11 +15,62 @@ public abstract class WeaponCard extends Card  {
     private ColorOfCard_Ammo[] priceToBuy = null;
     private ColorOfCard_Ammo[] priceToReload;
     private Boolean[] hasThisKindOfAttack;
+    private ArrayList<String> namesOfAttack = new ArrayList<>();
+    private ArrayList<String> descriptionsOfAttack = new ArrayList<>();
+    private ColorOfCard_Ammo[] priceToPayForEffect1 = null;
+    private ColorOfCard_Ammo[] getPriceToPayForEffect2 = null;
+    private ColorOfCard_Ammo[] priceToPayForAlternativeMode = null;
 
 
 
 
+    public Boolean getLoad() {
+        return isLoad;
+    }
 
+    public void setLoad(Boolean load) {
+        isLoad = load;
+    }
+
+    public ArrayList<String> getNamesOfAttack() {
+        return namesOfAttack;
+    }
+
+    public void setNamesOfAttack(ArrayList<String> namesOfAttack) {
+        this.namesOfAttack = namesOfAttack;
+    }
+
+    public ArrayList<String> getDescriptionsOfAttack() {
+        return descriptionsOfAttack;
+    }
+
+    public void setDescriptionsOfAttack(ArrayList<String> descriptionsOfAttack) {
+        this.descriptionsOfAttack = descriptionsOfAttack;
+    }
+
+    public ColorOfCard_Ammo[] getPriceToPayForEffect1() {
+        return priceToPayForEffect1;
+    }
+
+    public void setPriceToPayForEffect1(ColorOfCard_Ammo[] priceToPayForEffect1) {
+        this.priceToPayForEffect1 = priceToPayForEffect1;
+    }
+
+    public ColorOfCard_Ammo[] getGetPriceToPayForEffect2() {
+        return getPriceToPayForEffect2;
+    }
+
+    public void setGetPriceToPayForEffect2(ColorOfCard_Ammo[] getPriceToPayForEffect2) {
+        this.getPriceToPayForEffect2 = getPriceToPayForEffect2;
+    }
+
+    public ColorOfCard_Ammo[] getPriceToPayForAlternativeMode() {
+        return priceToPayForAlternativeMode;
+    }
+
+    public void setPriceToPayForAlternativeMode(ColorOfCard_Ammo[] priceToPayForAlternativeMode) {
+        this.priceToPayForAlternativeMode = priceToPayForAlternativeMode;
+    }
 
     public void setPriceToBuy(ColorOfCard_Ammo[] priceToBuy) {
         this.priceToBuy = priceToBuy;

@@ -58,6 +58,14 @@ public class MachineGun extends WeaponCard {
                 "Notes: If you deal both additional points of damage, they must be dealt to 2 different targets. If you see only 2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
+        getNamesOfAttack().add("BASIC EFFECT");
+        getNamesOfAttack().add("WITH FOCUS SHOT");
+        getNamesOfAttack().add("WITH TURRET TRIPOD");
+        getDescriptionsOfAttack().add("Choose 1 or 2 targets you can see and deal 1 damage to each");
+        getDescriptionsOfAttack().add("Deal 1 additional damage to one of those targets");
+        getDescriptionsOfAttack().add("Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see");
+        setPriceToPayForEffect1(new ColorOfCard_Ammo[]{YELLOW});
+        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
         setPriceToBuy(buyPrice);

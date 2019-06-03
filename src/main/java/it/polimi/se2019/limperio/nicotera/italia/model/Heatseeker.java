@@ -21,11 +21,13 @@ public class Heatseeker extends WeaponCard {
         setLoad(false);
     }
 
-    public Heatseeker() {
+     Heatseeker() {
         super(RED, "Heatseeker");
         Boolean[] kindOfAttack = {true, false, false, false};
         String description = "EFFECT: Choose 1 target you cannot see and deal 3 damage to it.\n" +
                 "Notes: Yes, this can only hit targets you cannot see.";
+        getNamesOfAttack().add("EFFECT");
+        getDescriptionsOfAttack().add("Choose 1 target you cannot see and deal 3 damage to it");
         setDescription(description);
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED, YELLOW};

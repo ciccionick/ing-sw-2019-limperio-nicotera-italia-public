@@ -33,8 +33,6 @@ public class Client {
 
    private String ipAddress;
 
-   private boolean hasToInsertIP = true;
-
    private FrameForRequestIP frameForRequestIP;
 
 
@@ -42,36 +40,34 @@ public class Client {
         this.myNetworkHandler=new NetworkHandler(this);
     }
 
-    /**
-     * Starts when the application run in the client side
-     * @param argv Parameter of main
-     * @throws IOException if there will be some problem with initialization of the streams
-     * @throws ClassNotFoundException if there will be problems with the object received by the object input stream
-     */
-    public static void main(String[] argv) throws IOException, ClassNotFoundException {
-        Client client;
-        client = new Client();
 
 
-        //client.frameForRequestIP = new FrameForRequestIP(client);
-        /*while(client.hasToInsertIP){
+    void handleConnectionWithServer() throws IOException {
 
-        }*/
+        this.csocket = new Socket("localhost", 4000);
+        this.out = new ObjectOutputStream(this.csocket.getOutputStream());
+        this.in = new ObjectInputStream(this.csocket.getInputStream());
+        waitForMessage();
 
 
-            client.csocket = new Socket("localhost", 4000);
-            client.out = new ObjectOutputStream(client.csocket.getOutputStream());
-            client.in = new ObjectInputStream(client.csocket.getInputStream());
+    }
+
+    private void waitForMessage(){
             System.out.println("In attesa del primo messaggio..");
 
             while(true) {
                 RequestInitializationEvent req = null;
                 try {
-                    req = (RequestInitializationEvent) client.in.readObject();
+                    req = (RequestInitializationEvent) this.in.readObject();
                 }
                 catch(EOFException ex){
                     System.exit(0);
-                }                client.myNetworkHandler.handleEventInitialization(req);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                this.myNetworkHandler.handleEventInitialization(req);
                 if(req.isAck())
                     break;
                 }
@@ -80,14 +76,18 @@ public class Client {
         while(true){
             try {
                 System.out.println("In attesa di messaggi..");
-                ServerEvent eventFromModel = (ServerEvent) client.in.readObject();
+                ServerEvent eventFromModel = (ServerEvent) this.in.readObject();
                 if(eventFromModel.isFinished())
                     break;
-                client.myNetworkHandler.handleEvent(eventFromModel);
+                this.myNetworkHandler.handleEvent(eventFromModel);
             }
             catch (SocketException se){
                 System.out.println("Disconnessione...");
                 System.exit(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
 
         }
@@ -116,15 +116,12 @@ public class Client {
         return ipAddress;
     }
 
+    public void setFrameForRequestIP(FrameForRequestIP frameForRequestIP) {
+        this.frameForRequestIP = frameForRequestIP;
+    }
+
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
-    public boolean isHasToInsertIP() {
-        return hasToInsertIP;
-    }
-
-    public void setHasToInsertIP(boolean hasToInsertIP) {
-        this.hasToInsertIP = hasToInsertIP;
-    }
 }
