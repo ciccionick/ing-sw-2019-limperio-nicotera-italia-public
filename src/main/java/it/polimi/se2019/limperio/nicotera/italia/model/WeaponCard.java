@@ -19,6 +19,8 @@ public abstract class WeaponCard extends Card  {
 
 
 
+
+
     public void setPriceToBuy(ColorOfCard_Ammo[] priceToBuy) {
         this.priceToBuy = priceToBuy;
     }

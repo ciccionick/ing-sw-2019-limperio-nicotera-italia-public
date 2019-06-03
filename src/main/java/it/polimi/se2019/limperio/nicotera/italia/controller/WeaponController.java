@@ -24,141 +24,287 @@ public class WeaponController {
 
 
 
-
-
-
-    /*public HashMap<String, ArrayList<Integer>> controlUseWeaponCards(ArrayList<WeaponCard> weapons)
+    public Boolean checkIfThereIsAtLeastOneEffectUsable(WeaponCard weaponCard)
     {
 
-        HashMap<String, ArrayList<Integer>> usableCards= new HashMap<>();
+        return false;
+    }
 
-        if(weapons.isEmpty()) return null;
-        for(WeaponCard weaponCard : weapons)
+
+
+    /*public ArrayList<Integer> controlUseWeaponCards(WeaponCard weaponCard)
+    {
+
+        ArrayList<Integer> usableEffects= new ArrayList<>();
+
+
+        //return controlUseWeaponCardForAmmo(weaponCard, controlUseWeaponCardForEffect(weaponCard));
+
+    }*/
+
+
+
+    private ArrayList<Integer> controlUseWeaponCardForEffect(WeaponCard weaponCard)
+    {
+
+        ArrayList<Integer> usableEffect= new ArrayList<>();
+
+        switch (weaponCard.getName())
         {
-            if(weaponCard.isLoad())
-            {
-                switch (weaponCard.getName())
+            case "Electroscythe":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
                 {
-                    case "Electroscythe":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                            usableCards.put("Electroscythe", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Cyberblade":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                            usableCards.put("Cyberblade", new ArrayList<Integer>(){{add(1);add(2);}});
-                        //manca il terzo effetto
-                        break;
-
-                    case "Sledgehammer":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                            usableCards.put("Sledgehammer", new ArrayList<Integer>(){{add(1);add(2);}});
-                        break;
-
-                    case "Shotgun":
-                        if (!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                            usableCards.put("Shotgun", new ArrayList<Integer>(){{add(1);}});
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.get("Shotgun").add(2);
-                        break;
-
-                    case "Shockwave":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.put("Shockwave", new ArrayList<Integer>(){{add(1);add(2);}});
-                        break;
-
-                    case "Furnace":
-                        if((!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty()) && !playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);add(4);}});
-                        else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null)
-                            usableCards.get("Furnace").add(4);
-                        else usableCards.put("Furnace", new ArrayList<Integer>(){{add(1);}});
-                        break;
-
-                    case "Lock rifle":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Lock rifle", new ArrayList<Integer>(){{add(1);add(2);}});
-                        break;
-
-                    case "Zx-2":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Zx-2", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Machine gun":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Machine gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
-                        break;
-
-                    case "Granade launcher":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Granade launcher", new ArrayList<Integer>(){{add(1);add(2);}});
-                        break;
-
-                    case "Plasma gun":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Plasma gun", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
-                        break;
-
-                    case "Railgun":
-                        if(!playersInCardinalPosition(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Railgun", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Heatseeker":
-                        if(!playersThatNotCanSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Heatseeker", new ArrayList<Integer>(){{add(1);}});
-                        break;
-
-                    case "Rocket launcher":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty() && playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                            usableCards.put("Rocket launcher", new ArrayList<Integer>(){{add(1);add(2);add(3);}});
-                        break;
-
-                    case "Hellion":
-                        if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.put("Hellion", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Whisper":
-                        if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),2).isEmpty())
-                            usableCards.put("Whisper", new ArrayList<Integer>(){{add(1);}});
-                        break;
-
-                    case "Thor":
-                        if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                            usableCards.put("Thor", new ArrayList<Integer>(){{add(1);}});
-                        //mancano il secondo e il terzo effetto
-                        break;
-
-                    /*case "Flamethrower":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.put("Flamethrower", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Power glove":
-                        if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                            usableCards.put("Power glove", new ArrayList<Integer>(){{add(1);add(4);}});
-                        break;
-
-                    case "Tractor beam":
-                        break;
-
-                    case "Vortex cannon":
-                        break;
-
-
-
+                    usableEffect.add(1);
+                    usableEffect.add(2);
                 }
 
-            }
+                break;
+
+            case "Cyberblade":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                }
+                //manca il terzo effetto
+                break;
+
+            case "Sledgehammer":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                }
+                break;
+
+            case "Shotgun":
+                if (!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
+                    usableEffect.add(1);
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                    usableEffect.add(2);
+                break;
+
+            case "Shockwave":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                }
+                break;
+
+            case "Furnace":
+                if((!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty()) && !playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null)
+                    usableEffect.add(4);
+                else usableEffect.add(1);
+                break;
+
+            case "Lock rifle":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                }
+                break;
+
+            case "Zx-2":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                break;
+
+            case "Machine gun":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                    usableEffect.add(3);
+                }
+                break;
+
+            case "Granade launcher":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                }
+                break;
+
+            case "Plasma gun":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                    usableEffect.add(3);
+                }
+                break;
+
+            case "Railgun":
+                if(!playersInCardinalPosition(weaponCard.getOwnerOfCard()).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                break;
+
+            case "Heatseeker":
+                if(!playersThatNotCanSee(weaponCard.getOwnerOfCard()).isEmpty())
+                    usableEffect.add(1);
+                break;
+
+            case "Rocket launcher":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty() && playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(2);
+                    usableEffect.add(3);
+                }
+                break;
+
+            case "Hellion":
+                if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),1).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                break;
+
+            case "Whisper":
+                if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),2).isEmpty())
+                    usableEffect.add(1);
+                break;
+
+            case "Thor":
+                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
+                    usableEffect.add(1);
+                //mancano il secondo e il terzo effetto
+                break;
+
+            case "Flamethrower":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                break;
+
+            case "Power glove":
+                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
+                {
+                    usableEffect.add(1);
+                    usableEffect.add(4);
+                }
+                break;
+
+            case "Tractor beam":
+                break;
+
+            case "Vortex cannon":
+                break;
+
+
+
+
+
+
 
         }
 
+        return usableEffect;
+    }
 
-        return usableCards;
 
-    }*/
+
+    /*public ArrayList<Integer>  controlUseWeaponCardForAmmo(WeaponCard weaponCard, ArrayList<Integer> effects)
+    {
+        ArrayList<Integer> effectsUsable= new ArrayList<>();
+
+        Player cardOwner= weaponCard.getOwnerOfCard();
+        ColorOfCard_Ammo[] priceEffect= new ColorOfCard_Ammo[];
+        Boolean trovato;
+
+
+        if(effects.isEmpty()) return effectsUsable;
+
+        for(Integer x: effects)
+        {
+            switch (x)
+            {
+
+                case 2:
+                    if(weaponCard.getPriceForEffect2[0]!=null)
+                        priceEffect[0]= weaponCard.getPriceForEffect2[0];
+
+                    break;
+
+                case 3:
+                    if(weaponCard.getPriceForEffect3[0]!=null)
+                        priceEffect[0]= weaponCard.getPriceForEffect3[0];
+
+                case 4:
+                    priceEffect[0]= weaponCard.getPriceForEffect4[0];
+                    if(weaponCard.getPriceForEffect4[1]!=null)
+                        priceEffect[1]= weaponCard.getPriceForEffect4[1];
+
+                    break;
+
+            }
+
+            if(priceEffect[0]==null)
+                effectsUsable.add(x);
+            else
+            {
+                trovato=false;
+
+                    for(Ammo ammo: cardOwner.getPlayerBoard().getAmmo())
+                    {
+                        if(ammo.getColor().equals(priceEffect[0]) && ammo.isUsable()
+                        {
+                            if(priceEffect[1]!=null)
+                            {
+                                for(Ammo ammox: cardOwner.getPlayerBoard().getAmmo())
+                                {
+                                    if(ammox.getColor().equals(priceEffect[1]) && ammo.isUsable() && ammo!=ammox) trovato= true;
+                                }
+
+                            }
+                            else trovato=true;
+
+                        }
+                    }
+                    for(PowerUpCard powerUpCard: cardOwner.getPlayerBoard().getPowerUpCardsOwned()) {
+                        if (powerUpCard.getColor().equals(priceEffect[0])) {
+                            if (priceEffect[1] != null) {
+                                for (PowerUpCard powerUpCardx : cardOwner.getPlayerBoard().getPowerUpCardsOwned()) {
+                                    if (powerUpCardx.getColor().equals(priceEffect[1]) && powerUpCard != powerUpCardx)
+                                        trovato = true;
+                                }
+                            } else trovato = true;
+                        }
+                    }
+
+
+                    if(trovato) effectsUsable.add(x);
+                }
+
+            priceEffect[0]=null;
+            priceEffect[1]=null;
+
+            }
+
+
+
+
+            return effectsUsable;
+
+        }*/
+
 
 
     /**
