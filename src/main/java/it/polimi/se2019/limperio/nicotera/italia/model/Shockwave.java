@@ -54,7 +54,16 @@ public class Shockwave extends WeaponCard {
         description = "BASIC MODE: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
         "IN TSUNAMI MODE: Deal 1 damage to all targets that are exactly 1 move away.\n";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, false, false, true};
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("IN TSUNAMI MODE");
+        getDescriptionsOfAttack().add("Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("Deal 1 damage to all targets that are exactly 1 move away");
+        setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{YELLOW});
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};

@@ -253,6 +253,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
                 playerBoard.removeAmmoOfThisColor(ammo);
             }
         }
+        weaponCard.setOwnerOfCard(this);
 
     }
 

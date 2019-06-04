@@ -31,7 +31,7 @@ public class Client {
      */
    private Socket csocket = null;
 
-   private String ipAddress;
+   private String ipAddress = null;
 
    private FrameForRequestIP frameForRequestIP;
 
@@ -50,32 +50,31 @@ public class Client {
         waitForMessage();
 
 
+
     }
 
-    private void waitForMessage(){
-            System.out.println("In attesa del primo messaggio..");
+     void waitForMessage(){
 
             while(true) {
                 RequestInitializationEvent req = null;
-                try {
-                    req = (RequestInitializationEvent) this.in.readObject();
-                }
-                catch(EOFException ex){
-                    System.exit(0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                this.myNetworkHandler.handleEventInitialization(req);
-                if(req.isAck())
-                    break;
-                }
+                    try {
+                        req = (RequestInitializationEvent) this.in.readObject();
+                    } catch (EOFException ex) {
+                        System.exit(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    this.myNetworkHandler.handleEventInitialization(req);
+                    if (req.isAck())
+                        break;
+            }
 
 
         while(true){
             try {
-                System.out.println("In attesa di messaggi..");
+
                 ServerEvent eventFromModel = (ServerEvent) this.in.readObject();
                 if(eventFromModel.isFinished())
                     break;

@@ -50,7 +50,10 @@ public class MapEvent extends ServerEvent {
     private void setWeaponsCardsForSpawnSquare(SpawnSquare square) {
         ArrayList<AliasCard> weaponsCardsForSpawn = new ArrayList<>();
         for(WeaponCard card : square.getWeaponCards()){
-            weaponsCardsForSpawn.add(new AliasCard(card.getName(),card.getDescription(),card.getColor()));
+            AliasCard aliasCard = new AliasCard(card.getName(),card.getDescription(),card.getColor());
+            aliasCard.setNameOfEffects(card.getNamesOfAttack());
+            aliasCard.setDescriptionOfEffects(card.getDescriptionsOfAttack());
+            weaponsCardsForSpawn.add(aliasCard);
         }
         if(square.getColor().equals(ColorOfFigure_Square.RED)) {
             this.weaponsCardsForRedSpawnSquare = weaponsCardsForSpawn;

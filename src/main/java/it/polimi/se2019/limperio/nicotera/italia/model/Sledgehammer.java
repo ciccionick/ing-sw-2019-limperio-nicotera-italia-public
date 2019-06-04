@@ -4,6 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Involve
 
 import java.util.ArrayList;
 
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
@@ -57,6 +58,11 @@ public class Sledgehammer extends WeaponCard{
         "Notes: Remember that moves go through doors, but not walls.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("IN PULVERIZE MODE");
+        getDescriptionsOfAttack().add("Deal 2 damage to 1 target on your square");
+        getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction");
+        setPriceToPayForEffect1(new ColorOfCard_Ammo[]{RED});
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};

@@ -29,6 +29,8 @@ public class Whisper extends WeaponCard {
         String description = "EFFECT: Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\n" +
                 "Notes: For example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal. If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.";
         setDescription(description);
+        getNamesOfAttack().add("EFFECT");
+        getDescriptionsOfAttack().add("Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you");
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE, YELLOW};
         setPriceToBuy(buyPrice);

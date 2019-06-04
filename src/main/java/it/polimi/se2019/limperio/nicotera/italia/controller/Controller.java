@@ -313,9 +313,10 @@ public class Controller implements Observer<ClientEvent> {
     private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
-         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && weaponController.canReload(weaponCard))
+         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && !weaponController.canReload(weaponCard))
              return false;
-        return weaponController.checkIfThereIsAtLeastOneEffectUsable(weaponCard, movementCanDoBeforeReloadAndShoot);
+         return (weaponController.isThisWeaponUsable(weaponCard, movementCanDoBeforeReloadAndShoot));
+
     }
 
      CatchController getCatchController() {

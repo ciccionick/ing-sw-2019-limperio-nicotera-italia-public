@@ -4,7 +4,9 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
+import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
  * This class checks the right use of a weapon. It collaborates with ShootController.
@@ -23,545 +25,260 @@ public class WeaponController {
     }
 
 
-
-    public Boolean checkIfThereIsAtLeastOneEffectUsable(WeaponCard weaponCard)
-    {
-
-        return false;
-    }
-
-
-
-    /*public ArrayList<Integer> controlUseWeaponCards(WeaponCard weaponCard)
-    {
-
-        ArrayList<Integer> usableEffects= new ArrayList<>();
-
-
-        //return controlUseWeaponCardForAmmo(weaponCard, controlUseWeaponCardForEffect(weaponCard));
-
-    }*/
-
-
-
-    private ArrayList<Integer> controlUseWeaponCardForEffect(WeaponCard weaponCard)
-    {
-
-        ArrayList<Integer> usableEffect= new ArrayList<>();
-
-        switch (weaponCard.getName())
-        {
+    boolean isThisWeaponUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
+        Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
+        switch (weaponCard.getName()){
             case "Electroscythe":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-
-                break;
-
+                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Cyberblade":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-                //manca il terzo effetto
-                break;
-
+                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot+1, squareOfPlayer ).isEmpty();
             case "Sledgehammer":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-                break;
-
+                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer ).isEmpty();
             case "Shotgun":
-                if (!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                    usableEffect.add(1);
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                    usableEffect.add(2);
-                break;
-
+                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Shockwave":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-                break;
-
+                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Furnace":
-                if((!playersIntheVisibleRooms(weaponCard.getOwnerOfCard()).isEmpty()) && !playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                else if(playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1)!=null)
-                    usableEffect.add(4);
-                else usableEffect.add(1);
-                break;
-
+                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || !getSquaresOfVisibleRoom(movementCanDoBeforeReloadAndShoot, squareOfPlayer, 0,true).isEmpty();
             case "Lock rifle":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(),0).isEmpty();
             case "Zx-2":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(),0).isEmpty();
             case "Machine gun":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                    usableEffect.add(3);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(),0).isEmpty();
             case "Granade launcher":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(),0).isEmpty();
             case "Plasma gun":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                    usableEffect.add(3);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot+2, weaponCard.getOwnerOfCard(),0).isEmpty();
             case "Railgun":
-                if(!playersInCardinalPosition(weaponCard.getOwnerOfCard()).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                break;
-
+                return !playersInCardinalDirections(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Heatseeker":
-                if(!playersThatNotCanSee(weaponCard.getOwnerOfCard()).isEmpty())
-                    usableEffect.add(1);
-                break;
-
+                return !getPlayersNotVisible(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard()).isEmpty();
             case "Rocket launcher":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty() && playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),0).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(2);
-                    usableEffect.add(3);
-                }
-                break;
-
+                int numOfExtraMovement = 0;
+                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                    numOfExtraMovement = 2;
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot+numOfExtraMovement, weaponCard.getOwnerOfCard(), 1).isEmpty();
             case "Hellion":
-                if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),1).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 1).isEmpty();
             case "Whisper":
-                if(!playersThatCanSeeAndAtLeastThisDistant(weaponCard.getOwnerOfCard(),2).isEmpty())
-                    usableEffect.add(1);
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 2).isEmpty();
             case "Thor":
-                if(!canSee(weaponCard.getOwnerOfCard()).isEmpty())
-                    usableEffect.add(1);
-                //mancano il secondo e il terzo effetto
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Flamethrower":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                break;
-
+                return !squaresUsefulForFlamethrower().isEmpty();
             case "Power glove":
-                if(!playersInMySquareOrDistantOneSquare(weaponCard.getOwnerOfCard(),1).isEmpty())
-                {
-                    usableEffect.add(1);
-                    usableEffect.add(4);
-                }
-                break;
-
+                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Tractor beam":
-                break;
-
+                return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot+2, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Vortex cannon":
-                break;
+                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot+1, squareOfPlayer).isEmpty();
 
 
-
-
-
-
-
+            default:
+                throw  new IllegalArgumentException();
         }
-
-        return usableEffect;
     }
 
 
 
-    /*public ArrayList<Integer>  controlUseWeaponCardForAmmo(WeaponCard weaponCard, ArrayList<Integer> effects)
-    {
-        ArrayList<Integer> effectsUsable= new ArrayList<>();
 
-        Player cardOwner= weaponCard.getOwnerOfCard();
-        ColorOfCard_Ammo[] priceEffect= new ColorOfCard_Ammo[];
-        Boolean trovato;
-
-
-        if(effects.isEmpty()) return effectsUsable;
-
-        for(Integer x: effects)
-        {
-            switch (x)
-            {
-
-                case 2:
-                    if(weaponCard.getPriceForEffect2[0]!=null)
-                        priceEffect[0]= weaponCard.getPriceForEffect2[0];
-
-                    break;
-
-                case 3:
-                    if(weaponCard.getPriceForEffect3[0]!=null)
-                        priceEffect[0]= weaponCard.getPriceForEffect3[0];
-
-                case 4:
-                    priceEffect[0]= weaponCard.getPriceForEffect4[0];
-                    if(weaponCard.getPriceForEffect4[1]!=null)
-                        priceEffect[1]= weaponCard.getPriceForEffect4[1];
-
-                    break;
-
+    private ArrayList<String> getPlayersInMySquare(int movement, Square square) {
+        ArrayList<String> playersInTheSquare = new ArrayList<>();
+        Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
+        ArrayList<Square> squaresReachable = new ArrayList<>();
+        controller.findSquaresReachableWithThisMovements(square, movement, squaresReachable );
+        for(Square squareReachable : squaresReachable){
+            for(Player playerInTheSquare : squareReachable.getPlayerOnThisSquare()) {
+                if(!playerInTheSquare.equals(player))
+                    playersInTheSquare.add(playerInTheSquare.getNickname());
             }
-
-            if(priceEffect[0]==null)
-                effectsUsable.add(x);
-            else
-            {
-                trovato=false;
-
-                    for(Ammo ammo: cardOwner.getPlayerBoard().getAmmo())
-                    {
-                        if(ammo.getColor().equals(priceEffect[0]) && ammo.isUsable()
-                        {
-                            if(priceEffect[1]!=null)
-                            {
-                                for(Ammo ammox: cardOwner.getPlayerBoard().getAmmo())
-                                {
-                                    if(ammox.getColor().equals(priceEffect[1]) && ammo.isUsable() && ammo!=ammox) trovato= true;
-                                }
-
-                            }
-                            else trovato=true;
-
-                        }
-                    }
-                    for(PowerUpCard powerUpCard: cardOwner.getPlayerBoard().getPowerUpCardsOwned()) {
-                        if (powerUpCard.getColor().equals(priceEffect[0])) {
-                            if (priceEffect[1] != null) {
-                                for (PowerUpCard powerUpCardx : cardOwner.getPlayerBoard().getPowerUpCardsOwned()) {
-                                    if (powerUpCardx.getColor().equals(priceEffect[1]) && powerUpCard != powerUpCardx)
-                                        trovato = true;
-                                }
-                            } else trovato = true;
-                        }
-                    }
-
-
-                    if(trovato) effectsUsable.add(x);
-                }
-
-            priceEffect[0]=null;
-            priceEffect[1]=null;
-
-            }
-
-
-
-
-            return effectsUsable;
-
-        }*/
-
-
-
-    /**
-     * returns the players that stay in the same square of attacking player(with x=0) or in position distant one square from attacking player(with x=1)
-     * @param player attacking player
-     * @param x distance of squares
-     * @return list of players
-     */
-    private ArrayList<Player> playersInMySquareOrDistantOneSquare(Player player, int x)
-    {
-
-        ArrayList<Player> players= new ArrayList<>();
-
-        if(x==0) {
-            if (!player.getPositionOnTheMap().getPlayerOnThisSquare().isEmpty())
-                for(Player playerx: player.getPositionOnTheMap().getPlayerOnThisSquare())
-                {
-                    if(playerx!=player)
-                        players.add(playerx);
-                }
         }
+        return playersInTheSquare;
+     }
 
-        else if(x==1)
-        {
-            for(int i=0;i<player.getPositionOnTheMap().getAdjSquares().size();i++)
-            {
-                if(!player.getPositionOnTheMap().getAdjSquares().get(i).getPlayerOnThisSquare().isEmpty())
-                    players.addAll(player.getPositionOnTheMap().getAdjSquares().get(i).getPlayerOnThisSquare());
+    private ArrayList<Player> getPlayersOnlyInAdjSquares(int movement, Square squareOfPlayer) {
+        ArrayList<Player> playersOnlyInAdjSquares = new ArrayList<>();
+        ArrayList<Square> startingSquares = new ArrayList<>();
+        ArrayList<Square> adjSquares = new ArrayList<>();
+        controller.findSquaresReachableWithThisMovements(squareOfPlayer, movement, startingSquares);
+        for(Square square : startingSquares){
+            for(Square adjSquare : square.getAdjSquares()){
+                if(!adjSquares.contains(adjSquare))
+                    adjSquares.add(adjSquare);
+            }
+        }
+        for(Square square : adjSquares){
+            for(Player player : square.getPlayerOnThisSquare()){
+                if(!playersOnlyInAdjSquares.contains(player))
+                    playersOnlyInAdjSquares.add(player);
             }
         }
 
+        return playersOnlyInAdjSquares;
+    }
 
-        return players;
+    //funziona
+    private ArrayList<Square> getSquaresOfVisibleRoom(int movement, Square squareOfPlayer, int distanceNeeded, boolean differentFromMine) {
+        ArrayList<Square> squaresOfVisibleRoomDifferentFromMine = new ArrayList<>();
+        ArrayList<Square> startingSquares = new ArrayList<>();
+        controller.findSquaresReachableWithThisMovements(squareOfPlayer, movement, startingSquares);
+        for(Square startingSquare : startingSquares){
+            for(Square square : startingSquare.getAdjSquares()) {
+                if (!differentFromMine)
+                    addSquaresOfThisColors(squaresOfVisibleRoomDifferentFromMine, square.getColor());
+                else {
+                    if (!startingSquare.getColor().equals(square.getColor()))
+                        addSquaresOfThisColors(squaresOfVisibleRoomDifferentFromMine, square.getColor());
+                }
+            }
+            if(distanceNeeded!=0)
+                removeSquareCloserThan(startingSquare, squaresOfVisibleRoomDifferentFromMine,distanceNeeded);
+        }
+
+        for(Square square : squaresOfVisibleRoomDifferentFromMine){
+            if(!square.getPlayerOnThisSquare().isEmpty())
+                return squaresOfVisibleRoomDifferentFromMine;
+        }
+        squaresOfVisibleRoomDifferentFromMine = new ArrayList<>();
+        return squaresOfVisibleRoomDifferentFromMine;
+    }
+
+    private void removeSquareCloserThan(Square startingSquare, ArrayList<Square> squaresOfVisibleRoomDifferentFromMine, int distanceNeeded) {
+        ArrayList<Square> squareToRemove = new ArrayList<>();
+        for(Square square : squaresOfVisibleRoomDifferentFromMine){
+            if(distanceBetweenSquare(startingSquare,square)<distanceNeeded)
+                squareToRemove.add(square);
+        }
+
+        for(Square square : squareToRemove){
+            squaresOfVisibleRoomDifferentFromMine.remove(square);
+        }
+    }
+
+    private int distanceBetweenSquare(Square startingSquare, Square square) {
+        if(startingSquare.equals(square))
+            return 0;
+        ArrayList<Square> squaresReachable = new ArrayList<>();
+        for(int i=1; i<8; i++){
+            controller.findSquaresReachableWithThisMovements(startingSquare, i, squaresReachable);
+            if(squaresReachable.contains(square))
+                return i;
+            squaresReachable = new ArrayList<>();
+        }
+        throw new IllegalArgumentException();
     }
 
 
+    private void addSquaresOfThisColors(ArrayList<Square> squaresOfVisibleRoomDifferentFromMine, ColorOfFigure_Square color) {
+        for (Square[] squares : game.getBoard().getMap().getMatrixOfSquares()) {
+            for(Square square : squares){
+                if(square!=null && square.getColor().equals(color) && !squaresOfVisibleRoomDifferentFromMine.contains(square))
+                    squaresOfVisibleRoomDifferentFromMine.add(square);
+            }
+        }
+    }
+
+    private ArrayList<Square> squaresUsefulForFlamethrower() {
+        ArrayList<Square> squaresForFlamethrower = new ArrayList<>();
+        return squaresForFlamethrower;
+    }
 
     /**
-     * This method returns the players that are visible from the square of the attacking player
+     * This method returns the players that are visible from the square of the attacking playerCanSee
      *
      * @return
      */
-     ArrayList<Player> canSee(Player player)
+    ArrayList<Player> getVisiblePlayers(int movement, Player playerCanSee, int distanceNeeded)
     {
         ArrayList<Player> playersVisible = new ArrayList<>();
-        ColorOfFigure_Square colorOfSquareOfPlayer = player.getPositionOnTheMap().getColor();
-        HashMap<ColorOfFigure_Square,ArrayList<Square>> hashMapOfSquares = new HashMap<>();
-        hashMapOfSquares.put(ColorOfFigure_Square.GREEN, new ArrayList<>());
-        hashMapOfSquares.put(ColorOfFigure_Square.RED, new ArrayList<>());
-        hashMapOfSquares.put(ColorOfFigure_Square.BLUE, new ArrayList<>());
-        hashMapOfSquares.put(ColorOfFigure_Square.GREY, new ArrayList<>());
-        hashMapOfSquares.put(ColorOfFigure_Square.YELLOW, new ArrayList<>());
-        hashMapOfSquares.put(ColorOfFigure_Square.PURPLE, new ArrayList<>());
-        ArrayList<Square> squaresVisible = new ArrayList<>();
-
-        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-        for(int i = 0; i< matrix.length; i++){
-            for (int j=0;j< matrix[i].length;j++){
-                if(matrix[i][j] != null)
-                    hashMapOfSquares.get(matrix[i][j].getColor()).add(matrix[i][j]);
+        ArrayList<Square> squaresVisible = getSquaresOfVisibleRoom(movement, playerCanSee.getPositionOnTheMap(), distanceNeeded,false);
+        for(Square square : squaresVisible){
+            for(Player playerInSquare : square.getPlayerOnThisSquare() ){
+                if(!playerInSquare.equals(playerCanSee))
+                    playersVisible.add(playerInSquare);
             }
         }
-
-        for(Square adjSquare : player.getPositionOnTheMap().getAdjSquares()){
-            if(!adjSquare.getColor().equals(colorOfSquareOfPlayer))
-                squaresVisible.addAll(hashMapOfSquares.get(adjSquare.getColor()));
-        }
-        squaresVisible.addAll(hashMapOfSquares.get(colorOfSquareOfPlayer));
-
-        for(Square square : squaresVisible){
-            if(square.getPlayerOnThisSquare()!=null)
-                playersVisible.addAll(square.getPlayerOnThisSquare());
-        }
-        playersVisible.remove(player);
-        if(player.getNickname().equals("terminator"))
+        playersVisible.remove(playerCanSee);
+        if(playerCanSee.getNickname().equals("terminator"))
             playersVisible.remove(game.getPlayers().get(game.getPlayerOfTurn()-1));
-
 
         return playersVisible;
 
     }
 
-
-    /**
-     * returns players from other rooms visible to the attacking player
-     * @param player attacking player
-     * @return List of players
-     */
-
-
-    private ArrayList<Player> playersIntheVisibleRooms(Player player)
-    {
-        ArrayList<Player> players= new ArrayList<>();
-
-        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-        ColorOfFigure_Square colorOtherRoom;
-        if(!player.getPositionOnTheMap().isHasDoor()) return null;
-
-        for(int k=0;k<player.getPositionOnTheMap().getAdjSquares().size();k++)
-        {
-            if(player.getPositionOnTheMap().getAdjSquares().get(k).getColor()!=player.getPositionOnTheMap().getColor())
-            {
-                colorOtherRoom=player.getPositionOnTheMap().getAdjSquares().get(k).getColor();
-                for(int i=0;i<matrix.length;i++)
-
-                {
-                    for(int j=0;j<matrix[i].length;j++)
-                    {
-                        if(matrix[i][j]!=null)
-                        {
-                            if(game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor().equals(colorOtherRoom) && game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().size()!=0)
-                                players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare());
-                        }
-
-                    }
-                }
-            }
-
-        }
-
-        return players;
-
-    }
-
     /**
      * returns the players positioned in cardinal directions with respect to the attacking player
-     * @param player attacking player
      * @return List of players
      */
 
-    private ArrayList<Player> playersInCardinalPosition(Player player)
+    private ArrayList<Player> playersInCardinalDirections(int movement, Square square)
     {
-        ArrayList<Player> players= new ArrayList<>();
-        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-
-        int row= player.getPositionOnTheMap().getRow();
-        int column= player.getPositionOnTheMap().getColumn();
-        for(int i=0;i<4;i++)
-        {
-            if(matrix[row][i]!=null)
-            {
-                if(game.getBoard().getMap().getMatrixOfSquares()[row][i].getPlayerOnThisSquare().size()!=0 && game.getBoard().getMap().getMatrixOfSquares()[row][i]!=player.getPositionOnTheMap())
-                    players.addAll(game.getBoard().getMap().getMatrixOfSquares()[row][i].getPlayerOnThisSquare());
-            }
-
-
+        ArrayList<Player> players = new ArrayList<>();
+        ArrayList<Square> startingSquares = new ArrayList<>();
+        ArrayList<Square> squaresAvailable = new ArrayList<>();
+        controller.findSquaresReachableWithThisMovements(square, movement, startingSquares);
+        for(Square startingSquare : startingSquares){
+            addSquaresForCardinalDirections(startingSquare,squaresAvailable);
         }
-        for(int i=0;i<3;i++)
-        {
-            if(matrix[i][column]!=null)
-            {
-                if(game.getBoard().getMap().getMatrixOfSquares()[i][column].getPlayerOnThisSquare().size()!=0 && game.getBoard().getMap().getMatrixOfSquares()[i][column]!=player.getPositionOnTheMap())
-                    players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][column].getPlayerOnThisSquare());
+
+        for(Square squareAvailable : squaresAvailable ){
+            for(Player player : squareAvailable.getPlayerOnThisSquare()){
+                if(!player.equals(game.getPlayers().get(game.getPlayerOfTurn()-1)))
+                    players.add(player);
             }
-
-
         }
-        if(playersInMySquareOrDistantOneSquare(player,0)!=null) players.addAll(playersInMySquareOrDistantOneSquare(player,0));
-
 
         return players;
+    }
 
+    private void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable) {
+        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+        int row = startingSquare.getRow();
+        int column = startingSquare.getColumn();
+        for(Square square : matrix[row]) {
+            if (square != null && !squaresAvailable.contains(square))
+                squaresAvailable.add(square);
+        }
+        for(int i = 0; i<3 ; i++){
+            if(matrix[i][column]!=null && !squaresAvailable.contains(matrix[i][column]))
+                squaresAvailable.add(matrix[i][column]);
+        }
     }
 
     /**
      * returns the players that the attacking player not can see
-     * @param player attacking player
+
      * @return List of players
      */
 
-    private ArrayList<Player> playersThatNotCanSee(Player player)
+    private ArrayList<Player> getPlayersNotVisible(int movement, Player playerCanSee)
     {
-        ArrayList<Player> players= new ArrayList<>();
-
-        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-
-        /**
-         * Colors of rooms visible from attacking player
-         */
-        ArrayList<ColorOfFigure_Square> colorsVisible = new ArrayList<>();
-        /**
-         * color of the attacking player's square
-         */
-        ColorOfFigure_Square colorOfSquare= player.getPositionOnTheMap().getColor();
-
-        if (!player.getPositionOnTheMap().isHasDoor()) {
-
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[i].length; j++) {
-                    if(matrix[i][j]!=null)
-                    {
-                        if (game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor() != colorOfSquare && game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().size() != 0)
-                            players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare());
-                    }
-                    }
-
-
-            }
-        } else {
-
-            colorsVisible.add(colorOfSquare);
-            for (int k = 0; k < player.getPositionOnTheMap().getAdjSquares().size(); k++) {
-                if (player.getPositionOnTheMap().getAdjSquares().get(k).getColor() != colorOfSquare) {
-                    colorsVisible.add(player.getPositionOnTheMap().getAdjSquares().get(k).getColor());
-
-                }
-            }
-
-
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j <matrix[i].length; j++) {
-                    if(matrix[i][j]!=null)
-                    {
-                        if ((!colorsVisible.contains(game.getBoard().getMap().getMatrixOfSquares()[i][j].getColor())) && game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().size() != 0)
-                            players.addAll(game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare());
-                    }
-
-                }
-            }
-
+        ArrayList<Player> playersNotVisible = new ArrayList<>();
+        ArrayList<Player> playersVisible = getVisiblePlayers(movement, playerCanSee, 0);
+        for(Player player : game.getPlayers()){
+            if(!playersVisible.contains(player) && !player.equals(playerCanSee))
+                playersNotVisible.add(playerCanSee);
         }
-
-
-        return players;
+        return playersNotVisible;
     }
 
+    boolean canReload(WeaponCard weaponCard) {
+        Player player = weaponCard.getOwnerOfCard();
+        int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), RED);
+        int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), BLUE);
+        int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), YELLOW);
+        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
 
-    /**
-     * returns the players that the attacking player can see and they are distant x squares
-     * @param player attacking player
-     * @param x distance of squares
-     * @return list of players
-     */
-
-    private ArrayList<Player> playersThatCanSeeAndAtLeastThisDistant(Player player, int x)
-    {
-        ArrayList<Player> players= new ArrayList<>();
-
-
-        players.addAll(canSee(player));
-        if(!players.isEmpty())
-        {
-        for(Player playerx: players)
-        {
-            //giocatore nella mappa
-            int[] primo= {playerx.getPositionOnTheMap().getRow(), playerx.getPositionOnTheMap().getColumn()};
-            //giocatore attaccante
-            int[] secondo={player.getPositionOnTheMap().getRow(), player.getPositionOnTheMap().getColumn()};
-            if(controller.distanceOfManhattan(primo, secondo)<x)  players.remove(playerx);
-        }
-        }
-
-
-        return players;
     }
 
+    private boolean effectAffordable(Player player, ColorOfCard_Ammo[] price){
+        int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, RED);
+        int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, BLUE);
+        int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, YELLOW);
+        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
 
+    }
 
 
 }

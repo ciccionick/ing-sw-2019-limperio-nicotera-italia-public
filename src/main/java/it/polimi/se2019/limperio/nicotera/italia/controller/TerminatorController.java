@@ -5,7 +5,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Generat
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.MoveTerminatorEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.TerminatorShootEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -45,7 +44,7 @@ class TerminatorController {
         boolean terminatorCanMove = true;
 
         Player terminator = controller.findPlayerWithThisNickname("terminator");
-        if(!controller.getWeaponController().canSee(terminator).isEmpty())
+        if(!controller.getWeaponController().getVisiblePlayers(0,terminator, 0).isEmpty())
             terminatorCanShoot = true;
 
         RequestChooseActionForTerminator requestChooseActionForTerminator = new RequestChooseActionForTerminator();
@@ -89,7 +88,7 @@ class TerminatorController {
          mapEvent.setNicknameInvolved(message.getNickname());
          game.notify(mapEvent);
 
-         ArrayList<Player> attackedPlayers = controller.getWeaponController().canSee(terminator);
+         ArrayList<Player> attackedPlayers = controller.getWeaponController().getVisiblePlayers(0,terminator,0);
          if (attackedPlayers.isEmpty()) {
              game.setHasToDoTerminatorAction(false);
             controller.handleTheEndOfAnAction();
@@ -100,7 +99,7 @@ class TerminatorController {
     }
 
     void sendRequestToChoosePlayerToAttack(ClientEvent message){
-        ArrayList<Player> attackedPlayers = controller.getWeaponController().canSee(controller.findPlayerWithThisNickname("terminator"));
+        ArrayList<Player> attackedPlayers = controller.getWeaponController().getVisiblePlayers(0,controller.findPlayerWithThisNickname("terminator"),0);
         RequestToSelectionPlayerToAttackWithTerminator requestToSelectionPlayerToAttackWithTerminator = new RequestToSelectionPlayerToAttackWithTerminator();
         requestToSelectionPlayerToAttackWithTerminator.setNicknamesOfPlayersAttachable(attackedPlayers);
         requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());

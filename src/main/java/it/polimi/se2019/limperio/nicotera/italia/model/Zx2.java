@@ -53,6 +53,14 @@ public class Zx2 extends WeaponCard {
                 "Notes: Remember that the 3 targets can be in 3 different rooms.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
+        getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("IN SCANNER MODE");
+        getDescriptionsOfAttack().add("Deal 1 damage and 2 marks to 1 target you can see");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("Choose up to 3 targets you can see and deal 1 mark to each");
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};

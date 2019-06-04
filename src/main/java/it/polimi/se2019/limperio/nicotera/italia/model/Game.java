@@ -182,6 +182,7 @@ public class Game extends Observable<ServerEvent> {
         MapEvent mapEvent = new MapEvent();
         mapEvent.setTerminatorMode(isTerminatorModeActive());
         mapEvent.setNicknames(listOfNickname);
+        mapEvent.setNicknameInvolved(players.get(playerOfTurn-1).getNickname());
         mapEvent.setMap(board.getMap().getMatrixOfSquares());
         mapEvent.setTypeOfMap(board.getMap().getTypeOfMap());
         notify(mapEvent);

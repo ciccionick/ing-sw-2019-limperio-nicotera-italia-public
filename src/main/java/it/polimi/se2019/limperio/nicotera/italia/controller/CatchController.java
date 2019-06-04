@@ -67,7 +67,7 @@ class CatchController {
             RequestForChooseAWeaponToCatch newRequest = new RequestForChooseAWeaponToCatch("Choose which weapon do you want to catch. ");
             ArrayList<WeaponCard> weaponsAffordable = new ArrayList<>();
             for(WeaponCard weapon : ((SpawnSquare) square).getWeaponCards()){
-                if(weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), weapon))
+                if(weaponIsAffordableByPlayer(player, weapon))
                     weaponsAffordable.add(weapon);
             }
             newRequest.setNicknameInvolved(event.getNickname());
@@ -272,10 +272,8 @@ class CatchController {
     }
 
     void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
-        System.out.println(event.getNameOfWeaponCardToAdd()); //to add to square
-        System.out.println(event.getNameOfWeaponCardToRemove()); // to remove from square
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
-        player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToRemove())); //questo solo come conseguenza del catch
+        player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToRemove()));
         changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
         sendNotifyAfterCatching(player);
     }
@@ -298,6 +296,7 @@ class CatchController {
             }
         }
         player.getPlayerBoard().getWeaponsOwned().remove(weaponCardToAddToSquare);
+        weaponCardToAddToSquare.setOwnerOfCard(null);
         ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
         player.catchWeapon(weaponCardToAddToDeck);
     }
@@ -310,23 +309,22 @@ class CatchController {
      */
      void addWeaponNotAffordable(SpawnSquare square, Player player, ArrayList<ServerEvent.AliasCard> weaponNotAffordable) {
         for(WeaponCard card : square.getWeaponCards()){
-            if(!weaponIsAffordableByPlayer(player.getPlayerBoard().getAmmo(), card))
+            if(!weaponIsAffordableByPlayer(player, card))
                 weaponNotAffordable.add(new ServerEvent.AliasCard(card.getName(), card.getDescription(), card.getColor()));
         }
     }
 
     /**
      * This method check if a weapon can be caught by a player, that has the ammo that are passed by the first parameter
-     * @param ammos the ammo that the player has
      * @param card the weapon that contains the price that the method has to check if it would be payed with the ammo
      * @return a boolean that is true if the ammo are more than the weapon's price
      */
-     private boolean weaponIsAffordableByPlayer(ArrayList<Ammo> ammos, WeaponCard card) {
+     private boolean weaponIsAffordableByPlayer(Player player, WeaponCard card) {
 
         int numOfRedAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), RED);
         int numOfBlueAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), BLUE);
         int numOfYellowAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), YELLOW);
-        return frequencyOfAmmoUsableByPlayer(ammos, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(ammos, YELLOW)>=numOfYellowAmmoRequired;
+        return frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
 
     }
 
@@ -351,16 +349,20 @@ class CatchController {
 
     /**
      * This method calculates the frequency of ammo that a player can use
-     * @param ammoContained this list contains ALL the ammo of a player, both available and not available
      * @param colorToCheck the color of the ammo of which the method has to calculate the frequency
      * @return the number of ammo that can be used
      */
-     int frequencyOfAmmoUsableByPlayer(ArrayList<Ammo> ammoContained, ColorOfCard_Ammo colorToCheck){
+     int frequencyOfAmmoUsableByPlayer(Player player, ColorOfCard_Ammo colorToCheck){
+
         int frequency = 0;
-        for(Ammo ammo : ammoContained){
+        for(Ammo ammo : player.getPlayerBoard().getAmmo()){
             if(ammo.getColor().equals(colorToCheck) && ammo.isUsable()){
                 frequency++;
             }
+        }
+        for(PowerUpCard card : player.getPlayerBoard().getPowerUpCardsOwned()){
+            if(card.getColor().equals(colorToCheck))
+                frequency++;
         }
         return frequency;
     }
