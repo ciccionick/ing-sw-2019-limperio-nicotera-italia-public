@@ -10,9 +10,6 @@ public class RequestActionEvent extends ServerEvent {
     private boolean canUseNewton = false;
     private boolean canUseTeleporter = false;
     private boolean canUseTagbackGranade = false;
-    private boolean canUseWeapon1 = false;
-    private boolean canUseWeapon2 = false;
-    private boolean canUseWeapon3 = false;
     private boolean hasToDoTerminatorAction = false;
 
 
@@ -55,29 +52,7 @@ public class RequestActionEvent extends ServerEvent {
         this.canUseTagbackGranade = canUseTagbackGranade;
     }
 
-    public boolean isCanUseWeapon1() {
-        return canUseWeapon1;
-    }
 
-    public void setCanUseWeapon1(boolean canUseWeapon1) {
-        this.canUseWeapon1 = canUseWeapon1;
-    }
-
-    public boolean isCanUseWeapon2() {
-        return canUseWeapon2;
-    }
-
-    public void setCanUseWeapon2(boolean canUseWeapon2) {
-        this.canUseWeapon2 = canUseWeapon2;
-    }
-
-    public boolean isCanUseWeapon3() {
-        return canUseWeapon3;
-    }
-
-    public void setCanUseWeapon3(boolean canUseWeapon3) {
-        this.canUseWeapon3 = canUseWeapon3;
-    }
 
     public int getRound() {
         return round;

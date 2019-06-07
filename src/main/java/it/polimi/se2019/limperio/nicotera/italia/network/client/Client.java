@@ -5,6 +5,8 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Request
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /** Handles the client and his socket
  *
@@ -35,6 +37,12 @@ public class Client {
 
    private FrameForRequestIP frameForRequestIP;
 
+   private Timer timer = null;
+
+   private int delay = 1000;
+
+
+
 
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
@@ -47,6 +55,8 @@ public class Client {
         this.csocket = new Socket("localhost", 4000);
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
+        //timer = new Timer();
+        //timer.schedule(new TaskForStart(), delay);
         waitForMessage();
 
 
@@ -123,4 +133,10 @@ public class Client {
         this.ipAddress = ipAddress;
     }
 
+    private class TaskForStart extends TimerTask {
+        @Override
+        public void run() {
+            waitForMessage();
+        }
+    }
 }

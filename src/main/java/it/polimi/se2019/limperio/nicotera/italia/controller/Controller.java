@@ -41,7 +41,7 @@ public class Controller implements Observer<ClientEvent> {
         powerUpController = new PowerUpController(game, this);
         roundController = new RoundController(this,game);
         runController = new RunController(game, this);
-        shootController = new ShootController(game);
+        shootController = new ShootController(game, this);
         weaponController = new WeaponController(game, this);
         deathController = new DeathController(game, this);
 
@@ -121,7 +121,10 @@ public class Controller implements Observer<ClientEvent> {
                 catchController.handleSelectionWeaponToCatchAfterDiscard((SelectionWeaponToDiscard) message);
             }
             if (message.isRequestToShootByPlayer()) {
-                //shootController.replyToRequestToShoot(message);
+                shootController.replyToRequestToShoot(message);
+            }
+            if(message.isRequestToUseWeaponCard()){
+                shootController.replyWithUsableEffectsOfThisWeapon(message);
             }
         }
     }
@@ -229,6 +232,9 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
+    public ShootController getShootController() {
+        return shootController;
+    }
 
     void sendRequestForAction() {
          if(game.getRound()>1 && game.getNumOfActionOfTheTurn()==0 && timer!=null) {
@@ -310,10 +316,10 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
-    private boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
+     boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
-         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && !weaponController.canReload(weaponCard))
+         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && game.isInFrenzy() && !weaponController.canReload(weaponCard))
              return false;
          return (weaponController.isThisWeaponUsable(weaponCard, movementCanDoBeforeReloadAndShoot));
 

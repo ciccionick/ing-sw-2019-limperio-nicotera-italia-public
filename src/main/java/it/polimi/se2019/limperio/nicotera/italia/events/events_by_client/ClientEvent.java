@@ -51,6 +51,7 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToGoOn = false;
    private boolean isMoveTerminatorEvent = false;
    private boolean isTerminatorShootEvent = false;
+   private boolean isRequestToUseWeaponCard = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -104,6 +105,14 @@ public class ClientEvent implements Serializable {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public boolean isRequestToUseWeaponCard() {
+        return isRequestToUseWeaponCard;
+    }
+
+    public void setRequestToUseWeaponCard(boolean requestToUseWeaponCard) {
+        isRequestToUseWeaponCard = requestToUseWeaponCard;
     }
 
     public boolean isDrawPowerUpCard() {

@@ -60,6 +60,8 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToSelectionPlayerToAttackWithTerminator =false;
     private boolean isUpdateScoreEvent = false;
     private boolean isRequestForDrawOnePowerUpCardEvent = false;
+    private boolean isRequestToChooseWeapon = false;
+    private boolean isRequestToChooseAnEffect = false;
 
 
     private int numOfAction;
@@ -147,6 +149,22 @@ public class ServerEvent implements Serializable {
 
     public void setRequestForDrawOnePowerUpCardEvent(boolean requestForDrawOnePowerUpCardEvent) {
         isRequestForDrawOnePowerUpCardEvent = requestForDrawOnePowerUpCardEvent;
+    }
+
+    public boolean isRequestToChooseWeapon() {
+        return isRequestToChooseWeapon;
+    }
+
+    public void setRequestToChooseWeapon(boolean requestToChooseWeapon) {
+        isRequestToChooseWeapon = requestToChooseWeapon;
+    }
+
+    public boolean isRequestToChooseAnEffect() {
+        return isRequestToChooseAnEffect;
+    }
+
+    public void setRequestToChooseAnEffect(boolean requestToChooseAnEffect) {
+        isRequestToChooseAnEffect = requestToChooseAnEffect;
     }
 
     public boolean isFinished() {

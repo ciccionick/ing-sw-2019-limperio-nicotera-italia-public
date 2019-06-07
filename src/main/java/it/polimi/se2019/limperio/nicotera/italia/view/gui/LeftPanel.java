@@ -23,6 +23,9 @@ import java.util.ArrayList;
     private JButton buttonPC1;
     private JButton buttonPC2;
     private JButton buttonPC3;
+    private JButton buttonW1;
+    private JButton buttonW2;
+    private JButton buttonW3;
     private JLabel blueAmmo;
     private JLabel redAmmo;
     private JLabel yellowAmmo;
@@ -31,6 +34,7 @@ import java.util.ArrayList;
      LeftPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         this.playerBoardView = playerBoardView;
+        String use = "USE";
         this.setBackground(Color.DARK_GRAY);
         int widthCard;
         int heightCard;
@@ -133,7 +137,7 @@ import java.util.ArrayList;
            this.add(weapon3, gbcWeapon3);
 
 
-           JButton buttonW1 = new JButton("SELECT");
+           buttonW1 = new JButton(use);
            GridBagConstraints gbcButtonW1 = new GridBagConstraints();
            if (weapon1.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
               buttonW1.setEnabled(true);
@@ -146,7 +150,7 @@ import java.util.ArrayList;
            this.add(buttonW1, gbcButtonW1);
 
 
-           JButton buttonW2 = new JButton("SELECT");
+           buttonW2 = new JButton(use);
            GridBagConstraints gbcButtonW2 = new GridBagConstraints();
            if (weapon2.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
               buttonW2.setEnabled(true);
@@ -158,7 +162,7 @@ import java.util.ArrayList;
            gbcButtonW2.fill = GridBagConstraints.BOTH;
            this.add(buttonW2, gbcButtonW2);
 
-           JButton buttonW3 = new JButton("SELECT");
+           buttonW3 = new JButton(use);
            GridBagConstraints gbcButtonW3 = new GridBagConstraints();
            if (weapon3.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
               buttonW3.setEnabled(true);
@@ -228,7 +232,7 @@ import java.util.ArrayList;
            powerCard3.addMouseListener(listenerForPowerUpCard3);
 
 
-           buttonPC1 = new JButton("SELECT");
+           buttonPC1 = new JButton(use);
            GridBagConstraints gbcButtonPC1 = new GridBagConstraints();
            gbcButtonPC1.insets = new Insets(insetTop / 2, insetLeft * 2, 0, 0);
            gbcButtonPC1.gridx = 0;
@@ -241,7 +245,7 @@ import java.util.ArrayList;
            this.add(buttonPC1, gbcButtonPC1);
            buttonPC1.addActionListener(listenerForPowerUpCard1);
 
-           buttonPC2 = new JButton("SELECT");
+           buttonPC2 = new JButton(use);
            GridBagConstraints gbcButtonPC2 = new GridBagConstraints();
            gbcButtonPC2.insets = new Insets(insetTop / 2, insetLeft, 0, 0);
            gbcButtonPC2.gridx = 1;
@@ -255,7 +259,7 @@ import java.util.ArrayList;
            buttonPC2.addActionListener(listenerForPowerUpCard2);
 
 
-           buttonPC3 = new JButton("SELECT");
+           buttonPC3 = new JButton(use);
            GridBagConstraints gbcButtonPC3 = new GridBagConstraints();
            gbcButtonPC3.insets = new Insets(insetTop / 2, insetLeft, 0, insetRight);
            gbcButtonPC3.gridx = 2;
@@ -344,23 +348,35 @@ import java.util.ArrayList;
       return false;
     }
 
-    public PlayerBoardView getPlayerBoardView() {
+     PlayerBoardView getPlayerBoardView() {
        return playerBoardView;
     }
 
-    public JButton getButtonPC1() {
+     JButton getButtonPC1() {
        return buttonPC1;
     }
 
-    public JButton getButtonPC2() {
+     JButton getButtonPC2() {
        return buttonPC2;
     }
 
-    public JButton getButtonPC3() {
+     JButton getButtonPC3() {
        return buttonPC3;
     }
 
-    private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
+     public JButton getButtonW1() {
+         return buttonW1;
+     }
+
+     public JButton getButtonW2() {
+         return buttonW2;
+     }
+
+     public JButton getButtonW3() {
+         return buttonW3;
+     }
+
+     private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
         int counterOfAvailableAmmo=0;
         for (Ammo ammoItem : ammo){
             if (ammoItem.getColor().equals(color)&&ammoItem.isUsable()){

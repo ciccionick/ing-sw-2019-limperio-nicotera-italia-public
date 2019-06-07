@@ -25,6 +25,61 @@ public class WeaponController {
     }
 
 
+     ArrayList<Integer> getUsableEffectsForThisWeapon(WeaponCard weaponCard) {
+        Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
+        ArrayList<Integer> usableEffects = new ArrayList<>();
+        switch (weaponCard.getName()){
+            case "Electroscythe":
+                if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty()) {
+                    usableEffects.add(1);
+                    if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
+                        usableEffects.add(4);
+                }
+                break;
+
+            case "Cyberblade":
+                if(!controller.getShootController().getTypeOfAttack().contains(2))
+                    usableEffects.add(2);
+                if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty())
+                    usableEffects.add(1);
+                if(!controller.getShootController().getTypeOfAttack().contains(1) && getPlayersInMySquare(0, squareOfPlayer).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getGetPriceToPayForEffect2()) )
+                    usableEffects.add(3);
+                break;
+
+            case "Sledgehammer":
+                if(!getPlayersInMySquare(0,squareOfPlayer).isEmpty()){
+                    usableEffects.add(1);
+                    if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
+                        usableEffects.add(4);
+                }
+                break;
+
+
+
+            case "Shotgun":
+                if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty())
+                    usableEffects.add(1);
+                if(!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())
+                    usableEffects.add(4);
+                break;
+
+            case "Schockwave":
+                if(!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty()) {
+                    usableEffects.add(1);
+                    if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
+                        usableEffects.add(4);
+                }
+                break;
+
+
+
+                default: throw new IllegalArgumentException();
+
+        }
+        return usableEffects;
+    }
+
+
     boolean isThisWeaponUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
         Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
         switch (weaponCard.getName()){
@@ -66,7 +121,7 @@ public class WeaponController {
             case "Thor":
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Flamethrower":
-                return !squaresUsefulForFlamethrower().isEmpty();
+                return !squaresUsefulForFlamethrower(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Power glove":
                 return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Tractor beam":
@@ -118,7 +173,7 @@ public class WeaponController {
         return playersOnlyInAdjSquares;
     }
 
-    //funziona
+
     private ArrayList<Square> getSquaresOfVisibleRoom(int movement, Square squareOfPlayer, int distanceNeeded, boolean differentFromMine) {
         ArrayList<Square> squaresOfVisibleRoomDifferentFromMine = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
@@ -179,8 +234,26 @@ public class WeaponController {
         }
     }
 
-    private ArrayList<Square> squaresUsefulForFlamethrower() {
+    private ArrayList<Square> squaresUsefulForFlamethrower(int movementCanDoBeforeReloadAndShoot, Square squareOfPlayer) {
         ArrayList<Square> squaresForFlamethrower = new ArrayList<>();
+        ArrayList<Square> startingSquares = new ArrayList<>();
+        controller.findSquaresReachableWithThisMovements(squareOfPlayer, movementCanDoBeforeReloadAndShoot, startingSquares);
+        for(Square startingSquare : startingSquares){
+            addSquaresForCardinalDirections(startingSquare, squaresForFlamethrower,2);
+        }
+
+        ArrayList<Square> squaresToRemove = new ArrayList<>();
+
+        for(Square squareAvailable : squaresForFlamethrower){
+            if(squareAvailable.getPlayerOnThisSquare().isEmpty())
+                squaresToRemove.add(squareAvailable);
+        }
+
+        for(Square squareToRemove : squaresToRemove){
+            squaresForFlamethrower.remove(squareToRemove);
+        }
+
+
         return squaresForFlamethrower;
     }
 
@@ -219,7 +292,7 @@ public class WeaponController {
         ArrayList<Square> squaresAvailable = new ArrayList<>();
         controller.findSquaresReachableWithThisMovements(square, movement, startingSquares);
         for(Square startingSquare : startingSquares){
-            addSquaresForCardinalDirections(startingSquare,squaresAvailable);
+            addSquaresForCardinalDirections(startingSquare,squaresAvailable,0);
         }
 
         for(Square squareAvailable : squaresAvailable ){
@@ -232,7 +305,7 @@ public class WeaponController {
         return players;
     }
 
-    private void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable) {
+    private void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
         int row = startingSquare.getRow();
         int column = startingSquare.getColumn();
@@ -243,6 +316,19 @@ public class WeaponController {
         for(int i = 0; i<3 ; i++){
             if(matrix[i][column]!=null && !squaresAvailable.contains(matrix[i][column]))
                 squaresAvailable.add(matrix[i][column]);
+        }
+        if(limitOfDistance>0) {
+            ArrayList<Square> squaresCloserThanDistance = new ArrayList<>();
+            ArrayList<Square> squaresToRemove = new ArrayList<>();
+            controller.findSquaresReachableWithThisMovements(startingSquare, limitOfDistance, squaresCloserThanDistance);
+            for (Square squareAvailable : squaresAvailable) {
+                if (!squaresCloserThanDistance.contains(squareAvailable))
+                    squaresToRemove.add(squareAvailable);
+            }
+
+            for (Square squareToRemove : squaresToRemove) {
+                squaresAvailable.remove(squareToRemove);
+            }
         }
     }
 

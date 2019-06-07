@@ -33,6 +33,8 @@ public class Shotgun extends WeaponCard {
                             this.longBarrelMode(involvedPlayers.get(j).getPlayer());
                     }
                     break;
+
+                    default: throw new IllegalArgumentException();
             }
         }
         setLoad(false);

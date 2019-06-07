@@ -19,13 +19,9 @@ public class ElectroScythe extends WeaponCard
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        ArrayList<Player> players = new ArrayList<Player>();
-        int j;
-        for(j=0; j<this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().size(); j++) {
-            if(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().get(j).getNickname()!= this.getOwnerOfCard().getNickname()){
-                players.add(this.getOwnerOfCard().getPositionOnTheMap().getPlayerOnThisSquare().get(j));
-            }
-        }
+        ArrayList<Player> players = new ArrayList<>();
+        players.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
+        players.remove(this.getOwnerOfCard());
         switch (typeOfAttack.get(0)) {
                 case 1:
                     basicMode(players);
@@ -35,7 +31,7 @@ public class ElectroScythe extends WeaponCard
                 case 4:
                     inReaperMode(players);
                     break;
-
+                default: throw new IllegalArgumentException();
         }
         setLoad(false);
     }

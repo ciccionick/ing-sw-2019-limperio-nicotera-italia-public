@@ -159,7 +159,7 @@ import java.util.ArrayList;
 
             JTextArea descriptionWeapon3 = new JTextArea();
             descriptionWeapon3.setBackground(SystemColor.menu);
-            descriptionWeapon3.setLineWrap(false);
+            descriptionWeapon3.setLineWrap(true);
             descriptionWeapon3.setEditable(false);
             descriptionWeapon3.setText(listOfWeapons.get(2).getDescription());
             GridBagConstraints gbcDescriptionWeapon3 = new GridBagConstraints();

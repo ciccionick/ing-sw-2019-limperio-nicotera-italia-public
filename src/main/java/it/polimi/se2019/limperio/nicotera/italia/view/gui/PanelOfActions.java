@@ -18,13 +18,14 @@ public class PanelOfActions extends JPanel {
     private JButton buttonShoot;
     private JButton buttonTerminator = new JButton();
     private JButton buttonCancel;
+    private ActionButtonListener actionButtonListener;
 
      PanelOfActions(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         this.setBackground(Color.DARK_GRAY);
-        ActionButtonListener actionButtonListener = new ActionButtonListener();
+        actionButtonListener = new ActionButtonListener();
 
         JLabel text = new JLabel("Choose one action:");
         text.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
@@ -114,8 +115,11 @@ public class PanelOfActions extends JPanel {
 
     }
 
+   public ActionButtonListener getActionButtonListener() {
+      return actionButtonListener;
+   }
 
-    void updateStateOfButton(){
+   void updateStateOfButton(){
        buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
        buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
        buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanShoot());
@@ -123,11 +127,13 @@ public class PanelOfActions extends JPanel {
        buttonCancel.setEnabled(false);
     }
 
+
+
    public JButton getButtonCancel() {
       return buttonCancel;
    }
 
-   class ActionButtonListener implements ActionListener{
+   public class ActionButtonListener implements ActionListener{
 
        @Override
        public void actionPerformed(ActionEvent e) {
@@ -147,6 +153,7 @@ public class PanelOfActions extends JPanel {
                 break;
              case "Cancel":
                 updateStateOfButton();
+                mainFrame.getRemoteView().getMyPlayerBoardView().disableWeaponsButton();
                 mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
                 mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 for(JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()){
@@ -156,7 +163,7 @@ public class PanelOfActions extends JPanel {
              default: throw new IllegalArgumentException();
           }
           if(!(e.getActionCommand().equals("Cancel"))) {
-             disableCards();
+             disablePowerUpCards();
              buttonCatch.setEnabled(false);
              buttonRun.setEnabled(false);
              buttonShoot.setEnabled(false);
@@ -165,7 +172,7 @@ public class PanelOfActions extends JPanel {
           }
        }
 
-       private void disableCards(){
+      public void disablePowerUpCards(){
           mainFrame.getLeftPanel().getButtonPC1().setEnabled(false);
           mainFrame.getLeftPanel().getButtonPC2().setEnabled(false);
           mainFrame.getLeftPanel().getButtonPC3().setEnabled(false);

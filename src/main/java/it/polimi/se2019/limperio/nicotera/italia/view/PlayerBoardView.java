@@ -2,8 +2,11 @@ package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseWeapon;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -241,13 +244,23 @@ public class PlayerBoardView {
         canUseTeleporter = receivedEvent.isCanUseTeleporter();
         canUseTagbackGranade = receivedEvent.isCanUseTagbackGranade();
         canUseNewton = receivedEvent.isCanUseNewton();
-        canChooseWeapon1 = receivedEvent.isCanUseWeapon1();
-        canChooseWeapon2 = receivedEvent.isCanUseWeapon2();
-        canChooseWeapon3 = receivedEvent.isCanUseWeapon3();
         canShoot = receivedEvent.isCanShoot();
         hasToDoTerminatorAction= receivedEvent.isHasToDoTerminatorAction();
         canCatch = receivedEvent.isCanCatch();
         canRun = receivedEvent.isCanRun();
+    }
+
+    void updateWeaponCanUse(RequestToChooseWeapon receivedEvent){
+        canChooseWeapon1 = receivedEvent.isCanUseWeapon1();
+        canChooseWeapon2 = receivedEvent.isCanUseWeapon2();
+        canChooseWeapon3 = receivedEvent.isCanUseWeapon3();
+
+    }
+
+    public void disableWeaponsButton(){
+        canChooseWeapon1 = false;
+        canChooseWeapon2 = false;
+        canChooseWeapon3 = false;
     }
 
 

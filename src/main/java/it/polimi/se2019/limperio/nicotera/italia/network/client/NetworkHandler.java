@@ -149,6 +149,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         if(event.isRequestToDiscardWeaponCard()){
             remoteView.update(event);
         }
+        if(event.isRequestToChooseWeapon()){
+            remoteView.update(event);
+        }
 
 
 
