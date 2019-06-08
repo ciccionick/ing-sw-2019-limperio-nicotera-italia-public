@@ -67,7 +67,10 @@ public class RoundController {
     private void handleRespawnOfDeadPlayers(ArrayList<Player> deadPlayers) {
         for(Player deadPlayer : deadPlayers){
             game.setPlayerHasToRespawn(deadPlayer);
-            controller.sendRequestToDrawPowerUpCard(deadPlayer, 1);
+            if(deadPlayer.getNickname().equals("terminator"))
+                controller.getPowerUpController().sendRequestToChooseSquareForSpawnOfTerminator();
+            else
+                controller.sendRequestToDrawPowerUpCard(deadPlayer, 1);
         }
     }
 

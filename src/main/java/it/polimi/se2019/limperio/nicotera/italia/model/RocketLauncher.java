@@ -76,7 +76,7 @@ public class RocketLauncher extends  WeaponCard{
         getDescriptionsOfAttack().add("Move 1 or 2 squares. This effect can be used either before or after the basic effect");
         getDescriptionsOfAttack().add("During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{BLUE});
-        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
+        setPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
         setPriceToBuy(buyPrice);

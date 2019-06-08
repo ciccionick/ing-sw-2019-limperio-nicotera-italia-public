@@ -123,6 +123,9 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
+        if(receivedEvent.isRequestToChooseAnEffect())
+            mainFrame.handleRequestToChooseAnEffect(receivedEvent);
+
         if(receivedEvent.isRequestToChooseWeapon()) {
             myPlayerBoardView.updateWeaponCanUse((RequestToChooseWeapon) receivedEvent);
             mainFrame.updateLeftPanelForWhoIsViewing(receivedEvent.getNicknameInvolved());

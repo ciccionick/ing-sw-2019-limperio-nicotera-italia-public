@@ -1,8 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseWeaponCard;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +14,12 @@ public class ListenerForWeaponCard implements MouseListener, ActionListener {
     private int numOfCard;
     private MainFrame mainFrame;
     private PopupForWeaponCard popupForWeaponCard = null;
+    private JButton button;
 
-     ListenerForWeaponCard(int numOfCard, MainFrame mainFrame) {
+     ListenerForWeaponCard(JButton buttonW, int numOfCard, MainFrame mainFrame) {
         this.numOfCard = numOfCard;
         this.mainFrame = mainFrame;
+        this.button = buttonW;
     }
 
     @Override
@@ -51,10 +53,12 @@ public class ListenerForWeaponCard implements MouseListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(mainFrame.getRemoteView().getMyPlayerBoardView().getWeaponCardDeck().size()>=numOfCard) {
+        if(button.isEnabled()) {
             RequestToUseWeaponCard requestToUseWeaponCard = new RequestToUseWeaponCard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
             requestToUseWeaponCard.setWeaponWantUse(mainFrame.getRemoteView().getMyPlayerBoardView().getWeaponCardDeck().get(numOfCard - 1));
             mainFrame.getRemoteView().notify(requestToUseWeaponCard);
+            System.out.println("Invio richiesta di scelta arma");
+            button.setEnabled(false);
         }
 
     }

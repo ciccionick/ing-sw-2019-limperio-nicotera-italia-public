@@ -20,17 +20,15 @@ public class Zx2 extends WeaponCard {
 
             switch (typeOfAttack.get(0)) {
                 case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
+                    basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
                 case 4:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(4))
-                            this.scannerMode(involvedPlayers.get(j).getPlayer());
+                    for (InvolvedPlayer involvedPlayer : involvedPlayers) {
+                        scannerMode(involvedPlayer.getPlayer());
                     }
                     break;
+                    default:
+                        throw new IllegalArgumentException();
             }
 
         setLoad(false);

@@ -18,7 +18,7 @@ public abstract class WeaponCard extends Card  {
     private ArrayList<String> namesOfAttack = new ArrayList<>();
     private ArrayList<String> descriptionsOfAttack = new ArrayList<>();
     private ColorOfCard_Ammo[] priceToPayForEffect1 = null;
-    private ColorOfCard_Ammo[] getPriceToPayForEffect2 = null;
+    private ColorOfCard_Ammo[] priceToPayForEffect2 = null;
     private ColorOfCard_Ammo[] priceToPayForAlternativeMode = null;
 
 
@@ -56,12 +56,12 @@ public abstract class WeaponCard extends Card  {
         this.priceToPayForEffect1 = priceToPayForEffect1;
     }
 
-    public ColorOfCard_Ammo[] getGetPriceToPayForEffect2() {
-        return getPriceToPayForEffect2;
+    public ColorOfCard_Ammo[] getPriceToPayForEffect2() {
+        return priceToPayForEffect2;
     }
 
-    public void setGetPriceToPayForEffect2(ColorOfCard_Ammo[] getPriceToPayForEffect2) {
-        this.getPriceToPayForEffect2 = getPriceToPayForEffect2;
+    public void setPriceToPayForEffect2(ColorOfCard_Ammo[] priceToPayForEffect2) {
+        this.priceToPayForEffect2 = priceToPayForEffect2;
     }
 
     public ColorOfCard_Ammo[] getPriceToPayForAlternativeMode() {

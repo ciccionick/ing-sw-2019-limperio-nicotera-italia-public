@@ -71,7 +71,7 @@ public class Cyberblade extends WeaponCard {
         getDescriptionsOfAttack().add("Move 1 square before or after the basic effect");
         getDescriptionsOfAttack().add("Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect");
         setPriceToPayForEffect1(null);
-        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
+        setPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
         Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);

@@ -100,7 +100,7 @@ import java.util.ArrayList;
            gbcWeapon1.gridx = 0;
            gbcWeapon1.gridy = 1;
            gbcWeapon1.fill = GridBagConstraints.BOTH;
-           weapon1.addMouseListener(new ListenerForWeaponCard(1, mainFrame));
+           weapon1.addMouseListener(new ListenerForWeaponCard(buttonW1, 1, mainFrame));
            this.add(weapon1, gbcWeapon1);
 
 
@@ -117,7 +117,7 @@ import java.util.ArrayList;
            gbcWeapon2.gridx = 1;
            gbcWeapon2.gridy = 1;
            gbcWeapon2.fill = GridBagConstraints.BOTH;
-           weapon2.addMouseListener(new ListenerForWeaponCard(2, mainFrame));
+           weapon2.addMouseListener(new ListenerForWeaponCard(buttonW2, 2, mainFrame));
            this.add(weapon2, gbcWeapon2);
 
            weapon3 = new JLabel("");
@@ -133,7 +133,7 @@ import java.util.ArrayList;
            gbcWeapon3.gridx = 2;
            gbcWeapon3.gridy = 1;
            gbcWeapon3.fill = GridBagConstraints.BOTH;
-           weapon3.addMouseListener(new ListenerForWeaponCard(3, mainFrame));
+           weapon3.addMouseListener(new ListenerForWeaponCard(buttonW3,3, mainFrame));
            this.add(weapon3, gbcWeapon3);
 
 
@@ -147,6 +147,7 @@ import java.util.ArrayList;
            gbcButtonW1.gridx = 0;
            gbcButtonW1.gridy = 2;
            gbcButtonW1.fill = GridBagConstraints.BOTH;
+           buttonW1.addActionListener(new ListenerForWeaponCard(buttonW1, 1, mainFrame));
            this.add(buttonW1, gbcButtonW1);
 
 
@@ -160,6 +161,7 @@ import java.util.ArrayList;
            gbcButtonW2.gridx = 1;
            gbcButtonW2.gridy = 2;
            gbcButtonW2.fill = GridBagConstraints.BOTH;
+           buttonW2.addActionListener(new ListenerForWeaponCard(buttonW2, 2, mainFrame));
            this.add(buttonW2, gbcButtonW2);
 
            buttonW3 = new JButton(use);
@@ -172,6 +174,7 @@ import java.util.ArrayList;
            gbcButtonW3.gridx = 2;
            gbcButtonW3.gridy = 2;
            gbcButtonW3.fill = GridBagConstraints.BOTH;
+           buttonW3.addActionListener(new ListenerForWeaponCard(buttonW3, 3, mainFrame));
            this.add(buttonW3, gbcButtonW3);
 
 

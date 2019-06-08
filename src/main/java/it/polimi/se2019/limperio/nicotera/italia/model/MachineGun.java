@@ -17,35 +17,24 @@ public class MachineGun extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int i=0;
-        int j=0;
-        int typeOfCurrentAttack;
-        for (i=0; i<typeOfAttack.size(); i++){
-            typeOfCurrentAttack=typeOfAttack.get(i);
-            switch (typeOfCurrentAttack){
+
+            switch (typeOfAttack.get(0)){
                 case 1:
-                    for(j=0;j<involvedPlayers.size();j++){
-                        if(involvedPlayers.get(j).getEffects().contains(1))
-                            basicEffect(involvedPlayers.get(j).getPlayer());
+                  for(InvolvedPlayer involvedPlayer  : involvedPlayers){
+                            basicEffect(involvedPlayer.getPlayer());
                     }
                     break;
                 case 2:
-                    for(j=0;j<involvedPlayers.size();j++){
-                        if(involvedPlayers.get(j).getEffects().contains(2))
-                            withFocusShot(involvedPlayers.get(j).getPlayer());
-                    }
+                       withFocusShot(involvedPlayers.get(0).getPlayer());
                     break;
                 case 3:
-                    for(j=0;j<involvedPlayers.size();j++){
-                        if(involvedPlayers.get(j).getEffects().contains(3))
-                            withTurretTripod(involvedPlayers.get(j).getPlayer());
-                    }
+                    withTurretTripod(involvedPlayers.get(0).getPlayer());
                     break;
 
                     default:
                         throw new IllegalArgumentException();
             }
-        }
+
         setLoad(false);
     }
 
@@ -65,7 +54,7 @@ public class MachineGun extends WeaponCard {
         getDescriptionsOfAttack().add("Deal 1 additional damage to one of those targets");
         getDescriptionsOfAttack().add("Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{YELLOW});
-        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
+        setPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
         setPriceToBuy(buyPrice);

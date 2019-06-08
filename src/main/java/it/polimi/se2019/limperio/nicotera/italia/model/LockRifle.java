@@ -18,28 +18,17 @@ public class LockRifle extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int i;
-        int j;
-        int typeOfCurrentAttack;
-        for (i=0; i<typeOfAttack.size(); i++){
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack){
+            switch (typeOfAttack.get(0)){
                 case 1:
-                    for (j=0; j<involvedPlayers.size(); j++){
-                        if(involvedPlayers.get(j).getEffects().contains(1))
-                            basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
+                    basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
                 case 2:
-                    for (j=0; j<involvedPlayers.size(); j++){
-                        if(involvedPlayers.get(j).getEffects().contains(2))
-                            withSecondLock(involvedPlayers.get(j).getPlayer());
-                    }
+                    withSecondLock(involvedPlayers.get(0).getPlayer());
+                    break;
+
                     default:
                         throw  new IllegalArgumentException();
-
             }
-        }
         setLoad(false);
     }
 

@@ -62,7 +62,7 @@ public class Thor extends WeaponCard {
         getDescriptionsOfAttack().add("Deal 1 damage to a second target that your first target can see");
         getDescriptionsOfAttack().add("Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{BLUE});
-        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
+        setPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {BLUE, RED};

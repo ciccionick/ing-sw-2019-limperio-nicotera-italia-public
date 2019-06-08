@@ -2,6 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAnEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardWeaponCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
@@ -131,6 +132,11 @@ public class MainFrame {
 
      KillshotTrackPanel getKillshotTrackPanel() {
         return killshotTrackPanel;
+    }
+
+    public void handleRequestToChooseAnEffect(ServerEvent receivedEvent) {
+        PopupForChooseEffect popupForChooseEffect = new PopupForChooseEffect(this, (RequestToChooseAnEffect) receivedEvent);
+        popupForChooseEffect.getDialog().setVisible(true);
     }
 
     private class FrameListener implements ComponentListener {

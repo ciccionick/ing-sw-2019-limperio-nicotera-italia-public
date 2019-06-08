@@ -42,7 +42,7 @@ public class WeaponController {
                     usableEffects.add(2);
                 if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty())
                     usableEffects.add(1);
-                if(!controller.getShootController().getTypeOfAttack().contains(1) && getPlayersInMySquare(0, squareOfPlayer).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getGetPriceToPayForEffect2()) )
+                if(!controller.getShootController().getTypeOfAttack().contains(1) && getPlayersInMySquare(0, squareOfPlayer).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) )
                     usableEffects.add(3);
                 break;
 
@@ -53,8 +53,6 @@ public class WeaponController {
                         usableEffects.add(4);
                 }
                 break;
-
-
 
             case "Shotgun":
                 if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty())
@@ -71,6 +69,53 @@ public class WeaponController {
                 }
                 break;
 
+            case "Furnace":
+                if(!getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true).isEmpty())
+                    usableEffects.add(1);
+                if(!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())
+                    usableEffects.add(4);
+                break;
+
+            case "Lock rifle":
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                    usableEffects.add(1);
+                if(getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && controller.getShootController().getTypeOfAttack().contains(1))
+                    usableEffects.add(2);
+                break;
+
+            case "Zx-2":
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty()) {
+                    usableEffects.add(1);
+                    usableEffects.add(4);
+                }
+                break;
+
+            case "Machine gun":
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty()) {
+                    usableEffects.add(1);
+                    if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                        usableEffects.add(2);
+                    if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2())){
+                        if(!controller.getShootController().getTypeOfAttack().contains(2) || getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size()>1)
+                            usableEffects.add(3);
+                    }
+                }
+                break;
+
+            case "Granade launcher": //ricordati che quando andrai a gestire quest'arma nello shoot controller devi spostare momentaneamente il player spostato nel primo effetto nel suo square originale e chiaamre lo use weapon per il secondo effetto e poi ripiazzarlo
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                    usableEffects.add(1);
+                if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                    usableEffects.add(2);
+                break;
+
+            case "Plasma gun":
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                    usableEffects.add(1);
+                usableEffects.add(2);
+                if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                    usableEffects.add(3);
+                break;
 
 
                 default: throw new IllegalArgumentException();
@@ -118,7 +163,7 @@ public class WeaponController {
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 1).isEmpty();
             case "Whisper":
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 2).isEmpty();
-            case "Thor":
+            case "THOR":
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Flamethrower":
                 return !squaresUsefulForFlamethrower(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
@@ -191,11 +236,17 @@ public class WeaponController {
                 removeSquareCloserThan(startingSquare, squaresOfVisibleRoomDifferentFromMine,distanceNeeded);
         }
 
+        ArrayList<Square> squaresToRemove = new ArrayList<>();
+
         for(Square square : squaresOfVisibleRoomDifferentFromMine){
-            if(!square.getPlayerOnThisSquare().isEmpty())
-                return squaresOfVisibleRoomDifferentFromMine;
+            if(square.getPlayerOnThisSquare().isEmpty())
+                squaresToRemove.add(square);
         }
-        squaresOfVisibleRoomDifferentFromMine = new ArrayList<>();
+
+        for(Square squareToRemove : squaresToRemove){
+            squaresOfVisibleRoomDifferentFromMine.remove(squareToRemove);
+        }
+
         return squaresOfVisibleRoomDifferentFromMine;
     }
 

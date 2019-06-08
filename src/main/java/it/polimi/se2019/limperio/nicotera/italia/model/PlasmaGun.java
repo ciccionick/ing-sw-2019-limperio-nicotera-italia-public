@@ -71,7 +71,7 @@ public class PlasmaGun extends WeaponCard{
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target you can see");
         getDescriptionsOfAttack().add("Move 1 or 2 squares. This effect can be used either before or after the basic effect");
         getDescriptionsOfAttack().add("Deal 1 additional damage to your target");
-        setGetPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
+        setPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);

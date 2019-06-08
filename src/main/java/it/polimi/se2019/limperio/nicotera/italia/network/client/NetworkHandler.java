@@ -153,6 +153,10 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
         }
 
+        if(event.isRequestToChooseAnEffect()){
+            remoteView.update(event);
+        }
+
 
 
     }

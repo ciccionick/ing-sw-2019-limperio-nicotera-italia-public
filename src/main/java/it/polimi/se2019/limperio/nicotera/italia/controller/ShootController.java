@@ -11,6 +11,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -82,11 +83,18 @@ public class ShootController {
          if(typeOfAttack.isEmpty())
             requestToChooseAnEffect.setMessageForInvolved("Choose, to start, one of these effects:");
          else{
+             for(Integer effect : typeOfAttack){
+                 if (usableEffectsForThisWeapon.contains(effect))
+                     usableEffectsForThisWeapon.remove(effect);
+             }
+             requestToChooseAnEffect.setOneEffectAlreadyChoosen(true);
              requestToChooseAnEffect.setMessageForInvolved("Choose another effect or press on 'END ACTION'");
              requestToChooseAnEffect.setCanTerminateAction(true);
          }
+         requestToChooseAnEffect.setNameOfCard(weaponCard.getName());
          requestToChooseAnEffect.setNicknameInvolved(player.getNickname());
          requestToChooseAnEffect.setUsableEffects(usableEffectsForThisWeapon);
+         System.out.println("Invio richiesta effetto");
          message.getMyVirtualView().update(requestToChooseAnEffect);
     }
 

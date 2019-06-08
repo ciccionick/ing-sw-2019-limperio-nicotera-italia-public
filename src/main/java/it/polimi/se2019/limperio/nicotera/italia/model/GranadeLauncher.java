@@ -18,22 +18,19 @@ public class GranadeLauncher extends WeaponCard {
 
     @Override
     public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
+            switch (typeOfAttack.get(0)) {
                 case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
-                    }
+                    basicEffect(involvedPlayers.get(0).getPlayer(), involvedPlayers.get(0).getSquare());
+                    break;
                 case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
-                            this.withExtraGranade(involvedPlayers.get(j).getSquare());
+                    for(InvolvedPlayer involvedPlayer : involvedPlayers){
+                            this.withExtraGranade(involvedPlayer.getSquare());
                     }
+                    break;
+                    default:
+                        throw new IllegalArgumentException();
             }
-        }
+
         setLoad(false);
     }
 
