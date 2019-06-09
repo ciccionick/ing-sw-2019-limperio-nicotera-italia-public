@@ -57,7 +57,7 @@ public class TestWhisper {
 
     @Test
     public void Test() {
-        whisper.useWeapon(null, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        whisper.useWeapon(0, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 3);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

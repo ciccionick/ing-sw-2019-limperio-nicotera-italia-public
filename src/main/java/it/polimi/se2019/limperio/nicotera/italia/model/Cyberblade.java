@@ -16,33 +16,22 @@ public class Cyberblade extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        int typeOfCurrentAttack;
-        for (int i = 0; i < typeOfAttack.size(); i++) {
-            typeOfCurrentAttack = typeOfAttack.get(i);
-            switch (typeOfCurrentAttack) {
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+            switch (typeOfAttack) {
                 case 1:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(1))
-                            this.basicEffect(involvedPlayers.get(j).getPlayer());
-                    }
+                    basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
                 case 2:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(2))
-                            this.withShadowstepEffect(involvedPlayers.get(j).getSquare());
-                    }
+                    withShadowstepEffect(involvedPlayers.get(0).getSquare());
                     break;
                 case 3:
-                    for (int j = 0; j < involvedPlayers.size(); j++) {
-                        if (involvedPlayers.get(j).getEffects().contains(3))
-                            this.withSliceAndDice(involvedPlayers.get(j).getPlayer());
-                    }
+                    withSliceAndDice(involvedPlayers.get(0).getPlayer());
                     break;
 
+                    default:
+                        throw new IllegalArgumentException();
             }
-        }
-        setLoad(false);
+
     }
     private void withSliceAndDice(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
@@ -59,10 +48,10 @@ public class Cyberblade extends WeaponCard {
     public Cyberblade() {
         super(YELLOW, "Cyberblade");
         String description;
-        description = "BASIC EFFECT: Deal 2 damage to 1 target on your square.\n" +
-        "WITH SHADOWSTEP: Move 1 square before or after the basic effect.\n" +
-        "WITH SLICE AND DICE: Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
-        "Notes: Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
+        description = "BASIC EFFECT:\n Deal 2 damage to 1 target on your square.\n" +
+        "WITH SHADOWSTEP:\n Move 1 square before or after the basic effect.\n" +
+        "WITH SLICE AND DICE:\n Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
+        "Notes:\n Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
         setDescription(description);
         getNamesOfAttack().add("BASIC EFFECT");
         getNamesOfAttack().add("WITH SHADOWSTEP");

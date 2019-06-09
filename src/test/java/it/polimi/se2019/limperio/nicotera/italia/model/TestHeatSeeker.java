@@ -60,7 +60,7 @@ public class TestHeatSeeker {
     @Test
     public void TestBasicEffect()
     {
-        heatSeeker.useWeapon(null, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        heatSeeker.useWeapon(0, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 3);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
     }

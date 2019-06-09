@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import sun.applet.Main;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
         this.dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
         JPanel contentPane = new JPanel(new GridBagLayout());
+        contentPane.setBorder(new EmptyBorder(50, 50, 50, 50));
         dialog.getContentPane().add(contentPane);
 
         ServerEvent.AliasCard weaponCard = null;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
                 weaponCard = weapon;
         }
 
-        int numOfAllEffects = 0;
+        int numOfAllEffects = 4;
         if(weaponCard!=null) {
             for (String nameOfEffect : weaponCard.getNameOfEffects()) {
                 if (!nameOfEffect.equals(""))
@@ -37,9 +39,8 @@ import java.util.ArrayList;
             }
         }
 
-        JTextArea text = new JTextArea();
+        JTextArea text = new JTextArea(message.getMessageForInvolved());
         text.setEditable(false);
-        text.setText(message.getMessageForInvolved());
         text.setBackground(SystemColor.menu);
         GridBagConstraints gbcText = new GridBagConstraints();
         gbcText.insets = new Insets(20, 20, 20, 20);
@@ -72,7 +73,7 @@ import java.util.ArrayList;
                 descriptionOfEffect.setBackground(SystemColor.menu);
                 descriptionOfEffect.setLineWrap(true);
                 gbcEffectButton.gridy=2;
-                gbcEffectButton.insets.bottom = 20;
+                gbcEffectButton.insets.bottom = 50;
                 contentPane.add(descriptionOfEffect,gbcEffectButton);
             }
         }

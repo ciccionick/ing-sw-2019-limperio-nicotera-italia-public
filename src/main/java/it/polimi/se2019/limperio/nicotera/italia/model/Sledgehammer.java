@@ -16,46 +16,21 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.Y
 public class Sledgehammer extends WeaponCard{
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-
-        for (int typeOfCurrentAttack : typeOfAttack) {
-
-            if(typeOfCurrentAttack==1) {
-
-                for (int j = 0; j < involvedPlayers.size(); j++) {
-                    if (involvedPlayers.get(j).getEffects().contains(1))
-                        this.basicEffect(involvedPlayers.get(j).getPlayer());
-                }
-            }
-                else {
-                for (int j = 0; j < involvedPlayers.size(); j++) {
-                    if (involvedPlayers.get(j).getEffects().contains(4))
-                        this.pulverizeMode(involvedPlayers.get(j).getPlayer(), involvedPlayers.get(j).getSquare());
-                }
-            }
-
-            }
-
-        setLoad(false);
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+            if(typeOfAttack==1)
+                basicEffect(involvedPlayers.get(0).getPlayer());
+                else
+                    pulverizeMode(involvedPlayers.get(0).getPlayer(),involvedPlayers.get(0).getSquare());
     }
 
 
-
-    private void basicEffect(Player player){
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
-    }
-
-    private void pulverizeMode(Player player, Square square){
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
-        player.setPositionOnTheMap(square);
-    }
 
     public Sledgehammer() {
         super(YELLOW, "Sledgehammer");
         String description;
-        description ="BASIC MODE: Deal 2 damage to 1 target on your square.\n" +
-        "IN PULVERIZE MODE: Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
-        "Notes: Remember that moves go through doors, but not walls.\n";
+        description ="BASIC MODE: \nDeal 2 damage to 1 target on your square.\n" +
+        "IN PULVERIZE MODE: \nDeal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
+        "Notes: \nRemember that moves go through doors, but not walls.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
         getNamesOfAttack().add("BASIC MODE");
@@ -69,5 +44,14 @@ public class Sledgehammer extends WeaponCard{
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {YELLOW};
         setPriceToReload(reloadPrice);
+    }
+
+    private void basicEffect(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
+    }
+
+    private void pulverizeMode(Player player, Square square){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
+        player.setPositionOnTheMap(square);
     }
 }

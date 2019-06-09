@@ -67,7 +67,7 @@ public class TestSledgehammer {
 
     @Test
     public void TestBasicEffect() {
-        sledgehammer.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        sledgehammer.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -78,7 +78,7 @@ public class TestSledgehammer {
     @Test
     public void TestLongBarrelMode()
     {
-        sledgehammer.useWeapon(new ArrayList<Integer>() {{ add(4);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
+        sledgehammer.useWeapon(4, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
 
         assertEquals(player3.getPlayerBoard().getDamages().size(), 3);
         assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

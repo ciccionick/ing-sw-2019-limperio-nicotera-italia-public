@@ -73,7 +73,7 @@ public class TestHellion {
    @Test
     public void TestBasicMode()
     {
-        hellion.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        hellion.useWeapon(1, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player2.getPlayerBoard().getMarks().size(), 1);
@@ -89,7 +89,7 @@ public class TestHellion {
     @Test
     public void TestInNanoTracerMode()
     {
-        hellion.useWeapon(new ArrayList<Integer>(){{add(4);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        hellion.useWeapon(4, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player2.getPlayerBoard().getMarks().size(), 2);

@@ -72,7 +72,7 @@ public class TestZx2 {
 
     @Test
     public void TestBasicEffect() {
-        zx2.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        zx2.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -86,7 +86,7 @@ public class TestZx2 {
     @Test
     public void TestScannerMode()
     {
-        zx2.useWeapon(new ArrayList<Integer>() {{ add(4);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2);add(involvedPlayer3);}});
+        zx2.useWeapon(4, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2);add(involvedPlayer3);}});
 
         assertEquals(player2.getPlayerBoard().getMarks().size(),1 );
         assertEquals(player2.getPlayerBoard().getMarks().get(0), ColorOfFigure_Square.BLUE);

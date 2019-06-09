@@ -17,17 +17,16 @@ public class Whisper extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(),3);
         involvedPlayers.get(0).getPlayer().assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
-        setLoad(false);
     }
 
     public Whisper() {
         super(BLUE, "Whisper");
         Boolean[] kindOfAttack = {true, false, false, false};
-        String description = "EFFECT: Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\n" +
-                "Notes: For example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal. If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.";
+        String description = "EFFECT:\nDeal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you.\n" +
+                "Notes:\nFor example, in the 2-by-2 room, you cannot shoot a target on an adjacent square, but you can shoot a target on the diagonal. If you are beside a door, you can't shoot a target on the other side of the door, but you can shoot a target on a different square of that room.";
         setDescription(description);
         getNamesOfAttack().add("EFFECT");
         getDescriptionsOfAttack().add("Deal 3 damage and 1 mark to 1 target you can see. Your target must be at least 2 moves away from you");

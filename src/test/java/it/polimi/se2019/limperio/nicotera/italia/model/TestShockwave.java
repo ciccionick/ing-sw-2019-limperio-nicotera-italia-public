@@ -84,7 +84,7 @@ public class TestShockwave {
 
     @Test
     public void TestBasicEffect() {
-        shockwave.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2);add(involvedPlayer3);add(involvedPlayer4); }});
+        shockwave.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2);add(involvedPlayer3);add(involvedPlayer4); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -98,7 +98,7 @@ public class TestShockwave {
     @Test
     public void TestTsunamiMode()
     {
-        shockwave.useWeapon(new ArrayList<Integer>() {{ add(4);}}, null);
+        shockwave.useWeapon(4, null);
 
         assertEquals(player1.getPlayerBoard().getDamages().size(), 0);
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);

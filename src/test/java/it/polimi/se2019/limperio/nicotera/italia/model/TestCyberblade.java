@@ -70,7 +70,7 @@ public class TestCyberblade {
 
 
         newdamagesBlue=0;
-        cyberblade.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        cyberblade.useWeapon(1, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
 
         for(ColorOfFigure_Square damagex: player2.getPlayerBoard().getDamages())
@@ -86,7 +86,7 @@ public class TestCyberblade {
     public void TestWithSliceAndDice()
     {
         newdamagesBlue=0;
-        cyberblade.useWeapon(new ArrayList<Integer>(){{add(3);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
+        cyberblade.useWeapon(3, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
         assertEquals(player3.getPlayerBoard().getDamages().size(), 2);
 
         for(ColorOfFigure_Square damagex: player3.getPlayerBoard().getDamages())
@@ -101,7 +101,7 @@ public class TestCyberblade {
     public void TestWithShadowstepEffect()
     {
 
-        cyberblade.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer3);}});
+        cyberblade.useWeapon(2, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer3);}});
         assertEquals(player1.getPositionOnTheMap(), map.getMatrixOfSquares()[1][0]);
 
     }

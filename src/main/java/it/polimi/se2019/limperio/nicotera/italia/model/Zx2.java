@@ -16,9 +16,9 @@ public class Zx2 extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
 
-            switch (typeOfAttack.get(0)) {
+            switch (typeOfAttack) {
                 case 1:
                     basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
@@ -31,24 +31,15 @@ public class Zx2 extends WeaponCard {
                         throw new IllegalArgumentException();
             }
 
-        setLoad(false);
     }
 
-    private void basicEffect (Player player){
-        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-        player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
-    }
-
-    private void scannerMode(Player player){
-        player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
-    }
 
     public Zx2() {
         super(YELLOW, "Zx-2");
         String description;
-        description = "BASIC MODE: Deal 1 damage and 2 marks to 1 target you can see.\n" +
-                "IN SCANNER MODE: Choose up to 3 targets you can see and deal 1 mark to each.\n" +
-                "Notes: Remember that the 3 targets can be in 3 different rooms.";
+        description = "BASIC MODE: \nDeal 1 damage and 2 marks to 1 target you can see.\n" +
+                "IN SCANNER MODE: \nChoose up to 3 targets you can see and deal 1 mark to each.\n" +
+                "Notes: \nRemember that the 3 targets can be in 3 different rooms.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         getNamesOfAttack().add("BASIC MODE");
@@ -66,4 +57,14 @@ public class Zx2 extends WeaponCard {
         ColorOfCard_Ammo[] reloadPrice = {YELLOW, RED};
         setPriceToReload(reloadPrice);
     }
+
+    private void basicEffect (Player player){
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+        player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
+    }
+
+    private void scannerMode(Player player){
+        player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
 }

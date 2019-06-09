@@ -130,10 +130,6 @@ public class MainFrame {
         return rightPanel;
     }
 
-     KillshotTrackPanel getKillshotTrackPanel() {
-        return killshotTrackPanel;
-    }
-
     public void handleRequestToChooseAnEffect(ServerEvent receivedEvent) {
         PopupForChooseEffect popupForChooseEffect = new PopupForChooseEffect(this, (RequestToChooseAnEffect) receivedEvent);
         popupForChooseEffect.getDialog().setVisible(true);

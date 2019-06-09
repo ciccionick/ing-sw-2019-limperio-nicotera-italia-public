@@ -17,8 +17,8 @@ public class LockRifle extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-            switch (typeOfAttack.get(0)){
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+            switch (typeOfAttack){
                 case 1:
                     basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
@@ -29,14 +29,13 @@ public class LockRifle extends WeaponCard {
                     default:
                         throw  new IllegalArgumentException();
             }
-        setLoad(false);
     }
 
     public LockRifle() {
         super(BLUE, "Lock rifle");
         String description;
-        description = "BASIC EFFECT: Deal 2 damage and 1 mark to 1 target you can see.\n" +
-                "WITH SECOND LOCK: Deal 1 mark to a different target you can see.";
+        description = "BASIC EFFECT:\n Deal 2 damage and 1 mark to 1 target you can see.\n" +
+                "WITH SECOND LOCK:\n Deal 1 mark to a different target you can see.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
         getNamesOfAttack().add("BASIC EFFECT");

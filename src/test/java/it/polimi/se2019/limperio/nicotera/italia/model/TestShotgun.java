@@ -70,7 +70,7 @@ public class TestShotgun {
 
     @Test
     public void TestBasicEffect() {
-        shotgun.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        shotgun.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 3);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -83,7 +83,7 @@ public class TestShotgun {
     @Test
     public void TestLongBarrelMode()
     {
-        shotgun.useWeapon(new ArrayList<Integer>() {{ add(4);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
+        shotgun.useWeapon(4, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
 
         assertEquals(player3.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

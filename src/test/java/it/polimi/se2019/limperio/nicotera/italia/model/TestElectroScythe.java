@@ -33,6 +33,7 @@ public class TestElectroScythe {
     private Player player3= new Player("player3", false, 3, ColorOfFigure_Square.YELLOW);
     private ElectroScythe electroScythe;
     private Map map;
+    private ArrayList<InvolvedPlayer> involvedPlayers = new ArrayList<>();
 
 
     @Before
@@ -50,6 +51,7 @@ public class TestElectroScythe {
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player3.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
+        involvedPlayers.add(new InvolvedPlayer(null, null, player1.getPositionOnTheMap()));
 
     }
 
@@ -64,7 +66,7 @@ public class TestElectroScythe {
 
 
 
-        electroScythe.useWeapon(new ArrayList<Integer>(){{add(1);}}, null);
+        electroScythe.useWeapon(1, involvedPlayers);
         assertEquals(player1.getPlayerBoard().getDamages().size(), 0);
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), player1.getColorOfFigure());
@@ -79,7 +81,7 @@ public class TestElectroScythe {
 
 
 
-        electroScythe.useWeapon(new ArrayList<Integer>(){{add(4);}}, null);
+        electroScythe.useWeapon(4, involvedPlayers);
         assertEquals(player1.getPlayerBoard().getDamages().size(), 0);
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), player1.getColorOfFigure());

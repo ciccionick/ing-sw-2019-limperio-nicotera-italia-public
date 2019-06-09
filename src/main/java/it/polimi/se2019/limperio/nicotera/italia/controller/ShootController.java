@@ -57,6 +57,7 @@ public class ShootController {
 
             RequestToChooseWeapon requestToChooseWeapon = new RequestToChooseWeapon();
             requestToChooseWeapon.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
+            requestToChooseWeapon.setMessageForInvolved("Choose one weapon enable to shoot");
             requestToChooseWeapon.setCanUseWeapon1(canUseWeapon[0]);
             requestToChooseWeapon.setCanUseWeapon2(canUseWeapon[1]);
             requestToChooseWeapon.setCanUseWeapon3(canUseWeapon[2]);
@@ -84,7 +85,6 @@ public class ShootController {
             requestToChooseAnEffect.setMessageForInvolved("Choose, to start, one of these effects:");
          else{
              for(Integer effect : typeOfAttack){
-                 if (usableEffectsForThisWeapon.contains(effect))
                      usableEffectsForThisWeapon.remove(effect);
              }
              requestToChooseAnEffect.setOneEffectAlreadyChoosen(true);
@@ -94,8 +94,11 @@ public class ShootController {
          requestToChooseAnEffect.setNameOfCard(weaponCard.getName());
          requestToChooseAnEffect.setNicknameInvolved(player.getNickname());
          requestToChooseAnEffect.setUsableEffects(usableEffectsForThisWeapon);
-         System.out.println("Invio richiesta effetto");
          message.getMyVirtualView().update(requestToChooseAnEffect);
+    }
+
+    public ArrayList<InvolvedPlayer> getInvolvedPlayers() {
+        return involvedPlayers;
     }
 
     public ArrayList<Integer> getTypeOfAttack() {

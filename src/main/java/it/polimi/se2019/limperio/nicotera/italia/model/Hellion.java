@@ -16,35 +16,27 @@ public class Hellion extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        if(typeOfAttack.get(0)==1){
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+        if(typeOfAttack==1)
             basicMode(involvedPlayers.get(0).getPlayer());
-        }
-        else{
+        else
             inNanoTracerMode(involvedPlayers.get(0).getPlayer());
-        }
-        setLoad(false);
+
     }
 
     private void basicMode(Player player){
 
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOnThisSquare()){
-
             otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
-
         }
 
     }
 
     private void inNanoTracerMode(Player player){
-
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
         for (Player otherPlayer: player.getPositionOnTheMap().getPlayerOnThisSquare()){
-
-                otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
-
+            otherPlayer.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
         }
     }
 
@@ -54,8 +46,8 @@ public class Hellion extends WeaponCard {
         super(RED, "Hellion");
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
-        String description = "BASIC MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
-                "IN NANO-TRACER MODE: Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
+        String description = "BASIC MODE:\n Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
+                "IN NANO-TRACER MODE:\n Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add("");

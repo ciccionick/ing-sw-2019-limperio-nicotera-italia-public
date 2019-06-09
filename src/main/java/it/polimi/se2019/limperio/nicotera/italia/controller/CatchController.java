@@ -296,7 +296,8 @@ class CatchController {
             }
         }
         player.getPlayerBoard().getWeaponsOwned().remove(weaponCardToAddToSquare);
-        weaponCardToAddToSquare.setOwnerOfCard(null);
+        if(weaponCardToAddToSquare!=null)
+            weaponCardToAddToSquare.setOwnerOfCard(null);
         ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
         player.catchWeapon(weaponCardToAddToDeck);
     }

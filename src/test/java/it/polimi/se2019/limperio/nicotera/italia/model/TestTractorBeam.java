@@ -73,7 +73,7 @@ public class TestTractorBeam {
 
     @Test
     public void TestBasicMode() {
-        tractorBeam.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        tractorBeam.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(map.getMatrixOfSquares()[1][2], player2.getPositionOnTheMap());
@@ -85,7 +85,7 @@ public class TestTractorBeam {
     @Test
     public void TestInPunisherMode()
     {
-        tractorBeam.useWeapon(new ArrayList<Integer>() {{ add(4);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
+        tractorBeam.useWeapon(4, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
 
         assertEquals(player3.getPlayerBoard().getDamages().size(), 3);
         assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

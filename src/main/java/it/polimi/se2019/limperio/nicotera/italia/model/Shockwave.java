@@ -17,42 +17,24 @@ public class Shockwave extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-       int j=0;
-        if(typeOfAttack.get(0)==1)
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+
+        if(typeOfAttack==1)
         {
-
-            for(j=0; j<involvedPlayers.size(); j++)
-            {this.basicEffect(involvedPlayers.get(j).getPlayer());}
-
+            for(InvolvedPlayer involvedPlayer : involvedPlayers)
+                basicEffect(involvedPlayer.getPlayer());
         }
         else
-        {
-
             this.tsunamiMode();
-        }
-
-        setLoad(false);
     }
 
-    private void basicEffect(Player player){
-        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-    }
 
-    private void tsunamiMode(){
-
-        for(Square square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
-            for(Player enemy : square.getPlayerOnThisSquare()){
-                enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-            }
-        }
-    }
 
     public Shockwave() {
         super(YELLOW, "Shockwave");
         String description;
-        description = "BASIC MODE: Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
-        "IN TSUNAMI MODE: Deal 1 damage to all targets that are exactly 1 move away.\n";
+        description = "BASIC MODE: \nChoose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
+        "IN TSUNAMI MODE: \nDeal 1 damage to all targets that are exactly 1 move away.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         getNamesOfAttack().add("BASIC MODE");
@@ -70,6 +52,20 @@ public class Shockwave extends WeaponCard {
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {YELLOW};
         setPriceToReload(reloadPrice);
+    }
+
+
+    private void basicEffect(Player player){
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+    private void tsunamiMode(){
+
+        for(Square square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
+            for(Player enemy : square.getPlayerOnThisSquare()){
+                enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+            }
+        }
     }
 
 }

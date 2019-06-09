@@ -71,7 +71,7 @@ public class TestLockRifle {
     @Test
     public void TestBasicEffec()
     {
-        lockRifle.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer);}});
+        lockRifle.useWeapon(1, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player2.getPlayerBoard().getDamages().get(1), ColorOfFigure_Square.BLUE);
@@ -83,7 +83,7 @@ public class TestLockRifle {
     @Test
     public void TestInNanoTracerMode()
     {
-        lockRifle.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        lockRifle.useWeapon(2, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
 
         assertEquals(player3.getPlayerBoard().getMarks().size(), 1);
         assertEquals(player3.getPlayerBoard().getMarks().get(0), ColorOfFigure_Square.BLUE);

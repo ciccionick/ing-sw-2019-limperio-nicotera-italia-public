@@ -18,40 +18,29 @@ public class Thor extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        for(int type: typeOfAttack){
-            switch (type){
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+            switch (typeOfAttack){
                 case 1:
-                    for(InvolvedPlayer player: involvedPlayers){
-                        if(player.getEffects().contains(1))
-                            this.basicEffect(player.getPlayer());
-                    }
+                    basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
                 case 2:
-                    for (InvolvedPlayer player: involvedPlayers){
-                        if(player.getEffects().contains(2))
-                            this.withChainReaction(player.getPlayer());
-
-                    }
+                    withChainReaction(involvedPlayers.get(0).getPlayer());
                     break;
                 case 3:
-                    for(InvolvedPlayer player: involvedPlayers){
-                        if(player.getEffects().contains(3))
-                            this.withHighVoltage(player.getPlayer());
-                    }
+                    withHighVoltage(involvedPlayers.get(0).getPlayer());
                     break;
-
+                    default:
+                        throw new IllegalArgumentException();
             }
         }
-        setLoad(false);
-    }
+
 
     public Thor() {
         super(BLUE, "THOR");
-        String description = "BASIC EFFECT: Deal 2 damage to 1 target you can see.\n" +
-                "WITH CHAIN REACTION: Deal 1 damage to a second target that your first target can see.\n" +
-                "WITH HIGH VOLTAGE: Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +
-                "Notes: This card constrains the order in which you can use its effects. (Most cards don't.) Also note that each target must be a different player.";
+        String description = "BASIC EFFECT: \nDeal 2 damage to 1 target you can see.\n" +
+                "WITH CHAIN REACTION: \nDeal 1 damage to a second target that your first target can see.\n" +
+                "WITH HIGH VOLTAGE: \nDeal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +
+                "Notes: \nThis card constrains the order in which you can use its effects. (Most cards don't.) Also note that each target must be a different player.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);

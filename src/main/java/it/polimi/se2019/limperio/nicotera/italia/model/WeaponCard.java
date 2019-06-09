@@ -116,7 +116,7 @@ public abstract class WeaponCard extends Card  {
      * @throws IllegalArgumentException is generated if one element of typeOfAttack is not between 1 and 4
      */
 
-    public abstract void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) throws IllegalArgumentException;
+    public abstract void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) throws IllegalArgumentException;
 
     public WeaponCard(ColorOfCard_Ammo color, String name) {
         super(color, name);

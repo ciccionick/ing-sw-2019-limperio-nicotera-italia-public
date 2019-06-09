@@ -77,7 +77,7 @@ public class TestThor {
 
     @Test
     public void TestBasicEffect() {
-        thor.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        thor.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -88,7 +88,7 @@ public class TestThor {
     @Test
     public void TestWithChainReaction()
     {
-        thor.useWeapon(new ArrayList<Integer>() {{ add(2);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
+        thor.useWeapon(2, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);}});
 
         assertEquals(player3.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -100,7 +100,7 @@ public class TestThor {
     public void TestWithHighVoltage()
     {
 
-        thor.useWeapon(new ArrayList<Integer>() {{ add(3);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer4);}});
+        thor.useWeapon(3, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer4);}});
 
         assertEquals(player4.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player4.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

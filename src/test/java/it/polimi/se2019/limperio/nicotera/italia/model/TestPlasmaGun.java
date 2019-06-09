@@ -52,17 +52,24 @@ public class TestPlasmaGun {
         map.setInstanceOfMapForTesting();
     }
 
-    @Test
+   /* @Test
     public void TestBasicAndWithchargedshot()
     {
-        plasmaGun.useWeapon(new ArrayList<Integer>(){{add(1);add(3);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer);}} );
+        plasmaGun.useWeapon(1, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer);}} );
         assertEquals(player2.getPlayerBoard().getDamages().size(), 3);
+    }*/
+
+    @Test
+    public void TestWithChargedShot(){
+        plasmaGun.useWeapon(3, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer);}} );
+        assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
+
     }
 
     @Test
     public void TestWithPhaseGlide()
     {
-        plasmaGun.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}} );
+        plasmaGun.useWeapon(2, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}} );
         assertEquals(player1.getPositionOnTheMap(), map.getMatrixOfSquares()[1][0]);
     }
 

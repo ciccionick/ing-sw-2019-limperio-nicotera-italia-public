@@ -72,7 +72,7 @@ public class TestGranadeLauncher {
     @Test
     public void TestBasicEffect()
     {
-        granadeLauncher.useWeapon(new ArrayList<Integer>(){{add(1);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
+        granadeLauncher.useWeapon(1, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer1);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
         assertEquals(player2.getPositionOnTheMap(), map.getMatrixOfSquares()[1][0]);
@@ -81,7 +81,7 @@ public class TestGranadeLauncher {
     @Test
     public void TestWithExtraGranade()
     {
-        granadeLauncher.useWeapon(new ArrayList<Integer>(){{add(2);}}, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
+        granadeLauncher.useWeapon(2, new ArrayList<InvolvedPlayer>(){{add(involvedPlayer2);}});
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player3.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player4.getPlayerBoard().getDamages().size(), 1);

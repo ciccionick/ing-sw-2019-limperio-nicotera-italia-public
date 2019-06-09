@@ -70,7 +70,7 @@ public class TestPowerGlove {
 
     @Test
     public void TestBasicEffect() {
-        powerGlove.useWeapon(new ArrayList<Integer>() {{ add(1);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        powerGlove.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
         assertEquals(player1.getPositionOnTheMap(), map.getMatrixOfSquares()[2][1]);
         assertEquals(player2.getPlayerBoard().getDamages().size(), 1);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);
@@ -82,7 +82,7 @@ public class TestPowerGlove {
     @Test
     public void TestRocketFirstMode()
     {
-        powerGlove.useWeapon(new ArrayList<Integer>() {{ add(4);}}, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);add(involvedPlayer4); }});
+        powerGlove.useWeapon(4, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer3);add(involvedPlayer4); }});
         assertEquals(player1.getPositionOnTheMap(), map.getMatrixOfSquares()[0][1]);
         assertEquals(player3.getPlayerBoard().getDamages().size(),2);
         assertEquals(player3.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

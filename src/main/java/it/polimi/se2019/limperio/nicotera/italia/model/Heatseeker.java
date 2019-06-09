@@ -16,16 +16,15 @@ public class Heatseeker extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
-        setLoad(false);
     }
 
      Heatseeker() {
         super(RED, "Heatseeker");
         Boolean[] kindOfAttack = {true, false, false, false};
-        String description = "EFFECT: Choose 1 target you cannot see and deal 3 damage to it.\n" +
-                "Notes: Yes, this can only hit targets you cannot see.";
+        String description = "EFFECT:\n Choose 1 target you cannot see and deal 3 damage to it.\n" +
+                "Notes:\n Yes, this can only hit targets you cannot see.";
         getNamesOfAttack().add("EFFECT");
         getDescriptionsOfAttack().add("Choose 1 target you cannot see and deal 3 damage to it");
         setDescription(description);

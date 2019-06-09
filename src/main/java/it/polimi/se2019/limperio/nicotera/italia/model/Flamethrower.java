@@ -16,25 +16,26 @@ public class Flamethrower extends WeaponCard {
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        if (typeOfAttack.get(0)==1){
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+        if (typeOfAttack==1){
             for (InvolvedPlayer involvedPlayer : involvedPlayers){
                 basicMode(involvedPlayer.getPlayer());
             }
         }
         else{
-            barbecueMode(involvedPlayers.get(0).getPlayer());
-            basicMode(involvedPlayers.get(1).getPlayer());
+            barbecueMode(involvedPlayers.get(0).getSquare(), involvedPlayers.get(1).getSquare());
         }
-        setLoad(false);
+
     }
 
-     Flamethrower() {
+
+
+    Flamethrower() {
         super(RED, "Flamethrower");
         String description;
-        description = "BASIC MODE: Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n" +
-                "IN BARBECUE MODE: Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n" +
-                "Notes: This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
+        description = "BASIC MODE:\n Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n" +
+                "IN BARBECUE MODE:\n Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n" +
+                "Notes:\n This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add(null);
@@ -58,8 +59,10 @@ public class Flamethrower extends WeaponCard {
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
     }
 
-    private void barbecueMode (Player player){
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
+    private void barbecueMode(Square square, Square square2) {
+        for(Player player : square.getPlayerOnThisSquare())
+            player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
+        for(Player player : square2.getPlayerOnThisSquare())
+            player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
-
 }

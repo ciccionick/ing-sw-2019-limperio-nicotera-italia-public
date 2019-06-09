@@ -18,29 +18,27 @@ public class ElectroScythe extends WeaponCard
 
 
     @Override
-    public void useWeapon(ArrayList<Integer> typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
+    public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         ArrayList<Player> players = new ArrayList<>();
         players.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
         players.remove(this.getOwnerOfCard());
-        switch (typeOfAttack.get(0)) {
+        switch (typeOfAttack) {
                 case 1:
                     basicMode(players);
                     break;
-
-
                 case 4:
                     inReaperMode(players);
                     break;
                 default: throw new IllegalArgumentException();
         }
-        setLoad(false);
+
     }
 
     public ElectroScythe() {
         super(BLUE, "Electroscythe");
         String description;
-        description = "BASIC MODE: Deal 1 damage to every other player on your square. \n" +
-                "IN REAPER MODE: Deal 2 damage to every other player on your square.";
+        description = "BASIC MODE:\n Deal 1 damage to every other player on your square. \n" +
+                "IN REAPER MODE:\n Deal 2 damage to every other player on your square.";
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add(null);
         getNamesOfAttack().add(null);

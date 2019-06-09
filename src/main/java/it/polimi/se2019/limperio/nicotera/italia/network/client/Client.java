@@ -71,13 +71,11 @@ public class Client {
                         req = (RequestInitializationEvent) this.in.readObject();
                     } catch (EOFException ex) {
                         System.exit(0);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
                     this.myNetworkHandler.handleEventInitialization(req);
-                    if (req.isAck())
+                    if (req!=null && req.isAck())
                         break;
             }
 
