@@ -2,11 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
@@ -20,6 +17,9 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 class CatchController {
     private final Game game;
     private Controller controller;
+    private ArrayList<PowerUpCard> powerUpCardsToDiscard = new ArrayList<>();
+    private WeaponCard weaponCard;
+    private ArrayList<ColorOfCard_Ammo> colorsNotEnough;
 
     CatchController(Game game, Controller controller){
         this.game=game;
@@ -95,6 +95,9 @@ class CatchController {
 
     private void
     sendNotifyAfterCatching(Player player) {
+        colorsNotEnough = new ArrayList<>();
+        weaponCard = null;
+        powerUpCardsToDiscard= new ArrayList<>();
         PlayerBoardEvent pBEvent = new PlayerBoardEvent();
         pBEvent.setPlayerBoard(player.getPlayerBoard());
         pBEvent.setNicknameInvolved(player.getNickname());
@@ -236,7 +239,6 @@ class CatchController {
         if(player.getPlayerBoard().getWeaponsOwned().size()<3) {
             player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCard()));
             addWeaponCardToPlayerDeck(player, event.getNameOfWeaponCard());
-            sendNotifyAfterCatching(player);
         }
         else{
             RequestToDiscardWeaponCard requestToDiscardWeaponCard = new RequestToDiscardWeaponCard("Choose one of your weapon card to discard", event.getNameOfWeaponCard());
@@ -248,22 +250,106 @@ class CatchController {
     private void addWeaponCardToPlayerDeck(Player player, String nameOfWeaponCard) {
         Square squareWhereRemoveCard = findSpawnSquareWithThisCard(nameOfWeaponCard);
         WeaponCard weaponCardToAddToDeck = null;
-        for(WeaponCard weaponCard : ((SpawnSquare)squareWhereRemoveCard).getWeaponCards()){
-            if(weaponCard.getName().equals(nameOfWeaponCard)) {
-                weaponCardToAddToDeck = weaponCard;
+        for(WeaponCard weapon : ((SpawnSquare)squareWhereRemoveCard).getWeaponCards()){
+            if(weapon.getName().equals(nameOfWeaponCard)) {
+                weaponCardToAddToDeck = weapon;
             }
         }
-        ((SpawnSquare)squareWhereRemoveCard).getWeaponCards().remove(weaponCardToAddToDeck);
-        player.catchWeapon(weaponCardToAddToDeck);
+        ((SpawnSquare) squareWhereRemoveCard).getWeaponCards().remove(weaponCardToAddToDeck);
+        if(weaponCardToAddToDeck!=null && isAffordableOnlyWithAmmo(player, weaponCardToAddToDeck.getPriceToBuy())) {
+            player.catchWeapon(weaponCardToAddToDeck, null);
+            sendNotifyAfterCatching(player);
+        }
+        else{
+            if(weaponCardToAddToDeck!=null)
+                colorsNotEnough = getColorsOfAmmoNotEnough(player,weaponCardToAddToDeck);
+            for(ColorOfCard_Ammo color : colorsNotEnough){
+                if(frequencyOfPowerUpUsableByPlayer(player, color)>1) {
+                    sendRequestToDiscardPowerUpCard(player, colorsNotEnough);
+                    weaponCard = weaponCardToAddToDeck;
+                    return;
+                }
+            }
+            ArrayList<PowerUpCard> powerUpCardToDiscard = new ArrayList<>();
+            for(ColorOfCard_Ammo color : colorsNotEnough){
+                powerUpCardToDiscard.add(findPowerUpOfThisColor(player,color));
+            }
+            player.catchWeapon(weaponCardToAddToDeck, powerUpCardToDiscard);
+            sendNotifyAfterCatching(player);
+        }
     }
 
-    private Square findSpawnSquareWithThisCard(String nameOfWeaponCard) throws IllegalArgumentException {
+    private PowerUpCard findPowerUpOfThisColor(Player player, ColorOfCard_Ammo color) {
+        for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
+            if(powerUpCard.getColor().equals(color))
+                return powerUpCard;
+        }
+        throw new IllegalArgumentException();
+    }
+
+
+    private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsOfAmmoNotEnough) {
+        RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
+        requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
+        requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which power up card you want to discard to pay");
+        if(!colorsOfAmmoNotEnough.isEmpty()) {
+            requestToDiscardPowerUpCardToPay.setPowerUpCards(powerUpCardToChooseForDiscard(player, colorsOfAmmoNotEnough.remove(0)));
+            game.notify(requestToDiscardPowerUpCardToPay);
+        }
+        else{
+            player.catchWeapon(weaponCard, powerUpCardsToDiscard);
+            sendNotifyAfterCatching(player);
+        }
+    }
+
+     void handleRequestToDiscardPowerUpCardAsAmmo(DiscardPowerUpCardAsAmmo event){
+        powerUpCardsToDiscard.add(findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard()));
+        sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
+    }
+
+    private PowerUpCard findPowerUpCard(String nameOfPowerUpCard, ColorOfCard_Ammo colorOfCard) {
+        for (PowerUpCard powerUpCard : game.getPlayers().get(game.getPlayerOfTurn() - 1).getPlayerBoard().getPowerUpCardsOwned()){
+            if (powerUpCard.getName().equals(nameOfPowerUpCard) && powerUpCard.getColor().equals(colorOfCard))
+                return powerUpCard;
+    }
+     throw new IllegalArgumentException();
+    }
+
+
+    private ArrayList<ServerEvent.AliasCard> powerUpCardToChooseForDiscard(Player player, ColorOfCard_Ammo color) {
+        ArrayList<ServerEvent.AliasCard> listOfCards = new ArrayList<>();
+        for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
+            if(powerUpCard.getColor().equals(color))
+                listOfCards.add(new ServerEvent.AliasCard(powerUpCard.getName(), powerUpCard.getDescription(), powerUpCard.getColor()));
+        }
+        return listOfCards;
+    }
+
+    private ArrayList<ColorOfCard_Ammo> getColorsOfAmmoNotEnough(Player player, WeaponCard weaponCardToAddToDeck) {
+        ArrayList<ColorOfCard_Ammo> ammoNotEnough = new ArrayList<>();
+        for(ColorOfCard_Ammo color : weaponCardToAddToDeck.getPriceToBuy()){
+            if(!ammoNotEnough.contains(color) && frequencyOfAmmoUsableByPlayer(player, color, false)<frequencyAmmoInPrice(weaponCardToAddToDeck.getPriceToBuy(), color)){
+                ammoNotEnough.add(color);
+            }
+        }
+        return ammoNotEnough;
+    }
+
+    private boolean isAffordableOnlyWithAmmo(Player player, ColorOfCard_Ammo[] priceToBuy) {
+        int numOfRedAmmoRequired = frequencyAmmoInPrice(priceToBuy, RED);
+        int numOfBlueAmmoRequired = frequencyAmmoInPrice(priceToBuy, BLUE);
+        int numOfYellowAmmoRequired = frequencyAmmoInPrice(priceToBuy, YELLOW);
+        return frequencyOfAmmoUsableByPlayer(player, RED, false) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(player, BLUE,false) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(player, YELLOW, false)>=numOfYellowAmmoRequired;
+
+    }
+
+    private Square findSpawnSquareWithThisCard(String nameOfWeaponCard){
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         for(int i = 0; i< matrixOfSquare.length; i++){
             for (int j = 0; j< matrixOfSquare[i].length; j++){
                 if(matrixOfSquare[i][j]!=null && matrixOfSquare[i][j].isSpawn()){
-                    for(WeaponCard weaponCard : ((SpawnSquare)matrixOfSquare[i][j]).getWeaponCards())
-                        if(weaponCard.getName().equals(nameOfWeaponCard))
+                    for(WeaponCard weapon : ((SpawnSquare)matrixOfSquare[i][j]).getWeaponCards())
+                        if(weapon.getName().equals(nameOfWeaponCard))
                             return matrixOfSquare[i][j];
                 }
             }
@@ -275,31 +361,29 @@ class CatchController {
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToRemove()));
         changeWeaponCardsBetweenSquareAndDeck(player, event.getNameOfWeaponCardToRemove(), event.getNameOfWeaponCardToAdd());
-        sendNotifyAfterCatching(player);
+
     }
 
     private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemove, String nameOfWeaponCardToAdd) {
         Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToRemove);
         WeaponCard weaponCardToAddToDeck = null;
         WeaponCard weaponCardToAddToSquare = null;
-        for(WeaponCard weaponCard : ((SpawnSquare)squareWhereDoChange).getWeaponCards()){
-            if(weaponCard.getName().equals(nameOfWeaponCardToRemove)){
-                weaponCardToAddToDeck = weaponCard;
+        for(WeaponCard weapon : ((SpawnSquare)squareWhereDoChange).getWeaponCards()){
+            if(weapon.getName().equals(nameOfWeaponCardToRemove)){
+                weaponCardToAddToDeck = weapon;
             }
         }
-        ((SpawnSquare)squareWhereDoChange).getWeaponCards().remove(weaponCardToAddToDeck);
-        for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
-            if(weaponCard.getName().equals(nameOfWeaponCardToAdd)){
-                if(weaponCardToAddToSquare!=null)
-                    weaponCardToAddToSquare.setLoad(true);
-                weaponCardToAddToSquare = weaponCard;
+        for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
+            if(weapon.getName().equals(nameOfWeaponCardToAdd)){
+                weaponCardToAddToSquare = weapon;
+                weaponCardToAddToSquare.setLoad(true);
+                weaponCardToAddToSquare.setOwnerOfCard(null);
             }
         }
         player.getPlayerBoard().getWeaponsOwned().remove(weaponCardToAddToSquare);
-        if(weaponCardToAddToSquare!=null)
-            weaponCardToAddToSquare.setOwnerOfCard(null);
         ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
-        player.catchWeapon(weaponCardToAddToDeck);
+        if(weaponCardToAddToDeck!=null)
+            addWeaponCardToPlayerDeck(player, weaponCardToAddToDeck.getName());
     }
 
     /**
@@ -325,7 +409,7 @@ class CatchController {
         int numOfRedAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), RED);
         int numOfBlueAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), BLUE);
         int numOfYellowAmmoRequired = frequencyAmmoInPrice(card.getPriceToBuy(), YELLOW);
-        return frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
+        return frequencyOfAmmoUsableByPlayer(player, RED, true) >= numOfRedAmmoRequired && frequencyOfAmmoUsableByPlayer(player, BLUE,true) >= numOfBlueAmmoRequired && frequencyOfAmmoUsableByPlayer(player, YELLOW, true)>=numOfYellowAmmoRequired;
 
     }
 
@@ -353,7 +437,7 @@ class CatchController {
      * @param colorToCheck the color of the ammo of which the method has to calculate the frequency
      * @return the number of ammo that can be used
      */
-     int frequencyOfAmmoUsableByPlayer(Player player, ColorOfCard_Ammo colorToCheck){
+     int frequencyOfAmmoUsableByPlayer(Player player, ColorOfCard_Ammo colorToCheck, boolean powerUpCard){
 
         int frequency = 0;
         for(Ammo ammo : player.getPlayerBoard().getAmmo()){
@@ -361,8 +445,16 @@ class CatchController {
                 frequency++;
             }
         }
-        for(PowerUpCard card : player.getPlayerBoard().getPowerUpCardsOwned()){
-            if(card.getColor().equals(colorToCheck))
+        if(powerUpCard) {
+            frequency = frequency + frequencyOfPowerUpUsableByPlayer(player, colorToCheck);
+        }
+        return frequency;
+    }
+
+    private int frequencyOfPowerUpUsableByPlayer(Player player, ColorOfCard_Ammo colorToCheck){
+        int frequency = 0;
+        for (PowerUpCard card : player.getPlayerBoard().getPowerUpCardsOwned()) {
+            if (card.getColor().equals(colorToCheck))
                 frequency++;
         }
         return frequency;

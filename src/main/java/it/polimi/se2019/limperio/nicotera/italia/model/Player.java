@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -244,17 +245,38 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      * It is called when a player decides to catch a weapon
      *
      * @param weaponCard the weapon the player want to catch
+     *
      */
     @Override
-    public void catchWeapon(WeaponCard weaponCard){
+    public void catchWeapon(WeaponCard weaponCard, ArrayList<PowerUpCard> powerUpCardToDiscard){
         playerBoard.getWeaponsOwned().add(weaponCard);
         if(weaponCard.getPriceToBuy()!=null) {
             for (ColorOfCard_Ammo ammo : weaponCard.getPriceToBuy()) {
-                playerBoard.removeAmmoOfThisColor(ammo);
+                if(areThereEnoughAmmo(ammo))
+                    playerBoard.removeAmmoOfThisColor(ammo);
+                else{
+                    playerBoard.getPowerUpCardsOwned().remove(findPowerUpOfThisColor(powerUpCardToDiscard,ammo));
+                }
             }
         }
         weaponCard.setOwnerOfCard(this);
 
+    }
+
+    private PowerUpCard findPowerUpOfThisColor(ArrayList<PowerUpCard> powerUpCardToDiscard, ColorOfCard_Ammo ammo) {
+        for(PowerUpCard powerUpCard : powerUpCardToDiscard){
+            if(powerUpCard.getColor().equals(ammo))
+                return powerUpCard;
+        }
+        throw new IllegalArgumentException();
+    }
+
+    private boolean areThereEnoughAmmo(ColorOfCard_Ammo ammo) {
+        for(Ammo ammoItem : playerBoard.getAmmo()){
+            if(ammoItem.getColor().equals(ammo) && ammoItem.isUsable())
+                return true;
+        }
+        return false;
     }
 
     /**

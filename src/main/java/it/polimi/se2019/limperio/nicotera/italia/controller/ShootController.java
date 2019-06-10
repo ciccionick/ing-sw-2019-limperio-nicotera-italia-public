@@ -37,7 +37,7 @@ public class ShootController {
         involvedPlayers = new ArrayList<>();
         weaponToUse = null;
         Player player = controller.findPlayerWithThisNickname(message.getNickname());
-        if(game.isInFrenzy() && player.getPosition()>=game.getFirstInFrenzyMode()){
+        if(game.isInFrenzy() && player.getPosition()>=game.getFirstInFrenzyMode() || !game.isInFrenzy() && player.isOverSixDamage()){
             //seleziona quadrati a 1 distanza in cui si puo spostare e in cui puo utilizzare almeno un arma
             return;
         }

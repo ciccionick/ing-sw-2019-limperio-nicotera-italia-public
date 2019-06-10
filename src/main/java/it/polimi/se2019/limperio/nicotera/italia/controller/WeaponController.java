@@ -484,7 +484,7 @@ public class WeaponController {
         int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), RED);
         int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), BLUE);
         int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), YELLOW);
-        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
+        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED, true) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE, true) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW, true)>=numOfYellowAmmoRequired;
 
     }
 
@@ -492,7 +492,7 @@ public class WeaponController {
         int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, RED);
         int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, BLUE);
         int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, YELLOW);
-        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW)>=numOfYellowAmmoRequired;
+        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED, true) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE, true) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW, true)>=numOfYellowAmmoRequired;
 
     }
 

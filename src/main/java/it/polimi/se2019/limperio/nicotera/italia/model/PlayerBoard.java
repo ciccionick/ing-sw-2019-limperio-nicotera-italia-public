@@ -39,29 +39,13 @@ public class PlayerBoard implements Serializable, Cloneable {
         scoreBarForFrenzyMode.add(1);
         scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
-        if(nickname.equals("pietro")){
-            for(int i=0;i<4;i++)
-                damages.add(ColorOfFigure_Square.GREEN);
-            for(int i=0;i<4;i++)
-                damages.add(ColorOfFigure_Square.GREY);
-            for(int i=0;i<3;i++)
-                damages.add(ColorOfFigure_Square.YELLOW);
-        }
-        if(nickname.equals("ciccio")){
-            for(int i=0;i<4;i++)
-                damages.add(ColorOfFigure_Square.BLUE);
-            for(int i=0;i<4;i++)
-                damages.add(ColorOfFigure_Square.GREY);
-            for(int i=0;i<2;i++)
-                damages.add(ColorOfFigure_Square.YELLOW);
-        }
 
 
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
-        ammo.add(new Ammo(RED,true));
-        ammo.add(new Ammo(BLUE,true));
-        ammo.add(new Ammo(YELLOW,true));
+        ammo.add(new Ammo(RED,false));
+        ammo.add(new Ammo(BLUE,false));
+        ammo.add(new Ammo(YELLOW,false));
         for (int i=0; i<2; i++){
             ammo.add(new Ammo(RED,false));
             ammo.add(new Ammo(BLUE,false));
@@ -202,10 +186,10 @@ public class PlayerBoard implements Serializable, Cloneable {
      * Removes an ammo of one color from the ammo deck of the player
      * @param color the type of ammo that must be removed
      */
-    public void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
-        for (Ammo ammo : ammo) {
-            if(ammo.getColor().equals(color)) {
-                ammo.setIsUsable(false);
+     void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
+        for (Ammo ammoItem : ammo) {
+            if(ammoItem.getColor().equals(color)) {
+                ammoItem.setIsUsable(false);
                 break;
             }
         }
