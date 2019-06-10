@@ -26,9 +26,9 @@ public class WeaponController {
 
 
      ArrayList<Integer> getUsableEffectsForThisWeapon(WeaponCard weaponCard) {
-        Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
-        ArrayList<Integer> usableEffects = new ArrayList<>();
-        switch (weaponCard.getName()){
+         ArrayList<Integer> usableEffects = new ArrayList<>();
+         Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
+         switch (weaponCard.getName()){
             case "Electroscythe":
                 if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty()) {
                     usableEffects.add(1);

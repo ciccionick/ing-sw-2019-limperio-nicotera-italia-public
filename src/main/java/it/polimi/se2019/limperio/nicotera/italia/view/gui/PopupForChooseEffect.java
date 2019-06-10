@@ -1,8 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAnEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import sun.applet.Main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -119,9 +119,10 @@ import java.util.ArrayList;
         public void actionPerformed(ActionEvent e) {
              int numOfEffect = Integer.parseInt(e.getActionCommand());
              if(getEffectButtons().get(numOfEffect-1).isEnabled()){
-
-                 System.out.println("Stampo");
+                 RequestToUseEffect requestToUseEffect = new RequestToUseEffect("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                 requestToUseEffect.setNumOfEffect(numOfEffect);
                  dialog.setVisible(false);
+                 mainFrame.getRemoteView().notify(requestToUseEffect);
 
 
              }

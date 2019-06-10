@@ -34,7 +34,7 @@ public class ClientEvent implements Serializable {
      * Reference to the Virtual View of the player that is sending the event
      *
      */
-   private VirtualView myVirtualView = null;
+   private transient VirtualView myVirtualView = null;
    private boolean isDrawPowerUpCard = false;
    private boolean isDiscardPowerUpCardToSpawn = false;
    private boolean isRequestToRunByPlayer = false;
@@ -52,6 +52,8 @@ public class ClientEvent implements Serializable {
    private boolean isMoveTerminatorEvent = false;
    private boolean isTerminatorShootEvent = false;
    private boolean isRequestToUseWeaponCard = false;
+   private boolean isRequestToUseEffect = false;
+
 
 
     public ClientEvent(String message, String nickname) {
@@ -81,6 +83,14 @@ public class ClientEvent implements Serializable {
 
     public void setRequestToShootByPlayer(boolean requestToShootByPlayer) {
         isRequestToShootByPlayer = requestToShootByPlayer;
+    }
+
+    public boolean isRequestToUseEffect() {
+        return isRequestToUseEffect;
+    }
+
+    public void setRequestToUseEffect(boolean requestToUseEffect) {
+        isRequestToUseEffect = requestToUseEffect;
     }
 
     public boolean isMoveTerminatorEvent() {

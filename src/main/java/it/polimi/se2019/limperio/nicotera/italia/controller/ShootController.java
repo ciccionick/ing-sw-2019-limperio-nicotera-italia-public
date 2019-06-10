@@ -9,6 +9,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Request
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseWeapon;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.WeaponCard;
 
 import java.awt.*;
@@ -103,5 +104,35 @@ public class ShootController {
 
     public ArrayList<Integer> getTypeOfAttack() {
         return typeOfAttack;
+    }
+
+     void handleRequestToUseEffect(ClientEvent message) {
+         Square squareOfPlayer = controller.findPlayerWithThisNickname(message.getNickname()).getPositionOnTheMap();
+         switch (weaponToUse.getName()){
+             case "Electroscythe":
+             case "Cyberblade":
+             case "Sledgehammer":
+             case "Shotgun":
+             case "Shockwave":
+             case "Furnace":
+             case "Lock rifle":
+             case "Zx-2":
+             case "Machine gun":
+             case "Granade launcher":
+             case "Plasma gun":
+             case "Railgun":
+             case "Heatseeker":
+             case "Rocket launcher":
+             case "Hellion":
+             case "Whisper":
+             case "THOR":
+             case "Flamethrower":
+             case "Power glove":
+             case "Tractor beam":
+             case "Vortex cannon":
+
+             default:
+                 throw  new IllegalArgumentException();
+         }
     }
 }

@@ -126,6 +126,8 @@ public class Controller implements Observer<ClientEvent> {
             if(message.isRequestToUseWeaponCard()){
                 shootController.replyWithUsableEffectsOfThisWeapon(message);
             }
+            if(message.isRequestToUseEffect())
+                shootController.handleRequestToUseEffect(message);
         }
     }
 
