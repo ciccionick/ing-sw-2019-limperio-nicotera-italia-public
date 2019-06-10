@@ -53,6 +53,8 @@ public class ClientEvent implements Serializable {
    private boolean isTerminatorShootEvent = false;
    private boolean isRequestToUseWeaponCard = false;
    private boolean isRequestToUseEffect = false;
+   private boolean isRequestToUseTeleporter = false;
+   private boolean isSelecetionSquareToUseTeleporter = false;
 
 
 
@@ -219,5 +221,21 @@ public class ClientEvent implements Serializable {
 
     public void setTerminatorShootEvent(boolean terminatorShootEvent) {
         isTerminatorShootEvent = terminatorShootEvent;
+    }
+
+    public boolean isRequestToUseTeleporter() {
+        return isRequestToUseTeleporter;
+    }
+
+    public void setRequestToUseTeleporter(boolean requestToUseTeleporter) {
+        isRequestToUseTeleporter = requestToUseTeleporter;
+    }
+
+    public boolean isSelecetionSquareToUseTeleporter() {
+        return isSelecetionSquareToUseTeleporter;
+    }
+
+    public void setSelecetionSquareToUseTeleporter(boolean selecetionSquareToUseTeleporter) {
+        isSelecetionSquareToUseTeleporter = selecetionSquareToUseTeleporter;
     }
 }

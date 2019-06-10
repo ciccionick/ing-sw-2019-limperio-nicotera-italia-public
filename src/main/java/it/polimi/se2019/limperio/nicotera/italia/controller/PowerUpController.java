@@ -1,11 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawPowerUpCards;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class handles the draught, the discard and the use of a power up card by a player
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class PowerUpController {
      private  Game game = null;
      private final Controller controller;
-
+     private int numOfCardToUse;
      PowerUpController(Game game, Controller controller) {
          this.game = game;
          this.controller = controller;
@@ -54,10 +54,10 @@ class PowerUpController {
          requestSelectionSquareForTerminator.setSelectionForSpawnTerminator(true);
          ArrayList<Square> squareReachable = new ArrayList<>();
          Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-         for (int i = 0; i < matrix.length; i++) {
-             for (int j = 0; j < matrix[i].length; j++) {
-                 if (matrix[i][j] != null && matrix[i][j].isSpawn())
-                     squareReachable.add(matrix[i][j]);
+         for (Square[] matrix1 : matrix) {
+             for (Square square : matrix1) {
+                 if (square != null && square.isSpawn())
+                     squareReachable.add(square);
              }
          }
          requestSelectionSquareForTerminator.setSquaresReachable(squareReachable);
@@ -163,5 +163,29 @@ class PowerUpController {
     }
 
 
+     void handleRequestToUseTeleporter(ClientEvent message) {
+        RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to teleport");
+        requestSelectionSquareForAction.setSelectionForTeleporter(true);
+        ArrayList<Square> squaresReachable = new ArrayList<>();
+        for(int i = 0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
+            squaresReachable.addAll(Arrays.asList(game.getBoard().getMap().getMatrixOfSquares()[i]));
+        }
+        requestSelectionSquareForAction.setSquaresReachable(squaresReachable);
+        requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
+        numOfCardToUse = ((RequestToUseTeleporter)message).getNumOfCard();
+        game.notify(requestSelectionSquareForAction);
 
+    }
+
+
+     void useTeleporter(SelectionSquareToUseTeleporter message) {
+         Player player = controller.findPlayerWithThisNickname(message.getNickname());
+         PowerUpCard card = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse);
+         card.useAsPowerUp(player, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
+         card.setInTheDeckOfSomePlayer(false);
+         card.setOwnerOfCard(null);
+         player.getPlayerBoard().getPowerUpCardsOwned().remove(numOfCardToUse);
+         PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
+         game.notify(playerBoardEvent);
+    }
 }

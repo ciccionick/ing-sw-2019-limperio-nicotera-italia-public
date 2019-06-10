@@ -4,6 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestActionEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 
 
@@ -128,6 +129,11 @@ public class Controller implements Observer<ClientEvent> {
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect(message);
+            if(message.isRequestToUseTeleporter()){
+                powerUpController.handleRequestToUseTeleporter(message);
+            }
+            if(message.isSelecetionSquareToUseTeleporter())
+                powerUpController.useTeleporter((SelectionSquareToUseTeleporter) message);
         }
     }
 
@@ -377,7 +383,8 @@ public class Controller implements Observer<ClientEvent> {
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
-         game.getListOfNickname().remove(player.getNickname());
+         game.getListOfNickname().remove(nicknameOfPlayerDisconnected);
+
          if(findPlayerWithThisNickname(nicknameOfPlayerDisconnected).getPosition()==game.getPlayerOfTurn())
              roundController.updateTurn();
 

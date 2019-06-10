@@ -6,25 +6,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test for Telereporter of PowerUp Card
+ * Test for Teleporter of PowerUp Card
  */
 
-public class TestTelereporter {
+public class TestTeleporter {
 
     Player player1= new Player("player1", true, 1, ColorOfFigure_Square.BLUE);
 
     Map map;
-    Telereporter telereporter;
+    Teleporter teleporter;
 
     @Before
     public void setUp()
     {
         map= Map.instanceOfMap(1);
-        telereporter = new Telereporter(ColorOfCard_Ammo.YELLOW, 4);
+        teleporter = new Teleporter(ColorOfCard_Ammo.YELLOW, 4);
         player1.createPlayerBoard();
 
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
-        telereporter.setOwnerOfCard(player1);
+        teleporter.setOwnerOfCard(player1);
 
 
     }
@@ -37,7 +37,7 @@ public class TestTelereporter {
     @Test
     public void Test()
     {
-        telereporter.useAsPowerUp(null, map.getMatrixOfSquares()[2][2]);
+        teleporter.useAsPowerUp(null, map.getMatrixOfSquares()[2][2]);
         Assert.assertEquals(player1.getPositionOnTheMap(), map.getMatrixOfSquares()[2][2]);
 
     }

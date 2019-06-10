@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.MoveTerminatorEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RunEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
@@ -297,6 +294,7 @@ class MapPanel extends JPanel {
       }
 
       @Override
+
       public void mouseClicked(MouseEvent e) {
            if(isClickableForSelection()){
                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
@@ -305,6 +303,9 @@ class MapPanel extends JPanel {
                    mainFrame.getRemoteView().notify(new CatchEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator()){
                    mainFrame.getRemoteView().notify(new GenerationTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+               }
+               if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter()){
+                   mainFrame.getRemoteView().notify(new SelectionSquareToUseTeleporter("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                }
                if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator()){
                    mainFrame.getRemoteView().notify(new MoveTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column));

@@ -29,6 +29,7 @@ public class MapView {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForGenerationOfTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private boolean isSelectionForTeleporter = false;
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
@@ -144,6 +145,14 @@ public class MapView {
 
     public void setReachableSquares(ArrayList<Square> reachableSquares) {
         this.reachableSquares = reachableSquares;
+    }
+
+    public boolean isSelectionForTeleporter() {
+        return isSelectionForTeleporter;
+    }
+
+    public void setSelectionForTeleporter(boolean selectionForTeleporter) {
+        isSelectionForTeleporter = selectionForTeleporter;
     }
 }
 

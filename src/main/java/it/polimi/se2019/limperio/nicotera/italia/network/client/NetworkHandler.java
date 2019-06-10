@@ -3,7 +3,6 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;

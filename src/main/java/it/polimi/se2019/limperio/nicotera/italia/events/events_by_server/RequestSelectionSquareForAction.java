@@ -12,6 +12,7 @@ public class RequestSelectionSquareForAction extends ServerEvent {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForSpawnTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private boolean isSelectionForTeleporter = false;
 
     public RequestSelectionSquareForAction(String message){
         super(message);
@@ -64,5 +65,13 @@ public class RequestSelectionSquareForAction extends ServerEvent {
 
     public void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
+    }
+
+    public boolean isSelectionForTeleporter() {
+        return isSelectionForTeleporter;
+    }
+
+    public void setSelectionForTeleporter(boolean selectionForTeleporter) {
+        isSelectionForTeleporter = selectionForTeleporter;
     }
 }

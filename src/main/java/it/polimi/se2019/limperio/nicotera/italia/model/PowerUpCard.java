@@ -1,7 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.io.Serializable;
-
 /**
  * handles the game's powerUp Card
  *
@@ -40,13 +38,13 @@ public abstract class PowerUpCard extends Card  {
                 return new TargetingScope(ColorOfCard_Ammo.BLUE, 3);
 
             case 4:
-                return new Telereporter(ColorOfCard_Ammo.YELLOW, 4);
+                return new Teleporter(ColorOfCard_Ammo.YELLOW, 4);
 
             case 5:
-                return new Telereporter(ColorOfCard_Ammo.RED, 5);
+                return new Teleporter(ColorOfCard_Ammo.RED, 5);
 
             case 6:
-                return new Telereporter(ColorOfCard_Ammo.BLUE, 6);
+                return new Teleporter(ColorOfCard_Ammo.BLUE, 6);
 
             case 7:
                 return  new Newton(ColorOfCard_Ammo.YELLOW, 7);

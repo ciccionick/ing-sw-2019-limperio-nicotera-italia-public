@@ -5,7 +5,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
-import it.polimi.se2019.limperio.nicotera.italia.model.Map;
 import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -90,7 +89,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
      VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
-        this.IPAddress = client.getLocalAddress().getHostAddress();
+        this.IPAddress = client.getRemoteSocketAddress().toString();
         this.server = server;
         this.controller = controller;
         register(controller);
@@ -161,7 +160,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                 }
             }
         } catch (IOException se) {
-            handleDisconnection();
+            try {
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         }catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -184,41 +187,43 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     }
 
-     void handleReconnection() {
+     String handleReconnection() {
+        System.out.println("Sono arrivato in handleReconnection");
         RequestInitializationEvent req = new RequestInitializationEvent("The game is already started: if you were disconnected, reinsert your previous nickname and you will be readmitted to the game", true, false, false, false, false );
          try {
              out.writeObject(req);
              AnswerInitializationEvent answer = (AnswerInitializationEvent) in.readObject();
              if(server.getListOfNickname().contains(answer.getNickname())){
-                 if(!controller.findPlayerWithThisNickname(answer.getNickname()).isConnected()){
-                     PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
-                     playerBoardEvent.setNicknameInvolved(answer.getNickname());
-                     playerBoardEvent.setPlayerBoard(myPlayerBoard);
-                     out.writeObject(playerBoardEvent);
-                     KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", killshotTrack);
-                     killshotTrackEvent.setNicknameInvolved(answer.getNickname());
-                     out.writeObject(killshotTrackEvent);
-                     MapEvent mapEvent = new MapEvent();
-                     mapEvent.setMap(map);
-                     mapEvent.setNicknameInvolved(answer.getNickname());
-                     mapEvent.setTerminatorMode(terminatorMode);
-                     mapEvent.setTypeOfMap(typeOfMap);
-                     out.writeObject(mapEvent);
-                 }
-                 else{
-                     //stampare al client che il nickname inserito è di un altro player
-                 }
+                 if(!controller.findPlayerWithThisNickname(answer.getNickname()).isConnected())
+                     return answer.getNickname();
+                 else
+                     return "Failed reconnection";
              }
-             else{
-                 //stampare al client che il nickname inserito non esiste
-             }
+             else
+                 return "Failed reconnection";
          } catch (IOException e) {
              System.exit(0);
          } catch (ClassNotFoundException e) {
              e.printStackTrace();
          }
+         return "Failed reconnection";
      }
 
+     void updateStatusAfterReconnection() throws IOException {
+        PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
+        playerBoardEvent.setNicknameInvolved(nicknameOfClient);
+        playerBoardEvent.setPlayerBoard(myPlayerBoard);
+        out.writeObject(playerBoardEvent);
+        KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", killshotTrack);
+        killshotTrackEvent.setNicknameInvolved(nicknameOfClient);
+        out.writeObject(killshotTrackEvent);
+        MapEvent mapEvent = new MapEvent();
+        mapEvent.setMap(map);
+        mapEvent.setNicknameInvolved(nicknameOfClient);
+        mapEvent.setTerminatorMode(terminatorMode);
+        mapEvent.setTypeOfMap(typeOfMap);
+        out.writeObject(mapEvent);
+    }
     private boolean isNotValidNickname(String nickname) {
         if(server.getListOfNickname().contains(nickname))
             return true;
@@ -239,7 +244,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             try {
                 out.writeObject(event);
             } catch (IOException e) {
-                e.printStackTrace();
+               handleDisconnection();
             }
         }
         if(event.isKillshotTrackEvent()){
@@ -289,7 +294,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     /**
      * Handles the disconnection of the client sending information to the server and the controller
      */
-    private void handleDisconnection(){
+     void handleDisconnection(){
         isClientCurrentlyOnline=false;
         if(!server.isGameIsStarted()) {
             server.getListOfNickname().remove(nicknameOfClient);
@@ -327,5 +332,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         return IPAddress;
     }
 
+    public void setClient(Socket client) {
+        this.client = client;
+    }
 
+    public void setClientCurrentlyOnline(boolean clientCurrentlyOnline) {
+        isClientCurrentlyOnline = clientCurrentlyOnline;
+    }
 }
