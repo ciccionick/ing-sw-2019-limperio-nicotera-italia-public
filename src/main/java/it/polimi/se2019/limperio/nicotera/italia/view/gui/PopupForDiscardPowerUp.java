@@ -1,7 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCardToPay;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
     private JDialog dialog;
     private MainFrame mainFrame;
 
-     PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receveidEvent) {
+     PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
         this.mainFrame = mainFrame;
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setModal(false);
@@ -25,12 +28,16 @@ import java.util.ArrayList;
                 (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
         dialog.setUndecorated(true);
 
+
         JPanel contentPanel = new JPanel(new GridBagLayout());
         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5,5));
         dialog.getContentPane().add(contentPanel);
 
         ArrayList<ServerEvent.AliasCard> listOfPowerUpCards = new ArrayList<>();
-        listOfPowerUpCards.addAll(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck());
+        if(receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent())
+            listOfPowerUpCards.addAll(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck());
+        if(receivedEvent.isRequestToDiscardPowerUpCardToPay())
+            addPowerUpCardsToDiscard(listOfPowerUpCards,receivedEvent);
 
          int widthCard;
          int heightCard;
@@ -45,7 +52,7 @@ import java.util.ArrayList;
 
 
 
-        JTextArea message = new JTextArea(receveidEvent.getMessageForInvolved());
+        JTextArea message = new JTextArea(receivedEvent.getMessageForInvolved());
          message.setBackground(SystemColor.menu);
          message.setEditable(false);
          GridBagConstraints gbcLabelMessage = new GridBagConstraints();
@@ -81,7 +88,7 @@ import java.util.ArrayList;
 
             JButton button = new JButton("Discard");
             button.setActionCommand(nameOfCard.concat(" "+ color));
-            button.addActionListener(new ListenerForDiscardPowerUp(mainFrame, listOfPowerUpCards.get(0)));
+            button.addActionListener(new ListenerForDiscardPowerUp(mainFrame, listOfPowerUpCards.get(0), receivedEvent));
             contentPanel.add(button,gbc);
 
             gbc.gridy=1;
@@ -99,20 +106,42 @@ import java.util.ArrayList;
 
      }
 
+     private void addPowerUpCardsToDiscard(ArrayList<ServerEvent.AliasCard> listOfPowerUpCards, ServerEvent receivedEvent) {
+         ArrayList<ServerEvent.AliasCard> nameOfPowerUpCards = ((RequestToDiscardPowerUpCardToPay)receivedEvent).getPowerUpCards();
+         for(ServerEvent.AliasCard powerUpCard : mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck()){
+             for(ServerEvent.AliasCard card : nameOfPowerUpCards){
+                 if(card.getName().equals(powerUpCard.getName())&&card.getColor().equals(powerUpCard.getColor())) {
+                     listOfPowerUpCards.add(powerUpCard);
+                     break;
+                 }
+             }
+         }
+     }
+
      private class ListenerForDiscardPowerUp implements ActionListener {
          private MainFrame mainFrame;
          private ServerEvent.AliasCard card;
+         private ServerEvent event;
 
-          ListenerForDiscardPowerUp(MainFrame mainFrame, ServerEvent.AliasCard aliasCard) {
+          ListenerForDiscardPowerUp(MainFrame mainFrame, ServerEvent.AliasCard aliasCard, ServerEvent receivedEvent) {
                 this.mainFrame = mainFrame;
                 this.card = aliasCard;
+                this.event = receivedEvent;
           }
 
          @Override
          public void actionPerformed(ActionEvent e) {
-             DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-             event.setPowerUpCard(card);
-             mainFrame.getRemoteView().notify(event);
+              if(event.isRequestToDiscardPowerUpCardToSpawnEvent()) {
+                  DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                  event.setPowerUpCard(card);
+                  mainFrame.getRemoteView().notify(event);
+              }
+              if(event.isRequestToDiscardPowerUpCardToPay()) {
+                  DiscardPowerUpCardAsAmmo event = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                  event.setNameOfPowerUpCard(card.getName());
+                  event.setColorOfCard(card.getColor());
+                  mainFrame.getRemoteView().notify(event);
+              }
              dialog.setVisible(false);
          }
      }

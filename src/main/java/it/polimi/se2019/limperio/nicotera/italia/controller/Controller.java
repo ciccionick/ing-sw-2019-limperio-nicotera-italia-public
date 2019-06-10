@@ -128,6 +128,8 @@ public class Controller implements Observer<ClientEvent> {
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect(message);
+            if(message.isDiscardPowerUpCardAsAmmo())
+                catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
         }
     }
 

@@ -53,6 +53,7 @@ public class ClientEvent implements Serializable {
    private boolean isTerminatorShootEvent = false;
    private boolean isRequestToUseWeaponCard = false;
    private boolean isRequestToUseEffect = false;
+   private boolean isDiscardPowerUpCardAsAmmo = false;
 
 
 
@@ -87,6 +88,14 @@ public class ClientEvent implements Serializable {
 
     public boolean isRequestToUseEffect() {
         return isRequestToUseEffect;
+    }
+
+    public boolean isDiscardPowerUpCardAsAmmo() {
+        return isDiscardPowerUpCardAsAmmo;
+    }
+
+    public void setDiscardPowerUpCardAsAmmo(boolean discardPowerUpCardAsAmmo) {
+        isDiscardPowerUpCardAsAmmo = discardPowerUpCardAsAmmo;
     }
 
     public void setRequestToUseEffect(boolean requestToUseEffect) {

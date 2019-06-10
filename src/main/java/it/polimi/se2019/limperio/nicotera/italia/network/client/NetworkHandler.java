@@ -157,6 +157,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
         }
 
+        if(event.isRequestToDiscardPowerUpCardToPay())
+            remoteView.update(event);
+
 
 
     }

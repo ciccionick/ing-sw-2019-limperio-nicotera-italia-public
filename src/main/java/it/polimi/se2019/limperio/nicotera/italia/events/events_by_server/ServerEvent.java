@@ -62,6 +62,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestForDrawOnePowerUpCardEvent = false;
     private boolean isRequestToChooseWeapon = false;
     private boolean isRequestToChooseAnEffect = false;
+    private boolean isRequestToDiscardPowerUpCardToPay = false;
 
 
     private int numOfAction;
@@ -96,6 +97,14 @@ public class ServerEvent implements Serializable {
 
     public String getMessageForOthers() {
         return messageForOthers;
+    }
+
+    public boolean isRequestToDiscardPowerUpCardToPay() {
+        return isRequestToDiscardPowerUpCardToPay;
+    }
+
+    public void setRequestToDiscardPowerUpCardToPay(boolean requestToDiscardPowerUpCardToPay) {
+        isRequestToDiscardPowerUpCardToPay = requestToDiscardPowerUpCardToPay;
     }
 
     public void setMessageForOthers(String messageForOthers) {

@@ -129,7 +129,6 @@ public class Game extends Observable<ServerEvent> {
         PlayerBoardEvent pbEvent;
         int position=1;
 
-
         for (Player player : players){
             player.setPosition(position);
             player.createPlayerBoard();
@@ -141,6 +140,8 @@ public class Game extends Observable<ServerEvent> {
             position++;
         }
         createBoard();
+        board.createPowerUpDeck();
+        board.createWeaponsDeck();
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
@@ -148,8 +149,8 @@ public class Game extends Observable<ServerEvent> {
         killshotTrackEvent.setNicknames(listOfNickname);
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
-        board.createPowerUpDeck();
-        board.createWeaponsDeck();
+
+
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
