@@ -56,8 +56,8 @@ public class TestShotgun {
         shotgun = new Shotgun();
         shotgun.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(shotgun);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}} ,map.getMatrixOfSquares()[1][1]);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(4);}}, null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 ,map.getMatrixOfSquares()[1][1]);
+        involvedPlayer3= new InvolvedPlayer(player3, 4, null);
 
 
     }

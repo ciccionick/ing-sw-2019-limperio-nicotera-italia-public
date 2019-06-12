@@ -55,8 +55,8 @@ public class TestFlamethrower {
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][2]);
         player3.setPositionOnTheMap(map.getMatrixOfSquares()[1][3]);
-        involvedPlayer2= new InvolvedPlayer(player2, null , null);
-        involvedPlayer3= new InvolvedPlayer(player3, null , null);
+        involvedPlayer2= new InvolvedPlayer(player2, 0 , null);
+        involvedPlayer3= new InvolvedPlayer(player3, 0 , null);
 
     }
 

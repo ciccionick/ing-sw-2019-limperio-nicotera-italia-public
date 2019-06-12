@@ -55,8 +55,8 @@ public class TestRocketLauncher {
         rocketLauncher = new RocketLauncher();
         rocketLauncher.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(rocketLauncher);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);add(3);}} ,map.getMatrixOfSquares()[2][2]);
-        involvedPlayer1= new InvolvedPlayer(player1, new ArrayList<Integer>(){{add(2);}}, map.getMatrixOfSquares()[1][1]);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 ,map.getMatrixOfSquares()[2][2]);
+        involvedPlayer1= new InvolvedPlayer(player1, 2, map.getMatrixOfSquares()[1][1]);
 
 
     }

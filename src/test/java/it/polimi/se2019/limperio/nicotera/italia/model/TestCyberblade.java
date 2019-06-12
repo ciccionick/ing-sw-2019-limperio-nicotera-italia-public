@@ -52,9 +52,9 @@ public class TestCyberblade {
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player3.setPositionOnTheMap(map.getMatrixOfSquares()[0][0]);
-        involvedPlayer1= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}}, player2.getPositionOnTheMap());
-        involvedPlayer2= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(3);}}, player2.getPositionOnTheMap());
-        involvedPlayer3= new InvolvedPlayer(player1, new ArrayList<Integer>(){{add(2);}}, map.getMatrixOfSquares()[1][0]);
+        involvedPlayer1= new InvolvedPlayer(player2, 1, player2.getPositionOnTheMap());
+        involvedPlayer2= new InvolvedPlayer(player3, 3, player2.getPositionOnTheMap());
+        involvedPlayer3= new InvolvedPlayer(player1, 2, map.getMatrixOfSquares()[1][0]);
 
 
     }

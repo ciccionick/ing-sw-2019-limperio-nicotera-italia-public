@@ -111,6 +111,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
+        if(receivedEvent.isRequestToChooseAPlayer())
+            mainFrame.handleRequestToChooseAPlayer(receivedEvent);
+
+        if(receivedEvent.isRequestToPayWithAmmoOrPUCard()){
+            mainFrame.handleRequestToPayWithAmmoOrPUC(receivedEvent);
+        }
+
         if (receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent()) {
             mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }
@@ -246,6 +253,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         }
         if(mainFrame!=null)
             mainFrame.updateLeftPanelForWhoIsViewing(event.getPlayerBoard().getNicknameOfPlayer());
+        if(mainFrame!=null && event.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && event.getMessageForInvolved()!=null)
+            mainFrame.showMessage(event);
     }
 
     private boolean playerBoardViewAlreadyExists(String nickname){

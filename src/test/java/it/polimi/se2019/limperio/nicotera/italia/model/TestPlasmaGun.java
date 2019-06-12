@@ -43,8 +43,8 @@ public class TestPlasmaGun {
         player1.getPlayerBoard().getWeaponsOwned().add(plasmaGun);
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
-        involvedPlayer= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);add(3);}}, player2.getPositionOnTheMap());
-        involvedPlayer1= new InvolvedPlayer(player1, new ArrayList<Integer>(){{add(2);}}, map.getMatrixOfSquares()[1][0]);
+        involvedPlayer= new InvolvedPlayer(player2, 1, player2.getPositionOnTheMap());
+        involvedPlayer1= new InvolvedPlayer(player1, 2, map.getMatrixOfSquares()[1][0]);
 
     }
     @After

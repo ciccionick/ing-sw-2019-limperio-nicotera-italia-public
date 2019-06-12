@@ -63,9 +63,9 @@ public class TestThor {
         thor = new Thor();
         thor.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(thor);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}} , null);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(2);}}, null);
-        involvedPlayer4= new InvolvedPlayer(player4, new ArrayList<Integer>(){{add(3);}}, null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 , null);
+        involvedPlayer3= new InvolvedPlayer(player3, 2, null);
+        involvedPlayer4= new InvolvedPlayer(player4, 3, null);
 
     }
 

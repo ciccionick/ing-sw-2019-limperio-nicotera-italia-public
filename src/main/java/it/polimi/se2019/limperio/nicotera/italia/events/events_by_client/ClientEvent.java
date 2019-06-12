@@ -54,6 +54,8 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToUseWeaponCard = false;
    private boolean isRequestToUseEffect = false;
    private boolean isDiscardPowerUpCardAsAmmo = false;
+   private boolean isDiscardAmmoOrPowerUpToPayTargeting = false;
+   private boolean isChoosePlayer = false;
 
 
 
@@ -86,6 +88,14 @@ public class ClientEvent implements Serializable {
         isRequestToShootByPlayer = requestToShootByPlayer;
     }
 
+    public boolean isChoosePlayer() {
+        return isChoosePlayer;
+    }
+
+    public void setChoosePlayer(boolean choosePlayer) {
+        isChoosePlayer = choosePlayer;
+    }
+
     public boolean isRequestToUseEffect() {
         return isRequestToUseEffect;
     }
@@ -112,6 +122,14 @@ public class ClientEvent implements Serializable {
 
     public void setRequestToCatchByPlayer(boolean requestToCatchByPlayer) {
         isRequestToCatchByPlayer = requestToCatchByPlayer;
+    }
+
+    public boolean isDiscardAmmoOrPowerUpToPayTargeting() {
+        return isDiscardAmmoOrPowerUpToPayTargeting;
+    }
+
+    public void setDiscardAmmoOrPowerUpToPayTargeting(boolean discardAmmoOrPowerUpToPayTargeting) {
+        isDiscardAmmoOrPowerUpToPayTargeting = discardAmmoOrPowerUpToPayTargeting;
     }
 
     public void setRequestToRunByPlayer(boolean requestToRunByPlayer) {

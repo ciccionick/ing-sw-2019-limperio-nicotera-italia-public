@@ -107,7 +107,7 @@ public class PlayerBoardView {
         this.weaponCardDeck = weaponCardDeck;
     }
 
-     void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
+     private void setPowerUpCardsDeck(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck) {
         this.powerUpCardsDeck = powerUpCardsDeck;
     }
 
@@ -128,7 +128,7 @@ public class PlayerBoardView {
         return hasToChoosePowerUpCardForSpawn;
     }
 
-    public void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
+    private void setHasToChoosePowerUpCardForSpawn(boolean hasToChoosePowerUpCardForSpawn) {
         this.hasToChoosePowerUpCardForSpawn = hasToChoosePowerUpCardForSpawn;
     }
 

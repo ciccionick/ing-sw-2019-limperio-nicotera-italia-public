@@ -57,8 +57,8 @@ public class TestLockRifle {
         lockRifle = new LockRifle();
         lockRifle.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(lockRifle);
-        involvedPlayer= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}},  null);
-        involvedPlayer1= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(2);}},  null);
+        involvedPlayer= new InvolvedPlayer(player2, 1,  null);
+        involvedPlayer1= new InvolvedPlayer(player3, 2,  null);
 
 
     }

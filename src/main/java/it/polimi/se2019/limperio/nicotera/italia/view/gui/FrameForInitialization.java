@@ -246,9 +246,9 @@ public class FrameForInitialization {
     public void setTerminator() {
         JLabel labelText;
         JPanel panelForButtons;
-        JButton yesButton = new JButton("Yes");
+        JButton yesButton = new JButton("YES");
         yesButton.setActionCommand("YT");
-        JButton noButton = new JButton("No");
+        JButton noButton = new JButton("NO");
         noButton.setActionCommand("NT");
         ListenerForYesNoButtons listenerForYesNoButtons = new ListenerForYesNoButtons(initializationView);
 

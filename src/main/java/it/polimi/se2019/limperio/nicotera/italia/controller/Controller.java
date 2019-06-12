@@ -127,9 +127,22 @@ public class Controller implements Observer<ClientEvent> {
                 shootController.replyWithUsableEffectsOfThisWeapon(message);
             }
             if(message.isRequestToUseEffect())
-                shootController.handleRequestToUseEffect(message);
-            if(message.isDiscardPowerUpCardAsAmmo())
-                catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
+                shootController.handleRequestToUseEffect((RequestToUseEffect) message);
+            if(message.isDiscardPowerUpCardAsAmmo()) {
+                if(((DiscardPowerUpCardAsAmmo)message).isToCatch())
+                    catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToPayAnEffect())
+                    shootController.handleDiscardPowerUpToPayAnEffect(message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToTargeting())
+                    shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCardAsAmmo) message);
+            }
+            if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
+                shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
+            }
+            if(message.isChoosePlayer()){
+                if(((ChoosePlayer)message).isToTargeting())
+                    shootController.handleUseOfTargeting((ChoosePlayer) message);
+            }
         }
     }
 
@@ -213,6 +226,7 @@ public class Controller implements Observer<ClientEvent> {
             sendRequestForAction();
         }
         else {
+            //qui va un if che controlla se ci sono armi da caricare e c'è la possibilità di caricarle, in tal caso si interrompe qui e si manda un evento di richiesta di ricarica
             if(timer!=null)
                 timer.cancel();
             timer = null;
@@ -236,7 +250,7 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-    public ShootController getShootController() {
+     ShootController getShootController() {
         return shootController;
     }
 

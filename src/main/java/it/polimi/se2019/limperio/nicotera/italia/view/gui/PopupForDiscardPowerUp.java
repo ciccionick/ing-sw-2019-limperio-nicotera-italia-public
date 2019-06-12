@@ -6,16 +6,22 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Request
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
- class PopupForDiscardPowerUp {
+class PopupForDiscardPowerUp {
 
     private JDialog dialog;
     private MainFrame mainFrame;
+    private java.util.Timer timer;
+    private int delay = 10000;
+    private TaskForTagbackTimer task;
 
      PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
         this.mainFrame = mainFrame;
@@ -36,7 +42,7 @@ import java.util.ArrayList;
         ArrayList<ServerEvent.AliasCard> listOfPowerUpCards = new ArrayList<>();
         if(receivedEvent.isRequestToDiscardPowerUpCardToSpawnEvent())
             listOfPowerUpCards.addAll(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck());
-        if(receivedEvent.isRequestToDiscardPowerUpCardToPay())
+        else
             addPowerUpCardsToDiscard(listOfPowerUpCards,receivedEvent);
 
          int widthCard;
@@ -60,7 +66,9 @@ import java.util.ArrayList;
          gbcLabelMessage.gridx = 0;
          gbcLabelMessage.gridy = 0;
          gbcLabelMessage.gridwidth = listOfPowerUpCards.size();
-         contentPanel.add(message, gbcLabelMessage);
+         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting())
+            gbcLabelMessage.gridwidth++;
+             contentPanel.add(message, gbcLabelMessage);
 
          contentPanel.add(message,gbcLabelMessage);
 
@@ -85,8 +93,11 @@ import java.util.ArrayList;
             card.addMouseListener(new ListenerForPowerUpCard(card, mainFrame, gbc.gridx+1));
 
             gbc.gridy++;
-
-            JButton button = new JButton("Discard");
+            JButton button = new JButton();
+            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting())
+                button.setText("Use");
+            else
+                button.setText("Discard");
             button.setActionCommand(nameOfCard.concat(" "+ color));
             button.addActionListener(new ListenerForDiscardPowerUp(mainFrame, listOfPowerUpCards.get(0), receivedEvent));
             contentPanel.add(button,gbc);
@@ -95,6 +106,25 @@ import java.util.ArrayList;
             gbc.gridx++;
             listOfPowerUpCards.remove(0);
 
+        }
+
+        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback())){
+            JButton buttonToNotDiscard = new JButton("No one");
+            buttonToNotDiscard.setActionCommand("No one");
+            gbc.gridy=1;
+            buttonToNotDiscard.addActionListener(new ListenerForDiscardPowerUp(mainFrame, null, receivedEvent));
+            contentPanel.add(buttonToNotDiscard, gbc);
+        }
+
+        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()){
+            timer = new Timer();
+            task = new TaskForTagbackTimer();
+            try{
+                timer.schedule(task,delay);
+            }
+            catch (IllegalStateException er){
+                er.printStackTrace();
+            }
         }
 
         dialog.pack();
@@ -132,16 +162,35 @@ import java.util.ArrayList;
          @Override
          public void actionPerformed(ActionEvent e) {
               if(event.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-                  DiscardPowerUpCardToSpawnEvent event = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  event.setPowerUpCard(card);
-                  mainFrame.getRemoteView().notify(event);
+                  DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                  newEvent.setPowerUpCard(card);
+                  dialog.setVisible(false);
+                  mainFrame.getRemoteView().notify(newEvent);
               }
               if(event.isRequestToDiscardPowerUpCardToPay()) {
-                  DiscardPowerUpCardAsAmmo event = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  event.setNameOfPowerUpCard(card.getName());
-                  event.setColorOfCard(card.getColor());
-                  mainFrame.getRemoteView().notify(event);
+                  DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                  newEvent.setToCatch(((RequestToDiscardPowerUpCardToPay)event).isToCatch());
+                  newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCardToPay)event).isToPayAnEffect());
+                  newEvent.setToReload(((RequestToDiscardPowerUpCardToPay)event).isToReload());
+                  newEvent.setToTargeting(((RequestToDiscardPowerUpCardToPay)event).isToTargeting());
+                  newEvent.setToTagback(((RequestToDiscardPowerUpCardToPay)event).isToTagback());
+                  if(!e.getActionCommand().equals("No one")){
+                      newEvent.setNameOfPowerUpCard(card.getName());
+                      newEvent.setColorOfCard(card.getColor());
+                  }
+                  mainFrame.getRemoteView().notify(newEvent);
+                  dialog.setVisible(false);
+
               }
+         }
+     }
+
+     private class TaskForTagbackTimer extends TimerTask {
+         @Override
+         public void run() {
+             DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+             newEvent.setToTagback(true);
+             mainFrame.getRemoteView().notify(newEvent);
              dialog.setVisible(false);
          }
      }

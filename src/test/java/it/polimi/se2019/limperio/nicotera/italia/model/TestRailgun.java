@@ -58,9 +58,9 @@ public class TestRailgun {
         railgun = new Railgun();
         railgun.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(railgun);
-        involvedPlayer2 = new InvolvedPlayer(player2, null, null);
-        involvedPlayer3 = new InvolvedPlayer(player3, null, null);
-        involvedPlayer4 = new InvolvedPlayer(player4, null, null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 0, null);
+        involvedPlayer3 = new InvolvedPlayer(player3, 0, null);
+        involvedPlayer4 = new InvolvedPlayer(player4, 0, null);
 
     }
     @After

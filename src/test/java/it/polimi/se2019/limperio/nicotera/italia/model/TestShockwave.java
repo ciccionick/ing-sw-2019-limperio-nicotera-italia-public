@@ -69,9 +69,9 @@ public class TestShockwave {
         shockwave = new Shockwave();
         shockwave.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(shockwave);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}} ,null);
-        involvedPlayer3 = new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(1);}} ,null);
-        involvedPlayer4 = new InvolvedPlayer(player4, new ArrayList<Integer>(){{add(1);}} ,null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 ,null);
+        involvedPlayer3 = new InvolvedPlayer(player3, 1 ,null);
+        involvedPlayer4 = new InvolvedPlayer(player4, 1 ,null);
 
 
 

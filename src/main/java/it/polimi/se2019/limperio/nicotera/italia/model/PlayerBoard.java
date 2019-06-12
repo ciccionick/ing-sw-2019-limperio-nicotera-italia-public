@@ -43,9 +43,9 @@ public class PlayerBoard implements Serializable, Cloneable {
 
         marks = new ArrayList<>();
         ammo = new ArrayList<>();
-        ammo.add(new Ammo(RED,false));
-        ammo.add(new Ammo(BLUE,false));
-        ammo.add(new Ammo(YELLOW,false));
+        ammo.add(new Ammo(RED,true));
+        ammo.add(new Ammo(BLUE,true));
+        ammo.add(new Ammo(YELLOW,true));
         for (int i=0; i<2; i++){
             ammo.add(new Ammo(RED,false));
             ammo.add(new Ammo(BLUE,false));

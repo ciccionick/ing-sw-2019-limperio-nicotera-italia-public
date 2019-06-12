@@ -57,8 +57,12 @@ public class ListenerForWeaponCard implements MouseListener, ActionListener {
             RequestToUseWeaponCard requestToUseWeaponCard = new RequestToUseWeaponCard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
             requestToUseWeaponCard.setWeaponWantUse(mainFrame.getRemoteView().getMyPlayerBoardView().getWeaponCardDeck().get(numOfCard - 1));
             mainFrame.getRemoteView().notify(requestToUseWeaponCard);
-            System.out.println("Invio richiesta di scelta arma");
-            button.setEnabled(false);
+            mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon1(false);
+            mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon2(false);
+            mainFrame.getRemoteView().getMyPlayerBoardView().setCanChooseWeapon3(false);
+            mainFrame.getLeftPanel().getButtonW1().setEnabled(false);
+            mainFrame.getLeftPanel().getButtonW2().setEnabled(false);
+            mainFrame.getLeftPanel().getButtonW3().setEnabled(false);
         }
 
     }

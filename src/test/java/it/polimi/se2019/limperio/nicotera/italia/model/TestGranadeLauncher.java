@@ -58,8 +58,8 @@ public class TestGranadeLauncher {
         granadeLauncher= new GranadeLauncher();
         granadeLauncher.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(granadeLauncher);
-        involvedPlayer1= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}},  map.getMatrixOfSquares()[1][0]);
-        involvedPlayer2= new InvolvedPlayer(null, new ArrayList<Integer>(){{add(2);}}, map.getMatrixOfSquares()[1][1]);
+        involvedPlayer1= new InvolvedPlayer(player2, 1,  map.getMatrixOfSquares()[1][0]);
+        involvedPlayer2= new InvolvedPlayer(null, 2, map.getMatrixOfSquares()[1][1]);
 
 
     }

@@ -59,8 +59,8 @@ public class TestTractorBeam {
         tractorBeam = new TractorBeam();
         tractorBeam.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(tractorBeam);
-        involvedPlayer2 = new InvolvedPlayer(player2, null , map.getMatrixOfSquares()[1][2]);
-        involvedPlayer3= new InvolvedPlayer(player3, null , null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 0 , map.getMatrixOfSquares()[1][2]);
+        involvedPlayer3= new InvolvedPlayer(player3, 0 , null);
 
 
     }
