@@ -20,7 +20,7 @@ public class Heatseeker extends WeaponCard {
         involvedPlayers.get(0).getPlayer().assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
     }
 
-     Heatseeker() {
+    public  Heatseeker() {
         super(RED, "Heatseeker");
         Boolean[] kindOfAttack = {true, false, false, false};
         String description = "EFFECT:\n Choose 1 target you cannot see and deal 3 damage to it.\n" +
