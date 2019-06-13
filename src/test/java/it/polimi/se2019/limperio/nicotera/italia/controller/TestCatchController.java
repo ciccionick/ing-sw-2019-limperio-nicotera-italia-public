@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Selecti
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,16 +18,26 @@ import static org.junit.Assert.*;
  * @author Giuseppe Italia
  */
 
-public class TestCatchController extends TestController {
+public class TestCatchController{
+
+
+
+
+    Game game = Game.instanceOfGame();
+    Controller controller = new Controller(game);
     private CatchController catchController = new CatchController(game, controller);
 
 
-
-    @After
-    public void inizialize()
-    {
+    @Before
+    public void setUp(){
+        game.setController(this.controller);
+        game.createPlayer("player1", true, 1, "BLUE");
+        game.createPlayer("player2", false, 2, "YELLOW");
+        game.createPlayer("player3", false, 3, "GREY");
+        game.setGameOver(true);
         game.initializeGame(false, 1, false);
     }
+
 
     @Test
     public void findSquareWherePlayerCanCatchTest(){
@@ -81,33 +92,84 @@ public class TestCatchController extends TestController {
         assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
 
 
+        //Test for player 2 situated in [0][0]. The game in FrenzyMode
+
+        game.setInFrenzy(true);
+        game.setFirstInFrenzyMode(1);
+
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        wp.clear();
+        squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(1), wp);
+
+        for(Square squarex: squares)
+        {
+            if(!squarex.isSpawn())
+            {
+
+                assertNotEquals(((NormalSquare) squarex).getAmmoTile(), null);
+            }
+            else
+            {
+
+                assertNotEquals(((SpawnSquare) squarex).getWeaponCards(), null);
+            }
+        }
+
+
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][2]));
+
+        //Test for player 2 situated in [0][0]. The game in FrenzyMode
+
+        game.setInFrenzy(true);
+        game.setFirstInFrenzyMode(3);
+
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        wp.clear();
+        squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(1), wp);
+
+        for(Square squarex: squares)
+        {
+            if(!squarex.isSpawn())
+            {
+
+                assertNotEquals(((NormalSquare) squarex).getAmmoTile(), null);
+            }
+            else
+            {
+
+                assertNotEquals(((SpawnSquare) squarex).getWeaponCards(), null);
+            }
+        }
+
+
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][2]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][2]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[2][1]));
 
 
     }
 
-    /*@Test
-    public void addWeaponToPlayerTest()
-    {
+    @Test
+    public void handleSelectionWeaponToCatch() {
+
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
-        SpawnSquare spawnSquare= (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
-        WeaponCard card= spawnSquare.getWeaponCards().get(0);
-        SelectionWeaponToCatch event= new SelectionWeaponToCatch("", game.getPlayers().get(0).getNickname());
+        SpawnSquare spawnSquare = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
+        WeaponCard card = spawnSquare.getWeaponCards().get(0);
+        SelectionWeaponToCatch event = new SelectionWeaponToCatch("", game.getPlayers().get(0).getNickname());
         event.setNameOfWeaponCard(card.getName());
-        event.setColumn(0);
-        event.setRow(1);
         catchController.handleSelectionWeaponToCatch(event);
-        assertTrue(!((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[1][0]).getWeaponCards().contains(card));
+        assertTrue(!spawnSquare.getWeaponCards().contains(card));
         assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(card));
-        /**
-         * check number of ammunition which are isUsable
-         */
-      /*  int i=0;
-        for(Ammo ammox: game.getPlayers().get(0).getPlayerBoard().getAmmo())
-        {
-            if(ammox.isUsable()) i++;
-        }
-        assertEquals(i, 3-card.getPriceToBuy().length);
-    }*/
+    }
+
 
 
     @Test

@@ -203,7 +203,8 @@ public class Controller implements Observer<ClientEvent> {
      * @param nickname the nickname of the player
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
-     private boolean isTheTurnOfThisPlayer(String nickname){
+    //
+     public boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
@@ -221,6 +222,7 @@ public class Controller implements Observer<ClientEvent> {
         return roundController;
     }
 
+    //
     void handleTheEndOfAnAction(){
         game.incrementNumOfActionsOfThisTurn();
 
@@ -256,6 +258,7 @@ public class Controller implements Observer<ClientEvent> {
         return shootController;
     }
 
+    //
     void sendRequestForAction() {
          if(game.getRound()>1 && game.getNumOfActionOfTheTurn()==0 && timer!=null) {
 
@@ -303,6 +306,7 @@ public class Controller implements Observer<ClientEvent> {
         }
     }
 
+    //
     public void sendRequestToDrawPowerUpCard(Player playerHasToDraw, int numOfPowerUpCardToDraw) {
         playerHasToDraw.setHasToBeGenerated(true);
         if(timer!=null){
@@ -336,6 +340,7 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+    //
      boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
@@ -353,7 +358,8 @@ public class Controller implements Observer<ClientEvent> {
         return weaponController;
     }
 
-    private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+    //
+    public boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
          if(game.isInFrenzy()){
              if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())

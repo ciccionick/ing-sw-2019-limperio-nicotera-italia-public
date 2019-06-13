@@ -2,10 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.PowerUpCard;
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +16,23 @@ import static org.junit.Assert.*;
  * @author Giuseppe Italia
  */
 
-public class TestPowerUpController extends TestController {
+public class TestPowerUpController {
+
+
+    Game game = Game.instanceOfGame();
+    Controller controller = new Controller(game);
     PowerUpController powerUpController = new PowerUpController(this.game, this.controller);
 
+
+    @Before
+    public void setUp(){
+        game.setController(this.controller);
+        game.createPlayer("player1", true, 1, "BLUE");
+        game.createPlayer("player2", false, 2, "YELLOW");
+        game.createPlayer("player3", false, 3, "GREY");
+        game.setGameOver(true);
+        game.initializeGame(false, 2, false);
+    }
 
 
     @Test
@@ -42,6 +53,22 @@ public class TestPowerUpController extends TestController {
     }
 
 
+
+    @Test
+    public void handleDiscardOfCardToSpawnTest()
+    {
+        DiscardPowerUpCardToSpawnEvent event= new DiscardPowerUpCardToSpawnEvent("", game.getPlayers().get(0).getNickname());
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(1);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
+
+        ServerEvent.AliasCard card= new ServerEvent.AliasCard(powerUpCard.getName(), "", powerUpCard.getColor());
+        event.setPowerUpCard(card);
+        powerUpController.handleDiscardOfCardToSpawn(event);
+        assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[2][3]);
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
+
+    }
  /*   @Test
     public void handleDrawOfTwoCardsANDHandleDiscardOfCardToSpawnANDSpawnPlayerTest()
     {

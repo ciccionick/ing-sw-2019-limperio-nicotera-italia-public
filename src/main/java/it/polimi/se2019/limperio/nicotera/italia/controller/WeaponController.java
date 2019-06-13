@@ -435,7 +435,7 @@ public class WeaponController {
         return players;
     }
 
-    private void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
+    public void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
         int row = startingSquare.getRow();
         int column = startingSquare.getColumn();
