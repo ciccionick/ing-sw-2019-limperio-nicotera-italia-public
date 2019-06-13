@@ -56,8 +56,6 @@ class PopupToPayWithAmmoOrPowerUpCard {
         Image image;
         int widthAmmo = mainFrame.getFrame().getWidth()/40;
         int heightAmmo = mainFrame.getFrame().getHeight()/20;
-         int widthCard = (int) (mainFrame.getFrame().getWidth() / 2.08);
-         int heightCard = (int) (mainFrame.getFrame().getHeight() / 1.56);
 
         if(event.isBlueAmmo()){
             JButton blueButton = new JButton();
@@ -68,7 +66,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
             blueButton.setIcon(icon);
             blueButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
             contentPanel.add(blueButton,gbc);
-            gbc.gridx = gbc.gridx+1;
+
         }
 
          if(event.isRedAmmo()){
@@ -79,8 +77,8 @@ class PopupToPayWithAmmoOrPowerUpCard {
              redButton.setActionCommand("RedAmmo");
              redButton.setIcon(icon);
              redButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
-             contentPanel.add(redButton, gbc);
              gbc.gridx++;
+             contentPanel.add(redButton, gbc);
          }
 
          if(event.isYellowAmmo()){
@@ -91,8 +89,8 @@ class PopupToPayWithAmmoOrPowerUpCard {
              yellowButton.setActionCommand("YellowAmmo");
              yellowButton.setIcon(icon);
              yellowButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
-             contentPanel.add(yellowButton,gbc);
              gbc.gridx++;
+             contentPanel.add(yellowButton,gbc);
          }
 
          String folderPath = "resources/powerupcards/";
@@ -106,8 +104,8 @@ class PopupToPayWithAmmoOrPowerUpCard {
              cardButton.setActionCommand(card.getName() + ","+ card.getColor().toString().toUpperCase());
              cardButton.setIcon(new ImageIcon(folderPath.concat(nameOfCard+ " ").concat(color+".png")));
              cardButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
-             contentPanel.add(cardButton,gbc);
              gbc.gridx++;
+             contentPanel.add(cardButton,gbc);
          }
 
          dialog.pack();

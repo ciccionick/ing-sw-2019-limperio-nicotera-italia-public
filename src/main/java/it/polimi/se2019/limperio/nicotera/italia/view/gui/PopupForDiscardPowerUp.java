@@ -4,7 +4,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Discard
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCardToPay;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
+
 
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ class PopupForDiscardPowerUp {
     private JDialog dialog;
     private MainFrame mainFrame;
     private java.util.Timer timer;
-    private int delay = 10000;
+    private int delay = 30000;
     private TaskForTagbackTimer task;
 
      PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
@@ -66,7 +66,7 @@ class PopupForDiscardPowerUp {
          gbcLabelMessage.gridx = 0;
          gbcLabelMessage.gridy = 0;
          gbcLabelMessage.gridwidth = listOfPowerUpCards.size();
-         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting())
+         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()))
             gbcLabelMessage.gridwidth++;
              contentPanel.add(message, gbcLabelMessage);
 
@@ -148,7 +148,7 @@ class PopupForDiscardPowerUp {
          }
      }
 
-     private class ListenerForDiscardPowerUp implements ActionListener {
+      class ListenerForDiscardPowerUp implements ActionListener {
          private MainFrame mainFrame;
          private ServerEvent.AliasCard card;
          private ServerEvent event;

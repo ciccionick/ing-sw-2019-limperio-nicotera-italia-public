@@ -58,7 +58,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead()) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCardAsAmmo)message).isToTagback())) {
             if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
@@ -71,7 +71,6 @@ public class Controller implements Observer<ClientEvent> {
             if (message.isRequestToCatchByPlayer()) {
                 catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
             }
-
 
             if(message.isCatchEvent()){
                 if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
@@ -135,6 +134,9 @@ public class Controller implements Observer<ClientEvent> {
                     shootController.handleDiscardPowerUpToPayAnEffect(message);
                 if(((DiscardPowerUpCardAsAmmo)message).isToTargeting())
                     shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToTagback()) {
+                    shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
+                }
             }
             if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
                 shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);

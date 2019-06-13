@@ -10,7 +10,6 @@ public class DiscardPowerUpCardAsAmmo extends ClientEvent {
     private boolean isToReload = false;
     private boolean isToTargeting = false;
     private boolean isToTagback = false;
-    private boolean timerOverForTagback = false;
 
     public DiscardPowerUpCardAsAmmo(String message, String nickname) {
         super(message, nickname);
@@ -41,13 +40,7 @@ public class DiscardPowerUpCardAsAmmo extends ClientEvent {
         return isToTargeting;
     }
 
-    public boolean isTimerOverForTagback() {
-        return timerOverForTagback;
-    }
 
-    public void setTimerOverForTagback(boolean timerOverForTagback) {
-        this.timerOverForTagback = timerOverForTagback;
-    }
 
     public boolean isToTagback() {
         return isToTagback;

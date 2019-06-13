@@ -220,19 +220,6 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         this.numOfKillDoneInTheTurn = numOfKillDoneInTheTurn;
     }
 
-    /**
-     * It is called when a player decides to do a run action
-     * @param square the final position the player wants to reach
-     */
-    @Override
-    public void run(Square square){}
-
-    /**
-     * It is called when a player decide to catch an ammotile
-     * @param square the position in which the player wants to catch
-     */
-    @Override
-    public void catchAmmoTile (Square square){}
 
     @Override
     public void shoot(int effect, WeaponCard weaponCard, ArrayList<InvolvedPlayer> involvedPlayers, ColorOfCard_Ammo[] priceToPay, ArrayList<PowerUpCard> powerUpToDiscard) {
@@ -329,12 +316,13 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         }
     }
 
-    /**
-     * It is called when a player discards power up card in order to be spawn
-     * @param card the discarded card
-     */
     @Override
-    public void discardPowerUpCard(PowerUpCard card){}
+    public void useTagbackGranade(PowerUpCard tagback, Player playerToAttack) {
+        playerToAttack.assignMarks(this.colorOfFigure, 1);
+        tagback.setOwnerOfCard(null);
+        tagback.setInTheDeckOfSomePlayer(false);
+        playerBoard.getPowerUpCardsOwned().remove(tagback);
+    }
 
     @Override
     public int compareTo(Player o) {

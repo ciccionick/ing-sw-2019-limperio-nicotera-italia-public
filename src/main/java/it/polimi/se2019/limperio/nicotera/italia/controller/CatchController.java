@@ -312,12 +312,12 @@ class CatchController {
     }
 
      void handleRequestToDiscardPowerUpCardAsAmmo(DiscardPowerUpCardAsAmmo event){
-        powerUpCardsToDiscard.add(findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard()));
+        powerUpCardsToDiscard.add(findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(event.getNickname())));
         sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
     }
 
-     PowerUpCard findPowerUpCard(String nameOfPowerUpCard, ColorOfCard_Ammo colorOfCard) {
-        for (PowerUpCard powerUpCard : game.getPlayers().get(game.getPlayerOfTurn() - 1).getPlayerBoard().getPowerUpCardsOwned()){
+     PowerUpCard findPowerUpCard(String nameOfPowerUpCard, ColorOfCard_Ammo colorOfCard, Player player) {
+        for (PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if (powerUpCard.getName().equals(nameOfPowerUpCard) && powerUpCard.getColor().equals(colorOfCard))
                 return powerUpCard;
     }

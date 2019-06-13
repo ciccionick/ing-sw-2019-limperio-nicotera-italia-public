@@ -23,7 +23,7 @@ public class ShootController {
     private ArrayList<Player> playersAttacked = new ArrayList<>();
     private boolean alreadyAskedToUseTargeting = false;
     private PowerUpCard targetingScopeToUse;
-    private int numberOfPlayerInWaitingForTagback = 0;
+    private ArrayList<Player> playersAreChoosingForTagback = new ArrayList<>();
 
     public ShootController(Game game, Controller controller) {
         this.game = game;
@@ -125,7 +125,6 @@ public class ShootController {
                  playersAttacked.remove(player);
                 if (message.getNumOfEffect() == 1) {
                     player.shoot(1, weaponToUse, involvedPlayers, null, null);
-                    weaponToUse.setLoad(false);
                     sendPlayerBoardEvent(playersAttacked);
                     handleSendRequestAfterShoot(player, playersAttacked);
                 }
@@ -239,7 +238,7 @@ public class ShootController {
 
     void handleDiscardPowerUpToPayAnEffect(ClientEvent message){
         DiscardPowerUpCardAsAmmo event = (DiscardPowerUpCardAsAmmo) message;
-        powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard()));
+        powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(message.getNickname())));
         sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
     }
 
@@ -270,7 +269,7 @@ public class ShootController {
             }
         }
         for(Player playerAttacked : playersAttacked){
-            if(hasTagBack(playerAttacked) && controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(player))
+            if(hasTagBack(playerAttacked))
                 playersCouldUseTagback.add(playerAttacked);
         }
 
@@ -283,10 +282,11 @@ public class ShootController {
     }
 
     private boolean hasTagBack(Player playerAttacked) {
-        for(PowerUpCard powerUpCard : playerAttacked.getPlayerBoard().getPowerUpCardsOwned()){
-            if(powerUpCard.getName().equals("Tagback granade"))
-                return true;
-        }
+            for (PowerUpCard powerUpCard : playerAttacked.getPlayerBoard().getPowerUpCardsOwned()) {
+                if (powerUpCard.getName().equals("Tagback granade"))
+                    return true;
+            }
+
         return false;
     }
 
@@ -328,7 +328,7 @@ public class ShootController {
                     break;
                 }
             }
-            targetingScopeToUse = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard());
+            targetingScopeToUse = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard(), controller.findPlayerWithThisNickname(message.getNickname()));
             requestToPayWithAmmoOrPUCard.getPowerUpCards().remove(indexOfCardToRemove);
             requestToPayWithAmmoOrPUCard.setNicknameInvolved(message.getNickname());
             requestToPayWithAmmoOrPUCard.setMessageForInvolved("Choose an ammo or a power up card to pay the effect of targeting scope");
@@ -346,7 +346,7 @@ public class ShootController {
             ammoForPayTargeting = ColorOfCard_Ammo.YELLOW;
         if(message.getPowerUpCard()!=null){
             powerUpCardToDiscardToPay = new ArrayList<>();
-            powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(message.getPowerUpCard().getName(),message.getPowerUpCard().getColor()));
+            powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(message.getPowerUpCard().getName(),message.getPowerUpCard().getColor(), controller.findPlayerWithThisNickname(message.getNickname())));
         }
 
         RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
@@ -367,15 +367,19 @@ public class ShootController {
             playerAttacker.useTargetingScope(playerAttacked,targetingScopeToUse,ammoForPayTargeting,null);
         else
             playerAttacker.useTargetingScope(playerAttacked,targetingScopeToUse,null,powerUpCardToDiscardToPay.get(0));
-        sendPlayerBoardEventAfterTargeting(playerAttacker,controller.findPlayerWithThisNickname(message.getNameOfPlayer()));
+        sendPlayerBoardEventAfterTargetingOrTagback(playerAttacker,controller.findPlayerWithThisNickname(message.getNameOfPlayer()),true);
         handleSendRequestAfterShoot(playerAttacker,playersAttacked);
     }
 
-    private void sendPlayerBoardEventAfterTargeting(Player playerAttacker, Player playerAttacked) {
-
-        String messageForAttacker = "You have used Targeting scope on " + playerAttacked.getNickname();
-        String messageForAttacked = playerAttacker.getNickname() + " has used Targeting scope on you";
-        String messageForOthers = playerAttacker.getNickname() + " has used Targeting scope on " + playerAttacked.getNickname();
+    private void sendPlayerBoardEventAfterTargetingOrTagback(Player playerAttacker, Player playerAttacked, boolean isAfterTargeting) {
+        String nameOfCard;
+        if(isAfterTargeting)
+            nameOfCard = "Targeting scope";
+        else
+            nameOfCard = "Tagback granade";
+        String messageForAttacker = "You have used " + nameOfCard +" on " + playerAttacked.getNickname();
+        String messageForAttacked = playerAttacker.getNickname() + " has used " + nameOfCard +" on you";
+        String messageForOthers = playerAttacker.getNickname() + " has used " + nameOfCard +" on " + playerAttacked.getNickname();
         for(Player player : game.getPlayers()){
             PlayerBoardEvent pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknames(game.getListOfNickname());
@@ -404,14 +408,36 @@ public class ShootController {
             newEvent.setMessageForInvolved("Choose a Tagback granade card to use against who attacked you or 'No one' if you want to avoid this");
             newEvent.setPowerUpCards(tagbackGranadeCards);
             newEvent.setToTagback(true);
-            numberOfPlayerInWaitingForTagback++;
+            playersAreChoosingForTagback.add(player);
             game.notify(newEvent);
         }
     }
 
-    private void handleRequestToUseTagbackGranade(ClientEvent message){
-        //se ha deciso di non usarla decrementi numberOfPlayerinwaiting e se questo va a 0 chiami handleEndOfTheAction altrimenti null
-        //se invece ha deciso di usarla la usi e controlli se ne ha altre e nel caso chiami di nuovo sendRequestToUseTagbackGranade
-        //altrimenti decrementi e controlli se sei arrivato a 0, in tal caso chiami handleOfTheaction.
+     void handleRequestToUseTagbackGranade(DiscardPowerUpCardAsAmmo message){
+        Player playerWithTagback = controller.findPlayerWithThisNickname(message.getNickname());
+        if(message.getNameOfPowerUpCard()==null){
+            playersAreChoosingForTagback.remove(playerWithTagback);
+            if(playersAreChoosingForTagback.isEmpty())
+                controller.handleTheEndOfAnAction();
+        }
+        else{
+            PowerUpCard tagback = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard(), playerWithTagback);
+            playerWithTagback.useTagbackGranade(tagback,weaponToUse.getOwnerOfCard());
+            sendPlayerBoardEventAfterTargetingOrTagback(playerWithTagback, weaponToUse.getOwnerOfCard(), false);
+            ArrayList<Player> playersCouldUseTagback = new ArrayList<>();
+            for(PowerUpCard card : playerWithTagback.getPlayerBoard().getPowerUpCardsOwned()){
+                if(card.getName().equals("Tagback granade")) {
+                    playersCouldUseTagback.add(playerWithTagback);
+                    sendRequestToUseTagbackGranade(playersCouldUseTagback);
+                    return;
+                }
+            }
+
+            playersAreChoosingForTagback.remove(playerWithTagback);
+            if(playersAreChoosingForTagback.isEmpty())
+                controller.handleTheEndOfAnAction();
+        }
     }
+
+
 }
