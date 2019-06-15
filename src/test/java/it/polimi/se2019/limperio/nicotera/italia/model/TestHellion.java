@@ -59,7 +59,7 @@ public class TestHellion {
         hellion = new Hellion();
         hellion.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(hellion);
-        involvedPlayer1= new InvolvedPlayer(player2, null,  null);
+        involvedPlayer1= new InvolvedPlayer(player2, 0,  null);
 
 
 

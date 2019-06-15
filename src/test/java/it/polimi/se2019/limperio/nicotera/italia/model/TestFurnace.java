@@ -52,9 +52,9 @@ public class TestFurnace {
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
         player2.setPositionOnTheMap(map.getMatrixOfSquares()[1][2]);
         player3.setPositionOnTheMap(map.getMatrixOfSquares()[1][3]);
-        involvedPlayer2= new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}}, null);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(1);}} , null);
-        involvedPlayer4= new InvolvedPlayer(null, null , map.getMatrixOfSquares()[1][2]);
+        involvedPlayer2= new InvolvedPlayer(player2, 1, null);
+        involvedPlayer3= new InvolvedPlayer(player3, 1 , null);
+        involvedPlayer4= new InvolvedPlayer(null, 0 , map.getMatrixOfSquares()[1][2]);
 
     }
 

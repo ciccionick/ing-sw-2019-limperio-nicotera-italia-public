@@ -1,6 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -218,28 +220,33 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         this.numOfKillDoneInTheTurn = numOfKillDoneInTheTurn;
     }
 
-    /**
-     * It is called when a player decides to do a run action
-     * @param square the final position the player wants to reach
-     */
-    @Override
-    public void run(Square square){}
 
-    /**
-     * It is called when a player decide to catch an ammotile
-     * @param square the position in which the player wants to catch
-     */
     @Override
-    public void catchAmmoTile (Square square){}
+    public void shoot(int effect, WeaponCard weaponCard, ArrayList<InvolvedPlayer> involvedPlayers, ColorOfCard_Ammo[] priceToPay, ArrayList<PowerUpCard> powerUpToDiscard) {
+        if(priceToPay==null) {
+            weaponCard.useWeapon(effect, involvedPlayers);
+            return;
+        }
+        if(powerUpToDiscard==null){
+            for(ColorOfCard_Ammo ammo : priceToPay){
+                playerBoard.removeAmmoOfThisColor(ammo);
+            }
+            weaponCard.useWeapon(effect, involvedPlayers);
+        }
+        else{
+            for (ColorOfCard_Ammo ammo : priceToPay) {
+                if(areThereEnoughAmmo(ammo))
+                    playerBoard.removeAmmoOfThisColor(ammo);
+                else{
+                    playerBoard.getPowerUpCardsOwned().remove(findPowerUpOfThisColor(powerUpToDiscard,ammo));
+                }
+            }
+            weaponCard.useWeapon(effect, involvedPlayers);
+        }
 
-    /**
-     * It is called when a player decide to shoot another ones
-     * @param players the players that have shot
-     * @param weaponCard the weapon used to shoot
-     * @param typeOfAttack the type of attack of weapon used
-     */
-    @Override
-    public void shoot (Player[] players, WeaponCard weaponCard, int[] typeOfAttack){}
+
+    }
+
 
     /**
      * It is called when a player decides to catch a weapon
@@ -288,12 +295,34 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         playerBoard.getPowerUpCardsOwned().add(powerUpCardsToDraw);
     }
 
-    /**
-     * It is called when a player discards power up card in order to be spawn
-     * @param card the discarded card
-     */
     @Override
-    public void discardPowerUpCard(PowerUpCard card){}
+    public void useTargetingScope(Player playerToAttack, PowerUpCard targetingScope, ColorOfCard_Ammo ammoToDiscard, PowerUpCard powerUpCardToDiscard) {
+        playerToAttack.assignDamage(this.getColorOfFigure(), 1);
+        targetingScope.setOwnerOfCard(null);
+        targetingScope.setInTheDeckOfSomePlayer(false);
+        playerBoard.getPowerUpCardsOwned().remove(targetingScope);
+        if(ammoToDiscard!=null){
+            for(Ammo ammoItem : playerBoard.getAmmo()){
+                if(ammoItem.getColor().equals(ammoToDiscard) && ammoItem.isUsable()) {
+                    ammoItem.setIsUsable(false);
+                    break;
+                }
+            }
+        }
+        else{
+            powerUpCardToDiscard.setOwnerOfCard(null);
+            powerUpCardToDiscard.setInTheDeckOfSomePlayer(false);
+            playerBoard.getPowerUpCardsOwned().remove(powerUpCardToDiscard);
+        }
+    }
+
+    @Override
+    public void useTagbackGranade(PowerUpCard tagback, Player playerToAttack) {
+        playerToAttack.assignMarks(this.colorOfFigure, 1);
+        tagback.setOwnerOfCard(null);
+        tagback.setInTheDeckOfSomePlayer(false);
+        playerBoard.getPowerUpCardsOwned().remove(tagback);
+    }
 
     @Override
     public int compareTo(Player o) {

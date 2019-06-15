@@ -19,15 +19,12 @@ public class ElectroScythe extends WeaponCard
 
     @Override
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
-        ArrayList<Player> players = new ArrayList<>();
-        players.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
-        players.remove(this.getOwnerOfCard());
         switch (typeOfAttack) {
                 case 1:
-                    basicMode(players);
+                    basicMode(involvedPlayers.get(0).getSquare());
                     break;
                 case 4:
-                    inReaperMode(players);
+                    inReaperMode(involvedPlayers.get(0).getSquare());
                     break;
                 default: throw new IllegalArgumentException();
         }
@@ -40,8 +37,8 @@ public class ElectroScythe extends WeaponCard
         description = "BASIC MODE:\n Deal 1 damage to every other player on your square. \n" +
                 "IN REAPER MODE:\n Deal 2 damage to every other player on your square.";
         getNamesOfAttack().add("BASIC MODE");
-        getNamesOfAttack().add(null);
-        getNamesOfAttack().add(null);
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
         getNamesOfAttack().add("IN REAPER MODE");
         getDescriptionsOfAttack().add("Deal 1 damage to every other player on your square");
         getDescriptionsOfAttack().add(null);
@@ -56,15 +53,19 @@ public class ElectroScythe extends WeaponCard
     }
 
 
-    private void basicMode(ArrayList<Player> players){
-        for(Player player:players) {
-            player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+    private void basicMode(Square square){
+        for(Player player: square.getPlayerOnThisSquare()) {
+            if(!player.equals(this.getOwnerOfCard())) {
+                player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+            }
         }
     }
 
-    private void inReaperMode(ArrayList<Player> players) {
-        for(Player player:players) {
-            player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
+    private void inReaperMode(Square square) {
+        for(Player player: square.getPlayerOnThisSquare()) {
+            if(!player.equals(this.getOwnerOfCard()))
+                player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
         }
+
     }
 }

@@ -59,8 +59,8 @@ public class TestZx2 {
         zx2 = new Zx2();
         zx2.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(zx2);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);add(4);}} , null);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(4);}} , null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 , null);
+        involvedPlayer3= new InvolvedPlayer(player3, 4 , null);
 
 
     }

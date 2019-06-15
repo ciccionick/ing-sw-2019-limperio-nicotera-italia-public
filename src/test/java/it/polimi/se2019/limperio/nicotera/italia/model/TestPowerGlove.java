@@ -56,9 +56,9 @@ public class TestPowerGlove {
         powerGlove = new PowerGlove();
         powerGlove.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(powerGlove);
-        involvedPlayer2 = new InvolvedPlayer(player2, null, null);
-        involvedPlayer3 = new InvolvedPlayer(player3, null, map.getMatrixOfSquares()[2][1]);
-        involvedPlayer4 = new InvolvedPlayer(player4, null, map.getMatrixOfSquares()[0][1]);
+        involvedPlayer2 = new InvolvedPlayer(player2, 0, null);
+        involvedPlayer3 = new InvolvedPlayer(player3, 0, map.getMatrixOfSquares()[2][1]);
+        involvedPlayer4 = new InvolvedPlayer(player4, 0, map.getMatrixOfSquares()[0][1]);
 
     }
 

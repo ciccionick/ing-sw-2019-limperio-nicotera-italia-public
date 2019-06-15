@@ -59,8 +59,8 @@ public class TestVortexCannon {
         vortexCannon = new VortexCannon();
         vortexCannon.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(vortexCannon);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}} , map.getMatrixOfSquares()[1][1]);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(2);}} , map.getMatrixOfSquares()[1][1]);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 , map.getMatrixOfSquares()[1][1]);
+        involvedPlayer3= new InvolvedPlayer(player3, 2 , map.getMatrixOfSquares()[1][1]);
 
 
     }

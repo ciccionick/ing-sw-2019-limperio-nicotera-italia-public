@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public abstract class WeaponCard extends Card  {
 
-    private Boolean isLoad = true;
+    private boolean isLoad = true;
     private ColorOfCard_Ammo[] priceToBuy = null;
     private ColorOfCard_Ammo[] priceToReload;
     private Boolean[] hasThisKindOfAttack;
@@ -22,15 +22,6 @@ public abstract class WeaponCard extends Card  {
     private ColorOfCard_Ammo[] priceToPayForAlternativeMode = null;
 
 
-
-
-    public Boolean getLoad() {
-        return isLoad;
-    }
-
-    public void setLoad(Boolean load) {
-        isLoad = load;
-    }
 
     public ArrayList<String> getNamesOfAttack() {
         return namesOfAttack;
@@ -52,7 +43,7 @@ public abstract class WeaponCard extends Card  {
         return priceToPayForEffect1;
     }
 
-    public void setPriceToPayForEffect1(ColorOfCard_Ammo[] priceToPayForEffect1) {
+     void setPriceToPayForEffect1(ColorOfCard_Ammo[] priceToPayForEffect1) {
         this.priceToPayForEffect1 = priceToPayForEffect1;
     }
 
@@ -60,7 +51,7 @@ public abstract class WeaponCard extends Card  {
         return priceToPayForEffect2;
     }
 
-    public void setPriceToPayForEffect2(ColorOfCard_Ammo[] priceToPayForEffect2) {
+     void setPriceToPayForEffect2(ColorOfCard_Ammo[] priceToPayForEffect2) {
         this.priceToPayForEffect2 = priceToPayForEffect2;
     }
 
@@ -68,7 +59,7 @@ public abstract class WeaponCard extends Card  {
         return priceToPayForAlternativeMode;
     }
 
-    public void setPriceToPayForAlternativeMode(ColorOfCard_Ammo[] priceToPayForAlternativeMode) {
+     void setPriceToPayForAlternativeMode(ColorOfCard_Ammo[] priceToPayForAlternativeMode) {
         this.priceToPayForAlternativeMode = priceToPayForAlternativeMode;
     }
 
@@ -116,7 +107,7 @@ public abstract class WeaponCard extends Card  {
      * @throws IllegalArgumentException is generated if one element of typeOfAttack is not between 1 and 4
      */
 
-    public abstract void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) throws IllegalArgumentException;
+    public abstract void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) ;
 
     public WeaponCard(ColorOfCard_Ammo color, String name) {
         super(color, name);
@@ -131,7 +122,7 @@ public abstract class WeaponCard extends Card  {
      */
 
 
-     public static WeaponCard createWeaponCard(int typeOfWeaponCard) throws IllegalArgumentException{
+     public static WeaponCard createWeaponCard(int typeOfWeaponCard){
         switch(typeOfWeaponCard) {
             case 0:
                 return new Cyberblade();

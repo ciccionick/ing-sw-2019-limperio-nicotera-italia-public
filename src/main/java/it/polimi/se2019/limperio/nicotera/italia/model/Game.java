@@ -125,23 +125,33 @@ public class Game extends Observable<ServerEvent> {
         if(terminatorModeActive){
             players.add(new Player("terminator", false, players.size()+1, findColorAvailable()));
         }
-
         PlayerBoardEvent pbEvent;
         int position=1;
-
+        createBoard();
+        board.createPowerUpDeck();
+        board.createWeaponsDeck();
         for (Player player : players){
             player.setPosition(position);
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent();
+            if(player.getNickname().equals("pietro")){
+                int i = 0;
+                for(i=0;i<board.getWeaponsDeck().getWeaponCards().size();i++){
+                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Electroscythe"))
+                        break;
+                }
+                board.getWeaponsDeck().getWeaponCards().get(i).setOwnerOfCard(player);
+                player.getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(i));
+                player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));
+                player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));
+            }
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
             position++;
         }
-        createBoard();
-        board.createPowerUpDeck();
-        board.createWeaponsDeck();
+
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
@@ -169,10 +179,6 @@ public class Game extends Observable<ServerEvent> {
         }
         return colors.get(0);
     }
-
-
-
-
 
 
 
@@ -217,7 +223,7 @@ public class Game extends Observable<ServerEvent> {
      * @param color The color of the figure of the player
      */
     public void createPlayer(String nickname, boolean isFirst, int position, String color){
-        ColorOfFigure_Square colorOfThisPlayer=null;
+        ColorOfFigure_Square colorOfThisPlayer;
         switch (color){
             case "YELLOW":
                 colorOfThisPlayer=ColorOfFigure_Square.YELLOW;

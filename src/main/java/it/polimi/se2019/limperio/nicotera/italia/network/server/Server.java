@@ -310,7 +310,6 @@ public class Server  {
     }
 
     void startTimer() {
-        System.out.println("Il timer è partito!");
         timer = new Timer();
         task = new MyTask();
         try{

@@ -76,6 +76,10 @@ import java.util.ArrayList;
                 gbcEffectButton.insets.bottom = 50;
                 contentPane.add(descriptionOfEffect,gbcEffectButton);
             }
+            else{
+                JButton buttonUseless = new JButton();
+                effectButtons.add(buttonUseless);
+            }
         }
 
         if(message.isOneEffectAlreadyChoosen()){

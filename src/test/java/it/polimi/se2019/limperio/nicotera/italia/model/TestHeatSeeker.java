@@ -46,7 +46,7 @@ public class TestHeatSeeker {
         heatSeeker= new Heatseeker();
         heatSeeker.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(heatSeeker);
-        involvedPlayer1= new InvolvedPlayer(player2, null, null);
+        involvedPlayer1= new InvolvedPlayer(player2, 0, null);
 
 
 

@@ -44,7 +44,7 @@ public class TestWhisper {
         whisper = new Whisper();
         whisper.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(whisper);
-        involvedPlayer2 = new InvolvedPlayer(player2, null , null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 0 , null);
 
 
     }

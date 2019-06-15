@@ -53,8 +53,8 @@ public class TestSledgehammer {
         sledgehammer = new Sledgehammer();
         sledgehammer.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(sledgehammer);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>(){{add(1);}} , null);
-        involvedPlayer3= new InvolvedPlayer(player3, new ArrayList<Integer>(){{add(4);}}, map.getMatrixOfSquares()[1][2]);
+        involvedPlayer2 = new InvolvedPlayer(player2, 1 , null);
+        involvedPlayer3= new InvolvedPlayer(player3, 4, map.getMatrixOfSquares()[1][2]);
 
 
     }

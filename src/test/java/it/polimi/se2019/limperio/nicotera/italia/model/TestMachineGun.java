@@ -56,9 +56,9 @@ public class TestMachineGun {
         machineGun = new MachineGun();
         machineGun.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(machineGun);
-        involvedPlayer2 = new InvolvedPlayer(player2, new ArrayList<Integer>() {{ add(1);add(2);}}, null);
-        involvedPlayer3 = new InvolvedPlayer(player3, new ArrayList<Integer>() {{add(1);add(3);}}, null);
-        involvedPlayer4 = new InvolvedPlayer(player4, new ArrayList<Integer>() {{add(3);}}, null);
+        involvedPlayer2 = new InvolvedPlayer(player2, 2, null);
+        involvedPlayer3 = new InvolvedPlayer(player3, 1, null);
+        involvedPlayer4 = new InvolvedPlayer(player4, 3, null);
 
     }
 
