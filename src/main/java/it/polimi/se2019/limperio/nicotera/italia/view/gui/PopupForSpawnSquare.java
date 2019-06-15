@@ -35,7 +35,7 @@ import java.util.ArrayList;
         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
 
 
-        PanelForWeapons panelForWeapons = new PanelForWeapons(mainFrame, listOfWeapon, null);
+        PanelForWeapons panelForWeapons = new PanelForWeapons(mainFrame, listOfWeapon, null, null);
 
         GridBagConstraints gbcPanelForWeapons = new GridBagConstraints();
         gbcPanelForWeapons.insets = new Insets(5, 10, 0, 10);

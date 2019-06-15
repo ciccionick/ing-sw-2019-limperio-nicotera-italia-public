@@ -312,11 +312,15 @@ class MapPanel extends JPanel {
                if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator()){
                    mainFrame.getRemoteView().notify(new MoveTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column));
                }
+               if(mainFrame.getRemoteView().getMapView().isSelectionBeforeToShoot()){
+                   RunEvent moveBeforeShootEvent = new RunEvent("" ,mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column);
+                   moveBeforeShootEvent.setBeforeToShoot(true);
+                   mainFrame.getRemoteView().notify(moveBeforeShootEvent);
+               }
                for(JLabel label : hashMapForCell.values()){
                    label.setEnabled(true);
                }
                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
-              // mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getListOfSquareAsArrayList());
                mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setSelected(false);
                mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setEnabled(false);
                mainFrame.getRightPanel().getPanelOfPlayers().getButtonMNone().setSelected(true);

@@ -31,6 +31,7 @@ public class MapView {
     private boolean isSelectionForMoveTerminator = false;
     private boolean isSelectionForTeleporter = false;
     private boolean isSelectionForNewton = false;
+    private boolean isSelectionBeforeToShoot = false;
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
@@ -45,7 +46,6 @@ public class MapView {
     public void update(MapEvent event) {
 
         if (map == null) {
-            System.out.println("Sono in update di map view");
             map = event.getMap();
             typeOfMap = event.getTypeOfMap();
             remoteView.setTerminatorMode(event.isTerminatorMode());
@@ -92,6 +92,13 @@ public class MapView {
     }
 
 
+    public boolean isSelectionBeforeToShoot() {
+        return isSelectionBeforeToShoot;
+    }
+
+    public void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
+        isSelectionBeforeToShoot = selectionBeforeToShoot;
+    }
 
     public int getTypeOfMap() {
         return typeOfMap;

@@ -60,6 +60,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToDiscardPowerUpCardToPay = false;
     private boolean isRequestToPayWithAmmoOrPUCard = false;
     private boolean isRequestToChooseAPlayer = false;
+    private boolean isRequestSelectionWeaponToReload = false;
 
 
     private int numOfAction;
@@ -78,6 +79,14 @@ public class ServerEvent implements Serializable {
 
     public boolean isRequestToSelectionPlayerToAttackWithTerminator() {
         return isRequestToSelectionPlayerToAttackWithTerminator;
+    }
+
+    public boolean isRequestSelectionWeaponToReload() {
+        return isRequestSelectionWeaponToReload;
+    }
+
+    public void setRequestSelectionWeaponToReload(boolean requestSelectionWeaponToReload) {
+        isRequestSelectionWeaponToReload = requestSelectionWeaponToReload;
     }
 
     public void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {

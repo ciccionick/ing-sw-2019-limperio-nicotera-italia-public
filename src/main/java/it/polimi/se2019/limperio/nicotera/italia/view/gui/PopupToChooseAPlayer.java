@@ -1,7 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ChoosePlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.TerminatorShootEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToSelectionPlayerToAttackWithTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import javax.swing.*;
@@ -9,15 +11,16 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 class PopupToChooseAPlayer {
 
      private MainFrame mainFrame;
-     private RequestToChooseAPlayer event;
+     private ServerEvent event;
      private JDialog dialog;
      PopupToChooseAPlayer(MainFrame mainFrame, ServerEvent receivedEvent) {
          this.mainFrame = mainFrame;
-         this.event = (RequestToChooseAPlayer) receivedEvent;
+         this.event = receivedEvent;
          dialog = new JDialog(mainFrame.getFrame());
          dialog.setUndecorated(true);
         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -38,8 +41,12 @@ class PopupToChooseAPlayer {
         text.setBackground(SystemColor.menu);
         contentPane.add(text,gbc);
         gbc.gridy++;
-
-        for(String name : ((RequestToChooseAPlayer) receivedEvent).getNameOfPlayers()){
+         ArrayList<String> attackablePlayers = null;
+         if(receivedEvent.isRequestToChooseAPlayer())
+             attackablePlayers = ((RequestToChooseAPlayer) receivedEvent).getNameOfPlayers();
+         if(receivedEvent.isRequestToSelectionPlayerToAttackWithTerminator())
+             attackablePlayers = ((RequestToSelectionPlayerToAttackWithTerminator)receivedEvent).getNicknamesOfPlayersAttachable();
+        for(String name : attackablePlayers){
             JButton buttonName = new JButton(name);
             buttonName.setActionCommand(name);
             buttonName.addActionListener(listenerForButtonPlayers);
@@ -59,7 +66,13 @@ class PopupToChooseAPlayer {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(event.isToUseTargeting()){
+            if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
+                TerminatorShootEvent terminatorShootEvent = new TerminatorShootEvent("" , mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                terminatorShootEvent.setNicknamePlayerToAttack(e.getActionCommand());
+                mainFrame.getRemoteView().notify(terminatorShootEvent);
+
+            }
+            if(event.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer)event).isToUseTargeting()){
                 ChoosePlayer newEvent =  new ChoosePlayer("", event.getNicknameInvolved());
                 newEvent.setToTargeting(true);
                 newEvent.setNameOfPlayer(e.getActionCommand());
@@ -73,6 +86,8 @@ class PopupToChooseAPlayer {
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
+            }
+            dialog.setVisible(false);
         }
     }
 }

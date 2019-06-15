@@ -62,7 +62,7 @@ public class WeaponController {
                     usableEffects.add(4);
                 break;
 
-            case "Schockwave":
+            case "Shockwave":
                 if(!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty()) {
                     usableEffects.add(1);
                     if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
@@ -435,7 +435,7 @@ public class WeaponController {
         return players;
     }
 
-    public void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
+     void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
         int row = startingSquare.getRow();
         int column = startingSquare.getColumn();
@@ -479,14 +479,6 @@ public class WeaponController {
         return playersNotVisible;
     }
 
-    boolean canReload(WeaponCard weaponCard) {
-        Player player = weaponCard.getOwnerOfCard();
-        int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), RED);
-        int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), BLUE);
-        int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(weaponCard.getPriceToReload(), YELLOW);
-        return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED, true) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE, true) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW, true)>=numOfYellowAmmoRequired;
-
-    }
 
     private boolean effectAffordable(Player player, ColorOfCard_Ammo[] price){
         int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, RED);

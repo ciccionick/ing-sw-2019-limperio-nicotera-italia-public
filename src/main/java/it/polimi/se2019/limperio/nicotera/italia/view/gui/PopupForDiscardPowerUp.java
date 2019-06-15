@@ -94,7 +94,7 @@ class PopupForDiscardPowerUp {
 
             gbc.gridy++;
             JButton button = new JButton();
-            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting())
+            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting()|| ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()))
                 button.setText("Use");
             else
                 button.setText("Discard");
@@ -174,12 +174,13 @@ class PopupForDiscardPowerUp {
                   newEvent.setToReload(((RequestToDiscardPowerUpCardToPay)event).isToReload());
                   newEvent.setToTargeting(((RequestToDiscardPowerUpCardToPay)event).isToTargeting());
                   newEvent.setToTagback(((RequestToDiscardPowerUpCardToPay)event).isToTagback());
+                  newEvent.setToReload(((RequestToDiscardPowerUpCardToPay)event).isToReload());
                   if(!e.getActionCommand().equals("No one")){
                       newEvent.setNameOfPowerUpCard(card.getName());
                       newEvent.setColorOfCard(card.getColor());
                   }
-                  mainFrame.getRemoteView().notify(newEvent);
                   dialog.setVisible(false);
+                  mainFrame.getRemoteView().notify(newEvent);
 
               }
          }

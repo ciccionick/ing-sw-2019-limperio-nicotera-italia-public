@@ -4,6 +4,7 @@ public class RunEvent extends ClientEvent{
 
     private int row;
     private int column;
+    private boolean isBeforeToShoot = false;
 
     public RunEvent(String message, String nickname, int row, int column){
         super(message, nickname);
@@ -18,5 +19,13 @@ public class RunEvent extends ClientEvent{
 
     public int getColumn() {
         return column;
+    }
+
+    public boolean isBeforeToShoot() {
+        return isBeforeToShoot;
+    }
+
+    public void setBeforeToShoot(boolean beforeToShoot) {
+        isBeforeToShoot = beforeToShoot;
     }
 }

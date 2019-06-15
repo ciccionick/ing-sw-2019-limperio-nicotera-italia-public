@@ -24,6 +24,7 @@ public class ShootController {
     private boolean alreadyAskedToUseTargeting = false;
     private PowerUpCard targetingScopeToUse;
     private ArrayList<Player> playersAreChoosingForTagback = new ArrayList<>();
+    private boolean isForTerminator = false;
 
     public ShootController(Game game, Controller controller) {
         this.game = game;
@@ -40,20 +41,26 @@ public class ShootController {
         playersAttacked = new ArrayList<>();
         alreadyAskedToUseTargeting = false;
         ammoForPayTargeting = null;
+        isForTerminator = false;
         Player player = controller.findPlayerWithThisNickname(message.getNickname());
-        if(game.isInFrenzy() && player.getPosition()>=game.getFirstInFrenzyMode() || !game.isInFrenzy() && player.isOverSixDamage()){
-            //seleziona quadrati a 1 distanza in cui si puo spostare e in cui puo utilizzare almeno un arma
-            return;
+        if(game.isInFrenzy()  || !game.isInFrenzy() && player.isOverSixDamage()) {
+            ArrayList<Square> squares;
+            if (game.isInFrenzy() && player.getPosition() >= game.getFirstInFrenzyMode() || !game.isInFrenzy() && player.isOverSixDamage())
+               squares = getSquaresFromWherePlayerCanAttack(player,1);
+            else
+                squares = getSquaresFromWherePlayerCanAttack(player,2);
+            RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where move yourself before to shoot");
+            requestSelectionSquareForAction.setSquaresReachable(squares);
+            requestSelectionSquareForAction.setNicknameInvolved(player.getNickname());
+            requestSelectionSquareForAction.setBeforeToShoot(true);
         }
-        if(game.isInFrenzy() && player.getPosition()<game.getFirstInFrenzyMode()){
-            //seleziona quadrati a 2 distanza in cui si puo spostare e in cui puo utilizzare almeno un arma
-        }
-
         else
             sendRequestToChooseAWeapon(player);
     }
 
-    private void sendRequestToChooseAWeapon(Player player){
+
+
+     void sendRequestToChooseAWeapon(Player player){
         boolean[] canUseWeapon = new boolean[3];
         canUseWeapon[0] = false;
         canUseWeapon[1] = false;
@@ -74,6 +81,8 @@ public class ShootController {
         game.notify(requestToChooseWeapon);
 
     }
+
+
 
     private WeaponCard findWeaponCardWithThisName(String name, Player player){
         for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
@@ -126,7 +135,7 @@ public class ShootController {
                 if (message.getNumOfEffect() == 1) {
                     player.shoot(1, weaponToUse, involvedPlayers, null, null);
                     sendPlayerBoardEvent(playersAttacked);
-                    handleSendRequestAfterShoot(player, playersAttacked);
+                    handleSendRequestAfterShoot(player, playersAttacked, false);
                 }
                 else {
                     priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
@@ -194,7 +203,7 @@ public class ShootController {
         if(controller.getCatchController().isAffordableOnlyWithAmmo(player, priceToPay)){
             player.shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size()-1)), priceToPay, null);
             sendPlayerBoardEvent(playersAttacked);
-            handleSendRequestAfterShoot(player, playersAttacked);
+            handleSendRequestAfterShoot(player, playersAttacked, false);
         }
         else{
             colorsNotEnough = controller.getCatchController().getColorsOfAmmoNotEnough(player,priceToPay);
@@ -215,7 +224,7 @@ public class ShootController {
             }
             player.shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size()-1)), priceToPay, powerUpCardToDiscardToPay);
             sendPlayerBoardEvent(playersAttacked);
-            handleSendRequestAfterShoot(player, playersAttacked);
+            handleSendRequestAfterShoot(player, playersAttacked, false);
         }
 
     }
@@ -232,7 +241,7 @@ public class ShootController {
         else{
             player.shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size()-1)), priceToPay, powerUpCardToDiscardToPay);
             sendPlayerBoardEvent(playersAttacked);
-            handleSendRequestAfterShoot(player, playersAttacked);
+            handleSendRequestAfterShoot(player, playersAttacked, false);
         }
     }
 
@@ -253,15 +262,21 @@ public class ShootController {
         return involvedPlayersForThisEffect;
     }
 
-    private void handleSendRequestAfterShoot(Player player, ArrayList<Player> playersAttacked){
-        weaponToUse.setLoad(false);
-        PlayerBoardEvent pbEvent = new PlayerBoardEvent();
-        pbEvent.setNicknames(game.getListOfNickname());
-        pbEvent.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
-        pbEvent.setPlayerBoard(weaponToUse.getOwnerOfCard().getPlayerBoard());
-        game.notify(pbEvent);
+     void handleSendRequestAfterShoot(Player player, ArrayList<Player> playersAttacked, boolean isForTerminator){
+        this.isForTerminator = isForTerminator;
+        if(!isForTerminator && weaponToUse!=null) {
+            weaponToUse.setLoad(false);
+            PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+            pbEvent.setNicknames(game.getListOfNickname());
+            pbEvent.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
+            pbEvent.setPlayerBoard(weaponToUse.getOwnerOfCard().getPlayerBoard());
+            game.notify(pbEvent);
+        }
+        else
+            this.playersAttacked = playersAttacked;
 
         ArrayList<Player> playersCouldUseTagback = new ArrayList<>();
+
         for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if(powerUpCard.getName().equals("Targeting scope") && !alreadyAskedToUseTargeting){
                 sendRequestToUseTargeting(player);
@@ -294,7 +309,10 @@ public class ShootController {
         RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
         requestToDiscardPowerUpCardToPay.setToTargeting(true);
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
-        requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which Targeting scope you want to use. \nIf you don't want you can press 'No one'");
+        if(isForTerminator)
+            requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which Targeting scope the terminator has to use. \nIf you don't want you can press 'No one'");
+        else
+            requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which Targeting scope you want to use. \nIf you don't want you can press 'No one'");
         ArrayList<ServerEvent.AliasCard> powerUpCardToChoose = new ArrayList<>();
         for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if(powerUpCard.getName().equals("Targeting scope"))
@@ -307,19 +325,24 @@ public class ShootController {
 
      void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCardAsAmmo message) {
          int indexOfCardToRemove = 0;
+         Player player;
+         if(isForTerminator)
+             player = game.getPlayers().get(game.getPlayerOfTurn()-1);
+         else
+             player = weaponToUse.getOwnerOfCard();
         if(message.getNameOfPowerUpCard()==null){
             alreadyAskedToUseTargeting=true;
-            handleSendRequestAfterShoot(weaponToUse.getOwnerOfCard(), playersAttacked);
+            handleSendRequestAfterShoot(player, playersAttacked, isForTerminator);
         }
         else{
             RequestToPayWithAmmoOrPUCard requestToPayWithAmmoOrPUCard = new RequestToPayWithAmmoOrPUCard();
-            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(weaponToUse.getOwnerOfCard(), ColorOfCard_Ammo.BLUE,false)>0)
+            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, ColorOfCard_Ammo.BLUE,false)>0)
                 requestToPayWithAmmoOrPUCard.setBlueAmmo(true);
-            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(weaponToUse.getOwnerOfCard(), ColorOfCard_Ammo.RED,false)>0)
+            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, ColorOfCard_Ammo.RED,false)>0)
                 requestToPayWithAmmoOrPUCard.setRedAmmo(true);
-            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(weaponToUse.getOwnerOfCard(), ColorOfCard_Ammo.YELLOW,false)>0)
+            if(controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, ColorOfCard_Ammo.YELLOW,false)>0)
                 requestToPayWithAmmoOrPUCard.setYellowAmmo(true);
-            for(PowerUpCard powerUpCard : weaponToUse.getOwnerOfCard().getPlayerBoard().getPowerUpCardsOwned()){
+            for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
                 requestToPayWithAmmoOrPUCard.getPowerUpCards().add(new ServerEvent.AliasCard(powerUpCard.getName(), powerUpCard.getDescription(), powerUpCard.getColor()));
             }
             for(ServerEvent.AliasCard card : requestToPayWithAmmoOrPUCard.getPowerUpCards()){
@@ -351,12 +374,24 @@ public class ShootController {
 
         RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
         requestToChooseAPlayer.setToUseTargeting(true);
-        for(Player player : playersAttacked){
-            requestToChooseAPlayer.getNameOfPlayers().add(player.getNickname());
+        if(playersAttacked.size()==1) {
+            Player player = controller.findPlayerWithThisNickname(message.getNickname());
+            if (ammoForPayTargeting != null)
+                player.useTargetingScope(playersAttacked.get(0), targetingScopeToUse, ammoForPayTargeting, null);
+            else
+                player.useTargetingScope(playersAttacked.get(0), targetingScopeToUse, null, powerUpCardToDiscardToPay.get(0));
+            sendPlayerBoardEventAfterTargetingOrTagback(player, playersAttacked.get(0), true);
+            handleSendRequestAfterShoot(player, playersAttacked, isForTerminator);
         }
-        requestToChooseAPlayer.setNicknameInvolved(message.getNickname());
-        requestToChooseAPlayer.setMessageForInvolved("Choose a player to use Targeting scope");
-        message.getMyVirtualView().update(requestToChooseAPlayer);
+
+        else {
+            for (Player player : playersAttacked) {
+                requestToChooseAPlayer.getNameOfPlayers().add(player.getNickname());
+            }
+            requestToChooseAPlayer.setNicknameInvolved(message.getNickname());
+            requestToChooseAPlayer.setMessageForInvolved("Choose a player to use Targeting scope");
+            message.getMyVirtualView().update(requestToChooseAPlayer);
+        }
 
     }
 
@@ -368,7 +403,7 @@ public class ShootController {
         else
             playerAttacker.useTargetingScope(playerAttacked,targetingScopeToUse,null,powerUpCardToDiscardToPay.get(0));
         sendPlayerBoardEventAfterTargetingOrTagback(playerAttacker,controller.findPlayerWithThisNickname(message.getNameOfPlayer()),true);
-        handleSendRequestAfterShoot(playerAttacker,playersAttacked);
+        handleSendRequestAfterShoot(playerAttacker,playersAttacked, false);
     }
 
     private void sendPlayerBoardEventAfterTargetingOrTagback(Player playerAttacker, Player playerAttacked, boolean isAfterTargeting) {
@@ -415,6 +450,16 @@ public class ShootController {
 
      void handleRequestToUseTagbackGranade(DiscardPowerUpCardAsAmmo message){
         Player playerWithTagback = controller.findPlayerWithThisNickname(message.getNickname());
+        Player playerToAttack = null;
+        if(!isForTerminator)
+            playerToAttack = weaponToUse.getOwnerOfCard();
+        else{
+            for(Player player : game.getPlayers()){
+                if(player.getNickname().equals("terminator"))
+                    playerToAttack = player;
+            }
+        }
+
         if(message.getNameOfPowerUpCard()==null){
             playersAreChoosingForTagback.remove(playerWithTagback);
             if(playersAreChoosingForTagback.isEmpty())
@@ -422,8 +467,8 @@ public class ShootController {
         }
         else{
             PowerUpCard tagback = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard(), playerWithTagback);
-            playerWithTagback.useTagbackGranade(tagback,weaponToUse.getOwnerOfCard());
-            sendPlayerBoardEventAfterTargetingOrTagback(playerWithTagback, weaponToUse.getOwnerOfCard(), false);
+            playerWithTagback.useTagbackGranade(tagback,playerToAttack);
+            sendPlayerBoardEventAfterTargetingOrTagback(playerWithTagback, playerToAttack, false);
             ArrayList<Player> playersCouldUseTagback = new ArrayList<>();
             for(PowerUpCard card : playerWithTagback.getPlayerBoard().getPowerUpCardsOwned()){
                 if(card.getName().equals("Tagback granade")) {
@@ -439,5 +484,45 @@ public class ShootController {
         }
     }
 
+    private ArrayList<Square> getSquaresFromWherePlayerCanAttack(Player player, int movement) {
+        ArrayList<Square> startingSquares = new ArrayList<>();
+        ArrayList<Square> squaresToRemove = new ArrayList<>();
+        boolean isToRemove = true;
+        Square originalSquare = player.getPositionOnTheMap();
+        controller.findSquaresReachableWithThisMovements(originalSquare, movement, startingSquares);
+        for(Square square : startingSquares){
+            player.setPositionOnTheMap(square);
+            for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()) {
+                if (controller.checkIfThisWeaponIsUsable(weaponCard,0)) {
+                    isToRemove = false;
+                    break;
+                }
+            }
+            if(isToRemove)
+                squaresToRemove.add(square);
+            isToRemove = true;
+        }
 
+        for(Square squareToRemove : squaresToRemove){
+            startingSquares.remove(squareToRemove);
+        }
+        player.setPositionOnTheMap(originalSquare);
+        System.out.println(startingSquares.size());
+        return startingSquares;
+    }
+
+
+     void handleMovementBeforeShoot(ClientEvent message) {
+        controller.getRunController().doRunAction((RunEvent) message, true);
+        Player player = controller.findPlayerWithThisNickname(message.getNickname());
+        if(game.isInFrenzy()){
+            if(controller.getReloadController().playerCanReload(player))
+                controller.getReloadController().sendRequestToReload(player,false);
+            else
+                sendRequestToChooseAWeapon(player);
+        }
+        else{
+            sendRequestToChooseAWeapon(player);
+        }
+    }
 }

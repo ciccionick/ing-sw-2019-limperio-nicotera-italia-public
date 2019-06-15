@@ -49,4 +49,9 @@ public class SpawnSquare extends Square implements  Cloneable  {
          spawnSquare.nicknamesOfPlayersOnThisSquare = (ArrayList<String>) this.getNicknamesOfPlayersOnThisSquare().clone();
          return spawnSquare;
     }
+
+    public void setWeaponCards(ArrayList<WeaponCard> weapons)
+    {
+        this.weaponCards= weapons;
+    }
 }

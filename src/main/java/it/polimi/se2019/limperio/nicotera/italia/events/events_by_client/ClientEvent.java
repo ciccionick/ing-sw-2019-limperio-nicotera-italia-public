@@ -56,6 +56,9 @@ public class ClientEvent implements Serializable {
    private boolean isDiscardPowerUpCardAsAmmo = false;
    private boolean isDiscardAmmoOrPowerUpToPayTargeting = false;
    private boolean isChoosePlayer = false;
+   private boolean isSelectionWeaponToReload = false;
+
+
    private boolean isRequestToUseTeleporter = false;
    private boolean isSelectionSquareToUseTeleporter = false;
    private boolean isRequestToUseNewton = false;
@@ -85,6 +88,14 @@ public class ClientEvent implements Serializable {
 
     public boolean isRequestToShootByPlayer() {
         return isRequestToShootByPlayer;
+    }
+
+    public boolean isSelectionWeaponToReload() {
+        return isSelectionWeaponToReload;
+    }
+
+    public void setSelectionWeaponToReload(boolean selectionWeaponToReload) {
+        isSelectionWeaponToReload = selectionWeaponToReload;
     }
 
     public void setRequestToShootByPlayer(boolean requestToShootByPlayer) {

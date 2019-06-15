@@ -28,8 +28,10 @@ public class Controller implements Observer<ClientEvent> {
     private WeaponController weaponController;
     private TerminatorController terminatorController;
     private DeathController deathController;
+    private ReloadController reloadController;
     private Timer timer = null;
     private TurnTask turnTask;
+    private boolean isAlreadyAskedToReload = false;
 
     /**
      * Constructor of the class: it creates the instances of the other controller classes
@@ -44,6 +46,7 @@ public class Controller implements Observer<ClientEvent> {
         shootController = new ShootController(game, this);
         weaponController = new WeaponController(game, this);
         deathController = new DeathController(game, this);
+        reloadController = new ReloadController(game, this);
 
     }
 
@@ -58,7 +61,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead()) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCardAsAmmo)message).isToTagback())) {
             if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
@@ -71,7 +74,6 @@ public class Controller implements Observer<ClientEvent> {
             if (message.isRequestToCatchByPlayer()) {
                 catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
             }
-
 
             if(message.isCatchEvent()){
                 if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
@@ -110,11 +112,18 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isSelectionSquareForRun()){
-                runController.doRunAction((RunEvent) message);
+                if(((RunEvent)message).isBeforeToShoot())
+                    shootController.handleMovementBeforeShoot(message);
+                else
+                    runController.doRunAction((RunEvent) message, false);
             }
 
             if(message.isTerminatorShootEvent()){
                 terminatorController.handleTerminatorShootAction(message);
+            }
+
+            if(message.isSelectionWeaponToReload()){
+                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
             }
 
             if(message.isSelectionWeaponToDiscard()){
@@ -138,6 +147,9 @@ public class Controller implements Observer<ClientEvent> {
                 if(((DiscardPowerUpCardAsAmmo)message).isToTagback()) {
                     shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
                 }
+                if(((DiscardPowerUpCardAsAmmo)message).isToReload()) {
+                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
+                }
             }
             if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
                 shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
@@ -160,6 +172,10 @@ public class Controller implements Observer<ClientEvent> {
             if(message.isSelectionSquareToUseNewton())
                 powerUpController.useNewton((SelectionSquareToUseNewton)message);
 
+
+
+            if(message.isSelectionWeaponToReload())
+                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()),catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
         }
     }
 
@@ -208,7 +224,8 @@ public class Controller implements Observer<ClientEvent> {
      * @param nickname the nickname of the player
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
-    boolean isTheTurnOfThisPlayer(String nickname){
+    //
+     public boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
@@ -220,7 +237,17 @@ public class Controller implements Observer<ClientEvent> {
         return weaponsAsAlias;
     }
 
+     RunController getRunController() {
+        return runController;
+    }
 
+    public void setAlreadyAskedToReload(boolean alreadyAskedToReload) {
+        isAlreadyAskedToReload = alreadyAskedToReload;
+    }
+
+     ReloadController getReloadController() {
+        return reloadController;
+    }
 
     public RoundController getRoundController() {
         return roundController;
@@ -232,8 +259,15 @@ public class Controller implements Observer<ClientEvent> {
 
         if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
             sendRequestForAction();
+            return;
+        }
+            if (reloadController.playerCanReload(player) && !isAlreadyAskedToReload) {
+                reloadController.sendRequestToReload(player, true);
+                isAlreadyAskedToReload = true;
+
         }
         else {
+            isAlreadyAskedToReload = false;
             if(timer!=null)
                 timer.cancel();
             timer = null;
@@ -257,7 +291,7 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-    public ShootController getShootController() {
+     ShootController getShootController() {
         return shootController;
     }
 
@@ -341,10 +375,11 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+    //
      boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
-         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && game.isInFrenzy() && !weaponController.canReload(weaponCard))
+         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && game.isInFrenzy() && !reloadController.isThisWeaponReloadable(weaponCard))
              return false;
          return (weaponController.isThisWeaponUsable(weaponCard, movementCanDoBeforeReloadAndShoot));
 
@@ -361,7 +396,7 @@ public class Controller implements Observer<ClientEvent> {
     boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
          if(game.isInFrenzy()){
-             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())
+             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>=game.getFirstInFrenzyMode())
                  movementCanDoBeforeReloadAndShoot=1;
              else
                  movementCanDoBeforeReloadAndShoot=2;
