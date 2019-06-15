@@ -44,6 +44,7 @@ public class MapView {
     public void update(MapEvent event) {
 
         if (map == null) {
+            System.out.println("Sono in update di map view");
             map = event.getMap();
             typeOfMap = event.getTypeOfMap();
             remoteView.setTerminatorMode(event.isTerminatorMode());

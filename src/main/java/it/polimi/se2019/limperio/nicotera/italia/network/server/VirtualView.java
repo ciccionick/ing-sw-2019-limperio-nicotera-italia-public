@@ -16,6 +16,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * View of the client in the server side. Handle the communication with the client and the exchange of event.
@@ -80,6 +82,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     private boolean terminatorMode = false;
 
     private int typeOfMap;
+    private boolean streamClosed = false;
 
     /**
      * Sets first player attribute, initialize the object streams
@@ -158,7 +161,9 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     out.writeObject(req);
                     invalidInitialization = false;
                 }
+
             }
+
         } catch (IOException se) {
             try {
                 client.close();
@@ -170,20 +175,27 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             e.printStackTrace();
         }
 
+        receiveEvents();
+
+
+    }
+
+    private void receiveEvents() {
         while (isClientCurrentlyOnline) {
-            ClientEvent newEvent;
-            try {
+            try{
+                ClientEvent newEvent;
                 newEvent = (ClientEvent) in.readObject();
                 newEvent.setMyVirtualView(this);
                 notify(newEvent);
-            } catch (SocketException se) {
+            }
+            catch (SocketException ex){
                 handleDisconnection();
                 break;
-            } catch (IOException | ClassNotFoundException e) {
+            }
+            catch(IOException | ClassNotFoundException e){
                 e.printStackTrace();
             }
         }
-
 
     }
 
@@ -210,12 +222,16 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      }
 
      void updateStatusAfterReconnection() throws IOException {
-        PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
-        playerBoardEvent.setNicknameInvolved(nicknameOfClient);
-        playerBoardEvent.setPlayerBoard(myPlayerBoard);
-        out.writeObject(playerBoardEvent);
+         System.out.println("sono in updateStatusAfterReconnection");
+        for(PlayerBoard playerBoard : listOfPlayerBoards) {
+            PlayerBoardEvent otherPlayerBoardEvent = new PlayerBoardEvent();
+            otherPlayerBoardEvent.setNicknameInvolved(nicknameOfClient);
+            otherPlayerBoardEvent.setPlayerBoard(playerBoard);
+            out.writeObject(otherPlayerBoardEvent);
+        }
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", killshotTrack);
         killshotTrackEvent.setNicknameInvolved(nicknameOfClient);
+        killshotTrackEvent.setNicknamePlayerOfTheTurn(server.getGame().getPlayers().get(server.getGame().getPlayerOfTurn()-1).getNickname());
         out.writeObject(killshotTrackEvent);
         MapEvent mapEvent = new MapEvent();
         mapEvent.setMap(map);
@@ -223,6 +239,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         mapEvent.setTerminatorMode(terminatorMode);
         mapEvent.setTypeOfMap(typeOfMap);
         out.writeObject(mapEvent);
+        Timer timer = new Timer();
+        timer.schedule(new MyTask(), 1000);
     }
     private boolean isNotValidNickname(String nickname) {
         if(server.getListOfNickname().contains(nickname))
@@ -240,54 +258,32 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     @Override
     public void update(ServerEvent event) {
-        if(event.getNicknames().contains(nicknameOfClient) || event.getNicknameInvolved().equals(nicknameOfClient)) {
+        if(((event.getNicknames().contains(nicknameOfClient) || event.getNicknameInvolved().equals(nicknameOfClient))) && isClientCurrentlyOnline) {
             try {
                 out.writeObject(event);
             } catch (IOException e) {
                handleDisconnection();
             }
         }
-        if(event.isKillshotTrackEvent()){
-            updateKillshotTrack(event);
-        }
-        if(event.isMapEvent()){
-            if(map == null){
-                terminatorMode = ((MapEvent) event).isTerminatorMode();
-                typeOfMap = ((MapEvent)event).getTypeOfMap();
-            }
-            updateMap(event);
-        }
-        if(event.isPlayerBoardEvent()){
-            updatePlayerBoard(event);
-        }
+
     }
 
-    private void updatePlayerBoard(ServerEvent event) {
-        PlayerBoardEvent eventOfPlayerBoard = (PlayerBoardEvent) event;
-        if(listOfPlayerBoards.isEmpty() || !listOfPlayerBoards.contains(eventOfPlayerBoard.getPlayerBoard())){
-            listOfPlayerBoards.add(eventOfPlayerBoard.getPlayerBoard());
-        }
-        else{
-            for(PlayerBoard playerBoard : listOfPlayerBoards){
-                if(playerBoard.getNicknameOfPlayer().equals(eventOfPlayerBoard.getPlayerBoard().getNicknameOfPlayer())){
-                    playerBoard = eventOfPlayerBoard.getPlayerBoard();
-                    break;
-                }
-            }
-        }
-        if(eventOfPlayerBoard.getNicknameInvolved().equals(nicknameOfClient)){
-            myPlayerBoard = eventOfPlayerBoard.getPlayerBoard();
-        }
+    /**
+     * It is called by Server during the initialization of the game; It fills the list of player board that contains the information of all player board in order to allow the right reconnection
+     * @param playerBoard that has to be added to the list
+     */
+     void updateListOfPlayerBoard(PlayerBoard playerBoard) {
+        if(playerBoard.getNicknameOfPlayer().equals(nicknameOfClient))
+            myPlayerBoard = playerBoard;
+        listOfPlayerBoards.add(playerBoard);
     }
 
-    private void updateMap(ServerEvent event) {
-        MapEvent eventOfMap = (MapEvent) event;
-        this.map = eventOfMap.getMap();
+     void updateMap(Square[][] map) {
+        this.map = map;
     }
 
-    private void updateKillshotTrack(ServerEvent event) {
-        KillshotTrackEvent eventKillshotTrack = (KillshotTrackEvent) event;
-        killshotTrack = eventKillshotTrack.getKillShotTrack();
+     void updateKillshotTrack(KillshotTrack killshotTrack) {
+        this.killshotTrack = killshotTrack;
     }
 
 
@@ -296,27 +292,20 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
      void handleDisconnection(){
         isClientCurrentlyOnline=false;
+         closeStream();
         if(!server.isGameIsStarted()) {
             server.getListOfNickname().remove(nicknameOfClient);
             server.getListOfColor().remove(colorOfClient);
             server.deregister(this, client);
+
         }
         else{
             controller.handleDisconnection(nicknameOfClient);
         }
-        try {
-            in.close();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public ArrayList<PlayerBoard> getListOfPlayerBoards() {
-        return listOfPlayerBoards;
-    }
 
-    public PlayerBoard getMyPlayerBoard() {
+     PlayerBoard getMyPlayerBoard() {
         return myPlayerBoard;
     }
 
@@ -324,19 +313,65 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         return map;
     }
 
-    public KillshotTrack getKillshotTrack() {
-        return killshotTrack;
-    }
-
     public String getIPAddress() {
         return IPAddress;
     }
 
-    public void setClient(Socket client) {
+     void setClient(Socket client, ObjectInputStream in, ObjectOutputStream out) {
         this.client = client;
+        this.in = in;
+        this.out = out;
     }
 
-    public void setClientCurrentlyOnline(boolean clientCurrentlyOnline) {
+     void setClientCurrentlyOnline(boolean clientCurrentlyOnline) {
         isClientCurrentlyOnline = clientCurrentlyOnline;
+    }
+
+     void sendAckAfterReconnection() {
+         RequestInitializationEvent ackEvent = new RequestInitializationEvent("", false, false, false, false, false);
+         ackEvent.setAck(true);
+        try {
+            out.writeObject(ackEvent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+
+    private void closeStream() {
+        if(!streamClosed) {
+            try {
+                in.close();
+                out.close();
+                streamClosed = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+     void setTerminatorMode(boolean terminatorMode) {
+        this.terminatorMode = terminatorMode;
+    }
+
+     void setTypeOfMap(int typeOfMap) {
+        this.typeOfMap = typeOfMap;
+    }
+
+    class MyTask extends TimerTask{
+        @Override
+        public void run() {
+            receiveEvents();
+        }
     }
 }

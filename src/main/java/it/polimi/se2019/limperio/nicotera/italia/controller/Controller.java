@@ -99,7 +99,7 @@ public class Controller implements Observer<ClientEvent> {
 
             if(message.isRequestToGoOn()){
                 game.setHasToDoTerminatorAction(false);
-                handleTheEndOfAnAction();
+                handleTheEndOfAnAction(false);
             }
 
             if(message.isSelectionWeaponToCatch()){
@@ -128,6 +128,10 @@ public class Controller implements Observer<ClientEvent> {
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect(message);
+            if(message.isRequestToUseTeleporter())
+                powerUpController.handleRequestToUseTeleporter(message);
+            if(message.isSelectionSquareToUseTeleporter())
+                powerUpController.useTeleporter((SelectionSquareToUseTeleporter) message);
         }
     }
 
@@ -172,16 +176,6 @@ public class Controller implements Observer<ClientEvent> {
 
 
     /**
-     *This method calculates the distance between two squares on the map
-     * @param startCoordinates the coordinates of the start position
-     * @param targetCoordinates the coordinates of the end position
-     * @return the distance
-     */
-    int distanceOfManhattan(int[] startCoordinates, int[] targetCoordinates) {
-        return Math.abs(startCoordinates[0] - targetCoordinates[0]) + Math.abs(startCoordinates[1]- targetCoordinates[1]);
-    }
-
-    /**
      * This method checks if is the turn of the player who has the nickname that is passed
      * @param nickname the nickname of the player
      * @return boolean that is true if it is the turn of the player with the nickname parameter
@@ -204,8 +198,9 @@ public class Controller implements Observer<ClientEvent> {
         return roundController;
     }
 
-    void handleTheEndOfAnAction(){
-        game.incrementNumOfActionsOfThisTurn();
+    void handleTheEndOfAnAction(boolean endOfUsePUCard){
+        if(!endOfUsePUCard)
+            game.incrementNumOfActionsOfThisTurn();
 
         if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
             sendRequestForAction();
@@ -234,7 +229,7 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-    public ShootController getShootController() {
+     ShootController getShootController() {
         return shootController;
     }
 
@@ -377,14 +372,21 @@ public class Controller implements Observer<ClientEvent> {
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
-         game.getListOfNickname().remove(player.getNickname());
-         if(findPlayerWithThisNickname(nicknameOfPlayerDisconnected).getPosition()==game.getPlayerOfTurn())
-             roundController.updateTurn();
-
+         //se il player è contenuto nella lista della tagback granade toglierlo
+         if(isTheTurnOfThisPlayer(nicknameOfPlayerDisconnected)) {
+             game.setNumOfActionOfTheTurn(game.getNumOfMaxActionForTurn());//setto max num di azioni così aggiorno il turno con handleTheEndOFAction
+             if(player.getPositionOnTheMap() == null)
+                getRoundController().randomSpawn(player);
+             handleTheEndOfAnAction(false);
+         }
     }
 
      DeathController getDeathController() {
         return deathController;
+    }
+
+    public void handleReconnection(String nicknameOfPlayer) {
+         findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
     }
 
     private class TurnTask extends TimerTask {
@@ -401,10 +403,10 @@ public class Controller implements Observer<ClientEvent> {
                     powerUpCard = previousPlayer.getPlayerBoard().getPowerUpCardsOwned().remove(1);
                     color = powerUpCard.getColor();
                     Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
-                    for(int i=0; i<matrix.length;i++){
-                        for(int j=0 ; j<matrix[i].length;j++){
-                            if(matrix[i][j]!=null && matrix[i][j].isSpawn() && color.toString().equals(matrix[i][j].getColor().toString()))
-                                square = matrix[i][j];
+                    for (Square[] matrix1 : matrix) {
+                        for (Square square1 : matrix1) {
+                            if (square1 != null && square1.isSpawn() && color.toString().equals(square1.getColor().toString()))
+                                square = square1;
                         }
                     }
 

@@ -66,7 +66,7 @@ public class RunController {
             newEvent.setNicknameInvolved(event.getNickname());
             newEvent.setNicknames(game.getListOfNickname());
             game.notify(newEvent);
-            controller.handleTheEndOfAnAction();
+            controller.handleTheEndOfAnAction(false);
         }
     }
 

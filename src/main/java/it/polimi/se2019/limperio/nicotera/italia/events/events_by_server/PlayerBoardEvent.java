@@ -16,6 +16,7 @@ public class PlayerBoardEvent extends ServerEvent {
     private boolean hasToDiscardCard = false;
     private boolean isFirstFrenzyPlayerBoard = false;
 
+
     /**
      * The player board updated in {@link PlayerBoardEvent}
      */
@@ -76,4 +77,5 @@ public class PlayerBoardEvent extends ServerEvent {
     public void setHasToDiscardCard(boolean hasToDiscardCard) {
         this.hasToDiscardCard = hasToDiscardCard;
     }
+
 }

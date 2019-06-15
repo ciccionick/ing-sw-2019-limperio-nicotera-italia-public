@@ -4,6 +4,7 @@ package it.polimi.se2019.limperio.nicotera.italia.network.server;
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
+import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -152,7 +153,6 @@ public class Server  {
 
                 System.out.println("In attesa di Connessione.");
                 if(gameIsStarted){
-                    System.out.println("if break");
                     break;}
                 Socket client = serverSocket.accept();
                 listOfClient.add(client);
@@ -211,11 +211,20 @@ public class Server  {
             setTypeMap(typeMap);
         }
         game.initializeGame(anticipatedFrenzy, typeMap, terminatorMode);
+        for(VirtualView virtualView : listOfVirtualView){
+            for(Player player : game.getPlayers()){
+                virtualView.updateListOfPlayerBoard(player.getPlayerBoard());
+            }
+            virtualView.updateMap(game.getBoard().getMap().getMatrixOfSquares());
+            virtualView.updateKillshotTrack(game.getBoard().getKillShotTrack());
+            virtualView.setTerminatorMode(game.isTerminatorModeActive());
+            virtualView.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
+        }
         gameIsStarted = true;
         while (serverSocket.isBound()) {
             System.out.println("Attendo connessione. . .");
             Socket client = serverSocket.accept();
-            System.out.println("(!)Connessione accettata da:" + client.getInetAddress());
+            System.out.println("Ho accettato la connessione da:" + client.getInetAddress());
             handleReconnectionClient(client);
         }
     }
@@ -225,14 +234,16 @@ public class Server  {
         VirtualView virtualView = new VirtualView(client, this, controller);
         String nicknameReconnected = virtualView.handleReconnection();
         if(!nicknameReconnected.equals("Failed reconnection")){
+            virtualView.sendAckAfterReconnection();
             for(VirtualView virtualVW : listOfVirtualView){
                 if(virtualVW.getMyPlayerBoard().getNicknameOfPlayer().equals(nicknameReconnected)){
-                    virtualVW.setClient(client);
+                    virtualVW.setClient(client, virtualView.getIn(), virtualView.getOut());
                     virtualVW.setClientCurrentlyOnline(true);
+
                     try{
                         virtualVW.updateStatusAfterReconnection();
+                        controller.handleReconnection(virtualVW.getMyPlayerBoard().getNicknameOfPlayer());
                     }
-                    //chiudere virtual view fittizia
                     catch(IOException e){
                         e.printStackTrace();
                     }
@@ -310,6 +321,9 @@ public class Server  {
         }
     }
 
+    public Game getGame() {
+        return game;
+    }
 
     /**
      * Calls the method that starts the game at the end of the timer

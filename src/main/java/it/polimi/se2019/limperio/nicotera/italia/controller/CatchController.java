@@ -93,8 +93,7 @@ class CatchController {
 
     }
 
-    private void
-    sendNotifyAfterCatching(Player player) {
+    private void sendNotifyAfterCatching(Player player) {
         colorsNotEnough = new ArrayList<>();
         weaponCard = null;
         powerUpCardsToDiscard= new ArrayList<>();
@@ -119,7 +118,7 @@ class CatchController {
         notifyActionDoneEvent.setMessageForOthers(player.getNickname() + " has decided to catch! \nLook up his player board to see what he caught!");
         game.notify(notifyActionDoneEvent);
 
-        controller.handleTheEndOfAnAction();
+        controller.handleTheEndOfAnAction(false);
 
     }
 

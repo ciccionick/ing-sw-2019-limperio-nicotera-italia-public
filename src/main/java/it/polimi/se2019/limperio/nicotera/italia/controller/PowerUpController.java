@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 
 class PowerUpController {
-     private  Game game = null;
+     private  Game game;
      private final Controller controller;
      private int numOfCardToUse;
      PowerUpController(Game game, Controller controller) {
@@ -167,8 +167,12 @@ class PowerUpController {
         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to teleport");
         requestSelectionSquareForAction.setSelectionForTeleporter(true);
         ArrayList<Square> squaresReachable = new ArrayList<>();
-        for(int i = 0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
-            squaresReachable.addAll(Arrays.asList(game.getBoard().getMap().getMatrixOfSquares()[i]));
+        for(int i=0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
+            for(int j=0; j<game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
+                if(game.getBoard().getMap().getMatrixOfSquares()[i][j]!=null){
+                    squaresReachable.add(game.getBoard().getMap().getMatrixOfSquares()[i][j]);
+                }
+            }
         }
         requestSelectionSquareForAction.setSquaresReachable(squaresReachable);
         requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
@@ -180,12 +184,23 @@ class PowerUpController {
 
      void useTeleporter(SelectionSquareToUseTeleporter message) {
          Player player = controller.findPlayerWithThisNickname(message.getNickname());
-         PowerUpCard card = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse);
+         PowerUpCard card = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);
          card.useAsPowerUp(player, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
          card.setInTheDeckOfSomePlayer(false);
          card.setOwnerOfCard(null);
-         player.getPlayerBoard().getPowerUpCardsOwned().remove(numOfCardToUse);
+         player.getPlayerBoard().getPowerUpCardsOwned().remove(card);
+         MapEvent mapEvent = new MapEvent();
+         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+         mapEvent.setNicknames(game.getListOfNickname());
+         mapEvent.setNicknameInvolved(message.getNickname());
+         mapEvent.setMessageForOthers(message.getNickname() + "has used teleporter and moves himself");
+         mapEvent.setMessageForInvolved("You have been moved on the selected square");
+         game.notify(mapEvent);
          PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
+         playerBoardEvent.setPlayerBoard(player.getPlayerBoard());
+         playerBoardEvent.setNicknameInvolved(message.getNickname());
+         playerBoardEvent.setNicknames(game.getListOfNickname());
          game.notify(playerBoardEvent);
-    }
+         controller.handleTheEndOfAnAction(true);
+     }
 }

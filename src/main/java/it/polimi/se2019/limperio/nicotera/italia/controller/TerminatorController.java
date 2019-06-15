@@ -91,7 +91,7 @@ class TerminatorController {
          ArrayList<Player> attackedPlayers = controller.getWeaponController().getVisiblePlayers(0,terminator,0);
          if (attackedPlayers.isEmpty()) {
              game.setHasToDoTerminatorAction(false);
-            controller.handleTheEndOfAnAction();
+            controller.handleTheEndOfAnAction(false);
          }
          else{
              sendRequestToChoosePlayerToAttack(message);
@@ -131,7 +131,7 @@ class TerminatorController {
              pbEvent.setNotifyAboutActionDone(true);
              game.notify(pbEvent);
              game.setHasToDoTerminatorAction(false);
-             controller.handleTheEndOfAnAction();
+             controller.handleTheEndOfAnAction(false);
          }
     }
 
