@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.io.Serializable;
+
 
 /**
  * This class is used to represent the Newton of PowerUp Card
@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 class Newton extends PowerUpCard {
-    int typeOfCard;
+    private int typeOfCard;
      Newton(ColorOfCard_Ammo color, int typeOfCard) {
         super(color, "Newton", "You may play this card on your turn before or after any action.\n" +
                 "Choose any other player's figure and move it 1 or 2 squares in one direction.\n" +

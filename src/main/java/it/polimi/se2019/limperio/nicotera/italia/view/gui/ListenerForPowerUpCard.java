@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseNewton;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseTeleporter;
 
 import javax.swing.*;
@@ -62,6 +63,11 @@ public class ListenerForPowerUpCard implements MouseListener, ActionListener {
                 RequestToUseTeleporter requestToUseTeleporter = new RequestToUseTeleporter("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 requestToUseTeleporter.setNumOfCard(numOfCard);
                 mainFrame.getRemoteView().notify(requestToUseTeleporter);
+            }
+            else if(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(numOfCard-1).getName().equals("Newton")){
+                RequestToUseNewton requestToUseNewton = new RequestToUseNewton("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                requestToUseNewton.setNumOfCard(numOfCard);
+                mainFrame.getRemoteView().notify(requestToUseNewton);
             }
         }
     }

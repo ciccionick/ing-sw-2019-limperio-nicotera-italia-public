@@ -30,6 +30,7 @@ public class MapView {
     private boolean isSelectionForGenerationOfTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
     private boolean isSelectionForTeleporter = false;
+    private boolean isSelectionForNewton = false;
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
@@ -154,6 +155,14 @@ public class MapView {
 
     public void setSelectionForTeleporter(boolean selectionForTeleporter) {
         isSelectionForTeleporter = selectionForTeleporter;
+    }
+
+    public boolean isSelectionForNewton() {
+        return isSelectionForNewton;
+    }
+
+    public void setSelectionForNewton(boolean selectionForNewton) {
+        isSelectionForNewton = selectionForNewton;
     }
 }
 

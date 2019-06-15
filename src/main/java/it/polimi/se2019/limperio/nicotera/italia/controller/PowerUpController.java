@@ -16,6 +16,7 @@ class PowerUpController {
      private  Game game;
      private final Controller controller;
      private int numOfCardToUse;
+     private String nicknameOfPlayerHasToBeMovedByNewton;
      PowerUpController(Game game, Controller controller) {
          this.game = game;
          this.controller = controller;
@@ -166,6 +167,14 @@ class PowerUpController {
      void handleRequestToUseTeleporter(ClientEvent message) {
         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to teleport");
         requestSelectionSquareForAction.setSelectionForTeleporter(true);
+        requestSelectionSquareForAction.setSquaresReachable(getAllSquaresInTheMap());
+        requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
+        numOfCardToUse = ((RequestToUseTeleporter)message).getNumOfCard();
+        game.notify(requestSelectionSquareForAction);
+
+    }
+
+    ArrayList<Square> getAllSquaresInTheMap(){
         ArrayList<Square> squaresReachable = new ArrayList<>();
         for(int i=0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
             for(int j=0; j<game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
@@ -174,11 +183,7 @@ class PowerUpController {
                 }
             }
         }
-        requestSelectionSquareForAction.setSquaresReachable(squaresReachable);
-        requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
-        numOfCardToUse = ((RequestToUseTeleporter)message).getNumOfCard();
-        game.notify(requestSelectionSquareForAction);
-
+        return squaresReachable;
     }
 
 
@@ -203,4 +208,54 @@ class PowerUpController {
          game.notify(playerBoardEvent);
          controller.handleTheEndOfAnAction(true);
      }
+
+     void handleRequestToUseNewton(ClientEvent message) {
+        RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
+        requestToChooseAPlayer.setChoosePlayerForNewton(true);
+        requestToChooseAPlayer.setMessageForInvolved("Select the player you want to move");
+        ArrayList<String> playerCanBeChosen = new ArrayList<>();
+        for(Player player : game.getPlayers()){
+            if(!player.isHasToBeGenerated()) {
+                String nickname = player.getNickname();
+                playerCanBeChosen.add(nickname);
+            }
+        }
+        requestToChooseAPlayer.setNameOfPlayers(playerCanBeChosen);
+        requestToChooseAPlayer.setNicknameInvolved(message.getNickname());
+        numOfCardToUse = ((RequestToUseNewton) message).getNumOfCard();
+        game.notify(requestToChooseAPlayer);
+    }
+
+
+     void handleChoosePlayerForNewton(ChoosePlayer choosePlayer) {
+         nicknameOfPlayerHasToBeMovedByNewton = choosePlayer.getNameOfPlayer();
+         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to move the player you selected before");
+         requestSelectionSquareForAction.setSelectionForNewton(true);
+         requestSelectionSquareForAction.setSquaresReachable(getAllSquaresInTheMap());
+         requestSelectionSquareForAction.setNicknameInvolved(choosePlayer.getNickname());
+         game.notify(requestSelectionSquareForAction);
+    }
+
+    void useNewton(SelectionSquareToUseNewton event){
+         Square newPositionOfThePlayer = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
+         Player player = controller.findPlayerWithThisNickname(event.getNickname());
+         PowerUpCard cardToUse = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);
+         cardToUse.useAsPowerUp(controller.findPlayerWithThisNickname(nicknameOfPlayerHasToBeMovedByNewton), newPositionOfThePlayer);
+         cardToUse.setOwnerOfCard(null);
+         cardToUse.setInTheDeckOfSomePlayer(false);
+         player.getPlayerBoard().getPowerUpCardsOwned().remove(cardToUse);
+         MapEvent mapEvent = new MapEvent();
+         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+         mapEvent.setNicknames(game.getListOfNickname());
+         mapEvent.setNicknameInvolved(event.getNickname());
+         mapEvent.setMessageForOthers(event.getNickname() + "has used newton and moves"+ nicknameOfPlayerHasToBeMovedByNewton);
+         mapEvent.setMessageForInvolved("You have been moved on the selected square");
+         game.notify(mapEvent);
+         PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
+         playerBoardEvent.setPlayerBoard(player.getPlayerBoard());
+         playerBoardEvent.setNicknameInvolved(event.getNickname());
+         playerBoardEvent.setNicknames(game.getListOfNickname());
+         game.notify(playerBoardEvent);
+         controller.handleTheEndOfAnAction(true);
+    }
 }

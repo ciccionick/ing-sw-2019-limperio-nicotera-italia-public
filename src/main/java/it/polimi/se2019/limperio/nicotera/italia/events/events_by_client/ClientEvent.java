@@ -56,9 +56,10 @@ public class ClientEvent implements Serializable {
    private boolean isDiscardPowerUpCardAsAmmo = false;
    private boolean isDiscardAmmoOrPowerUpToPayTargeting = false;
    private boolean isChoosePlayer = false;
-
    private boolean isRequestToUseTeleporter = false;
    private boolean isSelectionSquareToUseTeleporter = false;
+   private boolean isRequestToUseNewton = false;
+   private boolean isSelectionSquareToUseNewton = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -264,5 +265,21 @@ public class ClientEvent implements Serializable {
 
     public void setRequestToUseTeleporter(boolean requestToUseTeleporter) {
         isRequestToUseTeleporter = requestToUseTeleporter;
+    }
+
+    public boolean isRequestToUseNewton() {
+        return isRequestToUseNewton;
+    }
+
+    public void setRequestToUseNewton(boolean requestToUseNewton) {
+        isRequestToUseNewton = requestToUseNewton;
+    }
+
+    public boolean isSelectionSquareToUseNewton() {
+        return isSelectionSquareToUseNewton;
+    }
+
+    public void setSelectionSquareToUseNewton(boolean selectionSquareToUseNewton) {
+        isSelectionSquareToUseNewton = selectionSquareToUseNewton;
     }
 }

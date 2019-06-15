@@ -307,6 +307,8 @@ class MapPanel extends JPanel {
                if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter()){
                    mainFrame.getRemoteView().notify(new SelectionSquareToUseTeleporter("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                }
+               if(mainFrame.getRemoteView().getMapView().isSelectionForNewton())
+                   mainFrame.getRemoteView().notify(new SelectionSquareToUseNewton("",mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
                if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator()){
                    mainFrame.getRemoteView().notify(new MoveTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column));
                }

@@ -99,7 +99,7 @@ public class Controller implements Observer<ClientEvent> {
 
             if(message.isRequestToGoOn()){
                 game.setHasToDoTerminatorAction(false);
-                handleTheEndOfAnAction();
+                handleTheEndOfAnAction(false);
             }
 
             if(message.isSelectionWeaponToCatch()){
@@ -143,9 +143,23 @@ public class Controller implements Observer<ClientEvent> {
                 shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
             }
             if(message.isChoosePlayer()){
-                if(((ChoosePlayer)message).isToTargeting())
-                    shootController.handleUseOfTargeting((ChoosePlayer) message);
+                ChoosePlayer choosePlayer =(ChoosePlayer) message;
+                if(choosePlayer.isToTargeting())
+                    shootController.handleUseOfTargeting(choosePlayer);
+                else if(choosePlayer.isToNewton())
+                    powerUpController.handleChoosePlayerForNewton(choosePlayer);
+
             }
+
+            if(message.isRequestToUseTeleporter())
+                powerUpController.handleRequestToUseTeleporter(message);
+            if(message.isSelectionSquareToUseTeleporter())
+                powerUpController.useTeleporter((SelectionSquareToUseTeleporter) message);
+            if(message.isRequestToUseNewton())
+                powerUpController.handleRequestToUseNewton(message);
+            if(message.isSelectionSquareToUseNewton())
+                powerUpController.useNewton((SelectionSquareToUseNewton)message);
+
         }
     }
 
@@ -194,7 +208,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param nickname the nickname of the player
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
-     private boolean isTheTurnOfThisPlayer(String nickname){
+    boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
@@ -344,7 +358,7 @@ public class Controller implements Observer<ClientEvent> {
         return weaponController;
     }
 
-    private boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+    boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
          if(game.isInFrenzy()){
              if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())
