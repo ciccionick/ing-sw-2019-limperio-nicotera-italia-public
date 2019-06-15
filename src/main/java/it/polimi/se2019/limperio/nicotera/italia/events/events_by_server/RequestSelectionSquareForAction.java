@@ -12,6 +12,7 @@ public class RequestSelectionSquareForAction extends ServerEvent {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForSpawnTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private boolean isBeforeToShoot = false;
 
     public RequestSelectionSquareForAction(String message){
         super(message);
@@ -32,6 +33,14 @@ public class RequestSelectionSquareForAction extends ServerEvent {
 
     public void setWeaponNotAvailableForLackOfAmmo(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo) {
         this.weaponNotAvailableForLackOfAmmo = weaponNotAvailableForLackOfAmmo;
+    }
+
+    public boolean isBeforeToShoot() {
+        return isBeforeToShoot;
+    }
+
+    public void setBeforeToShoot(boolean beforeToShoot) {
+        isBeforeToShoot = beforeToShoot;
     }
 
     public boolean isSelectionForMoveTerminator() {

@@ -139,6 +139,13 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             return;
         }
 
+        if(event.isRequestSelectionWeaponToReload())
+            remoteView.update(event);
+
+        if(event.isRequestToDiscardPowerUpCardToPay()){
+            remoteView.update(event);
+        }
+
         if (event.isNotifyAboutActionDone()){
             remoteView.update(event);
         }
@@ -156,9 +163,6 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         if(event.isRequestToChooseAnEffect()){
             remoteView.update(event);
         }
-
-        if(event.isRequestToDiscardPowerUpCardToPay())
-            remoteView.update(event);
 
         if(event.isRequestToPayWithAmmoOrPUCard())
             remoteView.update(event);

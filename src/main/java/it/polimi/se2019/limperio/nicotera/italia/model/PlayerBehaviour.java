@@ -11,4 +11,6 @@ public interface PlayerBehaviour {
     void drawPowerUpCard(PowerUpCard powerUpCardsToDraw);
     void useTargetingScope(Player playerToAttack, PowerUpCard targetingScope, ColorOfCard_Ammo ammoToDiscard, PowerUpCard powerUpCardToDiscard);
     void useTagbackGranade(PowerUpCard tagback, Player ownerOfCard);
+
+    void reload(WeaponCard card, ArrayList<PowerUpCard> powerUpCardsToDiscard);
 }

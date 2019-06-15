@@ -2,26 +2,32 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToReload;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionWeaponToReload;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseWeapon;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
- class PanelForWeapons {
+class PanelForWeapons {
     private JPanel contentPane = new JPanel();
     private MainFrame mainFrame;
     private JLabel weapon1;
     private JLabel weapon2;
     private JLabel weapon3;
+    private ServerEvent event;
 
 
-     PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, PopupForChooseWeaponCard popupForChooseW) {
-
+     PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, ServerEvent receivedEvent, PopupForChooseWeaponCard popupForChooseW) {
          this.mainFrame = mainFrame;
+         contentPane.setBorder(new EmptyBorder(50, 50, 50, 50));
         int widthCard;
         int heightCard;
         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
@@ -36,16 +42,41 @@ import java.util.ArrayList;
             widthCard = (int) (heightCard*0.59);
         }
 
+        if(listOfWeapons==null){
+            this.event = receivedEvent;
+            if(receivedEvent.isRequestForChooseAWeaponToCatch())
+                listOfWeapons = ((RequestForChooseAWeaponToCatch)receivedEvent).getWeaponsAvailableToCatch();
+            if(receivedEvent.isRequestSelectionWeaponToReload())
+                listOfWeapons = ((RequestSelectionWeaponToReload)receivedEvent).getWeaponCardsAffordable();
+            if(receivedEvent.isRequestToDiscardWeaponCard())
+                listOfWeapons = mainFrame.getRemoteView().getMyPlayerBoardView().getWeaponCardDeck();
+        }
+
 
         String folderPath = "resources/weapons/";
 
 
         this.getContentPane().setLayout(new GridBagLayout());
+        int gridy;
+        if(receivedEvent.isRequestSelectionWeaponToReload()){
+            GridBagConstraints gbcText = new GridBagConstraints();
+            gbcText.gridx = 0;
+            gbcText.gridy = 0;
+            gbcText.gridwidth = 3;
+            JTextArea text = new JTextArea();
+            text.setText(receivedEvent.getMessageForInvolved());
+            text.setBackground(SystemColor.menu);
+            text.setEditable(false);
+            contentPane.add(text,gbcText);
+            gridy=1;
+        }
+        else
+            gridy=0;
 
 
         weapon1 = new JLabel("");
         ImageIcon imageIcon;
-        if(listOfWeapons.isEmpty()) {
+        if(listOfWeapons!=null && listOfWeapons.isEmpty()) {
             imageIcon = new ImageIcon(folderPath.concat("noCard.png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
@@ -54,7 +85,7 @@ import java.util.ArrayList;
             GridBagConstraints gbcWeapon1 = new GridBagConstraints();
             gbcWeapon1.insets = new Insets(20, 20, 5, 15);
             gbcWeapon1.gridx = 0;
-            gbcWeapon1.gridy = 0;
+            gbcWeapon1.gridy = gridy;
             this.getContentPane().add(weapon1, gbcWeapon1);
         }
         else {
@@ -66,7 +97,7 @@ import java.util.ArrayList;
             GridBagConstraints gbcWeapon1 = new GridBagConstraints();
             gbcWeapon1.insets = new Insets(20  , 20, 5, 15);
             gbcWeapon1.gridx = 0;
-            gbcWeapon1.gridy = 0;
+            gbcWeapon1.gridy = gridy;
             this.getContentPane().add(weapon1, gbcWeapon1);
             weapon1.addMouseListener(new WeaponListener(listOfWeapons.get(0).getName(), popupForChooseW));
 
@@ -80,7 +111,7 @@ import java.util.ArrayList;
             gbcDescriptionOfWeapon1.insets = new Insets(5, 20, 10, 15);
             gbcDescriptionOfWeapon1.fill = GridBagConstraints.BOTH;
             gbcDescriptionOfWeapon1.gridx = 0;
-            gbcDescriptionOfWeapon1.gridy = 1;
+            gbcDescriptionOfWeapon1.gridy = gridy+1;
             this.getContentPane().add(descriptionOfWeapon1, gbcDescriptionOfWeapon1);
 
         }
@@ -98,7 +129,7 @@ import java.util.ArrayList;
             weapon2.setIcon(imageIcon);
             gbcWeapon2.insets = new Insets(20, 0, 5, 15);
             gbcWeapon2.gridx = 1;
-            gbcWeapon2.gridy = 0;
+            gbcWeapon2.gridy = gridy;
             this.getContentPane().add(weapon2, gbcWeapon2);
         }
         else {
@@ -109,7 +140,7 @@ import java.util.ArrayList;
             weapon2.setIcon(imageIcon);
             gbcWeapon2.insets = new Insets(20, 0, 5, 15);
             gbcWeapon2.gridx = 1;
-            gbcWeapon2.gridy = 0;
+            gbcWeapon2.gridy = gridy;
             this.getContentPane().add(weapon2, gbcWeapon2);
             weapon2.addMouseListener(new WeaponListener(listOfWeapons.get(1).getName(),popupForChooseW));
 
@@ -125,7 +156,7 @@ import java.util.ArrayList;
             gbcDescriptionForWeapon2.insets = new Insets(5, 0, 10, 15);
             gbcDescriptionForWeapon2.fill = GridBagConstraints.BOTH;
             gbcDescriptionForWeapon2.gridx = 1;
-            gbcDescriptionForWeapon2.gridy = 1;
+            gbcDescriptionForWeapon2.gridy = gridy+1;
             this.getContentPane().add(descriptionForWeapon2, gbcDescriptionForWeapon2);
         }
 
@@ -140,7 +171,7 @@ import java.util.ArrayList;
             weapon3.setIcon(imageIcon);
             gbcWeapon3.insets = new Insets(20, 0, 5, 20);
             gbcWeapon3.gridx = 2;
-            gbcWeapon3.gridy = 0;
+            gbcWeapon3.gridy = gridy;
             this.getContentPane().add(weapon3, gbcWeapon3);
 
         }
@@ -152,7 +183,7 @@ import java.util.ArrayList;
             weapon3.setIcon(imageIcon);
             gbcWeapon3.insets = new Insets(20, 0, 20, 20);
             gbcWeapon3.gridx = 2;
-            gbcWeapon3.gridy = 0;
+            gbcWeapon3.gridy = gridy;
             this.getContentPane().add(weapon3, gbcWeapon3);
             weapon3.addMouseListener(new WeaponListener(listOfWeapons.get(2).getName(),popupForChooseW));
 
@@ -166,7 +197,7 @@ import java.util.ArrayList;
             gbcDescriptionWeapon3.insets = new Insets(5, 0, 10, 20);
             gbcDescriptionWeapon3.fill = GridBagConstraints.BOTH;
             gbcDescriptionWeapon3.gridx = 2;
-            gbcDescriptionWeapon3.gridy = 1;
+            gbcDescriptionWeapon3.gridy = gridy+1;
             this.getContentPane().add(descriptionWeapon3, gbcDescriptionWeapon3);
 
         }
@@ -179,7 +210,7 @@ import java.util.ArrayList;
 
     class WeaponListener implements MouseListener{
         private String nameOfWeaponCard;
-        private PopupForChooseWeaponCard popup = null;
+        private PopupForChooseWeaponCard popup;
 
          WeaponListener(String nameOfWeaponCard, PopupForChooseWeaponCard popup) {
             this.nameOfWeaponCard = nameOfWeaponCard;
@@ -189,16 +220,22 @@ import java.util.ArrayList;
         @Override
         public void mouseClicked(MouseEvent e) {
              if(popup!=null) {
-                 if(popup.getNameOfCardToStoreForDiscardEvent()==null) {
+                 if(event.isRequestForChooseAWeaponToCatch()) {
                      SelectionWeaponToCatch newEvent = new SelectionWeaponToCatch("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                      newEvent.setNameOfWeaponCard(nameOfWeaponCard);
                      popup.getPopupForChooseW().setVisible(false);
                      mainFrame.getRemoteView().notify(newEvent);
                  }
-                 else{
+                 if(event.isRequestToDiscardWeaponCard()){
                      SelectionWeaponToDiscard selectionWeaponToDiscard = new SelectionWeaponToDiscard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), nameOfWeaponCard, popup.getNameOfCardToStoreForDiscardEvent());
                      popup.getPopupForChooseW().setVisible(false);
                      mainFrame.getRemoteView().notify(selectionWeaponToDiscard);
+                 }
+                 if(event.isRequestSelectionWeaponToReload()){
+                     SelectionWeaponToReload selectionWeaponToReload = new SelectionWeaponToReload("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                     selectionWeaponToReload.setNameOfWeaponCardToReload(nameOfWeaponCard);
+                     popup.getPopupForChooseW().setVisible(false);
+                     mainFrame.getRemoteView().notify(selectionWeaponToReload);
                  }
              }
         }

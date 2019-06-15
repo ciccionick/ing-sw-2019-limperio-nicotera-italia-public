@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 import java.util.ArrayList;
 
 public class RequestToChooseAPlayer extends ServerEvent {
-    ArrayList<String> nameOfPlayers = new ArrayList<>();
+    private ArrayList<String> nameOfPlayers = new ArrayList<>();
     private boolean isToUseTargeting = false;
 
     public RequestToChooseAPlayer() {

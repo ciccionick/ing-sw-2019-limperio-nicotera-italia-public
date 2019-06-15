@@ -29,7 +29,6 @@ public class RoundController {
              handleEndOfGame();
              return;
          }
-
          updatePlayerOfTurn();
          while (!game.getPlayers().get((game.getPlayerOfTurn() - 1)).isConnected()) {
              updatePlayerOfTurn();

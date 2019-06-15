@@ -52,7 +52,7 @@ public class RunController {
      * Moves the player in the square it has chosen
      * @param event contains the coordinates of the square in which the player want to go and its nickname.
      */
-    void doRunAction(RunEvent event){
+    void doRunAction(RunEvent event, boolean isBeforeToShoot){
         if(event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())) {
             Player player = controller.findPlayerWithThisNickname(event.getNickname());
             player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
@@ -66,7 +66,8 @@ public class RunController {
             newEvent.setNicknameInvolved(event.getNickname());
             newEvent.setNicknames(game.getListOfNickname());
             game.notify(newEvent);
-            controller.handleTheEndOfAnAction();
+            if(!isBeforeToShoot)
+                controller.handleTheEndOfAnAction();
         }
     }
 

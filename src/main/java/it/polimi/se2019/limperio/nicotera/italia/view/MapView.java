@@ -29,6 +29,7 @@ public class MapView {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForGenerationOfTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private boolean isSelectionBeforeToShoot = false;
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
@@ -89,6 +90,13 @@ public class MapView {
     }
 
 
+    public boolean isSelectionBeforeToShoot() {
+        return isSelectionBeforeToShoot;
+    }
+
+    public void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
+        isSelectionBeforeToShoot = selectionBeforeToShoot;
+    }
 
     public int getTypeOfMap() {
         return typeOfMap;

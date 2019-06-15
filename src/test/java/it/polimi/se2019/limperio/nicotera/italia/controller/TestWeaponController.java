@@ -27,7 +27,7 @@ public class TestWeaponController {
         game.createPlayer("player3", false, 3, "GREY");
         game.createPlayer("player4", false, 4, "PURPLE");
         game.setGameOver(true);
-        game.initializeGame(false, 1, false);
+        game.initializeGame(false, 2, false);
     }
 
     @Test
@@ -36,6 +36,7 @@ public class TestWeaponController {
 
         ArrayList<Square> squares= new ArrayList<>();
         weaponController.addSquaresForCardinalDirections(game.getBoard().getMap().getMatrixOfSquares()[1][1], squares, 1);
+        squares.remove(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
         assertEquals(squares.size(), 4);
     }
 }

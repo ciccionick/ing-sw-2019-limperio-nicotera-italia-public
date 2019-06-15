@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardAmmoOrPowerUpToPayTargeting;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToPayWithAmmoOrPUCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
+
 
 
 import javax.swing.*;
@@ -52,6 +52,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
 
         gbc.gridy=1;
         gbc.insets.bottom=0;
+        gbc.gridwidth = 1;
         ImageIcon icon;
         Image image;
         int widthAmmo = mainFrame.getFrame().getWidth()/40;
@@ -65,6 +66,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
             blueButton.setActionCommand("BlueAmmo");
             blueButton.setIcon(icon);
             blueButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
+            gbc.gridx = 0;
             contentPanel.add(blueButton,gbc);
 
         }

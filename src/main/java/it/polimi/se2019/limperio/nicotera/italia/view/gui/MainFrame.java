@@ -105,9 +105,11 @@ public class MainFrame {
 
     public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
         if(receivedEvent.isRequestForChooseAWeaponToCatch())
-            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(((RequestForChooseAWeaponToCatch)receivedEvent), null,this);
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
         if(receivedEvent.isRequestToDiscardWeaponCard())
-            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(null, ((RequestToDiscardWeaponCard)receivedEvent), this);
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
+        if(receivedEvent.isRequestSelectionWeaponToReload())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
     }
 
     public void hidePopup(){

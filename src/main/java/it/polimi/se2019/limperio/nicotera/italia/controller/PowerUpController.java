@@ -27,8 +27,8 @@ class PowerUpController {
      void handleDrawOfPowerUpCards(DrawPowerUpCards event) {
          String nickname = event.getNickname();
          PowerUpCard powerUpCardToDraw;
-         for (int i = 0; i < event.getNumOfCards(); i++) { //occhio che la powerup card potrebbero essere momentanemante quattro nel personal deck
-             powerUpCardToDraw = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
+         for (int i = 0; i < event.getNumOfCards(); i++) {
+             powerUpCardToDraw = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0)); //add to used deck the first of normal deck and remove from this one
              game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true); //set boolean attribute to the card
              powerUpCardToDraw.setOwnerOfCard(controller.findPlayerWithThisNickname(nickname));
@@ -48,8 +48,13 @@ class PowerUpController {
      }
 
      void sendRequestToChooseSquareForSpawnOfTerminator() {
+         String message;
+         if(game.getRound()==1)
+             message = "Look up the cards you have drawn and choose a spawn square where generate the terminator!";
+         else
+             message = "Choose a square where respawn the terminator";
 
-         RequestSelectionSquareForAction requestSelectionSquareForTerminator = new RequestSelectionSquareForAction("Look up the cards you have drawn and choose a\nspawn square where generate the terminator!");
+         RequestSelectionSquareForAction requestSelectionSquareForTerminator = new RequestSelectionSquareForAction(message);
          requestSelectionSquareForTerminator.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
          requestSelectionSquareForTerminator.setSelectionForSpawnTerminator(true);
          ArrayList<Square> squareReachable = new ArrayList<>();

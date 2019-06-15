@@ -441,6 +441,24 @@ class CatchController {
 
     }
 
+    WeaponCard getWeaponCardFromName(String name){
+        for(Player player : game.getPlayers()){
+            if(!player.getNickname().equals("terminator")){
+                for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
+                    if(weapon.getName().equals(name))
+                        return  weapon;
+                }
+            }
+        }
+
+        for(WeaponCard weapon : game.getBoard().getWeaponsDeck().getWeaponCards()){
+            if(weapon.getName().equals(name))
+                return weapon;
+        }
+
+        throw new IllegalArgumentException();
+    }
+
     /**
      * This method calculates the frequency of ammo that a player can use
      * @param colorToCheck the color of the ammo of which the method has to calculate the frequency

@@ -325,6 +325,18 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
     }
 
     @Override
+    public void reload(WeaponCard card, ArrayList<PowerUpCard> powerUpCardsToDiscard) {
+        for (ColorOfCard_Ammo ammo : card.getPriceToReload()) {
+            if (areThereEnoughAmmo(ammo))
+                playerBoard.removeAmmoOfThisColor(ammo);
+            else {
+                playerBoard.getPowerUpCardsOwned().remove(findPowerUpOfThisColor(powerUpCardsToDiscard, ammo));
+            }
+        }
+        card.setLoad(true);
+    }
+
+    @Override
     public int compareTo(Player o) {
         int result;
         result = nickname.compareTo(o.getNickname());

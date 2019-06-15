@@ -111,6 +111,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.showMessage(receivedEvent);
         }
 
+        if(receivedEvent.isRequestSelectionWeaponToReload())
+            mainFrame.showPopupForChooseWeapon(receivedEvent);
+
+
         if(receivedEvent.isRequestToChooseAPlayer())
             mainFrame.handleRequestToChooseAPlayer(receivedEvent);
 
@@ -173,6 +177,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
             mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForSpawnTerminator());
             mapView.setSelectionForMoveTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForMoveTerminator());
+            mapView.setSelectionBeforeToShoot(((RequestSelectionSquareForAction) receivedEvent).isBeforeToShoot());
             mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
         }
@@ -197,15 +202,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
                 mainFrame.updatePanelOfAction();
             }
             mainFrame.showMessage(receivedEvent);
-           /* if(receivedEvent.getNumOfAction()+1==receivedEvent.getNumOfMaxAction()&&receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
-                isMyTurn = false;
-                mainFrame.updateNorthPanel();
-            }*/
-
         }
 
         if(receivedEvent.isRequestToSelectionPlayerToAttackWithTerminator()){
-            mainFrame.showMessage(receivedEvent);
+            mainFrame.handleRequestToChooseAPlayer(receivedEvent);
         }
 
         if(receivedEvent.isRequestForChooseAWeaponToCatch())

@@ -28,8 +28,10 @@ public class Controller implements Observer<ClientEvent> {
     private WeaponController weaponController;
     private TerminatorController terminatorController;
     private DeathController deathController;
+    private ReloadController reloadController;
     private Timer timer = null;
     private TurnTask turnTask;
+    private boolean isAlreadyAskedToReload = false;
 
     /**
      * Constructor of the class: it creates the instances of the other controller classes
@@ -44,6 +46,7 @@ public class Controller implements Observer<ClientEvent> {
         shootController = new ShootController(game, this);
         weaponController = new WeaponController(game, this);
         deathController = new DeathController(game, this);
+        reloadController = new ReloadController(game, this);
 
     }
 
@@ -109,11 +112,18 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isSelectionSquareForRun()){
-                runController.doRunAction((RunEvent) message);
+                if(((RunEvent)message).isBeforeToShoot())
+                    shootController.handleMovementBeforeShoot(message);
+                else
+                    runController.doRunAction((RunEvent) message, false);
             }
 
             if(message.isTerminatorShootEvent()){
                 terminatorController.handleTerminatorShootAction(message);
+            }
+
+            if(message.isSelectionWeaponToReload()){
+                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
             }
 
             if(message.isSelectionWeaponToDiscard()){
@@ -137,6 +147,9 @@ public class Controller implements Observer<ClientEvent> {
                 if(((DiscardPowerUpCardAsAmmo)message).isToTagback()) {
                     shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
                 }
+                if(((DiscardPowerUpCardAsAmmo)message).isToReload()) {
+                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
+                }
             }
             if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
                 shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
@@ -145,6 +158,10 @@ public class Controller implements Observer<ClientEvent> {
                 if(((ChoosePlayer)message).isToTargeting())
                     shootController.handleUseOfTargeting((ChoosePlayer) message);
             }
+
+
+            if(message.isSelectionWeaponToReload())
+                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()),catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
         }
     }
 
@@ -204,7 +221,7 @@ public class Controller implements Observer<ClientEvent> {
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
     //
-     public boolean isTheTurnOfThisPlayer(String nickname){
+      boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
@@ -216,21 +233,37 @@ public class Controller implements Observer<ClientEvent> {
         return weaponsAsAlias;
     }
 
+     RunController getRunController() {
+        return runController;
+    }
 
+    public void setAlreadyAskedToReload(boolean alreadyAskedToReload) {
+        isAlreadyAskedToReload = alreadyAskedToReload;
+    }
+
+     ReloadController getReloadController() {
+        return reloadController;
+    }
 
     public RoundController getRoundController() {
         return roundController;
     }
 
-    //
-    void handleTheEndOfAnAction(){
-        game.incrementNumOfActionsOfThisTurn();
 
+    void handleTheEndOfAnAction(){
+          Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
+        game.incrementNumOfActionsOfThisTurn();
         if(game.getNumOfActionOfTheTurn()<game.getNumOfMaxActionForTurn()){
             sendRequestForAction();
+            return;
+        }
+            if (reloadController.playerCanReload(player) && !isAlreadyAskedToReload) {
+                reloadController.sendRequestToReload(player, true);
+                isAlreadyAskedToReload = true;
+
         }
         else {
-            //qui va un if che controlla se ci sono armi da caricare e c'è la possibilità di caricarle, in tal caso si interrompe qui e si manda un evento di richiesta di ricarica
+            isAlreadyAskedToReload = false;
             if(timer!=null)
                 timer.cancel();
             timer = null;
@@ -344,7 +377,7 @@ public class Controller implements Observer<ClientEvent> {
      boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
-         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && game.isInFrenzy() && !weaponController.canReload(weaponCard))
+         if(!weaponCard.isLoad() && !game.isInFrenzy() || !weaponCard.isLoad() && game.isInFrenzy() && !reloadController.isThisWeaponReloadable(weaponCard))
              return false;
          return (weaponController.isThisWeaponUsable(weaponCard, movementCanDoBeforeReloadAndShoot));
 
@@ -359,10 +392,10 @@ public class Controller implements Observer<ClientEvent> {
     }
 
     //
-    public boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
+     boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
          if(game.isInFrenzy()){
-             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>game.getFirstInFrenzyMode())
+             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>=game.getFirstInFrenzyMode())
                  movementCanDoBeforeReloadAndShoot=1;
              else
                  movementCanDoBeforeReloadAndShoot=2;
