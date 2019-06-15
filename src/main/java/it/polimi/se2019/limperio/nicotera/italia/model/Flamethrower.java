@@ -30,7 +30,7 @@ public class Flamethrower extends WeaponCard {
 
 
 
-    Flamethrower() {
+    public Flamethrower() {
         super(RED, "Flamethrower");
         String description;
         description = "BASIC MODE:\n Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n" +

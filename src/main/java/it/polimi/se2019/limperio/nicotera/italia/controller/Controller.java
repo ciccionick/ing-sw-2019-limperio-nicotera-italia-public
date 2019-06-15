@@ -411,7 +411,7 @@ public class Controller implements Observer<ClientEvent> {
         return deathController;
     }
 
-    private class TurnTask extends TimerTask {
+    public class TurnTask extends TimerTask {
 
         @Override
         public void run() {

@@ -253,6 +253,8 @@ class CatchController {
         ArrayList<ColorOfCard_Ammo> colorsToRemove = new ArrayList<>();
         WeaponCard weaponCardToAddToDeck = null;
         for(WeaponCard weapon : ((SpawnSquare)squareWhereRemoveCard).getWeaponCards()){
+            System.out.println("ciao");
+            System.out.println(weapon.getName());
             if(weapon.getName().equals(nameOfWeaponCard)) {
                 weaponCardToAddToDeck = weapon;
             }
@@ -382,6 +384,7 @@ class CatchController {
                 weaponCardToAddToDeck = weapon;
             }
         }
+        //
         for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
             if(weapon.getName().equals(nameOfWeaponCardToAdd)){
                 weaponCardToAddToSquare = weapon;
@@ -391,8 +394,11 @@ class CatchController {
         }
         player.getPlayerBoard().getWeaponsOwned().remove(weaponCardToAddToSquare);
         ((SpawnSquare)squareWhereDoChange).getWeaponCards().add(weaponCardToAddToSquare);
-        if(weaponCardToAddToDeck!=null)
+        if(weaponCardToAddToDeck!=null){
             addWeaponCardToPlayerDeck(player, weaponCardToAddToDeck.getName());
+            System.out.println(weaponCardToAddToDeck.getName());
+        }
+
     }
 
     /**
