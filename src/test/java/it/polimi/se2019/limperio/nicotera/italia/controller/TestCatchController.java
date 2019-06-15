@@ -1,7 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
@@ -168,6 +170,25 @@ public class TestCatchController{
         catchController.handleSelectionWeaponToCatch(event);
         assertTrue(!spawnSquare.getWeaponCards().contains(card));
         assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(card));
+
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
+        spawnSquare = (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
+        spawnSquare.getWeaponCards().clear();
+        card = new LockRifle();
+        spawnSquare.getWeaponCards().add(card);
+        for(int i=0;i<9;i++)
+        {
+            game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+        }
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(3));
+        event = new SelectionWeaponToCatch("", game.getPlayers().get(0).getNickname());
+        event.setNameOfWeaponCard(card.getName());
+        catchController.handleSelectionWeaponToCatch(event);
+        assertTrue(!spawnSquare.getWeaponCards().contains(card));
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(card));
+
     }
 
 
@@ -229,5 +250,53 @@ public class TestCatchController{
         assertTrue(trovato);
 
     }
+
+    @Test
+    public void findPowerUpCardTest()
+    {
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(3));
+        assertTrue(catchController.findPowerUpCard("Targeting scope", ColorOfCard_Ammo.BLUE, game.getPlayers().get(0))!=null);
+
+    }
+
+    /*@Test
+    public void handleRequestToDiscardPowerUpCardTest()
+    {
+        PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(3);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
+        DiscardPowerUpCardAsAmmo event= new DiscardPowerUpCardAsAmmo(" ", game.getPlayers().get(0).getNickname());
+        event.setColorOfCard(ColorOfCard_Ammo.BLUE);
+        event.setNameOfPowerUpCard("Targeting scope");
+        catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);
+        assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCard));
+
+    }*/
+
+    @Test
+    public void getPowerUpCardToChooseForDiscardTest()
+    {
+
+        PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(3);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
+        assertEquals((catchController.getPowerUpCardToChooseForDiscard(game.getPlayers().get(0), ColorOfCard_Ammo.BLUE)).get(0).getName(), powerUpCard.getName());
+        assertEquals((catchController.getPowerUpCardToChooseForDiscard(game.getPlayers().get(0), ColorOfCard_Ammo.BLUE)).get(0).getColor(), powerUpCard.getColor());
+
+    }
+
+   /* @Test
+    public void handleSelectionWeaponToCatchAfterDiscardTest()
+    {
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
+        WeaponCard cardToAdd= new Heatseeker(); //Sarebbe la carta del giocatore che vado a scartare
+        WeaponCard cardToRemove= new Railgun(); // rimuovere non dal deck del giocatore ma dallo spoon Square
+        Square spawnSquare= game.getPlayers().get(0).getPositionOnTheMap();
+
+        ((SpawnSquare) spawnSquare).setWeaponCards(new ArrayList<WeaponCard>(){{add(cardToRemove);}});
+        SelectionWeaponToDiscard event = new SelectionWeaponToDiscard("", game.getPlayers().get(0).getNickname(), cardToAdd.getName(), cardToRemove.getName());
+
+        catchController.handleSelectionWeaponToCatchAfterDiscard(event);
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToRemove));
+        assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToAdd));
+    }*/
 
 }

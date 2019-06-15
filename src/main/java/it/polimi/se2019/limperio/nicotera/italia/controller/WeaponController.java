@@ -62,7 +62,7 @@ public class WeaponController {
                     usableEffects.add(4);
                 break;
 
-            case "Schockwave":
+            case "Shockwave":
                 if(!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty()) {
                     usableEffects.add(1);
                     if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))

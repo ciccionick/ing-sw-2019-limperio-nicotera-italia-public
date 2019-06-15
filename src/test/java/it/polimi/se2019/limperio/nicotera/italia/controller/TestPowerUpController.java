@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawPowerUpCards;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
@@ -21,7 +22,7 @@ public class TestPowerUpController {
 
     Game game = Game.instanceOfGame();
     Controller controller = new Controller(game);
-    PowerUpController powerUpController = new PowerUpController(this.game, this.controller);
+    PowerUpController powerUpController = new PowerUpController(game, controller);
 
 
     @Before
@@ -69,7 +70,7 @@ public class TestPowerUpController {
         assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
 
     }
- /*   @Test
+    /* @Test
     public void handleDrawOfTwoCardsANDHandleDiscardOfCardToSpawnANDSpawnPlayerTest()
     {
 
@@ -85,6 +86,18 @@ public class TestPowerUpController {
         assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCardChoice));
     }*/
 
+    @Test
+    public void handleDrawOfPowerUpCards()
+    {
+        int x= game.getBoard().getPowerUpDeck().getPowerUpCards().size();
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        DrawPowerUpCards event= new DrawPowerUpCards("",game.getPlayers().get(0).getNickname(), 1);
+        powerUpController.handleDrawOfPowerUpCards(event);
+        assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
+        assertEquals(game.getBoard().getPowerUpDeck().getPowerUpCards().size(), x-1);
+
+
+    }
 
 
 
