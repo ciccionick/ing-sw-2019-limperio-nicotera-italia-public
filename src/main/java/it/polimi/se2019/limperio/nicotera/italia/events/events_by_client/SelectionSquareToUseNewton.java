@@ -7,7 +7,7 @@ public class SelectionSquareToUseNewton extends ClientEvent {
         super(message, nickname);
         this.row = row;
         this.column = column;
-        setSelectionSquareToUseTeleporter(true);
+        setSelectionSquareToUseNewton(true);
     }
 
     public int getRow() {

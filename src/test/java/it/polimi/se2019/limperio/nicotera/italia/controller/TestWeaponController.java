@@ -41,7 +41,7 @@ public class TestWeaponController {
     }
 
 
-    @Test
+  /*  @Test
     public void canReloadTest()
     {
         for(int i=0;i<9;i++)
@@ -53,5 +53,5 @@ public class TestWeaponController {
         card.setOwnerOfCard(game.getPlayers().get(0));
         assertTrue(!controller.getReloadController().isThisWeaponReloadable(card));
 
-    }
+    }*/
 }

@@ -10,7 +10,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
  */
 
  class Teleporter extends PowerUpCard {
-     int typeOfCard;
+     private int typeOfCard;
 
 
      Teleporter(ColorOfCard_Ammo color, int typeOfCard){

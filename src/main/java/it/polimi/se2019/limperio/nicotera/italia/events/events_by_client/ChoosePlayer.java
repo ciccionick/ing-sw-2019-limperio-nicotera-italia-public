@@ -4,6 +4,7 @@ public class ChoosePlayer extends ClientEvent {
     private String nameOfPlayer;
     private boolean isToTargeting = false;
     private boolean isToNewton = false;
+
     public ChoosePlayer(String message, String nickname) {
         super(message, nickname);
         setChoosePlayer(true);
@@ -28,6 +29,7 @@ public class ChoosePlayer extends ClientEvent {
     public boolean isToNewton() {
         return isToNewton;
     }
+
 
     public void setToNewton(boolean toNewton) {
         isToNewton = toNewton;

@@ -205,6 +205,7 @@ class PowerUpController {
          mapEvent.setNicknameInvolved(message.getNickname());
          mapEvent.setMessageForOthers(message.getNickname() + "has used teleporter and moves himself");
          mapEvent.setMessageForInvolved("You have been moved on the selected square");
+         mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
          game.notify(mapEvent);
          PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
          playerBoardEvent.setPlayerBoard(player.getPlayerBoard());
@@ -236,7 +237,29 @@ class PowerUpController {
          nicknameOfPlayerHasToBeMovedByNewton = choosePlayer.getNameOfPlayer();
          RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to move the player you selected before");
          requestSelectionSquareForAction.setSelectionForNewton(true);
-         requestSelectionSquareForAction.setSquaresReachable(getAllSquaresInTheMap());
+         ArrayList<Square> squaresReachable = new ArrayList<>();
+         Square positionOfTheTarget = controller.findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()).getPositionOnTheMap();
+         if(positionOfTheTarget.getNorth() != null) {
+             squaresReachable.add(positionOfTheTarget.getNorth());
+             if(positionOfTheTarget.getNorth().getNorth()!=null)
+                 squaresReachable.add(positionOfTheTarget.getNorth().getNorth());
+         }
+         if(positionOfTheTarget.getSouth() != null) {
+             squaresReachable.add(positionOfTheTarget.getSouth());
+             if(positionOfTheTarget.getSouth().getSouth()!=null)
+                 squaresReachable.add(positionOfTheTarget.getSouth().getSouth());
+         }
+         if(positionOfTheTarget.getWest() != null) {
+             squaresReachable.add(positionOfTheTarget.getWest());
+             if(positionOfTheTarget.getWest().getWest()!=null)
+                 squaresReachable.add(positionOfTheTarget.getWest().getWest());
+         }
+         if(positionOfTheTarget.getEast() != null) {
+             squaresReachable.add(positionOfTheTarget.getEast());
+             if(positionOfTheTarget.getEast().getEast()!=null)
+                 squaresReachable.add(positionOfTheTarget.getEast().getEast());
+         }
+         requestSelectionSquareForAction.setSquaresReachable(squaresReachable);
          requestSelectionSquareForAction.setNicknameInvolved(choosePlayer.getNickname());
          game.notify(requestSelectionSquareForAction);
     }
@@ -253,6 +276,7 @@ class PowerUpController {
          mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
          mapEvent.setNicknames(game.getListOfNickname());
          mapEvent.setNicknameInvolved(event.getNickname());
+         mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
          mapEvent.setMessageForOthers(event.getNickname() + "has used newton and moves"+ nicknameOfPlayerHasToBeMovedByNewton);
          mapEvent.setMessageForInvolved("You have been moved on the selected square");
          game.notify(mapEvent);
