@@ -93,7 +93,7 @@ class PanelForWeapons {
             gbcWeapon1.gridy = gridy;
             this.getContentPane().add(weapon1, gbcWeapon1);
         }
-        else {
+        else if(listOfWeapons != null){
             imageIcon = new ImageIcon(folderPath.concat(listOfWeapons.get(0).getName()).concat(".png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
@@ -126,7 +126,7 @@ class PanelForWeapons {
         weapon2 = new JLabel("");
 
         GridBagConstraints gbcWeapon2 = new GridBagConstraints();
-        if(listOfWeapons.size()<2){
+        if(listOfWeapons!=null && listOfWeapons.size()<2){
             imageIcon = new ImageIcon(folderPath.concat("noCard.png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
@@ -137,7 +137,7 @@ class PanelForWeapons {
             gbcWeapon2.gridy = gridy;
             this.getContentPane().add(weapon2, gbcWeapon2);
         }
-        else {
+        else if(listOfWeapons!=null) {
             imageIcon = new ImageIcon(folderPath.concat(listOfWeapons.get(1).getName()).concat(".png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
@@ -168,7 +168,7 @@ class PanelForWeapons {
 
         weapon3 = new JLabel("");
         GridBagConstraints gbcWeapon3 = new GridBagConstraints();
-        if(listOfWeapons.size()<3){
+        if(listOfWeapons!=null && listOfWeapons.size()<3){
             imageIcon = new ImageIcon(folderPath.concat("noCard.png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
@@ -180,7 +180,7 @@ class PanelForWeapons {
             this.getContentPane().add(weapon3, gbcWeapon3);
 
         }
-        else {
+        else if(listOfWeapons!=null){
             imageIcon = new ImageIcon(folderPath.concat(listOfWeapons.get(2).getName()).concat(".png"));
             Image image = imageIcon.getImage();
             Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
