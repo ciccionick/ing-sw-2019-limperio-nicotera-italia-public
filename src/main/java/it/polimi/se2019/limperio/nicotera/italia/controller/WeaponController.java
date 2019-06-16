@@ -30,7 +30,7 @@ public class WeaponController {
          Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
          switch (weaponCard.getName()){
             case "Electroscythe":
-                if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty()) {
+                if(!getPlayersInMySquare(0, squareOfPlayer).isEmpty() && !controller.getShootController().getTypeOfAttack().contains(1) && !controller.getShootController().getTypeOfAttack().contains(4) ) {
                     usableEffects.add(1);
                     if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
                         usableEffects.add(4);

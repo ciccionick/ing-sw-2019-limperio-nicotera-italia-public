@@ -71,7 +71,7 @@ class PopupToChooseAPlayer {
                 TerminatorShootEvent terminatorShootEvent = new TerminatorShootEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 terminatorShootEvent.setNicknamePlayerToAttack(e.getActionCommand());
                 mainFrame.getRemoteView().notify(terminatorShootEvent);
-
+                dialog.setVisible(false);
             }
             if (event.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer) event).isToUseTargeting()) {
                 ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
@@ -79,14 +79,14 @@ class PopupToChooseAPlayer {
                 newEvent.setNameOfPlayer(e.getActionCommand());
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
-            } else if (((RequestToChooseAPlayer) event).isChoosePlayerForNewton()) {
+            } else if (!event.isRequestToSelectionPlayerToAttackWithTerminator() && event.isChoosePlayerForNewton()) {
                 ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
                 newEvent.setToNewton(true);
                 newEvent.setNameOfPlayer(e.getActionCommand());
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
-            dialog.setVisible(false);
+
         }
     }
 }

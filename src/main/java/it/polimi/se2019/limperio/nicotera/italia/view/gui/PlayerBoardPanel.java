@@ -211,7 +211,7 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell27.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().size()<1 && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<1)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().isEmpty() && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<1)
              cell27.setEnabled(false);
 
          add(cell27, gbcCell27);
@@ -226,7 +226,7 @@ class PlayerBoardPanel extends JPanel {
              newimg = image.getScaledInstance(widthOfMiddleCells, heightOfCell, java.awt.Image.SCALE_SMOOTH);
              imageIcon = new ImageIcon(newimg);
              cell28.setIcon(imageIcon);
-             if (getPlayerBoardViewed().getScoreBarForNormalMode().size() < 1)
+             if (getPlayerBoardViewed().getScoreBarForNormalMode().isEmpty())
                  cell28.setEnabled(false);
              add(cell28, gbcCell28);
          }
@@ -248,10 +248,7 @@ class PlayerBoardPanel extends JPanel {
         imageIcon = new ImageIcon(newimg);
         cell29.setIcon(imageIcon);
         add(cell29, gbcCell29);
-
-
-
-    }
+     }
 
 
 
@@ -315,7 +312,7 @@ class PlayerBoardPanel extends JPanel {
        @Override
        public void mousePressed(MouseEvent e) {
           if(!mainFrame.getLeftPanel().getPlayerBoardView().getMarks().isEmpty())
-             popupForDamageMarks = new PopupForDamageMarks(marksBoard, mainFrame, false);
+             popupForDamageMarks = new PopupForDamageMarks( marksBoard, mainFrame, false);
 
        }
 

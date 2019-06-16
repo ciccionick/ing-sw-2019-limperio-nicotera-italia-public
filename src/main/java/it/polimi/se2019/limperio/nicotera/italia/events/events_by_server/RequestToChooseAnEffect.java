@@ -6,7 +6,7 @@ public class RequestToChooseAnEffect extends ServerEvent {
     private ArrayList<Integer> usableEffects;
     private boolean canTerminateAction = false;
     private String nameOfCard;
-    private boolean oneEffectAlreadyChoosen = false;
+    private boolean oneEffectAlreadyChosen = false;
     public RequestToChooseAnEffect() {
         setRequestToChooseAnEffect(true);
     }
@@ -35,11 +35,11 @@ public class RequestToChooseAnEffect extends ServerEvent {
         this.nameOfCard = nameOfCard;
     }
 
-    public boolean isOneEffectAlreadyChoosen() {
-        return oneEffectAlreadyChoosen;
+    public boolean isOneEffectAlreadyChosen() {
+        return oneEffectAlreadyChosen;
     }
 
-    public void setOneEffectAlreadyChoosen(boolean oneEffectAlreadyChoosen) {
-        this.oneEffectAlreadyChoosen = oneEffectAlreadyChoosen;
+    public void setOneEffectAlreadyChosen(boolean oneEffectAlreadyChosen) {
+        this.oneEffectAlreadyChosen = oneEffectAlreadyChosen;
     }
 }

@@ -45,11 +45,7 @@ public class RoundController {
          }
          if(game.isInFrenzy()){
              if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()<game.getFirstInFrenzyMode()){
-                 if(game.isTerminatorModeActive()){
-                     game.setNumOfMaxActionForTurn(2);
-                 }
-                 else
-                     game.setNumOfMaxActionForTurn(1);
+                game.setNumOfMaxActionForTurn(game.getNumOfMaxActionForTurn()-1);
              }
          }
          updateDecksAndSquares();
