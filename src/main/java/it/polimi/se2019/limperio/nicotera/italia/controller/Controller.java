@@ -254,6 +254,7 @@ public class Controller implements Observer<ClientEvent> {
     }
 
     void handleTheEndOfAnAction(boolean endOfUsePUCard){
+         Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         if(!endOfUsePUCard)
             game.incrementNumOfActionsOfThisTurn();
 

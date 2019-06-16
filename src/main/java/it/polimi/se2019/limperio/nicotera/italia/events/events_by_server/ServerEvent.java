@@ -62,7 +62,6 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToChooseAPlayer = false;
     private boolean isRequestSelectionWeaponToReload = false;
 
-
     private int numOfAction;
     private int numOfMaxAction;
 
@@ -319,6 +318,8 @@ public class ServerEvent implements Serializable {
     public void setRequestToChooseTerminatorAction(boolean requestToChooseTerminatorAction) {
         isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
     }
+
+
 
     /**
      * Represents a simplified structure to encapsulate the main attributes of cards

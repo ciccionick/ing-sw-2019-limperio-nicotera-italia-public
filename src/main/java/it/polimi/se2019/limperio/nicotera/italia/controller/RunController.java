@@ -67,7 +67,7 @@ public class RunController {
             newEvent.setNicknames(game.getListOfNickname());
             game.notify(newEvent);
             if(!isBeforeToShoot)
-                controller.handleTheEndOfAnAction();
+                controller.handleTheEndOfAnAction(false);
         }
     }
 

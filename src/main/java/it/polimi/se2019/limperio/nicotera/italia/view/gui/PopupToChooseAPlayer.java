@@ -79,7 +79,7 @@ class PopupToChooseAPlayer {
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
-            else if(event.isChoosePlayerForNewton()){
+            else if(((RequestToChooseAPlayer)event).isChoosePlayerForNewton()){
                 ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
                 newEvent.setToNewton(true);
                 newEvent.setNameOfPlayer(e.getActionCommand());
@@ -87,7 +87,6 @@ class PopupToChooseAPlayer {
                 dialog.setVisible(false);
             }
             }
-            dialog.setVisible(false);
         }
     }
-}
+

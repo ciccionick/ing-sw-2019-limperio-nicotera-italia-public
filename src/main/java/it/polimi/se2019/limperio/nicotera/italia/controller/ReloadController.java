@@ -97,7 +97,7 @@ class ReloadController {
             sendRequestToReload(player, isReloadingAtTheEndOfAction);
         else{
             if(isReloadingAtTheEndOfAction){
-                controller.handleTheEndOfAnAction();
+                controller.handleTheEndOfAnAction(false);
             }
             else{
                 controller.getShootController().sendRequestToChooseAWeapon(player);
