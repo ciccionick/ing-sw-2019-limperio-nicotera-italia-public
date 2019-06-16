@@ -20,7 +20,7 @@ class PopupForDiscardPowerUp {
     private JDialog dialog;
     private MainFrame mainFrame;
     private java.util.Timer timer;
-    private int delay = 30000;
+    private int delay = 20000;
     private TaskForTagbackTimer task;
 
      PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
@@ -116,22 +116,22 @@ class PopupForDiscardPowerUp {
             contentPanel.add(buttonToNotDiscard, gbc);
         }
 
-        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()){
-            timer = new Timer();
-            task = new TaskForTagbackTimer();
-            try{
-                timer.schedule(task,delay);
-            }
-            catch (IllegalStateException er){
-                er.printStackTrace();
-            }
-        }
-
         dialog.pack();
          dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,
                  (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
 
          dialog.setVisible(true);
+
+         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()){
+             timer = new Timer();
+             task = new TaskForTagbackTimer();
+             try{
+                 timer.schedule(task,delay);
+             }
+             catch (IllegalStateException er){
+                 er.printStackTrace();
+             }
+         }
 
 
      }
@@ -179,8 +179,8 @@ class PopupForDiscardPowerUp {
                       newEvent.setNameOfPowerUpCard(card.getName());
                       newEvent.setColorOfCard(card.getColor());
                   }
-                  dialog.setVisible(false);
                   mainFrame.getRemoteView().notify(newEvent);
+                  dialog.setVisible(false);
 
               }
          }

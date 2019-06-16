@@ -109,6 +109,10 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         return isOverSixDamage;
     }
 
+    public void setOverSixDamage(boolean overSixDamage) {
+        isOverSixDamage = overSixDamage;
+    }
+
     public boolean hasDoubleKill() {
         return doubleKill;
     }

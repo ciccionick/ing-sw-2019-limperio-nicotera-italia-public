@@ -331,10 +331,7 @@ public class ShootController {
      void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCardAsAmmo message) {
          int indexOfCardToRemove = 0;
          Player player;
-         if(isForTerminator)
-             player = game.getPlayers().get(game.getPlayerOfTurn()-1);
-         else
-             player = weaponToUse.getOwnerOfCard();
+         player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         if(message.getNameOfPowerUpCard()==null){
             alreadyAskedToUseTargeting=true;
             handleSendRequestAfterShoot(player, playersAttacked, isForTerminator);
@@ -359,6 +356,7 @@ public class ShootController {
             targetingScopeToUse = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard(), controller.findPlayerWithThisNickname(message.getNickname()));
             requestToPayWithAmmoOrPUCard.getPowerUpCards().remove(indexOfCardToRemove);
             requestToPayWithAmmoOrPUCard.setNicknameInvolved(message.getNickname());
+            System.out.println("arrivo qui?");
             requestToPayWithAmmoOrPUCard.setMessageForInvolved("Choose an ammo or a power up card to pay the effect of targeting scope");
             message.getMyVirtualView().update(requestToPayWithAmmoOrPUCard);
         }

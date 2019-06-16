@@ -135,8 +135,6 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         }
 
         if(event.isRequestSelectionSquareForAction()){
-            if(((RequestSelectionSquareForAction)event).isBeforeToShoot())
-                System.out.println("move before");
             remoteView.update(event);
             return;
         }

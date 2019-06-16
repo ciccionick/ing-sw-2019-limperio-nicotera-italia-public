@@ -122,8 +122,11 @@ public class Controller implements Observer<ClientEvent> {
                 terminatorController.handleTerminatorShootAction(message);
             }
 
-            if(message.isSelectionWeaponToReload()){
-                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
+            if(message.isSelectionWeaponToReload()) {
+                if(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload() == null)
+                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), null);
+                else
+                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload) message).getNameOfWeaponCardToReload()));
             }
 
             if(message.isSelectionWeaponToDiscard()){
@@ -137,6 +140,7 @@ public class Controller implements Observer<ClientEvent> {
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect((RequestToUseEffect) message);
+
             if(message.isDiscardPowerUpCardAsAmmo()) {
                 if(((DiscardPowerUpCardAsAmmo)message).isToCatch())
                     catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
@@ -151,9 +155,13 @@ public class Controller implements Observer<ClientEvent> {
                     reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
                 }
             }
+
+
             if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
                 shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
             }
+
+
             if(message.isChoosePlayer()){
                 ChoosePlayer choosePlayer =(ChoosePlayer) message;
                 if(choosePlayer.isToTargeting())
@@ -173,9 +181,6 @@ public class Controller implements Observer<ClientEvent> {
                 powerUpController.useNewton((SelectionSquareToUseNewton)message);
 
 
-
-            if(message.isSelectionWeaponToReload())
-                reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()),catchController.getWeaponCardFromName(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload()));
         }
     }
 
@@ -254,6 +259,7 @@ public class Controller implements Observer<ClientEvent> {
     }
 
     void handleTheEndOfAnAction(boolean endOfUsePUCard){
+         Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         if(!endOfUsePUCard)
             game.incrementNumOfActionsOfThisTurn();
 
@@ -400,6 +406,9 @@ public class Controller implements Observer<ClientEvent> {
                  movementCanDoBeforeReloadAndShoot=1;
              else
                  movementCanDoBeforeReloadAndShoot=2;
+         }
+         if(!game.isInFrenzy() && !weaponDeck.isEmpty() && weaponDeck.get(0).getOwnerOfCard().isOverSixDamage()){
+             movementCanDoBeforeReloadAndShoot = 1;
          }
          for(WeaponCard weaponCard : weaponDeck){
              if(checkIfThisWeaponIsUsable(weaponCard, movementCanDoBeforeReloadAndShoot))

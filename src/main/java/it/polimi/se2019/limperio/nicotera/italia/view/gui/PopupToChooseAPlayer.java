@@ -86,7 +86,6 @@ class PopupToChooseAPlayer {
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
-            }
             dialog.setVisible(false);
         }
     }

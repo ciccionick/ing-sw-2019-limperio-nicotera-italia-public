@@ -12,6 +12,8 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -62,7 +64,10 @@ class PanelForWeapons {
             GridBagConstraints gbcText = new GridBagConstraints();
             gbcText.gridx = 0;
             gbcText.gridy = 0;
-            gbcText.gridwidth = 3;
+            if(receivedEvent.isRequestSelectionWeaponToReload())
+            gbcText.gridwidth = 4;
+            else
+                gbcText.gridwidth = 3;
             JTextArea text = new JTextArea();
             text.setText(receivedEvent.getMessageForInvolved());
             text.setBackground(SystemColor.menu);
@@ -202,13 +207,24 @@ class PanelForWeapons {
 
         }
 
+        if(receivedEvent!=null && event.isRequestSelectionWeaponToReload()){
+            JButton buttonToStopReload = new JButton();
+            buttonToStopReload.setText("Don't want to reload");
+            GridBagConstraints gbcButton = new GridBagConstraints();
+            gbcButton.gridx = 4;
+            gbcButton.gridy = 1;
+            buttonToStopReload.addActionListener(new WeaponListener(null, popupForChooseW));
+            buttonToStopReload.setActionCommand("ReloadRejected");
+            contentPane.add(buttonToStopReload,gbcButton);
+        }
+
     }
 
      JPanel getContentPane() {
         return contentPane;
     }
 
-    class WeaponListener implements MouseListener{
+    class WeaponListener implements MouseListener, ActionListener {
         private String nameOfWeaponCard;
         private PopupForChooseWeaponCard popup;
 
@@ -257,6 +273,15 @@ class PanelForWeapons {
 
         @Override
         public void mouseExited(MouseEvent e) {
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SelectionWeaponToReload selectionWeaponToReload = new SelectionWeaponToReload("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+            selectionWeaponToReload.setNameOfWeaponCardToReload(null);
+            popup.getPopupForChooseW().setVisible(false);
+            mainFrame.getRemoteView().notify(selectionWeaponToReload);
 
         }
     }
