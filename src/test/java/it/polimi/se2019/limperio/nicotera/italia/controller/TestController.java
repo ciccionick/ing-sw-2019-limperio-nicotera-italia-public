@@ -43,12 +43,6 @@ public class TestController {
 
 
    @Test
-    public void distanceOfManhattanTest() {
-       int[] start = {0, 0};
-       int[] end = {1, 2};
-       assertEquals(3, controller.distanceOfManhattan(start, end));
-   }
-   @Test
    public void findPlayerWithThisNicknameTest(){
       assertEquals(controller.findPlayerWithThisNickname("player1").getNickname(), "player1");
       assertEquals(controller.findPlayerWithThisNickname("player2").getNickname(), "player2");

@@ -69,6 +69,7 @@ public class InitializationView {
             frameForInitialization.setTerminator();
         }
         if(event.isAck()){
+            remoteView.getNetworkHandler().setNicknameOfClient(remoteView.getNetworkHandler().getTemporaryNickname());
             frameForInitialization.remainInListeningForTheStartGame();
         }
 

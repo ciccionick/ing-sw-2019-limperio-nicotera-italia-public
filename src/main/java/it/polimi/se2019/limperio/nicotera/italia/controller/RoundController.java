@@ -1,13 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken;
-import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
-import it.polimi.se2019.limperio.nicotera.italia.model.Game;
-import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.*;
+import java.util.Map;
 
 
 public class RoundController {
@@ -31,6 +30,8 @@ public class RoundController {
          }
          updatePlayerOfTurn();
          while (!game.getPlayers().get((game.getPlayerOfTurn() - 1)).isConnected()) {
+             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPositionOnTheMap()==null)
+                 randomSpawn(game.getPlayers().get(game.getPlayerOfTurn()-1));
              updatePlayerOfTurn();
          }
 
@@ -61,6 +62,24 @@ public class RoundController {
          game.setPlayerHasToRespawn(null);
 
 
+     }
+
+      void randomSpawn(Player player){
+         PowerUpCard powerUpCardToSpawn1 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
+         PowerUpCard powerUpCardToSpawn2 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(1);
+         game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(1));
+         Square square = controller.getPowerUpController().findSpawnSquareWithThisColor(powerUpCardToSpawn2.getColor());
+         player.drawPowerUpCard(powerUpCardToSpawn1);
+         powerUpCardToSpawn1.setOwnerOfCard(player);
+         powerUpCardToSpawn1.setInTheDeckOfSomePlayer(true);
+         player.setPositionOnTheMap(square);
+         player.setDead(false);
+         player.setHasToBeGenerated(false);
+         MapEvent mapEvent = new MapEvent();
+         mapEvent.setNicknames(game.getListOfNickname());
+         mapEvent.setMessageForOthers(player.getNickname() + "has been generated in" + square.getColor().toString() + "spawn square");
+         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
+         game.notify(mapEvent);
      }
 
     private void handleRespawnOfDeadPlayers(ArrayList<Player> deadPlayers) {

@@ -12,6 +12,8 @@ public class RequestSelectionSquareForAction extends ServerEvent {
     private boolean isSelectionForCatch = false;
     private boolean isSelectionForSpawnTerminator = false;
     private boolean isSelectionForMoveTerminator = false;
+    private boolean isSelectionForTeleporter = false;
+    private boolean isSelectionForNewton = false;
     private boolean isBeforeToShoot = false;
 
     public RequestSelectionSquareForAction(String message){
@@ -73,5 +75,21 @@ public class RequestSelectionSquareForAction extends ServerEvent {
 
     public void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
+    }
+
+    public boolean isSelectionForTeleporter() {
+        return isSelectionForTeleporter;
+    }
+
+    public void setSelectionForTeleporter(boolean selectionForTeleporter) {
+        isSelectionForTeleporter = selectionForTeleporter;
+    }
+
+    public boolean isSelectionForNewton() {
+        return isSelectionForNewton;
+    }
+
+    public void setSelectionForNewton(boolean selectionForNewton) {
+        isSelectionForNewton = selectionForNewton;
     }
 }

@@ -294,7 +294,7 @@ public class ShootController {
         }
 
         if(playersCouldUseTagback.isEmpty()){
-            controller.handleTheEndOfAnAction();
+            controller.handleTheEndOfAnAction(false);
         }
         else{
             sendRequestToUseTagbackGranade(playersCouldUseTagback);
@@ -468,7 +468,7 @@ public class ShootController {
         if(message.getNameOfPowerUpCard()==null){
             playersAreChoosingForTagback.remove(playerWithTagback);
             if(playersAreChoosingForTagback.isEmpty())
-                controller.handleTheEndOfAnAction();
+                controller.handleTheEndOfAnAction(false);
         }
         else{
             PowerUpCard tagback = controller.getCatchController().findPowerUpCard(message.getNameOfPowerUpCard(), message.getColorOfCard(), playerWithTagback);
@@ -485,7 +485,7 @@ public class ShootController {
 
             playersAreChoosingForTagback.remove(playerWithTagback);
             if(playersAreChoosingForTagback.isEmpty())
-                controller.handleTheEndOfAnAction();
+                controller.handleTheEndOfAnAction(false);
         }
     }
 

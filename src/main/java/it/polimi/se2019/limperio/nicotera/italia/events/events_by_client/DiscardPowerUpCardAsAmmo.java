@@ -13,7 +13,6 @@ public class DiscardPowerUpCardAsAmmo extends ClientEvent {
 
     public DiscardPowerUpCardAsAmmo(String message, String nickname) {
         super(message, nickname);
-        setDiscardPowerUpCardAsAmmo(true);
     }
 
     public String getNameOfPowerUpCard() {

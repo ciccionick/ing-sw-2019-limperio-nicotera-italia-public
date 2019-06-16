@@ -178,6 +178,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mapView.setSelectionForRun(((RequestSelectionSquareForAction) receivedEvent).isSelectionForRun());
             mapView.setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForSpawnTerminator());
             mapView.setSelectionForMoveTerminator(((RequestSelectionSquareForAction) receivedEvent).isSelectionForMoveTerminator());
+            mapView.setSelectionForTeleporter(((RequestSelectionSquareForAction) receivedEvent).isSelectionForTeleporter());
+            mapView.setSelectionForNewton(((RequestSelectionSquareForAction)receivedEvent).isSelectionForNewton());
             mapView.setSelectionBeforeToShoot(((RequestSelectionSquareForAction) receivedEvent).isBeforeToShoot());
             mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
@@ -240,9 +242,9 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
 
 
     public void handlePlayerBoardEvent(PlayerBoardEvent event){
-        if(listOfPlayerBoardViews.isEmpty() || !(playerBoardViewAlreadyExists(event.getNicknameInvolved()))){
+        if(listOfPlayerBoardViews.isEmpty() || !(playerBoardViewAlreadyExists(event.getPlayerBoard().getNicknameOfPlayer()))){
             listOfPlayerBoardViews.add(new PlayerBoardView());
-            if(event.getNicknameInvolved().equals(client.getNickname()))
+            if(event.getPlayerBoard().getNicknameOfPlayer().equals(client.getNickname()))
                 myPlayerBoardView=listOfPlayerBoardViews.get(listOfPlayerBoardViews.size()-1);
             else {
                 removePowerUpCardsDeckFromEvent(event);
@@ -252,7 +254,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         else{
             if(!(event.getNicknameInvolved().equals(client.getNickname())))
                 removePowerUpCardsDeckFromEvent(event);
-            getPlayerBoardViewOfThisPlayer(event.getNicknameInvolved()).update(event);
+            getPlayerBoardViewOfThisPlayer(event.getPlayerBoard().getNicknameOfPlayer()).update(event);
         }
         if(mainFrame!=null)
             mainFrame.updateLeftPanelForWhoIsViewing(event.getPlayerBoard().getNicknameOfPlayer());

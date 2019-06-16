@@ -37,11 +37,6 @@ public class ServerEvent implements Serializable {
 
     private String nicknameInvolved;
 
-    /**
-     * The list of powerUp cards in alias-mode to send to clients in some kind of events like RequestDiscardPowerUpCardEvent
-     */
-    private ArrayList<AliasCard> powerUpCards = null;
-
     private boolean isPlayerBoardEvent = false;
     private boolean isMapEvent = false;
     private boolean isKillshotTrackEvent = false;

@@ -3,7 +3,6 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -70,7 +69,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
      */
      void handleEventInitialization(RequestInitializationEvent event){
         if(event.isColorRequest())
-            client.setNickname(temporaryNickname);
+            setNicknameOfClient(temporaryNickname);
         remoteView.getInitializationView().handleInitialization(event);
     }
 
@@ -189,4 +188,13 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             e.printStackTrace();
         }
     }
+
+    public String getTemporaryNickname() {
+        return temporaryNickname;
+    }
+
+    public void setNicknameOfClient(String nickname){
+        client.setNickname(nickname);
+    }
+
 }
