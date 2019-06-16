@@ -267,7 +267,9 @@ class PowerUpController {
     void useNewton(SelectionSquareToUseNewton event){
          Square newPositionOfThePlayer = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
          Player player = controller.findPlayerWithThisNickname(event.getNickname());
+
          PowerUpCard cardToUse = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);
+
          cardToUse.useAsPowerUp(controller.findPlayerWithThisNickname(nicknameOfPlayerHasToBeMovedByNewton), newPositionOfThePlayer);
          cardToUse.setOwnerOfCard(null);
          cardToUse.setInTheDeckOfSomePlayer(false);
