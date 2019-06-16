@@ -296,6 +296,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      */
     @Override
     public void drawPowerUpCard(PowerUpCard powerUpCardsToDraw) {
+        powerUpCardsToDraw.setOwnerOfCard(this);
         playerBoard.getPowerUpCardsOwned().add(powerUpCardsToDraw);
     }
 

@@ -136,7 +136,8 @@ public class Controller implements Observer<ClientEvent> {
                 shootController.replyToRequestToShoot(message);
             }
             if(message.isRequestToUseWeaponCard()){
-                shootController.replyWithUsableEffectsOfThisWeapon(message);
+
+                shootController.replyWithUsableEffectsOfThisWeapon(((RequestToUseWeaponCard)message).getWeaponWantUse().getName(),findPlayerWithThisNickname(message.getNickname()));
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect((RequestToUseEffect) message);

@@ -98,18 +98,18 @@ class ReloadController {
     }
 
     private void handleTheEndOfReload(Player player) {
-             sendPlayerBoardEventAfterRealod(player);
-             if (playerCanReload(player) && !doesntWantToReloadAnymore)
-                 sendRequestToReload(player, isReloadingAtTheEndOfAction);
-             else {
-                 doesntWantToReloadAnymore=false;
-                 if (isReloadingAtTheEndOfAction) {
-                     controller.handleTheEndOfAnAction(false);
-                 } else {
-                     controller.getShootController().sendRequestToChooseAWeapon(player);
-                 }
-             }
-
+        if (weaponCardToReload != null)
+            sendPlayerBoardEventAfterRealod(player);
+        if (playerCanReload(player) && !doesntWantToReloadAnymore)
+            sendRequestToReload(player, isReloadingAtTheEndOfAction);
+        else {
+            doesntWantToReloadAnymore = false;
+            if (isReloadingAtTheEndOfAction) {
+                controller.handleTheEndOfAnAction(false);
+            } else {
+                controller.getShootController().sendRequestToChooseAWeapon(player);
+            }
+        }
     }
 
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsNotEnough) {

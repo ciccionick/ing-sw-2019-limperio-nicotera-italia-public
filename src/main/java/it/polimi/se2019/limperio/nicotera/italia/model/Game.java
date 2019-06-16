@@ -142,7 +142,7 @@ public class Game extends Observable<ServerEvent> {
                         break;
                 }
                 board.getWeaponsDeck().getWeaponCards().get(i).setOwnerOfCard(player);
-               // board.getWeaponsDeck().getWeaponCards().get(i).setLoad(false);
+                board.getWeaponsDeck().getWeaponCards().get(i).setLoad(false);
                 player.getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(i));
                 player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));
                 player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));

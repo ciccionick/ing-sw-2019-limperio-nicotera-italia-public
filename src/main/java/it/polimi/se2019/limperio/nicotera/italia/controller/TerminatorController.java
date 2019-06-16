@@ -115,10 +115,6 @@ class TerminatorController {
          if(terminator.isOverSixDamage()){
              playerToAttack.assignMarks(terminator.getColorOfFigure(), 1);
          }
-         if(playerToAttack.getPlayerBoard().getDamages().size()>=11){
-             controller.getDeathController().handleDeath(terminator, playerToAttack);
-         }
-         else {
              PlayerBoardEvent pbEvent = new PlayerBoardEvent();
              pbEvent.setNicknameInvolved(playerToAttack.getNickname());
              pbEvent.setNicknames(game.getListOfNickname());
@@ -128,14 +124,10 @@ class TerminatorController {
              pbEvent.setNotifyAboutActionDone(true);
              game.notify(pbEvent);
              game.setHasToDoTerminatorAction(false);
-             controller.handleTheEndOfAnAction(false);
-         }
          ArrayList<Player> players = new ArrayList<>();
          players.add(playerToAttack);
          controller.getShootController().handleSendRequestAfterShoot(game.getPlayers().get(game.getPlayerOfTurn()- 1), players, true);
-
-
-    }
+     }
 
 
 }
