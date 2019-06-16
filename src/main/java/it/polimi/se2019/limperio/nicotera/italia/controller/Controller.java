@@ -10,6 +10,10 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class for checking the correctness of the action of the players, according to MVC pattern
@@ -18,7 +22,8 @@ import java.util.TimerTask;
  */
 public class Controller implements Observer<ClientEvent> {
 
-
+    private static Logger myLogger = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static ConsoleHandler consoleHandler = new ConsoleHandler();
     private final Game game;
     private CatchController catchController;
     private PowerUpController powerUpController;
@@ -47,6 +52,8 @@ public class Controller implements Observer<ClientEvent> {
         weaponController = new WeaponController(game, this);
         deathController = new DeathController(game, this);
         reloadController = new ReloadController(game, this);
+        myLogger.addHandler(consoleHandler);
+
 
     }
 
@@ -136,8 +143,7 @@ public class Controller implements Observer<ClientEvent> {
                 shootController.replyToRequestToShoot(message);
             }
             if(message.isRequestToUseWeaponCard()){
-
-                shootController.replyWithUsableEffectsOfThisWeapon(((RequestToUseWeaponCard)message).getWeaponWantUse().getName(),findPlayerWithThisNickname(message.getNickname()));
+                shootController.replyWithUsableEffectsOfThisWeapon(((RequestToUseWeaponCard)message).getWeaponWantUse().getName(), findPlayerWithThisNickname(message.getNickname()));
             }
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect((RequestToUseEffect) message);
@@ -436,7 +442,7 @@ public class Controller implements Observer<ClientEvent> {
                     timer.schedule(turnTask, game.getDelay()/3);
             }
         } catch (IllegalStateException er) {
-            er.printStackTrace();
+            myLogger.log(Level.ALL, "error");
         }
 
     }

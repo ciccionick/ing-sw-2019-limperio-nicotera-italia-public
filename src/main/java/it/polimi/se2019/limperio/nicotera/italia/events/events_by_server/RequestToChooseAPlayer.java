@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class RequestToChooseAPlayer extends ServerEvent {
     private boolean isChoosePlayerForNewton = false;
+    private boolean isChoosePlayerForAttack = false;
 
     private ArrayList<String> nameOfPlayers = new ArrayList<>();
     private boolean isToUseTargeting = false;
@@ -34,5 +35,13 @@ public class RequestToChooseAPlayer extends ServerEvent {
 
     public void setChoosePlayerForNewton(boolean choosePlayerForNewton) {
         isChoosePlayerForNewton = choosePlayerForNewton;
+    }
+
+    public boolean isChoosePlayerForAttack() {
+        return isChoosePlayerForAttack;
+    }
+
+    public void setChoosePlayerForAttack(boolean choosePlayerForAttack) {
+        isChoosePlayerForAttack = choosePlayerForAttack;
     }
 }

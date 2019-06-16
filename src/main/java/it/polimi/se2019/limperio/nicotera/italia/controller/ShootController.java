@@ -71,9 +71,6 @@ public class ShootController {
 
      void sendRequestToChooseAWeapon(Player player){
         boolean[] canUseWeapon = new boolean[3];
-        canUseWeapon[0] = false;
-        canUseWeapon[1] = false;
-        canUseWeapon[2] = false;
         int i = 0;
         for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
             canUseWeapon[i] = controller.checkIfThisWeaponIsUsable(weaponCard, 0);
@@ -101,10 +98,10 @@ public class ShootController {
         throw new IllegalArgumentException();
     }
 
-     void replyWithUsableEffectsOfThisWeapon(String nameOfWeaponCard, Player player) {
-        if(weaponToUse==null)
+     void replyWithUsableEffectsOfThisWeapon(String nameOfWeaponCard, Player player ) {
+        if(weaponToUse == null) {
             weaponToUse = findWeaponCardWithThisName(nameOfWeaponCard, player);
-
+        }
          ArrayList<Integer> usableEffectsForThisWeapon = controller.getWeaponController().getUsableEffectsForThisWeapon(weaponToUse);
          RequestToChooseAnEffect requestToChooseAnEffect = new RequestToChooseAnEffect();
          if(typeOfAttack.isEmpty())
@@ -162,6 +159,11 @@ public class ShootController {
              case "Shockwave":
              case "Furnace":
              case "Lock rifle":
+                 if(message.getNumOfEffect() == 1){
+                     RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
+                     requestToChooseAPlayer.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
+                     //mandare richiesta di scegliere player; una volta scelto, arriva al controller che chiama un metodo che mi mette il player in involvedpl; dopo, avendo salvato effetto in typeofattack e nome dell arma in weaponcard posso chiamare player.shoot
+                 }
              case "Zx-2":
              case "Machine gun":
              case "Granade launcher":
@@ -182,6 +184,17 @@ public class ShootController {
          }
     }
 
+
+    void setPlayersInInvolvedPlayers(ArrayList<Player> players){
+        for(Player player : players){
+            involvedPlayers.add(new InvolvedPlayer(player, 12, null));
+            playersAttacked.add(player);
+        }
+        if(priceToPay == null)
+            weaponToUse.getOwnerOfCard().shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, involvedPlayers, null, null );
+        else
+            handlePaymentForEffect(weaponToUse.getOwnerOfCard(), playersAttacked);
+    }
     private void sendPlayerBoardEvent(ArrayList<Player> playersAttacked) {
 
         String messageForAttacked = weaponToUse.getOwnerOfCard().getNickname() + " has attacked: ";
@@ -280,7 +293,7 @@ public class ShootController {
         this.isForTerminator = isForTerminator;
         if(!isForTerminator && weaponToUse!=null) {
             if(!doesntWantToContinueToShoot && !controller.getWeaponController().getUsableEffectsForThisWeapon(weaponToUse).isEmpty()){
-                replyWithUsableEffectsOfThisWeapon(weaponToUse.getName(),weaponToUse.getOwnerOfCard());
+                replyWithUsableEffectsOfThisWeapon(weaponToUse.getName(), weaponToUse.getOwnerOfCard());
             }
             weaponToUse.setLoad(false);
             PlayerBoardEvent pbEvent = new PlayerBoardEvent();
