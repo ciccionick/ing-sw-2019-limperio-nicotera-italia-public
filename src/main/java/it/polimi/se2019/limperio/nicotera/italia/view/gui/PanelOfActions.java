@@ -119,7 +119,7 @@ public class PanelOfActions extends JPanel {
       return actionButtonListener;
    }
 
-   void updateStateOfButton(){
+   public void updateStateOfButton(){
        buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
        buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
        buttonShoot.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanShoot());

@@ -8,6 +8,7 @@ import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
+import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -135,6 +136,8 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         }
 
         if(event.isRequestSelectionSquareForAction()){
+            if(((RequestSelectionSquareForAction)event).isBeforeToShoot())
+                System.out.println("move before");
             remoteView.update(event);
             return;
         }

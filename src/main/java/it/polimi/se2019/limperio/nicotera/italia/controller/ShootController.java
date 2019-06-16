@@ -49,10 +49,15 @@ public class ShootController {
                squares = getSquaresFromWherePlayerCanAttack(player,1);
             else
                 squares = getSquaresFromWherePlayerCanAttack(player,2);
-            RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where move yourself before to shoot");
-            requestSelectionSquareForAction.setSquaresReachable(squares);
-            requestSelectionSquareForAction.setNicknameInvolved(player.getNickname());
-            requestSelectionSquareForAction.setBeforeToShoot(true);
+            if(squares.size()==1 && player.getPositionOnTheMap().equals(squares.get(0)))
+                sendRequestToChooseAWeapon(player);
+            else {
+                RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where move yourself before to shoot");
+                requestSelectionSquareForAction.setSquaresReachable(squares);
+                requestSelectionSquareForAction.setNicknameInvolved(player.getNickname());
+                requestSelectionSquareForAction.setBeforeToShoot(true);
+                message.getMyVirtualView().update(requestSelectionSquareForAction);
+            }
         }
         else
             sendRequestToChooseAWeapon(player);
@@ -507,7 +512,6 @@ public class ShootController {
             startingSquares.remove(squareToRemove);
         }
         player.setPositionOnTheMap(originalSquare);
-        System.out.println(startingSquares.size());
         return startingSquares;
     }
 

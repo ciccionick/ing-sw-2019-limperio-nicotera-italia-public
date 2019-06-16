@@ -67,8 +67,6 @@ class DeathController {
              controller.getRoundController().countScoreForDeaths(deadPlayers);
              controller.getRoundController().handleEndOfGame();
          }
-         else
-            controller.handleTheEndOfAnAction();
     }
 
     private int firstSkullPosition() {
