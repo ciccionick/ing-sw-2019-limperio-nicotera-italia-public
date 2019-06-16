@@ -51,7 +51,7 @@ public class TestWeaponController {
         WeaponCard card= new ElectroScythe();
         game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
         card.setOwnerOfCard(game.getPlayers().get(0));
-        assertTrue(!weaponController.canReload(card));
+        assertTrue(!controller.getReloadController().isThisWeaponReloadable(card));
 
     }*/
 }

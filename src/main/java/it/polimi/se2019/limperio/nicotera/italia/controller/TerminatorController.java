@@ -105,7 +105,6 @@ class TerminatorController {
         requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());
         requestToSelectionPlayerToAttackWithTerminator.setMessageForInvolved("Choose who the terminator has to shoot: ");
         message.getMyVirtualView().update(requestToSelectionPlayerToAttackWithTerminator);
-
     }
 
 
@@ -120,7 +119,6 @@ class TerminatorController {
              controller.getDeathController().handleDeath(terminator, playerToAttack);
          }
          else {
-
              PlayerBoardEvent pbEvent = new PlayerBoardEvent();
              pbEvent.setNicknameInvolved(playerToAttack.getNickname());
              pbEvent.setNicknames(game.getListOfNickname());

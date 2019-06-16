@@ -159,6 +159,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             if(isMyTurn && !receivedEvent.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer())) {
                 isMyTurn = false;
                 myPlayerBoardView.disableEveryThingPlayerCanDo();
+                mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
                 mainFrame.updateLeftPanelForWhoIsViewing(getMyPlayerBoardView().getNicknameOfPlayer());
                 mainFrame.updateNorthPanel();
             }

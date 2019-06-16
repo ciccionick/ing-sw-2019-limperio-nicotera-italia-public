@@ -72,7 +72,7 @@ public class Client {
                     } catch (EOFException ex) {
                         System.exit(0);
                     } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
+                        System.exit(0);
                     }
                     this.myNetworkHandler.handleEventInitialization(req);
                     if (req!=null && req.isAck())

@@ -262,7 +262,7 @@ public class Controller implements Observer<ClientEvent> {
             sendRequestForAction();
             return;
         }
-            if (reloadController.playerCanReload(player) && !isAlreadyAskedToReload) {
+            if (!game.isInFrenzy() && reloadController.playerCanReload(player) && !isAlreadyAskedToReload) {
                 reloadController.sendRequestToReload(player, true);
                 isAlreadyAskedToReload = true;
 

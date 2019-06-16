@@ -58,7 +58,7 @@ class PanelForWeapons {
 
         this.getContentPane().setLayout(new GridBagLayout());
         int gridy;
-        if(receivedEvent.isRequestSelectionWeaponToReload()){
+        if(receivedEvent!=null && receivedEvent.isRequestSelectionWeaponToReload()){
             GridBagConstraints gbcText = new GridBagConstraints();
             gbcText.gridx = 0;
             gbcText.gridy = 0;
