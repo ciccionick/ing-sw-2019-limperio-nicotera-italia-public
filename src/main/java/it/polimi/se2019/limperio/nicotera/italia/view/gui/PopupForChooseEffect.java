@@ -47,7 +47,7 @@ import java.util.ArrayList;
         gbcText.gridx = 0;
         gbcText.gridy = 0;
         gbcText.gridwidth = numOfAllEffects;
-        if(message.isOneEffectAlreadyChoosen())
+        if(message.isOneEffectAlreadyChosen())
             gbcText.gridwidth++;
         contentPane.add(text, gbcText);
 
@@ -82,16 +82,16 @@ import java.util.ArrayList;
             }
         }
 
-        if(message.isOneEffectAlreadyChoosen()){
+        if(message.isOneEffectAlreadyChosen()){
             JButton endActionButton = new JButton("End action");
             contentPane.add(endActionButton);
             GridBagConstraints gbcEndActionButton = new GridBagConstraints();
             gbcEndActionButton.insets = new Insets(0, 0, 5, 10);
             gbcEndActionButton.gridx = 4;
             gbcEndActionButton.gridy = 1;
-            if(!message.isOneEffectAlreadyChoosen())
+            if(!message.isOneEffectAlreadyChosen())
                 endActionButton.setEnabled(false);
-            endActionButton.setActionCommand("End Action");
+            endActionButton.setActionCommand("0");
             endActionButton.addActionListener(listenerForEffects);
             contentPane.add (endActionButton, gbcEndActionButton);
         }
@@ -122,7 +122,7 @@ import java.util.ArrayList;
         @Override
         public void actionPerformed(ActionEvent e) {
              int numOfEffect = Integer.parseInt(e.getActionCommand());
-             if(getEffectButtons().get(numOfEffect-1).isEnabled()){
+             if(e.getActionCommand().equals("0") || getEffectButtons().get(numOfEffect-1).isEnabled()){
                  RequestToUseEffect requestToUseEffect = new RequestToUseEffect("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                  requestToUseEffect.setNumOfEffect(numOfEffect);
                  dialog.setVisible(false);

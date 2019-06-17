@@ -179,6 +179,8 @@ class PopupForDiscardPowerUp {
                       newEvent.setNameOfPowerUpCard(card.getName());
                       newEvent.setColorOfCard(card.getColor());
                   }
+                  if(timer!=null)
+                      timer.cancel();
                   mainFrame.getRemoteView().notify(newEvent);
                   dialog.setVisible(false);
 

@@ -142,6 +142,10 @@ public class MainFrame {
         new PopupToChooseAPlayer(this, receivedEvent);
     }
 
+    public void handleRequestToChooseMultiplePlayers(ServerEvent receivedEvent) {
+        new PopupToChooseMultiplePlayers(receivedEvent, this);
+    }
+
 
     private class FrameListener implements ComponentListener {
 

@@ -107,6 +107,10 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.updateNorthPanel();
         }
 
+        if(receivedEvent.isRequestToChooseMultiplePlayers()){
+            mainFrame.handleRequestToChooseMultiplePlayers(receivedEvent);
+        }
+
         if(receivedEvent.isUpdateScoreEvent()){
             mainFrame.showMessage(receivedEvent);
         }
@@ -126,8 +130,12 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
         }
 
-        if(receivedEvent.isRequestToDiscardPowerUpCardToPay())
-            mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
+        if(receivedEvent.isRequestToDiscardPowerUpCardToPay()) {
+            if (((RequestToDiscardPowerUpCardToPay) receivedEvent).isToTagback() && isMyTurn)
+                mainFrame.showMessage(receivedEvent);
+            else
+                mainFrame.handleRequestToDiscardPowerUpCard(receivedEvent);
+        }
 
         if(receivedEvent.isGenerationEvent()){
             mainFrame.showMessage(receivedEvent);

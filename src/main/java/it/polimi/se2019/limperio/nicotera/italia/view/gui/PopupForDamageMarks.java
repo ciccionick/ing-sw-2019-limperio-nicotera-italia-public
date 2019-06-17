@@ -13,6 +13,7 @@ class PopupForDamageMarks {
     private JDialog dialog;
     private JPanel contentPane;
 
+
      PopupForDamageMarks(JLabel labelBoard, MainFrame mainFrame, boolean forDamage) {
          dialog = new JDialog(mainFrame.getFrame());
          contentPane = new JPanel(new GridBagLayout());
@@ -24,9 +25,9 @@ class PopupForDamageMarks {
          dialog.setLocation((int)location.getX()-10, (int)location.getY()-yOffset);
          dialog.setUndecorated(true);
          dialog.setAutoRequestFocus(false);
+         //dialog.setGlassPane(mainFrame.getFrame().getGlassPane());
          //contentPane.setOpaque(false);
          contentPane.setBackground(Color.DARK_GRAY);
-
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
          String folderPath = "resources/playerboards/damage/";
          GridBagConstraints gbc = new GridBagConstraints();
@@ -38,8 +39,8 @@ class PopupForDamageMarks {
          int height;
          if(forDamage) {
              listOfColors = currentPlayerBoardView.getDamages();
-             width = labelBoard.getWidth()/12;
-             height = (int) (labelBoard.getHeight()/1.7);
+             width = labelBoard.getIcon().getIconWidth()/12;
+             height = (int) (labelBoard.getIcon().getIconHeight()/1.7);
          }
          else {
              listOfColors = currentPlayerBoardView.getMarks();
@@ -58,6 +59,8 @@ class PopupForDamageMarks {
          dialog.pack();
          dialog.setVisible(true);
      }
+
+
 
      JDialog getPanelForDamage() {
         return dialog;

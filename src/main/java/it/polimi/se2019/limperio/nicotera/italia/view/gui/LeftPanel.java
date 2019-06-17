@@ -56,7 +56,9 @@ import java.util.ArrayList;
 
 
         playerBoardPanel = new PlayerBoardPanel(mainFrame, playerBoardView);
-        GridBagConstraints gbcPlayerBoard = new GridBagConstraints();
+
+
+         GridBagConstraints gbcPlayerBoard = new GridBagConstraints();
         gbcPlayerBoard.insets = new Insets(0, (int) (mainFrame.getFrame().getSize().getWidth() / 192), (int) (mainFrame.getFrame().getSize().getHeight() / 216), (int) (mainFrame.getFrame().getSize().getWidth() / 192));
         gbcPlayerBoard.anchor = GridBagConstraints.NORTHWEST;
         gbcPlayerBoard.gridx = 0;

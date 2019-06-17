@@ -169,18 +169,26 @@ public class Controller implements Observer<ClientEvent> {
             }
 
 
-            if(message.isChoosePlayer()){
-                ChoosePlayer choosePlayer =(ChoosePlayer) message;
-                if(choosePlayer.isToTargeting())
+            if(message.isChoosePlayer()) {
+                ChoosePlayer choosePlayer = (ChoosePlayer) message;
+                if (choosePlayer.isToTargeting())
                     shootController.handleUseOfTargeting(choosePlayer);
-                else if(choosePlayer.isToNewton())
+                else if (choosePlayer.isToNewton())
                     powerUpController.handleChoosePlayerForNewton(choosePlayer);
-                else if(choosePlayer.isForAttack()) {
+                else if (choosePlayer.isForAttack()) {
                     ArrayList<Player> arrayList = new ArrayList<>();
                     arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
                     shootController.setPlayersInInvolvedPlayers(arrayList);
                 }
+            }
 
+
+            if(message.isSelectionMultiplePlayers()) {
+                ArrayList<Player> players = new ArrayList<>();
+                for(String name : ((SelectionMultiplePlayers)message).getNamesOfPlayers()){
+                    players.add(findPlayerWithThisNickname(name));
+                }
+                shootController.setPlayersInInvolvedPlayers(players);
             }
 
             if(message.isRequestToUseTeleporter())
