@@ -169,13 +169,19 @@ public class Controller implements Observer<ClientEvent> {
             }
 
 
-            if(message.isChoosePlayer()){
-                ChoosePlayer choosePlayer =(ChoosePlayer) message;
-                if(choosePlayer.isToTargeting())
+            if(message.isChoosePlayer()) {
+                ChoosePlayer choosePlayer = (ChoosePlayer) message;
+                if (choosePlayer.isToTargeting())
                     shootController.handleUseOfTargeting(choosePlayer);
-                else if(choosePlayer.isToNewton())
+                else if (choosePlayer.isToNewton())
                     powerUpController.handleChoosePlayerForNewton(choosePlayer);
+                else if (choosePlayer.isForAttack()) {
+                    ArrayList<Player> arrayList = new ArrayList<>();
+                    arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
+                    shootController.setPlayersInInvolvedPlayers(arrayList);
+                }
             }
+
 
             if(message.isSelectionMultiplePlayers()) {
                 ArrayList<Player> players = new ArrayList<>();
@@ -193,6 +199,7 @@ public class Controller implements Observer<ClientEvent> {
                 powerUpController.handleRequestToUseNewton(message);
             if(message.isSelectionSquareToUseNewton())
                 powerUpController.useNewton((SelectionSquareToUseNewton)message);
+
 
         }
     }

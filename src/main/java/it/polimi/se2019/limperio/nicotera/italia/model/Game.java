@@ -134,17 +134,15 @@ public class Game extends Observable<ServerEvent> {
             player.setPosition(position);
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent();
-            if(player.getNickname().equals("pietro")){
+            if(player.getNickname().equals("ciccio")){
                 player.setOverSixDamage(true);
                 int i = 0;
                 for(i=0;i<board.getWeaponsDeck().getWeaponCards().size();i++){
-                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Machine gun"))
+                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Lock rifle"))
                         break;
                 }
                 board.getWeaponsDeck().getWeaponCards().get(i).setOwnerOfCard(player);
-                player.getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(i));
-                player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));
-                player.getPlayerBoard().getPowerUpCardsOwned().add(board.getPowerUpDeck().getPowerUpCards().remove(0));
+                player.getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(i));;
             }
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
