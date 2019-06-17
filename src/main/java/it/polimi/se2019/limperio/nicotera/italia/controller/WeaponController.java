@@ -78,9 +78,9 @@ public class WeaponController {
                 break;
 
             case "Lock rifle":
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if(getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && controller.getShootController().getTypeOfAttack().contains(1))
+                if(getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size()>1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(2))
                     usableEffects.add(2);
                 break;
 
@@ -154,15 +154,14 @@ public class WeaponController {
 
             case "THOR":
                 Player referencePlayer;
-                ArrayList<Integer> typeOfAttack = controller.getShootController().getTypeOfAttack();
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !typeOfAttack.contains(1))
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if(typeOfAttack.contains(1) && !typeOfAttack.contains(2) && effectAffordable(weaponCard.getOwnerOfCard(),weaponCard.getPriceToPayForEffect1())) {
+                if(effectAlreadyChoosen(1) && !effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(),weaponCard.getPriceToPayForEffect1())) {
                     referencePlayer = controller.getShootController().getInvolvedPlayers().get(0).getPlayer();
                     if(!getVisiblePlayers(0, referencePlayer, 0).isEmpty())
                         usableEffects.add(2);
                 }
-                if(typeOfAttack.contains(2) && effectAffordable(weaponCard.getOwnerOfCard(),weaponCard.getPriceToPayForEffect1())) {
+                if(!effectAlreadyChoosen(3) && effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(),weaponCard.getPriceToPayForEffect1())) {
                     referencePlayer = controller.getShootController().getInvolvedPlayers().get(1).getPlayer();
                     if(!getVisiblePlayers(0, referencePlayer, 0).isEmpty())
                         usableEffects.add(3);
