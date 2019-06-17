@@ -238,14 +238,6 @@ public class ShootController {
         return playersAttacked;
     }
 
-    private ArrayList<InvolvedPlayer> getInvolvedPlayerForEffect(int effect){
-        ArrayList<InvolvedPlayer> involvedPlayersToReturn = new ArrayList<>();
-        for(InvolvedPlayer involvedPlayer : involvedPlayers){
-            if(involvedPlayer.getEffect() == effect)
-                involvedPlayersToReturn.add(involvedPlayer);
-        }
-        return involvedPlayersToReturn;
-    }
 
     private ArrayList<Player> getPlayersInvolvedInAnEffect(int effect){
         ArrayList<Player> players = new ArrayList<>();
@@ -523,7 +515,11 @@ public class ShootController {
     }
 
     void handleUseOfTargeting(ChoosePlayer message){
-        Player playerAttacker = controller.findPlayerWithThisNickname(message.getNickname());
+        Player playerAttacker;
+        if(isForTerminator)
+            playerAttacker = controller.findPlayerWithThisNickname("terminator");
+        else
+         playerAttacker = controller.findPlayerWithThisNickname(message.getNickname());
         Player playerAttacked = controller.findPlayerWithThisNickname(message.getNameOfPlayer());
         if(ammoForPayTargeting!=null)
             playerAttacker.useTargetingScope(playerAttacked,targetingScopeToUse,ammoForPayTargeting,null);
