@@ -156,20 +156,14 @@ public class ShootController {
              case "Furnace":
              case "Lock rifle":
                  if(message.getNumOfEffect() == 1){
-                     ArrayList<String> nameOfPlayersCouldBeAttacked = new ArrayList<>();
-                     for(Player player1 : controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0)){
-                         nameOfPlayersCouldBeAttacked.add(player1.getNickname());
-                     }
-                     sendRequestToChooseAPlayerForAttack(nameOfPlayersCouldBeAttacked, "Choose a player u want to attack with 1st effect of Lock rifle");
+                     sendRequestToChoosePlayer(1,controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(),0));
                  }
                  else if(message.getNumOfEffect()==2){
                      priceToPay = weaponToUse.getPriceToPayForEffect1();
-                     ArrayList<String> nameOfPlayersCouldBeChosen = new ArrayList<>();
-                     for(Player player1 : controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0)){
-                         if(!playersAttacked.contains(player1))
-                            nameOfPlayersCouldBeChosen.add(player1.getNickname());
-                     }
-                     sendRequestToChooseAPlayerForAttack(nameOfPlayersCouldBeChosen, "Choose a different player u can see to give it a mark");
+                     ArrayList<Player> visibleAndAttackablePlayers = controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0);
+                     if(visibleAndAttackablePlayers.contains(playersAttacked.get(0)))
+                         visibleAndAttackablePlayers.remove(playersAttacked.get(0));
+                     sendRequestToChoosePlayer(1,visibleAndAttackablePlayers);
                  }
                  break;
              case "Zx-2":
@@ -231,24 +225,29 @@ public class ShootController {
                  throw  new IllegalArgumentException();
          }
     }
-    private void sendRequestToChooseAPlayerForAttack(ArrayList<String> playersToChoose, String message){
-        RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
-        requestToChooseAPlayer.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
-        requestToChooseAPlayer.setMessageForInvolved(message);
-        requestToChooseAPlayer.setNameOfPlayers(playersToChoose);
-        requestToChooseAPlayer.setChoosePlayerForAttack(true);
-        game.notify(requestToChooseAPlayer);
-    }
+
 
     private void sendRequestToChoosePlayer(int numOfMaxPlayerToChoose, ArrayList<Player> visiblePlayers) {
-        RequestToChooseMultiplePlayers requestToChooseMultiplePlayers = new RequestToChooseMultiplePlayers();
-        requestToChooseMultiplePlayers.setNumOfMaxPlayersToChoose(numOfMaxPlayerToChoose);
-        requestToChooseMultiplePlayers.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
-        requestToChooseMultiplePlayers.setMessageForInvolved("Choose until " + numOfMaxPlayerToChoose + " players to attack with the effect you have chosen");
-        for(Player player : visiblePlayers){
-            requestToChooseMultiplePlayers.getNamesOfPlayers().add(player.getNickname());
+        if(numOfMaxPlayerToChoose==1){
+            RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
+            requestToChooseAPlayer.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
+            requestToChooseAPlayer.setMessageForInvolved("Choose a player to attack with the selected effect");
+            for (Player player : visiblePlayers) {
+                requestToChooseAPlayer.getNameOfPlayers().add(player.getNickname());
+            }
+            requestToChooseAPlayer.setChoosePlayerForAttack(true);
+            game.notify(requestToChooseAPlayer);
         }
-        game.notify(requestToChooseMultiplePlayers);
+        else {
+            RequestToChooseMultiplePlayers requestToChooseMultiplePlayers = new RequestToChooseMultiplePlayers();
+            requestToChooseMultiplePlayers.setNumOfMaxPlayersToChoose(numOfMaxPlayerToChoose);
+            requestToChooseMultiplePlayers.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
+            requestToChooseMultiplePlayers.setMessageForInvolved("Choose until " + numOfMaxPlayerToChoose + " players to attack with the effect you have chosen");
+            for (Player player : visiblePlayers) {
+                requestToChooseMultiplePlayers.getNamesOfPlayers().add(player.getNickname());
+            }
+            game.notify(requestToChooseMultiplePlayers);
+        }
     }
 
     ArrayList<Player> getPlayersAttacked() {
