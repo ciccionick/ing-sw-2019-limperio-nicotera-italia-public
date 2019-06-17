@@ -157,10 +157,22 @@ public class ShootController {
              case "Furnace":
              case "Lock rifle":
                  if(message.getNumOfEffect() == 1){
-                     RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
-                     requestToChooseAPlayer.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
-                     //mandare richiesta di scegliere player; una volta scelto, arriva al controller che chiama un metodo che mi mette il player in involvedpl; dopo, avendo salvato effetto in typeofattack e nome dell arma in weaponcard posso chiamare player.shoot
+                     ArrayList<String> nameOfPlayersCouldBeAttacked = new ArrayList<>();
+                     for(Player player1 : controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0)){
+                         nameOfPlayersCouldBeAttacked.add(player1.getNickname());
+                     }
+                     sendRequestToChooseAPlayerForAttack(nameOfPlayersCouldBeAttacked, "Choose a player u want to attack with 1st effect of Lock rifle");
                  }
+                 else if(message.getNumOfEffect()==2){
+                     priceToPay = weaponToUse.getPriceToPayForEffect1();
+                     ArrayList<String> nameOfPlayersCouldBeChosen = new ArrayList<>();
+                     for(Player player1 : controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0)){
+                         if(!playersAttacked.contains(player1))
+                            nameOfPlayersCouldBeChosen.add(player1.getNickname());
+                     }
+                     sendRequestToChooseAPlayerForAttack(nameOfPlayersCouldBeChosen, "Choose a different player u can see to give it a mark");
+                 }
+                 break;
              case "Zx-2":
              case "Machine gun":
              case "Granade launcher":
@@ -180,15 +192,29 @@ public class ShootController {
                  throw  new IllegalArgumentException();
          }
     }
-
+    private void sendRequestToChooseAPlayerForAttack(ArrayList<String> playersToChoose, String message){
+        RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
+        requestToChooseAPlayer.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
+        requestToChooseAPlayer.setMessageForInvolved(message);
+        requestToChooseAPlayer.setNameOfPlayers(playersToChoose);
+        requestToChooseAPlayer.setChoosePlayerForAttack(true);
+        game.notify(requestToChooseAPlayer);
+    }
 
     void setPlayersInInvolvedPlayers(ArrayList<Player> players){
         for(Player player : players){
-            involvedPlayers.add(new InvolvedPlayer(player, 12, null));
-            playersAttacked.add(player);
+            involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
+            if(!playersAttacked.contains(player))
+                playersAttacked.add(player);
         }
-        if(priceToPay == null)
-            weaponToUse.getOwnerOfCard().shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, involvedPlayers, null, null );
+        if(priceToPay == null) {
+            weaponToUse.getOwnerOfCard().shoot(typeOfAttack.get(typeOfAttack.size() - 1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size() - 1)), null, null);
+            sendPlayerBoardEvent(playersAttacked);
+            if(!controller.getWeaponController().getUsableEffectsForThisWeapon(weaponToUse).isEmpty())
+                replyWithUsableEffectsOfThisWeapon(weaponToUse.getName(), weaponToUse.getOwnerOfCard());
+            else
+                handleSendRequestAfterShoot(weaponToUse.getOwnerOfCard(), playersAttacked, false);
+        }
         else
             handlePaymentForEffect(weaponToUse.getOwnerOfCard(), playersAttacked);
     }

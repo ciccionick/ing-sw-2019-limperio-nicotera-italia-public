@@ -175,6 +175,11 @@ public class Controller implements Observer<ClientEvent> {
                     shootController.handleUseOfTargeting(choosePlayer);
                 else if(choosePlayer.isToNewton())
                     powerUpController.handleChoosePlayerForNewton(choosePlayer);
+                else if(choosePlayer.isForAttack()) {
+                    ArrayList<Player> arrayList = new ArrayList<>();
+                    arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
+                    shootController.setPlayersInInvolvedPlayers(arrayList);
+                }
 
             }
 

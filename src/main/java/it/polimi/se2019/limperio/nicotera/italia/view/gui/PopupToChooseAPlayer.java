@@ -86,6 +86,13 @@ class PopupToChooseAPlayer {
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
+            else if(((RequestToChooseAPlayer)event).isChoosePlayerForAttack()){
+                ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
+                newEvent.setForAttack(true);
+                newEvent.setNameOfPlayer(e.getActionCommand());
+                mainFrame.getRemoteView().notify(newEvent);
+                dialog.setVisible(false);
+            }
             dialog.setVisible(false);
         }
     }

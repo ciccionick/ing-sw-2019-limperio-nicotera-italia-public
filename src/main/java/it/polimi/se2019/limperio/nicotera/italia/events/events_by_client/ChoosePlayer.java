@@ -4,7 +4,7 @@ public class ChoosePlayer extends ClientEvent {
     private String nameOfPlayer;
     private boolean isToTargeting = false;
     private boolean isToNewton = false;
-
+    private boolean isForAttack = false;
     public ChoosePlayer(String message, String nickname) {
         super(message, nickname);
         setChoosePlayer(true);
@@ -30,8 +30,15 @@ public class ChoosePlayer extends ClientEvent {
         return isToNewton;
     }
 
-
     public void setToNewton(boolean toNewton) {
         isToNewton = toNewton;
+    }
+
+    public boolean isForAttack() {
+        return isForAttack;
+    }
+
+    public void setForAttack(boolean forAttack) {
+        isForAttack = forAttack;
     }
 }
