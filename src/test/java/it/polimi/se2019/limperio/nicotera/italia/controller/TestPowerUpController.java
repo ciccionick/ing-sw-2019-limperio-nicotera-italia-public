@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DrawPowerUpCards;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
@@ -32,7 +31,7 @@ public class TestPowerUpController {
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");
         game.setGameOver(true);
-        game.initializeGame(false, 2, false);
+        game.initializeGame(false, 1, false);
     }
 
 
@@ -97,6 +96,70 @@ public class TestPowerUpController {
         assertEquals(game.getBoard().getPowerUpDeck().getPowerUpCards().size(), x-1);
 
 
+    }
+
+
+    @Test
+    public void useNewtonTest()
+    {
+
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(7));
+
+
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+        RequestToUseNewton message = new RequestToUseNewton("", game.getPlayers().get(0).getNickname());
+        message.setNumOfCard(1);
+
+        powerUpController.handleRequestToUseNewton(message);
+        ChoosePlayer player= new ChoosePlayer("", game.getPlayers().get(1).getNickname());
+        player.setNameOfPlayer(game.getPlayers().get(1).getNickname());
+        powerUpController.handleChoosePlayerForNewton(player);
+        SelectionSquareToUseNewton event= new SelectionSquareToUseNewton("", game.getPlayers().get(0).getNickname(),0,2);
+        powerUpController.useNewton(event);
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
+        assertEquals(game.getPlayers().get(1).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+
+
+
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(7));
+
+
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][2]);
+        message = new RequestToUseNewton("", game.getPlayers().get(0).getNickname());
+        message.setNumOfCard(1);
+
+        powerUpController.handleRequestToUseNewton(message);
+        player= new ChoosePlayer("", game.getPlayers().get(1).getNickname());
+        player.setNameOfPlayer(game.getPlayers().get(1).getNickname());
+        powerUpController.handleChoosePlayerForNewton(player);
+        event= new SelectionSquareToUseNewton("", game.getPlayers().get(0).getNickname(),1,3);
+        powerUpController.useNewton(event);
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
+        assertEquals(game.getPlayers().get(1).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[1][3]);
+
+
+    }
+
+    @Test
+    public void useTeleporterTest()
+    {
+
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().clear();
+        PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(4);
+        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
+        powerUpCard.setInTheDeckOfSomePlayer(true);
+        powerUpCard.setOwnerOfCard(game.getPlayers().get(0));
+        RequestToUseTeleporter message= new RequestToUseTeleporter("", game.getPlayers().get(0).getNickname());
+        message.setNumOfCard(1);
+        powerUpController.handleRequestToUseTeleporter(message);
+        SelectionSquareToUseTeleporter event= new SelectionSquareToUseTeleporter("", game.getPlayers().get(0).getNickname(), 1,1);
+        powerUpController.useTeleporter(event);
+        assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[1][1]);
+        assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
     }
 
 

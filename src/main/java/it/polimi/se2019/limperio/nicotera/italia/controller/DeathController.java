@@ -1,5 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
+
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.KillshotTrackEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
@@ -48,10 +49,13 @@ class DeathController {
          else{
              if(deadPlayer.getPlayerBoard().getDamages().size()==11){
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
+
+
              }
              else {
                  killerPlayer.assignMarks(deadPlayer.getColorOfFigure(), 1);
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
+
              }
          }
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());
