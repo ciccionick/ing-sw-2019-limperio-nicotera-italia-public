@@ -175,7 +175,14 @@ public class Controller implements Observer<ClientEvent> {
                     shootController.handleUseOfTargeting(choosePlayer);
                 else if(choosePlayer.isToNewton())
                     powerUpController.handleChoosePlayerForNewton(choosePlayer);
+            }
 
+            if(message.isSelectionMultiplePlayers()) {
+                ArrayList<Player> players = new ArrayList<>();
+                for(String name : ((SelectionMultiplePlayers)message).getNamesOfPlayers()){
+                    players.add(findPlayerWithThisNickname(name));
+                }
+                shootController.setPlayersInInvolvedPlayers(players);
             }
 
             if(message.isRequestToUseTeleporter())
@@ -186,7 +193,6 @@ public class Controller implements Observer<ClientEvent> {
                 powerUpController.handleRequestToUseNewton(message);
             if(message.isSelectionSquareToUseNewton())
                 powerUpController.useNewton((SelectionSquareToUseNewton)message);
-
 
         }
     }

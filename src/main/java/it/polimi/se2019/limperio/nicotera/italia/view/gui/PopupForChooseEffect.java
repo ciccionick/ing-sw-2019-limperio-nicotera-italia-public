@@ -91,7 +91,7 @@ import java.util.ArrayList;
             gbcEndActionButton.gridy = 1;
             if(!message.isOneEffectAlreadyChosen())
                 endActionButton.setEnabled(false);
-            endActionButton.setActionCommand("End Action");
+            endActionButton.setActionCommand("0");
             endActionButton.addActionListener(listenerForEffects);
             contentPane.add (endActionButton, gbcEndActionButton);
         }
@@ -122,7 +122,7 @@ import java.util.ArrayList;
         @Override
         public void actionPerformed(ActionEvent e) {
              int numOfEffect = Integer.parseInt(e.getActionCommand());
-             if(getEffectButtons().get(numOfEffect-1).isEnabled()){
+             if(e.getActionCommand().equals("0") || getEffectButtons().get(numOfEffect-1).isEnabled()){
                  RequestToUseEffect requestToUseEffect = new RequestToUseEffect("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                  requestToUseEffect.setNumOfEffect(numOfEffect);
                  dialog.setVisible(false);

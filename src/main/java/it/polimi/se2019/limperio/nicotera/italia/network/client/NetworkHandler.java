@@ -105,6 +105,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             remoteView.update(event);
         }
 
+        if(event.isRequestToChooseMultiplePlayers())
+            remoteView.update(event);
+
         if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
             remoteView.update(event);
         }

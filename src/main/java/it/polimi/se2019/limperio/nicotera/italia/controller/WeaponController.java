@@ -93,10 +93,11 @@ public class WeaponController {
 
             case "Machine gun":
                 if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty()) {
-                    usableEffects.add(1);
-                    if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                    if(!effectAlreadyChoosen(1))
+                        usableEffects.add(1);
+                    if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(2) && (!effectAlreadyChoosen(3)||controller.getShootController().getPlayersAttacked().size()>1))
                         usableEffects.add(2);
-                    if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && !controller.getShootController().getTypeOfAttack().contains(2) || getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size()>1){
+                    if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(3) && (!effectAlreadyChoosen(2)||controller.getShootController().getPlayersAttacked().size()>1)){
                         usableEffects.add(3);
                     }
                 }
@@ -271,7 +272,9 @@ public class WeaponController {
         }
     }
 
-
+    private boolean effectAlreadyChoosen(int numOfEffect){
+        return controller.getShootController().getTypeOfAttack().contains(numOfEffect);
+    }
 
 
     private ArrayList<String> getPlayersInMySquare(int movement, Square square) {
