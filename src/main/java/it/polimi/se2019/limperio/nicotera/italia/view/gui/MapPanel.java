@@ -317,6 +317,10 @@ class MapPanel extends JPanel {
                    moveBeforeShootEvent.setBeforeToShoot(true);
                    mainFrame.getRemoteView().notify(moveBeforeShootEvent);
                }
+               if(mainFrame.getRemoteView().getMapView().isSelectionForShootAction()){
+                   SelectionSquareForShootAction selectionSquareForShootAction = new SelectionSquareForShootAction("" ,mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column);
+                   mainFrame.getRemoteView().notify(selectionSquareForShootAction);
+               }
                for(JLabel label : hashMapForCell.values()){
                    label.setEnabled(true);
                }

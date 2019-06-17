@@ -98,8 +98,9 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
             if (remoteView.getMainFrame()==null)
                 remoteView.setMyTurn(((KillshotTrackEvent)event).getNicknamePlayerOfTheTurn().equals(client.getNickname()));
             remoteView.getKillshotTrackView().update((KillshotTrackEvent) event);
-
         }
+
+
 
         if(event.isUpdateScoreEvent()){
             remoteView.update(event);

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class RequestToChooseAnEffect extends ServerEvent {
     private ArrayList<Integer> usableEffects;
-    private boolean canTerminateAction = false;
     private String nameOfCard;
     private boolean oneEffectAlreadyChosen = false;
     public RequestToChooseAnEffect() {
@@ -19,13 +18,6 @@ public class RequestToChooseAnEffect extends ServerEvent {
         this.usableEffects = usableEffects;
     }
 
-    public boolean isCanTerminateAction() {
-        return canTerminateAction;
-    }
-
-    public void setCanTerminateAction(boolean canTerminateAction) {
-        this.canTerminateAction = canTerminateAction;
-    }
 
     public String getNameOfCard() {
         return nameOfCard;

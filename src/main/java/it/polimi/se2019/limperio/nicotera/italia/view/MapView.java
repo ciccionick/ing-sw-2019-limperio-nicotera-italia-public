@@ -32,6 +32,7 @@ public class MapView {
     private boolean isSelectionForTeleporter = false;
     private boolean isSelectionForNewton = false;
     private boolean isSelectionBeforeToShoot = false;
+    private boolean isSelectionForShootAction = false;
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     public MapView(RemoteView remoteView) {
@@ -78,7 +79,7 @@ public class MapView {
         }
     }
 
-    public ArrayList<Square> getListOfSquareAsArrayList() {
+     ArrayList<Square> getListOfSquareAsArrayList() {
         ArrayList<Square> allSquares = new ArrayList<>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -96,7 +97,7 @@ public class MapView {
         return isSelectionBeforeToShoot;
     }
 
-    public void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
+     void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
         isSelectionBeforeToShoot = selectionBeforeToShoot;
     }
 
@@ -120,7 +121,7 @@ public class MapView {
         return isSelectionForRun;
     }
 
-    public void setSelectionForRun(boolean selectionForRun) {
+     void setSelectionForRun(boolean selectionForRun) {
         isSelectionForRun = selectionForRun;
     }
 
@@ -128,7 +129,8 @@ public class MapView {
         return isSelectionForCatch;
     }
 
-    public void setSelectionForCatch(boolean selectionForCatch) {
+
+    void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
     }
 
@@ -136,7 +138,7 @@ public class MapView {
         return isSelectionForGenerationOfTerminator;
     }
 
-    public void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
+     void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
         isSelectionForGenerationOfTerminator = selectionForGenerationOfTerminator;
     }
 
@@ -144,7 +146,7 @@ public class MapView {
         return isSelectionForMoveTerminator;
     }
 
-    public void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
+     void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
         isSelectionForMoveTerminator = selectionForMoveTerminator;
     }
 
@@ -152,7 +154,7 @@ public class MapView {
         return reachableSquares;
     }
 
-    public void setReachableSquares(ArrayList<Square> reachableSquares) {
+     void setReachableSquares(ArrayList<Square> reachableSquares) {
         this.reachableSquares = reachableSquares;
     }
 
@@ -160,7 +162,7 @@ public class MapView {
         return isSelectionForTeleporter;
     }
 
-    public void setSelectionForTeleporter(boolean selectionForTeleporter) {
+     void setSelectionForTeleporter(boolean selectionForTeleporter) {
         isSelectionForTeleporter = selectionForTeleporter;
     }
 
@@ -168,7 +170,15 @@ public class MapView {
         return isSelectionForNewton;
     }
 
-    public void setSelectionForNewton(boolean selectionForNewton) {
+    public boolean isSelectionForShootAction() {
+        return isSelectionForShootAction;
+    }
+
+    public void setSelectionForShootAction(boolean selectionForShootAction) {
+        isSelectionForShootAction = selectionForShootAction;
+    }
+
+    void setSelectionForNewton(boolean selectionForNewton) {
         isSelectionForNewton = selectionForNewton;
     }
 }

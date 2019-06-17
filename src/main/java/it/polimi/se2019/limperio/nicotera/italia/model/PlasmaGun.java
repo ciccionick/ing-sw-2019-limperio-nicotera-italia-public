@@ -65,7 +65,7 @@ public class PlasmaGun extends WeaponCard{
     }
 
     private void withPhaseGlide(Player player, Square square){
-        player.setPositionOnTheMap(square);
+        this.getOwnerOfCard().setPositionOnTheMap(square);
 
     }
 }

@@ -138,7 +138,7 @@ public class Game extends Observable<ServerEvent> {
                 player.setOverSixDamage(true);
                 int i = 0;
                 for(i=0; i<board.getWeaponsDeck().getWeaponCards().size(); i++){
-                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("THOR")) {
+                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Heatseeker")) {
                         break;
                     }
                 }

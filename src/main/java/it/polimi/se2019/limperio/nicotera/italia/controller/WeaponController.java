@@ -111,10 +111,11 @@ public class WeaponController {
                 break;
 
             case "Plasma gun":
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                usableEffects.add(2);
-                if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                if(!effectAlreadyChoosen(2))
+                    usableEffects.add(2);
+                if(!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
                     usableEffects.add(3);
                 break;
 
@@ -126,7 +127,7 @@ public class WeaponController {
                 break;
 
             case "Heatseeker":
-                if(!getPlayersNotVisible(0, weaponCard.getOwnerOfCard()).isEmpty())
+                if(!getPlayersNotVisible(0, weaponCard.getOwnerOfCard()).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
                 break;
 
@@ -470,13 +471,17 @@ public class WeaponController {
      * @return List of players
      */
 
-    private ArrayList<Player> getPlayersNotVisible(int movement, Player playerCanSee)
+
+    ArrayList<Player> getPlayersNotVisible(int movement, Player playerCanSee)
     {
         ArrayList<Player> playersNotVisible = new ArrayList<>();
-        ArrayList<Player> playersVisible = getVisiblePlayers(movement, playerCanSee, 0);
-        for(Player player : game.getPlayers()){
-            if(!playersVisible.contains(player) && !player.equals(playerCanSee))
-                playersNotVisible.add(playerCanSee);
+        while(movement>=0) {
+            ArrayList<Player> playersVisible = getVisiblePlayers(movement, playerCanSee, 0);
+            for (Player player : game.getPlayers()) {
+                if (!playersVisible.contains(player) && !playersNotVisible.contains(player) && !player.equals(playerCanSee))
+                    playersNotVisible.add(player);
+            }
+            movement--;
         }
         return playersNotVisible;
     }

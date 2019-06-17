@@ -58,6 +58,7 @@ public class ClientEvent implements Serializable {
    private boolean isChoosePlayer = false;
    private boolean isSelectionWeaponToReload = false;
    private boolean isSelectionMultiplePlayers = false;
+   private boolean isSelectionSquareForShootAction = false;
 
 
    private boolean isRequestToUseTeleporter = false;
@@ -93,6 +94,14 @@ public class ClientEvent implements Serializable {
 
     public boolean isSelectionWeaponToReload() {
         return isSelectionWeaponToReload;
+    }
+
+    public boolean isSelectionSquareForShootAction() {
+        return isSelectionSquareForShootAction;
+    }
+
+    public void setSelectionSquareForShootAction(boolean selectionSquareForShootAction) {
+        isSelectionSquareForShootAction = selectionSquareForShootAction;
     }
 
     public boolean isSelectionMultiplePlayers() {

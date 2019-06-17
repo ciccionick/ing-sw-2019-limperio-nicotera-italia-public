@@ -189,6 +189,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mapView.setSelectionForTeleporter(((RequestSelectionSquareForAction) receivedEvent).isSelectionForTeleporter());
             mapView.setSelectionForNewton(((RequestSelectionSquareForAction)receivedEvent).isSelectionForNewton());
             mapView.setSelectionBeforeToShoot(((RequestSelectionSquareForAction) receivedEvent).isBeforeToShoot());
+            mapView.setSelectionForShootAction(((RequestSelectionSquareForAction)receivedEvent).isForActionShoot());
             mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
         }

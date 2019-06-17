@@ -182,6 +182,8 @@ public class Controller implements Observer<ClientEvent> {
                 }
             }
 
+            if(message.isSelectionSquareForShootAction())
+                shootController.setSquareInInvolvedPlayers((SelectionSquareForShootAction) message);
 
             if(message.isSelectionMultiplePlayers()) {
                 ArrayList<Player> players = new ArrayList<>();
