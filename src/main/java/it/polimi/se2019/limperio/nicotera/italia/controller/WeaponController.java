@@ -85,7 +85,7 @@ public class WeaponController {
                 break;
 
             case "Zx-2":
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty()) {
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty() ){
                     usableEffects.add(1);
                     usableEffects.add(4);
                 }
@@ -149,7 +149,7 @@ public class WeaponController {
                 break;
 
             case "Whisper":
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 2).isEmpty())
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 2).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
                 break;
 
@@ -185,7 +185,7 @@ public class WeaponController {
                 break;
 
             case "Tractor beam":
-                if(!getVisiblePlayers(2, weaponCard.getOwnerOfCard(), 0).isEmpty())
+                if(!returnPlayersCoulbBeAttackedFromBasicEffetOfTractorBeam(weaponCard).isEmpty())
                     usableEffects.add(1);
                 if(!getPlayersInMySquare(2, squareOfPlayer).isEmpty() && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
                     usableEffects.add(4);
@@ -210,7 +210,21 @@ public class WeaponController {
         return usableEffects;
     }
 
-
+     ArrayList<Player> returnPlayersCoulbBeAttackedFromBasicEffetOfTractorBeam(WeaponCard weaponCard) {
+        ArrayList<Player> playersToReturn = new ArrayList<>();
+        for (Player player : game.getPlayers()) {
+            ArrayList<Square> squareReachableFromPlayer = new ArrayList<>();
+            controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 3, squareReachableFromPlayer);
+            for (Square square : squareReachableFromPlayer) {
+                if (getSquaresOfVisibleRoom(0, weaponCard.getOwnerOfCard().getPositionOnTheMap(), 0, false).contains(square)) {
+                    playersToReturn.add(player);
+                    break;
+                }
+            }
+        }
+        playersToReturn.remove(weaponCard.getOwnerOfCard());
+        return playersToReturn;
+    }
     boolean isThisWeaponUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
         Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
         switch (weaponCard.getName()){
@@ -277,7 +291,7 @@ public class WeaponController {
     }
 
 
-    private ArrayList<String> getPlayersInMySquare(int movement, Square square) {
+     ArrayList<String> getPlayersInMySquare(int movement, Square square) {
         ArrayList<String> playersInTheSquare = new ArrayList<>();
         Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         ArrayList<Square> squaresReachable = new ArrayList<>();
@@ -315,7 +329,7 @@ public class WeaponController {
 
 
 
-    private ArrayList<Square> getSquaresOfVisibleRoom(int movement, Square squareOfPlayer, int distanceNeeded, boolean differentFromMine) {
+     ArrayList<Square> getSquaresOfVisibleRoom(int movement, Square squareOfPlayer, int distanceNeeded, boolean differentFromMine) {
         ArrayList<Square> squaresOfVisibleRoom = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
         controller.findSquaresReachableWithThisMovements(squareOfPlayer, movement, startingSquares);

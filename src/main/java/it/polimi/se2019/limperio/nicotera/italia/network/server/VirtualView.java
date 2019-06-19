@@ -240,7 +240,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         mapEvent.setTypeOfMap(typeOfMap);
         out.writeObject(mapEvent);
         Timer timer = new Timer();
-        timer.schedule(new MyTask(), 1000);
+        timer.schedule(new MyTask(), 5000);
     }
     private boolean isNotValidNickname(String nickname) {
         if(server.getListOfNickname().contains(nickname))
