@@ -401,7 +401,7 @@ public class WeaponController {
         ArrayList<Square> squaresVisible = getSquaresOfVisibleRoom(movement, playerCanSee.getPositionOnTheMap(), distanceNeeded,false);
         for(Square square : squaresVisible){
             for(Player playerInSquare : square.getPlayerOnThisSquare() ){
-                if(!playerInSquare.equals(playerCanSee))
+                if(!playerInSquare.equals(playerCanSee) && !playersVisible.contains(playerInSquare))
                     playersVisible.add(playerInSquare);
             }
         }

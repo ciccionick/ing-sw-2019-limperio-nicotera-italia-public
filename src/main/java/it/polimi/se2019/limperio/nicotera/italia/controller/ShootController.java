@@ -508,9 +508,11 @@ public class ShootController {
     private boolean couldUseTagback(Player playerAttacked) {
         if(!controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(weaponToUse.getOwnerOfCard()))
             return false;
+
             for (PowerUpCard powerUpCard : playerAttacked.getPlayerBoard().getPowerUpCardsOwned()) {
-                if (powerUpCard.getName().equals("Tagback granade"))
+                if (powerUpCard.getName().equals("Tagback granade")) {
                     return true;
+                }
             }
 
         return false;
