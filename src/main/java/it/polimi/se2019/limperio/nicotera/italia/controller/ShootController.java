@@ -171,7 +171,11 @@ public class ShootController {
                  break;
 
              case "Zx-2":
-
+                if(message.getNumOfEffect() == 1)
+                    sendRequestToChoosePlayer(1, controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0));
+                else
+                    sendRequestToChoosePlayer(3, controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0));
+                break;
              case "Machine gun":
                 switch (message.getNumOfEffect()){
                     case 1:
@@ -243,6 +247,8 @@ public class ShootController {
              case "Rocket launcher":
              case "Hellion":
              case "Whisper":
+                 sendRequestToChoosePlayer(1, controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 1));
+                 break;
              case "THOR":
                  switch (message.getNumOfEffect()){
                      case 1 :
@@ -268,6 +274,32 @@ public class ShootController {
              case "Flamethrower":
              case "Power glove":
              case "Tractor beam":
+                /* ArrayList<Player> playersCouldBeAttacked = new ArrayList<>();
+                 switch (message.getNumOfEffect()){
+                     case 1:
+                         ArrayList<Square> squaresInWhichPlayerCanBeMoved = new ArrayList<>();
+                         playersCouldBeAttacked = controller.getWeaponController().returnPlayersCoulbBeAttackedFromBasicEffetOfTractorBeam(weaponToUse);
+                         for(Player player1 : playersCouldBeAttacked){
+                            ArrayList<Square> squaresReachable = new ArrayList<>();
+                            controller.findSquaresReachableWithThisMovements(player1.getPositionOnTheMap(), 3, squaresReachable);
+                            for(Square square : squaresReachable){
+                                if(controller.getWeaponController().getSquaresOfVisibleRoom(0, player.getPositionOnTheMap(), 0 , false).contains(square)){
+                                    squaresInWhichPlayerCanBeMoved.add(square);
+                                }
+                            }
+                         }
+
+                         break;
+                     case 4:
+                         priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
+                         ArrayList<String> nicknameOfPlayersCouldBeAttacked = controller.getWeaponController().getPlayersInMySquare(3 ,weaponToUse.getOwnerOfCard().getPositionOnTheMap());
+                         for(String nickname : nicknameOfPlayersCouldBeAttacked){
+                             playersCouldBeAttacked.add(controller.findPlayerWithThisNickname(nickname));
+                         }
+                         sendRequestToChoosePlayer(1, playersCouldBeAttacked);
+                         break;
+                 }
+                 break;*/
              case "Vortex cannon":
 
              default:
