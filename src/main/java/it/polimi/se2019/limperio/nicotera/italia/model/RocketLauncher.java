@@ -26,7 +26,7 @@ public class RocketLauncher extends  WeaponCard{
                     this.rocketJump(involvedPlayers.get(0).getSquare());
                     break;
                 case 3:
-                    withFragmentingWarhead(involvedPlayers.get(0).getSquare());
+                    withFragmentingWarhead(involvedPlayers.get(0).getPlayer(),involvedPlayers.get(0).getSquare());
                     break;
 
                     default:
@@ -60,9 +60,13 @@ public class RocketLauncher extends  WeaponCard{
         setPriceToReload(reloadPrice);
     }
 
-    private void withFragmentingWarhead (Square square){
-        for(Player player : square.getPlayerOnThisSquare())
+    private void withFragmentingWarhead(Player player, Square square){
+        if(!square.getPlayerOnThisSquare().contains(player))
             player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+        else {
+            for (Player playerInTheSquare : square.getPlayerOnThisSquare())
+                playerInTheSquare.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+        }
     }
 
     private void rocketJump(Square square){
