@@ -26,6 +26,7 @@ public class ShootController {
     private ArrayList<Player> playersAreChoosingForTagback = new ArrayList<>();
     private boolean isForTerminator = false;
     private boolean doesntWantToContinueToShoot = false;
+    private boolean needToChooseASquare = false;
 
     public ShootController(Game game, Controller controller) {
         this.game = game;
@@ -34,6 +35,7 @@ public class ShootController {
 
 
      void replyToRequestToShoot(ClientEvent message) {
+        needToChooseASquare = false;
         typeOfAttack = new ArrayList<>();
         involvedPlayers = new ArrayList<>();
         weaponToUse = null;
@@ -155,7 +157,27 @@ public class ShootController {
              case "Cyberblade":
              case "Sledgehammer":
              case "Shotgun":
+                if(message.getNumOfEffect() == 1){
+                    sendRequestToChoosePlayer(1, squareOfPlayer.getPlayerOnThisSquare());
+                    needToChooseASquare = true;
+                }
+                else{
+                    sendRequestToChoosePlayer(1, controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 1));
+                }
+                break;
              case "Shockwave":
+                 if(message.getNumOfEffect() == 1){
+
+                 }
+                 else
+                     for(Square square : squareOfPlayer.getAdjSquares()){
+                         for(Player player1 : square.getPlayerOnThisSquare()){
+                             involvedPlayers.add(new InvolvedPlayer(player1, message.getNumOfEffect(), null));
+                             playersAttacked.add(player1);
+                         }
+                     }
+                     priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
+                     handlePaymentForEffect(weaponToUse.getOwnerOfCard(), playersAttacked);
              case "Furnace":
 
              case "Lock rifle":
@@ -218,6 +240,13 @@ public class ShootController {
 
 
              case "Granade launcher":
+             /*if(message.getNumOfEffect() == 1 ){
+                 needToChooseASquare = true;
+                 sendRequestToChoosePlayer(1 , controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0));
+             }
+             else{
+                 sendRequestToChooseSquare();
+             }*/
 
              case "Plasma gun":
                  switch (message.getNumOfEffect()){
@@ -274,32 +303,22 @@ public class ShootController {
              case "Flamethrower":
              case "Power glove":
              case "Tractor beam":
-                /* ArrayList<Player> playersCouldBeAttacked = new ArrayList<>();
+                 ArrayList<Player> playersCouldBeAttacked = new ArrayList<>();
                  switch (message.getNumOfEffect()){
                      case 1:
-                         ArrayList<Square> squaresInWhichPlayerCanBeMoved = new ArrayList<>();
-                         playersCouldBeAttacked = controller.getWeaponController().returnPlayersCoulbBeAttackedFromBasicEffetOfTractorBeam(weaponToUse);
-                         for(Player player1 : playersCouldBeAttacked){
-                            ArrayList<Square> squaresReachable = new ArrayList<>();
-                            controller.findSquaresReachableWithThisMovements(player1.getPositionOnTheMap(), 3, squaresReachable);
-                            for(Square square : squaresReachable){
-                                if(controller.getWeaponController().getSquaresOfVisibleRoom(0, player.getPositionOnTheMap(), 0 , false).contains(square)){
-                                    squaresInWhichPlayerCanBeMoved.add(square);
-                                }
-                            }
-                         }
-
+                         needToChooseASquare = true;
+                         sendRequestToChoosePlayer(1 , controller.getWeaponController().getPlayersCouldBeAttackedFromBasicEffectOfTractorBeam(weaponToUse));
                          break;
                      case 4:
                          priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
-                         ArrayList<String> nicknameOfPlayersCouldBeAttacked = controller.getWeaponController().getPlayersInMySquare(3 ,weaponToUse.getOwnerOfCard().getPositionOnTheMap());
+                         ArrayList<String> nicknameOfPlayersCouldBeAttacked = controller.getWeaponController().getPlayersInMySquare(2 ,weaponToUse.getOwnerOfCard().getPositionOnTheMap());
                          for(String nickname : nicknameOfPlayersCouldBeAttacked){
                              playersCouldBeAttacked.add(controller.findPlayerWithThisNickname(nickname));
                          }
                          sendRequestToChoosePlayer(1, playersCouldBeAttacked);
                          break;
                  }
-                 break;*/
+                 break;
              case "Vortex cannon":
 
              default:
@@ -308,7 +327,7 @@ public class ShootController {
     }
 
     private void sendRequestToChooseSquare(ArrayList<Square> squaresReachableWithThisMovements) {
-        RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where do you want to move");
+        RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square");
         requestSelectionSquareForAction.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
         requestSelectionSquareForAction.setSquaresReachable(squaresReachableWithThisMovements);
         requestSelectionSquareForAction.setForActionShoot(true);
@@ -317,7 +336,13 @@ public class ShootController {
     }
 
     void setSquareInInvolvedPlayers(SelectionSquareForShootAction message){
-        involvedPlayers.add(new InvolvedPlayer(null, typeOfAttack.get(typeOfAttack.size()-1), game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
+        if(needToChooseASquare) {
+            involvedPlayers.get(involvedPlayers.size() - 1).setSquare(game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
+            needToChooseASquare = false;
+        }
+        else {
+            involvedPlayers.add(new InvolvedPlayer(null, typeOfAttack.get(typeOfAttack.size() - 1), game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
+        }
         setPlayersInInvolvedPlayers(new ArrayList<>());
     }
 
@@ -365,6 +390,10 @@ public class ShootController {
             involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
             if(!playersAttacked.contains(player))
                 playersAttacked.add(player);
+        }
+        if(needToChooseASquare){
+            sendRequestToChooseSquare(controller.getWeaponController().getSquareCouldBeSelectedForTractorBeam(weaponToUse, playersAttacked.get(0)));
+            return;
         }
         if(priceToPay == null) {
             weaponToUse.getOwnerOfCard().shoot(typeOfAttack.get(typeOfAttack.size() - 1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size() - 1)), null, null);
@@ -452,6 +481,7 @@ public class ShootController {
             }
             player.shoot(typeOfAttack.get(typeOfAttack.size()-1), weaponToUse, getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size()-1)), priceToPay, powerUpCardToDiscardToPay);
             sendPlayerBoardEvent();
+            sendMapEvent();
             if(!doesntWantToContinueToShoot && !controller.getWeaponController().getUsableEffectsForThisWeapon(weaponToUse).isEmpty())
                 replyWithUsableEffectsOfThisWeapon(weaponToUse.getName(), weaponToUse.getOwnerOfCard());
             else

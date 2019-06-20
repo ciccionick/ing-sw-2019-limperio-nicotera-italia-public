@@ -40,4 +40,8 @@ public class InvolvedPlayer {
     public Square getSquare() {
         return square;
     }
+
+    public void setSquare(Square square) {
+        this.square = square;
+    }
 }
