@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class RequestToChooseAPlayer extends ServerEvent {
     private boolean isChoosePlayerForNewton = false;
     private boolean isChoosePlayerForAttack = false;
+    private boolean canRefuse = false;
 
     private ArrayList<String> nameOfPlayers = new ArrayList<>();
     private boolean isToUseTargeting = false;
@@ -35,6 +36,14 @@ public class RequestToChooseAPlayer extends ServerEvent {
 
     public void setChoosePlayerForNewton(boolean choosePlayerForNewton) {
         isChoosePlayerForNewton = choosePlayerForNewton;
+    }
+
+    public boolean isCanRefuse() {
+        return canRefuse;
+    }
+
+    public void setCanRefuse(boolean canRefuse) {
+        this.canRefuse = canRefuse;
     }
 
     public boolean isChoosePlayerForAttack() {

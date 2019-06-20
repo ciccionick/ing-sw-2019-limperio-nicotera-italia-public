@@ -102,10 +102,10 @@ public class WeaponController {
                 }
                 break;
 
-            case "Granade launcher": //ricordati che quando andrai a gestire quest'arma nello shoot controller devi spostare momentaneamente il player spostato nel primo effetto nel suo square originale e chiaamre lo use weapon per il secondo effetto e poi ripiazzarlo
+            case "Granade launcher":
                 if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if(controller.getShootController().getTypeOfAttack().contains(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2) && effectAlreadyChoosen(1))
+                if(!effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) )
                     usableEffects.add(2);
                 break;
 

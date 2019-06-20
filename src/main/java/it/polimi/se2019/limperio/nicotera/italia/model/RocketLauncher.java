@@ -61,12 +61,10 @@ public class RocketLauncher extends  WeaponCard{
     }
 
     private void withFragmentingWarhead(Player player, Square square){
+        for (Player playerInTheSquare : square.getPlayerOnThisSquare())
+            playerInTheSquare.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
         if(!square.getPlayerOnThisSquare().contains(player))
             player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-        else {
-            for (Player playerInTheSquare : square.getPlayerOnThisSquare())
-                playerInTheSquare.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-        }
     }
 
     private void rocketJump(Square square){
