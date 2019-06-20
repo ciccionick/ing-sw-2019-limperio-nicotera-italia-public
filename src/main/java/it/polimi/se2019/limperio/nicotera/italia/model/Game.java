@@ -134,10 +134,10 @@ public class Game extends Observable<ServerEvent> {
             player.setPosition(position);
             player.createPlayerBoard();
             pbEvent = new PlayerBoardEvent();
-            if(player.getNickname().equals("ciccio")){
+            if(player.getNickname().equals("pietro")){
                 int i;
                 for(i=0;i<board.getWeaponsDeck().getWeaponCards().size();i++){
-                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Zx-2"))
+                    if(board.getWeaponsDeck().getWeaponCards().get(i).getName().equals("Power glove"))
                         break;
                 }
                 board.getWeaponsDeck().getWeaponCards().get(i).setOwnerOfCard(player);
