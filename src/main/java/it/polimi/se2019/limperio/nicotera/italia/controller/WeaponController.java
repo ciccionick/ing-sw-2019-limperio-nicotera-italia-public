@@ -47,7 +47,7 @@ public class WeaponController {
                 break;
 
             case "Sledgehammer":
-                if (!getPlayersInMySquare(0, squareOfPlayer).isEmpty()) {
+                if (!getPlayersInMySquare(0, squareOfPlayer).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty()) {
                     usableEffects.add(1);
                     if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
                         usableEffects.add(4);
@@ -119,7 +119,7 @@ public class WeaponController {
                 break;
 
             case "Railgun":
-                if (!getPlayersInCardinalDirections(0, squareOfPlayer).isEmpty()) {
+                if (!getPlayersInCardinalDirections(0, squareOfPlayer, true).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty()) {
                     usableEffects.add(1);
                     usableEffects.add(4);
                 }
@@ -257,7 +257,7 @@ public class WeaponController {
             case "Plasma gun":
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot + 2, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Railgun":
-                return !getPlayersInCardinalDirections(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
+                return !getPlayersInCardinalDirections(movementCanDoBeforeReloadAndShoot, squareOfPlayer, true).isEmpty();
             case "Heatseeker":
                 return !getPlayersNotVisible(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard()).isEmpty();
             case "Rocket launcher":
@@ -405,7 +405,7 @@ public class WeaponController {
         ArrayList<Square> startingSquares = new ArrayList<>();
         controller.findSquaresReachableWithThisMovements(squareOfPlayer, movementCanDoBeforeReloadAndShoot, startingSquares);
         for (Square startingSquare : startingSquares) {
-            addSquaresForCardinalDirections(startingSquare, squaresForFlamethrower, 2);
+            addSquaresForCardinalDirections(startingSquare, squaresForFlamethrower, 2, true);
         }
         removeSquareWithoutPlayers(squaresForFlamethrower);
         return squaresForFlamethrower;
@@ -435,13 +435,13 @@ public class WeaponController {
      * @return List of players
      */
 
-    private ArrayList<Player> getPlayersInCardinalDirections(int movement, Square square) {
+     ArrayList<Player> getPlayersInCardinalDirections(int movement, Square square, boolean ignoreWalls) {
         ArrayList<Player> players = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
         ArrayList<Square> squaresAvailable = new ArrayList<>();
         controller.findSquaresReachableWithThisMovements(square, movement, startingSquares);
         for (Square startingSquare : startingSquares) {
-            addSquaresForCardinalDirections(startingSquare, squaresAvailable, 0);
+            addSquaresForCardinalDirections(startingSquare, squaresAvailable, 0, ignoreWalls);
         }
 
         for (Square squareAvailable : squaresAvailable) {
@@ -454,7 +454,7 @@ public class WeaponController {
         return players;
     }
 
-    void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance) {
+    void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance, boolean ignoreWalls) {
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
         int row = startingSquare.getRow();
         int column = startingSquare.getColumn();
@@ -469,14 +469,16 @@ public class WeaponController {
 
         ArrayList<Square> squaresCloserThanDistance = new ArrayList<>();
         ArrayList<Square> squaresToRemove = new ArrayList<>();
-        controller.findSquaresReachableWithThisMovements(startingSquare, limitOfDistance, squaresCloserThanDistance);
-        for (Square squareAvailable : squaresAvailable) {
-            if (!squaresCloserThanDistance.contains(squareAvailable))
-                squaresToRemove.add(squareAvailable);
-        }
+        if(!ignoreWalls) {
+            controller.findSquaresReachableWithThisMovements(startingSquare, limitOfDistance, squaresCloserThanDistance);
+            for (Square squareAvailable : squaresAvailable) {
+                if (!squaresCloserThanDistance.contains(squareAvailable))
+                    squaresToRemove.add(squareAvailable);
+            }
 
-        for (Square squareToRemove : squaresToRemove) {
-            squaresAvailable.remove(squareToRemove);
+            for (Square squareToRemove : squaresToRemove) {
+                squaresAvailable.remove(squareToRemove);
+            }
         }
 
     }
@@ -513,7 +515,7 @@ public class WeaponController {
     Square getSquareForAlternativeModeOfPowerGlove(Square squareOfAttacker, Square squareOfFirstAttacked) {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         if (squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()) {
-            if (squareOfAttacker.getRow() < squareOfFirstAttacked.getRow()) {
+            if (squareOfAttacker.getColumn() < squareOfFirstAttacked.getColumn()) {
                 if (matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() + 1] != null)
                     return matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() + 1];
                 else
@@ -525,18 +527,62 @@ public class WeaponController {
                     return null;
             }
         } else {
-            if (squareOfAttacker.getColumn() < squareOfFirstAttacked.getColumn()) {
-                if (matrixOfSquare[squareOfAttacker.getColumn()][squareOfFirstAttacked.getRow() + 1] != null)
-                    return matrixOfSquare[squareOfAttacker.getColumn()][squareOfFirstAttacked.getRow() + 1];
+            if (squareOfAttacker.getRow() < squareOfFirstAttacked.getRow()) {
+                if (matrixOfSquare[squareOfFirstAttacked.getRow()+1][squareOfAttacker.getColumn()] != null)
+                    return matrixOfSquare[squareOfFirstAttacked.getRow()+1][squareOfAttacker.getColumn()];
                 else
                     return null;
             } else {
-                if (matrixOfSquare[squareOfAttacker.getColumn()][squareOfFirstAttacked.getRow() - 1] != null)
-                    return matrixOfSquare[squareOfAttacker.getColumn()][squareOfFirstAttacked.getRow() - 1];
+                if (matrixOfSquare[squareOfFirstAttacked.getRow()-1][squareOfAttacker.getColumn()] != null)
+                    return matrixOfSquare[squareOfFirstAttacked.getRow()-1][squareOfAttacker.getColumn()];
                 else
                     return null;
             }
         }
+    }
+
+    ArrayList<Player> getPlayersForAlternativeModeOfRailgun(Square squareOfAttacker, Square squareOfFirstAttacked){
+        ArrayList<Player> playersToReturn = new ArrayList<>();
+        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+        int i;
+        if(squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()){
+            i=squareOfAttacker.getColumn();
+            if(squareOfAttacker.getColumn()<squareOfFirstAttacked.getColumn()) {
+                while (i <= 3) {
+                    if (matrix[squareOfAttacker.getRow()][i] != null) {
+                        playersToReturn.addAll(matrix[squareOfAttacker.getRow()][i].getPlayerOnThisSquare());
+                    }
+                        i++;
+                }
+            }
+            else{
+                while(i>=0){
+                    if(matrix[squareOfAttacker.getRow()][i]!=null) {
+                        playersToReturn.addAll(matrix[squareOfAttacker.getRow()][i].getPlayerOnThisSquare());
+                    }
+                        i--;
+                }
+            }
+        }
+        else{
+            i = squareOfAttacker.getRow();
+            if(squareOfAttacker.getRow()<squareOfFirstAttacked.getRow()){
+                while(i<=2){
+                    if(matrix[i][squareOfAttacker.getColumn()]!=null)
+                        playersToReturn.addAll(matrix[i][squareOfAttacker.getColumn()].getPlayerOnThisSquare());
+                i++;
+                }
+            }
+            else{
+                while(i>=0){
+                    if(matrix[i][squareOfAttacker.getColumn()]!=null)
+                        playersToReturn.addAll(matrix[i][squareOfAttacker.getColumn()].getPlayerOnThisSquare());
+                    i--;
+                }
+            }
+        }
+        playersToReturn.remove(game.getPlayers().get(game.getPlayerOfTurn()-1));
+        return playersToReturn;
     }
 
 }

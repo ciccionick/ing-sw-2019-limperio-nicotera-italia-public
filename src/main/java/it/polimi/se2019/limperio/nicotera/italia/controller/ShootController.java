@@ -186,6 +186,21 @@ public class ShootController {
                  break;
 
              case "Sledgehammer":
+                 ArrayList<Player> availablePlayers = new ArrayList<>();
+                 for(String nicknameOfPlayerInMySquare : controller.getWeaponController().getPlayersInMySquare(0, squareOfPlayer)){
+                     availablePlayers.add(controller.findPlayerWithThisNickname(nicknameOfPlayerInMySquare));
+                 }
+                 switch (message.getNumOfEffect()){
+                     case 1:
+                         sendRequestToChoosePlayer(1, availablePlayers, false);
+                         break;
+                     case 4:
+                         needToChooseASquare = true;
+                         sendRequestToChoosePlayer(1, visiblePlayers, false);
+                         break;
+                     default: throw new IllegalArgumentException();
+                 }
+                 break;
 
              case "Shotgun":
                 if(message.getNumOfEffect() == 1){
@@ -296,6 +311,18 @@ public class ShootController {
                  break;
 
              case "Railgun":
+                 switch (message.getNumOfEffect()){
+                     case 1:
+                         sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersInCardinalDirections(0, squareOfPlayer, true),false);
+                         break;
+                     case 4:
+                         sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersInCardinalDirections(0, squareOfPlayer, true), false);
+                         needToChooseAPlayer=true;
+                         break;
+
+                         default: throw new IllegalArgumentException();
+                 }
+                 break;
 
              case "Heatseeker":
                  sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersNotVisible(0, weaponToUse.getOwnerOfCard()), false);
@@ -481,12 +508,16 @@ public class ShootController {
         if(needToChooseASquare){
             if(weaponToUse.getName().equals("Tractor beam"))
                 sendRequestToChooseSquare(controller.getWeaponController().getSquareCouldBeSelectedForTractorBeam(weaponToUse, playersAttacked.get(0)));
+            else if(weaponToUse.getName().equals("Sledgehammer")){
+                ArrayList<Square> squaresToChoose = new ArrayList<>();
+                controller.getWeaponController().addSquaresForCardinalDirections(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), squaresToChoose, 2, false);
+                sendRequestToChooseSquare(squaresToChoose);
+            }
             else if(weaponToUse.getName().equals("Rocket launcher")){
                 ArrayList<Square> squareReachable = new ArrayList<>();
                 controller.findSquaresReachableWithThisMovements(players.get(0).getPositionOnTheMap(), 1, squareReachable);
                 sendRequestToChooseSquare(squareReachable);
             }
-
             return;
         }
 
@@ -505,6 +536,15 @@ public class ShootController {
                     sendRequestToChoosePlayer(1, playersChoosable, false);
                     return;
                 }
+                else
+                    needToChooseAPlayer = false;
+            }
+            else if(weaponToUse.getName().equals("Railgun")){
+                playersChoosable = controller.getWeaponController().getPlayersForAlternativeModeOfRailgun(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap());
+                playersChoosable.remove(playersAttacked.get(0));
+                sendRequestToChoosePlayer(1, playersChoosable, true);
+                needToChooseAPlayer = false;
+                return;
             }
         }
 

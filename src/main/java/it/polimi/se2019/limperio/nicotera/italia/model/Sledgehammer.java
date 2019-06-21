@@ -19,8 +19,8 @@ public class Sledgehammer extends WeaponCard{
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
             if(typeOfAttack==1)
                 basicEffect(involvedPlayers.get(0).getPlayer());
-                else
-                    pulverizeMode(involvedPlayers.get(0).getPlayer(),involvedPlayers.get(0).getSquare());
+            else
+                pulverizeMode(involvedPlayers.get(0).getPlayer(),involvedPlayers.get(0).getSquare());
     }
 
 
@@ -32,12 +32,16 @@ public class Sledgehammer extends WeaponCard{
         "IN PULVERIZE MODE: \nDeal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
         "Notes: \nRemember that moves go through doors, but not walls.\n";
         setDescription(description);
-        Boolean[] kindOfAttack = {true, true, false, false};
+        Boolean[] kindOfAttack = {true, false, false, true};
         getNamesOfAttack().add("BASIC MODE");
+        getNamesOfAttack().add("");
+        getNamesOfAttack().add("");
         getNamesOfAttack().add("IN PULVERIZE MODE");
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target on your square");
+        getDescriptionsOfAttack().add("");
+        getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction");
-        setPriceToPayForEffect1(new ColorOfCard_Ammo[]{RED});
+        setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{RED});
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{};
