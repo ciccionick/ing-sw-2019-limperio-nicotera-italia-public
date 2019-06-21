@@ -146,6 +146,8 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         isConnected = connected;
     }
 
+    public void setIsUnderThreeDamage(boolean bool){this.isUnderThreeDamage=bool;};
+
     /**
      * Moves the player on the square that is passed as parameter
      * @param positionOnTheMap the square in which the player has to be moved

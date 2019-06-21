@@ -90,7 +90,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      * @param server The server that created it
      * @param controller The controller which he will send events by client with
      */
-     VirtualView(Socket client, Server server, Controller controller) {
+     public VirtualView(Socket client, Server server, Controller controller) {
         this.client = client;
         this.IPAddress = client.getRemoteSocketAddress().toString();
         this.server = server;
@@ -344,6 +344,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     public ObjectOutputStream getOut() {
         return out;
     }
+
+    public void setOut(ObjectOutputStream objectOutputStream){this.out= objectOutputStream;};
 
 
     private void closeStream() {
