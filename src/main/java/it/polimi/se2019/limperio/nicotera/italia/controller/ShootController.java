@@ -307,6 +307,7 @@ public class ShootController {
                  else{
                      sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false));
                  }
+                 break;
              case "Plasma gun":
                  switch (message.getNumOfEffect()){
                      case 1:
@@ -458,6 +459,12 @@ public class ShootController {
                  break;
 
              case "Vortex cannon":
+                switch (message.getNumOfEffect()){
+                    case 1:
+                    case 2:
+                        default: throw new IllegalArgumentException();
+
+                }
 
              default:
                  throw  new IllegalArgumentException();
@@ -474,6 +481,21 @@ public class ShootController {
     }
 
     void setSquareInInvolvedPlayers(SelectionSquareForShootAction message) {
+        ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
+        if (weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
+            Square chosenSquare = game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()];
+            for (int i = 0; i < game.getBoard().getMap().getMatrixOfSquares().length; i++) {
+                for (int j = 0; j < game.getBoard().getMap().getMatrixOfSquares()[i].length; j++) {
+                    Square square = game.getBoard().getMap().getMatrixOfSquares()[i][j];
+                    if (square != null && square.getColor().equals(chosenSquare.getColor()) && !square.getPlayerOnThisSquare().isEmpty()) {
+                        playersHasToBeAttacked.addAll(square.getPlayerOnThisSquare());
+                    }
+                }
+            }
+            setPlayersInInvolvedPlayers(playersHasToBeAttacked);
+            return;
+        }
+
         if (needToChooseASquare) {
             if (weaponToUse.getName().equals("Flamethrower")) {
                 involvedPlayers.add(new InvolvedPlayer(null, 4, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
@@ -492,26 +514,12 @@ public class ShootController {
                 involvedPlayers.get(involvedPlayers.size() - 1).setSquare(game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
                 needToChooseASquare = false;
             }
-            ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
-            if (weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
-                Square chosenSquare = game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()];
-                for (int i = 0; i < game.getBoard().getMap().getMatrixOfSquares().length; i++) {
-                    for (int j = 0; j < game.getBoard().getMap().getMatrixOfSquares()[i].length; j++) {
-                        Square square = game.getBoard().getMap().getMatrixOfSquares()[i][j];
-                        if (square != null && square.getColor().equals(chosenSquare.getColor()) && !square.getPlayerOnThisSquare().isEmpty()) {
-                            playersHasToBeAttacked.addAll(square.getPlayerOnThisSquare());
-                        }
-                    }
-                }
-            } else if (needToChooseASquare) {
-                involvedPlayers.get(involvedPlayers.size() - 1).setSquare(game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
-                needToChooseASquare = false;
-            } else {
+        }
+        else {
                 involvedPlayers.add(new InvolvedPlayer(null, typeOfAttack.get(typeOfAttack.size() - 1), game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
             }
             setPlayersInInvolvedPlayers(playersHasToBeAttacked);
         }
-    }
 
 
     private void sendRequestToChoosePlayer(int numOfMaxPlayerToChoose, ArrayList<Player> listOfPlayersChoosable, boolean canRefuse) {
@@ -589,8 +597,8 @@ public class ShootController {
                     }
                     sendRequestToChooseSquare(squares1);
                     break;
+                    default: throw new IllegalArgumentException();
             }
-
             return;
         }
 
@@ -640,6 +648,7 @@ public class ShootController {
         else
             handlePaymentForEffect(weaponToUse.getOwnerOfCard(), playersAttacked);
     }
+
 
     private void removePlayersForShockwave(ArrayList<Player> playersChoosable) {
         for(Player playerAlreadyChosen : playersAttacked){
