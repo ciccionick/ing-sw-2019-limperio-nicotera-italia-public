@@ -169,7 +169,7 @@ public class WeaponController {
                 break;
 
             case "Flamethrower":
-                if (!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty()) {
+                if (!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty()) {
                     usableEffects.add(1);
                     if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
                         usableEffects.add(4);
@@ -364,7 +364,7 @@ public class WeaponController {
         }
     }
 
-    private void removeSquareWithoutPlayers(ArrayList<Square> listOfSquares) {
+     void removeSquareWithoutPlayers(ArrayList<Square> listOfSquares) {
         ArrayList<Square> squaresToRemove = new ArrayList<>();
 
         for (Square square : listOfSquares) {
@@ -405,7 +405,7 @@ public class WeaponController {
         ArrayList<Square> startingSquares = new ArrayList<>();
         controller.findSquaresReachableWithThisMovements(squareOfPlayer, movementCanDoBeforeReloadAndShoot, startingSquares);
         for (Square startingSquare : startingSquares) {
-            addSquaresForCardinalDirections(startingSquare, squaresForFlamethrower, 2, true);
+            addSquaresForCardinalDirections(startingSquare, squaresForFlamethrower, 2, false);
         }
         removeSquareWithoutPlayers(squaresForFlamethrower);
         return squaresForFlamethrower;
@@ -512,7 +512,7 @@ public class WeaponController {
 
     }
 
-    Square getSquareForAlternativeModeOfPowerGlove(Square squareOfAttacker, Square squareOfFirstAttacked) {
+    Square getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(Square squareOfAttacker, Square squareOfFirstAttacked) {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         if (squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()) {
             if (squareOfAttacker.getColumn() < squareOfFirstAttacked.getColumn()) {
