@@ -70,9 +70,11 @@ public class WeaponController {
                 break;
 
             case "Furnace":
-                if (!getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true).isEmpty())
+                ArrayList<Square> squares = new ArrayList<>(getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true));
+                removeSquareWithoutPlayers(squares);
+                if (!squares.isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty())
                     usableEffects.add(1);
-                if (!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())
+                if (!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty())
                     usableEffects.add(4);
                 break;
 
@@ -105,7 +107,7 @@ public class WeaponController {
             case "Granade launcher":
                 if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if(!effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) )
+                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2))
                     usableEffects.add(2);
                 break;
 
@@ -241,11 +243,15 @@ public class WeaponController {
             case "Sledgehammer":
                 return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Shotgun":
-                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
+                return !getPlayersInMySquare(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Shockwave":
                 return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty();
             case "Furnace":
-                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || !getSquaresOfVisibleRoom(movementCanDoBeforeReloadAndShoot, squareOfPlayer, 0, true).isEmpty();
+                ArrayList<Player> players = new ArrayList<>();
+                for(Square square : getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true)){
+                    players.addAll(square.getPlayerOnThisSquare());
+                }
+                return !getPlayersOnlyInAdjSquares(movementCanDoBeforeReloadAndShoot, squareOfPlayer).isEmpty() || !players.isEmpty();
             case "Lock rifle":
                 return !getVisiblePlayers(movementCanDoBeforeReloadAndShoot, weaponCard.getOwnerOfCard(), 0).isEmpty();
             case "Zx-2":
