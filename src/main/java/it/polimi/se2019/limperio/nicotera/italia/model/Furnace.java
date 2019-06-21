@@ -21,8 +21,8 @@ public class Furnace extends WeaponCard {
         Square squareForRoom;
         squareForRoom = involvedPlayers.get(0).getSquare();
         if(typeOfAttack==1) {
-            for (Player player : squareForRoom.getPlayerOnThisSquare()) {
-                basicMode(player);
+            for (InvolvedPlayer involvedPlayer : involvedPlayers) {
+                basicMode(involvedPlayer.getPlayer());
             }
         }
         else {

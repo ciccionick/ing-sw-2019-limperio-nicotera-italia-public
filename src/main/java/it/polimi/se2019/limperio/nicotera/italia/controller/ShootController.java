@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This class handles the request of shoot by a player to another one.
@@ -113,7 +114,7 @@ public class ShootController {
          if(typeOfAttack.isEmpty())
             requestToChooseAnEffect.setMessageForInvolved("Choose, to start, one of these effects:");
          else{
-             if(!((weaponToUse.getName().equals("Plasma gun")||weaponToUse.getName().equals("Cyberblade")||weaponToUse.getName().equals("Granade launcher") || weaponToUse.getName().equals("Rocket launcher"))&& typeOfAttack.size()==1 && typeOfAttack.contains(2))){ //condizione eventualmente da modificare
+             if(!((weaponToUse.getName().equals("Plasma gun")||weaponToUse.getName().equals("Cyberblade")||weaponToUse.getName().equals("Granade launcher"))&& typeOfAttack.size()==1 && typeOfAttack.contains(2))){ //condizione eventualmente da modificare
                  requestToChooseAnEffect.setOneEffectAlreadyChosen(true);
                  requestToChooseAnEffect.setMessageForInvolved("Choose another effect or press on 'END ACTION'");
              }
@@ -189,7 +190,9 @@ public class ShootController {
 
              case "Shotgun":
                 if(message.getNumOfEffect() == 1){
-                    sendRequestToChoosePlayer(1, squareOfPlayer.getPlayerOnThisSquare(), false);
+                    ArrayList<Player> playersCouldBeAttacked = new ArrayList<>(squareOfPlayer.getPlayerOnThisSquare());
+                    playersCouldBeAttacked.remove(weaponToUse.getOwnerOfCard());
+                    sendRequestToChoosePlayer(1, playersCouldBeAttacked, false);
                     needToChooseASquare = true;
                 }
                 else{
@@ -212,8 +215,14 @@ public class ShootController {
                  }
                  break;
 
-                 case "Furnace":
-
+             case "Furnace":
+                if(message.getNumOfEffect() == 1){
+                    sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true));
+                }
+                else{
+                    sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 1, true));
+                }
+                break;
              case "Lock rifle":
                  if(message.getNumOfEffect() == 1){
                      sendRequestToChoosePlayer(1,controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(),0), false);
@@ -275,7 +284,13 @@ public class ShootController {
 
 
              case "Granade launcher":
-
+                 if(message.getNumOfEffect() == 1){
+                     needToChooseASquare = true;
+                     sendRequestToChoosePlayer(1, controller.getWeaponController().getVisiblePlayers(0 , weaponToUse.getOwnerOfCard(), 0), false);
+                 }
+                 else{
+                     sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false));
+                 }
              case "Plasma gun":
                  switch (message.getNumOfEffect()){
                      case 1:
@@ -417,14 +432,26 @@ public class ShootController {
     }
 
     void setSquareInInvolvedPlayers(SelectionSquareForShootAction message){
-        if(needToChooseASquare) {
+        ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
+        if(weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
+            Square chosenSquare = game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()];
+            for(int i=0; i<game.getBoard().getMap().getMatrixOfSquares().length;i++){
+                for(int j=0; j<game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
+                    Square square = game.getBoard().getMap().getMatrixOfSquares()[i][j];
+                    if(square != null && square.getColor().equals(chosenSquare.getColor()) && !square.getPlayerOnThisSquare().isEmpty()){
+                        playersHasToBeAttacked.addAll(square.getPlayerOnThisSquare());
+                    }
+                }
+            }
+        }
+        else if(needToChooseASquare) {
             involvedPlayers.get(involvedPlayers.size() - 1).setSquare(game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
             needToChooseASquare = false;
         }
         else {
             involvedPlayers.add(new InvolvedPlayer(null, typeOfAttack.get(typeOfAttack.size() - 1), game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
         }
-        setPlayersInInvolvedPlayers(new ArrayList<>());
+        setPlayersInInvolvedPlayers(playersHasToBeAttacked);
     }
 
 
@@ -439,8 +466,7 @@ public class ShootController {
             requestToChooseAPlayer.setChoosePlayerForAttack(true);
             requestToChooseAPlayer.setCanRefuse(canRefuse);
             game.notify(requestToChooseAPlayer);
-        }
-        else {
+        } else {
             RequestToChooseMultiplePlayers requestToChooseMultiplePlayers = new RequestToChooseMultiplePlayers();
             requestToChooseMultiplePlayers.setNumOfMaxPlayersToChoose(numOfMaxPlayerToChoose);
             requestToChooseMultiplePlayers.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
@@ -479,12 +505,31 @@ public class ShootController {
             needToStoreOriginalSquare=false;
         }
         if(needToChooseASquare){
-            if(weaponToUse.getName().equals("Tractor beam"))
-                sendRequestToChooseSquare(controller.getWeaponController().getSquareCouldBeSelectedForTractorBeam(weaponToUse, playersAttacked.get(0)));
-            else if(weaponToUse.getName().equals("Rocket launcher")){
-                ArrayList<Square> squareReachable = new ArrayList<>();
-                controller.findSquaresReachableWithThisMovements(players.get(0).getPositionOnTheMap(), 1, squareReachable);
-                sendRequestToChooseSquare(squareReachable);
+            switch (weaponToUse.getName()) {
+                case "Tractor beam":
+                    sendRequestToChooseSquare(controller.getWeaponController().getSquareCouldBeSelectedForTractorBeam(weaponToUse, playersAttacked.get(0)));
+                    break;
+                case "Rocket launcher":
+                    ArrayList<Square> squareReachable = new ArrayList<>();
+                    controller.findSquaresReachableWithThisMovements(players.get(0).getPositionOnTheMap(), 1, squareReachable);
+                    sendRequestToChooseSquare(squareReachable);
+                    break;
+                case "Shotgun":
+                    ArrayList<Square> squares = new ArrayList<>();
+                    for (Square square : weaponToUse.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()) {
+                        if (square != null)
+                            squares.add(square);
+                    }
+                    sendRequestToChooseSquare(squares);
+                    break;
+                case "Granade launcher":
+                    ArrayList<Square> squares1 = new ArrayList<>();
+                    for(Square square : playersAttacked.get(0).getPositionOnTheMap().getAdjSquares()){
+                        if(square != null)
+                            squares1.add(square);
+                    }
+                    sendRequestToChooseSquare(squares1);
+                    break;
             }
 
             return;
