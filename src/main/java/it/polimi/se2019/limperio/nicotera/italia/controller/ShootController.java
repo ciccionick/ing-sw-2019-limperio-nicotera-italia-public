@@ -5,7 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
-import java.util.Collections;
+
 
 /**
  * This class handles the request of shoot by a player to another one.
@@ -137,6 +137,7 @@ public class ShootController {
 
      void handleRequestToUseEffect(RequestToUseEffect message) {
          ArrayList<Player> visiblePlayers = controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0);
+         ArrayList<Player> availablePlayers = new ArrayList<>();
          if(message.getNumOfEffect()==0){
             doesntWantToContinueToShoot=true;
             handleSendRequestAfterShoot(weaponToUse.getOwnerOfCard(), playersAttacked, false);
@@ -187,7 +188,6 @@ public class ShootController {
                  break;
 
              case "Sledgehammer":
-                 ArrayList<Player> availablePlayers = new ArrayList<>();
                  for(String nicknameOfPlayerInMySquare : controller.getWeaponController().getPlayersInMySquare(0, squareOfPlayer)){
                      availablePlayers.add(controller.findPlayerWithThisNickname(nicknameOfPlayerInMySquare));
                  }
@@ -461,11 +461,24 @@ public class ShootController {
              case "Vortex cannon":
                 switch (message.getNumOfEffect()){
                     case 1:
+                        sendRequestToChooseSquare(controller.getWeaponController().getSquaresForVortexCannon(squareOfPlayer));
+                        needToChooseAPlayer = true;
+                        break;
                     case 2:
+                        involvedPlayers.add(new InvolvedPlayer(null,2  , involvedPlayers.get(0).getSquare()));
+                        priceToPay = weaponToUse.getPriceToPayForEffect1();
+                        availablePlayers = new ArrayList<>();
+                        availablePlayers.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
+                        availablePlayers.remove(involvedPlayers.get(1).getPlayer());
+                        for(Square adjSquare : involvedPlayers.get(0).getSquare().getAdjSquares()){
+                            availablePlayers.addAll(adjSquare.getPlayerOnThisSquare());
+                        }
+                        availablePlayers.remove(weaponToUse.getOwnerOfCard());
+                        sendRequestToChoosePlayer(2, availablePlayers, false);
+                        break;
                         default: throw new IllegalArgumentException();
-
                 }
-
+                break;
              default:
                  throw  new IllegalArgumentException();
          }
@@ -482,6 +495,7 @@ public class ShootController {
 
     void setSquareInInvolvedPlayers(SelectionSquareForShootAction message) {
         ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
+
         if (weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
             Square chosenSquare = game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()];
             for (int i = 0; i < game.getBoard().getMap().getMatrixOfSquares().length; i++) {
@@ -518,6 +532,17 @@ public class ShootController {
         else {
                 involvedPlayers.add(new InvolvedPlayer(null, typeOfAttack.get(typeOfAttack.size() - 1), game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
             }
+        if(needToChooseAPlayer){
+            ArrayList<Player> players = new ArrayList<>();
+            players.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
+            for(Square adjSquare : involvedPlayers.get(0).getSquare().getAdjSquares()){
+                players.addAll(adjSquare.getPlayerOnThisSquare());
+            }
+            players.remove(weaponToUse.getOwnerOfCard());
+            sendRequestToChoosePlayer(1, players, false);
+            needToChooseAPlayer=false;
+            return;
+        }
             setPlayersInInvolvedPlayers(playersHasToBeAttacked);
         }
 

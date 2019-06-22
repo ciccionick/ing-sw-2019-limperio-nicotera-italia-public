@@ -196,10 +196,10 @@ public class WeaponController {
                 ArrayList<Square> listOfVisibleSquares = getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false);
                 listOfVisibleSquares.remove(squareOfPlayer);
                 for (Square square : listOfVisibleSquares) {
-                    if (!usableEffects.contains(1) && (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())) {
+                    if (!effectAlreadyChoosen(1) && (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())) {
                         usableEffects.add(1);
                     }
-                    if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && getPlayersInMySquare(0, square).size() + getPlayersOnlyInAdjSquares(0, square).size() > 1 && controller.getShootController().getTypeOfAttack().contains(1)) {
+                    if (!effectAlreadyChoosen(2) && effectAlreadyChoosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && getPlayersInMySquare(0, square).size() + getPlayersOnlyInAdjSquares(0, square).size() > 1) {
                         usableEffects.add(2);
                         break;
                     }
@@ -589,6 +589,33 @@ public class WeaponController {
         }
         playersToReturn.remove(game.getPlayers().get(game.getPlayerOfTurn()-1));
         return playersToReturn;
+    }
+
+    ArrayList<Square> getSquaresForVortexCannon(Square squareOfPlayer){
+        ArrayList<Square> squaresAvailableForVortex = getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false);
+        squaresAvailableForVortex.remove(squareOfPlayer);
+        Player ownerOfCard = game.getPlayers().get(game.getPlayerOfTurn()-1);
+        ArrayList<Square> squaresToRemove = new ArrayList<>();
+        boolean isToRemove = true;
+        for(Square square : squaresAvailableForVortex){
+            if(!square.getPlayerOnThisSquare().isEmpty())
+                isToRemove = false;
+            else {
+                for (Square adjSquare : square.getAdjSquares()) {
+                    if (adjSquare.getPlayerOnThisSquare().size()>1 || (!adjSquare.getPlayerOnThisSquare().isEmpty() && !adjSquare.getPlayerOnThisSquare().get(0).equals(ownerOfCard))) {
+                        isToRemove = false;
+                        break;
+                    }
+                }
+            }
+            if(isToRemove && !squaresToRemove.contains(square))
+                squaresToRemove.add(square);
+            isToRemove = true;
+        }
+        for(Square squareToRemove : squaresToRemove){
+            squaresAvailableForVortex.remove(squareToRemove);
+        }
+        return squaresAvailableForVortex;
     }
 
 }

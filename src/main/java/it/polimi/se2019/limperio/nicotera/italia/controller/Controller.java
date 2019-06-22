@@ -5,13 +5,10 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Request
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
-
-
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -519,7 +516,8 @@ public class Controller implements Observer<ClientEvent> {
             }
             ServerEvent timerOverEvent = new ServerEvent();
             timerOverEvent.setNicknameInvolved(previousPlayer.getNickname());
-            timerOverEvent.setMessageForInvolved("The time for your turn is over. \nWait for the next turn!");
+            timerOverEvent.setMessageForInvolved("The timer for your turn is over. \nWait for the next turn!");
+            timerOverEvent.setMessageForOthers("The timer for the turn of " + previousPlayer.getNickname() + " is over. \nChange turn!" );
             timerOverEvent.setTimerOverEvent(true);
             game.notify(timerOverEvent);
 

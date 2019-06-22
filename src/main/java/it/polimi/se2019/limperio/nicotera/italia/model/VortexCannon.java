@@ -23,10 +23,10 @@ public class VortexCannon extends WeaponCard {
 
         switch (typeOfAttack) {
             case 1:
-                basicEffect(involvedPlayers.get(0).getPlayer(), involvedPlayers.get(0).getSquare());
+                basicEffect(involvedPlayers.get(1).getPlayer(), involvedPlayers.get(0).getSquare());
                 break;
             case 2:
-                for (int i = 1; i < involvedPlayers.size(); i++) { //il primo elemento di involved square contiene solo il quadrato del vortice dal secondo ci sono i player
+                for (int i = 1; i < involvedPlayers.size(); i++) {
                     withBlackHoleEffect(involvedPlayers.get(i).getPlayer(), involvedPlayers.get(0).getSquare());
                 }
                 break;
@@ -58,7 +58,6 @@ public class VortexCannon extends WeaponCard {
 
 
     private void basicEffect(Player player, Square square) {
-
         player.setPositionOnTheMap(square);
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }

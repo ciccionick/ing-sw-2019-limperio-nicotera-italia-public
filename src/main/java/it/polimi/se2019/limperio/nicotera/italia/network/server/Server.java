@@ -77,14 +77,7 @@ public class Server  {
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
 
 
-    /**
-     * Starts when the application running on the server side
-     * @param argv Classic main parameter
-     * @throws Exception if there will be some problem of creation of the server
-     */
-    public static void main(String[] argv) throws Exception {
-        new Server();
-    }
+
 
     /**
      * Constructor that creates an instance of the game, controller. Creates a server socket to receive connections
@@ -92,17 +85,16 @@ public class Server  {
      * @throws IOException if there would be problems with the file where reading the delay for the timer
      *
      */
-    private Server()  {
+    Server()  {
         try {
             serverSocket = new ServerSocket(4000);
             String ip;
             ip = InetAddress.getLocalHost().getHostAddress();
-            System.out.println(ip);
+            new FrameForShowIP(ip);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Il Server è in attesa sulla porta 4000.");
         game=Game.instanceOfGame();
         controller=new Controller(game);
         game.setController(controller);
