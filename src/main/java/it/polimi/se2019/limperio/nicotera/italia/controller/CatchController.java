@@ -19,7 +19,7 @@ class CatchController {
     private Controller controller;
     private ArrayList<PowerUpCard> powerUpCardsToDiscard = new ArrayList<>();
     private WeaponCard weaponCard;
-    private ArrayList<ColorOfCard_Ammo> colorsNotEnough;
+    private ArrayList<ColorOfCard_Ammo> colorsNotEnough ;
 
     CatchController(Game game, Controller controller){
         this.game=game;
@@ -175,7 +175,9 @@ class CatchController {
             }
         }
         else{
+
             listOfSquareReachable.addAll(findSquaresWherePlayerCanCatchInFrenzyMode(player, weaponNotAffordable, listOfSquareReachable));
+
             return listOfSquareReachable;
 
         }
@@ -252,8 +254,6 @@ class CatchController {
         ArrayList<ColorOfCard_Ammo> colorsToRemove = new ArrayList<>();
         WeaponCard weaponCardToAddToDeck = null;
         for(WeaponCard weapon : ((SpawnSquare)squareWhereRemoveCard).getWeaponCards()){
-            System.out.println("ciao");
-            System.out.println(weapon.getName());
             if(weapon.getName().equals(nameOfWeaponCard)) {
                 weaponCardToAddToDeck = weapon;
             }
@@ -446,7 +446,7 @@ class CatchController {
 
     }
 
-    WeaponCard getWeaponCardFromName(String name){
+    public WeaponCard getWeaponCardFromName(String name){
         for(Player player : game.getPlayers()){
             if(!player.getNickname().equals("terminator")){
                 for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
@@ -511,5 +511,15 @@ class CatchController {
             }
 
         return canCatch;
+    }
+
+    public ArrayList<PowerUpCard> getpowerUpCardsToDiscard()
+    {
+        return powerUpCardsToDiscard;
+    }
+
+    public ArrayList<ColorOfCard_Ammo> getColorsNotEnough()
+    {
+        return colorsNotEnough;
     }
 }

@@ -586,6 +586,7 @@ public class ShootController {
     }
 
     void setPlayersInInvolvedPlayers(ArrayList<Player> players){
+        System.out.println(typeOfAttack.size());
         for(Player player : players){
             involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
             if(!playersAttacked.contains(player))
@@ -1115,4 +1116,16 @@ public class ShootController {
             sendRequestToChooseAWeapon(player);
         }
     }
+
+    public PowerUpCard getTargetingScopeToUse()
+    {
+        return targetingScopeToUse;
+    }
+
+    public void  setWeaponToUse(WeaponCard weaponToUse)
+    {
+        this.weaponToUse= weaponToUse;
+    }
+
+
 }

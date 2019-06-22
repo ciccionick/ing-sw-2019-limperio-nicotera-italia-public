@@ -72,6 +72,7 @@ public class Controller implements Observer<ClientEvent> {
                 }
                 powerUpController.handleDrawOfPowerUpCards((DrawPowerUpCards) message);
             }
+
             if (message.isDiscardPowerUpCardToSpawn()&&findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
             }
@@ -101,7 +102,10 @@ public class Controller implements Observer<ClientEvent> {
             }
 
             if(message.isMoveTerminatorEvent())
+            {
                 terminatorController.handleMove(message);
+            }
+
 
             if(message.isRequestToGoOn()){
                 game.setHasToDoTerminatorAction(false);
@@ -167,15 +171,20 @@ public class Controller implements Observer<ClientEvent> {
 
 
             if(message.isChoosePlayer()) {
+
                 ChoosePlayer choosePlayer = (ChoosePlayer) message;
                 if (choosePlayer.isToTargeting())
                     shootController.handleUseOfTargeting(choosePlayer);
                 else if (choosePlayer.isToNewton())
                     powerUpController.handleChoosePlayerForNewton(choosePlayer);
                 else if (choosePlayer.isForAttack()) {
+                    System.out.println("Ciao");
                     ArrayList<Player> arrayList = new ArrayList<>();
                     if(choosePlayer.getNameOfPlayer()!=null)
                         arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
+                    System.out.println(arrayList.get(0).getNickname());
+                    System.out.println(shootController.getTypeOfAttack().size());
+
                     shootController.setPlayersInInvolvedPlayers(arrayList);
                 }
             }
@@ -528,6 +537,8 @@ public class Controller implements Observer<ClientEvent> {
                 sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
         }
     }
+
+
 }
 
 

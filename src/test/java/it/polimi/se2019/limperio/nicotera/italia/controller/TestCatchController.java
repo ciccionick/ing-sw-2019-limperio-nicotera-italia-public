@@ -4,12 +4,16 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEv
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.Server;
+import it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -30,6 +34,7 @@ public class TestCatchController{
     private CatchController catchController = new CatchController(game, controller);
 
 
+
     @Before
     public void setUp(){
         game.setController(this.controller);
@@ -44,6 +49,7 @@ public class TestCatchController{
     @Test
     public void findSquareWherePlayerCanCatchTest(){
 
+        game.setInFrenzy(false);
        //Test for player 1 situated in [0][0]. The game is not in FrenzyMode
         game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
         ArrayList<ServerEvent.AliasCard> wp = new ArrayList<>();
@@ -92,6 +98,30 @@ public class TestCatchController{
         assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
         assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
         assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
+
+        //Test for player situated in [0][0]. The game is not in FrenzyMode, but the player is Over Three Damage
+
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+
+        game.getPlayers().get(0).setIsUnderThreeDamage(false);
+        squares = catchController.findSquareWherePlayerCanCatch(game.getPlayers().get(0), wp);
+
+        for(Square squarex: squares)
+        {
+            if(!squarex.isSpawn())
+                assertNotEquals(((NormalSquare) squarex).getAmmoTile(), null);
+            else assertNotEquals(((SpawnSquare) squarex).getWeaponCards(), null);
+        }
+
+
+
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][0]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[1][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+        assertTrue(squares.contains(game.getBoard().getMap().getMatrixOfSquares()[0][2]));
+
+
 
 
         //Test for player 2 situated in [0][0]. The game in FrenzyMode
@@ -197,7 +227,7 @@ public class TestCatchController{
     public void handleCatchingTest()
     {
 
-        // To catch the Ammotile in a Normal Square
+       // To catch the Ammotile in a Normal Square
         game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
         NormalSquare normalSquare= (NormalSquare) game.getBoard().getMap().getMatrixOfSquares()[1][1];
         normalSquare.setAmmoTile(new AmmoTile(1));
@@ -218,8 +248,16 @@ public class TestCatchController{
 
         assertEquals(j, 5);
 
-        /*NOn ho realizzato da qui la raccolta delle weapon e ho fatto il test direttamente del metodo addWeaponToplayer perchè
-        non so come gestire la richiesta e la scelta della carta da parte del client all'interno di un test*/
+       /*
+        //To catch the Ammotile in a Spoon Square
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
+        SpawnSquare spawnSquare= (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
+        CatchEvent event= new CatchEvent("",game.getPlayers().get(1).getNickname(),1,0);
+        RequestForChooseAWeaponToCatch requestForChooseAWeaponToCatch= new RequestForChooseAWeaponToCatch("");
+        event.setMyVirtualView(new VirtualView(null, null, controller));
+        event.getMyVirtualView().update(requestForChooseAWeaponToCatch);
+        catchController.handleCatching(event);
+        assertNotEquals(event.getMyVirtualView().getOut(), requestForChooseAWeaponToCatch);*/
 
     }
 
@@ -298,5 +336,27 @@ public class TestCatchController{
         assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToRemove));
         assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToAdd));
     }*/
+
+   /*@Test
+    public void handleRequestToDiscardPowerUpCardAsAmmoTest()
+   {
+       catchController.getColorsNotEnough().clear();
+       game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(4));
+       ArrayList<PowerUpCard> getpowerUpCardsToDiscard= catchController.getpowerUpCardsToDiscard();
+       int x= getpowerUpCardsToDiscard.size();
+       DiscardPowerUpCardAsAmmo event= new DiscardPowerUpCardAsAmmo("", game.getPlayers().get(0).getNickname());
+       event.setNameOfPowerUpCard("Teleporter");
+       event.setColorOfCard(ColorOfCard_Ammo.YELLOW);
+       catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);
+       assertEquals(getpowerUpCardsToDiscard.size(), x+1);
+   }*/
+
+   @Test
+    public void getWeaponCardFromNameTest()
+   {
+       WeaponCard weaponCard= new TractorBeam();
+       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(weaponCard);
+       assertEquals(catchController.getWeaponCardFromName("Tractor beam").getName(), weaponCard.getName() );
+   }
 
 }
