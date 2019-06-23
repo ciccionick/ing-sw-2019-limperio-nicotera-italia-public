@@ -2,7 +2,10 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
+
+import java.awt.*;
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Timer;
@@ -52,12 +55,17 @@ public class Client {
 
     void handleConnectionWithServer() throws IOException {
 
-        this.csocket = new Socket("localhost", 4000);
+        try {
+            this.csocket = new Socket(ipAddress, 4000);
+        }
+        catch (SocketException e){
+            System.exit(0);
+        }
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
-        //timer = new Timer();
-        //timer.schedule(new TaskForStart(), delay);
-        waitForMessage();
+        timer = new Timer();
+        timer.schedule(new TaskForStart(), delay);
+        //waitForMessage();
 
 
 
@@ -89,7 +97,6 @@ public class Client {
                 this.myNetworkHandler.handleEvent(eventFromModel);
             }
             catch (SocketException se){
-                System.out.println("Disconnessione...");
                 System.exit(0);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -123,11 +130,11 @@ public class Client {
         return ipAddress;
     }
 
-    public void setFrameForRequestIP(FrameForRequestIP frameForRequestIP) {
+     void setFrameForRequestIP(FrameForRequestIP frameForRequestIP) {
         this.frameForRequestIP = frameForRequestIP;
     }
 
-    public void setIpAddress(String ipAddress) {
+     void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 

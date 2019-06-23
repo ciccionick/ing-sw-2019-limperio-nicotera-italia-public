@@ -586,10 +586,9 @@ public class ShootController {
     }
 
     void setPlayersInInvolvedPlayers(ArrayList<Player> players){
-        System.out.println(typeOfAttack.size());
         for(Player player : players){
             involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
-            if(!playersAttacked.contains(player))
+            if(!playersAttacked.contains(player) && !(weaponToUse.getName().equals("Zx-2")&&typeOfAttack.get(typeOfAttack.size()-1).equals(4)))
                 playersAttacked.add(player);
         }
 
@@ -846,7 +845,9 @@ public class ShootController {
     }
 
     private boolean couldUseTagback(Player playerAttacked) {
-        if(!controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(weaponToUse.getOwnerOfCard()))
+        if(weaponToUse!=null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(weaponToUse.getOwnerOfCard()))
+            return false;
+        if(weaponToUse == null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(controller.findPlayerWithThisNickname("terminator")))
             return false;
 
             for (PowerUpCard powerUpCard : playerAttacked.getPlayerBoard().getPowerUpCardsOwned()) {

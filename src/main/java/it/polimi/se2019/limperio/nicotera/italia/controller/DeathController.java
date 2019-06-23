@@ -49,8 +49,6 @@ class DeathController {
          else{
              if(deadPlayer.getPlayerBoard().getDamages().size()==11){
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
-
-
              }
              else {
                  killerPlayer.assignMarks(deadPlayer.getColorOfFigure(), 1);

@@ -54,7 +54,7 @@ class PopupToChooseAPlayer {
             contentPane.add(buttonName, gbc);
             gbc.gridy++;
         }
-        if(((RequestToChooseAPlayer) receivedEvent).isCanRefuse()){
+        if(receivedEvent.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer) receivedEvent).isCanRefuse()){
             JButton buttonName = new JButton("NO ONE");
             buttonName.setActionCommand(buttonName.getText());
             buttonName.addActionListener(listenerForButtonPlayers);
@@ -92,7 +92,7 @@ class PopupToChooseAPlayer {
                 mainFrame.getRemoteView().notify(newEvent);
                 dialog.setVisible(false);
             }
-            else if(((RequestToChooseAPlayer)event).isChoosePlayerForAttack()){
+            else if(event.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer)event).isChoosePlayerForAttack()){
                 ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
                 newEvent.setForAttack(true);
                 if(!e.getActionCommand().equals("NO ONE"))
