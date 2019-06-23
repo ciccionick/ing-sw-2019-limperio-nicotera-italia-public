@@ -107,7 +107,7 @@ public class Game extends Observable<ServerEvent> {
             delay = Long.parseLong(bin.readLine());
             inFile.close();
             bin.close();
-            file = new File("resourcers/textfile/numOfSkull");
+            file = new File("resources/textfile/numOfSkull.txt");
             inFile = new FileReader(file);
             bin = new BufferedReader(inFile);
             numOfSkullToRemoveToPassToFrenzy = Integer.parseInt(bin.readLine());

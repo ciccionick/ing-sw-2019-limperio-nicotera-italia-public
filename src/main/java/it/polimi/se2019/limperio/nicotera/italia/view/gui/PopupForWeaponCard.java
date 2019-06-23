@@ -11,7 +11,8 @@ import java.awt.*;
 
      PopupForWeaponCard(MainFrame mainFrame, int numOfCard) {
         this.dialog = new JDialog(mainFrame.getFrame());
-        dialog.setUndecorated(true);
+        dialog.setUndecorated(false);
+        dialog.setAutoRequestFocus(false);
         JPanel contentPanel = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPanel);
 

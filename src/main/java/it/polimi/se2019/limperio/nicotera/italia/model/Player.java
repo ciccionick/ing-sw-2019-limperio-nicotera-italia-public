@@ -28,10 +28,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      */
     private boolean isOverSixDamage = false;
     private boolean isConnected = true;
-    /**
-     * @deprecated records the number of death of the player
-     */
-    private int numOfDeath;
+
     /**
      * It is used at the end of the game to calculate the final ranking
      */
@@ -40,10 +37,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      * The position of the player in the turn
      */
     private int position;
-    /**
-     * @deprecated
-     */
-    private boolean doubleKill;
+
     /**
      * The square in which the player is during the game
      */
@@ -88,10 +82,6 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         return colorOfFigure;
     }
 
-    public int getNumOfDeath() {
-        return numOfDeath;
-    }
-
     public int getScore() {
         return score;
     }
@@ -106,14 +96,6 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
 
     public boolean isOverSixDamage() {
         return isOverSixDamage;
-    }
-
-    public void setOverSixDamage(boolean overSixDamage) {
-        isOverSixDamage = overSixDamage;
-    }
-
-    public boolean hasDoubleKill() {
-        return doubleKill;
     }
 
     public Square getPositionOnTheMap() { return positionOnTheMap; }
@@ -134,9 +116,6 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         this.hasToBeGenerated = hasToBeGenerated;
     }
 
-    public void useAmmoForPay(Ammo[] ammo){}
-
-
     public void updateScore(int newScore){
         this.score = score+newScore;
     }
@@ -145,7 +124,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         isConnected = connected;
     }
 
-    public void setIsUnderThreeDamage(boolean bool){this.isUnderThreeDamage=bool;};
+    public void setIsUnderThreeDamage(boolean bool){this.isUnderThreeDamage=bool;}
 
     /**
      * Moves the player on the square that is passed as parameter
@@ -162,32 +141,25 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
 
     /**
      * Assigns the damages to the player and also converts marks to damages according to the game's rules
-     * @param colOfDamage the color of the player that gives the damages
+     * @param colorOfDamage the color of the player that gives the damages
      * @param numOfDamage the number of damages
      */
-    public void assignDamage(ColorOfFigure_Square colOfDamage, int numOfDamage){
-           int numOfPreviousDamage;
-           numOfPreviousDamage=playerBoard.getDamages().size();
-           if(numOfDamage+numOfPreviousDamage+playerBoard.getNumOfMarksOfOneColor(colOfDamage)<=12){
-               for(int i=0;i<numOfDamage;i++){
-                   playerBoard.getDamages().add(colOfDamage);
-               }
-               if(playerBoard.getNumOfMarksOfOneColor(colOfDamage)>0) {
-                   for (int i = 0; i < playerBoard.getNumOfMarksOfOneColor(colOfDamage); i++) {
-                       playerBoard.getDamages().add(colOfDamage);
-                   }
-                   playerBoard.removeMarkOfOneColor(colOfDamage);
-               }
-           }
-           else{
-               while(playerBoard.getDamages().size()<12){
-                   if(playerBoard.getNumOfMarksOfOneColor(colOfDamage)!=0){
-                       playerBoard.getDamages().add(colOfDamage);
-                       playerBoard.getMarks().remove(colOfDamage);
-                   }
-                   playerBoard.getDamages().add(colOfDamage);
-               }
-           }
+    public void assignDamage(ColorOfFigure_Square colorOfDamage, int numOfDamage){
+          while(numOfDamage>0 && playerBoard.getDamages().size()<=12){
+              playerBoard.getDamages().add(colorOfDamage);
+              numOfDamage--;
+          }
+          while(playerBoard.getNumOfMarksOfOneColor(colorOfDamage)>0 && playerBoard.getDamages().size()<=12){
+              playerBoard.getDamages().add(colorOfDamage);
+              playerBoard.getMarks().remove(colorOfDamage);
+          }
+
+          if(playerBoard.getDamages().size()>2)
+              isUnderThreeDamage=false;
+          if (playerBoard.getDamages().size()>5)
+              isOverSixDamage = true;
+          if(playerBoard.getDamages().size()>=11)
+              isDead=true;
     }
 
     /**
@@ -197,7 +169,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      */
     public void assignMarks (ColorOfFigure_Square colorOfDamage, int numOfMarks){
             int i = numOfMarks;
-            while(i!=0 && playerBoard.getNumOfMarksOfOneColor(colorOfDamage)<4 ){
+            while(i!=0 && playerBoard.getNumOfMarksOfOneColor(colorOfDamage)<3 ){
                 playerBoard.getMarks().add(colorOfDamage);
                 i--;
             }
