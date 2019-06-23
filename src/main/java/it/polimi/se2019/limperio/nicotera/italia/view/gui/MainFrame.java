@@ -138,6 +138,14 @@ public class MainFrame {
         popupForChooseEffect.getDialog().setVisible(true);
     }
 
+    public void updatePanelOfPlayers(){
+        rightPanel.getPanel().remove(rightPanel.getPanelOfPlayers());
+        rightPanel.getPanel().add(new PanelOfPlayers(this),rightPanel.getGbcPanelOfPlayers());
+        contentPane.validate();
+        contentPane.repaint();
+
+    }
+
     public void handleRequestToPayWithAmmoOrPUC(ServerEvent receivedEvent) {
         new PopupToPayWithAmmoOrPowerUpCard(this, receivedEvent);
     }
@@ -161,6 +169,9 @@ public class MainFrame {
 
         @Override
         public void componentResized(ComponentEvent e) {
+             for(JDialog dialog : mapPanel.getDialogForFigure()){
+                 dialog.setVisible(false);
+             }
             contentPane.removeAll();
 
             mapPanel = new MapPanel(mainFrame);
@@ -177,6 +188,7 @@ public class MainFrame {
 
             contentPane.validate();
             contentPane.repaint();
+            mapPanel.addFigureOnSquare(mainFrame);
         }
 
         @Override

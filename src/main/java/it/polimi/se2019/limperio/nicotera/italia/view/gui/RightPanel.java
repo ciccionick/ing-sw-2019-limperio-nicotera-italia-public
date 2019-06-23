@@ -11,6 +11,8 @@ import java.awt.*;
     private PanelOfActions panelOfActions;
     private int insetLeftRight;
     private int insetBottom;
+    private GridBagConstraints gbcPanelOfPlayers;
+
 
      RightPanel(MainFrame mainFrame) {
          panel = new JPanel();
@@ -22,7 +24,7 @@ import java.awt.*;
             insetBottom = (int) (mainFrame.getFrame().getSize().getHeight() / 27);
 
             panelOfPlayers = new PanelOfPlayers(mainFrame);
-            GridBagConstraints gbcPanelOfPlayers = new GridBagConstraints();
+            gbcPanelOfPlayers = new GridBagConstraints();
             gbcPanelOfPlayers.gridx = 0;
             gbcPanelOfPlayers.gridy = 0;
             gbcPanelOfPlayers.insets = new Insets(0, insetLeftRight, insetBottom, insetLeftRight);
@@ -43,7 +45,11 @@ import java.awt.*;
        return panelOfPlayers;
     }
 
-     public JPanel getPanel() {
+     public GridBagConstraints getGbcPanelOfPlayers() {
+         return gbcPanelOfPlayers;
+     }
+
+     JPanel getPanel() {
          return panel;
      }
 

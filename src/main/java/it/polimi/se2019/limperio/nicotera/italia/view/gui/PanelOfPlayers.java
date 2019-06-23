@@ -11,8 +11,8 @@ import java.util.ArrayList;
 class PanelOfPlayers extends JPanel {
 
     private MainFrame mainFrame;
-    private JToggleButton buttonMSelection;
-    private JToggleButton buttonMNone;
+    private JButton buttonMSelection;
+    private JButton buttonDisableSelection;
 
     PanelOfPlayers(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -22,7 +22,7 @@ class PanelOfPlayers extends JPanel {
         int insetTopForText;
         int insetTopForButtons;
         int insetRightForLabel = (int) (mainFrame.getFrame().getSize().getWidth()/64);
-        int indexForLabellAll = 7;
+        int yForButtonOfMap = 7;
         ArrayList<Color> colorsOfPlayers = new ArrayList<>();
 
          for(int i = 0 ;i<mainFrame.getRemoteView().getListOfPlayerBoardViews().size(); i++){
@@ -31,7 +31,7 @@ class PanelOfPlayers extends JPanel {
                      colorsOfPlayers.add(Color.BLUE);
                      break;
                  case PURPLE:
-                     colorsOfPlayers.add(Color.RED);
+                     colorsOfPlayers.add(Color.MAGENTA);
                      break;
                  case GREY:
                      colorsOfPlayers.add(Color.GRAY);
@@ -70,25 +70,16 @@ class PanelOfPlayers extends JPanel {
         gbcLabelNickname.anchor = GridBagConstraints.CENTER;
         add(labelNickname, gbcLabelNickname);
 
-        JLabel labelPB = new JLabel("PB: ");
+        JLabel labelPB = new JLabel("PLAYER BOARD: ");
         labelPB.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
         labelPB.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPB = new GridBagConstraints();
         gbcLabelPB.insets = new Insets(insetTopForButtons, 0, 0, insetRightForLabel);
         gbcLabelPB.gridx = 1;
         gbcLabelPB.gridy = 1;
+        gbcLabelPB.gridwidth = 3;
         gbcLabelPB.anchor = GridBagConstraints.CENTER;
         add(labelPB, gbcLabelPB);
-
-        JLabel labelMap = new JLabel("MAP: ");
-        labelMap.setFont(new Font(Font.SERIF, Font.PLAIN, 18));
-        labelMap.setForeground(Color.WHITE);
-        GridBagConstraints gbcLabelMap = new GridBagConstraints();
-        gbcLabelMap.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelMap.gridx = 2;
-        gbcLabelMap.gridy = 1;
-        gbcLabelMap.anchor = GridBagConstraints.CENTER;
-        add(labelMap, gbcLabelMap);
 
 
         JLabel labelPlayer1 = new JLabel();
@@ -172,30 +163,10 @@ class PanelOfPlayers extends JPanel {
               add(labelPlayer5, gbcLabelPlayer5);
            }
            else
-              indexForLabellAll=6;
+              yForButtonOfMap=6;
         }
         else
-           indexForLabellAll = 5;
-
-        JLabel labelAll = new JLabel("All");
-        labelAll.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-        labelAll.setForeground(Color.WHITE);
-        GridBagConstraints gbcLabelAll = new GridBagConstraints();
-        gbcLabelAll.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelAll.anchor = GridBagConstraints.WEST;
-        gbcLabelAll.gridx = 0;
-        gbcLabelAll.gridy = indexForLabellAll;
-        add(labelAll, gbcLabelAll);
-
-        JLabel labelNone = new JLabel("None");
-        labelNone.setFont(new Font(Font.SERIF, Font.BOLD, 18));
-        labelNone.setForeground(Color.WHITE);
-        GridBagConstraints gbcLabelNone = new GridBagConstraints();
-        gbcLabelNone.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelNone.anchor = GridBagConstraints.WEST;
-        gbcLabelNone.gridx = 0;
-        gbcLabelNone.gridy = indexForLabellAll+1;
-        add(labelNone, gbcLabelNone);
+           yForButtonOfMap = 5;
 
         ButtonPBListener buttonPBListener = new ButtonPBListener(mainFrame);
 
@@ -206,10 +177,10 @@ class PanelOfPlayers extends JPanel {
         buttonPB1.addActionListener(buttonPBListener);
         GridBagConstraints gbcButtonPB1 = new GridBagConstraints();
         gbcButtonPB1.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonPB1.anchor = GridBagConstraints.WEST;
+        gbcButtonPB1.anchor = GridBagConstraints.CENTER;
         gbcButtonPB1.gridx = 1;
         gbcButtonPB1.gridy = 2;
-        if(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(0).getNicknameOfPlayer()))
+        if(mainFrame.getLeftPanel().getPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(0).getNicknameOfPlayer()))
            buttonPB1.setSelected(true);
         add(buttonPB1, gbcButtonPB1);
 
@@ -219,10 +190,10 @@ class PanelOfPlayers extends JPanel {
         buttonPB2.addActionListener(buttonPBListener);
         buttonPB2.setActionCommand(labelPlayer2.getText());
         gbcButtonPB2.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonPB2.anchor = GridBagConstraints.WEST;
+        gbcButtonPB2.anchor = GridBagConstraints.CENTER;
         gbcButtonPB2.gridx = 1;
         gbcButtonPB2.gridy = 3;
-        if(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(1).getNicknameOfPlayer()))
+        if(mainFrame.getLeftPanel().getPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(1).getNicknameOfPlayer()))
            buttonPB2.setSelected(true);
         add(buttonPB2, gbcButtonPB2);
 
@@ -232,10 +203,10 @@ class PanelOfPlayers extends JPanel {
         buttonPB3.addActionListener(buttonPBListener);
         buttonPB3.setActionCommand(labelPlayer3.getText());
         gbcButtonPB3.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonPB3.anchor = GridBagConstraints.WEST;
+        gbcButtonPB3.anchor = GridBagConstraints.CENTER;
         gbcButtonPB3.gridx = 1;
         gbcButtonPB3.gridy = 4;
-        if(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(2).getNicknameOfPlayer()))
+        if(mainFrame.getLeftPanel().getPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(2).getNicknameOfPlayer()))
            buttonPB3.setSelected(true);
         add(buttonPB3, gbcButtonPB3);
 
@@ -250,10 +221,10 @@ class PanelOfPlayers extends JPanel {
            if(labelPlayer4!=null)
             buttonPB4.setActionCommand(labelPlayer4.getText());
            gbcButtonPB4.insets = new Insets(insetTopForButtons, 0, 0, 0);
-           gbcButtonPB4.anchor = GridBagConstraints.WEST;
+           gbcButtonPB4.anchor = GridBagConstraints.CENTER;
            gbcButtonPB4.gridx = 1;
            gbcButtonPB4.gridy = 5;
-           if(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(3).getNicknameOfPlayer()))
+            if(mainFrame.getLeftPanel().getPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(3).getNicknameOfPlayer()))
               buttonPB4.setSelected(true);
            add(buttonPB4, gbcButtonPB4);
 
@@ -266,10 +237,10 @@ class PanelOfPlayers extends JPanel {
               if (labelPlayer5!=null)
                buttonPB5.setActionCommand(labelPlayer5.getText());
               gbcButtonPB5.insets = new Insets(insetTopForButtons, 0, 0, 0);
-              gbcButtonPB5.anchor = GridBagConstraints.WEST;
+              gbcButtonPB5.anchor = GridBagConstraints.CENTER;
               gbcButtonPB5.gridx = 1;
               gbcButtonPB5.gridy = 6;
-              if(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(4).getNicknameOfPlayer()))
+               if(mainFrame.getLeftPanel().getPlayerBoardView().getNicknameOfPlayer().equals(mainFrame.getRemoteView().getListOfPlayerBoardViews().get(4).getNicknameOfPlayer()))
                  buttonPB5.setSelected(true);
               add(buttonPB5, gbcButtonPB5);
            }
@@ -287,136 +258,33 @@ class PanelOfPlayers extends JPanel {
 
       ButtonMListener buttonMListener = new ButtonMListener(mainFrame, mainFrame.getMapPanel());
 
-
-        JToggleButton buttonM1 = new JToggleButton(" ");
-        GridBagConstraints gbcButtonM1 = new GridBagConstraints();
-        buttonM1.setBackground(colorsOfPlayers.get(0));
-        buttonM1.addActionListener(buttonMListener);
-        if(labelPlayer1.getText().equalsIgnoreCase("ME"))
-            buttonM1.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-        else
-            buttonM1.setActionCommand(labelPlayer1.getText());
-        gbcButtonM1.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonM1.gridx = 2;
-        gbcButtonM1.gridy = 2;
-        add(buttonM1, gbcButtonM1);
-
-        JToggleButton buttonM2 = new JToggleButton(" ");
-        GridBagConstraints gbcButtonM2 = new GridBagConstraints();
-        buttonM2.setBackground(colorsOfPlayers.get(1));
-        buttonM2.addActionListener(buttonMListener);
-         if(labelPlayer2.getText().equalsIgnoreCase("ME"))
-             buttonM2.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-         else
-             buttonM2.setActionCommand(labelPlayer2.getText());
-        gbcButtonM2.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonM2.gridx = 2;
-        gbcButtonM2.gridy = 3;
-        add(buttonM2, gbcButtonM2);
-
-        JToggleButton buttonM3 = new JToggleButton(" ");
-        GridBagConstraints gbcButtonM3 = new GridBagConstraints();
-        buttonM3.setBackground(colorsOfPlayers.get(2));
-        buttonM3.addActionListener(buttonMListener);
-         if(labelPlayer3.getText().equalsIgnoreCase("ME"))
-             buttonM3.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-         else
-             buttonM3.setActionCommand(labelPlayer3.getText());
-        gbcButtonM3.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonM3.gridx = 2;
-        gbcButtonM3.gridy = 4;
-        add(buttonM3, gbcButtonM3);
-
-        JToggleButton buttonM4 = null;
-        JToggleButton buttonM5 = null;
-
-        if(mainFrame.getRemoteView().getListOfPlayerBoardViews().size()>3) {
-           buttonM4 = new JToggleButton(" ");
-           GridBagConstraints gbcButtonM4 = new GridBagConstraints();
-           buttonM4.setBackground(colorsOfPlayers.get(3));
-           buttonM4.addActionListener(buttonMListener);
-           if(labelPlayer4!=null) {
-               if(labelPlayer4.getText().equalsIgnoreCase("ME"))
-                   buttonM4.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-               else
-                   buttonM4.setActionCommand(labelPlayer4.getText());
-           }
-           gbcButtonM4.insets = new Insets(insetTopForButtons, 0, 0, 0);
-           gbcButtonM4.gridx = 2;
-           gbcButtonM4.gridy = 5;
-           add(buttonM4, gbcButtonM4);
-
-           if (mainFrame.getRemoteView().getListOfPlayerBoardViews().size() > 4) {
-              buttonM5 = new JToggleButton(" ");
-              buttonM5.setBackground(colorsOfPlayers.get(4));
-              buttonM5.addActionListener(buttonMListener);
-              if(labelPlayer5!=null) {
-                  if(labelPlayer5.getText().equalsIgnoreCase("ME"))
-                      buttonM5.setActionCommand(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  else
-                      buttonM5.setActionCommand(labelPlayer5.getText());
-              }
-              GridBagConstraints gbcButtonM5 = new GridBagConstraints();
-              gbcButtonM5.insets = new Insets(insetTopForButtons, 0, 0, 0);
-              gbcButtonM5.gridx = 2;
-              gbcButtonM5.gridy = 6;
-              add(buttonM5, gbcButtonM5);
-
-           }
-        }
-
-        JToggleButton buttonMAll = new JToggleButton(" ");
-        GridBagConstraints gbcButtonMAll = new GridBagConstraints();
-        buttonMAll.setBackground(Color.BLACK);
-        buttonMAll.addActionListener(buttonMListener);
-        buttonMAll.setActionCommand("All");
-        gbcButtonMAll.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonMAll.gridx = 2;
-        gbcButtonMAll.gridy = indexForLabellAll;
-        add(buttonMAll, gbcButtonMAll);
-
-        buttonMNone = new JToggleButton(" ");
-        buttonMNone.setSelected(true);
-        buttonMNone.setBackground(Color.BLACK);
-        buttonMNone.addActionListener(buttonMListener);
-        buttonMNone.setActionCommand("None");
-        GridBagConstraints gbcButtonMNone = new GridBagConstraints();
-        gbcButtonMNone.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcButtonMNone.gridx = 2;
-        gbcButtonMNone.gridy = indexForLabellAll+1;
-        add(buttonMNone, gbcButtonMNone);
-
-         buttonMSelection = new JToggleButton("Return to selection");
+         buttonMSelection = new JButton("Return to selection");
          buttonMSelection.setSelected(false);
          buttonMSelection.setEnabled(false);
-         buttonMSelection.setBackground(Color.WHITE);
          buttonMSelection.addActionListener(buttonMListener);
          buttonMSelection.setActionCommand("Selection");
          GridBagConstraints gbcButtonSelection = new GridBagConstraints();
          gbcButtonSelection.insets = new Insets(insetTopForButtons, 0, 0, 0);
-         gbcButtonSelection.gridx = 2;
-         gbcButtonSelection.gridy = indexForLabellAll+2;
+         gbcButtonSelection.gridx = 1;
+         gbcButtonSelection.gridy = yForButtonOfMap;
          add(buttonMSelection, gbcButtonSelection);
 
-        ButtonGroup mapButtonGroup = new ButtonGroup();
-        mapButtonGroup.add(buttonM1);
-        mapButtonGroup.add(buttonM2);
-        mapButtonGroup.add(buttonM3);
-        if(buttonM4!=null)
-         mapButtonGroup.add(buttonM4);
-        if(buttonM5!=null)
-         mapButtonGroup.add(buttonM5);
-        mapButtonGroup.add(buttonMAll);
-        mapButtonGroup.add(buttonMNone);
+         buttonDisableSelection = new JButton("Return to normal view");
+         buttonDisableSelection.setEnabled(mainFrame.getRemoteView().getMapView().isHasToChooseASquare());
+         buttonDisableSelection.addActionListener(buttonMListener);
+         buttonDisableSelection.setActionCommand("Disable");
+        GridBagConstraints gbcButtonDisable = new GridBagConstraints();
+        gbcButtonDisable.insets = new Insets(insetTopForButtons, 0, 0, 0);
+        gbcButtonDisable.gridx = 1;
+        gbcButtonDisable.gridy = yForButtonOfMap+1;
+        add(buttonDisableSelection, gbcButtonDisable);
+
     }
 
-      JToggleButton getButtonMSelection() {
+      private JButton getButtonMSelection() {
         return buttonMSelection;
     }
 
-     JToggleButton getButtonMNone() {
-        return buttonMNone;
-    }
 
     class ButtonPBListener implements ActionListener{
 
@@ -438,55 +306,33 @@ class PanelOfPlayers extends JPanel {
        }
     }
 
-    class ButtonMListener implements ActionListener{
+    class ButtonMListener implements ActionListener {
 
         private MainFrame mainFrame;
         private MapPanel mapPanel;
 
         ButtonMListener(MainFrame mainFrame, MapPanel mapPanel) {
-          this.mainFrame = mainFrame;
-          this.mapPanel = mapPanel;
-       }
+            this.mainFrame = mainFrame;
+            this.mapPanel = mapPanel;
+        }
 
-       @Override
-       public void actionPerformed(ActionEvent e) {
-           String nameForHashMap;
-           String actionCommand = e.getActionCommand();
-           Square[][] matrix = mainFrame.getRemoteView().getMapView().getMap();
-
-           for (int i = 0 ; i<matrix.length;i++) {
-
-               for (int j = 0; j < matrix[i].length; j++) {
-
-                   nameForHashMap = "cell";
-                   nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
-
-                   switch (actionCommand) {
-                       case "None":
-                           mapPanel.getHashMapForCell().get(nameForHashMap).setEnabled(true);
-                           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
-                               getButtonMSelection().setEnabled(true);
-                           break;
-                       case "All":
-                           mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && !(matrix[i][j].getNicknamesOfPlayersOnThisSquare().isEmpty()));
-                           break;
-                       case "Selection":
-                           if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
-                               mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getReachableSquares());
-                           break;
-                       default:
-                           nameForHashMap = "cell";
-                           nameForHashMap = nameForHashMap.concat(String.valueOf(i)).concat(String.valueOf(j));
-                           mapPanel.getHashMapForCell().get((nameForHashMap)).setEnabled(matrix[i][j] != null && matrix[i][j].getNicknamesOfPlayersOnThisSquare().contains(actionCommand));
-                   }
-                   if(!actionCommand.equals("Selection")&&mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
-                       getButtonMSelection().setEnabled(true);
-
-               }
-           }
-       }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getActionCommand().equals("Disable")) {
+                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
+                for (JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()) {
+                    label.setEnabled(true);
+                }
+                buttonMSelection.setEnabled(true);
+                buttonDisableSelection.setEnabled(false);
+            } else {
+                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(true);
+                mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getReachableSquares());
+                buttonMSelection.setEnabled(false);
+                buttonDisableSelection.setEnabled(true);
+            }
+        }
     }
-
 
 
 }

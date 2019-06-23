@@ -30,8 +30,6 @@ class MapPanel extends JPanel {
     private JLabel cell22;
     private JLabel cell23;
     private ArrayList<JDialog> dialogForFigure = new ArrayList<>();
-
-
     private HashMap<String, JLabel> hashMapForCell = new HashMap<>();
 
 
@@ -200,7 +198,6 @@ class MapPanel extends JPanel {
 
          createHashMap();
          addMouseListenerToCells();
-
      }
 
 
@@ -248,12 +245,16 @@ class MapPanel extends JPanel {
          }
     }
 
-     void addFigureOnSquare(MainFrame mainFrame) {
+     ArrayList<JDialog> getDialogForFigure() {
+        return dialogForFigure;
+    }
+
+    void addFigureOnSquare(MainFrame mainFrame) {
          ArrayList<Square> listOfSquares = mainFrame.getRemoteView().getMapView().getListOfSquareAsArrayList();
-        /* for(JDialog dialog : dialogForFigure){
+        for(JDialog dialog : dialogForFigure){
              dialog.setVisible(false);
          }
-         dialogForFigure = new ArrayList<>();*/
+         dialogForFigure = new ArrayList<>();
          JPanel panel;
          String cell;
          String color;
@@ -270,9 +271,11 @@ class MapPanel extends JPanel {
                  JDialog dialog;
                  cell = cell.concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()));
                  dialog = new JDialog(mainFrame.getFrame());
+                 dialogForFigure.add(dialog);
                  dialog.setUndecorated(true);
                  dialog.setResizable(false);
                  panel = new JPanel(new GridBagLayout());
+                 dialog.getContentPane().add(panel);
                  GridBagConstraints gbc = new GridBagConstraints();
                  gbc.gridx = 0;
                  gbc.gridy = 0;
@@ -284,7 +287,7 @@ class MapPanel extends JPanel {
                      label = new JLabel(icon);
                      label.setToolTipText(name);
                      panel.add(label,gbc);
-                     if(gbc.gridx<3)
+                     if(gbc.gridx<2)
                          gbc.gridx++;
                      else{
                          gbc.gridx=0;
@@ -292,11 +295,16 @@ class MapPanel extends JPanel {
                      }
                  }
                  dialog.pack();
-                 dialog.setLocation(hashMapForCell.get(cell).getLocationOnScreen());
+                 Point location = hashMapForCell.get(cell).getLocationOnScreen();
+                 dialog.setLocation((int)location.getX()+xOffset,(int)location.getY()+yOffset);
                  dialog.setVisible(true);
              }
          }
     }
+
+
+
+
 
 
     class SquareListener implements MouseListener{
@@ -370,9 +378,6 @@ class MapPanel extends JPanel {
                    label.setEnabled(true);
                }
                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
-               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setSelected(false);
-               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setEnabled(false);
-               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMNone().setSelected(true);
            }
 
       }

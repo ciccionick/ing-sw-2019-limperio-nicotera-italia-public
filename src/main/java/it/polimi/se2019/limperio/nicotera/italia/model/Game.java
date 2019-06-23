@@ -26,7 +26,6 @@ public class Game extends Observable<ServerEvent> {
      * The reference of the board
      */
     private Board board;
-    private Controller controller;
     /**
      * The list of players in the game
      */
@@ -54,6 +53,8 @@ public class Game extends Observable<ServerEvent> {
     /**
      * It's true if there will be the frenzy phase at the end of the game, false otherwise
      */
+    private int numOfSkullToRemoveToPassToFrenzy = 7;
+
     private boolean anticipatedFrenzy;
     /**
      * The number of the player that is the first at the beginning of the frenzy phase
@@ -103,6 +104,12 @@ public class Game extends Observable<ServerEvent> {
             inFile = new FileReader(file);
             bin = new BufferedReader(inFile);
             delay = Long.parseLong(bin.readLine());
+            inFile.close();
+            bin.close();
+            file = new File("resourcers/textfile/numOfSkull");
+            inFile = new FileReader(file);
+            bin = new BufferedReader(inFile);
+            numOfSkullToRemoveToPassToFrenzy = Integer.parseInt(bin.readLine());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,7 +159,6 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
-        controller.sendRequestToDrawPowerUpCard(players.get(playerOfTurn-1),2);
     }
 
     private ColorOfFigure_Square findColorAvailable() {
@@ -201,6 +207,10 @@ public class Game extends Observable<ServerEvent> {
 
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    public int getNumOfSkullToRemoveToPassToFrenzy() {
+        return numOfSkullToRemoveToPassToFrenzy;
     }
 
     /**
@@ -313,10 +323,6 @@ public class Game extends Observable<ServerEvent> {
 
     public boolean isTerminatorModeActive() {
         return terminatorModeActive;
-    }
-
-    public void setController(Controller controller) {
-        this.controller = controller;
     }
 
     public long getDelay() {

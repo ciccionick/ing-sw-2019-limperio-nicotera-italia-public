@@ -4,7 +4,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEven
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-
 import java.util.*;
 import java.util.Map;
 
@@ -43,10 +42,8 @@ public class RoundController {
              if (game.getNumOfMaxActionForTurn() == 2)
                  game.setNumOfMaxActionForTurn(3);
          }
-         if(game.isInFrenzy()){
-             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()<game.getFirstInFrenzyMode()){
-                game.setNumOfMaxActionForTurn(game.getNumOfMaxActionForTurn()-1);
-             }
+         if(game.isInFrenzy() && game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()<game.getFirstInFrenzyMode()) {
+             game.setNumOfMaxActionForTurn(game.getNumOfMaxActionForTurn() - 1);
          }
          updateDecksAndSquares();
 
@@ -83,6 +80,8 @@ public class RoundController {
             game.setPlayerHasToRespawn(deadPlayer);
             if(deadPlayer.getNickname().equals("terminator"))
                 controller.getPowerUpController().sendRequestToChooseSquareForSpawnOfTerminator();
+            else if (!deadPlayer.isConnected())
+                randomSpawn(deadPlayer);
             else
                 controller.sendRequestToDrawPowerUpCard(deadPlayer, 1);
         }
@@ -181,7 +180,7 @@ public class RoundController {
                     message = message.concat(game.getPlayers().get(i).getNickname() + ": " + scoreForPlayers.get(i) + " points added\n");
             }
         } else {
-            Collections.sort(game.getPlayers(), new Player.ScoreComparator());
+            game.getPlayers().sort(new Player.ScoreComparator());
             checkAnyParity();
             for (int i = 0; i < game.getPlayers().size(); i++) {
                 message = message.concat(game.getPlayers().get(i).getNickname() + ": " + game.getPlayers().get(i).getScore() + " points\n");
@@ -236,7 +235,7 @@ public class RoundController {
 
 
     private boolean isPassingFromNormalToFrenzyMode() {
-        return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(7).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
+        return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
     }
 
     public void handleEndOfGame() {

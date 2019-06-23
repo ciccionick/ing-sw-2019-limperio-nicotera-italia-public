@@ -192,6 +192,7 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mapView.setSelectionForShootAction(((RequestSelectionSquareForAction)receivedEvent).isForActionShoot());
             mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
+            mainFrame.updatePanelOfPlayers();
         }
 
         if(receivedEvent.isTimerOverEvent()){

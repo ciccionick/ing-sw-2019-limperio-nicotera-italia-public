@@ -95,7 +95,6 @@ public class Server  {
         }
         game=Game.instanceOfGame();
         controller=new Controller(game);
-        game.setController(controller);
         File file;
         FileReader inFile = null;
         BufferedReader bin=null;
@@ -131,22 +130,22 @@ public class Server  {
         while (true) {
             try {
 
-                if (listOfColor.size()==5){
-                    if(timer!=null)
+                if (listOfColor.size() == 5) {
+                    if (timer != null)
                         timer.cancel();
-                    timer=null;
+                    timer = null;
                     startGame();
                     break;
                 }
-                if(gameIsStarted)
+                if (gameIsStarted)
                     break;
                 Socket client = serverSocket.accept();
                 listOfClient.add(client);
-                    VirtualView virtualView = new VirtualView(client, this, controller);
-                    Thread thread = new Thread(virtualView);
-                    thread.start();
-                    listOfVirtualView.add(virtualView);
-                    game.register(virtualView);
+                VirtualView virtualView = new VirtualView(client, this, controller);
+                Thread thread = new Thread(virtualView);
+                thread.start();
+                listOfVirtualView.add(virtualView);
+                game.register(virtualView);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -192,6 +191,7 @@ public class Server  {
             setTypeMap(typeMap);
         }
         game.initializeGame(anticipatedFrenzy, typeMap, terminatorMode);
+        controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1), 2);
         for(VirtualView virtualView : listOfVirtualView){
             for(Player player : game.getPlayers()){
                 virtualView.updateListOfPlayerBoard(player.getPlayerBoard());
@@ -209,7 +209,6 @@ public class Server  {
     }
 
     private void handleReconnectionClient(Socket client){
-        System.out.println("Sono in handlereconnectionClient");
         VirtualView virtualView = new VirtualView(client, this, controller);
         String nicknameReconnected = virtualView.handleReconnection();
         if(!nicknameReconnected.equals("Failed reconnection")){

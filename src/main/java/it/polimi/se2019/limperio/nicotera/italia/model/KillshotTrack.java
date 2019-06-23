@@ -34,12 +34,7 @@ public class KillshotTrack implements Serializable, Cloneable {
 
         for (int i=0;i<8;i++) {
             tokensOfDeath.add(new ArrayList<>());
-            if(i<6)
-                tokensOfDeath.get(i).add(ColorOfDeathToken.YELLOW);
-            if(i==6)
-                tokensOfDeath.get(i).add(ColorOfDeathToken.GREEN);
-            if(i==7)
-                tokensOfDeath.get(i).add(ColorOfDeathToken.SKULL);
+            tokensOfDeath.get(i).add(ColorOfDeathToken.SKULL);
         }
     }
 
@@ -58,16 +53,8 @@ public class KillshotTrack implements Serializable, Cloneable {
         return tokensOfDeath;
     }
 
-    public void setTokensOfDeath(ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath) {
-        this.tokensOfDeath = tokensOfDeath;
-    }
-
     public ArrayList<ColorOfDeathToken> getTokenOfFrenzyMode() {
         return tokenOfFrenzyMode;
-    }
-
-    public void setTokenOfFrenzyMode(ArrayList<ColorOfDeathToken> tokenOfFrenzyMode) {
-        this.tokenOfFrenzyMode = tokenOfFrenzyMode;
     }
 
     public Object clone(){
