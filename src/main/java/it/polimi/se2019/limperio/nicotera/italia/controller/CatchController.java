@@ -81,6 +81,7 @@ class CatchController {
                PowerUpCard powerUpCard;
                powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
                player.drawPowerUpCard(powerUpCard);
+               powerUpCard.setOwnerOfCard(player);
                game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(0, powerUpCard);
                game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0);
                powerUpCard.setInTheDeckOfSomePlayer(true);
@@ -197,8 +198,7 @@ class CatchController {
                 SpawnSquare spawnSquare = (SpawnSquare) square;
                 if (canCatchSomethingInThisSquare(spawnSquare)) {
                     addWeaponNotAffordable(spawnSquare, player, weaponNotAffordable);
-                    ArrayList<ServerEvent.AliasCard> weaponsNotAffordable = new ArrayList<>(weaponNotAffordable);
-                    if(weaponsNotAffordable.size() < 3)
+                    if(weaponNotAffordable.size() < 3)
                         squaresWithSomething.add(square);
                 }
             }
@@ -442,7 +442,7 @@ class CatchController {
                 }
             }
         }
-            return frequency;
+        return frequency;
 
     }
 

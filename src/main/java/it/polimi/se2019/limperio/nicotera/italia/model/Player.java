@@ -69,8 +69,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         this.isFirst=isFirst;
         this.position=position;
         this.colorOfFigure = colorOfFigure;
-        if(nickname.equals("ciccio"))
-            score=1;
+
     }
 
     public void createPlayerBoard(){

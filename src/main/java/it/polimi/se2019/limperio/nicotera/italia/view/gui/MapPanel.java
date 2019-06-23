@@ -378,6 +378,7 @@ class MapPanel extends JPanel {
                    label.setEnabled(true);
                }
                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
+               mainFrame.updatePanelOfPlayers();
            }
 
       }
