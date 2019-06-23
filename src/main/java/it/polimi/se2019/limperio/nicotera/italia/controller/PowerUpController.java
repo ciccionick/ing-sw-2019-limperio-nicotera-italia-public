@@ -143,6 +143,8 @@ class PowerUpController {
         playerWithThisNickname.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[square.getRow()][square.getColumn()]);
         playerWithThisNickname.setDead(false);
         playerWithThisNickname.setHasToBeGenerated(false);
+        playerWithThisNickname.setIsUnderThreeDamage(true);
+        playerWithThisNickname.setOverSixDamage(false);
         MapEvent generationEvent;
         generationEvent = new MapEvent();
         generationEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());

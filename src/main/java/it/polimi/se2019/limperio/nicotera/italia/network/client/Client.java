@@ -52,12 +52,12 @@ public class Client {
 
     void handleConnectionWithServer() throws IOException {
 
-        this.csocket = new Socket("localhost", 4000);
+        this.csocket = new Socket(ipAddress, 4000);
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
-        //timer = new Timer();
-        //timer.schedule(new TaskForStart(), delay);
-        waitForMessage();
+        timer = new Timer();
+        timer.schedule(new TaskForStart(), delay);
+        //waitForMessage();
 
 
 
