@@ -26,6 +26,7 @@ public class Game extends Observable<ServerEvent> {
      * The reference of the board
      */
     private Board board;
+    private Controller controller;
     /**
      * The list of players in the game
      */
@@ -159,6 +160,7 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
+        controller.sendRequestToDrawPowerUpCard(players.get(playerOfTurn-1),2);
     }
 
     private ColorOfFigure_Square findColorAvailable() {
@@ -323,6 +325,10 @@ public class Game extends Observable<ServerEvent> {
 
     public boolean isTerminatorModeActive() {
         return terminatorModeActive;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
     }
 
     public long getDelay() {

@@ -95,6 +95,7 @@ public class Server  {
         }
         game=Game.instanceOfGame();
         controller=new Controller(game);
+        game.setController(controller);
         File file;
         FileReader inFile = null;
         BufferedReader bin=null;
@@ -191,7 +192,6 @@ public class Server  {
             setTypeMap(typeMap);
         }
         game.initializeGame(anticipatedFrenzy, typeMap, terminatorMode);
-        controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1), 2);
         for(VirtualView virtualView : listOfVirtualView){
             for(Player player : game.getPlayers()){
                 virtualView.updateListOfPlayerBoard(player.getPlayerBoard());
