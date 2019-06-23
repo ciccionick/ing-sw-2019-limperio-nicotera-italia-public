@@ -21,7 +21,7 @@ public class MainFrame {
     private RightPanel rightPanel;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
-    private DialogForMessage dialogForMessage = null;
+    private DialogForMessage dialogForMessage;
     private PopupForChooseWeaponCard popupForChooseWeaponCardToCatch;
 
 
@@ -115,6 +115,10 @@ public class MainFrame {
     public void hidePopup(){
         if (popupForChooseWeaponCardToCatch!=null)
             popupForChooseWeaponCardToCatch.getPopupForChooseW().setVisible(false);
+    }
+
+    public void updateFigureOnMap(){
+        mapPanel.addFigureOnSquare(this);
     }
 
     public void updateNorthPanel() {

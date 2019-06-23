@@ -35,7 +35,7 @@ class FrameForShowIP  {
 
             @Override
             public void windowDeiconified(WindowEvent e) {
-
+                throw new UnsupportedOperationException();
             }
 
             @Override

@@ -36,7 +36,7 @@ public class TestWeaponController {
         ArrayList<Square> squares= new ArrayList<>();
         weaponController.addSquaresForCardinalDirections(game.getBoard().getMap().getMatrixOfSquares()[1][1], squares, 1, true);
         squares.remove(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
-        assertEquals(squares.size(), 3);
+        assertEquals(squares.size(), 5);
     }
 
 

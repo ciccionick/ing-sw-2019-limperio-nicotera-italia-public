@@ -42,7 +42,7 @@ public class WeaponController {
                     usableEffects.add(1);
                 if (!effectAlreadyChoosen(2))
                     usableEffects.add(2);
-                if(!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && !(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0))))
+                if(!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && !(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0).getNickname())))
                     usableEffects.add(3);
                 break;
 

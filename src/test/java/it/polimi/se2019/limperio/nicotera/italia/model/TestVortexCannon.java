@@ -37,6 +37,7 @@ public class TestVortexCannon {
     private VortexCannon vortexCannon;
     private InvolvedPlayer involvedPlayer2;
     private InvolvedPlayer involvedPlayer3;
+    private InvolvedPlayer involvedPlayer4;
 
 
 
@@ -59,8 +60,9 @@ public class TestVortexCannon {
         vortexCannon = new VortexCannon();
         vortexCannon.setOwnerOfCard(player1);
         player1.getPlayerBoard().getWeaponsOwned().add(vortexCannon);
-        involvedPlayer2 = new InvolvedPlayer(player2, 1 , map.getMatrixOfSquares()[1][1]);
-        involvedPlayer3= new InvolvedPlayer(player3, 2 , map.getMatrixOfSquares()[1][1]);
+        involvedPlayer2 = new InvolvedPlayer(null, 1 , map.getMatrixOfSquares()[1][1]);
+        involvedPlayer3 = new InvolvedPlayer(player2, 1, null);
+        involvedPlayer4= new InvolvedPlayer(player3, 2 , map.getMatrixOfSquares()[1][1]);
 
 
     }
@@ -73,7 +75,10 @@ public class TestVortexCannon {
 
     @Test
     public void TestBasicEffect() {
-        vortexCannon.useWeapon(1, new ArrayList<InvolvedPlayer>() {{ add(involvedPlayer2); }});
+        ArrayList<InvolvedPlayer> involvedPlayers = new ArrayList<>();
+        involvedPlayers.add(involvedPlayer2);
+        involvedPlayers.add(involvedPlayer3);
+        vortexCannon.useWeapon(1, involvedPlayers);
 
         assertEquals(player2.getPlayerBoard().getDamages().size(), 2);
         assertEquals(player2.getPlayerBoard().getDamages().get(0), ColorOfFigure_Square.BLUE);

@@ -87,7 +87,7 @@ public class TestController {
       ((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[1][0]).getWeaponCards().add(weaponCard);
       event4.setNameOfWeaponCard(weaponCard.getName());
       controller.update(event4);
-      assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().isEmpty());
+//      assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().isEmpty());
 
 
       /*//Test for MoveTerminatorEvent

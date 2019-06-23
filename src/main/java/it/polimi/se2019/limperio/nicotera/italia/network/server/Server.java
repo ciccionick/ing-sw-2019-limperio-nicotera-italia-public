@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.network.server;
 
 
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 
@@ -82,7 +81,6 @@ public class Server  {
     /**
      * Constructor that creates an instance of the game, controller. Creates a server socket to receive connections
      * and read from file the duration of delay, setting the timer with his task
-     * @throws IOException if there would be problems with the file where reading the delay for the timer
      *
      */
     Server()  {
@@ -121,8 +119,6 @@ public class Server  {
                 e.printStackTrace();
             }
         }
-
-
         task = new MyTask();
         acceptConnection();
     }
@@ -142,22 +138,15 @@ public class Server  {
                     startGame();
                     break;
                 }
-
-                System.out.println("In attesa di Connessione.");
-                if(gameIsStarted){
-                    break;}
+                if(gameIsStarted)
+                    break;
                 Socket client = serverSocket.accept();
                 listOfClient.add(client);
-                System.out.println("Connessione accettata da: " + client.getInetAddress());
-                if(!gameIsStarted) {
                     VirtualView virtualView = new VirtualView(client, this, controller);
                     Thread thread = new Thread(virtualView);
                     thread.start();
                     listOfVirtualView.add(virtualView);
                     game.register(virtualView);
-                }
-                else
-                    handleReconnectionClient(client);
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -214,9 +203,7 @@ public class Server  {
         }
         gameIsStarted = true;
         while (serverSocket.isBound()) {
-            System.out.println("Attendo connessione. . .");
             Socket client = serverSocket.accept();
-            System.out.println("Ho accettato la connessione da:" + client.getInetAddress());
             handleReconnectionClient(client);
         }
     }

@@ -29,7 +29,7 @@ class MapPanel extends JPanel {
     private JLabel cell21;
     private JLabel cell22;
     private JLabel cell23;
-
+    private ArrayList<JDialog> dialogForFigure = new ArrayList<>();
 
 
     private HashMap<String, JLabel> hashMapForCell = new HashMap<>();
@@ -90,10 +90,6 @@ class MapPanel extends JPanel {
         imageIcon = new ImageIcon(newimg);
         cell01 = new JLabel(imageIcon);
         this.add(cell01,gbc);
-
-
-
-
 
         gbc.gridx=2;
         gbc.gridy=0;
@@ -207,7 +203,8 @@ class MapPanel extends JPanel {
 
      }
 
-   private void addMouseListenerToCells() {
+
+    private void addMouseListenerToCells() {
       cell00.addMouseListener(new MapPanel.SquareListener(0, 0, mainFrame));
       cell01.addMouseListener(new MapPanel.SquareListener(0, 1, mainFrame));
       cell02.addMouseListener(new MapPanel.SquareListener(0, 2, mainFrame));
@@ -251,7 +248,55 @@ class MapPanel extends JPanel {
          }
     }
 
-
+     void addFigureOnSquare(MainFrame mainFrame) {
+         ArrayList<Square> listOfSquares = mainFrame.getRemoteView().getMapView().getListOfSquareAsArrayList();
+        /* for(JDialog dialog : dialogForFigure){
+             dialog.setVisible(false);
+         }
+         dialogForFigure = new ArrayList<>();*/
+         JPanel panel;
+         String cell;
+         String color;
+         JLabel label;
+         ImageIcon icon;
+         Image image;
+         int yOffset = (int) (cell00.getHeight()*0.1);
+         int xOffset = (int) (cell00.getWidth()*0.1);
+         int width = (int) (cell00.getWidth()/3.5);
+         int height = (int) (cell00.getHeight()/2.5);
+         for(Square square : listOfSquares){
+             cell = "cell";
+             if(!square.getNicknamesOfPlayersOnThisSquare().isEmpty()){
+                 JDialog dialog;
+                 cell = cell.concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()));
+                 dialog = new JDialog(mainFrame.getFrame());
+                 dialog.setUndecorated(true);
+                 dialog.setResizable(false);
+                 panel = new JPanel(new GridBagLayout());
+                 GridBagConstraints gbc = new GridBagConstraints();
+                 gbc.gridx = 0;
+                 gbc.gridy = 0;
+                 for(String name : square.getNicknamesOfPlayersOnThisSquare()){
+                     color = mainFrame.getRemoteView().getPlayerBoardViewOfThisPlayer(name).getColorOfPlayer().toString().toLowerCase();
+                     icon = new ImageIcon("resources/figure/" + color +".png");
+                     image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                     icon = new ImageIcon(image);
+                     label = new JLabel(icon);
+                     label.setToolTipText(name);
+                     panel.add(label,gbc);
+                     if(gbc.gridx<3)
+                         gbc.gridx++;
+                     else{
+                         gbc.gridx=0;
+                         gbc.gridy=1;
+                     }
+                 }
+                 dialog.pack();
+                 dialog.setLocation(hashMapForCell.get(cell).getLocationOnScreen());
+                 dialog.setVisible(true);
+             }
+         }
+    }
 
 
     class SquareListener implements MouseListener{

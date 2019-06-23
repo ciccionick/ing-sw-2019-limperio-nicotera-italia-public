@@ -58,6 +58,7 @@ public class MapView {
                 remoteView.getMainFrame().showMessage(event);
         }
         updateMap(event);
+        remoteView.getMainFrame().updateFigureOnMap();
     }
 
     private void updateMap(MapEvent event) {
@@ -79,7 +80,7 @@ public class MapView {
         }
     }
 
-     ArrayList<Square> getListOfSquareAsArrayList() {
+     public ArrayList<Square> getListOfSquareAsArrayList() {
         ArrayList<Square> allSquares = new ArrayList<>();
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
