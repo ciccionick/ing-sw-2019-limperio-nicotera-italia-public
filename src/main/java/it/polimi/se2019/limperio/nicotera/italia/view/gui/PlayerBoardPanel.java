@@ -4,16 +4,43 @@ import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
+/**
+ *
+ */
 class PlayerBoardPanel extends JPanel {
 
+    /**
+     *
+     */
     private MainFrame mainFrame;
-
+    /**
+     *
+     */
+    private JDialog dialogForDamage;
+    /**
+     *
+     */
+    private JDialog dialogForMarks;
+    /**
+     *
+     */
     private PlayerBoardView playerBoardViewed;
+    /**
+     *
+     */
     private JLabel cell11;
+    /**
+     *
+     */
+    private JLabel cell07;
 
+
+    /**
+     *
+     * @param mainFrame
+     * @param playerBoardView
+     */
      PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         this.playerBoardViewed = playerBoardView;
@@ -25,7 +52,7 @@ class PlayerBoardPanel extends JPanel {
         int widthOfMiddleCells = (int) (mainFrame.getFrame().getSize().getWidth()/49.23);
         int widthOfLastCell = (int) (mainFrame.getFrame().getSize().getWidth()/11.92);
 
-        String folderPath = null;
+        String folderPath;
 
         switch (playerBoardView.getColorOfPlayer()){
             case BLUE:
@@ -81,7 +108,7 @@ class PlayerBoardPanel extends JPanel {
         add(cell01, gbcCell01);
 
 
-        JLabel cell07 = new JLabel("");
+        cell07 = new JLabel("");
         GridBagConstraints gbcCell07 = new GridBagConstraints();
         if(playerBoardView.isFrenzyPlayerBoard()){
             gbcCell07.gridx = 8;
@@ -97,9 +124,6 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell07.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell07.setIcon(imageIcon);
-        cell07.setToolTipText("Tap and hold to see possibly marks");
-        ListenerForMarksBoard listenerForMarksBoard = new ListenerForMarksBoard(cell07);
-        cell07.addMouseListener(listenerForMarksBoard);
         add(cell07, gbcCell07);
 
         JLabel cell013 = new JLabel("");
@@ -124,9 +148,6 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells*12,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell11.setIcon(imageIcon);
-        cell11.setToolTipText("Tap and hold to see possibly damage");
-        ListenerForDamageBoard listenerForDamageBoard = new ListenerForDamageBoard(cell11);
-        cell11.addMouseListener(listenerForDamageBoard);
         add(cell11, gbcCell11);
 
 
@@ -211,7 +232,7 @@ class PlayerBoardPanel extends JPanel {
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
         cell27.setIcon(imageIcon);
-         if(getPlayerBoardViewed().getScoreBarForNormalMode().isEmpty() && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().size()<1)
+         if(getPlayerBoardViewed().getScoreBarForNormalMode().isEmpty() && !playerBoardViewed.isFrenzyPlayerBoard() || playerBoardViewed.isFrenzyPlayerBoard() && playerBoardViewed.getScoreBarForFrenzyMode().isEmpty())
              cell27.setEnabled(false);
 
          add(cell27, gbcCell27);
@@ -250,89 +271,39 @@ class PlayerBoardPanel extends JPanel {
         add(cell29, gbcCell29);
      }
 
+     JLabel getCell11() {
+        return cell11;
+    }
 
+     JLabel getCell07() {
+        return cell07;
+    }
+
+     JDialog getDialogForDamage() {
+        return dialogForDamage;
+    }
+
+     JDialog getDialogForMarks() {
+        return dialogForMarks;
+    }
+
+    /**
+     *
+     */
+    void addDialogForDamage(){
+        dialogForDamage = new PopupForDamageMarks( mainFrame, true, cell11.getLocationOnScreen()).getDialog();
+    }
+
+    /**
+     *
+     */
+    void addDialogForMarks(){
+         dialogForMarks = new PopupForDamageMarks(mainFrame, false, cell07.getLocationOnScreen()).getDialog();
+    }
 
     PlayerBoardView getPlayerBoardViewed() {
       return playerBoardViewed;
    }
-
-   class ListenerForDamageBoard implements MouseListener{
-
-        private JLabel damageBoard;
-        private PopupForDamageMarks popupForDamage = null;
-
-
-        ListenerForDamageBoard(JLabel damageBoard) {
-
-          this.damageBoard = damageBoard;
-       }
-
-       @Override
-       public void mouseClicked(MouseEvent e) {
-
-       }
-
-       @Override
-       public void mousePressed(MouseEvent e) {
-           if(!(mainFrame.getLeftPanel().getPlayerBoardView().getDamages().isEmpty())) {
-              popupForDamage = new PopupForDamageMarks(damageBoard, mainFrame, true);
-           }
-       }
-
-       @Override
-       public void mouseReleased(MouseEvent e) {
-         if(popupForDamage!=null)
-            popupForDamage.getPanelForDamage().setVisible(false);
-       }
-
-       @Override
-       public void mouseEntered(MouseEvent e) {
-
-       }
-
-       @Override
-       public void mouseExited(MouseEvent e) {
-
-       }
-    }
-
-    class ListenerForMarksBoard implements MouseListener{
-         private JLabel marksBoard;
-         private PopupForDamageMarks popupForDamageMarks = null;
-
-        ListenerForMarksBoard(JLabel marksBoard) {
-          this.marksBoard = marksBoard;
-       }
-
-       @Override
-       public void mouseClicked(MouseEvent e) {
-
-       }
-
-       @Override
-       public void mousePressed(MouseEvent e) {
-          if(!mainFrame.getLeftPanel().getPlayerBoardView().getMarks().isEmpty())
-             popupForDamageMarks = new PopupForDamageMarks( marksBoard, mainFrame, false);
-
-       }
-
-       @Override
-       public void mouseReleased(MouseEvent e) {
-         if(popupForDamageMarks!=null)
-            popupForDamageMarks.getPanelForDamage().setVisible(false);
-
-       }
-
-       @Override
-       public void mouseEntered(MouseEvent e) {
-
-       }
-
-       @Override
-       public void mouseExited(MouseEvent e) {
-
-       }
-    }
 
 
  }

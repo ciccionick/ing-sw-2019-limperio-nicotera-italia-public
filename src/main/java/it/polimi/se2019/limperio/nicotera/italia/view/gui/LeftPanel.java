@@ -35,6 +35,7 @@ import java.util.ArrayList;
         this.mainFrame = mainFrame;
         this.playerBoardView = playerBoardView;
         String use = "USE";
+
         this.setBackground(Color.DARK_GRAY);
         int widthCard;
         int heightCard;
@@ -141,10 +142,7 @@ import java.util.ArrayList;
 
            buttonW1 = new JButton(use);
            GridBagConstraints gbcButtonW1 = new GridBagConstraints();
-           if (weapon1.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
-              buttonW1.setEnabled(true);
-           else
-              buttonW1.setEnabled(false);
+           buttonW1.setEnabled(weapon1.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1());
            gbcButtonW1.insets = new Insets(insetTop / 2, insetLeft * 2, 0, 0);
            gbcButtonW1.gridx = 0;
            gbcButtonW1.gridy = 2;
@@ -155,10 +153,7 @@ import java.util.ArrayList;
 
            buttonW2 = new JButton(use);
            GridBagConstraints gbcButtonW2 = new GridBagConstraints();
-           if (weapon2.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
-              buttonW2.setEnabled(true);
-           else
-              buttonW2.setEnabled(false);
+           buttonW2.setEnabled(weapon2.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1());
            gbcButtonW2.insets = new Insets(insetTop / 2, insetLeft, 0, 0);
            gbcButtonW2.gridx = 1;
            gbcButtonW2.gridy = 2;
@@ -168,10 +163,7 @@ import java.util.ArrayList;
 
            buttonW3 = new JButton(use);
            GridBagConstraints gbcButtonW3 = new GridBagConstraints();
-           if (weapon3.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1())
-              buttonW3.setEnabled(true);
-           else
-              buttonW3.setEnabled(false);
+           buttonW3.setEnabled(weapon3.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1());
            gbcButtonW3.insets = new Insets(insetTop / 2, insetLeft, 0, insetRight);
            gbcButtonW3.gridx = 2;
            gbcButtonW3.gridy = 2;
@@ -181,6 +173,7 @@ import java.util.ArrayList;
 
 
            String powerUpFolderPath = "resources/powerupcards/";
+           String pathOfNoCard = powerUpFolderPath.concat("noCard.png");
 
            powerCard1 = new JLabel("");
            String path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1));
@@ -189,7 +182,7 @@ import java.util.ArrayList;
            newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            powerCard1.setIcon(imageIcon);
-           if (path.equals("resources/powerupcards/noCard.png"))
+           if (path.equals(pathOfNoCard))
               powerCard1.setEnabled(false);
            GridBagConstraints gbcPowerUp1 = new GridBagConstraints();
            gbcPowerUp1.insets = new Insets(insetTop * 2, insetLeft * 2, insetBottom, insetRight);
@@ -207,7 +200,7 @@ import java.util.ArrayList;
            newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            powerCard2.setIcon(imageIcon);
-           if (path.equals("resources/powerupcards/noCard.png"))
+           if (path.equals(pathOfNoCard))
               powerCard2.setEnabled(false);
            GridBagConstraints gbcPowerUp2 = new GridBagConstraints();
            gbcPowerUp2.insets = new Insets(insetTop * 2, insetLeft, insetBottom, insetRight);
@@ -225,7 +218,7 @@ import java.util.ArrayList;
            newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
            imageIcon = new ImageIcon(newimg);
            powerCard3.setIcon(imageIcon);
-           if (path.equals("resources/powerupcards/noCard.png"))
+           if (path.equals(pathOfNoCard))
               powerCard3.setEnabled(false);
            GridBagConstraints gbcPowerUp3 = new GridBagConstraints();
            gbcPowerUp3.insets = new Insets(insetTop * 2, insetLeft, insetBottom, insetRight);
@@ -369,15 +362,15 @@ import java.util.ArrayList;
        return buttonPC3;
     }
 
-     public JButton getButtonW1() {
+      JButton getButtonW1() {
          return buttonW1;
      }
 
-     public JButton getButtonW2() {
+      JButton getButtonW2() {
          return buttonW2;
      }
 
-     public JButton getButtonW3() {
+      JButton getButtonW3() {
          return buttonW3;
      }
 

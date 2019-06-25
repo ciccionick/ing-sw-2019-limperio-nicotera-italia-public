@@ -66,10 +66,6 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
         initializationView = new InitializationView(this);
     }
 
-    public void setMyPlayerBoardView(PlayerBoardView myPlayerBoardView) {
-        this.myPlayerBoardView = myPlayerBoardView;
-    }
-
     public PlayerBoardView getMyPlayerBoardView()
     {
         return myPlayerBoardView;
@@ -107,12 +103,13 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mainFrame.updateNorthPanel();
         }
 
-        if(receivedEvent.isRequestToChooseMultiplePlayers()){
-            mainFrame.handleRequestToChooseMultiplePlayers(receivedEvent);
-        }
-
         if(receivedEvent.isUpdateScoreEvent()){
             mainFrame.showMessage(receivedEvent);
+            if(receivedEvent.isFinalUpdate()){
+                myPlayerBoardView.disableEveryThingPlayerCanDo();
+                mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
+                mainFrame.updateLeftPanelForWhoIsViewing(myPlayerBoardView.getNicknameOfPlayer());
+            }
         }
 
         if(receivedEvent.isRequestSelectionWeaponToReload())
@@ -190,6 +187,8 @@ public class RemoteView extends Observable<ClientEvent> implements Observer<Serv
             mapView.setSelectionForNewton(((RequestSelectionSquareForAction)receivedEvent).isSelectionForNewton());
             mapView.setSelectionBeforeToShoot(((RequestSelectionSquareForAction) receivedEvent).isBeforeToShoot());
             mapView.setSelectionForShootAction(((RequestSelectionSquareForAction)receivedEvent).isForActionShoot());
+            if(((RequestSelectionSquareForAction)receivedEvent).isForActionShoot())
+                mainFrame.getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
             mainFrame.updateEnableSquares(((RequestSelectionSquareForAction) receivedEvent).getSquaresReachable());
             mainFrame.showMessage(receivedEvent);
             mainFrame.updatePanelOfPlayers();

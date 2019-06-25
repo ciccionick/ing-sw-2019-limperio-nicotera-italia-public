@@ -7,39 +7,55 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ *
+ */
  class PopupForKillshotTrack {
+    /**
+     *
+     */
     private JDialog dialog;
+    /**
+     *
+     */
     private JPanel contentPane;
-    private MainFrame mainFrame;
 
-     PopupForKillshotTrack(MainFrame mainFrame, JLabel labelBoard, boolean frenzyMode) {
-        this.mainFrame = mainFrame;
+     /**
+      *
+      * @param mainFrame
+      * @param frenzyMode
+      * @param location
+      */
+     PopupForKillshotTrack(MainFrame mainFrame,  boolean frenzyMode, Point location) {
+
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
         dialog.setAutoRequestFocus(false);
          contentPane = new JPanel(new GridBagLayout());
         contentPane.setBackground(Color.DARK_GRAY);
         dialog.setContentPane(contentPane);
-        int yOffset= (int) (labelBoard.getHeight()/3.5);
-        int xOffset = labelBoard.getWidth()/28;
+        int widthOfLabel = mainFrame.getKillshotTrackPanel().getSkull1().getWidth();
+        int heightOfLabel = mainFrame.getKillshotTrackPanel().getSkull1().getHeight();
 
-        Point location = SwingUtilities.convertPoint(labelBoard, 0, 0, mainFrame.getFrame());
-        dialog.setLocation((int)location.getX()+xOffset, (int)location.getY()+yOffset);
+        int xOffset = widthOfLabel/20;
+        int yOffset = (int) (heightOfLabel/2.6);
+
+        if(frenzyMode){
+            widthOfLabel = mainFrame.getKillshotTrackPanel().getSkull2().getWidth();
+            heightOfLabel = mainFrame.getKillshotTrackPanel().getSkull2().getHeight();
+        }
 
         String folderPath = "resources/playerboards/damage/";
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 0, 16);
+        gbc.insets = new Insets(0, 0, 0, mainFrame.getFrame().getWidth()/120);
 
         ArrayList<ArrayList<ColorOfDeathToken>> listOfToken = mainFrame.getRemoteView().getKillshotTrackView().getTokensOfDeath();
         ArrayList<ColorOfDeathToken> listOfTokenForFrenzyKillShoot = mainFrame.getRemoteView().getKillshotTrackView().getTokenOfFrenzyMode();
-        int width;
-        if(frenzyMode)
-            width = labelBoard.getWidth();
-        else
-            width = labelBoard.getWidth()/12;
-        int height = (labelBoard.getHeight()/3);
+        if(!frenzyMode)
+            widthOfLabel = widthOfLabel/12;
+        heightOfLabel = heightOfLabel/3;
         int numOfToken;
         ColorOfDeathToken firstColor;
         ColorOfDeathToken secondColor;
@@ -57,7 +73,7 @@ import java.util.ArrayList;
                 }
                 JLabel damageIcon = new JLabel();
                 ImageIcon icon = new ImageIcon(path.concat(".png"));
-                Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                Image image = icon.getImage().getScaledInstance(widthOfLabel, heightOfLabel, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 damageIcon.setIcon(icon);
                 contentPane.add(damageIcon, gbc);
@@ -69,7 +85,7 @@ import java.util.ArrayList;
                 path = folderPath.concat(token.toString().toLowerCase()).concat(".png");
                 JLabel damageIcon = new JLabel();
                 ImageIcon icon = new ImageIcon(path);
-                Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                Image image = icon.getImage().getScaledInstance(widthOfLabel, heightOfLabel, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 damageIcon.setIcon(icon);
                 contentPane.add(damageIcon, gbc);
@@ -77,6 +93,7 @@ import java.util.ArrayList;
             }
         }
         dialog.pack();
+        dialog.setLocation((int)location.getX()+xOffset,(int)location.getY()+yOffset);
         dialog.setVisible(true);
     }
 

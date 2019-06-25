@@ -45,8 +45,12 @@ import java.awt.*;
        return panelOfPlayers;
     }
 
-     public GridBagConstraints getGbcPanelOfPlayers() {
+     GridBagConstraints getGbcPanelOfPlayers() {
          return gbcPanelOfPlayers;
+     }
+
+     public void setPanelOfPlayers(PanelOfPlayers panelOfPlayers) {
+         this.panelOfPlayers = panelOfPlayers;
      }
 
      JPanel getPanel() {
@@ -57,11 +61,4 @@ import java.awt.*;
        return panelOfActions;
     }
 
-     int getInsetLeftRight() {
-       return insetLeftRight;
-    }
-
-     int getInsetBottom() {
-       return insetBottom;
-    }
  }

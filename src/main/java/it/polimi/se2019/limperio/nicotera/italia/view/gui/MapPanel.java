@@ -378,6 +378,9 @@ class MapPanel extends JPanel {
                    label.setEnabled(true);
                }
                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
+               mainFrame.getRemoteView().getMapView().setReachableSquares(null);
+               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setEnabled(false);
+               mainFrame.getRightPanel().getPanelOfPlayers().getButtonDisableSelection().setEnabled(false);
                mainFrame.updatePanelOfPlayers();
            }
 
@@ -405,12 +408,12 @@ class MapPanel extends JPanel {
 
       @Override
       public void mouseEntered(MouseEvent e) {
+           //not implemented
       }
 
       @Override
       public void mouseExited(MouseEvent e) {
-
-
+           //not implemented
       }
 
         private void updatePopup(Square square){
@@ -428,11 +431,6 @@ class MapPanel extends JPanel {
                 }
 
         }
-
-
-
-
-
 
    }
 }

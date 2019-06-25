@@ -1,104 +1,132 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.IOException;
 
+
+/**
+ *
+ */
 class FrameForRequestIP {
 
+    /**
+     *
+     */
     private JFrame frame;
-    private Client client;
+    /**
+     *
+     */
     private JTextField textField;
+    /**
+     *
+     */
     private JLabel labelText;
+    /**
+     *
+     */
     private JPanel centralPanel;
+    /**
+     *
+     */
     private JButton buttonOK;
 
+    /**
+     *
+     * @param client
+     */
      FrameForRequestIP(Client client) {
-        this.client = client;
-        JFrame frameForRequestIP = new JFrame("Adrenaline - Request IP");
-        this.frame = frameForRequestIP;
-        frame.addWindowListener(new ListenerForClosing(client, frame));
-        frameForRequestIP.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
+         JFrame frameForRequestIP = new JFrame("Adrenaline - Request IP");
+         this.frame = frameForRequestIP;
+         frame.addWindowListener(new ListenerForClosing(frame));
+         frameForRequestIP.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
 
-        Dimension dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        frameForRequestIP.setSize((int)(dimensionOfScreen.getWidth()/3.2), (int)(dimensionOfScreen.getHeight()/3.6) );
-        frameForRequestIP.setLocation((int) (dimensionOfScreen.getWidth() - frameForRequestIP.getWidth()) / 2,
-                (int) (dimensionOfScreen.getHeight() - frameForRequestIP.getHeight()) / 2);
-        frameForRequestIP.setResizable(false);
-        frameForRequestIP.setContentPane(new JPanel(new BorderLayout()));
-        centralPanel = new JPanel(new GridBagLayout());
-        frameForRequestIP.getContentPane().add(centralPanel, BorderLayout.CENTER);
+         Dimension dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
+         frameForRequestIP.setResizable(false);
+         JPanel contentPanel = new JPanel(new BorderLayout());
+         frameForRequestIP.getContentPane().add(contentPanel);
+         int horizontalBorder = (int) (dimensionOfScreen.getHeight()/21.6);
+         int verticalBorder = (int) (dimensionOfScreen.getWidth()/19.2);
+         contentPanel.setBorder(new EmptyBorder(horizontalBorder,verticalBorder,horizontalBorder,verticalBorder));
 
-        labelText = new JLabel("Digit the IP address of the server do you want to connect with");
-        labelText.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbcText = new GridBagConstraints();
-        gbcText.gridx=0;
-        gbcText.gridy=0;
-        centralPanel.add(labelText,gbcText);
+         centralPanel = new JPanel(new GridBagLayout());
+         contentPanel.add(centralPanel, BorderLayout.CENTER);
 
-        textField = new JTextField();
-        textField.setHorizontalAlignment(SwingConstants.CENTER);
-        textField.setColumns(20);
-        GridBagConstraints gbcTextField = new GridBagConstraints();
-        gbcTextField.gridx=0;
-        gbcTextField.gridy=1;
+         labelText = new JLabel("Digit the IP address of the server do you want to connect with");
+         labelText.setHorizontalAlignment(SwingConstants.CENTER);
+         GridBagConstraints gbcText = new GridBagConstraints();
+         gbcText.gridx = 0;
+         gbcText.gridy = 0;
+         centralPanel.add(labelText, gbcText);
 
-        gbcTextField.insets = new Insets(50, 0, 0, 0);
-        centralPanel.add(textField,gbcTextField);
+         textField = new JTextField();
+         textField.setHorizontalAlignment(SwingConstants.CENTER);
+         textField.setColumns(20);
+         GridBagConstraints gbcTextField = new GridBagConstraints();
+         gbcTextField.gridx = 0;
+         gbcTextField.gridy = 1;
 
-        buttonOK = new JButton("Connect");
-        buttonOK.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbcButton = new GridBagConstraints();
-        gbcButton.gridx=0;
-        gbcButton.gridy=2;
-        gbcButton.insets = new Insets(50, 0, 0, 0);
-        centralPanel.add(buttonOK,gbcButton);
-        buttonOK.addActionListener(new ListenerForIPAddress(client, this, frameForRequestIP));
 
-        frameForRequestIP.setVisible(true);
-    }
+         gbcTextField.insets = new Insets(horizontalBorder, 0, 0, 0);
+         centralPanel.add(textField, gbcTextField);
 
-    public JPanel getCentralPanel() {
-        return centralPanel;
-    }
+         buttonOK = new JButton("Connect");
+         buttonOK.setHorizontalAlignment(SwingConstants.CENTER);
+         GridBagConstraints gbcButton = new GridBagConstraints();
+         gbcButton.gridx = 0;
+         gbcButton.gridy = 2;
+         gbcButton.insets = new Insets(horizontalBorder, 0, 0, 0);
+         centralPanel.add(buttonOK, gbcButton);
+         ListenerForIPAddress listenerForIPAddress = new ListenerForIPAddress(client, this.getFrame());
+         buttonOK.addActionListener(listenerForIPAddress);
+         frameForRequestIP.addKeyListener(listenerForIPAddress);
+         textField.addKeyListener(listenerForIPAddress);
 
-    JTextField getTextField() {
-         return textField;
+         frameForRequestIP.pack();
+         frameForRequestIP.setLocation((int) (dimensionOfScreen.getWidth() - frameForRequestIP.getWidth()) / 2,
+                 (int) (dimensionOfScreen.getHeight() - frameForRequestIP.getHeight()) / 2);
+
+         frameForRequestIP.setVisible(true);
      }
+
 
     public JFrame getFrame() {
         return frame;
     }
 
-    public JLabel getLabelText() {
-        return labelText;
-    }
+    /**
+     *
+     */
+    class ListenerForIPAddress implements ActionListener, KeyListener {
 
-    public JButton getButtonOK() {
-        return buttonOK;
-    }
-
-    class ListenerForIPAddress implements ActionListener {
-
+        /**
+         *
+         */
         private JFrame frame;
+        /**
+         *
+         */
         private Client client;
-        private FrameForRequestIP frameForRequestIP;
 
-        ListenerForIPAddress(Client client, FrameForRequestIP frameForRequestIP, JFrame frame) {
+        ListenerForIPAddress(Client client, JFrame frame) {
 
             this.client = client;
             this.frame = frame;
-            this.frameForRequestIP = frameForRequestIP;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            sendIpAddress();
+        }
+
+        /**
+         *
+         */
+        private void sendIpAddress(){
             buttonOK.setEnabled(false);
-            client.setIpAddress(frameForRequestIP.getTextField().getText());
+            client.setIpAddress(textField.getText());
             frame.setVisible(false);
             try {
                 client.handleConnectionWithServer();
@@ -108,23 +136,38 @@ class FrameForRequestIP {
         }
 
 
+        @Override
+        public void keyTyped(KeyEvent e) {
+            //not implemented
+        }
 
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                sendIpAddress();
+            }
+        }
 
+        @Override
+        public void keyReleased(KeyEvent e) {
+            //not implemented
+        }
     }
 
+    /**
+     *
+     */
     class ListenerForClosing implements WindowListener {
 
-         private Client client;
          private Frame frame;
 
-         ListenerForClosing(Client client, Frame frame) {
-            this.client = client;
+         ListenerForClosing(Frame frame) {
             this.frame = frame;
         }
 
         @Override
         public void windowOpened(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
@@ -135,27 +178,27 @@ class FrameForRequestIP {
 
         @Override
         public void windowClosed(WindowEvent e) {
-
+             //not implemented
         }
 
         @Override
         public void windowIconified(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void windowDeiconified(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void windowActivated(WindowEvent e) {
-
+             //not implemented
         }
 
         @Override
         public void windowDeactivated(WindowEvent e) {
-
+            //not implemented
         }
     }
 

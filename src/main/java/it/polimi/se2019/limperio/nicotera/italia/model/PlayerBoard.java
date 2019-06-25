@@ -39,11 +39,12 @@ public class PlayerBoard implements Serializable, Cloneable {
         scoreBarForFrenzyMode.add(1);
         scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
-      /*  if(nicknameOfPlayer.equals("pietro")) {
-            for (int i = 0; i < 10; i++) {
-                damages.add(ColorOfFigure_Square.YELLOW);
+            for (int i = 0; i < 9; i++) {
+                if(nicknameOfPlayer.equals("Pietro"))
+                    damages.add(ColorOfFigure_Square.BLUE);
+                else
+                    damages.add(ColorOfFigure_Square.YELLOW);
             }
-        }*/
 
 
         marks = new ArrayList<>();
@@ -61,7 +62,7 @@ public class PlayerBoard implements Serializable, Cloneable {
     }
 
     public Object clone(){
-        PlayerBoard playerBoard = null;
+        PlayerBoard playerBoard;
         try{
             playerBoard = (PlayerBoard) super.clone();
         } catch (CloneNotSupportedException e) {
@@ -110,22 +111,12 @@ public class PlayerBoard implements Serializable, Cloneable {
     }
 
 
-
-    /**
-     * Cleans the board from damages when a player dies
-     */
-    public void cleanPlayerBoard(){
-        damages.clear();
-    }
-
     /**
      * Checks if the player is dead
      * @return true if the damages are more than 9
      */
-    public boolean isDeath(){
-        if(getDamages().size()>9)
-            return true;
-        return false;
+    boolean isDeath(){
+        return damages.size()>9;
     }
 
     public boolean isFrenzyBoardPlayer() {
@@ -133,12 +124,8 @@ public class PlayerBoard implements Serializable, Cloneable {
     }
 
 
-    public int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
+     int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
         return Collections.frequency(marks, color);
-    }
-
-    public void removeMarkOfOneColor(ColorOfFigure_Square color){
-        this.marks.removeAll(Collections.singleton(color));
     }
 
     public void setFrenzyBoardPlayer(boolean frenzyBoardPlayer) {
@@ -170,17 +157,10 @@ public class PlayerBoard implements Serializable, Cloneable {
         return scoreBarForNormalMode;
     }
 
-    public void setScoreBarForNormalMode(ArrayList<Integer> scoreBarForNormalMode) {
-        this.scoreBarForNormalMode = scoreBarForNormalMode;
-    }
-
     public ArrayList<Integer> getScoreBarForFrenzyMode() {
         return scoreBarForFrenzyMode;
     }
 
-    public void setScoreBarForFrenzyMode(ArrayList<Integer> scoreBarForFrenzyMode) {
-        this.scoreBarForFrenzyMode = scoreBarForFrenzyMode;
-    }
 
     public void setDamages(ArrayList<ColorOfFigure_Square> damages) {
         this.damages = damages;

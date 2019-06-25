@@ -190,7 +190,7 @@ public class Map implements Serializable, Cloneable {
         matrixOfSquares[1][2].setCardinalSquare(matrixOfSquares[0][2] , null, matrixOfSquares[1][1], matrixOfSquares[1][3]);
         matrixOfSquares[1][3].setCardinalSquare(null, matrixOfSquares[2][3], matrixOfSquares[1][2],  null);
         matrixOfSquares[2][1].setCardinalSquare(null, matrixOfSquares[1][1], null, matrixOfSquares[2][2] );
-        matrixOfSquares[2][2].setCardinalSquare(null, null, matrixOfSquares[2][1], matrixOfSquares[2][3] );
+        matrixOfSquares[2][2].setCardinalSquare(matrixOfSquares[1][2], null, matrixOfSquares[2][1], matrixOfSquares[2][3] );
         matrixOfSquares[2][3].setCardinalSquare(matrixOfSquares[1][3], null, matrixOfSquares[2][2], null);
     }
 
@@ -203,7 +203,7 @@ public class Map implements Serializable, Cloneable {
         matrixOfSquares[0][2].setCardinalSquare(null,matrixOfSquares[1][2] , matrixOfSquares[0][1], matrixOfSquares[0][3]);
         matrixOfSquares[0][3].setCardinalSquare(null,matrixOfSquares[1][3] , matrixOfSquares[0][2], null);
         matrixOfSquares[1][0].setCardinalSquare(matrixOfSquares[0][0], null, null, matrixOfSquares[1][1] );
-        matrixOfSquares[1][1].setCardinalSquare(matrixOfSquares[0][1], matrixOfSquares[2][1], matrixOfSquares[1][0], matrixOfSquares[1][2] );
+        matrixOfSquares[1][1].setCardinalSquare(null, matrixOfSquares[2][1], matrixOfSquares[1][0], null );
         matrixOfSquares[1][2].setCardinalSquare(matrixOfSquares[0][2] , matrixOfSquares[2][2], null, matrixOfSquares[1][3]);
         matrixOfSquares[1][3].setCardinalSquare(matrixOfSquares[0][3], matrixOfSquares[2][3], matrixOfSquares[1][2],  null);
         matrixOfSquares[2][1].setCardinalSquare(null, matrixOfSquares[1][1], null, matrixOfSquares[2][2] );

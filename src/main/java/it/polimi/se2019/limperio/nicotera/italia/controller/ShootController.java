@@ -834,8 +834,13 @@ public class ShootController {
         }
 
         if(playersCouldUseTagback.isEmpty()){
-            if(isForTerminator && playersAttacked.get(0).getPlayerBoard().getDamages().size()>=11 )
-                controller.getDeathController().handleDeath(player, playersAttacked.get(0));
+            if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
+                for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
+                    controller.getDeathController().handleDeath(player, playerDead);
+                }
+
+                controller.handleTheEndOfAnAction(false);
+            }
             else
                 controller.handleTheEndOfAnAction(false);
         }
@@ -1029,8 +1034,14 @@ public class ShootController {
         if(message.getNameOfPowerUpCard()==null){
             playersAreChoosingForTagback.remove(playerWithTagback);
             if(playersAreChoosingForTagback.isEmpty()) {
-                if(isForTerminator && playersAttacked.get(0).getPlayerBoard().getDamages().size()>=11)
-                    controller.getDeathController().handleDeath(playerToAttack, playersAttacked.get(0));
+                if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
+                    for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
+                        if (isForTerminator)
+                            controller.getDeathController().handleDeath(controller.findPlayerWithThisNickname("terminator"),playerDead);
+                        controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
+                    }
+                 controller.handleTheEndOfAnAction(false);
+                }
                 else
                     controller.handleTheEndOfAnAction(false);
             }
@@ -1048,9 +1059,15 @@ public class ShootController {
                 }
             }
             playersAreChoosingForTagback.remove(playerWithTagback);
-            if(playersAreChoosingForTagback.isEmpty()){
-                if(isForTerminator && playersAttacked.get(0).getPlayerBoard().getDamages().size()>=11)
-                    controller.getDeathController().handleDeath(playerToAttack, playersAttacked.get(0));
+            if(playersAreChoosingForTagback.isEmpty()) {
+                if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
+                    for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
+                        if (isForTerminator)
+                            controller.getDeathController().handleDeath(controller.findPlayerWithThisNickname("terminator"),playerDead);
+                        controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
+                    }
+                    controller.handleTheEndOfAnAction(false);
+                }
                 else
                     controller.handleTheEndOfAnAction(false);
             }

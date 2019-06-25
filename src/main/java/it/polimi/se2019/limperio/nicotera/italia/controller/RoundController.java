@@ -192,6 +192,7 @@ public class RoundController {
         updateScoreEvent.setUpdateScoreEvent(true);
         updateScoreEvent.setNicknames(game.getListOfNickname());
         if (finalUpdate) {
+            updateScoreEvent.setFinalUpdate(true);
             updateScoreEvent.setNicknameInvolved(game.getPlayers().get(0).getNickname());
             String messageForInvolved = "Congratulations, You have won!\n";
             messageForInvolved = messageForInvolved.concat(message);
@@ -235,7 +236,7 @@ public class RoundController {
 
 
     private boolean isPassingFromNormalToFrenzyMode() {
-        return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
+        return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()-1).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
     }
 
     public void handleEndOfGame() {
@@ -254,7 +255,7 @@ public class RoundController {
             if(!player.getPlayerBoard().getDamages().isEmpty())
                 countScoreForPlayerDeath(player);
         int i=0;
-        for(Player player :game.getPlayers()) {
+        for(Player player : game.getPlayers()) {
             player.updateScore(scoreForPlayers.get(i));
             i++;
         }
@@ -284,6 +285,7 @@ public class RoundController {
     private HashMap<ColorOfFigure_Square, Integer> countFrequencyOfDamageInKillShotTrack() {
         ArrayList<ArrayList<ColorOfDeathToken>> damageForNormalMode = game.getBoard().getKillShotTrack().getTokensOfDeath();
         ArrayList<ColorOfDeathToken> damageForFrenzyMode = game.getBoard().getKillShotTrack().getTokenOfFrenzyMode();
+
         ArrayList<ColorOfFigure_Square> damage = convertDamageFromKillshotTrack(damageForNormalMode);
 
         if(!damageForFrenzyMode.isEmpty()){
@@ -324,6 +326,8 @@ public class RoundController {
                 return ColorOfFigure_Square.YELLOW;
             case "GREY":
                 return ColorOfFigure_Square.GREY;
+            case "SKULL":
+                return null;
                 default:
                     throw new IllegalArgumentException();
         }
@@ -440,7 +444,7 @@ public class RoundController {
         throw new IllegalArgumentException();
     }
 
-    private ArrayList<Player> getPlayersDeadInThisTurn() {
+     ArrayList<Player> getPlayersDeadInThisTurn() {
         ArrayList<Player> deadPlayers = new ArrayList<>();
         for(Player player : game.getPlayers()){
             if(player.isDead())

@@ -21,7 +21,6 @@ public class MainFrame {
     private RightPanel rightPanel;
     private MapPanel mapPanel;
     private KillshotTrackPanel killshotTrackPanel;
-    private DialogForMessage dialogForMessage;
     private PopupForChooseWeaponCard popupForChooseWeaponCardToCatch;
 
 
@@ -30,9 +29,9 @@ public class MainFrame {
         frame = new JFrame("Adrenaline");
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()) );
+        frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(new Dimension(1470,900) );
+        frame.setMinimumSize(new Dimension(1470, 900));
 
 
         contentPane = new JPanel();
@@ -42,12 +41,13 @@ public class MainFrame {
 
 
         mapPanel = new MapPanel(this);
-        contentPane.add(mapPanel,BorderLayout.CENTER);
+        contentPane.add(mapPanel, BorderLayout.CENTER);
 
         killshotTrackPanel = new KillshotTrackPanel(this);
         contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
 
-        leftPanel = new LeftPanel(this,remoteView.getMyPlayerBoardView());
+
+        leftPanel = new LeftPanel(this, remoteView.getMyPlayerBoardView());
         contentPane.add(leftPanel, BorderLayout.WEST);
 
         rightPanel = new RightPanel(this);
@@ -58,78 +58,91 @@ public class MainFrame {
     RemoteView getRemoteView() {
         return remoteView;
     }
+
     JFrame getFrame() {
         return frame;
     }
+
     void setLeftPanel(LeftPanel leftPanel) {
         this.leftPanel = leftPanel;
     }
+
     LeftPanel getLeftPanel() {
         return leftPanel;
     }
+
     MapPanel getMapPanel() {
         return mapPanel;
     }
 
 
-
     public void showMessage(ServerEvent receivedEvent) {
-        dialogForMessage = new DialogForMessage(this, receivedEvent);
+        new DialogForMessage(this, receivedEvent);
     }
 
-     public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
-        new PopupForDiscardPowerUp( this, receivedEvent);
+    public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
+        new PopupForDiscardPowerUp(this, receivedEvent);
     }
 
 
-
-
-     public void updateLeftPanelForWhoIsViewing(String nicknameOfThePlayerInvolvedInTheUpdate) {
-        if(leftPanel.getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(nicknameOfThePlayerInvolvedInTheUpdate)){
+    public void updateLeftPanelForWhoIsViewing(String nicknameOfThePlayerInvolvedInTheUpdate) {
+        if (leftPanel.getPlayerBoardPanel().getPlayerBoardViewed().getNicknameOfPlayer().equals(nicknameOfThePlayerInvolvedInTheUpdate)) {
+            if (leftPanel.getPlayerBoardPanel().getDialogForDamage() != null)
+                leftPanel.getPlayerBoardPanel().getDialogForDamage().setVisible(false);
+            if (leftPanel.getPlayerBoardPanel().getDialogForMarks() != null)
+                leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
             LeftPanel newLeftPanel = new LeftPanel(this, remoteView.getPlayerBoardViewOfThisPlayer(nicknameOfThePlayerInvolvedInTheUpdate));
             contentPane.remove(leftPanel);
-            contentPane.add(newLeftPanel,BorderLayout.WEST);
-            leftPanel= newLeftPanel;
+            contentPane.add(newLeftPanel, BorderLayout.WEST);
+            leftPanel = newLeftPanel;
             contentPane.validate();
             contentPane.repaint();
+            leftPanel.getPlayerBoardPanel().addDialogForDamage();
+            leftPanel.getPlayerBoardPanel().addDialogForMarks();
         }
-     }
-
-     public void updatePanelOfAction() {
-        rightPanel.getPanelOfActions().updateStateOfButton();
-     }
-
-     public void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {
-        mapPanel.updateEnableSquares(squaresReachableWithRunAction);
-     }
-
-    public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
-        if(receivedEvent.isRequestForChooseAWeaponToCatch())
-            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
-        if(receivedEvent.isRequestToDiscardWeaponCard())
-            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
-        if(receivedEvent.isRequestSelectionWeaponToReload())
-            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent,this);
     }
 
-    public void hidePopup(){
-        if (popupForChooseWeaponCardToCatch!=null)
+    public void updatePanelOfAction() {
+        rightPanel.getPanelOfActions().updateStateOfButton();
+    }
+
+    public void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {
+        mapPanel.updateEnableSquares(squaresReachableWithRunAction);
+    }
+
+    public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
+        if (receivedEvent.isRequestForChooseAWeaponToCatch())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent, this);
+        if (receivedEvent.isRequestToDiscardWeaponCard())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent, this);
+        if (receivedEvent.isRequestSelectionWeaponToReload())
+            popupForChooseWeaponCardToCatch = new PopupForChooseWeaponCard(receivedEvent, this);
+    }
+
+    public void hidePopup() {
+        if (popupForChooseWeaponCardToCatch != null)
             popupForChooseWeaponCardToCatch.getPopupForChooseW().setVisible(false);
     }
 
-    public void updateFigureOnMap(){
+    public void updateFigureOnMap() {
         mapPanel.addFigureOnSquare(this);
     }
 
     public void updateNorthPanel() {
         contentPane.remove(killshotTrackPanel);
         killshotTrackPanel = new KillshotTrackPanel(this);
-        contentPane.add(killshotTrackPanel,BorderLayout.NORTH);
+        contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
         contentPane.validate();
         contentPane.repaint();
+        if (killshotTrackPanel.getDialogForNormalSkull() != null)
+            killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
+        if (killshotTrackPanel.getDialogForFrenzySkull() != null)
+            killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+        killshotTrackPanel.addDialogForNormalKillshot();
+        killshotTrackPanel.addDialogForFrenzyKillshot();
     }
 
-     public RightPanel getRightPanel() {
+    public RightPanel getRightPanel() {
         return rightPanel;
     }
 
@@ -138,9 +151,10 @@ public class MainFrame {
         popupForChooseEffect.getDialog().setVisible(true);
     }
 
-    public void updatePanelOfPlayers(){
+    public void updatePanelOfPlayers() {
         rightPanel.getPanel().remove(rightPanel.getPanelOfPlayers());
-        rightPanel.getPanel().add(new PanelOfPlayers(this),rightPanel.getGbcPanelOfPlayers());
+        rightPanel.setPanelOfPlayers(new PanelOfPlayers(this));
+        rightPanel.getPanel().add(rightPanel.getPanelOfPlayers(), rightPanel.getGbcPanelOfPlayers());
         contentPane.validate();
         contentPane.repaint();
 
@@ -154,8 +168,30 @@ public class MainFrame {
         new PopupToChooseAPlayer(this, receivedEvent);
     }
 
+    KillshotTrackPanel getKillshotTrackPanel() {
+        return killshotTrackPanel;
+    }
+
     public void handleRequestToChooseMultiplePlayers(ServerEvent receivedEvent) {
         new PopupToChooseMultiplePlayers(receivedEvent, this);
+    }
+
+    int resizeInFunctionOfScreen(boolean height, int originalSize) {
+        int sizeOfReference;
+        if (height)
+            sizeOfReference = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+        else
+            sizeOfReference = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+        return sizeOfReference / originalSize;
+    }
+
+    int resizeInFunctionOfFrame(boolean height, int originalSize){
+        int sizeOfReference;
+        if(height)
+            sizeOfReference = frame.getHeight();
+        else
+            sizeOfReference = frame.getWidth();
+        return sizeOfReference/originalSize;
     }
 
 
@@ -193,17 +229,17 @@ public class MainFrame {
 
         @Override
         public void componentMoved(ComponentEvent e) {
-
+            //not interested in this event
         }
 
         @Override
         public void componentShown(ComponentEvent e) {
-
+            //not interested in this event
         }
 
         @Override
         public void componentHidden(ComponentEvent e) {
-
+            //not interested in this event
         }
     }
 }

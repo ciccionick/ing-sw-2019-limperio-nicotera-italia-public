@@ -1,10 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.KillshotTrackEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-
 import java.util.ArrayList;
 
 class DeathController {
@@ -21,12 +19,12 @@ class DeathController {
          String messageForInvolved;
          String messageForOthers;
          if(deadPlayer.getPlayerBoard().getDamages().size()==11){
-             messageForInvolved = "You have been attacked and killed by " + killerPlayer.getNickname();
-             messageForOthers = deadPlayer.getNickname() + " has been attacked and killed by " + killerPlayer.getNickname();
+             messageForInvolved = "You have been killed by " + killerPlayer.getNickname();
+             messageForOthers = deadPlayer.getNickname() + " has been killed by " + killerPlayer.getNickname();
          }
          else{
-             messageForInvolved = "You have been attacked and overkilled by " + killerPlayer.getNickname();
-             messageForOthers = deadPlayer.getNickname() + " has been attacked and overkilled by " + killerPlayer.getNickname();
+             messageForInvolved = "You have been overkilled by " + killerPlayer.getNickname();
+             messageForOthers = deadPlayer.getNickname() + " has overkilled by " + killerPlayer.getNickname();
          }
          PlayerBoardEvent pbEvent = new PlayerBoardEvent();
          pbEvent.setNicknameInvolved(deadPlayer.getNickname());
@@ -48,19 +46,18 @@ class DeathController {
          }
          else{
              if(deadPlayer.getPlayerBoard().getDamages().size()==11){
-                 game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
+                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
              }
              else {
                  killerPlayer.assignMarks(deadPlayer.getColorOfFigure(), 1);
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
-
              }
          }
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());
          killshotTrackEvent.setNicknames(game.getListOfNickname());
          game.notify(killshotTrackEvent);
-         game.setHasToDoTerminatorAction(false);
-         if(!game.isAnticipatedFrenzy() && !game.getBoard().getKillShotTrack().getTokensOfDeath().get(7).get(0).equals(ColorOfDeathToken.SKULL)) {
+
+         if(!game.isAnticipatedFrenzy() && !game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()-1).get(0).equals(ColorOfDeathToken.SKULL)) {
              ArrayList<Player> deadPlayers = new ArrayList<>();
              for(Player player : game.getPlayers()){
                  if (player.isDead())

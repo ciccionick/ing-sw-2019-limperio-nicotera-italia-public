@@ -9,26 +9,48 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 class PopupForDamageMarks {
+    /**
+     *
+     */
     private JDialog dialog;
+    /**
+     *
+     */
     private JPanel contentPane;
 
-
-     PopupForDamageMarks(JLabel labelBoard, MainFrame mainFrame, boolean forDamage) {
+    /**
+     *
+     * @param mainFrame
+     * @param forDamage
+     * @param location
+     */
+     PopupForDamageMarks(MainFrame mainFrame, boolean forDamage, Point location) {
          dialog = new JDialog(mainFrame.getFrame());
          contentPane = new JPanel(new GridBagLayout());
          dialog.setContentPane(contentPane);
-         int yOffset = 0;
-         if(!forDamage)
-             yOffset=10;
-         Point location = SwingUtilities.convertPoint(labelBoard, 0,0, mainFrame.getFrame());
-         dialog.setLocation((int)location.getX()-10, (int)location.getY()-yOffset);
+         JLabel labelBoard;
+         int yOffset;
+         if(forDamage){
+             labelBoard = mainFrame.getLeftPanel().getPlayerBoardPanel().getCell11();
+             yOffset = labelBoard.getHeight()/4;
+         }
+         else {
+             labelBoard = mainFrame.getLeftPanel().getPlayerBoardPanel().getCell07();
+             yOffset = labelBoard.getHeight()/5;
+         }
+
+         dialog.setLocation((int)location.getX(), (int)location.getY()+yOffset);
          dialog.setUndecorated(true);
          dialog.setAutoRequestFocus(false);
-         //dialog.setGlassPane(mainFrame.getFrame().getGlassPane());
-         //contentPane.setOpaque(false);
+         dialog.setAlwaysOnTop(false);
          contentPane.setBackground(Color.DARK_GRAY);
+
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
+
          String folderPath = "resources/playerboards/damage/";
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
@@ -60,9 +82,7 @@ class PopupForDamageMarks {
          dialog.setVisible(true);
      }
 
-
-
-     JDialog getPanelForDamage() {
+     JDialog getDialog() {
         return dialog;
     }
 

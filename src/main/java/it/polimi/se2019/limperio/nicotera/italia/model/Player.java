@@ -314,6 +314,10 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         card.setLoad(true);
     }
 
+    public void setOverSixDamage(boolean overSixDamage) {
+        isOverSixDamage = overSixDamage;
+    }
+
     @Override
     public int compareTo(Player o) {
         int result;

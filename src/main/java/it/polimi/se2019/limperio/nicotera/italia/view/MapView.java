@@ -102,6 +102,8 @@ public class MapView {
         isSelectionBeforeToShoot = selectionBeforeToShoot;
     }
 
+
+
     public int getTypeOfMap() {
         return typeOfMap;
     }
@@ -155,7 +157,7 @@ public class MapView {
         return reachableSquares;
     }
 
-     void setReachableSquares(ArrayList<Square> reachableSquares) {
+     public void setReachableSquares(ArrayList<Square> reachableSquares) {
         this.reachableSquares = reachableSquares;
     }
 

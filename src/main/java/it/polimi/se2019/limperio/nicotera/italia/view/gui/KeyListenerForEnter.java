@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.view.InitializationView;
-
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,14 +11,14 @@ public class KeyListenerForEnter implements KeyListener {
     private InitializationView initializationView;
     private FrameForInitialization frameForInitialization;
 
-    public KeyListenerForEnter(FrameForInitialization frameForInitialization, InitializationView initializationView) {
+     KeyListenerForEnter(FrameForInitialization frameForInitialization, InitializationView initializationView) {
         this.initializationView = initializationView;
         this.frameForInitialization = frameForInitialization;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        //not implemented
     }
 
     @Override
@@ -37,6 +36,6 @@ public class KeyListenerForEnter implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        //not implemented
     }
 }

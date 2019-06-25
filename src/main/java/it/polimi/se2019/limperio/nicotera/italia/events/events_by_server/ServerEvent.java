@@ -62,6 +62,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestToChooseAPlayer = false;
     private boolean isRequestSelectionWeaponToReload = false;
     private boolean isRequestToChooseMultiplePlayers = false;
+    private boolean isFinalUpdate = false;
 
 
     private int numOfAction;
@@ -86,7 +87,7 @@ public class ServerEvent implements Serializable {
         return isRequestSelectionWeaponToReload;
     }
 
-    public void setRequestSelectionWeaponToReload(boolean requestSelectionWeaponToReload) {
+     void setRequestSelectionWeaponToReload(boolean requestSelectionWeaponToReload) {
         isRequestSelectionWeaponToReload = requestSelectionWeaponToReload;
     }
 
@@ -94,19 +95,27 @@ public class ServerEvent implements Serializable {
         return isRequestToChooseMultiplePlayers;
     }
 
-    public void setRequestToChooseMultiplePlayers(boolean requestToChooseMultiplePlayers) {
+    void setRequestToChooseMultiplePlayers(boolean requestToChooseMultiplePlayers) {
         isRequestToChooseMultiplePlayers = requestToChooseMultiplePlayers;
     }
 
-    public void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {
+    void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {
         isRequestToSelectionPlayerToAttackWithTerminator = requestToSelectionPlayerToAttackWithTerminator;
+    }
+
+    public boolean isCatchActionDone() {
+        return isCatchActionDone;
+    }
+
+    public void setCatchActionDone(boolean catchActionDone) {
+        isCatchActionDone = catchActionDone;
     }
 
     public boolean isRequestToPayWithAmmoOrPUCard() {
         return isRequestToPayWithAmmoOrPUCard;
     }
 
-    public void setRequestToPayWithAmmoOrPUCard(boolean requestToPayWithAmmoOrPUCard) {
+    void setRequestToPayWithAmmoOrPUCard(boolean requestToPayWithAmmoOrPUCard) {
         isRequestToPayWithAmmoOrPUCard = requestToPayWithAmmoOrPUCard;
     }
 
@@ -114,8 +123,16 @@ public class ServerEvent implements Serializable {
         return isRequestToChooseAPlayer;
     }
 
-    public void setRequestToChooseAPlayer(boolean requestToChooseAPlayer) {
+    void setRequestToChooseAPlayer(boolean requestToChooseAPlayer) {
         isRequestToChooseAPlayer = requestToChooseAPlayer;
+    }
+
+    public boolean isFinalUpdate() {
+        return isFinalUpdate;
+    }
+
+    public void setFinalUpdate(boolean finalUpdate) {
+        isFinalUpdate = finalUpdate;
     }
 
     public String getMessageForInvolved() {
@@ -134,7 +151,7 @@ public class ServerEvent implements Serializable {
         return isRequestToDiscardPowerUpCardToPay;
     }
 
-    public void setRequestToDiscardPowerUpCardToPay(boolean requestToDiscardPowerUpCardToPay) {
+     void setRequestToDiscardPowerUpCardToPay(boolean requestToDiscardPowerUpCardToPay) {
         isRequestToDiscardPowerUpCardToPay = requestToDiscardPowerUpCardToPay;
     }
 
@@ -157,10 +174,6 @@ public class ServerEvent implements Serializable {
 
     public void setNicknameInvolved(String nicknameInvolved) {
         this.nicknameInvolved = nicknameInvolved;
-    }
-
-    public int getNumOfMaxAction() {
-        return numOfMaxAction;
     }
 
     public void setNumOfMaxAction(int numOfMaxAction) {
@@ -195,7 +208,7 @@ public class ServerEvent implements Serializable {
         return isRequestToChooseWeapon;
     }
 
-    public void setRequestToChooseWeapon(boolean requestToChooseWeapon) {
+    void setRequestToChooseWeapon(boolean requestToChooseWeapon) {
         isRequestToChooseWeapon = requestToChooseWeapon;
     }
 
@@ -203,7 +216,7 @@ public class ServerEvent implements Serializable {
         return isRequestToChooseAnEffect;
     }
 
-    public void setRequestToChooseAnEffect(boolean requestToChooseAnEffect) {
+    void setRequestToChooseAnEffect(boolean requestToChooseAnEffect) {
         isRequestToChooseAnEffect = requestToChooseAnEffect;
     }
 
@@ -217,10 +230,6 @@ public class ServerEvent implements Serializable {
 
     public void setRequestActionEvent(boolean requestActionEvent) {
         isRequestActionEvent = requestActionEvent;
-    }
-
-    public void setFinished(boolean finished) {
-        isFinished = finished;
     }
 
     public boolean isKillshotTrackEvent() {
@@ -267,17 +276,10 @@ public class ServerEvent implements Serializable {
         return isRequestForChooseAWeaponToCatch;
     }
 
-    public void setRequestForChooseAWeaponToCatch(boolean requestForChooseAWeaponToCatch) {
+    void setRequestForChooseAWeaponToCatch(boolean requestForChooseAWeaponToCatch) {
         isRequestForChooseAWeaponToCatch = requestForChooseAWeaponToCatch;
     }
 
-    public boolean isCatchActionDone() {
-        return isCatchActionDone;
-    }
-
-    public void setCatchActionDone(boolean catchActionDone) {
-        isCatchActionDone = catchActionDone;
-    }
 
     public int getNumOfAction() {
         return numOfAction;
@@ -291,7 +293,7 @@ public class ServerEvent implements Serializable {
         return isRequestSelectionSquareForAction;
     }
 
-    public void setRequestSelectionSquareForAction(boolean requestSelectionSquareForAction) {
+    void setRequestSelectionSquareForAction(boolean requestSelectionSquareForAction) {
         isRequestSelectionSquareForAction = requestSelectionSquareForAction;
     }
 
@@ -313,7 +315,7 @@ public class ServerEvent implements Serializable {
         return isRequestToDiscardWeaponCard;
     }
 
-    public void setRequestToDiscardWeaponCard(boolean requestToDiscardWeaponCard) {
+    void setRequestToDiscardWeaponCard(boolean requestToDiscardWeaponCard) {
         isRequestToDiscardWeaponCard = requestToDiscardWeaponCard;
     }
 
@@ -325,9 +327,10 @@ public class ServerEvent implements Serializable {
         return isRequestToChooseTerminatorAction;
     }
 
-    public void setRequestToChooseTerminatorAction(boolean requestToChooseTerminatorAction) {
+    void setRequestToChooseTerminatorAction(boolean requestToChooseTerminatorAction) {
         isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
     }
+
 
 
 
@@ -381,7 +384,7 @@ public class ServerEvent implements Serializable {
             return isLoaded;
         }
 
-        public void setLoaded(boolean loaded) {
+        void setLoaded(boolean loaded) {
             isLoaded = loaded;
         }
 
@@ -389,7 +392,7 @@ public class ServerEvent implements Serializable {
             return nameOfEffects;
         }
 
-        public void setNameOfEffects(ArrayList<String> nameOfEffects) {
+        void setNameOfEffects(ArrayList<String> nameOfEffects) {
             this.nameOfEffects = nameOfEffects;
         }
 
@@ -397,7 +400,7 @@ public class ServerEvent implements Serializable {
             return descriptionOfEffects;
         }
 
-        public void setDescriptionOfEffects(ArrayList<String> descriptionOfEffects) {
+        void setDescriptionOfEffects(ArrayList<String> descriptionOfEffects) {
             this.descriptionOfEffects = descriptionOfEffects;
         }
     }

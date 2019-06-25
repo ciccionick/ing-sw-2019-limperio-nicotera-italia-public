@@ -3,6 +3,8 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.view.InitializationView;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.tools.Tool;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +19,6 @@ public class FrameForInitialization {
     private InitializationView initializationView;
     private JPanel contentPane;
 
-    public InitializationView getInitializationView() {
-        return initializationView;
-    }
-
-    public JFrame getFrame() {
-        return frame;
-    }
 
     public FrameForInitialization(String title, InitializationView initializationView) {
         frame.setTitle(title);
@@ -31,11 +26,11 @@ public class FrameForInitialization {
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize((int)(dimensionOfScreen.getWidth()/3.2), (int)(dimensionOfScreen.getHeight()/3.6) );
-        frame.setLocation((int) (dimensionOfScreen.getWidth() - frame.getWidth()) / 2,
-                (int) (dimensionOfScreen.getHeight() - frame.getHeight()) / 2);
         frame.setResizable(false);
         contentPane = new JPanel();
+        int topBottom = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/10.8);
+        int leftRight = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/12.8);
+        contentPane.setBorder(new EmptyBorder(topBottom,leftRight, topBottom, leftRight));
         frame.setContentPane(contentPane);
         contentPane.setLayout(new GridLayout(4, 1));
         JPanel panelForTitle = new JPanel(new GridLayout());
@@ -74,6 +69,10 @@ public class FrameForInitialization {
         contentPane.add(panelForLabel);
         contentPane.add(panelForTextField);
         contentPane.add(panelForButton);
+        frame.pack();
+        frame.setLocation((int) (dimensionOfScreen.getWidth() - frame.getWidth()) / 2,
+                (int) (dimensionOfScreen.getHeight() - frame.getHeight()) / 2);
+
         frame.setVisible((true));
     }
 
@@ -141,7 +140,7 @@ public class FrameForInitialization {
             ((JButton)button).addActionListener(listenerForColorButtons);
         }
 
-        frame.setVisible(true);
+        makeVisibleFrame();
     }
 
     public void setFrenzy() {
@@ -173,7 +172,7 @@ public class FrameForInitialization {
         panelForButtons.add(noButton);
         mapOfComponents.put("Y", yesButton);
         mapOfComponents.put("N", noButton);
-        frame.setVisible(true);
+        makeVisibleFrame();
 
     }
 
@@ -185,14 +184,14 @@ public class FrameForInitialization {
         buttonMap1.setActionCommand("1");
         ImageIcon icon = new ImageIcon("resources/board/maps/map1/onlymatrix1.png");
         Image image = icon.getImage();
-        Image newImg = image.getScaledInstance(icon.getIconWidth()/28, icon.getIconHeight()/28, Image.SCALE_SMOOTH);
+        Image newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
         buttonMap1.setIcon(icon);
         buttonMap1.addActionListener(listenerForMapButtons);
         JButton buttonMap2 = new JButton("");
         icon = new ImageIcon("resources/board/maps/map2/onlymatrix2.png");
         image = icon.getImage();
-        newImg = image.getScaledInstance(icon.getIconWidth()/28, icon.getIconHeight()/28, Image.SCALE_SMOOTH);
+        newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
         buttonMap2.setIcon(icon);
         buttonMap2.setActionCommand("2");
@@ -200,7 +199,7 @@ public class FrameForInitialization {
         JButton buttonMap3 = new JButton("");
         icon = new ImageIcon("resources/board/maps/map3/onlymatrix3.png");
         image = icon.getImage();
-        newImg = image.getScaledInstance(icon.getIconWidth()/28, icon.getIconHeight()/28, Image.SCALE_SMOOTH);
+        newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
         buttonMap3.setIcon(icon);
         buttonMap3.addActionListener(listenerForMapButtons);
@@ -208,7 +207,7 @@ public class FrameForInitialization {
         JButton buttonMap4 = new JButton("");
         icon = new ImageIcon("resources/board/maps/map4/onlymatrix4.png");
         image = icon.getImage();
-        newImg = image.getScaledInstance(icon.getIconWidth()/28, icon.getIconHeight()/28, Image.SCALE_SMOOTH);
+        newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
         buttonMap4.setIcon(icon);
         buttonMap4.addActionListener(listenerForMapButtons);
@@ -239,7 +238,7 @@ public class FrameForInitialization {
         mapOfComponents.put("Map3", buttonMap3);
         mapOfComponents.put("Map4", buttonMap4);
         mapOfComponents.put("Don't Care", dontCareButton);
-        frame.setVisible(true);
+        makeVisibleFrame();
 
     }
 
@@ -271,39 +270,44 @@ public class FrameForInitialization {
         yesButton.addActionListener(listenerForYesNoButtons);
         noButton.addActionListener(listenerForYesNoButtons);
 
+        makeVisibleFrame();
+
+    }
+
+    private void makeVisibleFrame() {
+        frame.pack();
+        frame.setLocation((int) (dimensionOfScreen.getWidth() - frame.getWidth()) / 2,
+                (int) (dimensionOfScreen.getHeight() - frame.getHeight()) / 2);
+
         frame.setVisible(true);
+    }
 
-
-
-
+    public JFrame getFrame() {
+        return frame;
     }
 
     public void remainInListeningForTheStartGame() {
         frame.getContentPane().removeAll();
         mapOfComponents.clear();
         frame.repaint();
-        contentPane.setLayout(new GridLayout(4,1));
-
-        JPanel panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        JPanel panel3 = new JPanel(new GridLayout(2,1));
-        JPanel panel4 = new JPanel();
-
-        contentPane.add(panel1);
-        contentPane.add(panel2);
-        contentPane.add(panel3);
-        contentPane.add(panel4);
+        contentPane.setLayout(new GridBagLayout());
+        int topBottom = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/21.6);
+        int leftRight = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/38.4);
+        contentPane.setBorder(new EmptyBorder(topBottom, leftRight, topBottom, leftRight));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
         JLabel gif = new JLabel("");
         gif.setIcon(new ImageIcon("resources/loading.gif"));
-        gif.setHorizontalAlignment(SwingConstants.CENTER);
         JLabel labelToAskForWait = new JLabel("Setup completed! Wait for the start of the game...");
-        labelToAskForWait.setHorizontalAlignment(SwingConstants.CENTER);
         labelToAskForWait.setFont(fontForTitle);
-        panel2.add(labelToAskForWait);
-        panel3.add(gif);
+        contentPane.add(labelToAskForWait,gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(frame.getHeight()/20, 0, 0, 0);
+        contentPane.add(gif,gbc);
 
-        frame.setVisible(true);
+        makeVisibleFrame();
     }
 
     Map<String, Component> getMapOfComponents() {

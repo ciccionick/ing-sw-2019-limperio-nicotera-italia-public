@@ -114,7 +114,7 @@ public class WeaponController {
             case "Plasma gun":
                 if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if (!effectAlreadyChoosen(2))
+                if (!effectAlreadyChoosen(2) && !effectAlreadyChoosen(3))
                     usableEffects.add(2);
                 if (!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
                     usableEffects.add(3);

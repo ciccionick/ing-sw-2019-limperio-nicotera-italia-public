@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,12 +9,11 @@ import java.util.ArrayList;
 
 class PanelOfPlayers extends JPanel {
 
-    private MainFrame mainFrame;
+
     private JButton buttonMSelection;
     private JButton buttonDisableSelection;
 
     PanelOfPlayers(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         this.setBackground(Color.DARK_GRAY);
@@ -92,7 +90,7 @@ class PanelOfPlayers extends JPanel {
         labelPlayer1.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer1 = new GridBagConstraints();
         gbcLabelPlayer1.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelPlayer1.anchor = GridBagConstraints.WEST;
+        gbcLabelPlayer1.anchor = GridBagConstraints.CENTER;
         gbcLabelPlayer1.gridx = 0;
         gbcLabelPlayer1.gridy = 2;
         add(labelPlayer1, gbcLabelPlayer1);
@@ -107,7 +105,7 @@ class PanelOfPlayers extends JPanel {
         labelPlayer2.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer2 = new GridBagConstraints();
         gbcLabelPlayer2.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelPlayer2.anchor = GridBagConstraints.WEST;
+        gbcLabelPlayer2.anchor = GridBagConstraints.CENTER;
         gbcLabelPlayer2.gridx = 0;
         gbcLabelPlayer2.gridy = 3;
         add(labelPlayer2, gbcLabelPlayer2);
@@ -122,7 +120,7 @@ class PanelOfPlayers extends JPanel {
         labelPlayer3.setForeground(Color.WHITE);
         GridBagConstraints gbcLabelPlayer3 = new GridBagConstraints();
         gbcLabelPlayer3.insets = new Insets(insetTopForButtons, 0, 0, 0);
-        gbcLabelPlayer3.anchor = GridBagConstraints.WEST;
+        gbcLabelPlayer3.anchor = GridBagConstraints.CENTER;
         gbcLabelPlayer3.gridx = 0;
         gbcLabelPlayer3.gridy = 4;
         add(labelPlayer3, gbcLabelPlayer3);
@@ -141,7 +139,7 @@ class PanelOfPlayers extends JPanel {
            labelPlayer4.setForeground(Color.WHITE);
            GridBagConstraints gbcLabelPlayer4 = new GridBagConstraints();
            gbcLabelPlayer4.insets = new Insets(insetTopForButtons, 0, 0, 0);
-           gbcLabelPlayer4.anchor = GridBagConstraints.WEST;
+           gbcLabelPlayer4.anchor = GridBagConstraints.CENTER;
            gbcLabelPlayer4.gridx = 0;
            gbcLabelPlayer4.gridy = 5;
            add(labelPlayer4, gbcLabelPlayer4);
@@ -157,7 +155,7 @@ class PanelOfPlayers extends JPanel {
               labelPlayer5.setForeground(Color.WHITE);
               GridBagConstraints gbcLabelPlayer5 = new GridBagConstraints();
               gbcLabelPlayer5.insets = new Insets(insetTopForButtons, 0, 0, 0);
-              gbcLabelPlayer5.anchor = GridBagConstraints.WEST;
+              gbcLabelPlayer5.anchor = GridBagConstraints.CENTER;
               gbcLabelPlayer5.gridx = 0;
               gbcLabelPlayer5.gridy = 6;
               add(labelPlayer5, gbcLabelPlayer5);
@@ -256,7 +254,7 @@ class PanelOfPlayers extends JPanel {
         if(buttonPB5!=null)
            pbButtonGroup.add(buttonPB5);
 
-      ButtonMListener buttonMListener = new ButtonMListener(mainFrame, mainFrame.getMapPanel());
+      ButtonMListener buttonMListener = new ButtonMListener(mainFrame);
 
          buttonMSelection = new JButton("Return to selection");
          buttonMSelection.setSelected(false);
@@ -281,9 +279,14 @@ class PanelOfPlayers extends JPanel {
 
     }
 
-      private JButton getButtonMSelection() {
+      JButton getButtonMSelection() {
         return buttonMSelection;
     }
+
+        JButton getButtonDisableSelection() {
+            return buttonDisableSelection;
+        }
+
 
 
     class ButtonPBListener implements ActionListener{
@@ -297,23 +300,25 @@ class PanelOfPlayers extends JPanel {
        @Override
        public void actionPerformed(ActionEvent e) {
 
+            mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks().setVisible(false);
+            mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage().setVisible(false);
           mainFrame.getFrame().getContentPane().remove(mainFrame.getLeftPanel());
           mainFrame.setLeftPanel(new LeftPanel(mainFrame, mainFrame.getRemoteView().getPlayerBoardViewOfThisPlayer(e.getActionCommand())));
           mainFrame.getFrame().getContentPane().add(mainFrame.getLeftPanel(), BorderLayout.WEST);
 
           mainFrame.getFrame().getContentPane().repaint();
           mainFrame.getFrame().getContentPane().validate();
+          mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForMarks();
+           mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForDamage();
        }
     }
 
     class ButtonMListener implements ActionListener {
 
         private MainFrame mainFrame;
-        private MapPanel mapPanel;
 
-        ButtonMListener(MainFrame mainFrame, MapPanel mapPanel) {
+        ButtonMListener(MainFrame mainFrame) {
             this.mainFrame = mainFrame;
-            this.mapPanel = mapPanel;
         }
 
         @Override

@@ -107,6 +107,7 @@ class CatchController {
         MapEvent mapEvent = new MapEvent();
         mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
         mapEvent.setNicknames(game.getListOfNickname());
+        mapEvent.setNicknameInvolved(player.getNickname());
         game.notify(mapEvent);
 
         ServerEvent notifyActionDoneEvent = new ServerEvent();

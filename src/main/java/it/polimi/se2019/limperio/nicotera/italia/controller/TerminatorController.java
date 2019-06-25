@@ -126,6 +126,7 @@ class TerminatorController {
              game.setHasToDoTerminatorAction(false);
          ArrayList<Player> players = new ArrayList<>();
          players.add(playerToAttack);
+         game.setHasToDoTerminatorAction(false);
          controller.getShootController().handleSendRequestAfterShoot(game.getPlayers().get(game.getPlayerOfTurn()- 1), players, true);
      }
 

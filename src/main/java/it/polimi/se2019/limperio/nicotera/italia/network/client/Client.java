@@ -2,10 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
-
-import java.awt.*;
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Timer;
@@ -38,11 +35,6 @@ public class Client {
 
    private String ipAddress = null;
 
-   private FrameForRequestIP frameForRequestIP;
-
-   private Timer timer = null;
-
-   private int delay = 1000;
 
 
 
@@ -63,31 +55,31 @@ public class Client {
         }
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
-        timer = new Timer();
-        timer.schedule(new TaskForStart(), delay);
-        //waitForMessage();
-
-
+        Timer timer;
+        //timer = new Timer();
+        //timer.schedule(new TaskForStart(), 1000);
+        waitForMessagesOfInitialization();
 
     }
 
-     void waitForMessage(){
+     private void waitForMessagesOfInitialization(){
 
             while(true) {
                 RequestInitializationEvent req = null;
                     try {
                         req = (RequestInitializationEvent) this.in.readObject();
-                    } catch (EOFException ex) {
-                        System.exit(0);
-                    } catch (IOException | ClassNotFoundException e) {
+                    } catch (IOException | ClassNotFoundException ex) {
                         System.exit(0);
                     }
-                    this.myNetworkHandler.handleEventInitialization(req);
+                this.myNetworkHandler.handleEventInitialization(req);
                     if (req!=null && req.isAck())
                         break;
             }
+        waitForMessage();
+    }
 
 
+    private void waitForMessage(){
         while(true){
             try {
 
@@ -98,14 +90,11 @@ public class Client {
             }
             catch (SocketException se){
                 System.exit(0);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
         }
-
     }
 
 
@@ -126,14 +115,6 @@ public class Client {
         return myNetworkHandler;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-     void setFrameForRequestIP(FrameForRequestIP frameForRequestIP) {
-        this.frameForRequestIP = frameForRequestIP;
-    }
-
      void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
@@ -141,7 +122,7 @@ public class Client {
     private class TaskForStart extends TimerTask {
         @Override
         public void run() {
-            waitForMessage();
+            waitForMessagesOfInitialization();
         }
     }
 }
