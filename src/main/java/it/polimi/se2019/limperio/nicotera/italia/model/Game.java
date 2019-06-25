@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -80,10 +84,14 @@ public class Game extends Observable<ServerEvent> {
 
     private Player playerHasToRespawn = null;
 
+    private static Logger myLogger = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerGame = new ConsoleHandler();
+
 
     public Game(){
         // this is the default constructor of Game class called by the main in the Server class to create
         // a reference towards to the game instance.
+        myLogger.addHandler(handlerGame);
     }
 
 
@@ -113,7 +121,7 @@ public class Game extends Observable<ServerEvent> {
             numOfSkullToRemoveToPassToFrenzy = Integer.parseInt(bin.readLine());
 
         } catch (IOException e) {
-            e.printStackTrace();
+            myLogger.log(Level.ALL, "error");
         }
         finally {
             try {
@@ -122,7 +130,7 @@ public class Game extends Observable<ServerEvent> {
                 if(inFile!=null)
                     inFile.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                myLogger.log(Level.ALL, "error");
             }
         }
 
