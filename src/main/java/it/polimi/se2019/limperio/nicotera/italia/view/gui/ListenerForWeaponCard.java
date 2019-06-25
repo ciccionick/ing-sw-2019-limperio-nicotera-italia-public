@@ -24,21 +24,25 @@ public class ListenerForWeaponCard implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if(mainFrame.getLeftPanel().getPlayerBoardView().getWeaponCardDeck().size()>=numOfCard) {
-            popupForWeaponCard = new PopupForWeaponCard(mainFrame, numOfCard);
+        if(popupForWeaponCard!=null) {
+            popupForWeaponCard.getDialog().setVisible(false);
+            popupForWeaponCard=null;
+        }
+        else{
+            if(mainFrame.getLeftPanel().getPlayerBoardView().getWeaponCardDeck().size()>=numOfCard) {
+                popupForWeaponCard = new PopupForWeaponCard(mainFrame, numOfCard);
+            }
         }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        if(popupForWeaponCard!=null)
-            popupForWeaponCard.getDialog().setVisible(false);
+    public void mousePressed(MouseEvent e) {
+         //not implemented
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+         //not implemented
     }
 
     @Override

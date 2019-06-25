@@ -31,6 +31,7 @@ import java.util.ArrayList;
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
         dialog.setAutoRequestFocus(false);
+        dialog.setAlwaysOnTop(false);
          contentPane = new JPanel(new GridBagLayout());
         contentPane.setBackground(Color.DARK_GRAY);
         dialog.setContentPane(contentPane);

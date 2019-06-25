@@ -8,6 +8,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +44,7 @@ class PopupForDiscardPowerUp {
 
 
         JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5,5));
         dialog.getContentPane().add(contentPanel);
 
@@ -97,7 +99,6 @@ class PopupForDiscardPowerUp {
             icon = new ImageIcon(image);
             card.setIcon(icon);
             contentPanel.add(card,gbc);
-            card.addMouseListener(new ListenerForPowerUpCard(card, mainFrame, gbc.gridx+1));
 
             gbc.gridy++;
             JButton button = new JButton();

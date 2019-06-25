@@ -18,6 +18,7 @@ class Newton extends PowerUpCard {
         this.typeOfCard=typeOfCard;
     }
 
+    @Override
     public int getTypeOfCard() {
         return typeOfCard;
     }

@@ -274,6 +274,8 @@ class MapPanel extends JPanel {
                  dialogForFigure.add(dialog);
                  dialog.setUndecorated(true);
                  dialog.setResizable(false);
+                 dialog.setAlwaysOnTop(false);
+                 dialog.setAutoRequestFocus(false);
                  panel = new JPanel(new GridBagLayout());
                  dialog.getContentPane().add(panel);
                  GridBagConstraints gbc = new GridBagConstraints();
@@ -334,13 +336,11 @@ class MapPanel extends JPanel {
       }
 
       private boolean isClickableForSelection(){
-          if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())
+          if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare() && cell.isEnabled())
           {
-              if(cell.isEnabled()) {
-                  for(Square squareReachable : mainFrame.getRemoteView().getMapView().getReachableSquares()){
-                      if(square.getRow()==squareReachable.getRow() && square.getColumn()==squareReachable.getColumn())
-                          return true;
-                  }
+              for(Square squareReachable : mainFrame.getRemoteView().getMapView().getReachableSquares()) {
+                  if (square.getRow() == squareReachable.getRow() && square.getColumn() == squareReachable.getColumn())
+                      return true;
               }
           }
           return false;
@@ -388,15 +388,12 @@ class MapPanel extends JPanel {
 
       @Override
       public void mousePressed(MouseEvent e) {
-          if (!(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())|| (mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&!cell.isEnabled())) {
-              if (square != null) {
+          if (square!= null && !(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())|| (mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&!cell.isEnabled())) {
                   matrix = mainFrame.getRemoteView().getMapView().getMap();
                   square=matrix[row][column];
                   updatePopup(square);
                   popupForSquare.getPopup().setVisible(true);
-              }
           }
-
       }
 
       @Override

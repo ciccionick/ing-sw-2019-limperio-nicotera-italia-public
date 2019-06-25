@@ -1,11 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseNewton;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseTeleporter;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,13 +22,11 @@ public class ListenerForPowerUpCard implements MouseListener, ActionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if(labelOfCard.isEnabled()){
+        if(popupForPowerUpCard!=null) {
+            popupForPowerUpCard.getPopupForPC().setVisible(false);
+            popupForPowerUpCard=null;
+        }
+        else if(labelOfCard.isEnabled()){
             popupForPowerUpCard = new PopupForPowerUpCard(mainFrame, numOfCard);
             popupForPowerUpCard.getPopupForPC().setVisible(true);
         }
@@ -39,21 +34,23 @@ public class ListenerForPowerUpCard implements MouseListener, ActionListener {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-         if(labelOfCard.isEnabled()) {
-             popupForPowerUpCard.getPopupForPC().setVisible(false);
-         }
+    public void mousePressed(MouseEvent e) {
+        //not implemented
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //not implemented
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        //not implemented
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        //not implemented
     }
 
     @Override

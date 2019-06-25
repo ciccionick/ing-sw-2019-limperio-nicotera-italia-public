@@ -19,7 +19,7 @@ import java.awt.*;
                  (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - popupForPC.getHeight()) / 2);
 
          popupForPC.getContentPane().setLayout(new BorderLayout(0, 0));
-         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+         contentPane.setBorder(new EmptyBorder(10,10,10,10));
          popupForPC.getContentPane().add(contentPane);
 
          int widthCard;
@@ -65,8 +65,8 @@ import java.awt.*;
          JTextArea descriptionOfCard = new JTextArea();
          descriptionOfCard.setBackground(SystemColor.menu);
          descriptionOfCard.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
-         descriptionOfCard.setColumns(36);
-         descriptionOfCard.setLineWrap(true);
+         descriptionOfCard.setColumns(20);
+         descriptionOfCard.setLineWrap(false);
          descriptionOfCard.setText(mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(numOfCard - 1).getDescription());
          descriptionOfCard.setEditable(false);
          panelForDescription.add(descriptionOfCard);

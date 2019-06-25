@@ -299,9 +299,10 @@ class PanelOfPlayers extends JPanel {
 
        @Override
        public void actionPerformed(ActionEvent e) {
-
-            mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks().setVisible(false);
-            mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage().setVisible(false);
+            if(mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks()!=null)
+                mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks().setVisible(false);
+            if(mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage()!=null)
+                mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage().setVisible(false);
           mainFrame.getFrame().getContentPane().remove(mainFrame.getLeftPanel());
           mainFrame.setLeftPanel(new LeftPanel(mainFrame, mainFrame.getRemoteView().getPlayerBoardViewOfThisPlayer(e.getActionCommand())));
           mainFrame.getFrame().getContentPane().add(mainFrame.getLeftPanel(), BorderLayout.WEST);
@@ -309,7 +310,7 @@ class PanelOfPlayers extends JPanel {
           mainFrame.getFrame().getContentPane().repaint();
           mainFrame.getFrame().getContentPane().validate();
           mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForMarks();
-           mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForDamage();
+          mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForDamage();
        }
     }
 

@@ -514,8 +514,8 @@ public class ShootController {
             if (weaponToUse.getName().equals("Flamethrower")) {
                 involvedPlayers.add(new InvolvedPlayer(null, 4, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
                 playersAttacked.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
-                if (controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), involvedPlayers.get(0).getSquare()) != null) {
-                    involvedPlayers.add(new InvolvedPlayer(null, 4, controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), involvedPlayers.get(0).getSquare())));
+                if (controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), involvedPlayers.get(0).getSquare()) != null) {
+                    involvedPlayers.add(new InvolvedPlayer(null, 4, controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), involvedPlayers.get(0).getSquare())));
                     playersAttacked.addAll(involvedPlayers.get(1).getSquare().getPlayerOnThisSquare());
                 }
                 for (Player player : playersAttacked) {
@@ -629,8 +629,8 @@ public class ShootController {
 
         if(needToChooseAPlayer){
             ArrayList<Player> playersChoosable = new ArrayList<>();
-            if(weaponToUse.getName().equals("Power glove") && controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap())!=null) {
-                playersChoosable = controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap()).getPlayerOnThisSquare();
+            if(weaponToUse.getName().equals("Power glove") && controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap())!=null) {
+                playersChoosable = controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap()).getPlayerOnThisSquare();
                 sendRequestToChoosePlayer(1, playersChoosable, true);
                 needToChooseAPlayer = false;
                 return;
@@ -653,7 +653,7 @@ public class ShootController {
                 return;
             }
             else if(weaponToUse.getName().equals("Flamethrower")){
-                Square square = controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap());
+                Square square = controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap());
                 playersChoosable.addAll(square.getPlayerOnThisSquare());
                 sendRequestToChoosePlayer(1, playersChoosable, true);
                 needToChooseAPlayer = false;

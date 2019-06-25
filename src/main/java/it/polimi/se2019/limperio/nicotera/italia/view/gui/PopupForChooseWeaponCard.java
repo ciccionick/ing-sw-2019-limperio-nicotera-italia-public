@@ -4,24 +4,26 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
 class PopupForChooseWeaponCard {
     private JDialog popupForChooseW;
-    private MainFrame mainFrame;
     private String nameOfCardToStoreForDiscardEvent = null;
 
      PopupForChooseWeaponCard(ServerEvent receivedEvent, MainFrame mainFrame) {
          ClosingListener closingListener = new ClosingListener(mainFrame);
          popupForChooseW = new JDialog(mainFrame.getFrame());
+         popupForChooseW.setUndecorated(true);
          popupForChooseW.addWindowListener(closingListener);
-         this.mainFrame = mainFrame;
+         JPanel contentPanel = new JPanel();
+         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+         popupForChooseW.getContentPane().add(contentPanel);
          PanelForWeapons panelForWeapons;
          panelForWeapons = new PanelForWeapons(mainFrame, null, receivedEvent, this);
-         popupForChooseW.getContentPane().add(panelForWeapons.getContentPane());
-
+         contentPanel.add(panelForWeapons.getContentPane());
 
          popupForChooseW.pack();
          popupForChooseW.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - popupForChooseW.getWidth()) / 2,
@@ -48,7 +50,7 @@ class PopupForChooseWeaponCard {
 
         @Override
         public void windowOpened(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
@@ -63,22 +65,22 @@ class PopupForChooseWeaponCard {
 
         @Override
         public void windowIconified(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void windowDeiconified(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void windowActivated(WindowEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void windowDeactivated(WindowEvent e) {
-
+            //not implemented
         }
     }
 }

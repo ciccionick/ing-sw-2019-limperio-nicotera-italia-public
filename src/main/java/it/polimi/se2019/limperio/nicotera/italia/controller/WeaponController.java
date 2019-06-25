@@ -506,6 +506,14 @@ public class WeaponController {
             }
             movement--;
         }
+        ArrayList<Player> playersNotAlreadySpawn = new ArrayList<>();
+        for(Player player : game.getPlayers()){
+            if(player.getPositionOnTheMap()==null)
+                playersNotAlreadySpawn.add(player);
+        }
+        for(Player player : playersNotAlreadySpawn){
+           playersNotVisible.remove(player);
+        }
         return playersNotVisible;
     }
 
@@ -518,7 +526,7 @@ public class WeaponController {
 
     }
 
-    Square getSquareForAlternativeModeOfPowerGloveAndFlamethrowe(Square squareOfAttacker, Square squareOfFirstAttacked) {
+    Square getSquareForAlternativeModeOfPowerGloveAndFlamethrower(Square squareOfAttacker, Square squareOfFirstAttacked) {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         if (squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()) {
             if (squareOfAttacker.getColumn() < squareOfFirstAttacked.getColumn()) {
