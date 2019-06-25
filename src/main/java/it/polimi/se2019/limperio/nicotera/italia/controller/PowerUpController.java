@@ -5,7 +5,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * This class handles the draught, the discard and the use of a power up card by a player

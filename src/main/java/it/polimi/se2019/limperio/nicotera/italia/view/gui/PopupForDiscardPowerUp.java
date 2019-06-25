@@ -14,6 +14,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class PopupForDiscardPowerUp {
 
@@ -22,8 +26,11 @@ class PopupForDiscardPowerUp {
     private java.util.Timer timer;
     private int delay = 20000;
     private TaskForTagbackTimer task;
+    private static Logger loggerPopupForDiscardPUCard = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerLoggerPopupForDiscardPUCard = new ConsoleHandler();
 
      PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
+         loggerPopupForDiscardPUCard.addHandler(handlerLoggerPopupForDiscardPUCard);
         this.mainFrame = mainFrame;
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setModal(false);
@@ -129,7 +136,7 @@ class PopupForDiscardPowerUp {
                  timer.schedule(task,delay);
              }
              catch (IllegalStateException er){
-                 er.printStackTrace();
+                 loggerPopupForDiscardPUCard.log(Level.ALL, "error");
              }
          }
 

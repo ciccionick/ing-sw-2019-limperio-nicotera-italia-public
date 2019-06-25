@@ -18,6 +18,10 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * View of the client in the server side. Handle the communication with the client and the exchange of event.
@@ -83,6 +87,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     private int typeOfMap;
     private boolean streamClosed = false;
+    private static Logger loggerVirtualView = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerLoggerVirtualView = new ConsoleHandler();
 
     /**
      * Sets first player attribute, initialize the object streams
@@ -91,6 +97,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      * @param controller The controller which he will send events by client with
      */
      public VirtualView(Socket client, Server server, Controller controller) {
+         loggerVirtualView.addHandler(handlerLoggerVirtualView);
         this.client = client;
         this.IPAddress = client.getRemoteSocketAddress().toString();
         this.server = server;
@@ -102,11 +109,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             out = new ObjectOutputStream(client.getOutputStream());
             in = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            loggerVirtualView.log(Level.ALL, "error");
             try {
                 client.close();
             } catch (Exception er) {
-                System.out.println(e.getMessage());
+                loggerVirtualView.log(Level.ALL, "error");
             }
         }
     }
@@ -168,11 +175,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             try {
                 client.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerVirtualView.log(Level.ALL, "error");
             }
 
         }catch (ClassNotFoundException e) {
-            e.printStackTrace();
+           loggerVirtualView.log(Level.ALL, "error");
         }
 
         receiveEvents();
@@ -193,7 +200,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                 break;
             }
             catch(IOException | ClassNotFoundException e){
-                e.printStackTrace();
+               loggerVirtualView.log(Level.ALL, "error");
             }
         }
 
@@ -216,7 +223,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
          } catch (IOException e) {
              System.exit(0);
          } catch (ClassNotFoundException e) {
-             e.printStackTrace();
+            loggerVirtualView.log(Level.ALL, "error");
          }
          return "Failed reconnection";
      }
@@ -333,7 +340,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         try {
             out.writeObject(ackEvent);
         } catch (IOException e) {
-            e.printStackTrace();
+            loggerVirtualView.log(Level.ALL, "error");
         }
     }
 
@@ -355,7 +362,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                 out.close();
                 streamClosed = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerVirtualView.log(Level.ALL, "error");
             }
         }
 

@@ -4,6 +4,7 @@ package it.polimi.se2019.limperio.nicotera.italia.network.server;
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -12,6 +13,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -74,6 +79,8 @@ public class Server  {
     private boolean terminatorMode = false;
 
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+    private static Logger loggerServer = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerLoggerServer = new ConsoleHandler();
 
 
 
@@ -84,6 +91,7 @@ public class Server  {
      *
      */
     Server()  {
+        loggerServer.addHandler(handlerLoggerServer);
         try {
             serverSocket = new ServerSocket(4000);
             String ip;
@@ -91,7 +99,7 @@ public class Server  {
             new FrameForShowIP(ip);
 
         } catch (IOException e) {
-            e.printStackTrace();
+           loggerServer.log(Level.ALL, "error");
         }
         game=Game.instanceOfGame();
         controller=new Controller(game);
@@ -107,7 +115,7 @@ public class Server  {
             delay = Long.parseLong(bin.readLine());
 
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerServer.log(Level.ALL, "error");
             }
         finally {
             try {
@@ -149,7 +157,7 @@ public class Server  {
                 game.register(virtualView);
             }
             catch (Exception e) {
-                e.printStackTrace();
+                loggerServer.log(Level.ALL, "error");
             }
 
         }
@@ -233,7 +241,7 @@ public class Server  {
             try {
                 client.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerServer.log(Level.ALL, "error");
             }
         }
 
@@ -294,7 +302,7 @@ public class Server  {
             timer.schedule(task,delay);
         }
         catch (IllegalStateException er){
-            er.printStackTrace();
+            loggerServer.log(Level.ALL, "error");
         }
     }
 
@@ -307,9 +315,11 @@ public class Server  {
      */
 
     class MyTask extends TimerTask{
-
+        private  Logger loggerForTimerTaskInServer = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+        private Handler handlerLoggerTimerTaskServer = new ConsoleHandler();
         @Override
         public void run() {
+            loggerForTimerTaskInServer.addHandler(handlerLoggerTimerTaskServer);
             try {
                 if(listOfColor.size() == listOfClient.size())
                     startGame();
@@ -325,7 +335,7 @@ public class Server  {
                     startGame();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerForTimerTaskInServer.log(Level.ALL, "error");
             }
         }
 

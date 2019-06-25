@@ -9,6 +9,10 @@ import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles all the events received by the server and choose the right piece of remote view where
@@ -30,10 +34,13 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
      * The reference of the {@link RemoteView} it will communicate with
      */
     private RemoteView remoteView;
+    private static Logger loggerNetworkHandler = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerLoggerNetworkHandler = new ConsoleHandler();
 
 
 
      NetworkHandler(Client client) {
+         loggerNetworkHandler.addHandler(handlerLoggerNetworkHandler);
         this.client = client;
         this.remoteView = new RemoteView(client, this);
         register(this.remoteView);
@@ -55,7 +62,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
                 temporaryNickname = event.getNickname();
             client.out.writeObject(event);
         } catch (IOException e) {
-            e.printStackTrace();
+            loggerNetworkHandler.log(Level.ALL, "error");
         }
     }
 
@@ -189,7 +196,7 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
         try {
             client.out.writeObject(event);
         } catch (IOException e) {
-            e.printStackTrace();
+            loggerNetworkHandler.log(Level.ALL, "error");
         }
     }
 

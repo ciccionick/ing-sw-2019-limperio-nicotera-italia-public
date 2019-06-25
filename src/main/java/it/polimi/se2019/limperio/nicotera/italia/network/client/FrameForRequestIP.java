@@ -5,6 +5,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -32,12 +36,15 @@ class FrameForRequestIP {
      *
      */
     private JButton buttonOK;
+    private static Logger loggerForFrameIp = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    private static Handler handlerLoggerFrameIP = new ConsoleHandler();
 
     /**
      *
      * @param client
      */
      FrameForRequestIP(Client client) {
+         loggerForFrameIp.addHandler(handlerLoggerFrameIP);
          JFrame frameForRequestIP = new JFrame("Adrenaline - Request IP");
          this.frame = frameForRequestIP;
          frame.addWindowListener(new ListenerForClosing(frame));
@@ -131,7 +138,7 @@ class FrameForRequestIP {
             try {
                 client.handleConnectionWithServer();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                loggerForFrameIp.log(Level.ALL, "error");
             }
         }
 

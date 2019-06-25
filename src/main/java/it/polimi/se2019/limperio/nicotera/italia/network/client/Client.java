@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Handles the client and his socket
  *
@@ -35,12 +39,15 @@ public class Client {
 
    private String ipAddress = null;
 
+   private static Logger clientLogger =Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+   private static Handler handlerLoggerClient  = new ConsoleHandler();
 
 
 
 
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
+        clientLogger.addHandler(handlerLoggerClient);
     }
 
 
@@ -91,7 +98,7 @@ public class Client {
             catch (SocketException se){
                 System.exit(0);
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                clientLogger.log(Level.ALL, "error");
             }
 
         }
