@@ -3,12 +3,13 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAnEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
  class PopupForChooseEffect {
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 
      PopupForChooseEffect(MainFrame mainFrame, RequestToChooseAnEffect message) {
         this.dialog = new JDialog(mainFrame.getFrame());
-        dialog.setUndecorated(true);
+        dialog.setUndecorated(false);
+        dialog.addWindowListener(new ListenerForPopupToChooseEffect(mainFrame));
         JPanel contentPane = new JPanel(new GridBagLayout());
         contentPane.setBorder(new EmptyBorder(50, 50, 50, 50));
         dialog.getContentPane().add(contentPane);
@@ -31,7 +33,7 @@ import java.util.ArrayList;
                 weaponCard = weapon;
         }
 
-        int numOfAllEffects = 4;
+        int numOfAllEffects = 0;
         if(weaponCard!=null) {
             for (String nameOfEffect : weaponCard.getNameOfEffects()) {
                 if (!nameOfEffect.equals(""))
@@ -52,33 +54,32 @@ import java.util.ArrayList;
         contentPane.add(text, gbcText);
 
         ListenerForEffects listenerForEffects = new ListenerForEffects(mainFrame,weaponCard);
-
-        for(int i = 0 ; i<4 ; i++){
+         GridBagConstraints gbcEffectButton = new GridBagConstraints();
+         GridBagConstraints gbcDescription = new GridBagConstraints();
+         gbcEffectButton.gridy=1;
+         gbcEffectButton.gridx = 0;
+         gbcEffectButton.anchor = GridBagConstraints.CENTER;
+         gbcEffectButton.insets = new Insets(10, 0, 5, 10);
+         gbcDescription.insets = new Insets(5, 5, 0, 10);
+         gbcDescription.gridy = 2;
+         gbcDescription.gridx = 0;
+         for(int i = 0 ; i<4 ; i++){
             if(weaponCard.getNameOfEffects().size()>i && !weaponCard.getNameOfEffects().get(i).equals("")){
                 JButton effectButton = new JButton(weaponCard.getNameOfEffects().get(i));
                 effectButtons.add(effectButton);
-                GridBagConstraints gbcEffectButton = new GridBagConstraints();
-                gbcEffectButton.insets = new Insets(0, 0, 5, 10);
-                gbcEffectButton.gridx = i;
-                gbcEffectButton.gridy = 1;
                 if(!message.getUsableEffects().contains(i+1))
                     effectButton.setEnabled(false);
                 effectButton.setActionCommand(String.valueOf(i+1));
                 effectButton.addActionListener(listenerForEffects);
                 contentPane.add (effectButton, gbcEffectButton);
-
                 JTextArea descriptionOfEffect = new JTextArea();
                 descriptionOfEffect.setText(weaponCard.getDescriptionOfEffects().get(i));
                 descriptionOfEffect.setEditable(false);
                 descriptionOfEffect.setBackground(SystemColor.menu);
-                descriptionOfEffect.setLineWrap(true);
-                gbcEffectButton.gridy=2;
-                gbcEffectButton.insets.bottom = 50;
-                contentPane.add(descriptionOfEffect,gbcEffectButton);
-            }
-            else{
-                JButton buttonUseless = new JButton();
-                effectButtons.add(buttonUseless);
+                descriptionOfEffect.setLineWrap(false);
+                contentPane.add(descriptionOfEffect,gbcDescription);
+                gbcEffectButton.gridx++;
+                gbcDescription.gridx++;
             }
         }
 
@@ -87,10 +88,8 @@ import java.util.ArrayList;
             contentPane.add(endActionButton);
             GridBagConstraints gbcEndActionButton = new GridBagConstraints();
             gbcEndActionButton.insets = new Insets(0, 0, 5, 10);
-            gbcEndActionButton.gridx = 4;
+            gbcEndActionButton.gridx = numOfAllEffects;
             gbcEndActionButton.gridy = 1;
-            if(!message.isOneEffectAlreadyChosen())
-                endActionButton.setEnabled(false);
             endActionButton.setActionCommand("0");
             endActionButton.addActionListener(listenerForEffects);
             contentPane.add (endActionButton, gbcEndActionButton);
@@ -133,5 +132,48 @@ import java.util.ArrayList;
 
         }
     }
-}
+
+     private  class ListenerForPopupToChooseEffect implements WindowListener {
+         MainFrame mainFrame;
+          ListenerForPopupToChooseEffect(MainFrame mainFrame) {
+              this.mainFrame = mainFrame;
+         }
+
+         @Override
+         public void windowOpened(WindowEvent e) {
+            //not implemented
+         }
+
+         @Override
+         public void windowClosing(WindowEvent e) {
+             dialog.setVisible(false);
+             mainFrame.updatePanelOfAction();
+         }
+
+         @Override
+         public void windowClosed(WindowEvent e) {
+            //not implemented
+         }
+
+         @Override
+         public void windowIconified(WindowEvent e) {
+            //not implemented
+         }
+
+         @Override
+         public void windowDeiconified(WindowEvent e) {
+            //not implemented
+         }
+
+         @Override
+         public void windowActivated(WindowEvent e) {
+            //not implemented
+         }
+
+         @Override
+         public void windowDeactivated(WindowEvent e) {
+            //not implemented
+         }
+     }
+ }
 

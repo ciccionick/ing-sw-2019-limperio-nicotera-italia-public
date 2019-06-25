@@ -48,9 +48,9 @@ public class RocketLauncher extends  WeaponCard{
         getNamesOfAttack().add("BASIC EFFECT");
         getNamesOfAttack().add("WITH ROCKET JUMP");
         getNamesOfAttack().add("WITH FRAGMENTIN WARHED");
-        getDescriptionsOfAttack().add("Deal 2 damage to 1 target you can see that is not on your square.\n Then you may move the target 1 square");
-        getDescriptionsOfAttack().add("Move 1 or 2 squares. This effect can be used either before or after the basic effect");
-        getDescriptionsOfAttack().add("During the basic effect, deal 1 damage to every player on your target's original square – including the target, even if you move it");
+        getDescriptionsOfAttack().add("Deal 2 damage to 1 target you can see that is not on your square. \nThen you may move the target 1 square");
+        getDescriptionsOfAttack().add("Move 1 or 2 squares. \nThis effect can be used either before or after the basic effect");
+        getDescriptionsOfAttack().add("During the basic effect, deal 1 damage to every player on your target's original square \nincluding the target, even if you move it");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{BLUE});
         setPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
         setLoad(true);

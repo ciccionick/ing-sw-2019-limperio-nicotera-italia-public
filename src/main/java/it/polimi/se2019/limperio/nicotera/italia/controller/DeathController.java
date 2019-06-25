@@ -50,7 +50,10 @@ class DeathController {
              }
              else {
                  killerPlayer.assignMarks(deadPlayer.getColorOfFigure(), 1);
+                 if(deadPlayer.isDirectlyOverkilled())
+                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
                  game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
+                 deadPlayer.setDirectlyOverkilled(false);
              }
          }
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());

@@ -144,7 +144,7 @@ public class Game extends Observable<ServerEvent> {
             if(player.getNickname().equals("Pietro")){
                 int i = 0;
                 for(WeaponCard weaponCard : board.getWeaponsDeck().getWeaponCards()){
-                    if(weaponCard.getName().equals("Plasma gun"))
+                    if(weaponCard.getName().equals("Rocket launcher"))
                         break;
                     i++;
                 }

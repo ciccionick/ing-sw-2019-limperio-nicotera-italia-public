@@ -1,10 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.view.InitializationView;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.tools.Tool;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;

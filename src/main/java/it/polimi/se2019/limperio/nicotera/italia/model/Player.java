@@ -56,6 +56,7 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
     private int numOfKillDoneInTheTurn = 0;
 
     private boolean hasToBeGenerated = true;
+    private boolean isDirectlyOverkilled = false;
 
 
     public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
@@ -76,6 +77,14 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
 
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
+    }
+
+    public boolean isDirectlyOverkilled() {
+        return isDirectlyOverkilled;
+    }
+
+    public void setDirectlyOverkilled(boolean directlyOverkilled) {
+        isDirectlyOverkilled = directlyOverkilled;
     }
 
     public ColorOfFigure_Square getColorOfFigure() {
@@ -145,7 +154,8 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      * @param numOfDamage the number of damages
      */
     public void assignDamage(ColorOfFigure_Square colorOfDamage, int numOfDamage){
-          while(numOfDamage>0 && playerBoard.getDamages().size()<=12){
+        int numOfPreviousDamage = playerBoard.getDamages().size();
+          while(numOfDamage>0 && playerBoard.getDamages().size()<12){
               playerBoard.getDamages().add(colorOfDamage);
               numOfDamage--;
           }
@@ -160,6 +170,8 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
               isOverSixDamage = true;
           if(playerBoard.getDamages().size()>=11)
               isDead=true;
+          if(numOfPreviousDamage<11 && playerBoard.getDamages().size()==12)
+              isDirectlyOverkilled = true;
     }
 
     /**
