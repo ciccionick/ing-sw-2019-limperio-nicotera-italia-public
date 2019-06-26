@@ -207,7 +207,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     }
 
      String handleReconnection() {
-        System.out.println("Sono arrivato in handleReconnection");
         RequestInitializationEvent req = new RequestInitializationEvent("The game is already started: if you were disconnected, reinsert your previous nickname and you will be readmitted to the game", true, false, false, false, false );
          try {
              out.writeObject(req);
@@ -229,11 +228,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      }
 
      void updateStatusAfterReconnection() throws IOException {
-         System.out.println("sono in updateStatusAfterReconnection");
         for(PlayerBoard playerBoard : listOfPlayerBoards) {
             PlayerBoardEvent otherPlayerBoardEvent = new PlayerBoardEvent();
             otherPlayerBoardEvent.setNicknameInvolved(nicknameOfClient);
             otherPlayerBoardEvent.setPlayerBoard(playerBoard);
+            otherPlayerBoardEvent.setMessageForInvolved("You are reconnected correctly");
             out.writeObject(otherPlayerBoardEvent);
         }
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", killshotTrack);

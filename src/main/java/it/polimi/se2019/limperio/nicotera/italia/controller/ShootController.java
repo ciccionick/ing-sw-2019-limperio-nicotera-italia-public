@@ -857,6 +857,8 @@ public class ShootController {
     }
 
     private boolean couldUseTagback(Player playerAttacked) {
+        if(!playerAttacked.isConnected())
+            return false;
         if(weaponToUse!=null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(weaponToUse.getOwnerOfCard()))
             return false;
         if(weaponToUse == null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(controller.findPlayerWithThisNickname("terminator")))

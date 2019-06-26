@@ -92,6 +92,8 @@ public class NetworkHandler implements Observer<ClientEvent> {
             remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }
         if(event.isMapEvent()){
+            if(((MapEvent)event).isForNewton() || ((MapEvent)event).isForTeleporter())
+                remoteView.getMainFrame().showMessage(event);
             remoteView.getMapView().update((MapEvent) event);
         }
         if(event.isKillshotTrackEvent()){

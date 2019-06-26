@@ -26,7 +26,6 @@ class DrawOkButtonListener implements ActionListener {
                 mainFrame.getRemoteView().notify(new DrawPowerUpCards("", mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname(),2));
             if(numOfCardToDraw==1) {
                 mainFrame.getRemoteView().notify(new DrawPowerUpCards("", mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname(), 1));
-                System.out.println("L'evento lo genero");
             }
         }
         dialogForRequestToDraw.setVisible(false);

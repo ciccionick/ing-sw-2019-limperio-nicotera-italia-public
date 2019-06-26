@@ -89,7 +89,6 @@ public class Client {
     private void waitForMessage(){
         while(true){
             try {
-
                 ServerEvent eventFromModel = (ServerEvent) this.in.readObject();
                 if(eventFromModel.isFinished())
                     break;

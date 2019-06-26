@@ -3,7 +3,6 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-
 import java.util.ArrayList;
 
 /**
@@ -180,7 +179,7 @@ class PowerUpController {
 
     }
 
-    ArrayList<Square> getAllSquaresInTheMap(){
+    private ArrayList<Square> getAllSquaresInTheMap(){
         ArrayList<Square> squaresReachable = new ArrayList<>();
         for(int i=0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
             for(int j=0; j<game.getBoard().getMap().getMatrixOfSquares()[i].length; j++){
@@ -207,6 +206,7 @@ class PowerUpController {
          mapEvent.setMessageForOthers(message.getNickname() + "has used teleporter and moves himself");
          mapEvent.setMessageForInvolved("You have been moved on the selected square");
          mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
+         mapEvent.setForTeleporter(true);
          game.notify(mapEvent);
          PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
          playerBoardEvent.setPlayerBoard(player.getPlayerBoard());
@@ -222,7 +222,7 @@ class PowerUpController {
         requestToChooseAPlayer.setMessageForInvolved("Select the player you want to move");
         ArrayList<String> playerCanBeChosen = new ArrayList<>();
         for(Player player : game.getPlayers()){
-            if(!player.isHasToBeGenerated()) {
+            if(!player.isHasToBeGenerated() && !player.getNickname().equals(message.getNickname())) {
                 String nickname = player.getNickname();
                 playerCanBeChosen.add(nickname);
             }
@@ -276,10 +276,11 @@ class PowerUpController {
          MapEvent mapEvent = new MapEvent();
          mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
          mapEvent.setNicknames(game.getListOfNickname());
-         mapEvent.setNicknameInvolved(event.getNickname());
+         mapEvent.setNicknameInvolved(nicknameOfPlayerHasToBeMovedByNewton);
          mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
-         mapEvent.setMessageForOthers(event.getNickname() + "has used newton and moves"+ nicknameOfPlayerHasToBeMovedByNewton);
-         mapEvent.setMessageForInvolved("You have been moved on the selected square");
+         mapEvent.setMessageForOthers(event.getNickname() + "has used newton and moves" + nicknameOfPlayerHasToBeMovedByNewton);
+         mapEvent.setMessageForInvolved("You have been moved from" + event.getNickname() + "that has used Newton");
+         mapEvent.setForNewton(true);
          game.notify(mapEvent);
          PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();
          playerBoardEvent.setPlayerBoard(player.getPlayerBoard());
