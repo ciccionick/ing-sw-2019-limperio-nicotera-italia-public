@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -45,7 +44,6 @@ public class ServerEvent implements Serializable {
     private boolean isRequestActionEvent = false;
     private boolean isRequestForChooseAWeaponToCatch = false;
     private boolean isFinished=false;
-    private boolean isCatchActionDone = false;
     private boolean isRequestSelectionSquareForAction = false;
     private boolean isGenerationEvent = false;
     private boolean isNotifyAboutActionDone = false;
@@ -67,9 +65,6 @@ public class ServerEvent implements Serializable {
 
     private int numOfAction;
     private int numOfMaxAction;
-
-
-
 
     public ServerEvent(){
 
@@ -101,14 +96,6 @@ public class ServerEvent implements Serializable {
 
     void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {
         isRequestToSelectionPlayerToAttackWithTerminator = requestToSelectionPlayerToAttackWithTerminator;
-    }
-
-    public boolean isCatchActionDone() {
-        return isCatchActionDone;
-    }
-
-    public void setCatchActionDone(boolean catchActionDone) {
-        isCatchActionDone = catchActionDone;
     }
 
     public boolean isRequestToPayWithAmmoOrPUCard() {

@@ -657,10 +657,14 @@ public class ShootController {
             }
             else if(weaponToUse.getName().equals("Flamethrower")){
                 Square square = controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), playersAttacked.get(0).getPositionOnTheMap());
-                playersChoosable.addAll(square.getPlayerOnThisSquare());
-                sendRequestToChoosePlayer(1, playersChoosable, true);
+                if(square!=null)
+                    playersChoosable.addAll(square.getPlayerOnThisSquare());
+                if(!playersChoosable.isEmpty()) {
+                    sendRequestToChoosePlayer(1, playersChoosable, true);
+                    needToChooseAPlayer = false;
+                    return;
+                }
                 needToChooseAPlayer = false;
-                return;
             }
         }
 
@@ -770,7 +774,7 @@ public class ShootController {
     }
 
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsNotEnough) {
-        RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
+        RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which power up card you want to discard to pay for the effect");
         requestToDiscardPowerUpCardToPay.setToPayAnEffect(true);
@@ -868,7 +872,7 @@ public class ShootController {
     }
 
     private void sendRequestToUseTargeting(Player player) {
-        RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
+        RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setToTargeting(true);
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         if(isForTerminator) {
@@ -1003,7 +1007,7 @@ public class ShootController {
                 if(powerUpCard.getName().equalsIgnoreCase("Tagback granade"))
                     tagbackGranadeCards.add(new ServerEvent.AliasCard(powerUpCard.getName(), powerUpCard.getDescription(), powerUpCard.getColor()));
             }
-            RequestToDiscardPowerUpCardToPay newEvent = new RequestToDiscardPowerUpCardToPay();
+            RequestToDiscardPowerUpCard newEvent = new RequestToDiscardPowerUpCard();
             newEvent.setNicknameInvolved(player.getNickname());
             newEvent.setMessageForInvolved("Choose a Tagback granade card to use against who attacked you or 'No one' if you want to avoid this");
             newEvent.setPowerUpCards(tagbackGranadeCards);
@@ -1011,7 +1015,7 @@ public class ShootController {
             playersAreChoosingForTagback.add(player);
             game.notify(newEvent);
         }
-        RequestToDiscardPowerUpCardToPay newEvent = new RequestToDiscardPowerUpCardToPay();
+        RequestToDiscardPowerUpCard newEvent = new RequestToDiscardPowerUpCard();
         newEvent.setToTagback(true);
         newEvent.setMessageForInvolved("Wait that the players you have attacked and have tagback decide if use them or not");
         if(isForTerminator)

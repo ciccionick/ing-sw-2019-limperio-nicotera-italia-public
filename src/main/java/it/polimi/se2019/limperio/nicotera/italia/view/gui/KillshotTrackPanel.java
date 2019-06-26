@@ -128,7 +128,15 @@ class KillshotTrackPanel extends JPanel {
         return dialogForFrenzySkull;
     }
 
-     JLabel getSkull1() {
+     void setDialogForNormalSkull(JDialog dialogForNormalSkull) {
+        this.dialogForNormalSkull = dialogForNormalSkull;
+    }
+
+     void setDialogForFrenzySkull(JDialog dialogForFrenzySkull) {
+        this.dialogForFrenzySkull = dialogForFrenzySkull;
+    }
+
+    JLabel getSkull1() {
         return skull1;
     }
 

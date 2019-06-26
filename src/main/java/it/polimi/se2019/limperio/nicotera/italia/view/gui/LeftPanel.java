@@ -153,7 +153,7 @@ import java.util.ArrayList;
 
            buttonW2 = new JButton(use);
            GridBagConstraints gbcButtonW2 = new GridBagConstraints();
-           buttonW2.setEnabled(weapon2.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1());
+           buttonW2.setEnabled(weapon2.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon2());
            gbcButtonW2.insets = new Insets(insetTop / 2, insetLeft, 0, 0);
            gbcButtonW2.gridx = 1;
            gbcButtonW2.gridy = 2;
@@ -163,7 +163,7 @@ import java.util.ArrayList;
 
            buttonW3 = new JButton(use);
            GridBagConstraints gbcButtonW3 = new GridBagConstraints();
-           buttonW3.setEnabled(weapon3.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon1());
+           buttonW3.setEnabled(weapon3.isEnabled() && playerBoardView.getNicknameOfPlayer().equals(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()) && mainFrame.getRemoteView().getMyPlayerBoardView().isCanChooseWeapon3());
            gbcButtonW3.insets = new Insets(insetTop / 2, insetLeft, 0, insetRight);
            gbcButtonW3.gridx = 2;
            gbcButtonW3.gridy = 2;
@@ -334,8 +334,6 @@ import java.util.ArrayList;
               switch (mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck().get(i).getName()){
                  case "Newton":
                     return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseNewton();
-                 case "Tagback granade":
-                    return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseTagbackGranade();
                  case "Teleporter":
                     return mainFrame.getRemoteView().getMyPlayerBoardView().isCanUseTeleporter();
                     default:

@@ -299,7 +299,7 @@ class CatchController {
 
 
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsOfAmmoNotEnough) {
-        RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
+        RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which power up card you want to discard to pay");
         requestToDiscardPowerUpCardToPay.setToCatch(true);

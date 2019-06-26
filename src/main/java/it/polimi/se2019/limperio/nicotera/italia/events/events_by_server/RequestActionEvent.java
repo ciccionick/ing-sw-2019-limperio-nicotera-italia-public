@@ -15,8 +15,6 @@ public class RequestActionEvent extends ServerEvent {
 
     private int round;
     private int numOfAction;
-    private ArrayList<String> nicknamesOfPlayersAttacked = new ArrayList<>();
-    private ArrayList<String> messageForPlayersAttacked = new ArrayList<>();
 
     public boolean isCanShoot() {
         return canShoot;
@@ -44,18 +42,6 @@ public class RequestActionEvent extends ServerEvent {
 
     public boolean isCanUseTagbackGranade() {
         return canUseTagbackGranade;
-    }
-
-
-
-    public void setCanUseTagbackGranade(boolean canUseTagbackGranade) {
-        this.canUseTagbackGranade = canUseTagbackGranade;
-    }
-
-
-
-    public int getRound() {
-        return round;
     }
 
     public void setRound(int round) {
@@ -94,22 +80,6 @@ public class RequestActionEvent extends ServerEvent {
     @Override
     public void setNumOfAction(int numOfAction) {
         this.numOfAction = numOfAction;
-    }
-
-    public ArrayList<String> getNicknamesOfPlayersAttacked() {
-        return nicknamesOfPlayersAttacked;
-    }
-
-    public void setNicknamesOfPlayersAttacked(ArrayList<String> nicknamesOfPlayersAttacked) {
-        this.nicknamesOfPlayersAttacked = nicknamesOfPlayersAttacked;
-    }
-
-    public ArrayList<String> getMessageForPlayersAttacked() {
-        return messageForPlayersAttacked;
-    }
-
-    public void setMessageForPlayersAttacked(ArrayList<String> messageForPlayersAttacked) {
-        this.messageForPlayersAttacked = messageForPlayersAttacked;
     }
 
 

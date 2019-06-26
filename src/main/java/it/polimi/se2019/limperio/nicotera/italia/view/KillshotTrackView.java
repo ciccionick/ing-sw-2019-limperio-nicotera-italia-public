@@ -33,7 +33,7 @@ public class KillshotTrackView {
         return tokensOfDeath;
     }
 
-    public void setTokensOfDeath(ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath) {
+    private void setTokensOfDeath(ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath) {
         this.tokensOfDeath = tokensOfDeath;
     }
 
@@ -41,7 +41,7 @@ public class KillshotTrackView {
         return tokenOfFrenzyMode;
     }
 
-    public void setTokenOfFrenzyMode(ArrayList<ColorOfDeathToken> tokenOfFrenzyMode) {
+    private void setTokenOfFrenzyMode(ArrayList<ColorOfDeathToken> tokenOfFrenzyMode) {
         this.tokenOfFrenzyMode = tokenOfFrenzyMode;
     }
 }

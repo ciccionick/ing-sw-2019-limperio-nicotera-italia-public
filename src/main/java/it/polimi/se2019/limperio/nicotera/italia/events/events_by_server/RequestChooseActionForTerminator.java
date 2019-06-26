@@ -2,10 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 public class RequestChooseActionForTerminator extends ServerEvent {
 
-    boolean terminatorCanShoot;
-    boolean terminatorCanMove;
-
-
+    private boolean terminatorCanShoot;
+    private boolean terminatorCanMove;
 
     public RequestChooseActionForTerminator() {
         setRequestToChooseTerminatorAction(true);

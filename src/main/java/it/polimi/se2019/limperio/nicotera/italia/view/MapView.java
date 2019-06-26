@@ -6,8 +6,6 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
-
-import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
@@ -98,7 +96,7 @@ public class MapView {
         return isSelectionBeforeToShoot;
     }
 
-     void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
+     public void setSelectionBeforeToShoot(boolean selectionBeforeToShoot) {
         isSelectionBeforeToShoot = selectionBeforeToShoot;
     }
 
@@ -124,7 +122,7 @@ public class MapView {
         return isSelectionForRun;
     }
 
-     void setSelectionForRun(boolean selectionForRun) {
+     public void setSelectionForRun(boolean selectionForRun) {
         isSelectionForRun = selectionForRun;
     }
 
@@ -133,7 +131,7 @@ public class MapView {
     }
 
 
-    void setSelectionForCatch(boolean selectionForCatch) {
+    public void setSelectionForCatch(boolean selectionForCatch) {
         isSelectionForCatch = selectionForCatch;
     }
 
@@ -141,7 +139,7 @@ public class MapView {
         return isSelectionForGenerationOfTerminator;
     }
 
-     void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
+     public void setSelectionForGenerationOfTerminator(boolean selectionForGenerationOfTerminator) {
         isSelectionForGenerationOfTerminator = selectionForGenerationOfTerminator;
     }
 
@@ -149,7 +147,7 @@ public class MapView {
         return isSelectionForMoveTerminator;
     }
 
-     void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
+     public void setSelectionForMoveTerminator(boolean selectionForMoveTerminator) {
         isSelectionForMoveTerminator = selectionForMoveTerminator;
     }
 
@@ -165,7 +163,7 @@ public class MapView {
         return isSelectionForTeleporter;
     }
 
-     void setSelectionForTeleporter(boolean selectionForTeleporter) {
+     public void setSelectionForTeleporter(boolean selectionForTeleporter) {
         isSelectionForTeleporter = selectionForTeleporter;
     }
 
@@ -181,7 +179,7 @@ public class MapView {
         isSelectionForShootAction = selectionForShootAction;
     }
 
-    void setSelectionForNewton(boolean selectionForNewton) {
+    public void setSelectionForNewton(boolean selectionForNewton) {
         isSelectionForNewton = selectionForNewton;
     }
 }

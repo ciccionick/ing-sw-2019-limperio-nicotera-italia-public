@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  *
  */
-class FrameForRequestIP {
+public class FrameForRequestIP {
 
     /**
      *
@@ -43,7 +43,7 @@ class FrameForRequestIP {
      *
      * @param client
      */
-     FrameForRequestIP(Client client) {
+    public FrameForRequestIP(Client client) {
          loggerForFrameIp.addHandler(handlerLoggerFrameIP);
          JFrame frameForRequestIP = new JFrame("Adrenaline - Request IP");
          this.frame = frameForRequestIP;

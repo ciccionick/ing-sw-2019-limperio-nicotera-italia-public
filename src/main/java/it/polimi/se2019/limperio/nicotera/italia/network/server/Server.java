@@ -90,7 +90,7 @@ public class Server  {
      * and read from file the duration of delay, setting the timer with his task
      *
      */
-    Server()  {
+    public Server()  {
         loggerServer.addHandler(handlerLoggerServer);
         try {
             serverSocket = new ServerSocket(4000);

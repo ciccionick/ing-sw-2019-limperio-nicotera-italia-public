@@ -14,6 +14,6 @@ public class ClientMain {
         Client client;
         client = new Client();
         client.handleConnectionWithServer();
-        new FrameForRequestIP(client);
+        //new FrameForRequestIP(client);
     }
 }

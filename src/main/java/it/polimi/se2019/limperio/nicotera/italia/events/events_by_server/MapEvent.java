@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Event for notify a player about creation or update of map.
+ * Event for updateStateOfRemoteView a player about creation or update of map.
  *
  * @author Pietro L'Imperio
  */
@@ -109,13 +109,11 @@ public class MapEvent extends ServerEvent {
      * square in the correct list.
      * @param matrixOfSquares The matrix representing the map of the game.
      */
-    public void setWeaponsWithTheirAlias(Square[][] matrixOfSquares) {
+    private void setWeaponsWithTheirAlias(Square[][] matrixOfSquares) {
         for (Square[] rowSquare: matrixOfSquares) {
             for(Square square : rowSquare) {
-                if (square != null) {
-                    if (square.isSpawn()) {
-                        setWeaponsCardsForSpawnSquare((SpawnSquare) square);
-                    }
+                if (square != null && square.isSpawn()) {
+                    setWeaponsCardsForSpawnSquare((SpawnSquare) square);
                 }
             }
         }

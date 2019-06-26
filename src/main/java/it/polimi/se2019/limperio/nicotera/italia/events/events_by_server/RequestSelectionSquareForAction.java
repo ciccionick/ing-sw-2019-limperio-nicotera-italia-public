@@ -30,10 +30,6 @@ public class RequestSelectionSquareForAction extends ServerEvent {
         return squaresReachable;
     }
 
-    public ArrayList<AliasCard> getWeaponNotAvailableForLackOfAmmo() {
-        return weaponNotAvailableForLackOfAmmo;
-    }
-
     public void setWeaponNotAvailableForLackOfAmmo(ArrayList<AliasCard> weaponNotAvailableForLackOfAmmo) {
         this.weaponNotAvailableForLackOfAmmo = weaponNotAvailableForLackOfAmmo;
     }

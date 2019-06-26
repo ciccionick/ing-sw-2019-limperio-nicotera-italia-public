@@ -1,10 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.view;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestInitializationEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.FrameForInitialization;
 
-import java.util.Scanner;
+
 
 /**
  * This class handles the initial record of the players in which they choose nickname and color.
@@ -19,10 +18,6 @@ public class InitializationView {
      * reference to specific remote view of a client
      */
     private RemoteView remoteView;
-    /**
-     * It allows to read from command line
-     */
-    private Scanner stdin = new Scanner(System.in);
 
      InitializationView(RemoteView remoteView) {
         this.remoteView = remoteView;
@@ -30,7 +25,6 @@ public class InitializationView {
 
     /**
      * Takes the nickname of a player that is recording to game.
-     * @return the nickname
      */
     private void setNicknameInitializingFrame(){
         frameForInitialization = new FrameForInitialization("Adrenaline - Setup", this);
@@ -80,7 +74,7 @@ public class InitializationView {
         return remoteView;
     }
 
-    public FrameForInitialization getFrameForInitialization() {
+     FrameForInitialization getFrameForInitialization() {
         return frameForInitialization;
     }
 }

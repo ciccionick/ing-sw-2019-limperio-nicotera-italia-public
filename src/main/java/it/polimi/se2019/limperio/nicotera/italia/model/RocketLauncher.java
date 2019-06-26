@@ -41,7 +41,7 @@ public class RocketLauncher extends  WeaponCard{
         description = "BASIC EFFECT: \nDeal 2 damage to 1 target you can see that is not on your square.\nThen you may move the target 1 square." +
                       "WITH ROCKET JUMP: \nMove 1 or 2 squares. \nThis effect can be used either before or after the basic effect." +
                       "WITH FRAGMENTIN WARHED: \nDuring the basic effect, deal 1 damage to every player on your target's original square \nincluding the target, even if you move it." +
-                      "Notes: \nIf you use the rocket jump before the basic effect, \nyou consider only your new square when determining if a target is legal. \nYou can even move off a square so you can shoot someone on it. \nIf you use the fragmenting warhead, you deal damage to everyone on the target's square before you move the target \nyour target will take 3 damage total.";
+                      "Notes: \nIf you use the rocket jump before the basic effect, \nyou consider only your new square when determining if a target is legal. \nYou can even move off a square so you can shoot someone on it. \nIf you use the fragmenting warhead, you deal damage to everyone on the target's square \nbefore you move the target \nyour target will take 3 damage total.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);

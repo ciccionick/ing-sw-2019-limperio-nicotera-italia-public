@@ -6,7 +6,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import java.util.ArrayList;
 
 /**
- * Event for notify a player about creation or update of his player board.
+ * Event for updateStateOfRemoteView a player about creation or update of his player board.
  *
  * @author Pietro L'Imperio
  */
@@ -62,20 +62,12 @@ public class PlayerBoardEvent extends ServerEvent {
 
     }
 
-    public boolean isFirstFrenzyPlayerBoard() {
-        return isFirstFrenzyPlayerBoard;
-    }
-
     public void setFirstFrenzyPlayerBoard(boolean firstFrenzyPlayerBoard) {
         isFirstFrenzyPlayerBoard = firstFrenzyPlayerBoard;
     }
 
     public boolean isHasToDiscardCard() {
         return hasToDiscardCard;
-    }
-
-    public void setHasToDiscardCard(boolean hasToDiscardCard) {
-        this.hasToDiscardCard = hasToDiscardCard;
     }
 
 }

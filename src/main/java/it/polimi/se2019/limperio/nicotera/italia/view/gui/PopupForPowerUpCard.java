@@ -12,12 +12,8 @@ import java.awt.*;
      PopupForPowerUpCard(MainFrame mainFrame, int numOfCard) {
          this.mainFrame = mainFrame;
          JPanel contentPane = new JPanel(new GridBagLayout());
-         popupForPC = new JDialog();
+         popupForPC = new JDialog(mainFrame.getFrame());
          popupForPC.setUndecorated(true);
-         popupForPC.setSize((mainFrame.getFrame().getWidth() / 3), (int) (mainFrame.getFrame().getHeight() / 2.5));
-         popupForPC.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - popupForPC.getWidth()) / 2,
-                 (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - popupForPC.getHeight()) / 2);
-
          popupForPC.getContentPane().setLayout(new BorderLayout(0, 0));
          contentPane.setBorder(new EmptyBorder(10,10,10,10));
          popupForPC.getContentPane().add(contentPane);

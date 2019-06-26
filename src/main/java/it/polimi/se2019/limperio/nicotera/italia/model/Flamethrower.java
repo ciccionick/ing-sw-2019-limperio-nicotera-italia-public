@@ -35,7 +35,7 @@ public class Flamethrower extends WeaponCard {
         String description;
         description = "BASIC MODE:\nChoose a square 1 move away and possibly a second square 1 more move away in the same direction. \nOn each square, you may choose 1 target and give it 1 damage.\n" +
                 "IN BARBECUE MODE:\nChoose 2 squares as above. \nDeal 2 damage to everyone on the first square and 1 damage \nto everyone on the second square.\n" +
-                "Notes:\n This weapon cannot damage anyone in your square. \nHowever, it can sometimes damage a target you can't see \nthe flame won't go through walls, but it will go through doors. \nThink of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
+                "Notes:\nThis weapon cannot damage anyone in your square. \nHowever, it can sometimes damage a target you can't see \nthe flame won't go through walls, but it will go through doors. \nThink of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add("");
@@ -44,7 +44,7 @@ public class Flamethrower extends WeaponCard {
         getDescriptionsOfAttack().add("Choose a square 1 move away and possibly a second square\n1 more move away in the same direction.\nOn each square, you may choose 1 target and give it 1 damage");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
-        getDescriptionsOfAttack().add("Choose 2 squares as above. \nDeal 2 damage to everyone on the first square and 1 damage to everyone on the second square");
+        getDescriptionsOfAttack().add("Choose 2 squares as above. \nDeal 2 damage to everyone on the first square \nand 1 damage to everyone on the second square");
          Boolean[] kindOfAttack = {true, false, false, true};
          setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{YELLOW, YELLOW});
         setHasThisKindOfAttack(kindOfAttack);

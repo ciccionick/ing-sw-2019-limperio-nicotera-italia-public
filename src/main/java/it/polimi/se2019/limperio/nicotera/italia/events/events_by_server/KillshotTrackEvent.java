@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
 
 /**
- * Event for notify a player about the creation or update of Killshot track.
+ * Event for updateStateOfRemoteView a player about the creation or update of Killshot track.
  *
  * @author Pietro L'Imperio
  */

@@ -23,7 +23,4 @@ public class RequestSelectionWeaponToReload extends ServerEvent{
         return weaponCardsAffordable;
     }
 
-    public void setWeaponCardsAffordable(ArrayList<AliasCard> weaponCardsAffordable) {
-        this.weaponCardsAffordable = weaponCardsAffordable;
-    }
 }

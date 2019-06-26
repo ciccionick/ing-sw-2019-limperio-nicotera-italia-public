@@ -7,8 +7,7 @@ import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 
@@ -31,13 +30,12 @@ public class MainFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(new Dimension(1470, 900));
+        frame.setMinimumSize(new Dimension(800, 600));
 
-
-        contentPane = new JPanel();
+                contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
-        contentPane.addComponentListener(new FrameListener(this));
+        contentPane.addComponentListener(new FrameListener(this,false));
 
 
         mapPanel = new MapPanel(this);
@@ -198,38 +196,77 @@ public class MainFrame {
     private class FrameListener implements ComponentListener {
 
         private MainFrame mainFrame;
+        private boolean isForFrame;
 
-         FrameListener(MainFrame mainFrame) {
+         FrameListener(MainFrame mainFrame, boolean isForFrame) {
             this.mainFrame = mainFrame;
+            this.isForFrame = isForFrame;
         }
 
         @Override
         public void componentResized(ComponentEvent e) {
-             for(JDialog dialog : mapPanel.getDialogForFigure()){
-                 dialog.setVisible(false);
+             if(!isForFrame) {
+                 for (JDialog dialog : mapPanel.getDialogForFigure()) {
+                     dialog.setVisible(false);
+                 }
+                 if (killshotTrackPanel.getDialogForFrenzySkull() != null) {
+                     killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+                     killshotTrackPanel.setDialogForFrenzySkull(null);
+                 }
+                 if (killshotTrackPanel.getDialogForNormalSkull() != null) {
+                     killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
+                     killshotTrackPanel.setDialogForNormalSkull(null);
+                 }
+                 if (leftPanel.getPlayerBoardPanel().getDialogForDamage() != null)
+                     leftPanel.getPlayerBoardPanel().getDialogForDamage().dispose();
+                 if (leftPanel.getPlayerBoardPanel().getDialogForMarks() != null)
+                     leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
+                 contentPane.removeAll();
+
+                 mapPanel = new MapPanel(mainFrame);
+                 contentPane.add(mapPanel, BorderLayout.CENTER);
+
+                 killshotTrackPanel = new KillshotTrackPanel(mainFrame);
+                 contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
+
+                 leftPanel = new LeftPanel(mainFrame, leftPanel.getPlayerBoardView());
+                 contentPane.add(leftPanel, BorderLayout.WEST);
+
+                 rightPanel = new RightPanel(mainFrame);
+                 contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
+
+                 contentPane.validate();
+                 contentPane.repaint();
+
+                 mapPanel.addFigureOnSquare(mainFrame);
+                 killshotTrackPanel.addDialogForNormalKillshot();
+                 killshotTrackPanel.addDialogForFrenzyKillshot();
+                 leftPanel.getPlayerBoardPanel().addDialogForDamage();
+                 leftPanel.getPlayerBoardPanel().addDialogForMarks();
              }
-            contentPane.removeAll();
-
-            mapPanel = new MapPanel(mainFrame);
-            contentPane.add(mapPanel,BorderLayout.CENTER);
-
-            killshotTrackPanel = new KillshotTrackPanel(mainFrame);
-            contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
-
-            leftPanel = new LeftPanel(mainFrame,leftPanel.getPlayerBoardView());
-            contentPane.add(leftPanel, BorderLayout.WEST);
-
-            rightPanel = new RightPanel(mainFrame);
-            contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
-
-            contentPane.validate();
-            contentPane.repaint();
-            mapPanel.addFigureOnSquare(mainFrame);
         }
 
         @Override
         public void componentMoved(ComponentEvent e) {
-            //not interested in this event
+             System.out.println("Mosso");
+            for(JDialog dialog : mapPanel.getDialogForFigure()){
+                dialog.setVisible(false);
+            }
+            if(killshotTrackPanel.getDialogForFrenzySkull()!=null)
+                killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+            if(killshotTrackPanel.getDialogForNormalSkull()!=null)
+                killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
+            if(leftPanel.getPlayerBoardPanel().getDialogForDamage()!=null)
+                leftPanel.getPlayerBoardPanel().getDialogForDamage().setVisible(false);
+            if(leftPanel.getPlayerBoardPanel().getDialogForMarks()!=null)
+                leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
+
+            mapPanel.addFigureOnSquare(mainFrame);
+            killshotTrackPanel.addDialogForNormalKillshot();
+            killshotTrackPanel.addDialogForFrenzyKillshot();
+            leftPanel.getPlayerBoardPanel().addDialogForDamage();
+            leftPanel.getPlayerBoardPanel().addDialogForMarks();
+
         }
 
         @Override
@@ -241,6 +278,7 @@ public class MainFrame {
         public void componentHidden(ComponentEvent e) {
             //not interested in this event
         }
+
     }
 }
 

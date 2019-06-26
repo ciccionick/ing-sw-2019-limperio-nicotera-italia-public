@@ -6,6 +6,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.Request
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,18 +19,13 @@ class DialogForMessage {
 
      DialogForMessage(MainFrame mainFrame, ServerEvent receivedEvent) {
          dialog = new JDialog(mainFrame.getFrame());
-         dialog.setModal(true);
-
          dialog.setLocationRelativeTo(mainFrame.getFrame());
          JFrame frame = mainFrame.getFrame();
          dialog.setUndecorated(true);
          dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
-         dialog.setSize((int) (frame.getWidth() / 4.2), (int) (frame.getHeight() / 3.6));
-         int xPosition = (frame.getX() + frame.getWidth() - dialog.getWidth()) / 2;
-         int yPosition = (frame.getY() + frame.getHeight() - dialog.getHeight()) / 2;
-         dialog.setLocation(xPosition, yPosition);
          dialog.getContentPane().setLayout(new BorderLayout());
          JPanel contentPanel = new JPanel();
+         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
          contentPanel.setBackground(SystemColor.menu);
          contentPanel.setLayout(new GridBagLayout());
          dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -39,9 +35,8 @@ class DialogForMessage {
          else
              message = new JTextArea(receivedEvent.getMessageForOthers());
          message.setEditable(false);
-         message.setLineWrap(true);
+         message.setLineWrap(false);
          message.setBackground(SystemColor.menu);
-         message.setColumns(34);
          message.setFont(new Font(Font.SERIF, Font.PLAIN, 16));
          GridBagConstraints gbcMessage = new GridBagConstraints();
          gbcMessage.gridx = 0;
@@ -110,6 +105,9 @@ class DialogForMessage {
                  dialog.getRootPane().setDefaultButton(button);
              }
          }
+         dialog.pack();
+         dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,
+                 (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
          dialog.setVisible(true);
      }
 
@@ -117,9 +115,10 @@ class DialogForMessage {
          return dialog;
      }
 
-     JButton getButton() {
-         return button;
-     }
+
+
+
+
 
      class ListenerForButtonOfTerminator implements ActionListener{
 

@@ -72,9 +72,6 @@ public class PlayerBoardView {
         return canShoot;
     }
 
-    public void setCanShoot(boolean canShoot) {
-        this.canShoot = canShoot;
-    }
 
     /**
      * Updates the player's board
@@ -136,57 +133,43 @@ public class PlayerBoardView {
         return canUseNewton;
     }
 
-    public void setCanUseNewton(boolean canUseNewton) {
-        this.canUseNewton = canUseNewton;
-    }
 
     public boolean isCanUseTeleporter() {
         return canUseTeleporter;
     }
 
-    public void setCanUseTeleporter(boolean canUseTeleporter) {
-        this.canUseTeleporter = canUseTeleporter;
-    }
 
     public boolean isCanUseTagbackGranade() {
         return canUseTagbackGranade;
     }
 
-    public void setCanUseTagbackGranade(boolean canUseTagbackGranade) {
-        this.canUseTagbackGranade = canUseTagbackGranade;
-    }
 
     public boolean isCanChooseWeapon1() {
         return canChooseWeapon1;
-    }
-
-    public void setCanChooseWeapon1(boolean canChooseWeapon1) {
-        this.canChooseWeapon1 = canChooseWeapon1;
     }
 
     public boolean isCanChooseWeapon2() {
         return canChooseWeapon2;
     }
 
+    public boolean isCanChooseWeapon3() {
+        return canChooseWeapon3;
+    }
+
+    public void setCanChooseWeapon1(boolean canChooseWeapon1) {
+        this.canChooseWeapon1 = canChooseWeapon1;
+    }
+
+
     public void setCanChooseWeapon2(boolean canChooseWeapon2) {
         this.canChooseWeapon2 = canChooseWeapon2;
     }
 
-    public boolean isCanChooseWeapon3() {
-        return canChooseWeapon3;
-    }
 
     public void setCanChooseWeapon3(boolean canChooseWeapon3) {
         this.canChooseWeapon3 = canChooseWeapon3;
     }
 
-    public boolean isCanUseTargetingScope() {
-        return canUseTargetingScope;
-    }
-
-    public void setCanUseTargetingScope(boolean canUseTargetingScope) {
-        this.canUseTargetingScope = canUseTargetingScope;
-    }
 
     public boolean isCanRun() {
         return canRun;
@@ -196,7 +179,7 @@ public class PlayerBoardView {
         return isFrenzyPlayerBoard;
     }
 
-    public void setFrenzyPlayerBoard(boolean frenzyPlayerBoard) {
+    private void setFrenzyPlayerBoard(boolean frenzyPlayerBoard) {
         isFrenzyPlayerBoard = frenzyPlayerBoard;
     }
 
@@ -204,27 +187,21 @@ public class PlayerBoardView {
         return isFrenzyActionBar;
     }
 
-    public void setFrenzyActionBar(boolean frenzyActionBar) {
+    private void setFrenzyActionBar(boolean frenzyActionBar) {
         isFrenzyActionBar = frenzyActionBar;
     }
 
-    public void setCanRun(boolean canRun) {
-        this.canRun = canRun;
-    }
 
     public boolean isCanCatch() {
         return canCatch;
     }
 
-    public void setCanCatch(boolean canCatch) {
-        this.canCatch = canCatch;
-    }
 
     public ArrayList<Integer> getScoreBarForNormalMode() {
         return scoreBarForNormalMode;
     }
 
-    public void setScoreBarForNormalMode(ArrayList<Integer> scoreBarForNormalMode) {
+    private void setScoreBarForNormalMode(ArrayList<Integer> scoreBarForNormalMode) {
         this.scoreBarForNormalMode = scoreBarForNormalMode;
     }
 
@@ -232,7 +209,7 @@ public class PlayerBoardView {
         return scoreBarForFrenzyMode;
     }
 
-    public void setScoreBarForFrenzyMode(ArrayList<Integer> scoreBarForFrenzyMode) {
+    private void setScoreBarForFrenzyMode(ArrayList<Integer> scoreBarForFrenzyMode) {
         this.scoreBarForFrenzyMode = scoreBarForFrenzyMode;
     }
 
@@ -240,7 +217,7 @@ public class PlayerBoardView {
         return hasToDoTerminatorAction;
     }
 
-    void updateThingsPlayerCanDo(RequestActionEvent receivedEvent) {
+    public void updateThingsPlayerCanDo(RequestActionEvent receivedEvent) {
         canUseTeleporter = receivedEvent.isCanUseTeleporter();
         canUseTagbackGranade = receivedEvent.isCanUseTagbackGranade();
         canUseNewton = receivedEvent.isCanUseNewton();
@@ -250,7 +227,7 @@ public class PlayerBoardView {
         canRun = receivedEvent.isCanRun();
     }
 
-    void updateWeaponCanUse(RequestToChooseWeapon receivedEvent){
+    public void updateWeaponCanUse(RequestToChooseWeapon receivedEvent){
         canChooseWeapon1 = receivedEvent.isCanUseWeapon1();
         canChooseWeapon2 = receivedEvent.isCanUseWeapon2();
         canChooseWeapon3 = receivedEvent.isCanUseWeapon3();
@@ -264,7 +241,7 @@ public class PlayerBoardView {
     }
 
 
-         void disableEveryThingPlayerCanDo() {
+         public void disableEveryThingPlayerCanDo() {
              hasToChoosePowerUpCardForSpawn = false;
              canUseNewton = false;
              canUseTeleporter = false;

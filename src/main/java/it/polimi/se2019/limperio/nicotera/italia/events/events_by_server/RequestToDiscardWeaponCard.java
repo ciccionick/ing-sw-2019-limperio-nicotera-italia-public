@@ -9,7 +9,4 @@ public class RequestToDiscardWeaponCard extends ServerEvent {
         setRequestToDiscardWeaponCard(true);
     }
 
-    public String getNameOfWeaponCardToAdd() {
-        return nameOfWeaponCardToAdd;
-    }
 }

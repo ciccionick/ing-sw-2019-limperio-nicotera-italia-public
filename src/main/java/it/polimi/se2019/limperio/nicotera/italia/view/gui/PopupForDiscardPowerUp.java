@@ -2,7 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCardToPay;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
@@ -75,7 +75,7 @@ class PopupForDiscardPowerUp {
          gbcLabelMessage.gridx = 0;
          gbcLabelMessage.gridy = 0;
          gbcLabelMessage.gridwidth = listOfPowerUpCards.size();
-         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()))
+         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
             gbcLabelMessage.gridwidth++;
              contentPanel.add(message, gbcLabelMessage);
 
@@ -102,7 +102,7 @@ class PopupForDiscardPowerUp {
 
             gbc.gridy++;
             JButton button = new JButton();
-            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting()|| ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()))
+            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting()|| ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
                 button.setText("Use");
             else
                 button.setText("Discard");
@@ -116,7 +116,7 @@ class PopupForDiscardPowerUp {
 
         }
 
-        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback())){
+        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback())){
             JButton buttonToNotDiscard = new JButton("No one");
             buttonToNotDiscard.setActionCommand("No one");
             gbc.gridy=1;
@@ -130,7 +130,7 @@ class PopupForDiscardPowerUp {
 
          dialog.setVisible(true);
 
-         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCardToPay)receivedEvent).isToTagback()){
+         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()){
              timer = new Timer();
              task = new TaskForTagbackTimer();
              try{
@@ -145,7 +145,7 @@ class PopupForDiscardPowerUp {
      }
 
      private void addPowerUpCardsToDiscard(ArrayList<ServerEvent.AliasCard> listOfPowerUpCards, ServerEvent receivedEvent) {
-         ArrayList<ServerEvent.AliasCard> nameOfPowerUpCards = ((RequestToDiscardPowerUpCardToPay)receivedEvent).getPowerUpCards();
+         ArrayList<ServerEvent.AliasCard> nameOfPowerUpCards = ((RequestToDiscardPowerUpCard)receivedEvent).getPowerUpCards();
          for(ServerEvent.AliasCard powerUpCard : mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck()){
              for(ServerEvent.AliasCard card : nameOfPowerUpCards){
                  if(card.getName().equals(powerUpCard.getName())&&card.getColor().equals(powerUpCard.getColor())) {
@@ -177,12 +177,12 @@ class PopupForDiscardPowerUp {
               }
               if(event.isRequestToDiscardPowerUpCardToPay()) {
                   DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  newEvent.setToCatch(((RequestToDiscardPowerUpCardToPay)event).isToCatch());
-                  newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCardToPay)event).isToPayAnEffect());
-                  newEvent.setToReload(((RequestToDiscardPowerUpCardToPay)event).isToReload());
-                  newEvent.setToTargeting(((RequestToDiscardPowerUpCardToPay)event).isToTargeting());
-                  newEvent.setToTagback(((RequestToDiscardPowerUpCardToPay)event).isToTagback());
-                  newEvent.setToReload(((RequestToDiscardPowerUpCardToPay)event).isToReload());
+                  newEvent.setToCatch(((RequestToDiscardPowerUpCard)event).isToCatch());
+                  newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCard)event).isToPayAnEffect());
+                  newEvent.setToReload(((RequestToDiscardPowerUpCard)event).isToReload());
+                  newEvent.setToTargeting(((RequestToDiscardPowerUpCard)event).isToTargeting());
+                  newEvent.setToTagback(((RequestToDiscardPowerUpCard)event).isToTagback());
+                  newEvent.setToReload(((RequestToDiscardPowerUpCard)event).isToReload());
                   if(!e.getActionCommand().equals("No one")){
                       newEvent.setNameOfPowerUpCard(card.getName());
                       newEvent.setColorOfCard(card.getColor());

@@ -23,7 +23,4 @@ public class RequestToChooseMultiplePlayers extends ServerEvent {
         return namesOfPlayers;
     }
 
-    public void setNamesOfPlayers(ArrayList<String> namesOfPlayers) {
-        this.namesOfPlayers = namesOfPlayers;
-    }
 }

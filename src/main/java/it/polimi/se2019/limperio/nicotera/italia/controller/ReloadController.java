@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionWeaponToReload;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCardToPay;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
@@ -113,7 +113,7 @@ class ReloadController {
     }
 
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsNotEnough) {
-        RequestToDiscardPowerUpCardToPay requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCardToPay();
+        RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose a powerUp to discard to reload:");
         requestToDiscardPowerUpCardToPay.setToReload(true);

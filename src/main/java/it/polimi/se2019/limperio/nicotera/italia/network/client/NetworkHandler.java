@@ -3,11 +3,9 @@ package it.polimi.se2019.limperio.nicotera.italia.network.client;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observer;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -20,7 +18,7 @@ import java.util.logging.Logger;
  * 
  * @author Pietro L'Imperio
  */
-public class NetworkHandler extends Observable<ServerEvent> implements Observer<ClientEvent> {
+public class NetworkHandler implements Observer<ClientEvent> {
 
     /**
      * The nickname that the client choose but the server has to check if has not already chosen by another player before
@@ -43,7 +41,6 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
          loggerNetworkHandler.addHandler(handlerLoggerNetworkHandler);
         this.client = client;
         this.remoteView = new RemoteView(client, this);
-        register(this.remoteView);
     }
 
     public Client getClient() {
@@ -81,20 +78,16 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
     }
 
     /**
-     * Receives all of the event by the server and call notify
+     * Receives all of the event by the server and call updateStateOfRemoteView
      * @param event The event received
      */
      void handleEvent(ServerEvent event){
-        notify(event);
+        updateStateOfRemoteView(event);
     }
 
-    /**
-     * In accordance with the boolean attributes stored in {@link ServerEvent} calls the update of the
-     * right part of {@link RemoteView}
-     * @param event The event received by the server
-     */
-    @Override
-    public void notify(ServerEvent event) {
+
+    private void updateStateOfRemoteView(ServerEvent event) {
+
         if(event.isPlayerBoardEvent()){
             remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }
@@ -109,79 +102,140 @@ public class NetworkHandler extends Observable<ServerEvent> implements Observer<
                 remoteView.getMainFrame().updateNorthPanel();
         }
 
-
-
         if(event.isUpdateScoreEvent()){
-            remoteView.update(event);
+            remoteView.getMainFrame().showMessage(event);
+            if(event.isFinalUpdate()){
+                remoteView.getMyPlayerBoardView().disableEveryThingPlayerCanDo();
+                remoteView.getMainFrame().getRightPanel().getPanelOfActions().updateStateOfButton();
+                remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(remoteView.getMyPlayerBoardView().getNicknameOfPlayer());
+            }
         }
 
         if(event.isRequestToChooseMultiplePlayers())
             remoteView.getMainFrame().handleRequestToChooseMultiplePlayers(event);
 
         if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
-            remoteView.update(event);
+            remoteView.getMainFrame().handleRequestToChooseAPlayer(event);
+
         }
 
-        if(event.isRequestToChooseTerminatorAction()){
-            remoteView.update(event);
-        }
 
         if (event.isTimerOverEvent()){
-            remoteView.update(event);
+            remoteView.getMyPlayerBoardView().disableEveryThingPlayerCanDo();
+            remoteView.getMapView().setHasToChooseASquare(false);
+            remoteView.getMainFrame().updatePanelOfAction();
+            remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(remoteView.getMyPlayerBoardView().getNicknameOfPlayer());
+            remoteView.getMainFrame().updateEnableSquares(remoteView.getMapView().getListOfSquareAsArrayList());
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.getMainFrame().hidePopup();
+            remoteView.setMyTurn(false);
+            remoteView.getMainFrame().updateNorthPanel();
+
         }
-        if(event.isGenerationEvent()){
-            remoteView.update(event);
+
+        if(event.isGenerationEvent()|| event.isRequestToChooseTerminatorAction()){
+            remoteView.getMainFrame().showMessage(event);
         }
+
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){
-            remoteView.update(event);
-            return;
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.setMyTurn(event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer()));
+            remoteView.getMainFrame().updateNorthPanel();
+            remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
+
         }
         if(event.isRequestForDrawOnePowerUpCardEvent()){
-            remoteView.update(event);
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.setMyTurn(event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer()));
+            remoteView.getMainFrame().updateNorthPanel();
         }
         if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
-            remoteView.update(event);
+            remoteView.getMainFrame().handleRequestToDiscardPowerUpCard(event);
         }
         if(event.isRequestActionEvent()){
-            remoteView.update(event);
-            return;
+            if (event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer())) {
+                remoteView.getMyPlayerBoardView().updateThingsPlayerCanDo((RequestActionEvent) event);
+                remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(remoteView.getMyPlayerBoardView().getNicknameOfPlayer());
+                remoteView.getMainFrame().updatePanelOfAction();
+            }
+            if(remoteView.isMyTurn() && !event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer())) {
+                remoteView.setMyTurn(false);
+                remoteView.getMyPlayerBoardView().disableEveryThingPlayerCanDo();
+                remoteView.getMainFrame().getRightPanel().getPanelOfActions().updateStateOfButton();
+                remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(remoteView.getMyPlayerBoardView().getNicknameOfPlayer());
+                remoteView.getMainFrame().updateNorthPanel();
+            }
+            if(!remoteView.isMyTurn() && event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer())) {
+                remoteView.setMyTurn(true);
+                remoteView.getMainFrame().updateNorthPanel();
+            }
+
+            remoteView.getMainFrame().showMessage(event);
+
         }
 
         if(event.isRequestSelectionSquareForAction()){
-            remoteView.update(event);
-            return;
+            remoteView.getMapView().setHasToChooseASquare(true);
+            remoteView.getMapView().setReachableSquares(((RequestSelectionSquareForAction) event).getSquaresReachable());
+            remoteView.getMapView().setSelectionForCatch(((RequestSelectionSquareForAction) event).isSelectionForCatch());
+            remoteView.getMapView().setSelectionForRun(((RequestSelectionSquareForAction) event).isSelectionForRun());
+            remoteView.getMapView().setSelectionForGenerationOfTerminator(((RequestSelectionSquareForAction) event).isSelectionForSpawnTerminator());
+            remoteView.getMapView().setSelectionForMoveTerminator(((RequestSelectionSquareForAction) event).isSelectionForMoveTerminator());
+            remoteView.getMapView().setSelectionForTeleporter(((RequestSelectionSquareForAction) event).isSelectionForTeleporter());
+            remoteView.getMapView().setSelectionForNewton(((RequestSelectionSquareForAction)event).isSelectionForNewton());
+            remoteView.getMapView().setSelectionBeforeToShoot(((RequestSelectionSquareForAction) event).isBeforeToShoot());
+            remoteView.getMapView().setSelectionForShootAction(((RequestSelectionSquareForAction)event).isForActionShoot());
+            if(((RequestSelectionSquareForAction)event).isForActionShoot())
+                remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
+            remoteView.getMainFrame().updateEnableSquares(((RequestSelectionSquareForAction) event).getSquaresReachable());
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.getMainFrame().updatePanelOfPlayers();
         }
 
         if(event.isRequestSelectionWeaponToReload())
-            remoteView.update(event);
+            remoteView.getMainFrame().showPopupForChooseWeapon(event);
+
 
         if(event.isRequestToDiscardPowerUpCardToPay()){
-            remoteView.update(event);
+            if (((RequestToDiscardPowerUpCard) event).isToTagback() && remoteView.isMyTurn())
+                remoteView.getMainFrame().showMessage(event);
+            else
+                remoteView.getMainFrame().handleRequestToDiscardPowerUpCard(event);
         }
 
         if (event.isNotifyAboutActionDone()){
-            remoteView.update(event);
+            if(event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer())){
+                remoteView.getMyPlayerBoardView().disableEveryThingPlayerCanDo();
+                remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(event.getNicknameInvolved());
+                remoteView.getMainFrame().updatePanelOfAction();
+            }
+            remoteView.getMainFrame().showMessage(event);
         }
 
-        if (event.isRequestForChooseAWeaponToCatch()){
-            remoteView.update(event);
+        if (event.isRequestForChooseAWeaponToCatch() || event.isRequestToDiscardWeaponCard()){
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.getMainFrame().showPopupForChooseWeapon(event);
         }
-        if(event.isRequestToDiscardWeaponCard()){
-            remoteView.update(event);
-        }
+
         if(event.isRequestToChooseWeapon()){
-            remoteView.update(event);
+            remoteView.getMainFrame().showMessage(event);
+            remoteView.getMyPlayerBoardView().updateWeaponCanUse((RequestToChooseWeapon) event);
+            remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(event.getNicknameInvolved());
+            remoteView.getMainFrame().getRightPanel().getPanelOfActions().getActionButtonListener().disablePowerUpCards();
+
         }
 
         if(event.isRequestToChooseAnEffect()){
-            remoteView.update(event);
+            remoteView.getMainFrame().handleRequestToChooseAnEffect(event);
         }
 
         if(event.isRequestToPayWithAmmoOrPUCard())
-            remoteView.update(event);
+            remoteView.getMainFrame().handleRequestToPayWithAmmoOrPUC(event);
+
 
         if(event.isRequestToChooseAPlayer())
-            remoteView.update(event);
+            remoteView.getMainFrame().handleRequestToChooseAPlayer(event);
+
 
 
 

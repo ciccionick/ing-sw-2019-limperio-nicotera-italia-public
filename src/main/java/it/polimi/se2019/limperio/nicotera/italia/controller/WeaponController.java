@@ -531,24 +531,24 @@ public class WeaponController {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         if (squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()) {
             if (squareOfAttacker.getColumn() < squareOfFirstAttacked.getColumn()) {
-                if (matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() + 1] != null)
+                if (squareOfFirstAttacked.getColumn()+1<4 && matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() + 1] != null)
                     return matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() + 1];
                 else
                     return null;
             } else {
-                if (matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() - 1] != null)
+                if (squareOfFirstAttacked.getColumn()-1>=0 && matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() - 1] != null)
                     return matrixOfSquare[squareOfAttacker.getRow()][squareOfFirstAttacked.getColumn() - 1];
                 else
                     return null;
             }
         } else {
             if (squareOfAttacker.getRow() < squareOfFirstAttacked.getRow()) {
-                if (matrixOfSquare[squareOfFirstAttacked.getRow()+1][squareOfAttacker.getColumn()] != null)
+                if (squareOfFirstAttacked.getRow()+1<3 && matrixOfSquare[squareOfFirstAttacked.getRow()+1][squareOfAttacker.getColumn()] != null)
                     return matrixOfSquare[squareOfFirstAttacked.getRow()+1][squareOfAttacker.getColumn()];
                 else
                     return null;
             } else {
-                if (matrixOfSquare[squareOfFirstAttacked.getRow()-1][squareOfAttacker.getColumn()] != null)
+                if (squareOfFirstAttacked.getRow()-1>=0 && matrixOfSquare[squareOfFirstAttacked.getRow()-1][squareOfAttacker.getColumn()] != null)
                     return matrixOfSquare[squareOfFirstAttacked.getRow()-1][squareOfAttacker.getColumn()];
                 else
                     return null;

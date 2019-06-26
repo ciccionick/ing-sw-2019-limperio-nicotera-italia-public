@@ -3,7 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import java.util.ArrayList;
 
-public class RequestToDiscardPowerUpCardToPay extends ServerEvent {
+public class RequestToDiscardPowerUpCard extends ServerEvent {
 
     private ArrayList<AliasCard> powerUpCards = new ArrayList<>();
     private boolean isToCatch = false;
@@ -12,7 +12,7 @@ public class RequestToDiscardPowerUpCardToPay extends ServerEvent {
     private boolean isToTargeting = false;
     private boolean isToTagback = false;
 
-    public RequestToDiscardPowerUpCardToPay() {
+    public RequestToDiscardPowerUpCard() {
         setRequestToDiscardPowerUpCardToPay(true);
     }
 
