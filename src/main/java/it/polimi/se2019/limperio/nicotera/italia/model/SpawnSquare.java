@@ -50,8 +50,4 @@ public class SpawnSquare extends Square implements  Cloneable  {
          return spawnSquare;
     }
 
-    public void setWeaponCards(ArrayList<WeaponCard> weapons)
-    {
-        this.weaponCards= weapons;
-    }
 }

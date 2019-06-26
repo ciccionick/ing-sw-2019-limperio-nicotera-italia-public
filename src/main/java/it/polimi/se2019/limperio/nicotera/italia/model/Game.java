@@ -89,8 +89,6 @@ public class Game extends Observable<ServerEvent> {
 
 
     public Game(){
-        // this is the default constructor of Game class called by the main in the Server class to create
-        // a reference towards to the game instance.
         myLogger.addHandler(handlerGame);
     }
 
@@ -152,7 +150,7 @@ public class Game extends Observable<ServerEvent> {
             if(player.getNickname().equals("Pietro")){
                 int i = 0;
                 for(WeaponCard weaponCard : board.getWeaponsDeck().getWeaponCards()){
-                    if(weaponCard.getName().equals("Rocket launcher"))
+                    if(weaponCard.getName().equals("Vortex cannon"))
                         break;
                     i++;
                 }

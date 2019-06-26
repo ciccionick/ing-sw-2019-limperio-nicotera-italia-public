@@ -39,12 +39,12 @@ public class PlayerBoard implements Serializable, Cloneable {
         scoreBarForFrenzyMode.add(1);
         scoreBarForFrenzyMode.add(1);
         damages = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+       /*     for (int i = 0; i < 10; i++) {
                 if(nicknameOfPlayer.equals("Pietro"))
                     damages.add(ColorOfFigure_Square.BLUE);
                 else
                     damages.add(ColorOfFigure_Square.YELLOW);
-            }
+            }*/
 
 
         marks = new ArrayList<>();

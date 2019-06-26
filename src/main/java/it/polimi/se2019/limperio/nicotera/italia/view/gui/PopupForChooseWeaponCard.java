@@ -16,7 +16,10 @@ class PopupForChooseWeaponCard {
      PopupForChooseWeaponCard(ServerEvent receivedEvent, MainFrame mainFrame) {
          ClosingListener closingListener = new ClosingListener(mainFrame);
          popupForChooseW = new JDialog(mainFrame.getFrame());
-         popupForChooseW.setUndecorated(true);
+         if(!receivedEvent.isRequestSelectionWeaponToReload())
+            popupForChooseW.setUndecorated(false);
+         else
+             popupForChooseW.setUndecorated(true);
          popupForChooseW.addWindowListener(closingListener);
          JPanel contentPanel = new JPanel();
          contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));

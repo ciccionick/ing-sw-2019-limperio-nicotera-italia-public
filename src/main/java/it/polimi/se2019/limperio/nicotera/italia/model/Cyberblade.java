@@ -48,17 +48,17 @@ public class Cyberblade extends WeaponCard {
     public Cyberblade() {
         super(YELLOW, "Cyberblade");
         String description;
-        description = "BASIC EFFECT:\n Deal 2 damage to 1 target on your square.\n" +
-        "WITH SHADOWSTEP:\n Move 1 square before or after the basic effect.\n" +
-        "WITH SLICE AND DICE:\n Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect.\n" +
-        "Notes:\n Combining all effects allows you to move onto a square and whack 2 people; or whack somebody, move, and whack somebody else; or whack 2 people and then move.\n";
+        description = "BASIC EFFECT:\nDeal 2 damage to 1 target on your square.\n" +
+        "WITH SHADOWSTEP:\nMove 1 square before or after the basic effect.\n" +
+        "WITH SLICE AND DICE:\nDeal 2 damage to a different target on your square. \nThe shadowstep may be used before or after this effect.\n" +
+        "Notes:\nCombining all effects allows you to move onto a square and whack 2 people; \nor whack somebody, move, and whack somebody else; \nor whack 2 people and then move.\n";
         setDescription(description);
         getNamesOfAttack().add("BASIC EFFECT");
         getNamesOfAttack().add("WITH SHADOWSTEP");
         getNamesOfAttack().add("WITH SLICE AND DICE");
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target on your square");
         getDescriptionsOfAttack().add("Move 1 square before or after the basic effect");
-        getDescriptionsOfAttack().add("Deal 2 damage to a different target on your square. The shadowstep may be used before or after this effect");
+        getDescriptionsOfAttack().add("Deal 2 damage to a different target on your square. \nThe shadowstep may be used before or after this effect");
         setPriceToPayForEffect1(null);
         setPriceToPayForEffect2(new ColorOfCard_Ammo[]{YELLOW});
         Boolean[] kindOfAttack = {true, true, true, false};

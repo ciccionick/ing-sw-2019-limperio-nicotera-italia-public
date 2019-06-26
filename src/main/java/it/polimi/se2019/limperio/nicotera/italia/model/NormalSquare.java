@@ -20,7 +20,7 @@ import java.util.ArrayList;
     }
 
     public Object clone(){
-         NormalSquare normalSquare = null;
+         NormalSquare normalSquare;
          try{
              normalSquare = (NormalSquare) super.clone();
          }

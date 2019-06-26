@@ -33,7 +33,7 @@ public class Shockwave extends WeaponCard {
     public Shockwave() {
         super(YELLOW, "Shockwave");
         String description;
-        description = "BASIC MODE: \nChoose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target.\n" +
+        description = "BASIC MODE: \nChoose up to 3 targets on different squares, each exactly 1 move away. \nDeal 1 damage to each target.\n" +
         "IN TSUNAMI MODE: \nDeal 1 damage to all targets that are exactly 1 move away.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
@@ -41,7 +41,7 @@ public class Shockwave extends WeaponCard {
         getNamesOfAttack().add("");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("IN TSUNAMI MODE");
-        getDescriptionsOfAttack().add("Choose up to 3 targets on different squares, each exactly 1 move away. Deal 1 damage to each target");
+        getDescriptionsOfAttack().add("Choose up to 3 targets on different squares, each exactly 1 move away. \nDeal 1 damage to each target");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("Deal 1 damage to all targets that are exactly 1 move away");

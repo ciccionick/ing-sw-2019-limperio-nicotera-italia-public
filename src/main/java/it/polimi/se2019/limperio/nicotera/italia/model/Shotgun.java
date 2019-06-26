@@ -33,7 +33,7 @@ public class Shotgun extends WeaponCard {
     public Shotgun() {
         super(YELLOW, "Shotgun");
         String description;
-        description = "BASIC MODE: \nDeal 3 damage to 1 target on your square. If you want, you may then move the target 1 square.\n" +
+        description = "BASIC MODE: \nDeal 3 damage to 1 target on your square. \nIf you want, you may then move the target 1 square.\n" +
                       "IN LONG BARREL MODE: \nDeal 2 damage to 1 target on any square exactly one move away.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
@@ -41,7 +41,7 @@ public class Shotgun extends WeaponCard {
         getNamesOfAttack().add("");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("IN LONG BARREL MODE");
-        getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square. If you want, you may then move the target 1 square");
+        getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square. \nIf you want, you may then move the target 1 square");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target on any square exactly one move away");

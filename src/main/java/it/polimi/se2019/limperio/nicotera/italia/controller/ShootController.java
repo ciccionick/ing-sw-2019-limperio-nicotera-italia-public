@@ -16,9 +16,9 @@ public class ShootController {
     private Controller controller;
     private ArrayList<InvolvedPlayer> involvedPlayers = new ArrayList<>();
     private ArrayList<Integer> typeOfAttack = new ArrayList<>();
-    private WeaponCard weaponToUse;
-    private ColorOfCard_Ammo[] priceToPay;
-    private ArrayList<ColorOfCard_Ammo> colorsNotEnough;
+    private WeaponCard weaponToUse = null;
+    private ColorOfCard_Ammo[] priceToPay = null;
+    private ArrayList<ColorOfCard_Ammo> colorsNotEnough = new ArrayList<>();
     private ArrayList<PowerUpCard> powerUpCardToDiscardToPay = new ArrayList<>();
     private ColorOfCard_Ammo ammoForPayTargeting;
     private ArrayList<Player> playersAttacked = new ArrayList<>();
@@ -53,6 +53,9 @@ public class ShootController {
         originalSquareOfTheTarget = null;
         needToStoreOriginalSquare = false;
         needToChooseAPlayer = false;
+        targetingScopeToUse = null;
+        playersAreChoosingForTagback = new ArrayList<>();
+        colorsNotEnough = new ArrayList<>();
 
          Player player = controller.findPlayerWithThisNickname(message.getNickname());
         if(game.isInFrenzy()  || !game.isInFrenzy() && player.isOverSixDamage()) {

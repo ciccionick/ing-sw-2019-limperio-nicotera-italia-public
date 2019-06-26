@@ -48,11 +48,17 @@ public class TestDeathController {
 
 
         game.setInFrenzy(false);
+        game.getPlayers().get(1).setDirectlyOverkilled(true);
+        for(int j = 0; j<12 ; j++){
+            game.getPlayers().get(1).getPlayerBoard().getDamages().add(ColorOfFigure_Square.BLUE);
+        }
         deathController.handleDeath(game.getPlayers().get(0), game.getPlayers().get(1));
         int x=0;
-        for(int i=0;i<game.getBoard().getKillShotTrack().getTokensOfDeath().size();i++){
-            if(game.getBoard().getKillShotTrack().getTokensOfDeath().get(i).get(0).toString().equals("SKULL"))
-                x= i;
+        for(int i=0;i<game.getBoard().getKillShotTrack().getTokensOfDeath().size();i++) {
+            if (game.getBoard().getKillShotTrack().getTokensOfDeath().get(i).get(0).toString().equals("SKULL")) {
+                x = i;
+                break;
+            }
         }
 
         assertEquals(game.getBoard().getKillShotTrack().getTokensOfDeath().get(x-1).get(1), ColorOfDeathToken.BLUE);

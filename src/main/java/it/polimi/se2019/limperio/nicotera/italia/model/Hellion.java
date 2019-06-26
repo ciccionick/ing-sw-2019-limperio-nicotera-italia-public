@@ -46,17 +46,17 @@ public class Hellion extends WeaponCard {
         super(RED, "Hellion");
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
-        String description = "BASIC MODE:\n Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square.\n" +
-                "IN NANO-TRACER MODE:\n Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square.";
+        String description = "BASIC MODE:\nDeal 1 damage to 1 target you can see at least 1 move away. \nThen give 1 mark to that target and everyone else on that square.\n" +
+                "IN NANO-TRACER MODE:\nDeal 1 damage to 1 target you can see at least 1 move away. \nThen give 2 marks to that target and everyone else on that square.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("IN NANO-TRACER MODE");
-        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. Then give 1 mark to that target and everyone else on that square");
+        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. \nThen give 1 mark to that target and everyone else on that square");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
-        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. Then give 2 marks to that target and everyone else on that square");
+        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see at least 1 move away. \nThen give 2 marks to that target and everyone else on that square");
         setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{RED});
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{YELLOW};
         setPriceToBuy(buyPrice);

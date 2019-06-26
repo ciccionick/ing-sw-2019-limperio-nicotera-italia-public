@@ -45,7 +45,7 @@ import java.util.ArrayList;
         text.setEditable(false);
         text.setBackground(SystemColor.menu);
         GridBagConstraints gbcText = new GridBagConstraints();
-        gbcText.insets = new Insets(20, 20, 20, 20);
+        gbcText.insets = new Insets(0, 20, 20, 20);
         gbcText.gridx = 0;
         gbcText.gridy = 0;
         gbcText.gridwidth = numOfAllEffects;

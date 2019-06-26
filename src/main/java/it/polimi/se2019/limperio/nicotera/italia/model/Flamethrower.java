@@ -33,9 +33,9 @@ public class Flamethrower extends WeaponCard {
     public Flamethrower() {
         super(RED, "Flamethrower");
         String description;
-        description = "BASIC MODE:\n Choose a square 1 move away and possibly a second square 1 more move away in the same direction. On each square, you may choose 1 target and give it 1 damage.\n" +
-                "IN BARBECUE MODE:\n Choose 2 squares as above. Deal 2 damage to everyone on the first square and 1 damage to everyone on the second square.\n" +
-                "Notes:\n This weapon cannot damage anyone in your square. However, it can sometimes damage a target you can't see – the flame won't go through walls, but it will go through doors. Think of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
+        description = "BASIC MODE:\nChoose a square 1 move away and possibly a second square 1 more move away in the same direction. \nOn each square, you may choose 1 target and give it 1 damage.\n" +
+                "IN BARBECUE MODE:\nChoose 2 squares as above. \nDeal 2 damage to everyone on the first square and 1 damage \nto everyone on the second square.\n" +
+                "Notes:\n This weapon cannot damage anyone in your square. \nHowever, it can sometimes damage a target you can't see \nthe flame won't go through walls, but it will go through doors. \nThink of it as a straight-line blast of flame that can travel 2 squares in a cardinal direction.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add("");

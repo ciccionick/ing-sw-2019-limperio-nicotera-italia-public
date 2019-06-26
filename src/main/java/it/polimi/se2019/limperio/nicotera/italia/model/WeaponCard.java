@@ -27,17 +27,11 @@ public abstract class WeaponCard extends Card  {
         return namesOfAttack;
     }
 
-    public void setNamesOfAttack(ArrayList<String> namesOfAttack) {
-        this.namesOfAttack = namesOfAttack;
-    }
 
     public ArrayList<String> getDescriptionsOfAttack() {
         return descriptionsOfAttack;
     }
 
-    public void setDescriptionsOfAttack(ArrayList<String> descriptionsOfAttack) {
-        this.descriptionsOfAttack = descriptionsOfAttack;
-    }
 
     public ColorOfCard_Ammo[] getPriceToPayForEffect1() {
         return priceToPayForEffect1;

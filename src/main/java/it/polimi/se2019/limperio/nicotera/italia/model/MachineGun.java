@@ -40,10 +40,10 @@ public class MachineGun extends WeaponCard {
     public MachineGun() {
         super(BLUE, "Machine gun");
         String description;
-        description = "BASIC EFFECT:\n Choose 1 or 2 targets you can see and deal 1 damage to each.\n" +
-                "WITH FOCUS SHOT:\n Deal 1 additional damage to one of those targets.\n" +
-                "WITH TURRET TRIPOD:\n Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see.\n" +
-                "Notes:\n If you deal both additional points of damage, they must be dealt to 2 different targets. If you see only 2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.";
+        description = "BASIC EFFECT:\nChoose 1 or 2 targets you can see and deal 1 damage to each.\n" +
+                "WITH FOCUS SHOT:\nDeal 1 additional damage to one of those targets.\n" +
+                "WITH TURRET TRIPOD:\nDeal 1 additional damage to the other of those targets \nand/or deal 1 damage to a different target you can see.\n" +
+                "Notes:\nIf you deal both additional points of damage, \nthey must be dealt to 2 different targets. \nIf you see only 2 targets, you deal 2 to each if you use both optional effects. If you use the basic effect on only 1 target, you can still use the the turret tripod to give it 1 additional damage.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
         getNamesOfAttack().add("BASIC EFFECT");
@@ -51,7 +51,7 @@ public class MachineGun extends WeaponCard {
         getNamesOfAttack().add("WITH TURRET TRIPOD");
         getDescriptionsOfAttack().add("Choose 1 or 2 targets you can see and deal 1 damage to each");
         getDescriptionsOfAttack().add("Deal 1 additional damage to one of those targets");
-        getDescriptionsOfAttack().add("Deal 1 additional damage to the other of those targets and/or deal 1 damage to a different target you can see");
+        getDescriptionsOfAttack().add("Deal 1 additional damage to the other of those targets and/or \ndeal 1 damage to a different target you can see");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{YELLOW});
         setPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         setHasThisKindOfAttack(kindOfAttack);

@@ -5,7 +5,6 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Selecti
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToReload;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionWeaponToReload;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseWeapon;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 
 
@@ -65,7 +64,7 @@ class PanelForWeapons {
             gbcText.gridx = 0;
             gbcText.gridy = 0;
             if(receivedEvent.isRequestSelectionWeaponToReload())
-            gbcText.gridwidth = 4;
+                gbcText.gridwidth = 4;
             else
                 gbcText.gridwidth = 3;
             JTextArea text = new JTextArea();
@@ -108,12 +107,12 @@ class PanelForWeapons {
 
             JTextArea descriptionOfWeapon1 = new JTextArea();
             descriptionOfWeapon1.setBackground(SystemColor.menu);
-            descriptionOfWeapon1.setLineWrap(true);
+            descriptionOfWeapon1.setLineWrap(false);
             descriptionOfWeapon1.setEditable(false);
             descriptionOfWeapon1.setText(listOfWeapons.get(0).getDescription());
-            descriptionOfWeapon1.setTabSize(10);
             GridBagConstraints gbcDescriptionOfWeapon1 = new GridBagConstraints();
             gbcDescriptionOfWeapon1.insets = new Insets(5, 20, 10, 15);
+            gbcDescriptionOfWeapon1.anchor = GridBagConstraints.CENTER;
             gbcDescriptionOfWeapon1.fill = GridBagConstraints.BOTH;
             gbcDescriptionOfWeapon1.gridx = 0;
             gbcDescriptionOfWeapon1.gridy = gridy+1;
@@ -152,14 +151,13 @@ class PanelForWeapons {
 
             JTextArea descriptionForWeapon2 = new JTextArea();
             descriptionForWeapon2.setBackground(SystemColor.menu);
-            descriptionForWeapon2.setLineWrap(true);
+            descriptionForWeapon2.setLineWrap(false);
             descriptionForWeapon2.setEditable(false);
             descriptionForWeapon2.setText(listOfWeapons.get(1).getDescription());
             GridBagConstraints gbcDescriptionForWeapon2 = new GridBagConstraints();
-            descriptionForWeapon2.setWrapStyleWord(true);
-            descriptionForWeapon2.setColumns(10);
             gbcDescriptionForWeapon2.insets = new Insets(5, 0, 10, 15);
             gbcDescriptionForWeapon2.fill = GridBagConstraints.BOTH;
+            gbcDescriptionForWeapon2.anchor = GridBagConstraints.CENTER;
             gbcDescriptionForWeapon2.gridx = 1;
             gbcDescriptionForWeapon2.gridy = gridy+1;
             this.getContentPane().add(descriptionForWeapon2, gbcDescriptionForWeapon2);
@@ -195,12 +193,13 @@ class PanelForWeapons {
 
             JTextArea descriptionWeapon3 = new JTextArea();
             descriptionWeapon3.setBackground(SystemColor.menu);
-            descriptionWeapon3.setLineWrap(true);
+            descriptionWeapon3.setLineWrap(false);
             descriptionWeapon3.setEditable(false);
             descriptionWeapon3.setText(listOfWeapons.get(2).getDescription());
             GridBagConstraints gbcDescriptionWeapon3 = new GridBagConstraints();
             gbcDescriptionWeapon3.insets = new Insets(5, 0, 10, 20);
             gbcDescriptionWeapon3.fill = GridBagConstraints.BOTH;
+            gbcDescriptionWeapon3.anchor = GridBagConstraints.CENTER;
             gbcDescriptionWeapon3.gridx = 2;
             gbcDescriptionWeapon3.gridy = gridy+1;
             this.getContentPane().add(descriptionWeapon3, gbcDescriptionWeapon3);
@@ -258,22 +257,22 @@ class PanelForWeapons {
 
         @Override
         public void mousePressed(MouseEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-
+            //not implemented
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-
+            //not implemented
         }
 
         @Override
@@ -285,9 +284,6 @@ class PanelForWeapons {
 
         }
     }
-
-
-
 
 
 }

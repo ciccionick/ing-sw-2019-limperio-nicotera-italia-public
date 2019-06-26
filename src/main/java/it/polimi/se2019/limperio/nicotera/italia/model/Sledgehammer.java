@@ -29,7 +29,7 @@ public class Sledgehammer extends WeaponCard{
         super(YELLOW, "Sledgehammer");
         String description;
         description ="BASIC MODE: \nDeal 2 damage to 1 target on your square.\n" +
-        "IN PULVERIZE MODE: \nDeal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction.\n"+
+        "IN PULVERIZE MODE: \nDeal 3 damage to 1 target on your square, \nthen move that target 0, 1, or 2 squares in one direction.\n"+
         "Notes: \nRemember that moves go through doors, but not walls.\n";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
@@ -40,7 +40,7 @@ public class Sledgehammer extends WeaponCard{
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target on your square");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
-        getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square, then move that target 0, 1, or 2 squares in one direction");
+        getDescriptionsOfAttack().add("Deal 3 damage to 1 target on your square, \nthen move that target 0, 1, or 2 squares in one direction");
         setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{RED});
         setHasThisKindOfAttack(kindOfAttack);
         setLoad(true);

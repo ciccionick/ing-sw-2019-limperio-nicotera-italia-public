@@ -34,8 +34,8 @@ public class LockRifle extends WeaponCard {
     public LockRifle() {
         super(BLUE, "Lock rifle");
         String description;
-        description = "BASIC EFFECT:\n Deal 2 damage and 1 mark to 1 target you can see.\n" +
-                "WITH SECOND LOCK:\n Deal 1 mark to a different target you can see.";
+        description = "BASIC EFFECT:\nDeal 2 damage and 1 mark to 1 target you can see.\n" +
+                "WITH SECOND LOCK:\nDeal 1 mark to a different target you can see.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, false, false};
         getNamesOfAttack().add("BASIC EFFECT");

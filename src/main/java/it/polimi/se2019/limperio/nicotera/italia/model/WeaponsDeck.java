@@ -29,7 +29,7 @@ public class WeaponsDeck {
 
     }
 
-    public WeaponCard removeWeaponCard() {
+     WeaponCard removeWeaponCard() {
         return weaponCards.remove(0);
     }
 

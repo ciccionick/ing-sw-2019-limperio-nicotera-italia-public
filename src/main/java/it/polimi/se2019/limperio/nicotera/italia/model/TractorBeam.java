@@ -34,8 +34,8 @@ public class TractorBeam extends WeaponCard {
         super(BLUE, "Tractor beam");
         String description;
         description = "BASIC MODE: \nMove a target 0, 1, or 2 squares to a square you can see, and give it 1 damage.\n" +
-                "IN PUNISHER MODE: \nChoose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it.\n" +
-                "Notes: \nYou can move a target even if you can't see it. The target ends up in a place where you can see and damage it. The moves do not have to be in the same direction.";
+                "IN PUNISHER MODE: \nChoose a target 0, 1, or 2 moves away from you. \nMove the target to your square and deal 3 damage to it.\n" +
+                "Notes: \nYou can move a target even if you can't see it. \nThe target ends up in a place where you can see and damage it. \nThe moves do not have to be in the same direction.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, false, false, true};
         getNamesOfAttack().add("BASIC MODE");
@@ -45,7 +45,7 @@ public class TractorBeam extends WeaponCard {
         getDescriptionsOfAttack().add("Move a target 0, 1, or 2 squares to a square you can see, and give it 1 damage");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
-        getDescriptionsOfAttack().add("Choose a target 0, 1, or 2 moves away from you. Move the target to your square and deal 3 damage to it");
+        getDescriptionsOfAttack().add("Choose a target 0, 1, or 2 moves away from you. \nMove the target to your square and deal 3 damage to it");
         setHasThisKindOfAttack(kindOfAttack);
         setPriceToPayForAlternativeMode(new ColorOfCard_Ammo[]{RED, YELLOW});
         ColorOfCard_Ammo[] reloadPrice = {BLUE};

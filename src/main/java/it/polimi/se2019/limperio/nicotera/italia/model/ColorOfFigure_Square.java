@@ -1,6 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import java.io.Serializable;
 
 /**
  * specifies the color of Square and player's figure

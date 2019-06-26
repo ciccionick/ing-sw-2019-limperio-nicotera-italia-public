@@ -12,12 +12,6 @@ public abstract class PowerUpCard extends Card  {
 
     private boolean isInTheDeckOfSomePlayer = false;
 
-
-    public void useAsAmmo()
-    {
-
-    }
-
     public void useAsPowerUp(Player player, Square square) {}
 
 
@@ -69,7 +63,7 @@ public abstract class PowerUpCard extends Card  {
         }
     }
 
-    public boolean isInTheDeckOfSomePlayer() {
+     boolean isInTheDeckOfSomePlayer() {
         return isInTheDeckOfSomePlayer;
     }
 

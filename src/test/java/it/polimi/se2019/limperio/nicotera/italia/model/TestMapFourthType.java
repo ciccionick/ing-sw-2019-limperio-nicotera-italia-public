@@ -107,7 +107,7 @@ public class TestMapFourthType {
         Assert.assertTrue(map.getMatrixOfSquares()[1][2].getNorth().isHasDoor());
         Assert.assertTrue(map.getMatrixOfSquares()[1][2].getNorth().isSpawn());
         assertNull(map.getMatrixOfSquares()[1][2].getSouth());
-        assertNull(map.getMatrixOfSquares()[1][2].getWest());
+        assertEquals(map.getMatrixOfSquares()[1][2].getWest().getColor(), ColorOfFigure_Square.PURPLE);
         assertEquals(map.getMatrixOfSquares()[1][2].getEast().getColor(), ColorOfFigure_Square.YELLOW);
         Assert.assertTrue(map.getMatrixOfSquares()[1][2].getEast().isHasDoor());
         Assert.assertFalse(map.getMatrixOfSquares()[1][2].getEast().isSpawn());

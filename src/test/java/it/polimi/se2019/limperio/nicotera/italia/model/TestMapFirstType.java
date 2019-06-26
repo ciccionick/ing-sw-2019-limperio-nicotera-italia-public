@@ -117,10 +117,9 @@ public class TestMapFirstType {
         Assert.assertTrue(map.getMatrixOfSquares()[1][3].getWest().isHasDoor());
         Assert.assertFalse(map.getMatrixOfSquares()[1][3].getWest().isSpawn());
         assertNull(map.getMatrixOfSquares()[1][3].getEast());
-        assertNull(map.getMatrixOfSquares()[2][1].getNorth());
-        assertEquals(map.getMatrixOfSquares()[2][1].getSouth().getColor(), ColorOfFigure_Square.RED);
-        Assert.assertTrue(map.getMatrixOfSquares()[2][1].getSouth().isHasDoor());
-        Assert.assertFalse(map.getMatrixOfSquares()[2][1].getSouth().isSpawn());
+        assertNull(map.getMatrixOfSquares()[2][1].getSouth());
+        assertEquals(map.getMatrixOfSquares()[2][1].getNorth().getColor(), ColorOfFigure_Square.RED);
+        Assert.assertTrue(map.getMatrixOfSquares()[2][1].getNorth().isHasDoor());
         assertNull(map.getMatrixOfSquares()[2][1].getWest());
         assertEquals(map.getMatrixOfSquares()[2][1].getEast().getColor(), ColorOfFigure_Square.GREY);
         Assert.assertTrue(map.getMatrixOfSquares()[2][1].getEast().isHasDoor());

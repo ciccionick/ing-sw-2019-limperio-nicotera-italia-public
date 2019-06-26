@@ -46,13 +46,13 @@ class DeathController {
          }
          else{
              if(deadPlayer.getPlayerBoard().getDamages().size()==11){
-                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
+                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(getFirstSkullPosition()).set(0, colorOfKiller);
              }
              else {
                  killerPlayer.assignMarks(deadPlayer.getColorOfFigure(), 1);
                  if(deadPlayer.isDirectlyOverkilled())
-                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()).set(0, colorOfKiller);
-                 game.getBoard().getKillShotTrack().getTokensOfDeath().get(firstSkullPosition()-1).add(colorOfKiller);
+                     game.getBoard().getKillShotTrack().getTokensOfDeath().get(getFirstSkullPosition()).set(0, colorOfKiller);
+                 game.getBoard().getKillShotTrack().getTokensOfDeath().get(getFirstSkullPosition()-1).add(colorOfKiller);
                  deadPlayer.setDirectlyOverkilled(false);
              }
          }
@@ -71,7 +71,7 @@ class DeathController {
          }
     }
 
-    private int firstSkullPosition() {
+    private int getFirstSkullPosition() {
          for(int i=0;i<game.getBoard().getKillShotTrack().getTokensOfDeath().size();i++){
              if(game.getBoard().getKillShotTrack().getTokensOfDeath().get(i).get(0).toString().equals("SKULL"))
                  return i;

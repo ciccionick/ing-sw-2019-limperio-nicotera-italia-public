@@ -48,14 +48,14 @@ public class GranadeLauncher extends WeaponCard {
     public GranadeLauncher() {
         super(RED, "Granade launcher");
         String description;
-        description = "BASIC EFFECT:\n Deal 1 damage to 1 target you can see. Then you may move the target 1 square.\n" +
-                "WITH EXTRA GRANADE:\n Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move.\n" +
-                "Notes:\n For example, you can shoot a target, move it onto a square with other targets, then damage everyone including the first target. Or you can deal 2 to a main target, 1 to everyone else on that square, then move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.";
+        description = "BASIC EFFECT:\nDeal 1 damage to 1 target you can see. Then you may move the target 1 square.\n" +
+                "WITH EXTRA GRANADE:\nDeal 1 damage to every player on a square you can see. \nYou can use this before or after the basic effect's move.\n" +
+                "Notes:\nFor example, you can shoot a target, move it onto a square with other targets,\nthen damage everyone including the first target. \nOr you can deal 2 to a main target, 1 to everyone else on that square,\nthen move the main target. Or you can deal 1 to an isolated target and 1 to everyone on a different square. If you target your own square, you will not be moved or damaged.";
         setDescription(description);
         getNamesOfAttack().add("BASIC EFFECT");
         getNamesOfAttack().add("WITH EXTRA GRANADE");
-        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see. Then you may move the target 1 square");
-        getDescriptionsOfAttack().add("Deal 1 damage to every player on a square you can see. You can use this before or after the basic effect's move");
+        getDescriptionsOfAttack().add("Deal 1 damage to 1 target you can see.\nThen you may move the target 1 square");
+        getDescriptionsOfAttack().add("Deal 1 damage to every player on a square you can see.\nYou can use this before or after the basic effect's move");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{RED});
         Boolean[] kindOfAttack = {true, true, false, false};
         setHasThisKindOfAttack(kindOfAttack);

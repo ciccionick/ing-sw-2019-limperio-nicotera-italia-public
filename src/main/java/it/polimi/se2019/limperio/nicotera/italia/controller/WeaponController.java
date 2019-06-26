@@ -198,11 +198,12 @@ public class WeaponController {
                 for (Square square : listOfVisibleSquares) {
                     if (!effectAlreadyChoosen(1) && (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())) {
                         usableEffects.add(1);
-                    }
-                    if (!effectAlreadyChoosen(2) && effectAlreadyChoosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && getPlayersInMySquare(0, square).size() + getPlayersOnlyInAdjSquares(0, square).size() > 1) {
-                        usableEffects.add(2);
                         break;
                     }
+                }
+                if(effectAlreadyChoosen(1) && !effectAlreadyChoosen(2)){
+                    if(controller.getShootController().getInvolvedPlayers().get(0).getSquare().getPlayerOnThisSquare().size()>1 || !getPlayersOnlyInAdjSquares(0, controller.getShootController().getInvolvedPlayers().get(0).getSquare()).isEmpty())
+                        usableEffects.add(2);
                 }
                 break;
             default:

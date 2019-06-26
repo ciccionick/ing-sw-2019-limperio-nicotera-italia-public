@@ -38,7 +38,7 @@ public class Ammo implements Serializable, Cloneable {
     public void setIsUsable(boolean bool){ isUsable = bool;}
 
     public Object clone(){
-        Ammo ammo = null;
+        Ammo ammo;
         try {
             ammo = (Ammo) super.clone();
         } catch (CloneNotSupportedException e) {

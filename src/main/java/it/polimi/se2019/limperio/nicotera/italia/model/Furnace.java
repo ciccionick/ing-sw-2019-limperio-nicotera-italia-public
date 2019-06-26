@@ -45,17 +45,17 @@ public class Furnace extends WeaponCard {
 
     public Furnace() {
         super(RED, "Furnace");
-        String description = "BASIC MODE:\n Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room.\n" +
-                "IN COZY FIRE MODE:\n Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square.";
+        String description = "BASIC MODE:\nChoose a room you can see, but not the room you are in. \nDeal 1 damage to everyone in that room.\n" +
+                "IN COZY FIRE MODE:\nChoose a square exactly one move away. \nDeal 1 damage and 1 mark to everyone on that square.";
         setDescription(description);
         getNamesOfAttack().add("BASIC MODE");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("");
         getNamesOfAttack().add("IN COZY FIRE MODE");
-        getDescriptionsOfAttack().add("Choose a room you can see, but not the room you are in. Deal 1 damage to everyone in that room");
+        getDescriptionsOfAttack().add("Choose a room you can see, but not the room you are in. \nDeal 1 damage to everyone in that room");
         getDescriptionsOfAttack().add("");
         getDescriptionsOfAttack().add("");
-        getDescriptionsOfAttack().add("Choose a square exactly one move away. Deal 1 damage and 1 mark to everyone on that square");
+        getDescriptionsOfAttack().add("Choose a square exactly one move away. \nDeal 1 damage and 1 mark to everyone on that square");
         Boolean[] kindOfAttack = {true, false, false, true};
         setHasThisKindOfAttack(kindOfAttack);
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{BLUE};

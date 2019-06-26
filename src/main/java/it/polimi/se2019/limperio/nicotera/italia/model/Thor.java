@@ -39,8 +39,8 @@ public class Thor extends WeaponCard {
         super(BLUE, "THOR");
         String description = "BASIC EFFECT: \nDeal 2 damage to 1 target you can see.\n" +
                 "WITH CHAIN REACTION: \nDeal 1 damage to a second target that your first target can see.\n" +
-                "WITH HIGH VOLTAGE: \nDeal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction.\n" +
-                "Notes: \nThis card constrains the order in which you can use its effects. (Most cards don't.) Also note that each target must be a different player.";
+                "WITH HIGH VOLTAGE: \nDeal 2 damage to a third target that your second target can see. \nYou cannot use this effect unless you first use the chain reaction.\n" +
+                "Notes: \nThis card constrains the order in which you can use its effects. (Most cards don't.) \nAlso note that each target must be a different player.";
         setDescription(description);
         Boolean[] kindOfAttack = {true, true, true, false};
         setHasThisKindOfAttack(kindOfAttack);
@@ -49,7 +49,7 @@ public class Thor extends WeaponCard {
         getNamesOfAttack().add("WITH HIGH VOLTAGE");
         getDescriptionsOfAttack().add("Deal 2 damage to 1 target you can see");
         getDescriptionsOfAttack().add("Deal 1 damage to a second target that your first target can see");
-        getDescriptionsOfAttack().add("Deal 2 damage to a third target that your second target can see. You cannot use this effect unless you first use the chain reaction");
+        getDescriptionsOfAttack().add("Deal 2 damage to a third target that your second target can see. \nYou cannot use this effect unless you first use the chain reaction");
         setPriceToPayForEffect1(new ColorOfCard_Ammo[]{BLUE});
         setPriceToPayForEffect2(new ColorOfCard_Ammo[]{BLUE});
         ColorOfCard_Ammo[] buyPrice = new ColorOfCard_Ammo[]{RED};

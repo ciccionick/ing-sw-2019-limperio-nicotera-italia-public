@@ -58,7 +58,7 @@ public class KillshotTrack implements Serializable, Cloneable {
     }
 
     public Object clone(){
-        KillshotTrack killshotTrack = null;
+        KillshotTrack killshotTrack;
         try{
             killshotTrack = (KillshotTrack) super.clone();
         } catch (CloneNotSupportedException e) {

@@ -15,10 +15,7 @@ import java.util.ArrayList;
         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
         popup.setAutoRequestFocus(false);
         popup.setUndecorated(true);
-        popup.setSize((int)((int)dimensionOfFrame.getWidth()/1.92), (int)((int)dimensionOfFrame.getHeight()/1.2));
-        popup.setLocation((int) (locationOfFrame.getX() + dimensionOfFrame.getWidth() - popup.getWidth()) / 2,
-                (int) (locationOfFrame.getY() + dimensionOfFrame.getHeight() - popup.getHeight()) / 2);
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         popup.getContentPane().add(contentPane);
         contentPane.setLayout(new GridBagLayout());
 
@@ -44,7 +41,12 @@ import java.util.ArrayList;
         gbcPanelForWeapons.gridy = 0;
         contentPane.add(panelForWeapons.getContentPane(), gbcPanelForWeapons);
 
+        popup.pack();
+        popup.setLocation((int) (locationOfFrame.getX() + dimensionOfFrame.getWidth() - popup.getWidth()) / 2,
+                (int) (locationOfFrame.getY() + dimensionOfFrame.getHeight() - popup.getHeight()) / 2);
 
-    }
+
+
+     }
 
 }
