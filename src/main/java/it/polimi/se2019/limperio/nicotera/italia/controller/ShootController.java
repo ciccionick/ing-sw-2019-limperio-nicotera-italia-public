@@ -496,7 +496,7 @@ public class ShootController {
 
     }
 
-    void setSquareInInvolvedPlayers(SelectionSquareForShootAction message) {
+    void setSquareInInvolvedPlayers(SelectionSquare message) {
         ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
 
         if (weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
@@ -1130,8 +1130,8 @@ public class ShootController {
     }
 
 
-     void handleMovementBeforeShoot(ClientEvent message) {
-        controller.getRunController().doRunAction((RunEvent) message, true);
+     void handleMovementBeforeShoot(SelectionSquare message) {
+        controller.getRunController().doRunAction(message, true);
         Player player = controller.findPlayerWithThisNickname(message.getNickname());
         if(game.isInFrenzy()){
             if(controller.getReloadController().playerCanReload(player))

@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.GenerationTerminatorEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.MoveTerminatorEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.TerminatorShootEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
@@ -21,9 +18,9 @@ class TerminatorController {
     }
 
 
-     void handleSpawnOfTerminator(ClientEvent message) {
-         int row = ((GenerationTerminatorEvent)message).getRow();
-         int column = ((GenerationTerminatorEvent)message).getColumn();
+     void handleSpawnOfTerminator(SelectionSquare message) {
+         int row = message.getRow();
+         int column = message.getColumn();
          Square square = game.getBoard().getMap().getMatrixOfSquares()[row][column];
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          terminator.setPositionOnTheMap(square);
@@ -70,10 +67,10 @@ class TerminatorController {
     }
 
 
-     void handleMove(ClientEvent message) {
+     void handleMove(SelectionSquare message) {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
-         int row = ((MoveTerminatorEvent) message).getRow();
-         int column = ((MoveTerminatorEvent) message).getColumn();
+         int row = message.getRow();
+         int column = message.getColumn();
          Square squareWhereMove = game.getBoard().getMap().getMatrixOfSquares()[row][column];
          terminator.setPositionOnTheMap(squareWhereMove);
 

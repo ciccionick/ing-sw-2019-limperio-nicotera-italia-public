@@ -1,13 +1,12 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RunEvent;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquare;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForAction;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-
 import java.util.ArrayList;
 
 /**
@@ -52,7 +51,7 @@ public class RunController {
      * Moves the player in the square it has chosen
      * @param event contains the coordinates of the square in which the player want to go and its nickname.
      */
-    void doRunAction(RunEvent event, boolean isBeforeToShoot){
+    void doRunAction(SelectionSquare event, boolean isBeforeToShoot){
         if(event.getNickname().equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname())) {
             Player player = controller.findPlayerWithThisNickname(event.getNickname());
             player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);

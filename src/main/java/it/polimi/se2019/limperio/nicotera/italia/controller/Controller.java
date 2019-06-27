@@ -54,160 +54,6 @@ public class Controller implements Observer<ClientEvent> {
 
     }
 
-    /**
-     * <p>
-     *     This method handles the messages that VirtualView sends to Controller.
-     * </p>
-     * <p>
-     *     It recognize which specific controller have to be called to handle the message through the if case.
-     * </p>
-     *
-     * @param message it contains the type of action that the player has done.
-     */
-    public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCardAsAmmo)message).isToTagback())) {
-            if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
-                if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
-                    terminatorController = new TerminatorController(this, game);
-                }
-                powerUpController.handleDrawOfPowerUpCards((DrawPowerUpCards) message);
-            }
-
-            if (message.isDiscardPowerUpCardToSpawn()&&findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
-                powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
-            }
-            if (message.isRequestToCatchByPlayer()) {
-                catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
-            }
-
-            if(message.isCatchEvent()){
-                if(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
-                    catchController.handleCatching((CatchEvent) message);
-            }
-
-            if(message.isGenerationTerminatorEvent()){
-                terminatorController.handleSpawnOfTerminator(message);
-            }
-
-            if(message.isRequestTerminatorActionByPlayer()){
-                terminatorController.handleFirstRequestAction(message);
-            }
-
-            if(message.isRequestToShootWithTerminator()){
-                terminatorController.sendRequestToChoosePlayerToAttack(message);
-            }
-
-            if (message.isRequestToMoveTerminator()) {
-                    terminatorController.handleRequestMove(message);
-            }
-
-            if(message.isMoveTerminatorEvent())
-            {
-                terminatorController.handleMove(message);
-            }
-
-
-            if(message.isRequestToGoOn()){
-                game.setHasToDoTerminatorAction(false);
-                handleTheEndOfAnAction(false);
-            }
-
-            if(message.isSelectionWeaponToCatch()){
-                catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
-            }
-            if (message.isRequestToRunByPlayer()) {
-               runController.handleRunActionRequest((RequestToRunByPlayer) message);
-            }
-
-            if(message.isSelectionSquareForRun()){
-                if(((RunEvent)message).isBeforeToShoot())
-                    shootController.handleMovementBeforeShoot(message);
-                else
-                    runController.doRunAction((RunEvent) message, false);
-            }
-
-            if(message.isTerminatorShootEvent()){
-                terminatorController.handleTerminatorShootAction(message);
-            }
-
-            if(message.isSelectionWeaponToReload()) {
-                if(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload() == null)
-                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), null);
-                else
-                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload) message).getNameOfWeaponCardToReload()));
-            }
-
-            if(message.isSelectionWeaponToDiscard()){
-                catchController.handleSelectionWeaponToCatchAfterDiscard((SelectionWeaponToDiscard) message);
-            }
-            if (message.isRequestToShootByPlayer()) {
-                shootController.replyToRequestToShoot(message);
-            }
-            if(message.isRequestToUseWeaponCard()){
-                shootController.replyWithUsableEffectsOfThisWeapon(((RequestToUseWeaponCard)message).getWeaponWantUse().getName(), findPlayerWithThisNickname(message.getNickname()));
-            }
-            if(message.isRequestToUseEffect())
-                shootController.handleRequestToUseEffect((RequestToUseEffect) message);
-
-            if(message.isDiscardPowerUpCardAsAmmo()) {
-                if(((DiscardPowerUpCardAsAmmo)message).isToCatch())
-                    catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToPayAnEffect())
-                    shootController.handleDiscardPowerUpToPayAnEffect(message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToTargeting())
-                    shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCardAsAmmo) message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToTagback()) {
-                    shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
-                }
-                if(((DiscardPowerUpCardAsAmmo)message).isToReload()) {
-                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
-                }
-            }
-
-
-            if(message.isDiscardAmmoOrPowerUpToPayTargeting()){
-                shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
-            }
-
-
-            if(message.isChoosePlayer()) {
-
-                ChoosePlayer choosePlayer = (ChoosePlayer) message;
-                if (choosePlayer.isToTargeting())
-                    shootController.handleUseOfTargeting(choosePlayer);
-                else if (choosePlayer.isToNewton())
-                    powerUpController.handleChoosePlayerForNewton(choosePlayer);
-                else if (choosePlayer.isForAttack()) {
-                    ArrayList<Player> arrayList = new ArrayList<>();
-                    if(choosePlayer.getNameOfPlayer()!=null)
-                        arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
-                    shootController.setPlayersInInvolvedPlayers(arrayList);
-                }
-            }
-
-            if(message.isSelectionSquareForShootAction())
-                shootController.setSquareInInvolvedPlayers((SelectionSquareForShootAction) message);
-
-            if(message.isSelectionMultiplePlayers()) {
-                ArrayList<Player> players = new ArrayList<>();
-                for(String name : ((SelectionMultiplePlayers)message).getNamesOfPlayers()){
-                    players.add(findPlayerWithThisNickname(name));
-                }
-                shootController.setPlayersInInvolvedPlayers(players);
-            }
-
-            if(message.isRequestToUseTeleporter())
-                powerUpController.handleRequestToUseTeleporter(message);
-            if(message.isSelectionSquareToUseTeleporter())
-                powerUpController.useTeleporter((SelectionSquareToUseTeleporter) message);
-            if(message.isRequestToUseNewton())
-                powerUpController.handleRequestToUseNewton(message);
-            if(message.isSelectionSquareToUseNewton())
-                powerUpController.useNewton((SelectionSquareToUseNewton)message);
-
-
-        }
-    }
 
     /**
      * This method finds the player who has the nickname that is passed as parameter
@@ -269,10 +115,6 @@ public class Controller implements Observer<ClientEvent> {
 
      RunController getRunController() {
         return runController;
-    }
-
-    public void setAlreadyAskedToReload(boolean alreadyAskedToReload) {
-        isAlreadyAskedToReload = alreadyAskedToReload;
     }
 
      ReloadController getReloadController() {
@@ -345,10 +187,7 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setNicknames(game.getListOfNickname());
         } else
             requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() + " you want to do.\nRemember you can use power up cards enabled.");
-        if (game.getRound() == 1 && game.getPlayerOfTurn() == 1)
-            requestActionEvent.setCanUseNewton(false);
-        else
-            requestActionEvent.setCanUseNewton(true);
+        requestActionEvent.setCanUseNewton(!(game.getRound() == 1 && game.getPlayerOfTurn() == 1));
         requestActionEvent.setCanUseTeleporter(true);
         requestActionEvent.setCanShoot(checkIfPlayerCanShoot(findPlayerWithThisNickname(requestActionEvent.getNicknameInvolved()).getPlayerBoard().getWeaponsOwned()));
         requestActionEvent.setHasToDoTerminatorAction(game.isHasToDoTerminatorAction());
@@ -360,12 +199,9 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setCanCatch(true);
             if(!game.isInFrenzy())
                 requestActionEvent.setCanRun(true);
-            else {
-                if (game.getFirstInFrenzyMode()!=1 && game.getPlayers().get(game.getPlayerOfTurn() - 1).getPosition() >= game.getFirstInFrenzyMode())
-                    requestActionEvent.setCanRun(true);
-                else
-                    requestActionEvent.setCanRun(false);
-            }
+            else
+                requestActionEvent.setCanRun(game.getFirstInFrenzyMode()!=1 && game.getPlayers().get(game.getPlayerOfTurn() - 1).getPosition() >= game.getFirstInFrenzyMode());
+
         }
         game.notify(requestActionEvent);
         if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() > 1) {
@@ -484,6 +320,149 @@ public class Controller implements Observer<ClientEvent> {
     public void handleReconnection(String nicknameOfPlayer) {
          findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
 
+    }
+
+    /**
+     * <p>
+     *     This method handles the messages that VirtualView sends to Controller.
+     * </p>
+     * <p>
+     *     It recognize which specific controller have to be called to handle the message through the if case.
+     * </p>
+     *
+     * @param message it contains the type of action that the player has done.
+     */
+    public void update(ClientEvent message) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCardAsAmmo)message).isToTagback())) {
+            if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
+                if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
+                    terminatorController = new TerminatorController(this, game);
+                }
+                powerUpController.handleDrawOfPowerUpCards((DrawPowerUpCards) message);
+            }
+
+            if (message.isDiscardPowerUpCardToSpawn()&&findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
+                powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
+            }
+            if (message.isRequestToCatchByPlayer()) {
+                catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
+            }
+
+            if(message.isSelectionSquare()){
+                SelectionSquare selectionSquareEvent = ((SelectionSquare)message);
+                if(selectionSquareEvent.isCatchEvent() && game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname().equals(message.getNickname()))
+                    catchController.handleCatching(selectionSquareEvent);
+                if(selectionSquareEvent.isGenerationTerminatorEvent())
+                    terminatorController.handleSpawnOfTerminator(selectionSquareEvent);
+                if(selectionSquareEvent.isMoveTerminatorEvent())
+                    terminatorController.handleMove(selectionSquareEvent);
+                if(selectionSquareEvent.isRunEvent())
+                    runController.doRunAction(selectionSquareEvent, false);
+                if(selectionSquareEvent.isBeforeToShoot())
+                    shootController.handleMovementBeforeShoot(selectionSquareEvent);
+                if(selectionSquareEvent.isSelectionSquareForShootAction())
+                    shootController.setSquareInInvolvedPlayers(selectionSquareEvent);
+                if(selectionSquareEvent.isSelectionSquareToUseTeleporter())
+                    powerUpController.useTeleporter(selectionSquareEvent);
+                if(selectionSquareEvent.isSelectionSquareToUseNewton())
+                    powerUpController.useNewton(selectionSquareEvent);
+            }
+
+
+            if(message.isRequestTerminatorActionByPlayer()){
+                terminatorController.handleFirstRequestAction(message);
+            }
+
+            if(message.isRequestToShootWithTerminator()){
+                terminatorController.sendRequestToChoosePlayerToAttack(message);
+            }
+
+            if (message.isRequestToMoveTerminator()) {
+                terminatorController.handleRequestMove(message);
+            }
+
+            if(message.isRequestToGoOn()){
+                game.setHasToDoTerminatorAction(false);
+                handleTheEndOfAnAction(false);
+            }
+
+            if(message.isSelectionWeaponToCatch())
+                catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
+
+            if (message.isRequestToRunByPlayer())
+                runController.handleRunActionRequest((RequestToRunByPlayer) message);
+
+
+            if(message.isTerminatorShootEvent())
+                terminatorController.handleTerminatorShootAction(message);
+
+
+            if(message.isSelectionWeaponToReload()) {
+                if(((SelectionWeaponToReload)message).getNameOfWeaponCardToReload() == null)
+                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), null);
+                else
+                    reloadController.handleRequestToReloadWeapon(findPlayerWithThisNickname(message.getNickname()), catchController.getWeaponCardFromName(((SelectionWeaponToReload) message).getNameOfWeaponCardToReload()));
+            }
+
+            if(message.isSelectionWeaponToDiscard())
+                catchController.handleSelectionWeaponToCatchAfterDiscard((SelectionWeaponToDiscard) message);
+
+            if (message.isRequestToShootByPlayer())
+                shootController.replyToRequestToShoot(message);
+
+            if(message.isRequestToUseWeaponCard())
+                shootController.replyWithUsableEffectsOfThisWeapon(((RequestToUseWeaponCard)message).getWeaponWantUse().getName(), findPlayerWithThisNickname(message.getNickname()));
+
+            if(message.isRequestToUseEffect())
+                shootController.handleRequestToUseEffect((RequestToUseEffect) message);
+
+            if(message.isDiscardPowerUpCardAsAmmo()) {
+                if(((DiscardPowerUpCardAsAmmo)message).isToCatch())
+                    catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToPayAnEffect())
+                    shootController.handleDiscardPowerUpToPayAnEffect(message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToTargeting())
+                    shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToTagback())
+                    shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCardAsAmmo)message).isToReload())
+                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
+
+            }
+
+            if(message.isDiscardAmmoOrPowerUpToPayTargeting())
+                shootController.handlePaymentForTargeting((DiscardAmmoOrPowerUpToPayTargeting) message);
+
+            if(message.isChoosePlayer()) {
+                ChoosePlayer choosePlayer = (ChoosePlayer) message;
+                if (choosePlayer.isToTargeting())
+                    shootController.handleUseOfTargeting(choosePlayer);
+                else if (choosePlayer.isToNewton())
+                    powerUpController.handleChoosePlayerForNewton(choosePlayer);
+                else if (choosePlayer.isForAttack()) {
+                    ArrayList<Player> arrayList = new ArrayList<>();
+                    if(choosePlayer.getNameOfPlayer()!=null)
+                        arrayList.add(findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()));
+                    shootController.setPlayersInInvolvedPlayers(arrayList);
+                }
+            }
+
+
+            if(message.isSelectionMultiplePlayers()) {
+                ArrayList<Player> players = new ArrayList<>();
+                for(String name : ((SelectionMultiplePlayers)message).getNamesOfPlayers()){
+                    players.add(findPlayerWithThisNickname(name));
+                }
+                shootController.setPlayersInInvolvedPlayers(players);
+            }
+
+            if(message.isRequestToUseNewton())
+                powerUpController.handleRequestToUseNewton(message);
+
+            if(message.isRequestToUseTeleporter())
+                powerUpController.handleRequestToUseTeleporter(message);
+
+        }
     }
 
     private class TurnTask extends TimerTask {

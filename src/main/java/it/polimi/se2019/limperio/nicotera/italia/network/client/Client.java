@@ -63,9 +63,9 @@ public class Client {
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
         Timer timer;
-        timer = new Timer();
-        timer.schedule(new TaskForStart(), 1000);
-        //waitForMessagesOfInitialization();
+        //timer = new Timer();
+        //timer.schedule(new TaskForStart(), 1000);
+        waitForMessagesOfInitialization();
 
     }
 

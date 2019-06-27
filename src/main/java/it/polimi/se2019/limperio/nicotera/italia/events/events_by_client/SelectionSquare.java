@@ -11,11 +11,23 @@ public class SelectionSquare extends ClientEvent {
     private boolean isRunEvent;
     private boolean isBeforeToShoot;
 
-    public SelectionSquare(String message, String nickname) {
+    private int row;
+    private int column;
+
+    public SelectionSquare(String message, String nickname, int row, int column) {
         super(message, nickname);
         setSelectionSquare(true);
+        this.row = row;
+        this.column = column;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 
     @Override
     public boolean isSelectionSquareToUseTeleporter() {

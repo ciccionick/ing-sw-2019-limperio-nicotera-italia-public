@@ -1,9 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.CatchEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToCatch;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionWeaponToDiscard;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestForChooseAWeaponToCatch;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
@@ -231,7 +228,8 @@ public class TestCatchController{
         game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
         NormalSquare normalSquare= (NormalSquare) game.getBoard().getMap().getMatrixOfSquares()[1][1];
         normalSquare.setAmmoTile(new AmmoTile(1));
-        CatchEvent event= new CatchEvent("",game.getPlayers().get(1).getNickname(),1,1);
+        SelectionSquare event= new SelectionSquare("",game.getPlayers().get(1).getNickname(),1,1);
+        event.setCatchEvent(true);
         PowerUpCard powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
         catchController.handleCatching(event);
         assertTrue(game.getPlayers().get(1).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCard));

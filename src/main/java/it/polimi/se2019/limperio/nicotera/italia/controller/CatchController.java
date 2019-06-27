@@ -60,7 +60,7 @@ class CatchController {
      *
      * @param event Contains the coordinates of the square in which the player want to catch and the player's nickname
      */
-    void handleCatching(CatchEvent event){
+    void handleCatching(SelectionSquare event){
         Square square = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         if(square.isSpawn()){

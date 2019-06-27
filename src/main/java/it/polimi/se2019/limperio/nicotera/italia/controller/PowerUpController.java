@@ -192,7 +192,7 @@ class PowerUpController {
     }
 
 
-     void useTeleporter(SelectionSquareToUseTeleporter message) {
+     void useTeleporter(SelectionSquare message) {
          Player player = controller.findPlayerWithThisNickname(message.getNickname());
          PowerUpCard card = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);
          card.useAsPowerUp(player, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]);
@@ -265,7 +265,7 @@ class PowerUpController {
          game.notify(requestSelectionSquareForAction);
     }
 
-    void useNewton(SelectionSquareToUseNewton event){
+    void useNewton(SelectionSquare event){
          Square newPositionOfThePlayer = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
          Player player = controller.findPlayerWithThisNickname(event.getNickname());
          PowerUpCard cardToUse = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);

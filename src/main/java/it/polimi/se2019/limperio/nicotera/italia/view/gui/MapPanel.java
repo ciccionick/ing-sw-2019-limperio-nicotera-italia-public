@@ -350,30 +350,26 @@ class MapPanel extends JPanel {
 
       public void mouseClicked(MouseEvent e) {
            if(isClickableForSelection()){
+               SelectionSquare selectionSquare = new SelectionSquare("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row,column);
                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
-                    mainFrame.getRemoteView().notify(new RunEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
+                   selectionSquare.setRunEvent(true);
                if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
-                   mainFrame.getRemoteView().notify(new CatchEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
-               if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator()){
-                   mainFrame.getRemoteView().notify(new GenerationTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
-               }
-               if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter()){
-                   mainFrame.getRemoteView().notify(new SelectionSquareToUseTeleporter("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
-               }
+                   selectionSquare.setCatchEvent(true);
+               if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator())
+                   selectionSquare.setGenerationTerminatorEvent(true);
+               if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter())
+                    selectionSquare.setSelectionSquareToUseTeleporter(true);
                if(mainFrame.getRemoteView().getMapView().isSelectionForNewton())
-                   mainFrame.getRemoteView().notify(new SelectionSquareToUseNewton("",mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), row, column));
-               if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator()){
-                   mainFrame.getRemoteView().notify(new MoveTerminatorEvent(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column));
-               }
+                   selectionSquare.setSelectionSquareToUseNewton(true);
+               if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator())
+                   selectionSquare.setMoveTerminatorEvent(true);
                if(mainFrame.getRemoteView().getMapView().isSelectionBeforeToShoot()){
-                   RunEvent moveBeforeShootEvent = new RunEvent("" ,mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column);
-                   moveBeforeShootEvent.setBeforeToShoot(true);
-                   mainFrame.getRemoteView().notify(moveBeforeShootEvent);
+                   selectionSquare.setBeforeToShoot(true);
                }
                if(mainFrame.getRemoteView().getMapView().isSelectionForShootAction()){
-                   SelectionSquareForShootAction selectionSquareForShootAction = new SelectionSquareForShootAction("" ,mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row, column);
-                   mainFrame.getRemoteView().notify(selectionSquareForShootAction);
+                   selectionSquare.setSelectionSquareForShootAction(true);
                }
+               mainFrame.getRemoteView().notify(selectionSquare);
                for(JLabel label : hashMapForCell.values()){
                    label.setEnabled(true);
                }

@@ -64,7 +64,8 @@ public class TestController {
       assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[0][2]);
 
       //Test for CatchEvent
-      CatchEvent event2= new CatchEvent("",game.getPlayers().get(0).getNickname(), 0,1);
+      SelectionSquare event2= new SelectionSquare("",game.getPlayers().get(0).getNickname(), 0,1);
+      event2.setCatchEvent(true);
       controller.update(event2);
       assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[0][1]);
 
@@ -108,7 +109,8 @@ public class TestController {
       }
 
       //Test for SelectionSquareForShootAction
-      SelectionSquareForShootAction event7= new SelectionSquareForShootAction("", game.getPlayers().get(0).getNickname(), 1,1);
+      SelectionSquare event7= new SelectionSquare("", game.getPlayers().get(0).getNickname(), 1,1);
+      event7.setSelectionSquareForShootAction(true);
       controller.update(event7);
       assertTrue(shootController.getInvolvedPlayers().isEmpty());
 
