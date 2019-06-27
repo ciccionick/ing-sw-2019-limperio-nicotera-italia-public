@@ -59,6 +59,7 @@ public class ClientEvent implements Serializable {
    private boolean isSelectionWeaponToReload = false;
    private boolean isSelectionMultiplePlayers = false;
    private boolean isSelectionSquareForShootAction = false;
+   private boolean isSelectionSquare = false;
 
 
    private boolean isRequestToUseTeleporter = false;
@@ -92,6 +93,14 @@ public class ClientEvent implements Serializable {
         return isRequestToShootByPlayer;
     }
 
+    public boolean isSelectionSquare() {
+        return isSelectionSquare;
+    }
+
+    public void setSelectionSquare(boolean selectionSquare) {
+        isSelectionSquare = selectionSquare;
+    }
+
     public boolean isSelectionWeaponToReload() {
         return isSelectionWeaponToReload;
     }
@@ -100,7 +109,7 @@ public class ClientEvent implements Serializable {
         return isSelectionSquareForShootAction;
     }
 
-    public void setSelectionSquareForShootAction(boolean selectionSquareForShootAction) {
+     void setSelectionSquareForShootAction(boolean selectionSquareForShootAction) {
         isSelectionSquareForShootAction = selectionSquareForShootAction;
     }
 
@@ -108,11 +117,11 @@ public class ClientEvent implements Serializable {
         return isSelectionMultiplePlayers;
     }
 
-    public void setSelectionMultiplePlayers(boolean selectionMultiplePlayers) {
+     void setSelectionMultiplePlayers(boolean selectionMultiplePlayers) {
         isSelectionMultiplePlayers = selectionMultiplePlayers;
     }
 
-    public void setSelectionWeaponToReload(boolean selectionWeaponToReload) {
+     void setSelectionWeaponToReload(boolean selectionWeaponToReload) {
         isSelectionWeaponToReload = selectionWeaponToReload;
     }
 
@@ -124,7 +133,7 @@ public class ClientEvent implements Serializable {
         return isChoosePlayer;
     }
 
-    public void setChoosePlayer(boolean choosePlayer) {
+     void setChoosePlayer(boolean choosePlayer) {
         isChoosePlayer = choosePlayer;
     }
 
@@ -136,11 +145,11 @@ public class ClientEvent implements Serializable {
         return isDiscardPowerUpCardAsAmmo;
     }
 
-    public void setDiscardPowerUpCardAsAmmo(boolean discardPowerUpCardAsAmmo) {
+     void setDiscardPowerUpCardAsAmmo(boolean discardPowerUpCardAsAmmo) {
         isDiscardPowerUpCardAsAmmo = discardPowerUpCardAsAmmo;
     }
 
-    public void setRequestToUseEffect(boolean requestToUseEffect) {
+     void setRequestToUseEffect(boolean requestToUseEffect) {
         isRequestToUseEffect = requestToUseEffect;
     }
 
@@ -148,7 +157,7 @@ public class ClientEvent implements Serializable {
         return isMoveTerminatorEvent;
     }
 
-    public void setMoveTerminatorEvent(boolean moveTerminatorEvent) {
+     void setMoveTerminatorEvent(boolean moveTerminatorEvent) {
         isMoveTerminatorEvent = moveTerminatorEvent;
     }
 
@@ -160,7 +169,7 @@ public class ClientEvent implements Serializable {
         return isDiscardAmmoOrPowerUpToPayTargeting;
     }
 
-    public void setDiscardAmmoOrPowerUpToPayTargeting(boolean discardAmmoOrPowerUpToPayTargeting) {
+     void setDiscardAmmoOrPowerUpToPayTargeting(boolean discardAmmoOrPowerUpToPayTargeting) {
         isDiscardAmmoOrPowerUpToPayTargeting = discardAmmoOrPowerUpToPayTargeting;
     }
 
@@ -180,7 +189,7 @@ public class ClientEvent implements Serializable {
         return isRequestToUseWeaponCard;
     }
 
-    public void setRequestToUseWeaponCard(boolean requestToUseWeaponCard) {
+     void setRequestToUseWeaponCard(boolean requestToUseWeaponCard) {
         isRequestToUseWeaponCard = requestToUseWeaponCard;
     }
 
@@ -204,7 +213,7 @@ public class ClientEvent implements Serializable {
         return isSelectionWeaponToDiscard;
     }
 
-    public void setSelectionWeaponToDiscard(boolean selectionWeaponToDiscard) {
+     void setSelectionWeaponToDiscard(boolean selectionWeaponToDiscard) {
         isSelectionWeaponToDiscard = selectionWeaponToDiscard;
     }
 
@@ -212,7 +221,7 @@ public class ClientEvent implements Serializable {
         return isCatchEvent;
     }
 
-    public void setCatchEvent(boolean catchEvent) {
+     void setCatchEvent(boolean catchEvent) {
         isCatchEvent = catchEvent;
     }
 
@@ -220,7 +229,7 @@ public class ClientEvent implements Serializable {
         return isSelectionSquareForRun;
     }
 
-    public void setSelectionSquareForRun(boolean selectionSquareForRun) {
+     void setSelectionSquareForRun(boolean selectionSquareForRun) {
         isSelectionSquareForRun = selectionSquareForRun;
     }
 
@@ -228,7 +237,7 @@ public class ClientEvent implements Serializable {
         return isRequestTerminatorActionByPlayer;
     }
 
-    public void setRequestTerminatorActionByPlayer(boolean requestTerminatorActionByPlayer) {
+     void setRequestTerminatorActionByPlayer(boolean requestTerminatorActionByPlayer) {
         isRequestTerminatorActionByPlayer = requestTerminatorActionByPlayer;
     }
 
@@ -236,7 +245,7 @@ public class ClientEvent implements Serializable {
         return isSelectionWeaponToCatch;
     }
 
-    public void setSelectionWeaponToCatch(boolean selectionWeaponToCatch) {
+     void setSelectionWeaponToCatch(boolean selectionWeaponToCatch) {
         isSelectionWeaponToCatch = selectionWeaponToCatch;
     }
 
@@ -244,7 +253,7 @@ public class ClientEvent implements Serializable {
         return isGenerationTerminatorEvent;
     }
 
-    public void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
+     void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
         isGenerationTerminatorEvent = generationTerminatorEvent;
     }
 
@@ -276,7 +285,7 @@ public class ClientEvent implements Serializable {
         return isTerminatorShootEvent;
     }
 
-    public void setTerminatorShootEvent(boolean terminatorShootEvent) {
+     void setTerminatorShootEvent(boolean terminatorShootEvent) {
         isTerminatorShootEvent = terminatorShootEvent;
     }
 
@@ -284,7 +293,7 @@ public class ClientEvent implements Serializable {
         return isSelectionSquareToUseTeleporter;
     }
 
-    public void setSelectionSquareToUseTeleporter(boolean selectionSquareToUseTeleporter) {
+     void setSelectionSquareToUseTeleporter(boolean selectionSquareToUseTeleporter) {
         isSelectionSquareToUseTeleporter = selectionSquareToUseTeleporter;
     }
 
@@ -292,7 +301,7 @@ public class ClientEvent implements Serializable {
         return isRequestToUseTeleporter;
     }
 
-    public void setRequestToUseTeleporter(boolean requestToUseTeleporter) {
+     void setRequestToUseTeleporter(boolean requestToUseTeleporter) {
         isRequestToUseTeleporter = requestToUseTeleporter;
     }
 
@@ -300,7 +309,7 @@ public class ClientEvent implements Serializable {
         return isRequestToUseNewton;
     }
 
-    public void setRequestToUseNewton(boolean requestToUseNewton) {
+     void setRequestToUseNewton(boolean requestToUseNewton) {
         isRequestToUseNewton = requestToUseNewton;
     }
 
@@ -308,7 +317,7 @@ public class ClientEvent implements Serializable {
         return isSelectionSquareToUseNewton;
     }
 
-    public void setSelectionSquareToUseNewton(boolean selectionSquareToUseNewton) {
+     void setSelectionSquareToUseNewton(boolean selectionSquareToUseNewton) {
         isSelectionSquareToUseNewton = selectionSquareToUseNewton;
     }
 }
