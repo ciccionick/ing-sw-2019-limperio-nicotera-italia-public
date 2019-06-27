@@ -33,6 +33,8 @@ public class MapEvent extends ServerEvent {
     private int typeOfMap;
 
     private boolean terminatorMode;
+    private boolean isForTeleporter = false;
+    private boolean isForNewton = false;
 
     public MapEvent() {
         setMapEvent(true);
@@ -125,5 +127,21 @@ public class MapEvent extends ServerEvent {
 
     public void setTerminatorMode(boolean terminatorMode) {
         this.terminatorMode = terminatorMode;
+    }
+
+    public boolean isForTeleporter() {
+        return isForTeleporter;
+    }
+
+    public void setForTeleporter(boolean forTeleporter) {
+        isForTeleporter = forTeleporter;
+    }
+
+    public boolean isForNewton() {
+        return isForNewton;
+    }
+
+    public void setForNewton(boolean forNewton) {
+        isForNewton = forNewton;
     }
 }

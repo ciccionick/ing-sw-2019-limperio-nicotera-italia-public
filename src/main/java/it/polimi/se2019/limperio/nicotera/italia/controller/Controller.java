@@ -255,7 +255,7 @@ public class Controller implements Observer<ClientEvent> {
      * @return boolean that is true if it is the turn of the player with the nickname parameter
      */
     //
-     public boolean isTheTurnOfThisPlayer(String nickname){
+      boolean isTheTurnOfThisPlayer(String nickname){
         return nickname.equals(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
     }
 
@@ -469,7 +469,6 @@ public class Controller implements Observer<ClientEvent> {
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          player.setConnected(false);
-         //se il player è contenuto nella lista della tagback granade toglierlo
          if(isTheTurnOfThisPlayer(nicknameOfPlayerDisconnected)) {
              game.setNumOfActionOfTheTurn(game.getNumOfMaxActionForTurn());//setto max num di azioni così aggiorno il turno con handleTheEndOFAction
              if(player.getPositionOnTheMap() == null)
@@ -484,6 +483,7 @@ public class Controller implements Observer<ClientEvent> {
 
     public void handleReconnection(String nicknameOfPlayer) {
          findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
+
     }
 
     private class TurnTask extends TimerTask {

@@ -218,32 +218,31 @@ public class Server  {
 
     private void handleReconnectionClient(Socket client){
         VirtualView virtualView = new VirtualView(client, this, controller);
-        String nicknameReconnected = virtualView.handleReconnection();
-        if(!nicknameReconnected.equals("Failed reconnection")){
-            virtualView.sendAckAfterReconnection();
-            for(VirtualView virtualVW : listOfVirtualView){
-                if(virtualVW.getMyPlayerBoard().getNicknameOfPlayer().equals(nicknameReconnected)){
-                    virtualVW.setClient(client, virtualView.getIn(), virtualView.getOut());
-                    virtualVW.setClientCurrentlyOnline(true);
+            String nicknameReconnected = virtualView.handleReconnection();
+            if (!nicknameReconnected.equals("Failed reconnection")) {
+                virtualView.sendAckAfterReconnection();
+                for (VirtualView virtualVW : listOfVirtualView) {
+                    if (virtualVW.getMyPlayerBoard().getNicknameOfPlayer().equals(nicknameReconnected)) {
+                        virtualVW.setClient(client, virtualView.getIn(), virtualView.getOut());
+                        virtualVW.setClientCurrentlyOnline(true);
 
-                    try{
-                        virtualVW.updateStatusAfterReconnection();
-                        controller.handleReconnection(virtualVW.getMyPlayerBoard().getNicknameOfPlayer());
+                        try {
+                            virtualVW.updateStatusAfterReconnection();
+                            controller.handleReconnection(virtualVW.getMyPlayerBoard().getNicknameOfPlayer());
+                        } catch (IOException e) {
+                            loggerServer.log(Level.ALL, "error");
+                        }
+                        break;
                     }
-                    catch(IOException e){
-                        e.printStackTrace();
-                    }
-                    break;
                 }
             }
-        }
-        else{
-            try {
-                client.close();
-            } catch (IOException e) {
-                loggerServer.log(Level.ALL, "error");
+            else {
+                try {
+                    client.close();
+                } catch (IOException e) {
+                    loggerServer.log(Level.ALL, "error");
+                }
             }
-        }
 
     }
 
