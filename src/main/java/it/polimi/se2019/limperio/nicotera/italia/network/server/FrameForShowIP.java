@@ -31,7 +31,6 @@ class FrameForShowIP  {
         contentPane.add(centralPane, BorderLayout.CENTER);
         frame.getContentPane().add(contentPane);
         contentPane.setBorder(new EmptyBorder(horizontalBorder, verticalBorder, horizontalBorder, verticalBorder));
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;

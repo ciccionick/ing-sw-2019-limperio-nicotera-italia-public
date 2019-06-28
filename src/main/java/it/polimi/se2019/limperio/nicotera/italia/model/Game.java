@@ -3,9 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
-
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
@@ -100,22 +98,10 @@ public class Game extends Observable<ServerEvent> {
      * @param terminatorModeActive The boolean value that indicate if there will be the terminator mode if the number of players is 3
      */
     public void initializeGame(boolean anticipatedFrenzy, int typeMap, boolean terminatorModeActive){
-        /*File file;
-        FileReader inFile = null;
-        BufferedReader bin=null;
-        file = new File("/timer/timerForTurn.txt");*/
-
         try {
-            //inFile = new FileReader(file);
-            //bin = new BufferedReader(inFile);
             BufferedReader timerReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/timer/timerForTurn.txt")));
             delay = Long.parseLong(timerReader.readLine());
-            //inFile.close();
-            //bin.close();
             timerReader.close();
-            //file = new File("/textfile/numOfSkull.txt");
-            //inFile = new FileReader(file);
-            //bin = new BufferedReader(inFile);
             BufferedReader numOfSkullReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/textfile/numOfSkull.txt")));
             numOfSkullToRemoveToPassToFrenzy = Integer.parseInt(numOfSkullReader.readLine());
             numOfSkullReader.close();
@@ -123,18 +109,6 @@ public class Game extends Observable<ServerEvent> {
         } catch (IOException e) {
             myLogger.log(Level.ALL, "error");
         }
-        /*finally {
-            try {
-                /*if(bin!=null)
-                    bin.close();
-                if(inFile!=null)
-                    inFile.close();
-
-            } catch (IOException e) {
-                myLogger.log(Level.ALL, "error");
-            }
-        }*/
-
         this.anticipatedFrenzy=anticipatedFrenzy;
         setListOfNickname();
         if(players.size()==3 || players.size()==4)

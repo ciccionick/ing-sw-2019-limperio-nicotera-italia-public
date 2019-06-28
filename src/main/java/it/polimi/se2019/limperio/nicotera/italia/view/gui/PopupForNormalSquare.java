@@ -14,7 +14,7 @@ class PopupForNormalSquare extends PopupForSquare {
      PopupForNormalSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare, AmmoTile ammoTile, MainFrame mainFrame, Point positionOfSquare)  {
          Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
          Point positionOfPanel = mainFrame.getMapPanel().getLocation();
-         String folderPath = "resources/board/ammotiles/";
+         String folderPath = "/board/ammotiles/";
          popup.setAutoRequestFocus(false);
          popup.setUndecorated(true);
          popup.getContentPane().setBackground(SystemColor.menu);
@@ -34,25 +34,28 @@ class PopupForNormalSquare extends PopupForSquare {
          contentPane.add(panelForPlayers);
 
 
+         int topInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
+         int bottomInset = topInset/2;
+         int leftRightInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
 
          GridBagConstraints gbcTextForPlayers = new GridBagConstraints();
          JLabel textForPlayers;
          if(nicknamesOfPlayersOnThisSquare.isEmpty()){
              textForPlayers = new JLabel("<html> No players <br/> on this square! </html>");
-             gbcTextForPlayers.insets = new Insets(20, 20, 0, 20);
+             gbcTextForPlayers.insets = new Insets(topInset, leftRightInset, 0, leftRightInset);
              gbcTextForPlayers.gridx = 0;
              gbcTextForPlayers.gridy = 0;
          }
          else {
              textForPlayers = new JLabel("<html>Players on this <br/> square: </html>");
              textForPlayers.setHorizontalAlignment(SwingConstants.CENTER);
-             gbcTextForPlayers.insets = new Insets(0, 20, 10, 20);
+             gbcTextForPlayers.insets = new Insets(0, leftRightInset, bottomInset, leftRightInset);
              gbcTextForPlayers.gridx = 0;
              gbcTextForPlayers.gridy = 0;
          }
          panelForPlayers.add(textForPlayers, gbcTextForPlayers);
 
-         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), mainFrame );
 
 
          JPanel panelForAmmoTile = new JPanel();
@@ -71,12 +74,11 @@ class PopupForNormalSquare extends PopupForSquare {
          }
 
          JLabel labelForAmmotile = new JLabel("");
-         ImageIcon imageIcon = new ImageIcon(folderPath);
+         ImageIcon imageIcon = new ImageIcon(mainFrame.getResource(folderPath));
          if (typeOfAmmo==0)
              labelForAmmotile.setEnabled(false);
-         java.awt.Image image = imageIcon.getImage();
-         java.awt.Image newimg = image.getScaledInstance(popup.getWidth()/3, popup.getHeight()/3,  java.awt.Image.SCALE_SMOOTH);
-         imageIcon = new ImageIcon(newimg);
+         java.awt.Image image = imageIcon.getImage().getScaledInstance(popup.getWidth()/3, popup.getHeight()/3,  java.awt.Image.SCALE_SMOOTH);
+         imageIcon = new ImageIcon(image);
          labelForAmmotile.setIcon(imageIcon);
          labelForAmmotile.setHorizontalAlignment(SwingConstants.CENTER);
          panelForAmmoTile.add(labelForAmmotile);

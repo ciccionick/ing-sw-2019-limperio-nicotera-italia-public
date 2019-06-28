@@ -116,7 +116,7 @@ public class RemoteView extends Observable<ClientEvent>  {
         }
         if(mainFrame!=null)
             mainFrame.updateLeftPanelForWhoIsViewing(event.getPlayerBoard().getNicknameOfPlayer());
-        if(mainFrame!=null && event.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && event.getMessageForInvolved()!=null && !event.isNotifyAboutActionDone())
+        if(mainFrame!=null && event.getNicknameInvolved().equals(myPlayerBoardView.getNicknameOfPlayer()) && event.getMessageForInvolved()!=null && !event.isNotifyAboutActionDone() && !event.isRequestToDiscardPowerUpCardToSpawnEvent())
             mainFrame.showMessage(event);
     }
 

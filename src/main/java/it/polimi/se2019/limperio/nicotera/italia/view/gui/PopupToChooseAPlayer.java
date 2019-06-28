@@ -24,17 +24,21 @@ class PopupToChooseAPlayer {
         this.event = receivedEvent;
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
-        dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         JPanel contentPane = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPane);
-        contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        ListenerForButtonPlayers listenerForButtonPlayers = new ListenerForButtonPlayers();
+        int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
+        int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10);
+
+        contentPane.setBorder(new EmptyBorder(topBottomBorder,leftRightBorder,topBottomBorder,leftRightBorder));
+
+        ListenerForButtonPlayers listenerForButtonPlayers = new ListenerForButtonPlayers(mainFrame,dialog,event);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder);
 
 
         JTextArea text = new JTextArea(event.getMessageForInvolved());
@@ -67,42 +71,4 @@ class PopupToChooseAPlayer {
         dialog.setVisible(true);
     }
 
-
-    private class ListenerForButtonPlayers implements ActionListener {
-
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (event.isRequestToSelectionPlayerToAttackWithTerminator()) {
-                TerminatorShootEvent terminatorShootEvent = new TerminatorShootEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                terminatorShootEvent.setNicknamePlayerToAttack(e.getActionCommand());
-                mainFrame.getRemoteView().notify(terminatorShootEvent);
-                dialog.setVisible(false);
-            }
-            if (event.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer) event).isToUseTargeting()) {
-                ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
-                newEvent.setToTargeting(true);
-                newEvent.setNameOfPlayer(e.getActionCommand());
-                mainFrame.getRemoteView().notify(newEvent);
-                dialog.setVisible(false);
-            } else if (!event.isRequestToSelectionPlayerToAttackWithTerminator() && ((RequestToChooseAPlayer)event).isChoosePlayerForNewton()) {
-                ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
-                newEvent.setToNewton(true);
-                newEvent.setNameOfPlayer(e.getActionCommand());
-                mainFrame.getRemoteView().notify(newEvent);
-                dialog.setVisible(false);
-            }
-            else if(event.isRequestToChooseAPlayer() && ((RequestToChooseAPlayer)event).isChoosePlayerForAttack()){
-                ChoosePlayer newEvent = new ChoosePlayer("", event.getNicknameInvolved());
-                newEvent.setForAttack(true);
-                if(!e.getActionCommand().equals("NO ONE"))
-                    newEvent.setNameOfPlayer(e.getActionCommand());
-                else
-                    newEvent.setNameOfPlayer(null);
-                mainFrame.getRemoteView().notify(newEvent);
-                dialog.setVisible(false);
-            }
-            dialog.setVisible(false);
-        }
-    }
 }

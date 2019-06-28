@@ -25,9 +25,12 @@ class PopupToPayWithAmmoOrPowerUpCard {
         JPanel contentPanel = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPanel);
         dialog.setUndecorated(true);
-         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5,5));
+         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
 
-         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
+         int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
+
+         contentPanel.setBorder(new EmptyBorder(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder));
 
         int gridWidthForText=0;
         if(event.isBlueAmmo())
@@ -45,10 +48,10 @@ class PopupToPayWithAmmoOrPowerUpCard {
         gbc.gridy=0;
         gbc.gridx=0;
         gbc.gridwidth= gridWidthForText;
-        gbc.insets = new Insets(0, 10, 20, 10);
+        gbc.insets = new Insets(0, leftRightBorder/2, topBottomBorder, leftRightBorder/2);
         contentPanel.add(text,gbc);
 
-        ListenerForPopupToPayWithAmmoOrPUCArd listenerForPopupToPayWithAmmoOrPUCArd = new ListenerForPopupToPayWithAmmoOrPUCArd();
+        ListenerForPopupToPayWithAmmoOrPUCArd listenerForPopupToPayWithAmmoOrPUCArd = new ListenerForPopupToPayWithAmmoOrPUCArd(dialog,mainFrame,event);
 
         gbc.gridy=1;
         gbc.insets.bottom=0;
@@ -60,7 +63,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
 
         if(event.isBlueAmmo()){
             JButton blueButton = new JButton();
-            icon = new ImageIcon("resources/playerboards/blueammo.png");
+            icon = new ImageIcon(mainFrame.getResource("/playerboards/blueammo.png"));
             image = icon.getImage().getScaledInstance(widthAmmo,heightAmmo,Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             blueButton.setActionCommand("BlueAmmo");
@@ -73,7 +76,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
 
          if(event.isRedAmmo()){
              JButton redButton = new JButton();
-             icon = new ImageIcon("resources/playerboards/redammo.png");
+             icon = new ImageIcon(mainFrame.getResource("/playerboards/redammo.png"));
              image = icon.getImage().getScaledInstance(widthAmmo,heightAmmo,Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              redButton.setActionCommand("RedAmmo");
@@ -85,7 +88,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
 
          if(event.isYellowAmmo()){
              JButton yellowButton = new JButton();
-             icon = new ImageIcon("resources/playerboards/yellowammo.png");
+             icon = new ImageIcon(mainFrame.getResource("/playerboards/yellowammo.png"));
              image = icon.getImage().getScaledInstance(widthAmmo,heightAmmo,Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              yellowButton.setActionCommand("YellowAmmo");
@@ -95,16 +98,13 @@ class PopupToPayWithAmmoOrPowerUpCard {
              contentPanel.add(yellowButton,gbc);
          }
 
-         String folderPath = "resources/powerupcards/";
+         String folderPath = "/powerupcards/";
          for(ServerEvent.AliasCard card : event.getPowerUpCards()){
              JButton cardButton = new JButton();
              String nameOfCard = card.getName();
              String color = card.getColor().toString();
-             /*icon = new ImageIcon(folderPath.concat(nameOfCard+ " ").concat(color+".png"));
-             image = icon.getImage().getScaledInstance(widthCard,heightCard,Image.SCALE_SMOOTH);
-             icon = new ImageIcon(image);*/
              cardButton.setActionCommand(card.getName() + ","+ card.getColor().toString().toUpperCase());
-             cardButton.setIcon(new ImageIcon(folderPath.concat(nameOfCard+ " ").concat(color+".png")));
+             cardButton.setIcon(new ImageIcon(mainFrame.getResource(folderPath.concat(nameOfCard+ " ").concat(color+".png"))));
              cardButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
              gbc.gridx++;
              contentPanel.add(cardButton,gbc);
@@ -118,47 +118,4 @@ class PopupToPayWithAmmoOrPowerUpCard {
 
     }
 
-    private class ListenerForPopupToPayWithAmmoOrPUCArd implements ActionListener {
-
-
-         ListenerForPopupToPayWithAmmoOrPUCArd() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-             DiscardAmmoOrPowerUpToPayTargeting discardAmmoOrPowerUpToPayTargeting = new DiscardAmmoOrPowerUpToPayTargeting("", event.getNicknameInvolved());
-             switch (e.getActionCommand()){
-                 case "BlueAmmo":
-                     discardAmmoOrPowerUpToPayTargeting.setBlueAmmo(true);
-                     dialog.setVisible(false);
-                     mainFrame.getRemoteView().notify(discardAmmoOrPowerUpToPayTargeting);
-                     break;
-
-                 case "RedAmmo":
-                     discardAmmoOrPowerUpToPayTargeting.setRedAmmo(true);
-                     dialog.setVisible(false);
-                     mainFrame.getRemoteView().notify(discardAmmoOrPowerUpToPayTargeting);
-                     break;
-
-                 case "YellowAmmo":
-                     discardAmmoOrPowerUpToPayTargeting.setYellowAmmo(true);
-                     dialog.setVisible(false);
-                     mainFrame.getRemoteView().notify(discardAmmoOrPowerUpToPayTargeting);
-                     break;
-
-                     default:
-
-                        String[] nameAndColor = e.getActionCommand().split(",");
-                        for(ServerEvent.AliasCard card : mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck()){
-                            if(card.getName().equals(nameAndColor[0])&& card.getColor().toString().equalsIgnoreCase(nameAndColor[1])) {
-                                discardAmmoOrPowerUpToPayTargeting.setPowerUpCard(card);
-                                dialog.setVisible(false);
-                                mainFrame.getRemoteView().notify(discardAmmoOrPowerUpToPayTargeting);
-                                break;
-                            }
-                        }
-             }
-
-        }
-    }
 }

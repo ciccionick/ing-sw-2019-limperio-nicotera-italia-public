@@ -46,7 +46,7 @@ import java.util.ArrayList;
             heightOfLabel = mainFrame.getKillshotTrackPanel().getSkull2().getHeight();
         }
 
-        String folderPath = "resources/playerboards/damage/";
+        String folderPath = "/playerboards/damage/";
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -73,7 +73,7 @@ import java.util.ArrayList;
                     path = folderPath.concat(firstColor.toString().toLowerCase()).concat(" ").concat(secondColor.toString().toLowerCase());
                 }
                 JLabel damageIcon = new JLabel();
-                ImageIcon icon = new ImageIcon(path.concat(".png"));
+                ImageIcon icon = new ImageIcon(mainFrame.getResource(path.concat(".png")));
                 Image image = icon.getImage().getScaledInstance(widthOfLabel, heightOfLabel, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 damageIcon.setIcon(icon);
@@ -85,7 +85,7 @@ import java.util.ArrayList;
             for(ColorOfDeathToken token : listOfTokenForFrenzyKillShoot){
                 path = folderPath.concat(token.toString().toLowerCase()).concat(".png");
                 JLabel damageIcon = new JLabel();
-                ImageIcon icon = new ImageIcon(path);
+                ImageIcon icon = new ImageIcon(mainFrame.getResource(path));
                 Image image = icon.getImage().getScaledInstance(widthOfLabel, heightOfLabel, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(image);
                 damageIcon.setIcon(icon);

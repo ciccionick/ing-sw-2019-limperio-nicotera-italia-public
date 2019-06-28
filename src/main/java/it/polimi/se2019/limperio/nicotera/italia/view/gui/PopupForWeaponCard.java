@@ -31,15 +31,17 @@ import java.awt.*;
         ServerEvent.AliasCard weaponCard = mainFrame.getLeftPanel().getPlayerBoardView().getWeaponCardDeck().get(numOfCard-1);
         ImageIcon icon;
         Image image;
-        String folderPath = "resources/weapons/";
+        String folderPath = "/weapons/";
+        int topBottomInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
+        int leftRightInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10 , 10, 10, 10);
+        gbc.insets = new Insets(topBottomInset,leftRightInset,topBottomInset,leftRightInset);
 
         JLabel labelCard = new JLabel();
-        icon = new ImageIcon(folderPath.concat(weaponCard.getName()).concat(".png"));
+        icon = new ImageIcon(mainFrame.getResource(folderPath.concat(weaponCard.getName()).concat(".png")));
         image = icon.getImage().getScaledInstance(widthCard, heightCard, Image.SCALE_SMOOTH);
         labelCard.setIcon(new ImageIcon(image));
         contentPanel.add(labelCard,gbc);

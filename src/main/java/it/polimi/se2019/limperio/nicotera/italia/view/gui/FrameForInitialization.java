@@ -78,12 +78,14 @@ public class FrameForInitialization {
         JLabel labelText;
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
         labelText.setText("Nickname invalid or already used! Try again: ");
+        frame.pack();
     }
 
     public void handleRetakeForColor() {
         JLabel labelText;
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
         labelText.setText("Color already used! Try again: ");
+        frame.pack();
     }
 
     public void setColor() {

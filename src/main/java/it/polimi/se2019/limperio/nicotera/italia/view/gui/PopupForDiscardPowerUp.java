@@ -42,10 +42,12 @@ class PopupForDiscardPowerUp {
                 (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
         dialog.setUndecorated(true);
 
+        int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
+        int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10);
 
         JPanel contentPanel = new JPanel(new GridBagLayout());
-        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5,5));
+        contentPanel.setBorder(new EmptyBorder(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder));
+        dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         dialog.getContentPane().add(contentPanel);
 
         ArrayList<ServerEvent.AliasCard> listOfPowerUpCards = new ArrayList<>();
@@ -71,7 +73,7 @@ class PopupForDiscardPowerUp {
          message.setBackground(SystemColor.menu);
          message.setEditable(false);
          GridBagConstraints gbcLabelMessage = new GridBagConstraints();
-         gbcLabelMessage.insets = new Insets(5, 5, 5, 5);
+         gbcLabelMessage.insets = new Insets(topBottomBorder/2, leftRightBorder/2, topBottomBorder/2, leftRightBorder/2);
          gbcLabelMessage.gridx = 0;
          gbcLabelMessage.gridy = 0;
          gbcLabelMessage.gridwidth = listOfPowerUpCards.size();
@@ -84,17 +86,17 @@ class PopupForDiscardPowerUp {
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
          gbc.gridy = 1;
-         gbc.insets = new Insets(10, 10, 10, 10);
+         gbc.insets = new Insets(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder);
 
          ImageIcon icon;
          Image image;
-         String folderPath = "resources/powerupcards/";
+         String folderPath = "/powerupcards/";
 
         while(!listOfPowerUpCards.isEmpty()){
             JLabel card = new JLabel();
             String nameOfCard = listOfPowerUpCards.get(0).getName();
             String color = listOfPowerUpCards.get(0).getColor().toString();
-            icon = new ImageIcon(folderPath.concat(nameOfCard+ " ").concat(color+".png"));
+            icon = new ImageIcon(mainFrame.getResource(folderPath.concat(nameOfCard+ " ").concat(color+".png")));
             image = icon.getImage().getScaledInstance(widthCard, heightCard, Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             card.setIcon(icon);
@@ -107,7 +109,7 @@ class PopupForDiscardPowerUp {
             else
                 button.setText("Discard");
             button.setActionCommand(nameOfCard.concat(" "+ color));
-            button.addActionListener(new ListenerForDiscardPowerUp(mainFrame, listOfPowerUpCards.get(0), receivedEvent));
+            button.addActionListener(new ListenerForDiscardPowerUp(mainFrame, listOfPowerUpCards.get(0), receivedEvent,this));
             contentPanel.add(button,gbc);
 
             gbc.gridy=1;
@@ -120,7 +122,7 @@ class PopupForDiscardPowerUp {
             JButton buttonToNotDiscard = new JButton("No one");
             buttonToNotDiscard.setActionCommand("No one");
             gbc.gridy=1;
-            buttonToNotDiscard.addActionListener(new ListenerForDiscardPowerUp(mainFrame, null, receivedEvent));
+            buttonToNotDiscard.addActionListener(new ListenerForDiscardPowerUp(mainFrame, null, receivedEvent,this));
             contentPanel.add(buttonToNotDiscard, gbc);
         }
 
@@ -140,9 +142,8 @@ class PopupForDiscardPowerUp {
                  loggerPopupForDiscardPUCard.log(Level.ALL, "error");
              }
          }
-
-
      }
+
 
      private void addPowerUpCardsToDiscard(ArrayList<ServerEvent.AliasCard> listOfPowerUpCards, ServerEvent receivedEvent) {
          ArrayList<ServerEvent.AliasCard> nameOfPowerUpCards = ((RequestToDiscardPowerUpCard)receivedEvent).getPowerUpCards();
@@ -156,47 +157,15 @@ class PopupForDiscardPowerUp {
          }
      }
 
-      class ListenerForDiscardPowerUp implements ActionListener {
-         private MainFrame mainFrame;
-         private ServerEvent.AliasCard card;
-         private ServerEvent event;
+    public JDialog getDialog() {
+        return dialog;
+    }
 
-          ListenerForDiscardPowerUp(MainFrame mainFrame, ServerEvent.AliasCard aliasCard, ServerEvent receivedEvent) {
-                this.mainFrame = mainFrame;
-                this.card = aliasCard;
-                this.event = receivedEvent;
-          }
+    public Timer getTimer() {
+        return timer;
+    }
 
-         @Override
-         public void actionPerformed(ActionEvent e) {
-              if(event.isRequestToDiscardPowerUpCardToSpawnEvent()) {
-                  DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  newEvent.setPowerUpCard(card);
-                  dialog.setVisible(false);
-                  mainFrame.getRemoteView().notify(newEvent);
-              }
-              if(event.isRequestToDiscardPowerUpCardToPay()) {
-                  DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                  newEvent.setToCatch(((RequestToDiscardPowerUpCard)event).isToCatch());
-                  newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCard)event).isToPayAnEffect());
-                  newEvent.setToReload(((RequestToDiscardPowerUpCard)event).isToReload());
-                  newEvent.setToTargeting(((RequestToDiscardPowerUpCard)event).isToTargeting());
-                  newEvent.setToTagback(((RequestToDiscardPowerUpCard)event).isToTagback());
-                  newEvent.setToReload(((RequestToDiscardPowerUpCard)event).isToReload());
-                  if(!e.getActionCommand().equals("No one")){
-                      newEvent.setNameOfPowerUpCard(card.getName());
-                      newEvent.setColorOfCard(card.getColor());
-                  }
-                  if(timer!=null)
-                      timer.cancel();
-                  mainFrame.getRemoteView().notify(newEvent);
-                  dialog.setVisible(false);
-
-              }
-         }
-     }
-
-     private class TaskForTagbackTimer extends TimerTask {
+    private class TaskForTagbackTimer extends TimerTask {
          @Override
          public void run() {
              DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());

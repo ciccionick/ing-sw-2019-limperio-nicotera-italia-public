@@ -104,30 +104,19 @@ public class Server  {
         game=Game.instanceOfGame();
         controller=new Controller(game);
         game.setController(controller);
-       /* File file;
-        FileReader inFile = null;
-        BufferedReader bin=null;*/
         BufferedReader timerReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/timer/timerForStartOfGame.txt")));
-       // file = new File("/timer/timerForStartOfGame.txt");
+
 
         try {
-            //inFile = new FileReader(file);
-           // bin = new BufferedReader(inFile);
             delay = Long.parseLong(timerReader.readLine());
-
             } catch (IOException e) {
                 loggerServer.log(Level.ALL, "error");
             }
         finally {
             try {
-               /* if(bin!=null)
-                    bin.close();
-                if(inFile!=null)
-                    inFile.close();*/
-                if(timerReader!=null)
-                    timerReader.close();
+                 timerReader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerServer.log(Level.ALL, "error");
             }
         }
         task = new MyTask();

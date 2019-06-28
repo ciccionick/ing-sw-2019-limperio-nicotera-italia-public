@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 class PopupToChooseMultiplePlayers {
     private JDialog dialog;
-    private MainFrame mainFrame;
-    private ServerEvent serverEvent;
     private ArrayList<JCheckBox> listOfCheckBox = new ArrayList<>();
     private ArrayList<String> selectedNames = new ArrayList<>();
 
@@ -23,7 +21,9 @@ class PopupToChooseMultiplePlayers {
          dialog.setUndecorated(true);
          JPanel contentPanel = new JPanel(new GridBagLayout());
          dialog.getContentPane().add(contentPanel);
-         contentPanel.setBorder(new EmptyBorder( 50, 50, 50, 50));
+         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
+         int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);
+         contentPanel.setBorder(new EmptyBorder( topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder));
 
          ArrayList<String> namesOfPlayers = null;
          if(receivedEvent.isRequestToChooseMultiplePlayers())
@@ -32,7 +32,7 @@ class PopupToChooseMultiplePlayers {
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
          gbc.gridy = 0;
-         gbc.insets = new Insets(10, 5, 5, 5);
+         gbc.insets = new Insets(topBottomBorder/5, leftRightBorder/10, topBottomBorder/10, leftRightBorder/10);
 
          JTextArea text = new JTextArea(receivedEvent.getMessageForInvolved());
          text.setBackground(SystemColor.menu);
@@ -70,19 +70,10 @@ class PopupToChooseMultiplePlayers {
 
     private class ListenerForCheckBoxPlayers implements ActionListener {
         private int numOfButtonsSelected = 0;
-        private ArrayList<String> nameOfPlayers = new ArrayList<>();
         private int namOfMaxCheckBoxSelectable;
 
         ListenerForCheckBoxPlayers(int numOfMaxCheckBoxSelectionable) {
             this.namOfMaxCheckBoxSelectable = numOfMaxCheckBoxSelectionable;
-        }
-
-        private JCheckBox getCheckBoxPressed(String actionCommand) {
-            for (JCheckBox checkBox : listOfCheckBox) {
-                if (checkBox.getActionCommand().equals(actionCommand))
-                    return checkBox;
-            }
-            throw new IllegalArgumentException();
         }
 
         @Override
@@ -121,7 +112,6 @@ class PopupToChooseMultiplePlayers {
             selectionMultiplePlayers.setNamesOfPlayers(selectedNames);
             mainFrame.getRemoteView().notify(selectionMultiplePlayers);
             dialog.setVisible(false);
-
         }
     }
 }
