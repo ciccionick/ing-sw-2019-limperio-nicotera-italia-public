@@ -3,8 +3,6 @@ package it.polimi.se2019.limperio.nicotera.italia.network.server;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 /**
  *
@@ -21,43 +19,9 @@ class FrameForShowIP  {
      */
      FrameForShowIP(String ip) {
         this.frame = new JFrame("Adrenaline (Server) - IP address");
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/favicon.jpg")));
         frame.setResizable(false);
-        frame.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                //not implemented
-            }
-        });
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JPanel contentPane = new JPanel(new BorderLayout());
         JPanel centralPane = new JPanel(new GridBagLayout());
         int widhtOfScreen = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();

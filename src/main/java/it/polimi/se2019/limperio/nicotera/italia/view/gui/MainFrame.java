@@ -26,7 +26,7 @@ public class MainFrame {
     public MainFrame(RemoteView remoteView) {
         this.remoteView = remoteView;
         frame = new JFrame("Adrenaline");
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
+        frame.setIconImage(getResource("/favicon.jpg"));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -190,6 +190,10 @@ public class MainFrame {
         else
             sizeOfReference = frame.getWidth();
         return sizeOfReference/originalSize;
+    }
+
+    Image getResource(String path){
+        return Toolkit.getDefaultToolkit().getImage(getClass().getResource(path));
     }
 
 

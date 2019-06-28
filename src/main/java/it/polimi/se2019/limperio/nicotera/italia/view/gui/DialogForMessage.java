@@ -1,15 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestChooseActionForTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToSelectionPlayerToAttackWithTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 class DialogForMessage {
@@ -25,7 +21,7 @@ class DialogForMessage {
          dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
          dialog.getContentPane().setLayout(new BorderLayout());
          JPanel contentPanel = new JPanel();
-         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+         contentPanel.setBorder(new EmptyBorder(frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20), frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20)));
          contentPanel.setBackground(SystemColor.menu);
          contentPanel.setLayout(new GridBagLayout());
          dialog.getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -41,7 +37,7 @@ class DialogForMessage {
          GridBagConstraints gbcMessage = new GridBagConstraints();
          gbcMessage.gridx = 0;
          gbcMessage.gridy = 0;
-         gbcMessage.insets = new Insets(5, 10, 5, 10);
+         gbcMessage.insets = new Insets(frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 5), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10), frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 5), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10));
          contentPanel.add(message, gbcMessage);
 
 
@@ -54,7 +50,7 @@ class DialogForMessage {
              if (receivedEvent.isRequestToChooseTerminatorAction()) {
                  JPanel buttonPanel = new JPanel();
                  dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-                 ListenerForButtonOfTerminator listenerForButtonOfTerminator = new ListenerForButtonOfTerminator(mainFrame);
+                 ListenerForButtonOfTerminator listenerForButtonOfTerminator = new ListenerForButtonOfTerminator(mainFrame,dialog);
                  buttonPanel.setLayout(new GridBagLayout());
                  JButton buttonMove = new JButton("Move");
                  buttonMove.setActionCommand(buttonMove.getText());
@@ -77,7 +73,7 @@ class DialogForMessage {
                  gbcButtonShoot.gridy = 0;
                  gbcButtonGoOn.gridx = 2;
                  gbcButtonGoOn.gridy = 0;
-                 Insets insets = new Insets(20, 20, 20, 20);
+                 Insets insets = new Insets(frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20), frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20));
                  gbcButtonMove.insets = insets;
                  gbcButtonShoot.insets = insets;
                  gbcButtonGoOn.insets = insets;
@@ -89,18 +85,18 @@ class DialogForMessage {
                  JPanel buttonPanel = new JPanel();
                  buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
                  dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-                 if (mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved()) && ((receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()||receivedEvent.isRequestForDrawOnePowerUpCardEvent()))) {
+                 if (mainFrame.getRemoteView().getNetworkHandler().getClient().getNickname().equals(receivedEvent.getNicknameInvolved()) && (receivedEvent.isRequestForDrawTwoPowerUpCardsEvent()||receivedEvent.isRequestForDrawOnePowerUpCardEvent())) {
                      button = new JButton("DRAW");
                      button.setActionCommand("DRAW");
                  } else {
                      button = new JButton("OK");
                      button.setActionCommand("OK");
                  }
-                 button.addActionListener(new DrawOkButtonListener(dialog, mainFrame, 0));
+                 button.addActionListener(new ListenerDrawOkButton(dialog, mainFrame, 0));
                 if(receivedEvent.isRequestForDrawOnePowerUpCardEvent())
-                    button.addActionListener(new DrawOkButtonListener(dialog, mainFrame,1));
+                    button.addActionListener(new ListenerDrawOkButton(dialog, mainFrame,1));
                 if(receivedEvent.isRequestForDrawTwoPowerUpCardsEvent())
-                    button.addActionListener(new DrawOkButtonListener(dialog, mainFrame,2));
+                    button.addActionListener(new ListenerDrawOkButton(dialog, mainFrame,2));
                  buttonPanel.add(button);
                  dialog.getRootPane().setDefaultButton(button);
              }
@@ -117,35 +113,6 @@ class DialogForMessage {
 
 
 
-
-
-
-     class ListenerForButtonOfTerminator implements ActionListener{
-
-         private MainFrame mainFrame;
-
-          ListenerForButtonOfTerminator(MainFrame mainFrame) {
-             this.mainFrame = mainFrame;
-         }
-
-         @Override
-         public void actionPerformed(ActionEvent e) {
-              String nickname = mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer();
-              ClientEvent requestToDoActionWithTerminator = new ClientEvent("", nickname);
-              if(e.getActionCommand().equals("Move")){
-                  requestToDoActionWithTerminator.setRequestToMoveTerminator(true);
-              }
-              if(e.getActionCommand().equals("Shoot")){
-                  requestToDoActionWithTerminator.setRequestToShootWithTerminator(true);
-             }
-             if(e.getActionCommand().equals("Go on")){
-                requestToDoActionWithTerminator.setRequestToGoOn(true);
-             }
-             dialog.setVisible(false);
-             mainFrame.getRemoteView().notify(requestToDoActionWithTerminator);
-
-         }
-     }
 
 
  }

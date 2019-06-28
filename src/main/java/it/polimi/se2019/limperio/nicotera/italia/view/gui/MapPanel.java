@@ -6,7 +6,6 @@ import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
 import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -50,19 +49,19 @@ class MapPanel extends JPanel {
         String folderPath;
         switch (typeOfMap){
            case 1:
-              folderPath = "resources/board/maps/map1/";
+              folderPath = "/board/maps/map1/";
               break;
            case 2:
-              folderPath = "resources/board/maps/map2/";
+              folderPath = "/board/maps/map2/";
               break;
            case 3:
-              folderPath = "resources/board/maps/map3/";
+              folderPath = "/board/maps/map3/";
               break;
            case 4:
-              folderPath = "resources/board/maps/map4/";
+              folderPath = "/board/maps/map4/";
               break;
            default:
-              folderPath = "resources/board/maps/map1/";
+              folderPath = "/board/maps/map1/";
         }
 
         String tip = "Tap and hold to see what there is in the square";
@@ -71,7 +70,7 @@ class MapPanel extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx=0;
         gbc.gridy=0;
-        ImageIcon imageIcon = new ImageIcon(folderPath.concat("00.png"));
+        ImageIcon imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("00.png")));
         java.awt.Image image = imageIcon.getImage();
         java.awt.Image newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -81,7 +80,7 @@ class MapPanel extends JPanel {
 
          gbc.gridx=1;
          gbc.gridy=0;
-         imageIcon = new ImageIcon(folderPath.concat("01.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("01.png")));
 
          image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,java.awt.Image.SCALE_SMOOTH);
@@ -91,7 +90,7 @@ class MapPanel extends JPanel {
 
         gbc.gridx=2;
         gbc.gridy=0;
-        imageIcon = new ImageIcon(folderPath.concat("02.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("02.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -101,7 +100,7 @@ class MapPanel extends JPanel {
 
          gbc.gridx=3;
          gbc.gridy=0;
-         imageIcon = new ImageIcon(folderPath.concat("03.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("03.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -110,7 +109,7 @@ class MapPanel extends JPanel {
 
          gbc.gridx=0;
          gbc.gridy=1;
-         imageIcon = new ImageIcon(folderPath.concat("10.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("10.png")));
 
          image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
@@ -122,7 +121,7 @@ class MapPanel extends JPanel {
          gbc.gridx=1;
          gbc.gridy=1;
 
-         imageIcon = new ImageIcon(folderPath.concat("11.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("11.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -133,7 +132,7 @@ class MapPanel extends JPanel {
          gbc.gridx=2;
          gbc.gridy=1;
 
-         imageIcon = new ImageIcon(folderPath.concat("12.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("12.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -144,7 +143,7 @@ class MapPanel extends JPanel {
          gbc.gridx=3;
          gbc.gridy=1;
 
-         imageIcon = new ImageIcon(folderPath.concat("13.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("13.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -156,7 +155,7 @@ class MapPanel extends JPanel {
          gbc.gridx=0;
 
          gbc.gridy=2;
-        imageIcon = new ImageIcon(folderPath.concat("20.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("20.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -167,7 +166,7 @@ class MapPanel extends JPanel {
          gbc.gridx=1;
          gbc.gridy=2;
 
-         imageIcon = new ImageIcon(folderPath.concat("21.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("21.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -178,7 +177,7 @@ class MapPanel extends JPanel {
          gbc.gridx=2;
          gbc.gridy=2;
 
-         imageIcon = new ImageIcon(folderPath.concat("22.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("22.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -189,7 +188,7 @@ class MapPanel extends JPanel {
          gbc.gridx=3;
          gbc.gridy=2;
 
-         imageIcon = new ImageIcon(folderPath.concat("23.png"));
+         imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("23.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(dim,dim,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
