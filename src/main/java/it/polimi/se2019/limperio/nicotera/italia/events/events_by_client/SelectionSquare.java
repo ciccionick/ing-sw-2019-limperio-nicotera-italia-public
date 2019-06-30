@@ -29,62 +29,50 @@ public class SelectionSquare extends ClientEvent {
         return column;
     }
 
-    @Override
     public boolean isSelectionSquareToUseTeleporter() {
         return isSelectionSquareToUseTeleporter;
     }
 
-    @Override
     public void setSelectionSquareToUseTeleporter(boolean selectionSquareToUseTeleporter) {
         isSelectionSquareToUseTeleporter = selectionSquareToUseTeleporter;
     }
 
-    @Override
     public boolean isSelectionSquareToUseNewton() {
         return isSelectionSquareToUseNewton;
     }
 
-    @Override
     public void setSelectionSquareToUseNewton(boolean selectionSquareToUseNewton) {
         isSelectionSquareToUseNewton = selectionSquareToUseNewton;
     }
 
-    @Override
     public boolean isMoveTerminatorEvent() {
         return isMoveTerminatorEvent;
     }
 
-    @Override
     public void setMoveTerminatorEvent(boolean moveTerminatorEvent) {
         isMoveTerminatorEvent = moveTerminatorEvent;
     }
 
-    @Override
     public boolean isCatchEvent() {
         return isCatchEvent;
     }
 
-    @Override
     public void setCatchEvent(boolean catchEvent) {
         isCatchEvent = catchEvent;
     }
 
-    @Override
     public boolean isSelectionSquareForShootAction() {
         return isSelectionSquareForShootAction;
     }
 
-    @Override
     public void setSelectionSquareForShootAction(boolean selectionSquareForShootAction) {
         isSelectionSquareForShootAction = selectionSquareForShootAction;
     }
 
-    @Override
     public boolean isGenerationTerminatorEvent() {
         return isGenerationTerminatorEvent;
     }
 
-    @Override
     public void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
         isGenerationTerminatorEvent = generationTerminatorEvent;
     }

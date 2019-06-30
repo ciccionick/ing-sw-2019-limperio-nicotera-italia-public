@@ -110,7 +110,7 @@ class PopupForDiscardPowerUp {
         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback())){
             JButton buttonToNotDiscard = new JButton("No one");
             buttonToNotDiscard.setActionCommand("No one");
-            gbc.gridy=1;
+            gbc.gridy=2;
             buttonToNotDiscard.addActionListener(new ListenerForDiscardPowerUp(mainFrame, null, receivedEvent,this));
             contentPanel.add(buttonToNotDiscard, gbc);
         }

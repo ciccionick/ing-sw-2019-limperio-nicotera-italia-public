@@ -1008,7 +1008,7 @@ public class ShootController {
             }
             RequestToDiscardPowerUpCard newEvent = new RequestToDiscardPowerUpCard();
             newEvent.setNicknameInvolved(player.getNickname());
-            newEvent.setMessageForInvolved("Choose a Tagback granade card to use against who attacked you or 'No one' if you want to avoid this");
+            newEvent.setMessageForInvolved("Choose a Tagback granade card to use against who attacked you \nor 'No one' if you want to avoid this");
             newEvent.setPowerUpCards(tagbackGranadeCards);
             newEvent.setToTagback(true);
             playersAreChoosingForTagback.add(player);
@@ -1016,7 +1016,7 @@ public class ShootController {
         }
         RequestToDiscardPowerUpCard newEvent = new RequestToDiscardPowerUpCard();
         newEvent.setToTagback(true);
-        newEvent.setMessageForInvolved("Wait that the players you have attacked and have tagback decide if use them or not");
+        newEvent.setMessageForInvolved("Wait that the players you have attacked \nand have tagback decide if use them or not");
         if(isForTerminator)
             newEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
         else
@@ -1139,16 +1139,6 @@ public class ShootController {
         else{
             sendRequestToChooseAWeapon(player);
         }
-    }
-
-    public PowerUpCard getTargetingScopeToUse()
-    {
-        return targetingScopeToUse;
-    }
-
-    public void  setWeaponToUse(WeaponCard weaponToUse)
-    {
-        this.weaponToUse= weaponToUse;
     }
 
 

@@ -1,6 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
@@ -31,8 +32,7 @@ public class MainFrame {
         frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setMinimumSize(new Dimension(800, 600));
-
-                contentPane = new JPanel();
+        contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
         contentPane.addComponentListener(new FrameListener(this,false));
@@ -252,25 +252,7 @@ public class MainFrame {
 
         @Override
         public void componentMoved(ComponentEvent e) {
-             System.out.println("Mosso");
-            for(JDialog dialog : mapPanel.getDialogForFigure()){
-                dialog.setVisible(false);
-            }
-            if(killshotTrackPanel.getDialogForFrenzySkull()!=null)
-                killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
-            if(killshotTrackPanel.getDialogForNormalSkull()!=null)
-                killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
-            if(leftPanel.getPlayerBoardPanel().getDialogForDamage()!=null)
-                leftPanel.getPlayerBoardPanel().getDialogForDamage().setVisible(false);
-            if(leftPanel.getPlayerBoardPanel().getDialogForMarks()!=null)
-                leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
-
-            mapPanel.addFigureOnSquare(mainFrame);
-            killshotTrackPanel.addDialogForNormalKillshot();
-            killshotTrackPanel.addDialogForFrenzyKillshot();
-            leftPanel.getPlayerBoardPanel().addDialogForDamage();
-            leftPanel.getPlayerBoardPanel().addDialogForMarks();
-
+            //not implemented
         }
 
         @Override

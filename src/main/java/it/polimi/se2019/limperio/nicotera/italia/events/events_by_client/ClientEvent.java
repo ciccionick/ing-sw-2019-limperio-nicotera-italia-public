@@ -40,16 +40,12 @@ public class ClientEvent implements Serializable {
    private boolean isRequestToRunByPlayer = false;
    private boolean isRequestToCatchByPlayer = false;
    private boolean isRequestToShootByPlayer = false;
-   private boolean isCatchEvent = false;
-   private boolean isSelectionSquareForRun = false;
    private boolean isSelectionWeaponToCatch = false;
    private boolean isSelectionWeaponToDiscard = false;
    private boolean isRequestTerminatorActionByPlayer = false;
-   private boolean isGenerationTerminatorEvent = false;
    private boolean isRequestToMoveTerminator = false;
    private boolean isRequestToShootWithTerminator = false;
    private boolean isRequestToGoOn = false;
-   private boolean isMoveTerminatorEvent = false;
    private boolean isTerminatorShootEvent = false;
    private boolean isRequestToUseWeaponCard = false;
    private boolean isRequestToUseEffect = false;
@@ -58,14 +54,9 @@ public class ClientEvent implements Serializable {
    private boolean isChoosePlayer = false;
    private boolean isSelectionWeaponToReload = false;
    private boolean isSelectionMultiplePlayers = false;
-   private boolean isSelectionSquareForShootAction = false;
    private boolean isSelectionSquare = false;
-
-
    private boolean isRequestToUseTeleporter = false;
-   private boolean isSelectionSquareToUseTeleporter = false;
    private boolean isRequestToUseNewton = false;
-   private boolean isSelectionSquareToUseNewton = false;
 
 
     public ClientEvent(String message, String nickname) {
@@ -97,7 +88,7 @@ public class ClientEvent implements Serializable {
         return isSelectionSquare;
     }
 
-    public void setSelectionSquare(boolean selectionSquare) {
+     void setSelectionSquare(boolean selectionSquare) {
         isSelectionSquare = selectionSquare;
     }
 
@@ -105,13 +96,6 @@ public class ClientEvent implements Serializable {
         return isSelectionWeaponToReload;
     }
 
-    public boolean isSelectionSquareForShootAction() {
-        return isSelectionSquareForShootAction;
-    }
-
-     void setSelectionSquareForShootAction(boolean selectionSquareForShootAction) {
-        isSelectionSquareForShootAction = selectionSquareForShootAction;
-    }
 
     public boolean isSelectionMultiplePlayers() {
         return isSelectionMultiplePlayers;
@@ -153,13 +137,6 @@ public class ClientEvent implements Serializable {
         isRequestToUseEffect = requestToUseEffect;
     }
 
-    public boolean isMoveTerminatorEvent() {
-        return isMoveTerminatorEvent;
-    }
-
-     void setMoveTerminatorEvent(boolean moveTerminatorEvent) {
-        isMoveTerminatorEvent = moveTerminatorEvent;
-    }
 
     public void setRequestToCatchByPlayer(boolean requestToCatchByPlayer) {
         isRequestToCatchByPlayer = requestToCatchByPlayer;
@@ -217,21 +194,6 @@ public class ClientEvent implements Serializable {
         isSelectionWeaponToDiscard = selectionWeaponToDiscard;
     }
 
-    public boolean isCatchEvent() {
-        return isCatchEvent;
-    }
-
-     void setCatchEvent(boolean catchEvent) {
-        isCatchEvent = catchEvent;
-    }
-
-    public boolean isSelectionSquareForRun() {
-        return isSelectionSquareForRun;
-    }
-
-     void setSelectionSquareForRun(boolean selectionSquareForRun) {
-        isSelectionSquareForRun = selectionSquareForRun;
-    }
 
     public boolean isRequestTerminatorActionByPlayer() {
         return isRequestTerminatorActionByPlayer;
@@ -249,13 +211,6 @@ public class ClientEvent implements Serializable {
         isSelectionWeaponToCatch = selectionWeaponToCatch;
     }
 
-    public boolean isGenerationTerminatorEvent() {
-        return isGenerationTerminatorEvent;
-    }
-
-     void setGenerationTerminatorEvent(boolean generationTerminatorEvent) {
-        isGenerationTerminatorEvent = generationTerminatorEvent;
-    }
 
     public boolean isRequestToMoveTerminator() {
         return isRequestToMoveTerminator;
@@ -289,13 +244,6 @@ public class ClientEvent implements Serializable {
         isTerminatorShootEvent = terminatorShootEvent;
     }
 
-    public boolean isSelectionSquareToUseTeleporter() {
-        return isSelectionSquareToUseTeleporter;
-    }
-
-     void setSelectionSquareToUseTeleporter(boolean selectionSquareToUseTeleporter) {
-        isSelectionSquareToUseTeleporter = selectionSquareToUseTeleporter;
-    }
 
     public boolean isRequestToUseTeleporter() {
         return isRequestToUseTeleporter;
@@ -313,11 +261,4 @@ public class ClientEvent implements Serializable {
         isRequestToUseNewton = requestToUseNewton;
     }
 
-    public boolean isSelectionSquareToUseNewton() {
-        return isSelectionSquareToUseNewton;
-    }
-
-     void setSelectionSquareToUseNewton(boolean selectionSquareToUseNewton) {
-        isSelectionSquareToUseNewton = selectionSquareToUseNewton;
-    }
 }

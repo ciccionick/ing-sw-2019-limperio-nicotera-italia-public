@@ -184,7 +184,7 @@ public class Server  {
      * @throws IOException if there will be problems with the reconnection.
      */
     private void startGame() throws IOException {
-        gameIsStarted =true;
+        gameIsStarted = true;
         for (int i = 0; i < listOfNickname.size(); i++) {
             game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }

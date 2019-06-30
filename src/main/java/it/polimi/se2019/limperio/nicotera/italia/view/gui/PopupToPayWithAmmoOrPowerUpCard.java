@@ -1,25 +1,18 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardAmmoOrPowerUpToPayTargeting;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToPayWithAmmoOrPUCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
-
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class PopupToPayWithAmmoOrPowerUpCard {
+
     private JDialog dialog;
-    private MainFrame mainFrame;
     private RequestToPayWithAmmoOrPUCard event;
 
      PopupToPayWithAmmoOrPowerUpCard(MainFrame mainFrame, ServerEvent receivedEvent) {
          this.event = (RequestToPayWithAmmoOrPUCard) receivedEvent;
-         this.mainFrame = mainFrame;
 
         dialog = new JDialog(mainFrame.getFrame());
         JPanel contentPanel = new JPanel(new GridBagLayout());
@@ -58,8 +51,8 @@ class PopupToPayWithAmmoOrPowerUpCard {
         gbc.gridwidth = 1;
         ImageIcon icon;
         Image image;
-        int widthAmmo = mainFrame.getFrame().getWidth()/40;
-        int heightAmmo = mainFrame.getFrame().getHeight()/20;
+        int widthAmmo = mainFrame.getFrame().getWidth()/50;
+        int heightAmmo = mainFrame.getFrame().getHeight()/25;
 
         if(event.isBlueAmmo()){
             JButton blueButton = new JButton();
@@ -71,7 +64,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
             blueButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
             gbc.gridx = 0;
             contentPanel.add(blueButton,gbc);
-
+            gbc.insets.left=0;
         }
 
          if(event.isRedAmmo()){
@@ -84,6 +77,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
              redButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
              gbc.gridx++;
              contentPanel.add(redButton, gbc);
+             gbc.insets.left=0;
          }
 
          if(event.isYellowAmmo()){
@@ -96,13 +90,14 @@ class PopupToPayWithAmmoOrPowerUpCard {
              yellowButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
              gbc.gridx++;
              contentPanel.add(yellowButton,gbc);
+             gbc.insets.left=0;
          }
 
          String folderPath = "/powerupcards/";
          for(ServerEvent.AliasCard card : event.getPowerUpCards()){
              JButton cardButton = new JButton();
              String nameOfCard = card.getName();
-             String color = card.getColor().toString();
+             String color = card.getColor().toString().toLowerCase();
              cardButton.setActionCommand(card.getName() + ","+ card.getColor().toString().toUpperCase());
              cardButton.setIcon(new ImageIcon(mainFrame.getResource(folderPath.concat(nameOfCard+ " ").concat(color+".png"))));
              cardButton.addActionListener(listenerForPopupToPayWithAmmoOrPUCArd);
