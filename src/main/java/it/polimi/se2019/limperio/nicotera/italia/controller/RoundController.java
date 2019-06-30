@@ -24,7 +24,7 @@ public class RoundController {
          if (isFinishedTheLastFrenzyTurn()) {
              if(!deadPlayers.isEmpty())
                  countScoreForDeaths(deadPlayers);
-             handleEndOfGame();
+             handleEndOfGame(false);
              return;
          }
          updatePlayerOfTurn();
@@ -136,7 +136,7 @@ public class RoundController {
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             game.notify(pbEvent);
         }
-            sendUpdateOfScore(false);
+            sendUpdateOfScore(false, false);
 
         if(isPassingFromNormalToFrenzyMode() && game.isAnticipatedFrenzy()) {
             game.setInFrenzy(true);
@@ -167,7 +167,7 @@ public class RoundController {
 
 
 
-    private void sendUpdateOfScore(boolean finalUpdate) {
+    private void sendUpdateOfScore(boolean finalUpdate, boolean isForDisconnectionOfThirdPlayer) {
         String message;
         if (!finalUpdate)
             message = "Updating score: \n";
@@ -191,13 +191,19 @@ public class RoundController {
         ServerEvent updateScoreEvent = new ServerEvent();
         updateScoreEvent.setUpdateScoreEvent(true);
         updateScoreEvent.setNicknames(game.getListOfNickname());
+        String messageForInvolved = "";
+        String messageForOthers =  "";
+        if(isForDisconnectionOfThirdPlayer){
+            messageForInvolved = "You have remained in two playing, so the match finish here. \n\n";
+            messageForOthers = "You have remained in two playing, so the match finish here. \n\n";
+        }
         if (finalUpdate) {
             updateScoreEvent.setFinalUpdate(true);
             updateScoreEvent.setNicknameInvolved(game.getPlayers().get(0).getNickname());
-            String messageForInvolved = "Congratulations, You have won!\n";
+            messageForInvolved = messageForInvolved.concat("Congratulations, You have won!\n");
             messageForInvolved = messageForInvolved.concat(message);
             updateScoreEvent.setMessageForInvolved(messageForInvolved);
-            String messageForOthers = "It's not your lucky day, you have lost!\n".concat(message);
+             messageForOthers = messageForOthers.concat("It's not your lucky day, you have lost!\n").concat(message);
             updateScoreEvent.setMessageForOthers(messageForOthers);
 
         } else {
@@ -239,7 +245,7 @@ public class RoundController {
         return !game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()-1).get(0).toString().equals("SKULL")&&!game.isInFrenzy();
     }
 
-    public void handleEndOfGame() {
+    public void handleEndOfGame(boolean isForDisconnectionOfThirdPlayer) {
         game.setGameOver(true);
         initializeScoreForPlayers();
         ArrayList<Integer> scoreForDamageInKillShotTrack = new ArrayList<>();
@@ -260,7 +266,7 @@ public class RoundController {
             i++;
         }
 
-        sendUpdateOfScore(true);
+        sendUpdateOfScore(true, isForDisconnectionOfThirdPlayer);
     }
 
     private void countScoreForKillshoTrack(ArrayList<Integer> scoreForDamageInKillShotTrack) {

@@ -67,7 +67,7 @@ class DeathController {
                      deadPlayers.add(player);
              }
              controller.getRoundController().countScoreForDeaths(deadPlayers);
-             controller.getRoundController().handleEndOfGame();
+             controller.getRoundController().handleEndOfGame(false);
          }
     }
 

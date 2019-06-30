@@ -172,8 +172,7 @@ public class Server  {
             timer = null;
         }
         if(listOfClient.size()==2 && gameIsStarted && !game.isGameOver()){
-            System.out.println("Disconnessione");
-            controller.getRoundController().handleEndOfGame();
+            controller.getRoundController().handleEndOfGame(true);
         }
     }
 

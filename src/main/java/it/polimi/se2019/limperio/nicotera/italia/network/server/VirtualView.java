@@ -319,10 +319,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         return map;
     }
 
-    public String getIPAddress() {
-        return IPAddress;
-    }
-
      void setClient(Socket client, ObjectInputStream in, ObjectOutputStream out) {
         this.client = client;
         this.in = in;

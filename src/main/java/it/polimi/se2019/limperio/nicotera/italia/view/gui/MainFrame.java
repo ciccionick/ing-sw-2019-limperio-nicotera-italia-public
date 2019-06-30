@@ -1,11 +1,9 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.RemoteView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,11 +29,23 @@ public class MainFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()*2/3, (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()*3/4));
         contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
-        contentPane.addComponentListener(new FrameListener(this,false));
+       /* contentPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                updateFrame();
+            }
+        });*/
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                updateFrame();
+            }
+        });
+
 
 
         mapPanel = new MapPanel(this);
@@ -128,14 +138,21 @@ public class MainFrame {
 
     public void updateNorthPanel() {
         contentPane.remove(killshotTrackPanel);
+        if (killshotTrackPanel.getDialogForNormalSkull() != null) {
+            killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
+            killshotTrackPanel.setNullDialogForNormalSkull();
+        }
+
+        if (killshotTrackPanel.getDialogForFrenzySkull() != null) {
+            killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+            killshotTrackPanel.setNullDialogForFrenzySkull();
+        }
+
         killshotTrackPanel = new KillshotTrackPanel(this);
         contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
         contentPane.validate();
         contentPane.repaint();
-        if (killshotTrackPanel.getDialogForNormalSkull() != null)
-            killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
-        if (killshotTrackPanel.getDialogForFrenzySkull() != null)
-            killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+
         killshotTrackPanel.addDialogForNormalKillshot();
         killshotTrackPanel.addDialogForFrenzyKillshot();
     }
@@ -174,15 +191,6 @@ public class MainFrame {
         new PopupToChooseMultiplePlayers(receivedEvent, this);
     }
 
-    int resizeInFunctionOfScreen(boolean height, int originalSize) {
-        int sizeOfReference;
-        if (height)
-            sizeOfReference = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        else
-            sizeOfReference = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-        return sizeOfReference / originalSize;
-    }
-
     int resizeInFunctionOfFrame(boolean height, int originalSize){
         int sizeOfReference;
         if(height)
@@ -196,76 +204,50 @@ public class MainFrame {
         return Toolkit.getDefaultToolkit().getImage(getClass().getResource(path));
     }
 
-
-    private class FrameListener implements ComponentListener {
-
-        private MainFrame mainFrame;
-        private boolean isForFrame;
-
-         FrameListener(MainFrame mainFrame, boolean isForFrame) {
-            this.mainFrame = mainFrame;
-            this.isForFrame = isForFrame;
+     private void updateFrame() {
+        for (JDialog dialog : mapPanel.getDialogForFigure()) {
+            dialog.setVisible(false);
+        }
+        if (killshotTrackPanel.getDialogForNormalSkull() != null) {
+            killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
+            killshotTrackPanel.setNullDialogForNormalSkull();
+        }
+        if (killshotTrackPanel.getDialogForFrenzySkull() != null) {
+            killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
+            killshotTrackPanel.setNullDialogForFrenzySkull();
         }
 
-        @Override
-        public void componentResized(ComponentEvent e) {
-             if(!isForFrame) {
-                 for (JDialog dialog : mapPanel.getDialogForFigure()) {
-                     dialog.setVisible(false);
-                 }
-                 if (killshotTrackPanel.getDialogForFrenzySkull() != null) {
-                     killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
-                     killshotTrackPanel.setDialogForFrenzySkull(null);
-                 }
-                 if (killshotTrackPanel.getDialogForNormalSkull() != null) {
-                     killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
-                     killshotTrackPanel.setDialogForNormalSkull(null);
-                 }
-                 if (leftPanel.getPlayerBoardPanel().getDialogForDamage() != null)
-                     leftPanel.getPlayerBoardPanel().getDialogForDamage().dispose();
-                 if (leftPanel.getPlayerBoardPanel().getDialogForMarks() != null)
-                     leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
-                 contentPane.removeAll();
+        if (leftPanel.getPlayerBoardPanel().getDialogForDamage() != null)
+            leftPanel.getPlayerBoardPanel().getDialogForDamage().setVisible(false);
+        if (leftPanel.getPlayerBoardPanel().getDialogForMarks() != null)
+            leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
+        contentPane.removeAll();
 
-                 mapPanel = new MapPanel(mainFrame);
-                 contentPane.add(mapPanel, BorderLayout.CENTER);
+        mapPanel = new MapPanel(this);
+        contentPane.add(mapPanel, BorderLayout.CENTER);
 
-                 killshotTrackPanel = new KillshotTrackPanel(mainFrame);
-                 contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
+        killshotTrackPanel = new KillshotTrackPanel(this);
+        contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
 
-                 leftPanel = new LeftPanel(mainFrame, leftPanel.getPlayerBoardView());
-                 contentPane.add(leftPanel, BorderLayout.WEST);
+        leftPanel = new LeftPanel(this, leftPanel.getPlayerBoardView());
+        contentPane.add(leftPanel, BorderLayout.WEST);
 
-                 rightPanel = new RightPanel(mainFrame);
-                 contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
+        rightPanel = new RightPanel(this);
+        contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
 
-                 contentPane.validate();
-                 contentPane.repaint();
+        contentPane.validate();
+        contentPane.repaint();
 
-                 mapPanel.addFigureOnSquare(mainFrame);
-                 killshotTrackPanel.addDialogForNormalKillshot();
-                 killshotTrackPanel.addDialogForFrenzyKillshot();
-                 leftPanel.getPlayerBoardPanel().addDialogForDamage();
-                 leftPanel.getPlayerBoardPanel().addDialogForMarks();
-             }
-        }
-
-        @Override
-        public void componentMoved(ComponentEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void componentShown(ComponentEvent e) {
-            //not interested in this event
-        }
-
-        @Override
-        public void componentHidden(ComponentEvent e) {
-            //not interested in this event
-        }
+        mapPanel.addFigureOnSquare(this);
+        killshotTrackPanel.addDialogForNormalKillshot();
+        killshotTrackPanel.addDialogForFrenzyKillshot();
+        leftPanel.getPlayerBoardPanel().addDialogForDamage();
+        leftPanel.getPlayerBoardPanel().addDialogForMarks();
 
     }
+
+
+
 }
 
 

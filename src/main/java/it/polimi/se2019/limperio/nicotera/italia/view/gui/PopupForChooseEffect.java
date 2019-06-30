@@ -1,15 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAnEffect;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
  class PopupForChooseEffect {
@@ -22,43 +18,12 @@ import java.util.ArrayList;
      PopupForChooseEffect(MainFrame mainFrame, RequestToChooseAnEffect message) {
         this.dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(false);
-        dialog.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                //not implemented
-            }
-
+        dialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dialog.setVisible(false);
                 mainFrame.updatePanelOfAction();
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-                //not implemented
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-                //not implemented
-            }
-        });
+            }});
         JPanel contentPane = new JPanel(new GridBagLayout());
         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
         int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);

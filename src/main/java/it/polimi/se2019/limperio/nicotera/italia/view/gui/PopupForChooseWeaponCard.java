@@ -1,13 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 
 class PopupForChooseWeaponCard {
     private JDialog popupForChooseW;
@@ -16,42 +13,11 @@ class PopupForChooseWeaponCard {
      PopupForChooseWeaponCard(ServerEvent receivedEvent, MainFrame mainFrame) {
         popupForChooseW = new JDialog(mainFrame.getFrame());
         popupForChooseW.setUndecorated(receivedEvent.isRequestSelectionWeaponToReload());
-         popupForChooseW.addWindowListener(new WindowListener() {
-             @Override
-             public void windowOpened(WindowEvent e) {
-                 //not implemented
-             }
-
+         popupForChooseW.addWindowListener(new WindowAdapter() {
              @Override
              public void windowClosing(WindowEvent e) {
                  mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
-             }
-
-             @Override
-             public void windowClosed(WindowEvent e) {
-                 //not implemented
-             }
-
-             @Override
-             public void windowIconified(WindowEvent e) {
-                 //not implemented
-             }
-
-             @Override
-             public void windowDeiconified(WindowEvent e) {
-                 //not implemented
-             }
-
-             @Override
-             public void windowActivated(WindowEvent e) {
-                 //not implemented
-             }
-
-             @Override
-             public void windowDeactivated(WindowEvent e) {
-                 //not implemented
-             }
-         });
+             }});
 
          JPanel contentPanel = new JPanel();
          int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);

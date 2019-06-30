@@ -129,12 +129,12 @@ class KillshotTrackPanel extends JPanel {
         return dialogForFrenzySkull;
     }
 
-     void setDialogForNormalSkull(JDialog dialogForNormalSkull) {
-        this.dialogForNormalSkull = dialogForNormalSkull;
+     void setNullDialogForNormalSkull() {
+        this.dialogForNormalSkull = null;
     }
 
-     void setDialogForFrenzySkull(JDialog dialogForFrenzySkull) {
-        this.dialogForFrenzySkull = dialogForFrenzySkull;
+     void setNullDialogForFrenzySkull() {
+        this.dialogForFrenzySkull = null;
     }
 
     JLabel getSkull1() {
@@ -149,14 +149,18 @@ class KillshotTrackPanel extends JPanel {
      *
      */
    void addDialogForNormalKillshot() {
-        dialogForNormalSkull = new PopupForKillshotTrack(mainFrame, false, skull1.getLocationOnScreen()).getDialog();
-    }
+       if (dialogForNormalSkull == null)
+           dialogForNormalSkull = new PopupForKillshotTrack(mainFrame, false, skull1.getLocationOnScreen()).getDialog();
+   }
 
     /**
      *
      */
-    void addDialogForFrenzyKillshot(){
-        dialogForFrenzySkull = new PopupForKillshotTrack(mainFrame, true, skull2.getLocationOnScreen()).getDialog();
+    void addDialogForFrenzyKillshot() {
+        if (dialogForFrenzySkull == null)
+            dialogForFrenzySkull = new PopupForKillshotTrack(mainFrame, true, skull2.getLocationOnScreen()).getDialog();
     }
+
+
 }
 
