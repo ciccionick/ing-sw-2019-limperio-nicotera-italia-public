@@ -1,15 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-import it.polimi.se2019.limperio.nicotera.italia.model.AmmoTile;
-import it.polimi.se2019.limperio.nicotera.italia.model.NormalSquare;
-import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -201,18 +194,18 @@ class MapPanel extends JPanel {
 
 
     private void addMouseListenerToCells() {
-      cell00.addMouseListener(new MapPanel.SquareListener(0, 0, mainFrame));
-      cell01.addMouseListener(new MapPanel.SquareListener(0, 1, mainFrame));
-      cell02.addMouseListener(new MapPanel.SquareListener(0, 2, mainFrame));
-      cell03.addMouseListener(new MapPanel.SquareListener(0, 3, mainFrame));
-      cell10.addMouseListener(new MapPanel.SquareListener(1, 0, mainFrame));
-      cell11.addMouseListener(new MapPanel.SquareListener(1, 1, mainFrame));
-      cell12.addMouseListener(new MapPanel.SquareListener(1, 2, mainFrame));
-      cell13.addMouseListener(new MapPanel.SquareListener(1, 3, mainFrame));
-      cell20.addMouseListener(new MapPanel.SquareListener(2, 0, mainFrame));
-      cell21.addMouseListener(new MapPanel.SquareListener(2, 1, mainFrame));
-      cell22.addMouseListener(new MapPanel.SquareListener(2, 2, mainFrame));
-      cell23.addMouseListener(new MapPanel.SquareListener(2, 3, mainFrame));
+      cell00.addMouseListener(new ListenerOfSquare(0, 0, mainFrame,this));
+      cell01.addMouseListener(new ListenerOfSquare(0, 1, mainFrame,this));
+      cell02.addMouseListener(new ListenerOfSquare(0, 2, mainFrame,this));
+      cell03.addMouseListener(new ListenerOfSquare(0, 3, mainFrame,this));
+      cell10.addMouseListener(new ListenerOfSquare(1, 0, mainFrame,this));
+      cell11.addMouseListener(new ListenerOfSquare(1, 1, mainFrame,this));
+      cell12.addMouseListener(new ListenerOfSquare(1, 2, mainFrame,this));
+      cell13.addMouseListener(new ListenerOfSquare(1, 3, mainFrame,this));
+      cell20.addMouseListener(new ListenerOfSquare(2, 0, mainFrame,this));
+      cell21.addMouseListener(new ListenerOfSquare(2, 1, mainFrame,this));
+      cell22.addMouseListener(new ListenerOfSquare(2, 2, mainFrame,this));
+      cell23.addMouseListener(new ListenerOfSquare(2, 3, mainFrame,this));
 
    }
 
@@ -282,7 +275,7 @@ class MapPanel extends JPanel {
                  gbc.gridy = 0;
                  for(String name : square.getNicknamesOfPlayersOnThisSquare()){
                      color = mainFrame.getRemoteView().getPlayerBoardViewOfThisPlayer(name).getColorOfPlayer().toString().toLowerCase();
-                     icon = new ImageIcon("resources/figure/" + color +".png");
+                     icon = new ImageIcon(mainFrame.getResource("/figure/" + color +".png"));
                      image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
                      icon = new ImageIcon(image);
                      label = new JLabel(icon);
@@ -302,127 +295,4 @@ class MapPanel extends JPanel {
              }
          }
     }
-
-
-
-
-
-
-    class SquareListener implements MouseListener{
-
-        int row;
-        int column;
-        Square[][] matrix;
-        PopupForSquare popupForSquare =null;
-        Square square;
-        ArrayList<ServerEvent.AliasCard> listOfWeaponOnTheSquare;
-        AmmoTile ammoTileOnTheSquare;
-        JLabel cell;
-
-       SquareListener(int row, int column, MainFrame mainFrame) {
-         this.row = row;
-         this.column = column;
-         this.matrix = mainFrame.getRemoteView().getMapView().getMap();
-         cell = hashMapForCell.get("cell".concat(String.valueOf(row)).concat(String.valueOf(column)));
-         square = matrix[row][column];
-         if(square!=null){
-             if(square.isSpawn())
-                 listOfWeaponOnTheSquare = ((SpawnSquare)square).getWeaponsCardsForRemoteView();
-             else
-                 ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
-         }
-
-      }
-
-      private boolean isClickableForSelection(){
-          if(mainFrame.getRemoteView().getMapView().isHasToChooseASquare() && cell.isEnabled())
-          {
-              for(Square squareReachable : mainFrame.getRemoteView().getMapView().getReachableSquares()) {
-                  if (square.getRow() == squareReachable.getRow() && square.getColumn() == squareReachable.getColumn())
-                      return true;
-              }
-          }
-          return false;
-      }
-
-      @Override
-
-      public void mouseClicked(MouseEvent e) {
-           if(isClickableForSelection()){
-               SelectionSquare selectionSquare = new SelectionSquare("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row,column);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
-                   selectionSquare.setRunEvent(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
-                   selectionSquare.setCatchEvent(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator())
-                   selectionSquare.setGenerationTerminatorEvent(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter())
-                    selectionSquare.setSelectionSquareToUseTeleporter(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForNewton())
-                   selectionSquare.setSelectionSquareToUseNewton(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator())
-                   selectionSquare.setMoveTerminatorEvent(true);
-               if(mainFrame.getRemoteView().getMapView().isSelectionBeforeToShoot()){
-                   selectionSquare.setBeforeToShoot(true);
-               }
-               if(mainFrame.getRemoteView().getMapView().isSelectionForShootAction()){
-                   selectionSquare.setSelectionSquareForShootAction(true);
-               }
-               mainFrame.getRemoteView().notify(selectionSquare);
-               for(JLabel label : hashMapForCell.values()){
-                   label.setEnabled(true);
-               }
-               mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
-               mainFrame.getRemoteView().getMapView().setReachableSquares(null);
-               mainFrame.getRightPanel().getPanelOfPlayers().getButtonMSelection().setEnabled(false);
-               mainFrame.getRightPanel().getPanelOfPlayers().getButtonDisableSelection().setEnabled(false);
-               mainFrame.updatePanelOfPlayers();
-           }
-
-      }
-
-      @Override
-      public void mousePressed(MouseEvent e) {
-          if (square!= null && !(mainFrame.getRemoteView().getMapView().isHasToChooseASquare())|| (mainFrame.getRemoteView().getMapView().isHasToChooseASquare()&&!cell.isEnabled())) {
-                  matrix = mainFrame.getRemoteView().getMapView().getMap();
-                  square=matrix[row][column];
-                  updatePopup(square);
-                  popupForSquare.getPopup().setVisible(true);
-          }
-      }
-
-      @Override
-      public void mouseReleased(MouseEvent e) {
-           if(square!=null&&popupForSquare!=null) {
-               popupForSquare.getPopup().setVisible(false);
-           }
-      }
-
-      @Override
-      public void mouseEntered(MouseEvent e) {
-           //not implemented
-      }
-
-      @Override
-      public void mouseExited(MouseEvent e) {
-           //not implemented
-      }
-
-        private void updatePopup(Square square){
-           ArrayList<String> listOfNicknames = new ArrayList<>();
-                if (!(square.getNicknamesOfPlayersOnThisSquare().isEmpty())) {
-                    listOfNicknames = square.getNicknamesOfPlayersOnThisSquare();
-                }
-                Point positionOfSquare = mainFrame.getMapPanel().getHashMapForCell().get("cell".concat(String.valueOf(row)).concat(String.valueOf(column))).getLocation();
-            if (square.isSpawn()) {
-                listOfWeaponOnTheSquare = ((SpawnSquare) square).getWeaponsCardsForRemoteView();
-                popupForSquare = new PopupForSpawnSquare(listOfNicknames, mainFrame, listOfWeaponOnTheSquare );
-                } else {
-                    ammoTileOnTheSquare = ((NormalSquare)square).getAmmoTile();
-                    popupForSquare = new PopupForNormalSquare(listOfNicknames,ammoTileOnTheSquare, mainFrame, positionOfSquare);
-                }
-
-        }
-
-   }
 }

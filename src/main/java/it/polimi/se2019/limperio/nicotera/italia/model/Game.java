@@ -118,22 +118,11 @@ public class Game extends Observable<ServerEvent> {
         }
         PlayerBoardEvent pbEvent;
         int position=1;
-        createBoard();
-        board.createWeaponsDeck();
+
 
         for (Player player : players){
             player.setPosition(position);
             player.createPlayerBoard();
-            if(player.getNickname().equals("Pietro")){
-                int i = 0;
-                for(WeaponCard weaponCard : board.getWeaponsDeck().getWeaponCards()){
-                    if(weaponCard.getName().equals("Flamethrower"))
-                        break;
-                    i++;
-                }
-                player.getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(i));
-                player.getPlayerBoard().getWeaponsOwned().get(0).setOwnerOfCard(player);
-            }
             pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
@@ -141,6 +130,8 @@ public class Game extends Observable<ServerEvent> {
             notify(pbEvent);
             position++;
         }
+        createBoard();
+        board.createWeaponsDeck();
         board.createMap(typeMap);
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
@@ -149,7 +140,6 @@ public class Game extends Observable<ServerEvent> {
         notify(killshotTrackEvent);
         board.createAmmoTileDeck();
         board.createPowerUpDeck();
-
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();

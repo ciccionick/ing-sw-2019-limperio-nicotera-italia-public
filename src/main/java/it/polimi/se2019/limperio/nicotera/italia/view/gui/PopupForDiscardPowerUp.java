@@ -1,17 +1,11 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
-
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,12 +28,7 @@ class PopupForDiscardPowerUp {
          loggerPopupForDiscardPUCard.addHandler(handlerLoggerPopupForDiscardPUCard);
         this.mainFrame = mainFrame;
         dialog = new JDialog(mainFrame.getFrame());
-        dialog.setModal(false);
-        int width = (int) (mainFrame.getFrame().getWidth() / 2.08);
-        int height = (int) (mainFrame.getFrame().getHeight() / 1.56);
-        dialog.setSize(width, height);
-        dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,
-                (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
+
         dialog.setUndecorated(true);
 
         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
@@ -95,8 +84,9 @@ class PopupForDiscardPowerUp {
         while(!listOfPowerUpCards.isEmpty()){
             JLabel card = new JLabel();
             String nameOfCard = listOfPowerUpCards.get(0).getName();
-            String color = listOfPowerUpCards.get(0).getColor().toString();
-            icon = new ImageIcon(mainFrame.getResource(folderPath.concat(nameOfCard+ " ").concat(color+".png")));
+            String color = listOfPowerUpCards.get(0).getColor().toString().toLowerCase();
+            String path = folderPath.concat(nameOfCard+" ").concat(color+".png");
+            icon = new ImageIcon(mainFrame.getResource(path));
             image = icon.getImage().getScaledInstance(widthCard, heightCard, Image.SCALE_SMOOTH);
             icon = new ImageIcon(image);
             card.setIcon(icon);
@@ -115,7 +105,6 @@ class PopupForDiscardPowerUp {
             gbc.gridy=1;
             gbc.gridx++;
             listOfPowerUpCards.remove(0);
-
         }
 
         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback())){
