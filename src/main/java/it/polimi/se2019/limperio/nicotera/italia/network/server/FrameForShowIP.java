@@ -5,17 +5,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
- *
+ * Handles the creation of a frame that show the IP of the Server to get clients able to connect with it.
  */
 class FrameForShowIP  {
     /**
-     *
+     * The JFrame that shows the IP address of the server.
      */
     private JFrame frame;
 
     /**
-     *
-     * @param ip
+     * Constructor of the frame. Closing this frame it will be stopped the process where the server run.
+     * @param ip IP address to show.
      */
      FrameForShowIP(String ip) {
         this.frame = new JFrame("Adrenaline (Server) - IP address");

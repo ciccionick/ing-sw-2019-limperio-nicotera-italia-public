@@ -73,21 +73,45 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     private boolean firstPlayer;
 
+    /**
+     * The list of all of player boards of all players in the game.
+     */
     private ArrayList<PlayerBoard> listOfPlayerBoards = new ArrayList<>();
 
+    /**
+     * The player board of the player of the client linked with the current virtual view.
+     */
     private PlayerBoard myPlayerBoard;
 
+    /**
+     * Matrix of square that represents the map always updated.
+     */
     private Square[][] map;
 
+    /**
+     *  The killshot track always updated through the event received by the model.
+     */
     private KillshotTrack killshotTrack;
 
-    private String IPAddress;
-
+    /**
+     * It's true if the game has the terminator mode active.
+     */
     private boolean terminatorMode = false;
-
+    /**
+     * The number to recognize what kind of map is playing with.
+     */
     private int typeOfMap;
+    /**
+     * It's true if the stream with the client has been closed, false otherwise. True for default.
+     */
     private boolean streamClosed = false;
+    /**
+     * The logger to catch and track possibly exception in the class.
+     */
     private static Logger loggerVirtualView = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
     private static Handler handlerLoggerVirtualView = new ConsoleHandler();
 
     /**
@@ -99,7 +123,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      public VirtualView(Socket client, Server server, Controller controller) {
          loggerVirtualView.addHandler(handlerLoggerVirtualView);
         this.client = client;
-        this.IPAddress = client.getRemoteSocketAddress().toString();
         this.server = server;
         this.controller = controller;
         register(controller);
@@ -187,6 +210,9 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     }
 
+    /**
+     * Waits for event receiving by the client.
+     */
     private void receiveEvents() {
         while (isClientCurrentlyOnline) {
             try{
@@ -206,6 +232,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
     }
 
+    /**
+     * Handles the reconnection of the client after his disconnection.
+     * @return The nickname of the client that is trying to reconnect or "Failed reconnection" if didnt' exists a client with that nickname at the beginning of the game.
+     */
      String handleReconnection() {
         RequestInitializationEvent req = new RequestInitializationEvent("The game is already started: if you were disconnected, reinsert your previous nickname and you will be readmitted to the game", true, false, false, false, false );
          try {
@@ -227,6 +257,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
          return "Failed reconnection";
      }
 
+    /**
+     * Handles the following phase after the reconnection  restoring the situation in the remote view sending all of the information stored during his absence.
+     * @throws IOException If there will be problems with writeObject with output object stream of client socket.
+     */
      void updateStatusAfterReconnection() throws IOException {
         for(PlayerBoard playerBoard : listOfPlayerBoards) {
             PlayerBoardEvent otherPlayerBoardEvent = new PlayerBoardEvent();
@@ -248,6 +282,12 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         Timer timer = new Timer();
         timer.schedule(new MyTask(), 5000);
     }
+
+    /**
+     * Checks if the nickname chosen by the client is valid or not. It's not valid if is equal to "termintor", "me" or is smaller than 2 character.
+     * @param nickname The nickname to check is validation.
+     * @return True if the nickname is valid, false otherwise.
+     */
     private boolean isNotValidNickname(String nickname) {
         if(server.getListOfNickname().contains(nickname))
             return true;
@@ -284,10 +324,18 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         listOfPlayerBoards.add(playerBoard);
     }
 
+    /**
+     * Updates the status of the map through the events received by model.
+     * @param map Map to set in the right field.
+     */
      void updateMap(Square[][] map) {
         this.map = map;
     }
 
+    /**
+     * Updates the status of the killshot track through the events received by model.
+     * @param killshotTrack Killshot track to set in the right field.
+     */
      void updateKillshotTrack(KillshotTrack killshotTrack) {
         this.killshotTrack = killshotTrack;
     }
@@ -303,11 +351,49 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
             server.getListOfNickname().remove(nicknameOfClient);
             server.getListOfColor().remove(colorOfClient);
             server.deregister(this, client);
-
         }
         else{
-
             controller.handleDisconnection(nicknameOfClient);
+        }
+    }
+
+    /**
+     * Sets the socket of the client and the related object input/output streams.
+     * @param client Socket of the client.
+     * @param in Object input stream of the client socket.
+     * @param out Object output stream of the client socker.
+     */
+    void setClient(Socket client, ObjectInputStream in, ObjectOutputStream out) {
+        this.client = client;
+        this.in = in;
+        this.out = out;
+    }
+
+    /**
+     * Sends an ack message to the client when the phase of reconnection is over.
+     */
+    void sendAckAfterReconnection() {
+        RequestInitializationEvent ackEvent = new RequestInitializationEvent("", false, false, false, false, false);
+        ackEvent.setAck(true);
+        try {
+            out.writeObject(ackEvent);
+        } catch (IOException e) {
+            loggerVirtualView.log(Level.ALL, "error");
+        }
+    }
+
+    /**
+     * Closes the stream related with the socket of the client after a disconnection or at the end of the game.
+     */
+    private void closeStream() {
+        if(!streamClosed) {
+            try {
+                in.close();
+                out.close();
+                streamClosed = true;
+            } catch (IOException e) {
+                loggerVirtualView.log(Level.ALL, "error");
+            }
         }
     }
 
@@ -320,24 +406,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         return map;
     }
 
-     void setClient(Socket client, ObjectInputStream in, ObjectOutputStream out) {
-        this.client = client;
-        this.in = in;
-        this.out = out;
-    }
-
      void setClientCurrentlyOnline(boolean clientCurrentlyOnline) {
         isClientCurrentlyOnline = clientCurrentlyOnline;
-    }
-
-     void sendAckAfterReconnection() {
-         RequestInitializationEvent ackEvent = new RequestInitializationEvent("", false, false, false, false, false);
-         ackEvent.setAck(true);
-        try {
-            out.writeObject(ackEvent);
-        } catch (IOException e) {
-            loggerVirtualView.log(Level.ALL, "error");
-        }
     }
 
     public ObjectInputStream getIn() {
@@ -348,22 +418,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         return out;
     }
 
-    public void setOut(ObjectOutputStream objectOutputStream){this.out= objectOutputStream;};
-
-
-    private void closeStream() {
-        if(!streamClosed) {
-            try {
-                in.close();
-                out.close();
-                streamClosed = true;
-            } catch (IOException e) {
-                loggerVirtualView.log(Level.ALL, "error");
-            }
-        }
-
-
-    }
+    public void setOut(ObjectOutputStream objectOutputStream){
+         this.out= objectOutputStream;};
 
      void setTerminatorMode(boolean terminatorMode) {
         this.terminatorMode = terminatorMode;

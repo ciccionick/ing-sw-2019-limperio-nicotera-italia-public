@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 
 /** Handles the client and his socket
  *
- * @author Pietro L'Imperio */
+ * @author Pietro L'Imperio
+ */
 public class Client {
     /**
      * The reference of the network handler of the client
@@ -37,21 +38,34 @@ public class Client {
      */
    private Socket csocket = null;
 
+    /**
+     * The IP address of the server where the client will try to connect with.
+     */
    private String ipAddress = null;
 
+    /**
+     * Logger of the class to track possibly exception.
+     */
    private static Logger clientLogger =Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
    private static Handler handlerLoggerClient  = new ConsoleHandler();
 
 
-
-
+    /**
+     * Constructor of the class. Instances the network handler storing its reference.
+     */
     public Client(){
         this.myNetworkHandler=new NetworkHandler(this);
         clientLogger.addHandler(handlerLoggerClient);
     }
 
 
-
+    /**
+     * Handles the attempt to connect with server through the IP address typed in the frame.
+     * @throws IOException Due to some problems with the creation of the Object input/output stream.
+     */
     void handleConnectionWithServer() throws IOException {
 
         try {
@@ -69,6 +83,9 @@ public class Client {
 
     }
 
+    /**
+     * Handles the phase of initialization waiting for messages by virtual view.
+     */
      private void waitForMessagesOfInitialization(){
 
             while(true) {
@@ -86,6 +103,9 @@ public class Client {
     }
 
 
+    /**
+     * Handles the phase after the initialization for all the duration of the match receiving messages by virtual view but coming from Controller or Model.
+     */
     private void waitForMessage(){
         while(true){
             try {
@@ -116,15 +136,13 @@ public class Client {
         this.nickname = nickname;
     }
 
-    public NetworkHandler getMyNetworkHandler()
-    {
-        return myNetworkHandler;
-    }
-
      void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
+    /**
+     * Instances a task to call the method where is waiting for message for initialization after typed the ip address and finish the connection phase.
+     */
     private class TaskForStart extends TimerTask {
         @Override
         public void run() {

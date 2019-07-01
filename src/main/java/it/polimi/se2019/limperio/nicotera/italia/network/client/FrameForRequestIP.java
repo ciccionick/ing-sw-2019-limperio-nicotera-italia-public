@@ -12,36 +12,42 @@ import java.util.logging.Logger;
 
 
 /**
- *
+ * This class handles the creation of a JFrame that ask to client the IP address of the server he wants to connect with.
  */
 public class FrameForRequestIP {
 
     /**
-     *
+     * The JFrame where type the IP address.
      */
     private JFrame frame;
     /**
-     *
+     * The JTextField where inserted the string.
      */
     private JTextField textField;
     /**
-     *
+     * The JLabel that explain to the client what he has to do.
      */
     private JLabel labelText;
     /**
-     *
+     * The principal JPanel that compose the JFrame.
      */
     private JPanel centralPanel;
     /**
-     *
+     * The JButton to press to send the IP to the Client class to try the connection with the server.
      */
     private JButton buttonOK;
+    /**
+     * The logger of the class to track possibly exception.
+     */
     private static Logger loggerForFrameIp = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
     private static Handler handlerLoggerFrameIP = new ConsoleHandler();
 
     /**
-     *
-     * @param client
+     * The constructor of the class that creates the JFrame.
+     * @param client Client that has to receive the IP address typed on the textField.
      */
     public FrameForRequestIP(Client client) {
          loggerForFrameIp.addHandler(handlerLoggerFrameIP);
@@ -88,6 +94,9 @@ public class FrameForRequestIP {
          centralPanel.add(buttonOK, gbcButton);
          buttonOK.addActionListener(e -> sendIpAddress(client));
          textField.addKeyListener(new KeyAdapter() {
+             /**
+              * The Key listener that permits to avoid to press the button just press the key ENTER.
+              */
              @Override
              public void keyPressed(KeyEvent e) {
                  if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -100,6 +109,10 @@ public class FrameForRequestIP {
          frameForRequestIP.setVisible(true);
      }
 
+    /**
+     * Set in the field of the client the IP address typed and calls the method of the Client to try the connection.
+     * @param client Client that is trying to connect with the server.
+     */
     private void sendIpAddress(Client client){
         buttonOK.setEnabled(false);
         client.setIpAddress(textField.getText());

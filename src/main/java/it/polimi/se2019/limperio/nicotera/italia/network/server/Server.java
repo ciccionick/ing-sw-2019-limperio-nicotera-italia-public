@@ -67,16 +67,24 @@ public class Server  {
      */
     private int typeMap=0;
     /**
-     * It's true if the game started, false otherwise
+     * It's true if the game is started, false otherwise
      */
     private boolean gameIsStarted = false;
     /**
      * It's true if the first player decides to play in terminator mode, false otherwise. False for default
      */
     private boolean terminatorMode = false;
-
+    /**
+     * The list of virtual views of all the client in game.
+     */
     private ArrayList<VirtualView> listOfVirtualView = new ArrayList<>();
+    /**
+     * The logger that track and store possibly exception.
+     */
     private static Logger loggerServer = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
     private static Handler handlerLoggerServer = new ConsoleHandler();
 
 
@@ -85,7 +93,6 @@ public class Server  {
     /**
      * Constructor that creates an instance of the game, controller. Creates a server socket to receive connections
      * and read from file the duration of delay, setting the timer with his task
-     *
      */
     public Server()  {
         loggerServer.addHandler(handlerLoggerServer);
@@ -204,6 +211,10 @@ public class Server  {
         }
     }
 
+    /**
+     * Handles the reconnection of a client, rejected it if the client was not in the original list of client when the game was started.
+     * @param client Socket of the client that wants to reconnect.
+     */
     private void handleReconnectionClient(Socket client){
         VirtualView virtualView = new VirtualView(client, this, controller);
         String nicknameReconnected = virtualView.handleReconnection();
@@ -234,35 +245,6 @@ public class Server  {
 
     }
 
-     void setTerminatorMode(boolean terminatoreMode) {
-        this.terminatorMode = terminatoreMode;
-    }
-
-
-    synchronized void addNickname(String newNickname){
-        listOfNickname.add(newNickname);
-    }
-
-     ArrayList<Socket> getListOfClient() {
-        return listOfClient;
-    }
-
-     ArrayList<String> getListOfNickname() {
-        return listOfNickname;
-    }
-
-     ArrayList<String> getListOfColor() {
-        return listOfColor;
-    }
-
-     void setAnticipatedFrenzy(boolean anticipatedFrenzy) {
-        this.anticipatedFrenzy = anticipatedFrenzy;
-    }
-
-     boolean isGameIsStarted() {
-        return gameIsStarted;
-    }
-
     /**
      * Sets the type of map when the first player could not do that in accordance with the number of players.
      * @param typeMap The current type of map
@@ -282,6 +264,9 @@ public class Server  {
         }
     }
 
+    /**
+     * Start the timer, scheduling the task has to start after the delay.
+     */
     void startTimer() {
         timer = new Timer();
         task = new MyTask();
@@ -293,6 +278,35 @@ public class Server  {
         }
     }
 
+    void setTerminatorMode(boolean terminatoreMode) {
+        this.terminatorMode = terminatoreMode;
+    }
+
+
+    synchronized void addNickname(String newNickname){
+        listOfNickname.add(newNickname);
+    }
+
+    ArrayList<Socket> getListOfClient() {
+        return listOfClient;
+    }
+
+    ArrayList<String> getListOfNickname() {
+        return listOfNickname;
+    }
+
+    ArrayList<String> getListOfColor() {
+        return listOfColor;
+    }
+
+    void setAnticipatedFrenzy(boolean anticipatedFrenzy) {
+        this.anticipatedFrenzy = anticipatedFrenzy;
+    }
+
+    boolean isGameIsStarted() {
+        return gameIsStarted;
+    }
+
     public Game getGame() {
         return game;
     }
@@ -300,11 +314,20 @@ public class Server  {
     /**
      * Calls the method that starts the game at the end of the timer
      */
-
     class MyTask extends TimerTask{
+        /**
+         * Logger that handle the possibly exception in the run method.
+         */
         private  Logger loggerForTimerTaskInServer = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+        /**
+         * The handler of the logger of the class.
+         */
         private Handler handlerLoggerTimerTaskServer = new ConsoleHandler();
+
         @Override
+        /**
+         * Calls the start of the game after the delay.
+         */
         public void run() {
             loggerForTimerTaskInServer.addHandler(handlerLoggerTimerTaskServer);
             try {

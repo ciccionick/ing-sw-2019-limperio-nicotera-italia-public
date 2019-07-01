@@ -32,21 +32,25 @@ public class NetworkHandler implements Observer<ClientEvent> {
      * The reference of the {@link RemoteView} it will communicate with
      */
     private RemoteView remoteView;
+    /**
+     * The logger of the class to track possibly exception.
+     */
     private static Logger loggerNetworkHandler = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger of the class.
+     */
     private static Handler handlerLoggerNetworkHandler = new ConsoleHandler();
 
 
-
+    /**
+     * The constructor of the class that creates the remote view of the client.
+     * @param client Client linked with this network handler.
+     */
      NetworkHandler(Client client) {
          loggerNetworkHandler.addHandler(handlerLoggerNetworkHandler);
         this.client = client;
         this.remoteView = new RemoteView(client, this);
     }
-
-    public Client getClient() {
-        return client;
-    }
-
 
     /**
      * Replies to the {@link it.polimi.se2019.limperio.nicotera.italia.network.server.VirtualView}
@@ -86,6 +90,10 @@ public class NetworkHandler implements Observer<ClientEvent> {
     }
 
 
+    /**
+     * After have received a event by client and virtual view, works on it calling methods of remote view to update the information that it stored on it.
+     * @param event Event received and involved in the elaboration and update.
+     */
     private void updateStateOfRemoteView(ServerEvent event) {
 
          if(event.isADisconnection()){
@@ -241,9 +249,6 @@ public class NetworkHandler implements Observer<ClientEvent> {
         if(event.isRequestToChooseAPlayer())
             remoteView.getMainFrame().handleRequestToChooseAPlayer(event);
 
-
-
-
     }
 
     /**
@@ -257,6 +262,10 @@ public class NetworkHandler implements Observer<ClientEvent> {
         } catch (IOException e) {
             loggerNetworkHandler.log(Level.ALL, "error");
         }
+    }
+
+    public Client getClient() {
+        return client;
     }
 
     public String getTemporaryNickname() {
