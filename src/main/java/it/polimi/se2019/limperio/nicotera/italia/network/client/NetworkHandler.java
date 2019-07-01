@@ -88,6 +88,9 @@ public class NetworkHandler implements Observer<ClientEvent> {
 
     private void updateStateOfRemoteView(ServerEvent event) {
 
+         if(event.isADisconnection()){
+             remoteView.getMainFrame().showMessage(event);
+         }
         if(event.isPlayerBoardEvent()){
             remoteView.handlePlayerBoardEvent((PlayerBoardEvent) event);
         }

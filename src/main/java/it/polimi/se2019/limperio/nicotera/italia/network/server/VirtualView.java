@@ -298,7 +298,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
      void handleDisconnection(){
         isClientCurrentlyOnline=false;
-         closeStream();
+        closeStream();
         if(!server.isGameIsStarted()) {
             server.getListOfNickname().remove(nicknameOfClient);
             server.getListOfColor().remove(colorOfClient);
@@ -306,6 +306,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
         }
         else{
+
             controller.handleDisconnection(nicknameOfClient);
         }
     }

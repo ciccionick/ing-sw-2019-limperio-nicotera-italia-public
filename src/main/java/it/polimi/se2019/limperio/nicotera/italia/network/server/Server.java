@@ -218,7 +218,7 @@ public class Server  {
 
     private void handleReconnectionClient(Socket client){
         VirtualView virtualView = new VirtualView(client, this, controller);
-            String nicknameReconnected = virtualView.handleReconnection();
+        String nicknameReconnected = virtualView.handleReconnection();
             if (!nicknameReconnected.equals("Failed reconnection")) {
                 virtualView.sendAckAfterReconnection();
                 for (VirtualView virtualVW : listOfVirtualView) {

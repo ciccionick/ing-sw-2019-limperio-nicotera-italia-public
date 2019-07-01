@@ -304,8 +304,15 @@ public class Controller implements Observer<ClientEvent> {
 
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
+         ServerEvent disconnection = new ServerEvent();
+         disconnection.setADisconnection(true);
+         disconnection.setMessageForOthers("The player" + nicknameOfPlayerDisconnected + "has disconnected its game");
+         ArrayList<String> playersInvolved = new ArrayList<>(game.getListOfNickname());
+         playersInvolved.remove(nicknameOfPlayerDisconnected);
+         disconnection.setNicknames(playersInvolved);
+         game.notify(disconnection);
          player.setConnected(false);
-         if(isTheTurnOfThisPlayer(nicknameOfPlayerDisconnected)) {
+        if(isTheTurnOfThisPlayer(nicknameOfPlayerDisconnected)) {
              game.setNumOfActionOfTheTurn(game.getNumOfMaxActionForTurn());//setto max num di azioni così aggiorno il turno con handleTheEndOFAction
              if(player.getPositionOnTheMap() == null)
                 getRoundController().randomSpawn(player);
