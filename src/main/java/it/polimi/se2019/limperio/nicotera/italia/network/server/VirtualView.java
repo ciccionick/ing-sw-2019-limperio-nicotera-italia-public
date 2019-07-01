@@ -306,6 +306,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
         }
         else{
+
             controller.handleDisconnection(nicknameOfClient);
         }
     }

@@ -61,6 +61,7 @@ public class ServerEvent implements Serializable {
     private boolean isRequestSelectionWeaponToReload = false;
     private boolean isRequestToChooseMultiplePlayers = false;
     private boolean isFinalUpdate = false;
+    private boolean isADisconnection = false;
 
 
     private int numOfAction;
@@ -318,8 +319,13 @@ public class ServerEvent implements Serializable {
         isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
     }
 
+    public boolean isADisconnection() {
+        return isADisconnection;
+    }
 
-
+    public void setADisconnection(boolean ADisconnection) {
+        isADisconnection = ADisconnection;
+    }
 
     /**
      * Represents a simplified structure to encapsulate the main attributes of cards
