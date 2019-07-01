@@ -86,11 +86,13 @@ public class FrameForRequestIP {
          gbcButton.gridy = 2;
          gbcButton.insets = new Insets(horizontalBorder, 0, 0, 0);
          centralPanel.add(buttonOK, gbcButton);
-         ListenerForIPAddress listenerForIPAddress = new ListenerForIPAddress(client, this.getFrame());
-         buttonOK.addActionListener(listenerForIPAddress);
-         frameForRequestIP.addKeyListener(listenerForIPAddress);
-         textField.addKeyListener(listenerForIPAddress);
-
+         buttonOK.addActionListener(e -> sendIpAddress(client));
+         textField.addKeyListener(new KeyAdapter() {
+             @Override
+             public void keyPressed(KeyEvent e) {
+                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                     sendIpAddress(client);
+             }});
          frameForRequestIP.pack();
          frameForRequestIP.setLocation((int) (dimensionOfScreen.getWidth() - frameForRequestIP.getWidth()) / 2,
                  (int) (dimensionOfScreen.getHeight() - frameForRequestIP.getHeight()) / 2);
@@ -98,116 +100,20 @@ public class FrameForRequestIP {
          frameForRequestIP.setVisible(true);
      }
 
+    private void sendIpAddress(Client client){
+        buttonOK.setEnabled(false);
+        client.setIpAddress(textField.getText());
+        frame.setVisible(false);
+        try {
+            client.handleConnectionWithServer();
+        } catch (IOException e1) {
+            loggerForFrameIp.log(Level.ALL, "error");
+        }
+    }
+
 
     public JFrame getFrame() {
         return frame;
     }
-
-    /**
-     *
-     */
-    class ListenerForIPAddress implements ActionListener, KeyListener {
-
-        /**
-         *
-         */
-        private JFrame frame;
-        /**
-         *
-         */
-        private Client client;
-
-        ListenerForIPAddress(Client client, JFrame frame) {
-
-            this.client = client;
-            this.frame = frame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            sendIpAddress();
-        }
-
-        /**
-         *
-         */
-        private void sendIpAddress(){
-            buttonOK.setEnabled(false);
-            client.setIpAddress(textField.getText());
-            frame.setVisible(false);
-            try {
-                client.handleConnectionWithServer();
-            } catch (IOException e1) {
-                loggerForFrameIp.log(Level.ALL, "error");
-            }
-        }
-
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                sendIpAddress();
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            //not implemented
-        }
-    }
-
-    /**
-     *
-     */
-    class ListenerForClosing implements WindowListener {
-
-         private Frame frame;
-
-         ListenerForClosing(Frame frame) {
-            this.frame = frame;
-        }
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            frame.setVisible(false);
-            System.exit(0);
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-             //not implemented
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-             //not implemented
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-            //not implemented
-        }
-    }
-
 
 }

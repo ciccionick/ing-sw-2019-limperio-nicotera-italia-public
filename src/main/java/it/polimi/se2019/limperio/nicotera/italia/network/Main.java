@@ -11,17 +11,33 @@ import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The class with main method that is called when the application starts.
+ * @author Pietro L'Imperio
+ */
 public  class Main {
 
+    /**
+     * Calls the constructor of the Starting Frame.
+     */
     public static void main(String[] argv){
         new StartingFrame();
     }
 
 
-
+    /**
+     * Handles the creation of the initial frame where it is possible decide if the application has to run on client or server side.
+     * @author Pietro L'Imperio
+     */
     static class StartingFrame {
+        /**
+         * The JFrame that is create.
+         */
         private JFrame frame;
 
+        /**
+         * Constructor of the class where the frame is created.
+         */
         StartingFrame() {
             frame = new JFrame("Adrenaline - Choose your side");
             ImageIcon iconForFavicon = new ImageIcon(getClass().getResource("/favicon.jpg"));
@@ -100,6 +116,9 @@ public  class Main {
         }
 
 
+        /**
+         * Listener for the button that permits to decide if start the application server or client side.
+         */
         private class ListenerForServerPlayerButton implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,8 +127,13 @@ public  class Main {
                 timer.schedule(new TaskToStart(e.getActionCommand().equalsIgnoreCase("Server")), 1000);
             }
 
+            /**
+             * Handles the launch of a timer to avoid that that the main remained blocked waiting for the creation of server or client class.
+             */
             private class TaskToStart extends TimerTask {
-
+                /**
+                 * Boolean fields that indicate if the application has to start on server or client side.
+                 */
                 private boolean forServer;
 
                 TaskToStart(boolean forServer) {

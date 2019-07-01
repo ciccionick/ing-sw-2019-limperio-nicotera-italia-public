@@ -12,17 +12,17 @@ import java.util.ArrayList;
 public class KillshotTrackView {
 
     /**
-     * Tokens of death on killshot track, in order to keep a record of who has killed someone
+     * List of tokens of death on killshot track, in order to keep a record of the killings.
      */
     private  ArrayList<ArrayList<ColorOfDeathToken>> tokensOfDeath;
     /**
-     * Tokens of the frenzy mode
+     * List of tokens of death stored since the begin of the frenzy mode
      */
     private ArrayList<ColorOfDeathToken> tokenOfFrenzyMode;
 
     /**
-     * Updates the different parts of this part of view through the information that are in the event parameter.
-     * @param event Contains the information to update the view
+     * Updates the information stored in this part of the view.
+     * @param event Contains the information to update the view.
      */
     public void update(KillshotTrackEvent event){
         setTokensOfDeath(event.getKillShotTrack().getTokensOfDeath());

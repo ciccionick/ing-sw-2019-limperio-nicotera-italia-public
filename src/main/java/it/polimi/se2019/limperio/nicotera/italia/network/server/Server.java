@@ -1,11 +1,8 @@
 package it.polimi.se2019.limperio.nicotera.italia.network.server;
 
-
 import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
-import sun.rmi.runtime.Log;
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -38,7 +35,7 @@ public class Server  {
      */
     private Controller controller;
     /**
-     * The list of the client connected
+     * The list of the clients connected
      */
     private ArrayList<Socket> listOfClient = new ArrayList<>();
     /**

@@ -15,16 +15,20 @@ public class InitializationView {
      */
     private FrameForInitialization frameForInitialization;
     /**
-     * reference to specific remote view of a client
+     * Reference to remote view of the client
      */
     private RemoteView remoteView;
 
+    /**
+     * Constructor that link this class with the remote view of the same client
+     * @param remoteView The reference of the remote view
+     */
      InitializationView(RemoteView remoteView) {
         this.remoteView = remoteView;
     }
 
     /**
-     * Takes the nickname of a player that is recording to game.
+     * Takes the nickname of a player creating the frame where it is asked.
      */
     private void setNicknameInitializingFrame(){
         frameForInitialization = new FrameForInitialization("Adrenaline - Setup", this);
@@ -66,8 +70,6 @@ public class InitializationView {
             remoteView.getNetworkHandler().setNicknameOfClient(remoteView.getNetworkHandler().getTemporaryNickname());
             frameForInitialization.remainInListeningForTheStartGame();
         }
-
-
     }
 
     public RemoteView getRemoteView() {

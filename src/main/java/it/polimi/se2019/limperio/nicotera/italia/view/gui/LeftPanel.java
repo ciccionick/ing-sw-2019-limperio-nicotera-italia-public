@@ -4,33 +4,94 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import it.polimi.se2019.limperio.nicotera.italia.model.Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Hanldes the creation of the panel located in the left side of the border layout of main frame.
+ * @author Pietro L'Imperio
+ */
  class LeftPanel extends JPanel {
 
+    /**
+     * The reference of main frame.
+     */
     private transient MainFrame mainFrame;
+    /**
+     * The reference of player board panel.
+     */
     private PlayerBoardPanel playerBoardPanel;
+    /**
+     * The reference of the player board view shown on the left panel.
+     */
     private PlayerBoardView playerBoardView;
+    /**
+     * The label that represents the icon of the first weapon in the weapons deck.
+     */
     private JLabel weapon1;
+    /**
+     * The label that represents the icon of the second weapon in the weapons deck.
+     */
     private JLabel weapon2;
+    /**
+     * The label that represents the icon of the third weapon in the weapons deck.
+     */
     private JLabel weapon3;
+    /**
+     * The label that represents the icon of the first power up card in the power up cards deck.
+     */
     private JLabel powerCard1;
+    /**
+     * The label that represents the icon of the second power up card in the power up cards deck.
+     */
     private JLabel powerCard2;
+    /**
+     * The label that represents the icon of the third power up card in the power up cards deck.
+     */
     private JLabel powerCard3;
+    /**
+     * The button to use the first power up card in the power up cards deck.
+     */
     private JButton buttonPC1;
+    /**
+     * The button to use the second power up card in the power up cards deck.
+     */
     private JButton buttonPC2;
+    /**
+     * The button to use the third power up card in the power up cards deck.
+     */
     private JButton buttonPC3;
+    /**
+     * The button to use the first weapon card in the weapons deck.
+     */
     private JButton buttonW1;
+    /**
+     * The button to use the second weapon card in the weapons deck.
+     */
     private JButton buttonW2;
+    /**
+     * The button to use the third weapon card in the weapons deck.
+     */
     private JButton buttonW3;
+    /**
+     * The label that represents the blue ammo.
+     */
     private JLabel blueAmmo;
+    /**
+     * The label that represents the red ammo.
+     */
     private JLabel redAmmo;
+    /**
+     * The label that represents the red ammo.
+     */
     private JLabel yellowAmmo;
 
-
+    /**
+     * Constructor of the left panel where also the player board panel is created invoking its constructor.
+     * @param mainFrame The reference of the main frame.
+     * @param playerBoardView The reference of the player board view that has to be shown.
+     */
      LeftPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
         this.playerBoardView = playerBoardView;
@@ -319,6 +380,11 @@ import java.util.ArrayList;
         }
      }
 
+    /**
+     * Checks if the button related of Newton or Teleporter has to be enable or not checking the value of boolean fields in player board view.
+     * @param gbcPC The grid bag constraint useful to understand with power up card is considering through the value of gridx.
+     * @return true if the power up card considered is usable, otherwise false.
+     */
     private boolean checkStateOfButton(GridBagConstraints gbcPC) {
         if(mainFrame.getRemoteView().getMyPlayerBoardView().isHasToChoosePowerUpCardForSpawn())
            return true;
@@ -335,6 +401,61 @@ import java.util.ArrayList;
            }
         }
       return false;
+    }
+
+    /**
+     * Get the number of usable ammo of the color passed by parameter.
+     * @param ammo List of ammo in the player board considered.
+     * @param color Color of the ammo of which has to get the number of usable one.
+     * @return
+     */
+    private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
+        int counterOfAvailableAmmo=0;
+        for (Ammo ammoItem : ammo){
+            if (ammoItem.getColor().equals(color)&&ammoItem.isUsable()){
+                counterOfAvailableAmmo++;
+            }
+        }
+        return counterOfAvailableAmmo;
+    }
+
+    /**
+     * Get the name of the card in the weapon deck and located in the position passed by parameter.
+     * @param weaponCardDeck List of weapon card in the weapon deck in the player board.
+     * @param position Position of the card in the deck of which is interested know the name.
+     * @return The name of the weapon card.
+     */
+    private String getNameOfWeaponCard(ArrayList<ServerEvent.AliasCard> weaponCardDeck, int position) {
+        String nameOfCard;
+        if(weaponCardDeck.size()<position)
+            nameOfCard = "noCard.png";
+        else
+            nameOfCard = weaponCardDeck.get(position-1).getName().concat(".png");
+        return nameOfCard;
+    }
+
+    /**
+     * Get the name of the card in the power up cards deck and located in the position passed by parameter.
+     * @param powerUpCardsDeck List of power up card in the power up cards deck in the player board.
+     * @param position  Position of the card in the deck of which is interested know the name.
+     * @return The name of the power up card.
+     */
+    private String getNameOfPowerUpCard(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck, int position){
+        String nameOfCard;
+        if(powerUpCardsDeck.size()<position){
+            nameOfCard ="noCard.png";
+        }
+        else
+        {
+            nameOfCard = powerUpCardsDeck.get(position-1).getName();
+            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.BLUE)
+                nameOfCard= nameOfCard.concat(" blue.png");
+            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.RED)
+                nameOfCard= nameOfCard.concat(" red.png");
+            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.YELLOW)
+                nameOfCard= nameOfCard.concat(" yellow.png");
+        }
+        return nameOfCard;
     }
 
      PlayerBoardView getPlayerBoardView() {
@@ -364,43 +485,6 @@ import java.util.ArrayList;
       JButton getButtonW3() {
          return buttonW3;
      }
-
-     private int getNumOfAmmo(ArrayList<Ammo> ammo, ColorOfCard_Ammo color) {
-        int counterOfAvailableAmmo=0;
-        for (Ammo ammoItem : ammo){
-            if (ammoItem.getColor().equals(color)&&ammoItem.isUsable()){
-                counterOfAvailableAmmo++;
-            }
-        }
-        return counterOfAvailableAmmo;
-    }
-
-    private String getNameOfWeaponCard(ArrayList<ServerEvent.AliasCard> weaponCardDeck, int position) {
-        String nameOfCard;
-        if(weaponCardDeck.size()<position)
-            nameOfCard = "noCard.png";
-        else
-            nameOfCard = weaponCardDeck.get(position-1).getName().concat(".png");
-        return nameOfCard;
-    }
-
-    private String getNameOfPowerUpCard(ArrayList<ServerEvent.AliasCard> powerUpCardsDeck, int position){
-        String nameOfCard;
-        if(powerUpCardsDeck.size()<position){
-            nameOfCard ="noCard.png";
-        }
-        else
-        {
-            nameOfCard = powerUpCardsDeck.get(position-1).getName();
-            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.BLUE)
-                nameOfCard= nameOfCard.concat(" blue.png");
-            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.RED)
-                nameOfCard= nameOfCard.concat(" red.png");
-            if(powerUpCardsDeck.get(position-1).getColor()== ColorOfCard_Ammo.YELLOW)
-                nameOfCard= nameOfCard.concat(" yellow.png");
-        }
-        return nameOfCard;
-    }
 
      PlayerBoardPanel getPlayerBoardPanel() {
        return playerBoardPanel;

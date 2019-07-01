@@ -4,38 +4,39 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Hanldes the creation and the update of the north panel in Border Layout of main frame where is located the killshot track.
+ * @author Pietro L'Imperio
  */
 class KillshotTrackPanel extends JPanel {
 
     /**
-     *
+     * The reference of main frame.
      */
     private MainFrame mainFrame;
     /**
-     *
+     * The dialog with tokens of death of the normal mode.
      */
     private JDialog dialogForNormalSkull = null;
     /**
-     *
+     * The dialog with tokens of death of the frenzy mode.
      */
     private JDialog dialogForFrenzySkull = null;
     /**
-     *
+     * The first part of the track (where there would be the tokens of death of the normal mode).
      */
     private JLabel skull1;
     /**
-     *
+     * The second part of the track (where there would be the tokens of death of the frenzy mode).
      */
     private JLabel skull2;
     /**
-     *
+     * The third part of the track.
      */
     private JLabel skull3;
 
     /**
-     *
-     * @param mainFrame
+     * Constructor of the Panel.
+     * @param mainFrame The reference of the main frame.
      */
     KillshotTrackPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -63,8 +64,6 @@ class KillshotTrackPanel extends JPanel {
         String folderPath = "/board/killshottrack/";
 
         skull1 = new JLabel("");
-
-
         GridBagConstraints gbcSkull1 = new GridBagConstraints();
         gbcSkull1.gridx = 0;
         gbcSkull1.gridy = 0;
@@ -121,32 +120,8 @@ class KillshotTrackPanel extends JPanel {
 
     }
 
-    JDialog getDialogForNormalSkull() {
-        return dialogForNormalSkull;
-    }
-
-     JDialog getDialogForFrenzySkull() {
-        return dialogForFrenzySkull;
-    }
-
-     void setNullDialogForNormalSkull() {
-        this.dialogForNormalSkull = null;
-    }
-
-     void setNullDialogForFrenzySkull() {
-        this.dialogForFrenzySkull = null;
-    }
-
-    JLabel getSkull1() {
-        return skull1;
-    }
-
-     JLabel getSkull2() {
-        return skull2;
-    }
-
     /**
-     *
+     * Add the dialog with the tokens of death put on the track during the normal mode.
      */
    void addDialogForNormalKillshot() {
        if (dialogForNormalSkull == null)
@@ -154,11 +129,35 @@ class KillshotTrackPanel extends JPanel {
    }
 
     /**
-     *
+     * Add the dialog with the tokens of death put on the track during the frenzy mode.
      */
     void addDialogForFrenzyKillshot() {
         if (dialogForFrenzySkull == null)
             dialogForFrenzySkull = new PopupForKillshotTrack(mainFrame, true, skull2.getLocationOnScreen()).getDialog();
+    }
+
+    JDialog getDialogForNormalSkull() {
+        return dialogForNormalSkull;
+    }
+
+    JDialog getDialogForFrenzySkull() {
+        return dialogForFrenzySkull;
+    }
+
+    void setNullDialogForNormalSkull() {
+        this.dialogForNormalSkull = null;
+    }
+
+    void setNullDialogForFrenzySkull() {
+        this.dialogForFrenzySkull = null;
+    }
+
+    JLabel getSkull1() {
+        return skull1;
+    }
+
+    JLabel getSkull2() {
+        return skull2;
     }
 
 

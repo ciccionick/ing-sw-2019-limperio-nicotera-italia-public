@@ -34,9 +34,9 @@ class MapPanel extends JPanel {
         this.setBackground(Color.DARK_GRAY);
         int dim;
         if(mainFrame.getFrame().getSize().getWidth()/mainFrame.getFrame().getSize().getHeight()<1.80)
-            dim = (int) ((int) mainFrame.getFrame().getSize().getWidth()/8.34);
+            dim = (int) ((int) mainFrame.getFrame().getSize().getWidth()/9);
         else
-            dim = (int) (mainFrame.getFrame().getSize().getHeight()/4.70);
+            dim = (int) (mainFrame.getFrame().getSize().getHeight()/5);
 
         int typeOfMap = mainFrame.getRemoteView().getMapView().getTypeOfMap();
         String folderPath;
@@ -187,7 +187,6 @@ class MapPanel extends JPanel {
         imageIcon = new ImageIcon(newimg);
         cell23 = new JLabel(imageIcon);
         this.add(cell23,gbc);
-
          createHashMap();
          addMouseListenerToCells();
      }

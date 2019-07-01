@@ -8,11 +8,26 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Creates a dialog to show a message or to invite the player to draw power up cards and choose which terminator action use.
+ * @author Pietro L'Imperio
+ */
 class DialogForMessage {
 
+    /**
+     * The dialog containing message.
+     */
      private JDialog dialog;
-     private JButton button;
+    /**
+     * The button to press to make not visible the dialog. It could be a simple "OK" button or "DRAW" button in the case the dialog is made to draw power up cards.
+     */
+    private JButton button;
 
+    /**
+     * Constructor of the class where is created the dialog.
+     * @param mainFrame The reference to the main frame
+     * @param receivedEvent The event containing the message to print.
+     */
      DialogForMessage(MainFrame mainFrame, ServerEvent receivedEvent) {
          dialog = new JDialog(mainFrame.getFrame());
          dialog.setLocationRelativeTo(mainFrame.getFrame());
@@ -110,10 +125,6 @@ class DialogForMessage {
      JDialog getDialog() {
          return dialog;
      }
-
-
-
-
 
  }
 

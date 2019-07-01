@@ -42,11 +42,8 @@ public class MainFrame {
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentMoved(ComponentEvent e) {
-                updateFrame();
-            }
-        });
-
-
+                    updateFrame();
+                }});
 
         mapPanel = new MapPanel(this);
         contentPane.add(mapPanel, BorderLayout.CENTER);
@@ -243,7 +240,6 @@ public class MainFrame {
         killshotTrackPanel.addDialogForFrenzyKillshot();
         leftPanel.getPlayerBoardPanel().addDialogForDamage();
         leftPanel.getPlayerBoardPanel().addDialogForMarks();
-
     }
 
 
