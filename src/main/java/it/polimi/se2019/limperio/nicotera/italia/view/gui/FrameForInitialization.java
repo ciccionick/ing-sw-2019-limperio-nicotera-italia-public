@@ -21,7 +21,7 @@ public class FrameForInitialization {
     public FrameForInitialization(String title, InitializationView initializationView) {
         frame.setTitle(title);
         this.initializationView = initializationView;
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/favicon.jpg")));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setResizable(false);
@@ -78,12 +78,14 @@ public class FrameForInitialization {
         JLabel labelText;
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
         labelText.setText("Nickname invalid or already used! Try again: ");
+        frame.pack();
     }
 
     public void handleRetakeForColor() {
         JLabel labelText;
         labelText = (JLabel) mapOfComponents.get("LabelTextForRequest");
         labelText.setText("Color already used! Try again: ");
+        frame.pack();
     }
 
     public void setColor() {
@@ -180,14 +182,14 @@ public class FrameForInitialization {
         ListenerForMapButtons listenerForMapButtons  = new ListenerForMapButtons(initializationView);
         JButton buttonMap1 = new JButton("");
         buttonMap1.setActionCommand("1");
-        ImageIcon icon = new ImageIcon("resources/board/maps/map1/onlymatrix1.png");
+        ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/board/maps/map1/onlymatrix1.png")));
         Image image = icon.getImage();
         Image newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
         buttonMap1.setIcon(icon);
         buttonMap1.addActionListener(listenerForMapButtons);
         JButton buttonMap2 = new JButton("");
-        icon = new ImageIcon("resources/board/maps/map2/onlymatrix2.png");
+        icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/board/maps/map2/onlymatrix2.png")));
         image = icon.getImage();
         newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
@@ -195,7 +197,7 @@ public class FrameForInitialization {
         buttonMap2.setActionCommand("2");
         buttonMap2.addActionListener(listenerForMapButtons);
         JButton buttonMap3 = new JButton("");
-        icon = new ImageIcon("resources/board/maps/map3/onlymatrix3.png");
+        icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/board/maps/map3/onlymatrix3.png")));
         image = icon.getImage();
         newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
@@ -203,7 +205,7 @@ public class FrameForInitialization {
         buttonMap3.addActionListener(listenerForMapButtons);
         buttonMap3.setActionCommand("3");
         JButton buttonMap4 = new JButton("");
-        icon = new ImageIcon("resources/board/maps/map4/onlymatrix4.png");
+        icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/board/maps/map4/onlymatrix4.png")));
         image = icon.getImage();
         newImg = image.getScaledInstance(icon.getIconWidth()/15, icon.getIconHeight()/15, Image.SCALE_SMOOTH);
         icon = new ImageIcon(newImg);
@@ -297,7 +299,7 @@ public class FrameForInitialization {
         gbc.gridy = 0;
 
         JLabel gif = new JLabel("");
-        gif.setIcon(new ImageIcon("resources/loading.gif"));
+        gif.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/loading.gif"))));
         JLabel labelToAskForWait = new JLabel("Setup completed! Wait for the start of the game...");
         labelToAskForWait.setFont(fontForTitle);
         contentPane.add(labelToAskForWait,gbc);

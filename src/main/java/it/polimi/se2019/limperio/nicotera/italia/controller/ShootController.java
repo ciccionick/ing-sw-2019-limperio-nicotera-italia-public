@@ -699,38 +699,35 @@ public class ShootController {
         game.notify(mapEvent);
     }
 
-
-    private void sendPlayerBoardEvent() {
-        String messageForAttacked = null;
-        String messageForAttacker = null;
-        if(getInvolvedPlayersForThisEffect(typeOfAttack.get(typeOfAttack.size()-1)).get(0).getPlayer()!=null) {
-            messageForAttacked = weaponToUse.getOwnerOfCard().getNickname() + " has attacked: ";
-            messageForAttacker = "You have attacked: ";
-            ArrayList<Player> playersInvolvedInTheLastEffect = getPlayersInvolvedInAnEffect(typeOfAttack.get(typeOfAttack.size() - 1));
-            for (Player player : playersInvolvedInTheLastEffect) {
-                if (playersInvolvedInTheLastEffect.indexOf(player) == playersInvolvedInTheLastEffect.size() - 1) {
-                    messageForAttacked = messageForAttacked.concat(player.getNickname());
-                    messageForAttacker = messageForAttacker.concat(player.getNickname());
-                } else {
-                    messageForAttacked = messageForAttacked.concat(player.getNickname() + ", ");
-                    messageForAttacker = messageForAttacker.concat(player.getNickname() + ", ");
+    private void sendPlayerBoardEvent(){
+        String nicknameOfAttacker = weaponToUse.getOwnerOfCard().getNickname();
+        PlayerBoardEvent pbEvent;
+        ArrayList<Player> listOfPlayersInvolvedInTheLastEffect = getPlayersInvolvedInAnEffect(typeOfAttack.get(typeOfAttack.size()-1));
+        String nameOfEffect = weaponToUse.getNamesOfAttack().get(typeOfAttack.get(typeOfAttack.size()-1)-1);
+        String messageForNotInvolvedInTheAttack = nicknameOfAttacker + " has used the effect " + nameOfEffect + " of " + weaponToUse.getName() + " on: ";
+        int i;
+        for( i = 0 ; i<listOfPlayersInvolvedInTheLastEffect.size()-1; i++ ){
+            messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+", ");
+        }
+        messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+".");
+        for(Player player : game.getPlayers()){
+            pbEvent = new PlayerBoardEvent();
+            pbEvent.setNicknames(game.getListOfNickname());
+            pbEvent.setPlayerBoard(player.getPlayerBoard());
+            pbEvent.setNicknameInvolved(player.getNickname());
+            if(player.getNickname().equals(nicknameOfAttacker)){
+                pbEvent.setMessageForInvolved("You have used " + nameOfEffect + " of " + weaponToUse.getName()+ " on the target(s) you have chosen");
+            }
+            else{
+                if(listOfPlayersInvolvedInTheLastEffect.contains(player)){
+                    pbEvent.setMessageForInvolved(nicknameOfAttacker + " has used the effect: " + nameOfEffect + " of "  + weaponToUse.getName() + " on you");
                 }
-            }
-            messageForAttacked = messageForAttacked.concat("\nCheck player boards to see their new situation!");
-
-        }
-            for (Player player : game.getPlayers()) {
-                PlayerBoardEvent pbEvent = new PlayerBoardEvent();
-                if (player.equals(weaponToUse.getOwnerOfCard()))
-                    pbEvent.setMessageForInvolved(messageForAttacker);
                 else
-                    pbEvent.setMessageForInvolved(messageForAttacked);
-                pbEvent.setNicknames(game.getListOfNickname());
-                pbEvent.setPlayerBoard(player.getPlayerBoard());
-                pbEvent.setNicknameInvolved(player.getNickname());
-                game.notify(pbEvent);
+                    pbEvent.setMessageForInvolved(messageForNotInvolvedInTheAttack);
             }
+            game.notify(pbEvent);
         }
+    }
 
 
 

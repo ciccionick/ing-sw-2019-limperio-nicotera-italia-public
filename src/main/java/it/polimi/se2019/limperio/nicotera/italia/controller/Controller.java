@@ -186,7 +186,7 @@ public class Controller implements Observer<ClientEvent> {
             requestActionEvent.setMessageForOthers("Change turn! Now it's the turn of " + game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname() + "\nWait for some news!");
             requestActionEvent.setNicknames(game.getListOfNickname());
         } else
-            requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() + " you want to do.\nRemember you can use power up cards enabled.");
+            requestActionEvent.setMessageForInvolved("Choose your action number " + requestActionEvent.getNumOfAction() + " you want to do.\nRemember you can use enabled power up cards .");
         requestActionEvent.setCanUseNewton(!(game.getRound() == 1 && game.getPlayerOfTurn() == 1));
         requestActionEvent.setCanUseTeleporter(true);
         requestActionEvent.setCanShoot(checkIfPlayerCanShoot(findPlayerWithThisNickname(requestActionEvent.getNicknameInvolved()).getPlayerBoard().getWeaponsOwned()));

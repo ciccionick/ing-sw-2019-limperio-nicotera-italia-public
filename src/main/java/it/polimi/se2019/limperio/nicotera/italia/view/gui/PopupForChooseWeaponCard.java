@@ -14,15 +14,49 @@ class PopupForChooseWeaponCard {
     private String nameOfCardToStoreForDiscardEvent = null;
 
      PopupForChooseWeaponCard(ServerEvent receivedEvent, MainFrame mainFrame) {
-         ClosingListener closingListener = new ClosingListener(mainFrame);
-         popupForChooseW = new JDialog(mainFrame.getFrame());
-         if(!receivedEvent.isRequestSelectionWeaponToReload())
-            popupForChooseW.setUndecorated(false);
-         else
-             popupForChooseW.setUndecorated(true);
-         popupForChooseW.addWindowListener(closingListener);
+        popupForChooseW = new JDialog(mainFrame.getFrame());
+        popupForChooseW.setUndecorated(receivedEvent.isRequestSelectionWeaponToReload());
+         popupForChooseW.addWindowListener(new WindowListener() {
+             @Override
+             public void windowOpened(WindowEvent e) {
+                 //not implemented
+             }
+
+             @Override
+             public void windowClosing(WindowEvent e) {
+                 mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
+             }
+
+             @Override
+             public void windowClosed(WindowEvent e) {
+                 //not implemented
+             }
+
+             @Override
+             public void windowIconified(WindowEvent e) {
+                 //not implemented
+             }
+
+             @Override
+             public void windowDeiconified(WindowEvent e) {
+                 //not implemented
+             }
+
+             @Override
+             public void windowActivated(WindowEvent e) {
+                 //not implemented
+             }
+
+             @Override
+             public void windowDeactivated(WindowEvent e) {
+                 //not implemented
+             }
+         });
+
          JPanel contentPanel = new JPanel();
-         contentPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
+         int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
+         contentPanel.setBorder(new EmptyBorder(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder));
          popupForChooseW.getContentPane().add(contentPanel);
          PanelForWeapons panelForWeapons;
          panelForWeapons = new PanelForWeapons(mainFrame, null, receivedEvent, this);
@@ -43,47 +77,4 @@ class PopupForChooseWeaponCard {
         return popupForChooseW;
     }
 
-    class ClosingListener implements WindowListener {
-
-         private MainFrame mainFrame;
-
-         ClosingListener(MainFrame mainFrame) {
-            this.mainFrame = mainFrame;
-        }
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-            mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-            //not implemented
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-            //not implemented
-        }
-    }
 }

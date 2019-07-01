@@ -69,14 +69,16 @@ import java.util.ArrayList;
 
         if (playerBoardView.getNicknameOfPlayer().equals("terminator")) {
            JLabel labelTerminator = new JLabel();
-           ImageIcon icon = new ImageIcon("resources/weapons/terminator.png");
+           ImageIcon icon = new ImageIcon(mainFrame.getResource("/weapons/terminator.png"));
            Image image = icon.getImage().getScaledInstance(widthCard * 2, heightCard * 2, Image.SCALE_SMOOTH);
            icon = new ImageIcon(image);
            labelTerminator.setIcon(icon);
            GridBagConstraints gbcLabelTerminator = new GridBagConstraints();
            gbcLabelTerminator.gridx = 0;
            gbcLabelTerminator.gridy = 1;
-           gbcLabelTerminator.insets = new Insets(50, 250, 0, 0);
+           int topInset = (int) (mainFrame.getFrame().getHeight()/21.6);
+           int leftInset = (int) (mainFrame.getFrame().getWidth()/7.68);
+           gbcLabelTerminator.insets = new Insets(topInset, leftInset, 0, 0);
            gbcLabelTerminator.fill = GridBagConstraints.BOTH;
            this.add(labelTerminator, gbcLabelTerminator);
         }
@@ -88,13 +90,12 @@ import java.util.ArrayList;
            int insetRight = insetLeft / 10;
            int insetBottom = insetTop / 2;
 
-           String weaponFolderPath = "resources/weapons/";
+           String weaponFolderPath = "/weapons/";
 
            weapon1 = new JLabel("");
-           ImageIcon imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 1)));
-           Image image = imageIcon.getImage();
-           Image newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           ImageIcon imageIcon = new ImageIcon(mainFrame.getResource(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 1))));
+           Image image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            weapon1.setIcon(imageIcon);
            if (playerBoardView.getWeaponCardDeck().isEmpty()|| !playerBoardView.getWeaponCardDeck().get(0).isLoaded())
               weapon1.setEnabled(false);
@@ -108,10 +109,9 @@ import java.util.ArrayList;
 
 
            weapon2 = new JLabel("");
-           imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 2)));
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 2))));
+           image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            weapon2.setIcon(imageIcon);
            if (playerBoardView.getWeaponCardDeck().size() < 2 || !playerBoardView.getWeaponCardDeck().get(1).isLoaded())
               weapon2.setEnabled(false);
@@ -124,10 +124,9 @@ import java.util.ArrayList;
            this.add(weapon2, gbcWeapon2);
 
            weapon3 = new JLabel("");
-           imageIcon = new ImageIcon(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 3)));
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource(weaponFolderPath.concat(getNameOfWeaponCard(playerBoardView.getWeaponCardDeck(), 3))));
+           image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            weapon3.setIcon(imageIcon);
            if (playerBoardView.getWeaponCardDeck().size() < 3 || !playerBoardView.getWeaponCardDeck().get(2).isLoaded())
               weapon3.setEnabled(false);
@@ -172,15 +171,14 @@ import java.util.ArrayList;
            this.add(buttonW3, gbcButtonW3);
 
 
-           String powerUpFolderPath = "resources/powerupcards/";
+           String powerUpFolderPath = "/powerupcards/";
            String pathOfNoCard = powerUpFolderPath.concat("noCard.png");
 
            powerCard1 = new JLabel("");
            String path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 1));
-           imageIcon = new ImageIcon(path);
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource(path));
+           image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            powerCard1.setIcon(imageIcon);
            if (path.equals(pathOfNoCard))
               powerCard1.setEnabled(false);
@@ -195,10 +193,9 @@ import java.util.ArrayList;
 
            powerCard2 = new JLabel("");
            path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 2));
-           imageIcon = new ImageIcon(path);
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource(path));
+           image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            powerCard2.setIcon(imageIcon);
            if (path.equals(pathOfNoCard))
               powerCard2.setEnabled(false);
@@ -213,10 +210,9 @@ import java.util.ArrayList;
 
            powerCard3 = new JLabel("");
            path = powerUpFolderPath.concat(getNameOfPowerUpCard(playerBoardView.getPowerUpCardsDeck(), 3));
-           imageIcon = new ImageIcon(path);
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource(path));
+           image = imageIcon.getImage().getScaledInstance(widthCard, heightCard, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            powerCard3.setIcon(imageIcon);
            if (path.equals(pathOfNoCard))
               powerCard3.setEnabled(false);
@@ -278,10 +274,9 @@ import java.util.ArrayList;
            numOfBlueAmmo = getNumOfAmmo(playerBoardView.getAmmo(), ColorOfCard_Ammo.BLUE);
            blueAmmo.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
            blueAmmo.setForeground(Color.WHITE);
-           imageIcon = new ImageIcon("resources/playerboards/blueammo.png");
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource("/playerboards/blueammo.png"));
+           image = imageIcon.getImage().getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            blueAmmo.setIcon(imageIcon);
            blueAmmo.setText(space.concat(String.valueOf(numOfBlueAmmo)));
            GridBagConstraints gbcBlueAmmo = new GridBagConstraints();
@@ -293,10 +288,9 @@ import java.util.ArrayList;
            redAmmo = new JLabel();
            int numOfRedAmmo;
            numOfRedAmmo = getNumOfAmmo(mainFrame.getRemoteView().getMyPlayerBoardView().getAmmo(), ColorOfCard_Ammo.RED);
-           imageIcon = new ImageIcon("resources/playerboards/redammo.png");
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource("/playerboards/redammo.png"));
+           image = imageIcon.getImage().getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            redAmmo.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
            redAmmo.setForeground(Color.WHITE);
            redAmmo.setIcon(imageIcon);
@@ -310,10 +304,9 @@ import java.util.ArrayList;
            yellowAmmo = new JLabel();
            int numOfYellowAmmo;
            numOfYellowAmmo = getNumOfAmmo(playerBoardView.getAmmo(), ColorOfCard_Ammo.YELLOW);
-           imageIcon = new ImageIcon("resources/playerboards/yellowammo.png");
-           image = imageIcon.getImage();
-           newimg = image.getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
-           imageIcon = new ImageIcon(newimg);
+           imageIcon = new ImageIcon(mainFrame.getResource("/playerboards/yellowammo.png"));
+           image = imageIcon.getImage().getScaledInstance(widthHeightAmmo, widthHeightAmmo, java.awt.Image.SCALE_SMOOTH);
+           imageIcon = new ImageIcon(image);
            yellowAmmo.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
            yellowAmmo.setForeground(Color.WHITE);
            yellowAmmo.setIcon(imageIcon);

@@ -22,9 +22,47 @@ import java.util.ArrayList;
      PopupForChooseEffect(MainFrame mainFrame, RequestToChooseAnEffect message) {
         this.dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(false);
-        dialog.addWindowListener(new ListenerForPopupToChooseEffect(mainFrame));
+        dialog.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                //not implemented
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dialog.setVisible(false);
+                mainFrame.updatePanelOfAction();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                //not implemented
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+                //not implemented
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+                //not implemented
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+                //not implemented
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+                //not implemented
+            }
+        });
         JPanel contentPane = new JPanel(new GridBagLayout());
-        contentPane.setBorder(new EmptyBorder(50, 50, 50, 50));
+        int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
+        int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);
+        contentPane.setBorder(new EmptyBorder(topBottomBorder, leftRightBorder, topBottomBorder, leftRightBorder));
         dialog.getContentPane().add(contentPane);
 
         ServerEvent.AliasCard weaponCard = null;
@@ -40,12 +78,15 @@ import java.util.ArrayList;
                     numOfAllEffects++;
             }
         }
+        int leftInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
+        int rightInset = leftInset;
+        int bottomInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
 
         JTextArea text = new JTextArea(message.getMessageForInvolved());
         text.setEditable(false);
         text.setBackground(SystemColor.menu);
         GridBagConstraints gbcText = new GridBagConstraints();
-        gbcText.insets = new Insets(0, 20, 20, 20);
+        gbcText.insets = new Insets(0, leftInset   , bottomInset, rightInset);
         gbcText.gridx = 0;
         gbcText.gridy = 0;
         gbcText.gridwidth = numOfAllEffects;
@@ -53,14 +94,14 @@ import java.util.ArrayList;
             gbcText.gridwidth++;
         contentPane.add(text, gbcText);
 
-        ListenerForEffects listenerForEffects = new ListenerForEffects(mainFrame,weaponCard);
+        ListenerForChooseEffect listenerForEffects = new ListenerForChooseEffect(mainFrame,weaponCard, this);
          GridBagConstraints gbcEffectButton = new GridBagConstraints();
          GridBagConstraints gbcDescription = new GridBagConstraints();
          gbcEffectButton.gridy=1;
          gbcEffectButton.gridx = 0;
          gbcEffectButton.anchor = GridBagConstraints.CENTER;
-         gbcEffectButton.insets = new Insets(10, 0, 5, 10);
-         gbcDescription.insets = new Insets(5, 5, 0, 10);
+         gbcEffectButton.insets = new Insets(bottomInset/2, 0, bottomInset/4, rightInset/2);
+         gbcDescription.insets = new Insets(bottomInset/4, leftInset/4, 0, rightInset/2);
          gbcDescription.gridy = 2;
          gbcDescription.gridx = 0;
          for(int i = 0 ; i<4 ; i++){
@@ -87,7 +128,7 @@ import java.util.ArrayList;
             JButton endActionButton = new JButton("End action");
             contentPane.add(endActionButton);
             GridBagConstraints gbcEndActionButton = new GridBagConstraints();
-            gbcEndActionButton.insets = new Insets(0, 0, 5, 10);
+            gbcEndActionButton.insets = new Insets(0, 0, bottomInset/4, rightInset/2);
             gbcEndActionButton.gridx = numOfAllEffects;
             gbcEndActionButton.gridy = 1;
             endActionButton.setActionCommand("0");
@@ -102,7 +143,7 @@ import java.util.ArrayList;
 
     }
 
-     private ArrayList<JButton> getEffectButtons() {
+     ArrayList<JButton> getEffectButtons() {
         return effectButtons;
     }
 
@@ -110,70 +151,6 @@ import java.util.ArrayList;
          return dialog;
      }
 
-     private class ListenerForEffects implements ActionListener {
-        MainFrame mainFrame;
-        ServerEvent.AliasCard weaponCard;
-         ListenerForEffects(MainFrame mainFrame, ServerEvent.AliasCard weaponCard) {
-             this.mainFrame = mainFrame;
-             this.weaponCard = weaponCard;
-        }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-             int numOfEffect = Integer.parseInt(e.getActionCommand());
-             if(e.getActionCommand().equals("0") || getEffectButtons().get(numOfEffect-1).isEnabled()){
-                 RequestToUseEffect requestToUseEffect = new RequestToUseEffect("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                 requestToUseEffect.setNumOfEffect(numOfEffect);
-                 dialog.setVisible(false);
-                 mainFrame.getRemoteView().notify(requestToUseEffect);
-
-
-             }
-
-        }
-    }
-
-     private  class ListenerForPopupToChooseEffect implements WindowListener {
-         MainFrame mainFrame;
-          ListenerForPopupToChooseEffect(MainFrame mainFrame) {
-              this.mainFrame = mainFrame;
-         }
-
-         @Override
-         public void windowOpened(WindowEvent e) {
-            //not implemented
-         }
-
-         @Override
-         public void windowClosing(WindowEvent e) {
-             dialog.setVisible(false);
-             mainFrame.updatePanelOfAction();
-         }
-
-         @Override
-         public void windowClosed(WindowEvent e) {
-            //not implemented
-         }
-
-         @Override
-         public void windowIconified(WindowEvent e) {
-            //not implemented
-         }
-
-         @Override
-         public void windowDeiconified(WindowEvent e) {
-            //not implemented
-         }
-
-         @Override
-         public void windowActivated(WindowEvent e) {
-            //not implemented
-         }
-
-         @Override
-         public void windowDeactivated(WindowEvent e) {
-            //not implemented
-         }
-     }
  }
 

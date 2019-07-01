@@ -47,8 +47,8 @@ public class FrameForRequestIP {
          loggerForFrameIp.addHandler(handlerLoggerFrameIP);
          JFrame frameForRequestIP = new JFrame("Adrenaline - Request IP");
          this.frame = frameForRequestIP;
-         frame.addWindowListener(new ListenerForClosing(frame));
-         frameForRequestIP.setIconImage(Toolkit.getDefaultToolkit().getImage("resources/favicon.jpg"));
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/favicon.jpg")));
 
          Dimension dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();
          frameForRequestIP.setResizable(false);

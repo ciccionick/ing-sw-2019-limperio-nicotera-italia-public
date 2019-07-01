@@ -60,7 +60,7 @@ class KillshotTrackPanel extends JPanel {
         insetLeft = (int) (mainFrame.getFrame().getSize().getWidth() / 4.8);
         insetTop = (int) (mainFrame.getFrame().getSize().getHeight() / 21.6);
 
-        String folderPath = "resources/board/killshottrack/";
+        String folderPath = "/board/killshottrack/";
 
         skull1 = new JLabel("");
 
@@ -70,7 +70,7 @@ class KillshotTrackPanel extends JPanel {
         gbcSkull1.gridy = 0;
         gbcSkull1.insets = new Insets(insetTop, insetLeft, 0, 0);
         gbcSkull1.anchor = GridBagConstraints.WEST;
-        ImageIcon imageIcon = new ImageIcon(folderPath.concat("cell0.png"));
+        ImageIcon imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell0.png")));
         java.awt.Image image = imageIcon.getImage();
         java.awt.Image newimg = image.getScaledInstance(widthSkull * 8, heightSkull, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -82,7 +82,7 @@ class KillshotTrackPanel extends JPanel {
         gbcSkull2.gridx = 1;
         gbcSkull2.gridy = 0;
         gbcSkull2.insets = new Insets(insetTop, 0, 0, 0);
-        imageIcon = new ImageIcon(folderPath.concat("cell1.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell1.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthSkull, heightSkull, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -94,7 +94,7 @@ class KillshotTrackPanel extends JPanel {
         gbcSkull3.gridx = 2;
         gbcSkull3.gridy = 0;
         gbcSkull3.insets = new Insets(insetTop, 0, 0, 0);
-        imageIcon = new ImageIcon(folderPath.concat("cell2.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell2.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthSkull, heightSkull, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -105,13 +105,14 @@ class KillshotTrackPanel extends JPanel {
         GridBagConstraints gbcSemaphore = new GridBagConstraints();
         gbcSemaphore.gridx = 3;
         gbcSemaphore.gridy = 0;
-        gbcSemaphore.insets = new Insets(insetTop, 150, 0, 0);
+        int leftInset = (int) (mainFrame.getFrame().getWidth()/12.8);
+        gbcSemaphore.insets = new Insets(insetTop, leftInset, 0, 0);
         String path;
         if (mainFrame.getRemoteView().isMyTurn())
             path = folderPath.concat("green.png");
         else
             path = folderPath.concat("red.png");
-        imageIcon = new ImageIcon(path);
+        imageIcon = new ImageIcon(mainFrame.getResource(path));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthSkull, heightSkull, java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);

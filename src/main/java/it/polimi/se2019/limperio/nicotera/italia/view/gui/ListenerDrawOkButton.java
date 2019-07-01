@@ -6,13 +6,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class DrawOkButtonListener implements ActionListener {
+class ListenerDrawOkButton implements ActionListener {
 
     private JDialog dialogForRequestToDraw;
     private MainFrame mainFrame;
     private int numOfCardToDraw;
 
-     DrawOkButtonListener(JDialog dialogForRequestToDraw, MainFrame mainFrame, int i) {
+     ListenerDrawOkButton(JDialog dialogForRequestToDraw, MainFrame mainFrame, int i) {
         this.dialogForRequestToDraw = dialogForRequestToDraw;
         this.mainFrame = mainFrame;
         this.numOfCardToDraw = i;

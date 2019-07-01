@@ -51,7 +51,7 @@ class PopupForDamageMarks {
 
          PlayerBoardView currentPlayerBoardView = mainFrame.getLeftPanel().getPlayerBoardView();
 
-         String folderPath = "resources/playerboards/damage/";
+         String folderPath = "/playerboards/damage/";
          GridBagConstraints gbc = new GridBagConstraints();
          gbc.gridx = 0;
          gbc.gridy = 0;
@@ -71,7 +71,7 @@ class PopupForDamageMarks {
          }
          for(ColorOfFigure_Square color : listOfColors){
              JLabel damageIcon = new JLabel();
-             ImageIcon icon = new ImageIcon(folderPath.concat(color.toString().toLowerCase()).concat(".png"));
+             ImageIcon icon = new ImageIcon(mainFrame.getResource(folderPath.concat(color.toString().toLowerCase()).concat(".png")));
              Image image = icon.getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
              icon = new ImageIcon(image);
              damageIcon.setIcon(icon);

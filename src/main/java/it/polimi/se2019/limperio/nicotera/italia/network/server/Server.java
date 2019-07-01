@@ -104,27 +104,19 @@ public class Server  {
         game=Game.instanceOfGame();
         controller=new Controller(game);
         game.setController(controller);
-        File file;
-        FileReader inFile = null;
-        BufferedReader bin=null;
-        file = new File("resources/timer/timerForStartOfGame.txt");
+        BufferedReader timerReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/timer/timerForStartOfGame.txt")));
+
 
         try {
-            inFile = new FileReader(file);
-            bin = new BufferedReader(inFile);
-            delay = Long.parseLong(bin.readLine());
-
+            delay = Long.parseLong(timerReader.readLine());
             } catch (IOException e) {
                 loggerServer.log(Level.ALL, "error");
             }
         finally {
             try {
-                if(bin!=null)
-                    bin.close();
-                if(inFile!=null)
-                    inFile.close();
+                 timerReader.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                loggerServer.log(Level.ALL, "error");
             }
         }
         task = new MyTask();
@@ -180,9 +172,9 @@ public class Server  {
             timer = null;
         }
         if(listOfClient.size()==2 && gameIsStarted && !game.isGameOver()){
+            System.out.println("Disconnessione");
             controller.getRoundController().handleEndOfGame();
         }
-
     }
 
 

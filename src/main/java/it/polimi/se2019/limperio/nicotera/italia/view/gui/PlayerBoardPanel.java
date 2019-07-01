@@ -1,7 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import it.polimi.se2019.limperio.nicotera.italia.view.PlayerBoardView;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -56,19 +55,19 @@ class PlayerBoardPanel extends JPanel {
 
         switch (playerBoardView.getColorOfPlayer()){
             case BLUE:
-                folderPath = "resources/playerboards/blue/";
+                folderPath = "/playerboards/blue/";
                 break;
             case GREEN:
-                folderPath = "resources/playerboards/green/";
+                folderPath = "/playerboards/green/";
                 break;
             case GREY:
-                folderPath = "resources/playerboards/grey/";
+                folderPath = "/playerboards/grey/";
                 break;
            case PURPLE:
-                folderPath = "resources/playerboards/purple/";
+                folderPath = "/playerboards/purple/";
                 break;
             case YELLOW:
-                folderPath = "resources/playerboards/yellow/";
+                folderPath = "/playerboards/yellow/";
                 break;
             default:
                 throw new IllegalArgumentException();
@@ -85,7 +84,7 @@ class PlayerBoardPanel extends JPanel {
         String pathForAction = folderPath;
         if(playerBoardView.isFrenzyActionBar() && !playerBoardView.isFrenzyPlayerBoard())
             pathForAction = pathForAction.concat("frenzy/");
-        ImageIcon imageIcon = new ImageIcon(pathForAction.concat("cell00.png"));
+        ImageIcon imageIcon = new ImageIcon(mainFrame.getResource(pathForAction.concat("cell00.png")));
         java.awt.Image image = imageIcon.getImage();
         java.awt.Image newimg = image.getScaledInstance(widthOfFirstCell,heightOfCell*gbcCell00.gridheight,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -100,7 +99,7 @@ class PlayerBoardPanel extends JPanel {
             gbcCell01.gridwidth=7;
         else
             gbcCell01.gridwidth = 6;
-        imageIcon = new ImageIcon(folderPath.concat("cell01.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell01.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell01.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -119,7 +118,7 @@ class PlayerBoardPanel extends JPanel {
             gbcCell07.gridwidth = 6;
         }
         gbcCell07.gridy = 0;
-        imageIcon = new ImageIcon(folderPath.concat("cell07.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell07.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell07.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -131,7 +130,7 @@ class PlayerBoardPanel extends JPanel {
         gbcCell013.gridx = 13;
         gbcCell013.gridy = 0;
         gbcCell013.gridheight = 3;
-        imageIcon = new ImageIcon(folderPath.concat("cell013.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell013.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfLastCell,heightOfCell*gbcCell013.gridheight,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -143,7 +142,7 @@ class PlayerBoardPanel extends JPanel {
         gbcCell11.gridx = 1;
         gbcCell11.gridy = 1;
         gbcCell11.gridwidth = 12;
-        imageIcon = new ImageIcon(folderPath.concat("cell11.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell11.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*12,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -159,7 +158,7 @@ class PlayerBoardPanel extends JPanel {
             gbcCell21.gridwidth = 3;
         else
             gbcCell21.gridwidth = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell21.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell21.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell21.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -171,7 +170,7 @@ class PlayerBoardPanel extends JPanel {
             GridBagConstraints gbcCell23 = new GridBagConstraints();
             gbcCell23.gridx = 3;
             gbcCell23.gridy = 2;
-            imageIcon = new ImageIcon(folderPath.concat("cell23.png"));
+            imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell23.png")));
             image = imageIcon.getImage();
             newimg = image.getScaledInstance(widthOfMiddleCells, heightOfCell, java.awt.Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(newimg);
@@ -185,7 +184,7 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell24 = new GridBagConstraints();
         gbcCell24.gridx = 4;
         gbcCell24.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell24.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell24.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -198,7 +197,7 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell25 = new GridBagConstraints();
         gbcCell25.gridx = 5;
         gbcCell25.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell25.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell25.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -213,7 +212,7 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell26 = new GridBagConstraints();
         gbcCell26.gridx = 6;
         gbcCell26.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell26.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell26.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -227,7 +226,7 @@ class PlayerBoardPanel extends JPanel {
         GridBagConstraints gbcCell27 = new GridBagConstraints();
         gbcCell27.gridx = 7;
         gbcCell27.gridy = 2;
-        imageIcon = new ImageIcon(folderPath.concat("cell27.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell27.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);
@@ -242,7 +241,7 @@ class PlayerBoardPanel extends JPanel {
              GridBagConstraints gbcCell28 = new GridBagConstraints();
              gbcCell28.gridx = 8;
              gbcCell28.gridy = 2;
-             imageIcon = new ImageIcon(folderPath.concat("cell28.png"));
+             imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell28.png")));
              image = imageIcon.getImage();
              newimg = image.getScaledInstance(widthOfMiddleCells, heightOfCell, java.awt.Image.SCALE_SMOOTH);
              imageIcon = new ImageIcon(newimg);
@@ -263,7 +262,7 @@ class PlayerBoardPanel extends JPanel {
             gbcCell29.gridwidth = 5;
         else
             gbcCell29.gridwidth = 4;
-        imageIcon = new ImageIcon(folderPath.concat("cell29.png"));
+        imageIcon = new ImageIcon(mainFrame.getResource(folderPath.concat("cell29.png")));
         image = imageIcon.getImage();
         newimg = image.getScaledInstance(widthOfMiddleCells*gbcCell29.gridwidth,heightOfCell,  java.awt.Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(newimg);

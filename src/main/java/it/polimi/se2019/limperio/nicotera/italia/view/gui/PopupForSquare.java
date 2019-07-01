@@ -7,29 +7,30 @@ import java.util.ArrayList;
 
 class PopupForSquare {
 
-    JLabel labelPlayer1;
-    JLabel labelPlayer2;
-    JLabel labelPlayer3;
-    JLabel labelPlayer4;
-    JLabel labelPlayer5;
-
-
     JDialog popup = new JDialog();
     final JPanel contentPane = new JPanel();
 
 
-    void addListOfPlayersInSquare(JPanel panelForPlayers, ArrayList<String> nicknamesOfPlayersOnThisSquare, String myNickname){
-       GridBagConstraints gbcTextForPlayers = new GridBagConstraints();
+    void addListOfPlayersInSquare(JPanel panelForPlayers, ArrayList<String> nicknamesOfPlayersOnThisSquare, String myNickname, MainFrame mainFrame){
+         JLabel labelPlayer1;
+         JLabel labelPlayer2;
+         JLabel labelPlayer3;
+         JLabel labelPlayer4;
+         JLabel labelPlayer5;
+        GridBagConstraints gbcTextForPlayers = new GridBagConstraints();
        JLabel textForPlayers;
+       int topInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
+       int leftInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 5);
+
        if (nicknamesOfPlayersOnThisSquare.isEmpty()) {
           textForPlayers = new JLabel("<html> No players <br/> on this square! </html>");
-          gbcTextForPlayers.insets = new Insets(20, 0, 0, 0);
+          gbcTextForPlayers.insets = new Insets(topInset, 0, 0, 0);
           gbcTextForPlayers.gridx = 0;
           gbcTextForPlayers.gridy = 0;
        } else {
           textForPlayers = new JLabel("<html>Players on this <br/> square: </html>");
           textForPlayers.setHorizontalAlignment(SwingConstants.CENTER);
-          gbcTextForPlayers.insets = new Insets(0, 0, 10, 0);
+          gbcTextForPlayers.insets = new Insets(0, 0, topInset/2, 0);
           gbcTextForPlayers.gridx = 0;
           gbcTextForPlayers.gridy = 0;
        }
@@ -43,7 +44,7 @@ class PopupForSquare {
               labelPlayer1.setText("Me");
           else
               labelPlayer1.setText(nicknamesOfPlayersOnThisSquare.get(0));
-          gbcLabelPlayer.insets = new Insets(5, 0, 0, 0);
+          gbcLabelPlayer.insets = new Insets(leftInset, 0, 0, 0);
           gbcLabelPlayer.gridx = 0;
           gbcLabelPlayer.gridy = 1;
           labelPlayer1.setHorizontalAlignment(SwingConstants.CENTER);

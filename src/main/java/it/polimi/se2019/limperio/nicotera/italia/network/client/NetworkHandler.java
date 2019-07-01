@@ -99,6 +99,11 @@ public class NetworkHandler implements Observer<ClientEvent> {
                 remoteView.getMainFrame().showMessage(event);
             remoteView.getMapView().update((MapEvent) event);
         }
+
+        if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
+            remoteView.getMainFrame().handleRequestToDiscardPowerUpCard(event);
+        }
+
         if(event.isKillshotTrackEvent()){
             if (remoteView.getMainFrame()==null)
                 remoteView.setMyTurn(((KillshotTrackEvent)event).getNicknamePlayerOfTheTurn().equals(client.getNickname()));
@@ -119,10 +124,8 @@ public class NetworkHandler implements Observer<ClientEvent> {
         if(event.isRequestToChooseMultiplePlayers())
             remoteView.getMainFrame().handleRequestToChooseMultiplePlayers(event);
 
-        if(event.isRequestToSelectionPlayerToAttackWithTerminator()){
+        if(event.isRequestToSelectionPlayerToAttackWithTerminator())
             remoteView.getMainFrame().handleRequestToChooseAPlayer(event);
-
-        }
 
 
         if (event.isTimerOverEvent()){
@@ -135,28 +138,25 @@ public class NetworkHandler implements Observer<ClientEvent> {
             remoteView.getMainFrame().hidePopup();
             remoteView.setMyTurn(false);
             remoteView.getMainFrame().updateNorthPanel();
-
         }
 
-        if(event.isGenerationEvent()|| event.isRequestToChooseTerminatorAction()){
+        if(event.isGenerationEvent()|| event.isRequestToChooseTerminatorAction())
             remoteView.getMainFrame().showMessage(event);
-        }
+
 
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){
             remoteView.getMainFrame().showMessage(event);
             remoteView.setMyTurn(event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer()));
             remoteView.getMainFrame().updateNorthPanel();
             remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
-
         }
+
         if(event.isRequestForDrawOnePowerUpCardEvent()){
             remoteView.getMainFrame().showMessage(event);
             remoteView.setMyTurn(event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer()));
             remoteView.getMainFrame().updateNorthPanel();
         }
-        if(event.isRequestToDiscardPowerUpCardToSpawnEvent()){
-            remoteView.getMainFrame().handleRequestToDiscardPowerUpCard(event);
-        }
+
         if(event.isRequestActionEvent()){
             if (event.getNicknameInvolved().equals(remoteView.getMyPlayerBoardView().getNicknameOfPlayer())) {
                 remoteView.getMyPlayerBoardView().updateThingsPlayerCanDo((RequestActionEvent) event);
