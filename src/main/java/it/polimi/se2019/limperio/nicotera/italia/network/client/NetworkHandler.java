@@ -96,7 +96,7 @@ public class NetworkHandler implements Observer<ClientEvent> {
      */
     private void updateStateOfRemoteView(ServerEvent event) {
 
-         if(event.isADisconnection()){
+         if(event.isDisconnectionEvent() || event.isReconnectionEvent()){
              remoteView.getMainFrame().showMessage(event);
          }
         if(event.isPlayerBoardEvent()){
@@ -234,7 +234,7 @@ public class NetworkHandler implements Observer<ClientEvent> {
             remoteView.getMainFrame().showMessage(event);
             remoteView.getMyPlayerBoardView().updateWeaponCanUse((RequestToChooseWeapon) event);
             remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(event.getNicknameInvolved());
-            remoteView.getMainFrame().getRightPanel().getPanelOfActions().getActionButtonListener().disablePowerUpCards();
+            remoteView.getMainFrame().getRightPanel().getPanelOfActions().disablePowerUpCards();
 
         }
 

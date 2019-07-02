@@ -10,23 +10,23 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- *
+ * Handles the creation of the dialogs for damage and marks located on the player board panel
  */
 class PopupForDamageMarks {
     /**
-     *
+     * Dialog that is created in the constructor of the class.
      */
     private JDialog dialog;
     /**
-     *
+     * JPanel added to the content panel of the dialog.
      */
     private JPanel contentPane;
 
     /**
-     *
-     * @param mainFrame
-     * @param forDamage
-     * @param location
+     * Constructor of the class where the dialog is created.
+     * @param mainFrame Reference of main frame.
+     * @param forDamage It's true if the dialog has to be created for represent damage, false for marks.
+     * @param location The point where the dialog has to be located.
      */
      PopupForDamageMarks(MainFrame mainFrame, boolean forDamage, Point location) {
          dialog = new JDialog(mainFrame.getFrame());

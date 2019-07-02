@@ -3,16 +3,27 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Creates the panel of players in the right panel of main JFrame where a player can choose another player and see his player board.
+ * @author Pietro L'Imperio
+ */
 class PanelOfPlayers extends JPanel {
 
-
-    private JButton buttonMSelection;
+    /**
+     * The JButton useful to make enable only the JLabel of the selectable squares in the case the player has to choose a square.
+     */
+    private JButton buttonReturnToSelection;
+    /**
+     * The JButton useful to make enable all of the JLabel of the map panel during a selection of a square.
+     */
     private JButton buttonDisableSelection;
 
+    /**
+     * Constructor of the class with the creation of the JPanel
+     * @param mainFrame The reference of the main frame.
+     */
     PanelOfPlayers(MainFrame mainFrame) {
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -166,7 +177,7 @@ class PanelOfPlayers extends JPanel {
         else
            yForButtonOfMap = 5;
 
-        ButtonPBListener buttonPBListener = new ButtonPBListener(mainFrame);
+        ListenerForButtonPB buttonPBListener = new ListenerForButtonPB(mainFrame);
 
         JToggleButton buttonPB1 = new JToggleButton(" ");
 
@@ -254,18 +265,18 @@ class PanelOfPlayers extends JPanel {
         if(buttonPB5!=null)
            pbButtonGroup.add(buttonPB5);
 
-      ButtonMListener buttonMListener = new ButtonMListener(mainFrame);
+      ListenerForButtonSelectionSquare buttonMListener = new ListenerForButtonSelectionSquare(mainFrame);
 
-         buttonMSelection = new JButton("Return to selection");
-         buttonMSelection.setSelected(false);
-         buttonMSelection.setEnabled(false);
-         buttonMSelection.addActionListener(buttonMListener);
-         buttonMSelection.setActionCommand("Selection");
+         buttonReturnToSelection = new JButton("Return to selection");
+         buttonReturnToSelection.setSelected(false);
+         buttonReturnToSelection.setEnabled(false);
+         buttonReturnToSelection.addActionListener(buttonMListener);
+         buttonReturnToSelection.setActionCommand("Selection");
          GridBagConstraints gbcButtonSelection = new GridBagConstraints();
          gbcButtonSelection.insets = new Insets(insetTopForButtons, 0, 0, 0);
          gbcButtonSelection.gridx = 1;
          gbcButtonSelection.gridy = yForButtonOfMap;
-         add(buttonMSelection, gbcButtonSelection);
+         add(buttonReturnToSelection, gbcButtonSelection);
 
          buttonDisableSelection = new JButton("Return to normal view");
          buttonDisableSelection.setEnabled(mainFrame.getRemoteView().getMapView().isHasToChooseASquare());
@@ -279,66 +290,13 @@ class PanelOfPlayers extends JPanel {
 
     }
 
-      JButton getButtonMSelection() {
-        return buttonMSelection;
+      JButton getButtonReturnToSelection() {
+        return buttonReturnToSelection;
     }
 
         JButton getButtonDisableSelection() {
             return buttonDisableSelection;
         }
-
-
-
-    class ButtonPBListener implements ActionListener{
-
-        private MainFrame mainFrame;
-
-        ButtonPBListener(MainFrame mainFrame) {
-          this.mainFrame = mainFrame;
-       }
-
-       @Override
-       public void actionPerformed(ActionEvent e) {
-            if(mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks()!=null)
-                mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForMarks().setVisible(false);
-            if(mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage()!=null)
-                mainFrame.getLeftPanel().getPlayerBoardPanel().getDialogForDamage().setVisible(false);
-          mainFrame.getFrame().getContentPane().remove(mainFrame.getLeftPanel());
-          mainFrame.setLeftPanel(new LeftPanel(mainFrame, mainFrame.getRemoteView().getPlayerBoardViewOfThisPlayer(e.getActionCommand())));
-          mainFrame.getFrame().getContentPane().add(mainFrame.getLeftPanel(), BorderLayout.WEST);
-
-          mainFrame.getFrame().getContentPane().repaint();
-          mainFrame.getFrame().getContentPane().validate();
-          mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForMarks();
-          mainFrame.getLeftPanel().getPlayerBoardPanel().addDialogForDamage();
-       }
-    }
-
-    class ButtonMListener implements ActionListener {
-
-        private MainFrame mainFrame;
-
-        ButtonMListener(MainFrame mainFrame) {
-            this.mainFrame = mainFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getActionCommand().equals("Disable")) {
-                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
-                for (JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()) {
-                    label.setEnabled(true);
-                }
-                buttonMSelection.setEnabled(true);
-                buttonDisableSelection.setEnabled(false);
-            } else {
-                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(true);
-                mainFrame.updateEnableSquares(mainFrame.getRemoteView().getMapView().getReachableSquares());
-                buttonMSelection.setEnabled(false);
-                buttonDisableSelection.setEnabled(true);
-            }
-        }
-    }
 
 
 }

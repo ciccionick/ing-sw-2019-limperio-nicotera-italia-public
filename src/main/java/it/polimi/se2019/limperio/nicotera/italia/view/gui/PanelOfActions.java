@@ -1,32 +1,52 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToShootByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestTerminatorActionByPlayer;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+
+/**
+ * Handles the creation of the panel of action located in the right side in the border layout of main JFrame.
+ * Contains the button to choose the action the player wants to do.
+ * @author Pietro L'Imperio.
+ */
 public class PanelOfActions extends JPanel {
 
+    /**
+     * The reference of main frame.
+     */
     private MainFrame mainFrame;
+    /**
+     * The button to choose run action.
+     */
     private JButton buttonRun;
+    /**
+     * The button to choose catch action.
+     */
     private JButton buttonCatch;
+    /**
+     * The button to choose shoot action.
+     */
     private JButton buttonShoot;
+    /**
+     * The button to choose terminator action.
+     */
     private JButton buttonTerminator = new JButton();
+    /**
+     * The button to undo the choice already done.
+     */
     private JButton buttonCancel;
-    private ActionButtonListener actionButtonListener;
 
+
+    /**
+     * Constructor that creates the panel of action and add it to the right panel.
+     * @param mainFrame Reference of the main frame.
+     */
      PanelOfActions(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         this.setBackground(Color.DARK_GRAY);
-        actionButtonListener = new ActionButtonListener();
-
+        ListenerButtonAction actionButtonListener = new ListenerButtonAction(mainFrame);
         JLabel text = new JLabel("Choose one action:");
         text.setFont(new Font(Font.SERIF, Font.PLAIN, 20));
         text.setForeground(Color.WHITE);
@@ -115,10 +135,9 @@ public class PanelOfActions extends JPanel {
 
     }
 
-   public ActionButtonListener getActionButtonListener() {
-      return actionButtonListener;
-   }
-
+    /**
+     * Restore the buttons of the actions according with information in the player board view of the player.
+     */
    public void updateStateOfButton(){
        buttonRun.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanRun());
        buttonCatch.setEnabled(mainFrame.getRemoteView().getMyPlayerBoardView().isCanCatch());
@@ -127,55 +146,34 @@ public class PanelOfActions extends JPanel {
        buttonCancel.setEnabled(false);
     }
 
+    /**
+     * Makes not enabled all of the buttons of power up cards.
+     */
+    public void disablePowerUpCards(){
+        mainFrame.getLeftPanel().getButtonPC1().setEnabled(false);
+        mainFrame.getLeftPanel().getButtonPC2().setEnabled(false);
+        mainFrame.getLeftPanel().getButtonPC3().setEnabled(false);
+    }
 
+     JButton getButtonRun() {
+        return buttonRun;
+    }
 
-   public JButton getButtonCancel() {
+     JButton getButtonCatch() {
+        return buttonCatch;
+    }
+
+     JButton getButtonShoot() {
+        return buttonShoot;
+    }
+
+     JButton getButtonTerminator() {
+        return buttonTerminator;
+    }
+
+    public JButton getButtonCancel() {
       return buttonCancel;
    }
 
-   public class ActionButtonListener implements ActionListener{
 
-       @Override
-       public void actionPerformed(ActionEvent e) {
-          String nickname = mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer();
-          switch(e.getActionCommand()){
-             case "Run":
-                mainFrame.getRemoteView().notify(new RequestToRunByPlayer("", nickname));
-                break;
-             case "Catch":
-                mainFrame.getRemoteView().notify(new RequestToCatchByPlayer("", nickname));
-                break;
-             case "Shoot":
-                mainFrame.getRemoteView().notify(new RequestToShootByPlayer("", nickname));
-                break;
-             case "Terminator":
-                mainFrame.getRemoteView().notify(new RequestTerminatorActionByPlayer("",  mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()));
-                break;
-             case "Cancel":
-                updateStateOfButton();
-                mainFrame.getRemoteView().getMyPlayerBoardView().disableWeaponsButton();
-                mainFrame.getRemoteView().getMapView().setHasToChooseASquare(false);
-                mainFrame.updateLeftPanelForWhoIsViewing(mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
-                for(JLabel label : mainFrame.getMapPanel().getHashMapForCell().values()){
-                   label.setEnabled(true);
-                }
-                break;
-             default: throw new IllegalArgumentException();
-          }
-          if(!(e.getActionCommand().equals("Cancel"))) {
-             disablePowerUpCards();
-             buttonCatch.setEnabled(false);
-             buttonRun.setEnabled(false);
-             buttonShoot.setEnabled(false);
-             buttonTerminator.setEnabled(false);
-             buttonCancel.setEnabled(true);
-          }
-       }
-
-      public void disablePowerUpCards(){
-          mainFrame.getLeftPanel().getButtonPC1().setEnabled(false);
-          mainFrame.getLeftPanel().getButtonPC2().setEnabled(false);
-          mainFrame.getLeftPanel().getButtonPC3().setEnabled(false);
-       }
-    }
 }

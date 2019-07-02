@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardToSpawnEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
@@ -8,12 +8,32 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the choice of power up cards in two different occasion.
+ * The first one is when the player has to discard a power up card to spawn.
+ * The second one is when the player has to discard a power up card to pay.
+ */
  class ListenerForDiscardPowerUp implements  ActionListener{
-        private MainFrame mainFrame;
+    /**
+     * The reference of the main frame.
+     */
+    private MainFrame mainFrame;
+    /**
+     * The reference to the alias card representing the power up card linked with an instance of this listener.
+     */
         private ServerEvent.AliasCard card;
-        private ServerEvent event;
+    /**
+     * The event of request to discard a power up card received by server side.
+     */
+    private ServerEvent event;
+    /**
+     * The reference of the class where the dialog where happens the choice is created.
+     */
         private PopupForDiscardPowerUp popup;
 
+    /**
+     * The constructor where class fields are initialized.
+     */
         ListenerForDiscardPowerUp(MainFrame mainFrame, ServerEvent.AliasCard aliasCard, ServerEvent receivedEvent, PopupForDiscardPowerUp popup) {
             this.mainFrame = mainFrame;
             this.card = aliasCard;
@@ -21,7 +41,10 @@ import java.awt.event.ActionListener;
             this.popup = popup;
         }
 
-        @Override
+    /**
+     * Creates an event between RequestToDiscardPowerUpCardToSpawnEvent and RequestToDiscardPowerUpCardToPay calling the notify of the remote view.
+     */
+    @Override
         public void actionPerformed(ActionEvent e) {
             if(event.isRequestToDiscardPowerUpCardToSpawnEvent()) {
                 DiscardPowerUpCardToSpawnEvent newEvent = new DiscardPowerUpCardToSpawnEvent("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
@@ -30,7 +53,7 @@ import java.awt.event.ActionListener;
                 mainFrame.getRemoteView().notify(newEvent);
             }
             if(event.isRequestToDiscardPowerUpCardToPay()) {
-                DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+                DiscardPowerUpCard newEvent = new DiscardPowerUpCard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 newEvent.setToCatch(((RequestToDiscardPowerUpCard)event).isToCatch());
                 newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCard)event).isToPayAnEffect());
                 newEvent.setToReload(((RequestToDiscardPowerUpCard)event).isToReload());

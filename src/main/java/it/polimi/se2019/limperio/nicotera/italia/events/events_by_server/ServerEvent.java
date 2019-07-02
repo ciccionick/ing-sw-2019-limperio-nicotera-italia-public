@@ -61,7 +61,8 @@ public class ServerEvent implements Serializable {
     private boolean isRequestSelectionWeaponToReload = false;
     private boolean isRequestToChooseMultiplePlayers = false;
     private boolean isFinalUpdate = false;
-    private boolean isADisconnection = false;
+    private boolean isDisconnectionEvent = false;
+    private boolean isReconnectionEvent = false;
 
 
     private int numOfAction;
@@ -252,6 +253,14 @@ public class ServerEvent implements Serializable {
         isRequestForDrawTwoPowerUpCardsEvent = drawTwoPowerUpCard;
     }
 
+    public boolean isReconnectionEvent() {
+        return isReconnectionEvent;
+    }
+
+    public void setReconnectionEvent(boolean reconnectionEvent) {
+        isReconnectionEvent = reconnectionEvent;
+    }
+
     public boolean isRequestToDiscardPowerUpCardToSpawnEvent() {
         return isRequestToDiscardPowerUpCardToSpawnEvent;
     }
@@ -319,12 +328,12 @@ public class ServerEvent implements Serializable {
         isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
     }
 
-    public boolean isADisconnection() {
-        return isADisconnection;
+    public boolean isDisconnectionEvent() {
+        return isDisconnectionEvent;
     }
 
-    public void setADisconnection(boolean ADisconnection) {
-        isADisconnection = ADisconnection;
+    public void setDisconnectionEvent(boolean disconnectionEvent) {
+        isDisconnectionEvent = disconnectionEvent;
     }
 
     /**

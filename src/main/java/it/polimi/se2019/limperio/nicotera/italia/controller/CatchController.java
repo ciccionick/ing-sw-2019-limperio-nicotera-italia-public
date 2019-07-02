@@ -313,7 +313,7 @@ class CatchController {
         }
     }
 
-     void handleRequestToDiscardPowerUpCardAsAmmo(DiscardPowerUpCardAsAmmo event){
+     void handleRequestToDiscardPowerUpCardAsAmmo(DiscardPowerUpCard event){
         powerUpCardsToDiscard.add(findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(event.getNickname())));
         sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
     }

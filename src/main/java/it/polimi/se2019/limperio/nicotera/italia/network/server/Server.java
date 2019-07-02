@@ -69,7 +69,7 @@ public class Server  {
     /**
      * It's true if the game is started, false otherwise
      */
-    private boolean gameIsStarted = false;
+    private boolean gameStarted = false;
     /**
      * It's true if the first player decides to play in terminator mode, false otherwise. False for default
      */
@@ -86,6 +86,11 @@ public class Server  {
      * The handler of the logger.
      */
     private static Handler handlerLoggerServer = new ConsoleHandler();
+
+    /**
+     * The color chosen by the first client connected.
+     */
+    private String colorOfFirstPlayer;
 
 
 
@@ -134,7 +139,6 @@ public class Server  {
 
         while (true) {
             try {
-
                 if (listOfColor.size() == 5) {
                     if (timer != null)
                         timer.cancel();
@@ -142,7 +146,7 @@ public class Server  {
                     startGame();
                     break;
                 }
-                if (gameIsStarted)
+                if (gameStarted)
                     break;
                 Socket client = serverSocket.accept();
                 listOfClient.add(client);
@@ -171,13 +175,11 @@ public class Server  {
             listOfClient.remove(client);
         }
 
-        if(listOfClient.size()==2 && timer!=null && !gameIsStarted){
+        if(listOfClient.size()==2 && timer!=null && !gameStarted){
             timer.cancel();
             timer = null;
         }
-        if(listOfClient.size()==2 && gameIsStarted && !game.isGameOver()){
-            controller.getRoundController().handleEndOfGame(true);
-        }
+
     }
 
 
@@ -187,7 +189,11 @@ public class Server  {
      * @throws IOException if there will be problems with the reconnection.
      */
     private void startGame() throws IOException {
-        gameIsStarted = true;
+        if(timer!=null){
+            timer.cancel();
+            timer=null;
+        }
+        gameStarted = true;
         for (int i = 0; i < listOfNickname.size(); i++) {
             game.createPlayer(listOfNickname.get(i), i == 0, i + 1, listOfColor.get(i).toUpperCase());
         }
@@ -204,10 +210,26 @@ public class Server  {
             virtualView.setTerminatorMode(game.isTerminatorModeActive());
             virtualView.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
         }
-        gameIsStarted = true;
+        gameStarted = true;
+        int timesOfReconnection = 0;
         while (serverSocket.isBound()) {
+            if(timesOfReconnection==0) {
+                Timer timerForReconnection = new Timer();
+                timerForReconnection.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            new Socket(InetAddress.getLocalHost().getHostAddress(), 4000);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 500);
+            }
             Socket client = serverSocket.accept();
-            handleReconnectionClient(client);
+            if(timesOfReconnection>0)
+             handleReconnectionClient(client);
+            timesOfReconnection++;
         }
     }
 
@@ -282,6 +304,10 @@ public class Server  {
         this.terminatorMode = terminatoreMode;
     }
 
+    void closeProcess(){
+        System.exit(0);
+    }
+
 
     synchronized void addNickname(String newNickname){
         listOfNickname.add(newNickname);
@@ -303,12 +329,20 @@ public class Server  {
         this.anticipatedFrenzy = anticipatedFrenzy;
     }
 
-    boolean isGameIsStarted() {
-        return gameIsStarted;
+    boolean isGameStarted() {
+        return gameStarted;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public String getColorOfFirstPlayer() {
+        return colorOfFirstPlayer;
+    }
+
+    public void setColorOfFirstPlayer(String colorOfFirstPlayer) {
+        this.colorOfFirstPlayer = colorOfFirstPlayer;
     }
 
     /**
@@ -324,10 +358,10 @@ public class Server  {
          */
         private Handler handlerLoggerTimerTaskServer = new ConsoleHandler();
 
-        @Override
         /**
          * Calls the start of the game after the delay.
          */
+        @Override
         public void run() {
             loggerForTimerTaskInServer.addHandler(handlerLoggerTimerTaskServer);
             try {
@@ -335,13 +369,10 @@ public class Server  {
                     startGame();
                 else {
                     int numOfClient = listOfClient.size();
-                    while(numOfClient > listOfColor.size()){
-                        listOfClient.get(numOfClient-1).close();
-                        listOfVirtualView.get(numOfClient-1).handleDisconnection();
-                        if(listOfNickname.size()>listOfColor.size())
-                            listOfNickname.remove(numOfClient-1);
-                        numOfClient--;
-                    }
+                    for(int i = 0; i<numOfClient; i++) {
+                        if(!listOfVirtualView.get(i).isColorsAdded())
+                            listOfVirtualView.get(i).handleDisconnection();
+                        }
                     startGame();
                 }
             } catch (IOException e) {

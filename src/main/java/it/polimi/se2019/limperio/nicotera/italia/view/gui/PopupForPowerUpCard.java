@@ -4,14 +4,27 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Handles the creation of the dialog that show information about a power up card.
+ * @author Pietro L'Imperio
+ */
  class PopupForPowerUpCard {
 
+    /**
+     * Dialog that is created in the constructor.
+     */
     private JDialog popupForPC;
 
+    /**
+     * Constructor that creates the dialog.
+     * @param mainFrame Reference of main frame.
+     * @param numOfCard The number that represent the position of the card in the deck.
+     */
      PopupForPowerUpCard(MainFrame mainFrame, int numOfCard) {
          JPanel contentPane = new JPanel(new GridBagLayout());
          popupForPC = new JDialog(mainFrame.getFrame());
          popupForPC.setUndecorated(true);
+         popupForPC.setAutoRequestFocus(true);
          popupForPC.getContentPane().setLayout(new BorderLayout());
          int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
          int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10);

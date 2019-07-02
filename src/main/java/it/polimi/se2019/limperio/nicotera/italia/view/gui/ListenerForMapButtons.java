@@ -6,14 +6,27 @@ import it.polimi.se2019.limperio.nicotera.italia.view.InitializationView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener of the buttons concerning the choice of the type of map in the initialization phase.
+ * @author Pietro L'Imperio
+ */
 public class ListenerForMapButtons implements ActionListener {
 
+    /**
+     * The reference of the initialization view.
+     */
     private InitializationView initializationView;
 
+    /**
+     * The constructor that initialize the class field.
+     */
     public ListenerForMapButtons(InitializationView initializationView) {
         this.initializationView = initializationView;
     }
 
+    /**
+     * Creates an event with the information of the map chosen by the first player and sends it towards the network.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 

@@ -300,7 +300,7 @@ public class TestCatchController{
     {
         PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(3);
         game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
-        DiscardPowerUpCardAsAmmo event= new DiscardPowerUpCardAsAmmo(" ", game.getPlayers().get(0).getNickname());
+        DiscardPowerUpCard event= new DiscardPowerUpCard(" ", game.getPlayers().get(0).getNickname());
         event.setColorOfCard(ColorOfCard_Ammo.BLUE);
         event.setNameOfPowerUpCard("Targeting scope");
         catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);
@@ -342,7 +342,7 @@ public class TestCatchController{
        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(4));
        ArrayList<PowerUpCard> getpowerUpCardsToDiscard= catchController.getpowerUpCardsToDiscard();
        int x= getpowerUpCardsToDiscard.size();
-       DiscardPowerUpCardAsAmmo event= new DiscardPowerUpCardAsAmmo("", game.getPlayers().get(0).getNickname());
+       DiscardPowerUpCard event= new DiscardPowerUpCard("", game.getPlayers().get(0).getNickname());
        event.setNameOfPowerUpCard("Teleporter");
        event.setColorOfCard(ColorOfCard_Ammo.YELLOW);
        catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);

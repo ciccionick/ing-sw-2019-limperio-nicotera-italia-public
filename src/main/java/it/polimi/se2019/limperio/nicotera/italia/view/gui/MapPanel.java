@@ -6,27 +6,78 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * The central panel in the border layout of the main JFrame.
+ * @author Pietro L'Imperio.
+ */
 class MapPanel extends JPanel {
 
+    /**
+     * The reference with main frame
+     */
     private transient  MainFrame mainFrame;
+    /**
+     * The JLabel representing the cell with row 0 and column 0 of the matrix of squares.
+     */
     private JLabel cell00;
+    /**
+     * The JLabel representing the cell with row 0 and column 1 of the matrix of squares.
+     */
     private JLabel cell01;
+    /**
+     * The JLabel representing the cell with row 0 and column 2 of the matrix of squares.
+     */
     private JLabel cell02;
+    /**
+     * The JLabel representing the cell with row 0 and column 3 of the matrix of squares.
+     */
     private JLabel cell03;
+    /**
+     * The JLabel representing the cell with row 1 and column 0 of the matrix of squares.
+     */
     private JLabel cell10;
+    /**
+     * The JLabel representing the cell with row 1 and column 1 of the matrix of squares.
+     */
     private JLabel cell11;
+    /**
+     * The JLabel representing the cell with row 1 and column 2 of the matrix of squares.
+     */
     private JLabel cell12;
+    /**
+     * The JLabel representing the cell with row 1 and column 3 of the matrix of squares.
+     */
     private JLabel cell13;
+    /**
+     * The JLabel representing the cell with row 2 and column 0 of the matrix of squares.
+     */
     private JLabel cell20;
+    /**
+     * The JLabel representing the cell with row 2 and column 1 of the matrix of squares.
+     */
     private JLabel cell21;
+    /**
+     * The JLabel representing the cell with row 2 and column 2 of the matrix of squares.
+     */
     private JLabel cell22;
+    /**
+     * The JLabel representing the cell with row 2 and column 3 of the matrix of squares.
+     */
     private JLabel cell23;
+    /**
+     * The list of dialogs that represents the figure of players in the squares.
+     */
     private ArrayList<JDialog> dialogForFigure = new ArrayList<>();
+    /**
+     * Tha hash map that store the correspondence between the name of the variable and the JLabel.
+     */
     private HashMap<String, JLabel> hashMapForCell = new HashMap<>();
 
 
-
-
+    /**
+     * Constructor of map panel that creates the panel adding the JLabel of the squares in a GridBag layout.
+     * @param mainFrame The reference of the main frame.
+     */
      MapPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         GridBagLayout layout = new GridBagLayout();
@@ -34,7 +85,7 @@ class MapPanel extends JPanel {
         this.setBackground(Color.DARK_GRAY);
         int dim;
         if(mainFrame.getFrame().getSize().getWidth()/mainFrame.getFrame().getSize().getHeight()<1.80)
-            dim = (int) ((int) mainFrame.getFrame().getSize().getWidth()/9);
+            dim = ((int) mainFrame.getFrame().getSize().getWidth()/9);
         else
             dim = (int) (mainFrame.getFrame().getSize().getHeight()/5);
 
@@ -192,6 +243,9 @@ class MapPanel extends JPanel {
      }
 
 
+    /**
+     * Adds for each JLabel a listener of square.
+     */
     private void addMouseListenerToCells() {
       cell00.addMouseListener(new ListenerOfSquare(0, 0, mainFrame,this));
       cell01.addMouseListener(new ListenerOfSquare(0, 1, mainFrame,this));
@@ -208,6 +262,9 @@ class MapPanel extends JPanel {
 
    }
 
+    /**
+     * Creates the hash map for correspondence between the name of the JLabel and the name of the variables.
+     */
    private void createHashMap(){
          hashMapForCell.put("cell00", cell00);
          hashMapForCell.put("cell01", cell01);
@@ -223,23 +280,23 @@ class MapPanel extends JPanel {
          hashMapForCell.put("cell23", cell23);
       }
 
-    HashMap<String, JLabel> getHashMapForCell() {
-      return hashMapForCell;
-   }
-
-     void updateEnableSquares(ArrayList<Square> squaresReachableWithRunAction) {
+    /**
+     * Makes enable only the JLabels of the squares contained  in the list of selectable squares.
+     * @param selectableSquares The list of selectable squares.
+     */
+     void updateEnableSquares(ArrayList<Square> selectableSquares) {
          for(JLabel label : hashMapForCell.values()){
              label.setEnabled(false);
          }
-         for(Square square : squaresReachableWithRunAction){
+         for(Square square : selectableSquares){
              hashMapForCell.get("cell".concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()))).setEnabled(true);
          }
     }
 
-     ArrayList<JDialog> getDialogForFigure() {
-        return dialogForFigure;
-    }
-
+    /**
+     * Creates the dialog for each figure of player and put them in the right place on the map.
+     * @param mainFrame The reference of the main frame.
+     */
     void addFigureOnSquare(MainFrame mainFrame) {
          ArrayList<Square> listOfSquares = mainFrame.getRemoteView().getMapView().getListOfSquareAsArrayList();
         for(JDialog dialog : dialogForFigure){
@@ -293,5 +350,13 @@ class MapPanel extends JPanel {
                  dialog.setVisible(true);
              }
          }
+    }
+
+    ArrayList<JDialog> getDialogForFigure() {
+        return dialogForFigure;
+    }
+
+    HashMap<String, JLabel> getHashMapForCell() {
+        return hashMapForCell;
     }
 }

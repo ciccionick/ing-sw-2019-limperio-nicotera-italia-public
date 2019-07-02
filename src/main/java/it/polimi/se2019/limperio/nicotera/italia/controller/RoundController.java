@@ -58,19 +58,35 @@ public class RoundController {
      }
 
       void randomSpawn(Player player){
-         PowerUpCard powerUpCardToSpawn1 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
-         PowerUpCard powerUpCardToSpawn2 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(1);
-         game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(1));
-         Square square = controller.getPowerUpController().findSpawnSquareWithThisColor(powerUpCardToSpawn2.getColor());
-         player.drawPowerUpCard(powerUpCardToSpawn1);
-         powerUpCardToSpawn1.setOwnerOfCard(player);
-         powerUpCardToSpawn1.setInTheDeckOfSomePlayer(true);
+        Square square;
+        if(player.getPlayerBoard().getPowerUpCardsOwned().isEmpty()&&game.getRound()==1) {
+            PowerUpCard powerUpCardToSpawn1 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
+            PowerUpCard powerUpCardToSpawn2 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(1);
+            game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(1));
+             square = controller.getPowerUpController().findSpawnSquareWithThisColor(powerUpCardToSpawn2.getColor());
+            player.drawPowerUpCard(powerUpCardToSpawn1);
+            powerUpCardToSpawn1.setOwnerOfCard(player);
+            powerUpCardToSpawn1.setInTheDeckOfSomePlayer(true);
+        }
+        else if(game.getRound()==1 && player.getPlayerBoard().getPowerUpCardsOwned().size()==2){
+             square = controller.getPowerUpController().findSpawnSquareWithThisColor(player.getPlayerBoard().getPowerUpCardsOwned().get(1).getColor());
+             player.getPlayerBoard().getPowerUpCardsOwned().get(1).setInTheDeckOfSomePlayer(false);
+            player.getPlayerBoard().getPowerUpCardsOwned().get(1).setOwnerOfCard(null);
+            player.getPlayerBoard().getPowerUpCardsOwned().remove(1);
+        }
+        else
+            square = game.getBoard().getMap().getMatrixOfSquares()[1][0];
          player.setPositionOnTheMap(square);
          player.setDead(false);
          player.setHasToBeGenerated(false);
+         PlayerBoardEvent pbEvent = new PlayerBoardEvent();
+         pbEvent.setNicknameInvolved(player.getNickname());
+         pbEvent.setNicknames(game.getListOfNickname());
+         pbEvent.setPlayerBoard(player.getPlayerBoard());
+         pbEvent.setMessageForOthers(player.getNickname() + " has been generated in " + square.getColor().toString() + " spawn square");
+         game.notify(pbEvent);
          MapEvent mapEvent = new MapEvent();
          mapEvent.setNicknames(game.getListOfNickname());
-         mapEvent.setMessageForOthers(player.getNickname() + "has been generated in" + square.getColor().toString() + "spawn square");
          mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
          game.notify(mapEvent);
      }

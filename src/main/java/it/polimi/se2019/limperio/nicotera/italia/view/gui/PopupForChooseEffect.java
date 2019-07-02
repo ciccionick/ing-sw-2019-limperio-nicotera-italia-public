@@ -8,13 +8,27 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+/**
+ * Handles the creation of the dialog to let the player choose an effect of the weapon already chosen.
+ * @author Pietro L'Imperio
+ */
  class PopupForChooseEffect {
 
+    /**
+     * The dialog that is created in the constructor.
+     */
     private JDialog dialog;
+    /**
+     * The list of buttons representing the different effects.
+     */
     private ArrayList<JButton> effectButtons = new ArrayList<>();
 
 
-
+    /**
+     * Constructor of the class that create the dialog to choose the effects.
+     * @param mainFrame Reference of the main frame.
+     * @param message The message received by the server.
+     */
      PopupForChooseEffect(MainFrame mainFrame, RequestToChooseAnEffect message) {
         this.dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(false);
@@ -24,6 +38,7 @@ import java.util.ArrayList;
                 dialog.setVisible(false);
                 mainFrame.updatePanelOfAction();
             }});
+        dialog.setAutoRequestFocus(true);
         JPanel contentPane = new JPanel(new GridBagLayout());
         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
         int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);
@@ -43,15 +58,14 @@ import java.util.ArrayList;
                     numOfAllEffects++;
             }
         }
-        int leftInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
-        int rightInset = leftInset;
+        int leftRightInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);
         int bottomInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
 
         JTextArea text = new JTextArea(message.getMessageForInvolved());
         text.setEditable(false);
         text.setBackground(SystemColor.menu);
         GridBagConstraints gbcText = new GridBagConstraints();
-        gbcText.insets = new Insets(0, leftInset   , bottomInset, rightInset);
+        gbcText.insets = new Insets(0, leftRightInset   , bottomInset, leftRightInset);
         gbcText.gridx = 0;
         gbcText.gridy = 0;
         gbcText.gridwidth = numOfAllEffects;
@@ -59,14 +73,14 @@ import java.util.ArrayList;
             gbcText.gridwidth++;
         contentPane.add(text, gbcText);
 
-        ListenerForChooseEffect listenerForEffects = new ListenerForChooseEffect(mainFrame,weaponCard, this);
+        ListenerForChooseEffect listenerForEffects = new ListenerForChooseEffect(mainFrame, this);
          GridBagConstraints gbcEffectButton = new GridBagConstraints();
          GridBagConstraints gbcDescription = new GridBagConstraints();
          gbcEffectButton.gridy=1;
          gbcEffectButton.gridx = 0;
          gbcEffectButton.anchor = GridBagConstraints.CENTER;
-         gbcEffectButton.insets = new Insets(bottomInset/2, 0, bottomInset/4, rightInset/2);
-         gbcDescription.insets = new Insets(bottomInset/4, leftInset/4, 0, rightInset/2);
+         gbcEffectButton.insets = new Insets(bottomInset/2, 0, bottomInset/4, leftRightInset/2);
+         gbcDescription.insets = new Insets(bottomInset/4, leftRightInset/4, 0, leftRightInset/2);
          gbcDescription.gridy = 2;
          gbcDescription.gridx = 0;
          for(int i = 0 ; i<4 ; i++){
@@ -87,20 +101,24 @@ import java.util.ArrayList;
                 gbcEffectButton.gridx++;
                 gbcDescription.gridx++;
             }
+            else{
+                JButton button = new JButton();
+                button.setEnabled(false);
+                effectButtons.add(button);
+            }
         }
 
         if(message.isOneEffectAlreadyChosen()){
             JButton endActionButton = new JButton("End action");
             contentPane.add(endActionButton);
             GridBagConstraints gbcEndActionButton = new GridBagConstraints();
-            gbcEndActionButton.insets = new Insets(0, 0, bottomInset/4, rightInset/2);
+            gbcEndActionButton.insets = new Insets(0, 0, bottomInset/4, leftRightInset/2);
             gbcEndActionButton.gridx = numOfAllEffects;
             gbcEndActionButton.gridy = 1;
             endActionButton.setActionCommand("0");
             endActionButton.addActionListener(listenerForEffects);
             contentPane.add (endActionButton, gbcEndActionButton);
         }
-
 
         dialog.pack();
         dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,

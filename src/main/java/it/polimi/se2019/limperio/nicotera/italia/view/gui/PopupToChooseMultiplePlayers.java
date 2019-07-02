@@ -3,22 +3,38 @@ package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionMultiplePlayers;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseMultiplePlayers;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Handles the creation of a dialog to let the player choose multiple players.
+ * @author Pietro L'Imperio.
+ */
 class PopupToChooseMultiplePlayers {
+    /**
+     * Dialog created in the constructor.
+     */
     private JDialog dialog;
+    /**
+     * The list of check box to choose players.
+     */
     private ArrayList<JCheckBox> listOfCheckBox = new ArrayList<>();
+    /**
+     * The list of nicknames of the players chosen through the check boxes.
+     */
     private ArrayList<String> selectedNames = new ArrayList<>();
 
+    /**
+     * Constructor where the dialog is created.
+     * @param receivedEvent Event received by server.
+     * @param mainFrame Reference of main frame.
+     */
      PopupToChooseMultiplePlayers(ServerEvent receivedEvent, MainFrame mainFrame) {
          dialog = new JDialog(mainFrame.getFrame());
          dialog.setUndecorated(true);
+         dialog.setAutoRequestFocus(true);
          JPanel contentPanel = new JPanel(new GridBagLayout());
          dialog.getContentPane().add(contentPanel);
          int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
@@ -41,7 +57,7 @@ class PopupToChooseMultiplePlayers {
 
 
 
-         ListenerForCheckBoxPlayers listenerForCheckBoxPlayers = new ListenerForCheckBoxPlayers(((RequestToChooseMultiplePlayers)receivedEvent).getNumOfMaxPlayersToChoose());
+         ListenerForCheckBoxPlayers listenerForCheckBoxPlayers = new ListenerForCheckBoxPlayers(((RequestToChooseMultiplePlayers)receivedEvent).getNumOfMaxPlayersToChoose(),this);
 
          for(String nickname : namesOfPlayers){
              JCheckBox checkBox = new JCheckBox(nickname);
@@ -53,10 +69,14 @@ class PopupToChooseMultiplePlayers {
              contentPanel.add(checkBox,gbc);
          }
 
-         ListenerForConfirmButton listenerForConfirmButton = new ListenerForConfirmButton(receivedEvent,mainFrame);
          JButton button = new JButton("Confirm");
          button.setActionCommand(button.getText());
-         button.addActionListener(listenerForConfirmButton);
+         button.addActionListener(e -> {
+             SelectionMultiplePlayers selectionMultiplePlayers = new SelectionMultiplePlayers("", receivedEvent.getNicknameInvolved());
+             selectionMultiplePlayers.setNamesOfPlayers(selectedNames);
+             mainFrame.getRemoteView().notify(selectionMultiplePlayers);
+             dialog.setVisible(false);
+         });
          gbc.gridy++;
          contentPanel.add(button,gbc);
 
@@ -64,54 +84,13 @@ class PopupToChooseMultiplePlayers {
          dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,
                  (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);
          dialog.setVisible(true);
-
-
      }
 
-    private class ListenerForCheckBoxPlayers implements ActionListener {
-        private int numOfButtonsSelected = 0;
-        private int namOfMaxCheckBoxSelectable;
-
-        ListenerForCheckBoxPlayers(int numOfMaxCheckBoxSelectionable) {
-            this.namOfMaxCheckBoxSelectable = numOfMaxCheckBoxSelectionable;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (numOfButtonsSelected == namOfMaxCheckBoxSelectable) {
-                for (JCheckBox checkBox : listOfCheckBox) {
-                    if (checkBox.isSelected() && !checkBox.getActionCommand().equals(e.getActionCommand())) {
-                        checkBox.setSelected(false);
-                        selectedNames.add(e.getActionCommand());
-                        selectedNames.remove(checkBox.getActionCommand());
-                        break;
-                    }
-                }
-            } else {
-                selectedNames.add(e.getActionCommand());
-                numOfButtonsSelected++;
-            }
-        }
+     ArrayList<JCheckBox> getListOfCheckBox() {
+        return listOfCheckBox;
     }
 
-
-
-    private class ListenerForConfirmButton implements ActionListener{
-
-         private ServerEvent serverEvent;
-         private MainFrame mainFrame;
-
-         ListenerForConfirmButton(ServerEvent receivedEvent, MainFrame mainFrame) {
-            this.serverEvent = receivedEvent;
-            this.mainFrame = mainFrame;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SelectionMultiplePlayers selectionMultiplePlayers = new SelectionMultiplePlayers("", serverEvent.getNicknameInvolved());
-            selectionMultiplePlayers.setNamesOfPlayers(selectedNames);
-            mainFrame.getRemoteView().notify(selectionMultiplePlayers);
-            dialog.setVisible(false);
-        }
+     ArrayList<String> getSelectedNames() {
+        return selectedNames;
     }
 }

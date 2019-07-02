@@ -304,16 +304,16 @@ public class Controller implements Observer<ClientEvent> {
 
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
-         ServerEvent disconnection = new ServerEvent();
-         disconnection.setADisconnection(true);
-         disconnection.setMessageForOthers("The player" + nicknameOfPlayerDisconnected + "has disconnected its game");
-         ArrayList<String> playersInvolved = new ArrayList<>(game.getListOfNickname());
-         playersInvolved.remove(nicknameOfPlayerDisconnected);
-         disconnection.setNicknames(playersInvolved);
-         game.notify(disconnection);
+         ServerEvent disconnectionEvent = new ServerEvent();
+         disconnectionEvent.setDisconnectionEvent(true);
+         disconnectionEvent.setMessageForOthers(nicknameOfPlayerDisconnected + " is not with us anymore. \nLet's pray for him!");
+         game.getListOfNickname().remove(nicknameOfPlayerDisconnected);
+         disconnectionEvent.setNicknameInvolved(nicknameOfPlayerDisconnected);
+         disconnectionEvent.setNicknames(game.getListOfNickname());
+         game.notify(disconnectionEvent);
          player.setConnected(false);
         if(isTheTurnOfThisPlayer(nicknameOfPlayerDisconnected)) {
-             game.setNumOfActionOfTheTurn(game.getNumOfMaxActionForTurn());//setto max num di azioni così aggiorno il turno con handleTheEndOFAction
+             game.setNumOfActionOfTheTurn(game.getNumOfMaxActionForTurn());
              if(player.getPositionOnTheMap() == null)
                 getRoundController().randomSpawn(player);
              handleTheEndOfAnAction(false);
@@ -326,8 +326,19 @@ public class Controller implements Observer<ClientEvent> {
 
     public void handleReconnection(String nicknameOfPlayer) {
          findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
-
-    }
+         ServerEvent reconnectionEvent = new ServerEvent();
+         reconnectionEvent.setReconnectionEvent(true);
+         reconnectionEvent.setNicknames(game.getListOfNickname());
+         reconnectionEvent.setNicknameInvolved(nicknameOfPlayer);
+         reconnectionEvent.setMessageForInvolved("You are in again, let's be ready for the battle!");
+         reconnectionEvent.setMessageForOthers(nicknameOfPlayer + " is up again!");
+         game.notify(reconnectionEvent);
+         game.setListOfNickname();
+         for(Player player : game.getPlayers()){
+             if(!player.isConnected())
+                 game.getListOfNickname().remove(player.getNickname());
+         }
+      }
 
     /**
      * <p>
@@ -340,7 +351,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCardAsAmmo)message).isToTagback())) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCard)message).isToTagback())) {
             if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
@@ -424,16 +435,16 @@ public class Controller implements Observer<ClientEvent> {
                 shootController.handleRequestToUseEffect((RequestToUseEffect) message);
 
             if(message.isDiscardPowerUpCardAsAmmo()) {
-                if(((DiscardPowerUpCardAsAmmo)message).isToCatch())
-                    catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCardAsAmmo) message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToPayAnEffect())
+                if(((DiscardPowerUpCard)message).isToCatch())
+                    catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCard) message);
+                if(((DiscardPowerUpCard)message).isToPayAnEffect())
                     shootController.handleDiscardPowerUpToPayAnEffect(message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToTargeting())
-                    shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCardAsAmmo) message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToTagback())
-                    shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCardAsAmmo) message);
-                if(((DiscardPowerUpCardAsAmmo)message).isToReload())
-                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCardAsAmmo) message);
+                if(((DiscardPowerUpCard)message).isToTargeting())
+                    shootController.handleDiscardPowerUpToUseTargeting((DiscardPowerUpCard) message);
+                if(((DiscardPowerUpCard)message).isToTagback())
+                    shootController.handleRequestToUseTagbackGranade((DiscardPowerUpCard) message);
+                if(((DiscardPowerUpCard)message).isToReload())
+                    reloadController.handleDiscardOfPowerUpCard((DiscardPowerUpCard) message);
 
             }
 

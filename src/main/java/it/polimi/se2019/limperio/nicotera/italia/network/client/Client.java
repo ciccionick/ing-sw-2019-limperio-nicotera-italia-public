@@ -69,25 +69,23 @@ public class Client {
     void handleConnectionWithServer() throws IOException {
 
         try {
-            this.csocket = new Socket(ipAddress, 4000);
+            this.csocket = new Socket("localhost", 4000);
         }
         catch (SocketException e){
             System.exit(0);
         }
         this.out = new ObjectOutputStream(this.csocket.getOutputStream());
         this.in = new ObjectInputStream(this.csocket.getInputStream());
-        Timer timer;
-        timer = new Timer();
-        timer.schedule(new TaskForStart(), 1000);
-        //waitForMessagesOfInitialization();
-
+        //Timer timer;
+        //timer = new Timer();
+        //timer.schedule(new TaskForStart(), 1000);
+        waitForMessagesOfInitialization();
     }
 
     /**
      * Handles the phase of initialization waiting for messages by virtual view.
      */
      private void waitForMessagesOfInitialization(){
-
             while(true) {
                 RequestInitializationEvent req = null;
                     try {

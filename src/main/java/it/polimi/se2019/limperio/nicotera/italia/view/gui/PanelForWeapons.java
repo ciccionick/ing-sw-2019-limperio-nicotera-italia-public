@@ -9,20 +9,44 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Handles the creation of a panel that shows weapons. This panel is used in the popup for spawn square, in the popup to grab or discard weapon and in the popup to reload weapons.
+ * @author Pietro L'Imperio.
+ */
 class PanelForWeapons {
+    /**
+     * The JPanel where weapons are shown.
+     */
     private JPanel contentPane = new JPanel();
-    private MainFrame mainFrame;
+    /**
+     * The JLabel that represents the first of the maximum three weapons.
+     */
     private JLabel weapon1;
+    /**
+     * The JLabel that represents the second of the maximum three weapons.
+     */
     private JLabel weapon2;
+    /**
+     * The JLabel that represents the third of the maximum three weapons.
+     */
     private JLabel weapon3;
+    /**
+     * The event received by the server.
+     */
     private ServerEvent event;
 
-
+    /**
+     * The constructor of the class where the content panel is created.
+     * @param mainFrame The reference of the main frame.
+     * @param listOfWeapons The list of weapons to show.
+     * @param receivedEvent The event received by server
+     * @param popupForChooseW The popup that contains the dialog that add to his contentPane the panel created in this constructor.
+     */
      PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, ServerEvent receivedEvent, PopupForChooseWeaponCard popupForChooseW) {
-         this.mainFrame = mainFrame;
          int topBottomBorder  = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
          int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);
-         contentPane.setBorder(new EmptyBorder(topBottomBorder , leftRightBorder, topBottomBorder, leftRightBorder));
+         if(event!=null && event.isRequestSelectionWeaponToReload())
+            contentPane.setBorder(new EmptyBorder(topBottomBorder , leftRightBorder, topBottomBorder, leftRightBorder));
         int widthCard;
         int heightCard;
         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
@@ -216,13 +240,10 @@ class PanelForWeapons {
             buttonToStopReload.setActionCommand("ReloadRejected");
             contentPane.add(buttonToStopReload,gbcButton);
         }
-
     }
 
      JPanel getContentPane() {
         return contentPane;
     }
-
-
 
 }

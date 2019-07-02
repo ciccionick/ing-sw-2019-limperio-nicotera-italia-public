@@ -7,16 +7,32 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the next button in the frame of initialization.
+ * @author Pietro L'Imperio
+ */
 public class ListenerForNextButton implements ActionListener {
 
+    /**
+     * The reference of the frame for initialization.
+     */
     private FrameForInitialization frameForInitialization;
+    /**
+     * The reference of the initialization view.
+     */
     private InitializationView initializationView;
 
+    /**
+     * Constructor where class fields are initialized.
+     */
     public ListenerForNextButton(FrameForInitialization frameForInitialization, InitializationView initializationView) {
         this.frameForInitialization = frameForInitialization;
         this.initializationView = initializationView;
     }
 
+    /**
+     * Creates an event that permits to go on with initialization and sends it towards the network.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String nickname;

@@ -9,18 +9,45 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for the buttons concerning the choose of a player in three different occasion.
+ * The first is when the terminator has to attack someone he can see.
+ * The second is when someone needs to choose a player to use Targeting scope on him.
+ * The third one is when someone has to choose a player to attack him with some weapon.
+ * @author Pietro L'Imperio
+ */
  class ListenerForButtonPlayers implements ActionListener {
 
+    /**
+     * The reference of the main frame.
+     */
      private MainFrame mainFrame;
+    /**
+     * The dialog where happens the event that call this listener.
+     */
      private JDialog dialog;
-     private ServerEvent event;
+    /**
+     * The event received by server side that handles the creation of the dialog where the choose happens.
+     */
+    private ServerEvent event;
 
+
+    /**
+     * Constructor that initialize class fields.
+     * @param mainFrame The reference of main frame.
+     * @param dialog The reference of dialog.
+     * @param event The reference of the event.
+     */
       ListenerForButtonPlayers(MainFrame mainFrame, JDialog dialog, ServerEvent event) {
          this.mainFrame = mainFrame;
          this.dialog = dialog;
          this.event = event;
      }
 
+    /**
+     * Creates an event in according to the event received by server side with the information caught by the buttons that has as action command the nickname of the players available.
+     * At the end calls the notify of the remote view.
+     */
      @Override
         public void actionPerformed(ActionEvent e) {
             if (event.isRequestToSelectionPlayerToAttackWithTerminator()) {

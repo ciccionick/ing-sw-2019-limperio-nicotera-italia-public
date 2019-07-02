@@ -5,14 +5,25 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Handles the creation of a dialog that show information about a weapon card.
+ * @author Pietro L'Imperio
+ */
  class PopupForWeaponCard {
-
+    /**
+     * Dialog created in the constructor.
+     */
     private JDialog dialog;
 
+    /**
+     * Constructor where the dialog is created.
+     * @param mainFrame Reference of main frame.
+     * @param numOfCard Number that represent the position in the deck of the card shown in the dialog.
+     */
      PopupForWeaponCard(MainFrame mainFrame, int numOfCard) {
         this.dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
-        dialog.setAutoRequestFocus(false);
+        dialog.setAutoRequestFocus(true);
         JPanel contentPanel = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPanel);
 

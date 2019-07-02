@@ -4,24 +4,43 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.Request
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class ListenerForWeaponCard implements MouseListener, ActionListener {
+/**
+ * Listener for the weapon cards stored in the deck and relative buttons to use them.
+ * @author Pietro L'Imperio
+ */
+public class ListenerForWeaponCard extends MouseAdapter implements ActionListener {
 
+    /**
+     * The position of the card in the deck.
+     */
     private int numOfCard;
+    /**
+     * The reference of main frame.
+     */
     private MainFrame mainFrame;
+    /**
+     * The reference of the class tha creates a dialog that shows information about weapon card.
+     */
     private PopupForWeaponCard popupForWeaponCard = null;
+    /**
+     * The button used to select a weapon card.
+     */
     private JButton button;
 
+    /**
+     * Constructor where the class fields are initialized.
+     */
      ListenerForWeaponCard(JButton buttonW, int numOfCard, MainFrame mainFrame) {
         this.numOfCard = numOfCard;
         this.mainFrame = mainFrame;
         this.button = buttonW;
     }
 
+    /**
+     * If the reference of the popup is null creates a new instance, otherwise makes not visible the dialog creating previously and makes null the reference of the popup.
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if(popupForWeaponCard!=null) {
@@ -35,26 +54,10 @@ public class ListenerForWeaponCard implements MouseListener, ActionListener {
         }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-         //not implemented
-    }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-         //not implemented
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
+    /**
+     * Creates an event with the request to use a weapon and calls the notify of the remote view. Makes not enable all of the others buttons of weapons.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(button.isEnabled()) {

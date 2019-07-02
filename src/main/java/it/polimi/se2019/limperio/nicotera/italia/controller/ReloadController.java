@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.PlayerBoardEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionWeaponToReload;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
@@ -137,7 +137,7 @@ class ReloadController {
         game.notify(playerBoardEvent);
     }
 
-    void handleDiscardOfPowerUpCard(DiscardPowerUpCardAsAmmo event){
+    void handleDiscardOfPowerUpCard(DiscardPowerUpCard event){
          powerUpToDiscardToPay.add(controller.getCatchController().findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), weaponCardToReload.getOwnerOfCard()));
          sendRequestToDiscardPowerUpCard(weaponCardToReload.getOwnerOfCard(), colorsNotEnough);
     }

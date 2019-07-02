@@ -1,29 +1,38 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ChoosePlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.TerminatorShootEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToChooseAPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToSelectionPlayerToAttackWithTerminator;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Handles the creation of a dialog useful to let the player choose another player.
+ * @author Pietro L'Imperio.
+ */
 class PopupToChooseAPlayer {
 
-    private MainFrame mainFrame;
+    /**
+     * Event received by server
+     */
     private ServerEvent event;
+    /**
+     * Dialog created in the constructor.
+     */
     private JDialog dialog;
 
+    /**
+     * Constructor that creates a dialog differentiate according to the type of event is handling.
+     * @param mainFrame Reference of main frame.
+     * @param receivedEvent Event received by the server.
+     */
     PopupToChooseAPlayer(MainFrame mainFrame, ServerEvent receivedEvent) {
-        this.mainFrame = mainFrame;
         this.event = receivedEvent;
         dialog = new JDialog(mainFrame.getFrame());
         dialog.setUndecorated(true);
+        dialog.setAutoRequestFocus(true);
         dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
         JPanel contentPane = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPane);

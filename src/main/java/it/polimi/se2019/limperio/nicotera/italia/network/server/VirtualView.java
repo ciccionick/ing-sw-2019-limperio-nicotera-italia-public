@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.AnswerInitializationEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.KillshotTrack;
+import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.PlayerBoard;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
@@ -72,7 +73,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      * It's true if the client associated represents the first player, false otherwise
      */
     private boolean firstPlayer;
-
     /**
      * The list of all of player boards of all players in the game.
      */
@@ -115,6 +115,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     private static Handler handlerLoggerVirtualView = new ConsoleHandler();
 
     /**
+     * It's true if the color has been added to the list of color in the server class. Otherwise false.
+     */
+    private boolean colorsAdded = false;
+
+    /**
      * Sets first player attribute, initialize the object streams
      * @param client The client associated
      * @param server The server that created it
@@ -150,7 +155,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         try {
             boolean invalidInitialization = true;
             RequestInitializationEvent req;
-            if(!server.isGameIsStarted()) {
+            if(!server.isGameStarted()) {
                 while (invalidInitialization) {
                     out.writeObject(new RequestInitializationEvent("Digit your nickname", true, false, false, false, false));
                     AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
@@ -164,13 +169,20 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     nicknameOfClient = ans.getNickname();
                     out.writeObject(new RequestInitializationEvent("Digit your color:", false, true, false, false, false));
                     ans = (AnswerInitializationEvent) in.readObject();
-                    while (server.getListOfColor().contains(ans.getColor().toUpperCase())) {
+                    while (server.getListOfColor().contains(ans.getColor().toUpperCase()) || (server.getColorOfFirstPlayer()!=null && ans.getColor().equalsIgnoreCase(server.getColorOfFirstPlayer()))) {
                         req = new RequestInitializationEvent("Digit your color: ", false, true, false, false, false);
                         req.setRetake(true);
                         out.writeObject(req);
                         ans = (AnswerInitializationEvent) in.readObject();
                     }
-                    server.getListOfColor().add(ans.getColor().toUpperCase());
+
+                    if(!firstPlayer) {
+                        server.getListOfColor().add(ans.getColor().toUpperCase());
+                        colorsAdded=true;
+                    }
+                    else
+                        server.setColorOfFirstPlayer(ans.getColor().toUpperCase());
+
                     if (server.getListOfColor().size() == 3)
                         server.startTimer();
                     colorOfClient = ans.getColor().toUpperCase();
@@ -185,15 +197,19 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                         out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
                         ans = (AnswerInitializationEvent) in.readObject();
                         server.setTerminatorMode(ans.isTerminator());
+                        if(!server.isGameStarted() && server.getListOfColor().size()<6) {
+                            server.getListOfColor().add(colorOfClient);
+                            colorsAdded=true;
+                            if(server.getListOfColor().size()==3)
+                                server.startTimer();
+                        }
                     }
                     req = new RequestInitializationEvent("", false, false, false, false, false);
                     req.setAck(true);
                     out.writeObject(req);
                     invalidInitialization = false;
                 }
-
             }
-
         } catch (IOException se) {
             try {
                 client.close();
@@ -204,10 +220,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         }catch (ClassNotFoundException e) {
            loggerVirtualView.log(Level.ALL, "error");
         }
-
         receiveEvents();
-
-
     }
 
     /**
@@ -242,10 +255,11 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
              out.writeObject(req);
              AnswerInitializationEvent answer = (AnswerInitializationEvent) in.readObject();
              if(server.getListOfNickname().contains(answer.getNickname())){
-                 if(!controller.findPlayerWithThisNickname(answer.getNickname()).isConnected())
-                     return answer.getNickname();
-                 else
-                     return "Failed reconnection";
+                 for(Player player  : server.getGame().getPlayers()) {
+                     if(player.getNickname().equals(answer.getNickname()) && !player.isConnected())
+                        return answer.getNickname();
+                 }
+                 return "Failed reconnection";
              }
              else
                  return "Failed reconnection";
@@ -280,7 +294,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         mapEvent.setTypeOfMap(typeOfMap);
         out.writeObject(mapEvent);
         Timer timer = new Timer();
-        timer.schedule(new MyTask(), 5000);
+        timer.schedule(new MyTask(), 1000);
     }
 
     /**
@@ -304,7 +318,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     @Override
     public void update(ServerEvent event) {
-        if(isClientCurrentlyOnline &&(event.getNicknames().contains(nicknameOfClient) || event.getNicknameInvolved().equals(nicknameOfClient))) {
+        if(isClientCurrentlyOnline && (event.getNicknames().contains(nicknameOfClient) || event.getNicknameInvolved().equals(nicknameOfClient))) {
             try {
                 out.writeObject(event);
             } catch (IOException e) {
@@ -347,13 +361,21 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      void handleDisconnection(){
         isClientCurrentlyOnline=false;
          closeStream();
-        if(!server.isGameIsStarted() || server.getListOfClient().size()==3) {
+        if(!server.isGameStarted()) {
             server.getListOfNickname().remove(nicknameOfClient);
             server.getListOfColor().remove(colorOfClient);
+            if(firstPlayer)
+                server.setColorOfFirstPlayer(null);
             server.deregister(this, client);
         }
         else{
-            controller.handleDisconnection(nicknameOfClient);
+            server.getListOfClient().remove(client);
+            if(server.getListOfClient().size()==3 && !server.getGame().isGameOver())
+                controller.getRoundController().handleEndOfGame(true);
+            else if(server.getGame().isGameOver() && server.getListOfClient().size()==1)
+                server.closeProcess();
+            else
+                controller.handleDisconnection(nicknameOfClient);
         }
     }
 
@@ -427,6 +449,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
 
      void setTypeOfMap(int typeOfMap) {
         this.typeOfMap = typeOfMap;
+    }
+
+     boolean isColorsAdded() {
+        return colorsAdded;
     }
 
     class MyTask extends TimerTask{

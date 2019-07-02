@@ -6,14 +6,23 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
-
+/**
+ * Handles the creation of the dialog to show who and what is on a spawn square.
+ * @author Pietro L'Imperio
+ */
  class PopupForSpawnSquare extends PopupForSquare {
 
+   /**
+    * Constructor of the class that create the dialog.
+    * @param nicknamesOfPlayersOnThisSquare List of nickname of the players on the square.
+    * @param listOfWeapon List of weapon that player can catch on the square.
+    * @param mainFrame Reference of main frame.
+    */
      PopupForSpawnSquare(ArrayList<String> nicknamesOfPlayersOnThisSquare, MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapon) {
 
         Point locationOfFrame = mainFrame.getFrame().getLocation();
         Dimension dimensionOfFrame = mainFrame.getFrame().getSize();
-        popup.setAutoRequestFocus(false);
+        popup.setAutoRequestFocus(true);
         popup.setUndecorated(true);
         int topBottomInset = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
         int leftRightInset = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);

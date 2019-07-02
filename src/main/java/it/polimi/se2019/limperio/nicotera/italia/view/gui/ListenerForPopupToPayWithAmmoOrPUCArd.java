@@ -6,18 +6,37 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Listener for buttons concerning the choice of pay with ammo or power up cards.
+ * @author Pietro L'Imperio
+ */
  class ListenerForPopupToPayWithAmmoOrPUCArd implements ActionListener{
 
-     private JDialog dialog;
+    /**
+     * The reference of dialog where the choice happnes.
+     */
+    private JDialog dialog;
+    /**
+     * The reference of main frame.
+     */
      private MainFrame mainFrame;
-     private ServerEvent event;
+    /**
+     * The event received by server side with the information about what choose.
+     */
+    private ServerEvent event;
 
+    /**
+     * The constructor where class fields are initialized.
+     */
       ListenerForPopupToPayWithAmmoOrPUCArd(JDialog dialog, MainFrame mainFrame, ServerEvent event) {
          this.dialog = dialog;
          this.mainFrame = mainFrame;
          this.event = event;
      }
 
+    /**
+     * Creates an event with the information caught from the press of the buttons and calls the notify of the remote view.
+     */
      @Override
         public void actionPerformed(ActionEvent e) {
             DiscardAmmoOrPowerUpToPayTargeting discardAmmoOrPowerUpToPayTargeting = new DiscardAmmoOrPowerUpToPayTargeting("", event.getNicknameInvolved());

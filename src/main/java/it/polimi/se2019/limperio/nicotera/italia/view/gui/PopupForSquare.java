@@ -5,12 +5,27 @@ import java.awt.*;
 import java.util.ArrayList;
 
 
+/**
+ * Class inheritable by PopupForNormalSquare and PopupForSpawnSquare containing the method to add players to panel of players in the dialogs.
+ */
 class PopupForSquare {
 
+    /**
+     * Dialog created to show who and what there are in a specific square.
+     */
     JDialog popup = new JDialog();
+    /**
+     * JPanel that contains all of the information shown in the dialog and add to its content pane.
+     */
     final JPanel contentPane = new JPanel();
 
-
+    /**
+     * Adds to the panelForPlayers every player present in a specific square.
+     * @param panelForPlayers Panel where are added players.
+     * @param nicknamesOfPlayersOnThisSquare List of nicknames of the player present in a square.
+     * @param myNickname Nickname of the player who is viewing the GUI
+     * @param mainFrame Reference of main frame.
+     */
     void addListOfPlayersInSquare(JPanel panelForPlayers, ArrayList<String> nicknamesOfPlayersOnThisSquare, String myNickname, MainFrame mainFrame){
          JLabel labelPlayer1;
          JLabel labelPlayer2;

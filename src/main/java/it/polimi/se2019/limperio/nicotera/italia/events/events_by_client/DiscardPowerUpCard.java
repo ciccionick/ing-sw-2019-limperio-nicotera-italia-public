@@ -2,7 +2,7 @@ package it.polimi.se2019.limperio.nicotera.italia.events.events_by_client;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo;
 
-public class DiscardPowerUpCardAsAmmo extends ClientEvent {
+public class DiscardPowerUpCard extends ClientEvent {
     private String nameOfPowerUpCard;
     private ColorOfCard_Ammo colorOfCard;
     private boolean isToCatch = false;
@@ -11,7 +11,7 @@ public class DiscardPowerUpCardAsAmmo extends ClientEvent {
     private boolean isToTargeting = false;
     private boolean isToTagback = false;
 
-    public DiscardPowerUpCardAsAmmo(String message, String nickname) {
+    public DiscardPowerUpCard(String message, String nickname) {
         super(message, nickname);
         setDiscardPowerUpCardAsAmmo(true);
     }

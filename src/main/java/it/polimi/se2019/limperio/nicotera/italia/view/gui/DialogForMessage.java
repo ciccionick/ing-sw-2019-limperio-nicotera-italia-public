@@ -32,6 +32,7 @@ class DialogForMessage {
          dialog = new JDialog(mainFrame.getFrame());
          dialog.setLocationRelativeTo(mainFrame.getFrame());
          JFrame frame = mainFrame.getFrame();
+         dialog.setAutoRequestFocus(true);
          dialog.setUndecorated(true);
          dialog.setModalityType(Dialog.ModalityType.APPLICATION_MODAL);
          dialog.getContentPane().setLayout(new BorderLayout());
@@ -55,13 +56,6 @@ class DialogForMessage {
          gbcMessage.insets = new Insets(frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 5), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10), frame.getHeight()/mainFrame.resizeInFunctionOfFrame(true, 5), frame.getWidth()/mainFrame.resizeInFunctionOfFrame(false, 10));
          contentPanel.add(message, gbcMessage);
 
-
-         if(receivedEvent.isRequestToSelectionPlayerToAttackWithTerminator()){
-             ArrayList<String> nicknames = ((RequestToSelectionPlayerToAttackWithTerminator)receivedEvent).getNicknamesOfPlayersAttachable();
-             PanelForPlayersButton panelForPlayersButton = new PanelForPlayersButton(dialog, mainFrame, nicknames);
-             dialog.getContentPane().add(panelForPlayersButton.getPanelButtons(), BorderLayout.SOUTH);
-         }
-         else {
              if (receivedEvent.isRequestToChooseTerminatorAction()) {
                  JPanel buttonPanel = new JPanel();
                  dialog.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
@@ -115,7 +109,7 @@ class DialogForMessage {
                  buttonPanel.add(button);
                  dialog.getRootPane().setDefaultButton(button);
              }
-         }
+
          dialog.pack();
          dialog.setLocation((int) (mainFrame.getFrame().getLocation().getX() + mainFrame.getFrame().getSize().getWidth() - dialog.getWidth()) / 2,
                  (int) (mainFrame.getFrame().getLocation().getY() + mainFrame.getFrame().getSize().getHeight() - dialog.getHeight()) / 2);

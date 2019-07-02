@@ -133,6 +133,10 @@ public class Game extends Observable<ServerEvent> {
         createBoard();
         board.createWeaponsDeck();
         board.createMap(typeMap);
+        for(int i = 0; i<3; i++){
+            board.getWeaponsDeck().getWeaponCards().get(0).setOwnerOfCard(players.get(0));
+            players.get(0).getPlayerBoard().getWeaponsOwned().add(board.getWeaponsDeck().getWeaponCards().remove(0));
+        }
         board.createKillShotTrack();
         KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", board.getKillShotTrack());
         killshotTrackEvent.setNicknamePlayerOfTheTurn(players.get(playerOfTurn-1).getNickname());
@@ -231,7 +235,7 @@ public class Game extends Observable<ServerEvent> {
     /**
      * Adds for each player his nickname
      */
-    private void setListOfNickname() {
+    public void setListOfNickname() {
         for(Player player : players)
         {
             listOfNickname.add(player.getNickname());

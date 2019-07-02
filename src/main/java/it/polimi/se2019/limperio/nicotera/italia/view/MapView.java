@@ -5,7 +5,13 @@ import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.SpawnSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 import it.polimi.se2019.limperio.nicotera.italia.view.gui.MainFrame;
+
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class handles the part of view that store the information about the map
@@ -66,11 +72,21 @@ public class MapView {
     private ArrayList<Square> reachableSquares = new ArrayList<>();
 
     /**
+     * Logger of the class to track possibly exception.
+     */
+    private static Logger mapViewLogger =Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
+    private static Handler handlerMapViewLogger  = new ConsoleHandler();
+
+    /**
      * Instance map view associating the reference of the remote view.
      * @param remoteView The reference of the remote view.
      */
     public MapView(RemoteView remoteView) {
         this.remoteView = remoteView;
+        this.mapViewLogger.addHandler(handlerMapViewLogger);
     }
 
     /**
@@ -92,7 +108,12 @@ public class MapView {
                 remoteView.getMainFrame().showMessage(event);
         }
         updateMap(event);
-        remoteView.getMainFrame().updateFigureOnMap();
+        try {
+            remoteView.getMainFrame().updateFigureOnMap();
+        }
+        catch (IllegalComponentStateException ex){
+            mapViewLogger.log(Level.ALL, "error");
+        }
     }
 
     /**

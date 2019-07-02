@@ -6,11 +6,26 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+/**
+ * Handles the creation of a dialog to let player to choose what with pay.
+ * @author Pietro L'Imperio.
+ */
 class PopupToPayWithAmmoOrPowerUpCard {
 
+    /**
+     * Dialog created in the constructor.
+     */
     private JDialog dialog;
+    /**
+     * Event received by the server.
+     */
     private RequestToPayWithAmmoOrPUCard event;
 
+    /**
+     * Constructor that creates the dialog.
+     * @param mainFrame Reference of main frame.
+     * @param receivedEvent Event received by server.
+     */
      PopupToPayWithAmmoOrPowerUpCard(MainFrame mainFrame, ServerEvent receivedEvent) {
          this.event = (RequestToPayWithAmmoOrPUCard) receivedEvent;
 
@@ -18,6 +33,7 @@ class PopupToPayWithAmmoOrPowerUpCard {
         JPanel contentPanel = new JPanel(new GridBagLayout());
         dialog.getContentPane().add(contentPanel);
         dialog.setUndecorated(true);
+        dialog.setAutoRequestFocus(true);
          dialog.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER));
 
          int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);

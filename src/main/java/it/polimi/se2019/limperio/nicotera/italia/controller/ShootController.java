@@ -792,7 +792,7 @@ public class ShootController {
     }
 
     void handleDiscardPowerUpToPayAnEffect(ClientEvent message){
-        DiscardPowerUpCardAsAmmo event = (DiscardPowerUpCardAsAmmo) message;
+        DiscardPowerUpCard event = (DiscardPowerUpCard) message;
         powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(message.getNickname())));
         sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
     }
@@ -890,7 +890,7 @@ public class ShootController {
     }
 
 
-     void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCardAsAmmo message) {
+     void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCard message) {
          int indexOfCardToRemove = 0;
          Player player;
          player = game.getPlayers().get(game.getPlayerOfTurn()-1);
@@ -1025,7 +1025,7 @@ public class ShootController {
 
     }
 
-     void handleRequestToUseTagbackGranade(DiscardPowerUpCardAsAmmo message){
+     void handleRequestToUseTagbackGranade(DiscardPowerUpCard message){
         Player playerWithTagback = controller.findPlayerWithThisNickname(message.getNickname());
         Player playerToAttack = null;
         if(!isForTerminator)

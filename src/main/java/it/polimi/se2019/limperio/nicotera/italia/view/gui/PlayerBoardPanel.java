@@ -5,40 +5,41 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
+ * Handles the creation of the player board panel to add it on the left panel.
+ * @author Pietro L'Imperio
  */
 class PlayerBoardPanel extends JPanel {
 
     /**
-     *
+     * Reference of the main frame.
      */
     private MainFrame mainFrame;
     /**
-     *
+     * Dialog that shows the damage on player board.
      */
     private JDialog dialogForDamage;
     /**
-     *
+     * Dialog that shows marks on player board.
      */
     private JDialog dialogForMarks;
     /**
-     *
+     * The player board view from where take the right information of the player board to view.
      */
     private PlayerBoardView playerBoardViewed;
     /**
-     *
+     * JLabel that represent the piece of player board where there would be damages.
      */
     private JLabel cell11;
     /**
-     *
+     * JLabel that represent the piece of player board where there would be marks.
      */
     private JLabel cell07;
 
 
     /**
-     *
-     * @param mainFrame
-     * @param playerBoardView
+     * Constructor of the class where player board panel is created.
+     * @param mainFrame Reference of the main frame.
+     * @param playerBoardView Reference of the player board view.
      */
      PlayerBoardPanel(MainFrame mainFrame, PlayerBoardView playerBoardView) {
         this.mainFrame = mainFrame;
@@ -270,31 +271,15 @@ class PlayerBoardPanel extends JPanel {
         add(cell29, gbcCell29);
      }
 
-     JLabel getCell11() {
-        return cell11;
-    }
-
-     JLabel getCell07() {
-        return cell07;
-    }
-
-     JDialog getDialogForDamage() {
-        return dialogForDamage;
-    }
-
-     JDialog getDialogForMarks() {
-        return dialogForMarks;
-    }
-
     /**
-     *
+     * Calls the constructor of the class that creates the dialog for show damage.
      */
     void addDialogForDamage(){
         dialogForDamage = new PopupForDamageMarks( mainFrame, true, cell11.getLocationOnScreen()).getDialog();
     }
 
     /**
-     *
+     * Calls the constructor of the class that creates the dialog for show marks.
      */
     void addDialogForMarks(){
          dialogForMarks = new PopupForDamageMarks(mainFrame, false, cell07.getLocationOnScreen()).getDialog();
@@ -303,6 +288,22 @@ class PlayerBoardPanel extends JPanel {
     PlayerBoardView getPlayerBoardViewed() {
       return playerBoardViewed;
    }
+
+    JLabel getCell11() {
+        return cell11;
+    }
+
+    JLabel getCell07() {
+        return cell07;
+    }
+
+    JDialog getDialogForDamage() {
+        return dialogForDamage;
+    }
+
+    JDialog getDialogForMarks() {
+        return dialogForMarks;
+    }
 
 
  }

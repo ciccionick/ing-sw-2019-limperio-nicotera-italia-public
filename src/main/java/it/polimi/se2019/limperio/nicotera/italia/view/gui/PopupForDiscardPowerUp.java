@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCardAsAmmo;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestToDiscardPowerUpCard;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import javax.swing.*;
@@ -14,21 +14,51 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Handles the creation of the dialog to discard a power up card.
+ * @author Pietro L'Imperio.
+ */
 class PopupForDiscardPowerUp {
 
+    /**
+     * Dialog created in the constructor of the class.
+     */
     private JDialog dialog;
+    /**
+     * Reference of main frame.
+     */
     private MainFrame mainFrame;
+    /**
+     * Timer for the choose to use Tagback grande.
+     */
     private java.util.Timer timer;
+    /**
+     * Delay after that start the task relative to the timer.
+     */
     private int delay = 20000;
+    /**
+     * Task that start at the end of the timer.
+     */
     private TaskForTagbackTimer task;
+    /**
+     * Logger of the class to track possibly exception.
+     */
     private static Logger loggerPopupForDiscardPUCard = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * Handler of the logger.
+     */
     private static Handler handlerLoggerPopupForDiscardPUCard = new ConsoleHandler();
 
+    /**
+     * Constructor of the class where the dialog is created.
+     * @param mainFrame Reference of main frame
+     * @param receivedEvent Event received by server.
+     */
      PopupForDiscardPowerUp(MainFrame mainFrame, ServerEvent receivedEvent) {
          loggerPopupForDiscardPUCard.addHandler(handlerLoggerPopupForDiscardPUCard);
         this.mainFrame = mainFrame;
         dialog = new JDialog(mainFrame.getFrame());
-
+        dialog.setAutoRequestFocus(true);
         dialog.setUndecorated(true);
 
         int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 10);
@@ -134,6 +164,11 @@ class PopupForDiscardPowerUp {
      }
 
 
+    /**
+     * Adds to a list the power up cards present in the event.
+     * @param listOfPowerUpCards List of alias card among which the player can choose to discard
+     * @param receivedEvent Event received by the server to add to the list alias cards.
+     */
      private void addPowerUpCardsToDiscard(ArrayList<ServerEvent.AliasCard> listOfPowerUpCards, ServerEvent receivedEvent) {
          ArrayList<ServerEvent.AliasCard> nameOfPowerUpCards = ((RequestToDiscardPowerUpCard)receivedEvent).getPowerUpCards();
          for(ServerEvent.AliasCard powerUpCard : mainFrame.getRemoteView().getMyPlayerBoardView().getPowerUpCardsDeck()){
@@ -154,10 +189,13 @@ class PopupForDiscardPowerUp {
         return timer;
     }
 
+    /**
+     * Task that starts after the end of the timer that sends to the server side an automatically message with the will to not use Tagback granade.
+     */
     private class TaskForTagbackTimer extends TimerTask {
          @Override
          public void run() {
-             DiscardPowerUpCardAsAmmo newEvent = new DiscardPowerUpCardAsAmmo("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
+             DiscardPowerUpCard newEvent = new DiscardPowerUpCard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
              newEvent.setToTagback(true);
              mainFrame.getRemoteView().notify(newEvent);
              dialog.setVisible(false);

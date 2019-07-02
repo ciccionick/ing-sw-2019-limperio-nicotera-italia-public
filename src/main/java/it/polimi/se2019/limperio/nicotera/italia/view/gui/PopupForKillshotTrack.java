@@ -8,23 +8,24 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- *
+ * Handles the creation of the dialog that show tokens of death on the killshot track.
+ * @author Pietro L'Imperio
  */
  class PopupForKillshotTrack {
     /**
-     *
+     * Dialog that is created in the constructor.
      */
     private JDialog dialog;
     /**
-     *
+     * JPanel added to the content pane of the dialog.
      */
     private JPanel contentPane;
 
      /**
-      *
-      * @param mainFrame
-      * @param frenzyMode
-      * @param location
+      * Constructor that create the dialog for tokens of death.
+      * @param mainFrame Reference of main frame.
+      * @param frenzyMode It's true if the dialog has to be created to show the tokens of death relative to death happened during the frenzy turn, false otherwise.
+      * @param location The point where the dialog has to be created.
       */
      PopupForKillshotTrack(MainFrame mainFrame,  boolean frenzyMode, Point location) {
 
