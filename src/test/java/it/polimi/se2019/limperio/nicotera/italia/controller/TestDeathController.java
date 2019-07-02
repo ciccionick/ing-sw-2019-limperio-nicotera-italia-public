@@ -41,7 +41,7 @@ public class TestDeathController {
 
     }
 
-    @Test
+    /*@Test
     public void handleDeathTest()
     {
         //Test not in Frenzy mood
@@ -62,11 +62,11 @@ public class TestDeathController {
         }
 
         assertEquals(game.getBoard().getKillShotTrack().getTokensOfDeath().get(x-1).get(1), ColorOfDeathToken.BLUE);
+*/
 
 
 
 
-    }
 
     /*@Test
     public void a()
@@ -92,8 +92,8 @@ public class TestDeathController {
         System.out.println(x);
         assertEquals(game.getBoard().getKillShotTrack().getTokensOfDeath().get(x-2).get(0), ColorOfDeathToken.BLUE);
     }*/
-
-
-
-
 }
+
+
+
+

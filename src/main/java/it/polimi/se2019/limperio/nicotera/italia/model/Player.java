@@ -275,9 +275,6 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         return false;
     }
 
-    public void setOverSixDamage(boolean overSixDamage) {
-        isOverSixDamage = overSixDamage;
-    }
 
     /**
      * It is called when a player decides to draw a power up card
@@ -346,6 +343,10 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
            return o2.getScore()-o1.getScore();
        }
    }
+
+    public void setOverSixDamage(boolean overSixDamage) {
+        isOverSixDamage = overSixDamage;
+    }
 }
 
 

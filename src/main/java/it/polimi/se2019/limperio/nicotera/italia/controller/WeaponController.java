@@ -171,7 +171,7 @@ public class WeaponController {
                 break;
 
             case "Flamethrower":
-                if (!getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty()) {
+                if (!squaresUsefulForFlamethrower(0, squareOfPlayer).isEmpty() && controller.getShootController().getTypeOfAttack().isEmpty()) {
                     usableEffects.add(1);
                     if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForAlternativeMode()))
                         usableEffects.add(4);

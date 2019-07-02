@@ -262,15 +262,15 @@ public class Controller implements Observer<ClientEvent> {
 
     boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
-         if(game.isInFrenzy()){
-             if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>=game.getFirstInFrenzyMode())
-                 movementCanDoBeforeReloadAndShoot=1;
-             else
-                 movementCanDoBeforeReloadAndShoot=2;
-         }
-         if(!game.isInFrenzy() && !weaponDeck.isEmpty() && weaponDeck.get(0).getOwnerOfCard().isOverSixDamage()){
-             movementCanDoBeforeReloadAndShoot = 1;
-         }
+        if(game.isInFrenzy()){
+            if(game.getPlayers().get(game.getPlayerOfTurn()-1).getPosition()>=game.getFirstInFrenzyMode())
+                movementCanDoBeforeReloadAndShoot=1;
+            else
+                movementCanDoBeforeReloadAndShoot=2;
+        }
+        if(!game.isInFrenzy() && !weaponDeck.isEmpty() && weaponDeck.get(0).getOwnerOfCard().isOverSixDamage()){
+            movementCanDoBeforeReloadAndShoot = 1;
+        }
          for(WeaponCard weaponCard : weaponDeck){
              if(checkIfThisWeaponIsUsable(weaponCard, movementCanDoBeforeReloadAndShoot))
                  return true;
@@ -530,6 +530,7 @@ public class Controller implements Observer<ClientEvent> {
                 sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
         }
     }
+
 
 
 }
