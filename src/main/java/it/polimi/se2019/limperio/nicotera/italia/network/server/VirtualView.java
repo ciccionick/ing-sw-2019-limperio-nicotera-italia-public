@@ -73,6 +73,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      * It's true if the client associated represents the first player, false otherwise
      */
     private boolean firstPlayer;
+
     /**
      * The list of all of player boards of all players in the game.
      */
@@ -209,7 +210,9 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     out.writeObject(req);
                     invalidInitialization = false;
                 }
+
             }
+
         } catch (IOException se) {
             try {
                 client.close();
@@ -220,7 +223,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         }catch (ClassNotFoundException e) {
            loggerVirtualView.log(Level.ALL, "error");
         }
+
         receiveEvents();
+
+
     }
 
     /**
@@ -410,6 +416,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
     private void closeStream() {
         if(!streamClosed) {
             try {
+                client.close();
                 in.close();
                 out.close();
                 streamClosed = true;

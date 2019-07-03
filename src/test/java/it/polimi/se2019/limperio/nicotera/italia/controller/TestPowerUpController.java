@@ -33,7 +33,11 @@ public class TestPowerUpController {
         game.setGameOver(true);
         game.initializeGame(false, 1, false);
     }
+    @After
+    public void cleanUp(){
+        game.setInstanceOfGameNullForTesting();
 
+    }
 
     @Test
     public void findSpawnSquareWithThisColorTest(){
@@ -72,8 +76,6 @@ public class TestPowerUpController {
     /* @Test
     public void handleDrawOfTwoCardsANDHandleDiscardOfCardToSpawnANDSpawnPlayerTest()
     {
-
-
         game.setPlayerOfTurn(1);
         powerUpController.handleDrawOfPowerUpCards(game.getPlayers().get(0).getNickname());
         assertEquals(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().size(), 2);

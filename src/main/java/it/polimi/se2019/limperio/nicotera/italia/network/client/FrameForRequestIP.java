@@ -120,6 +120,7 @@ public class FrameForRequestIP {
         try {
             client.handleConnectionWithServer();
         } catch (IOException e1) {
+            System.out.println("errore nella connessione");
             loggerForFrameIp.log(Level.ALL, "error");
         }
     }

@@ -3,6 +3,7 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfDeathToken;
 import it.polimi.se2019.limperio.nicotera.italia.model.ColorOfFigure_Square;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +27,11 @@ public class TestDeathController {
         game.setGameOver(false);
         game.initializeGame(true, 1, false);
     }
+    @After
+    public void cleanUp(){
+        game.setInstanceOfGameNullForTesting();
 
+    }
 
     @Test
     public void handleDeathTestInFrenzyMood()

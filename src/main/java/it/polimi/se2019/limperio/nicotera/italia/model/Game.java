@@ -334,5 +334,8 @@ public class Game extends Observable<ServerEvent> {
         this.numOfMaxActionForTurn = numOfMaxActionForTurn;
     }
 
+    public void setInstanceOfGameNullForTesting(){
+        instanceOfGame = null;
+    }
 
 }

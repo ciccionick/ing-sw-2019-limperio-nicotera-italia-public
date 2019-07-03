@@ -1,13 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestWeaponController {
 
@@ -28,7 +28,11 @@ public class TestWeaponController {
         game.setGameOver(true);
         game.initializeGame(false, 2, false);
     }
+    @After
+    public void cleanUp(){
+        game.setInstanceOfGameNullForTesting();
 
+    }
     @Test
     public void addSquaresForCardinalDirectionsTest()
     {

@@ -26,8 +26,8 @@ public class TestCatchController{
 
 
 
-    Game game = Game.instanceOfGame();
-    Controller controller = new Controller(game);
+    private Game game = Game.instanceOfGame();
+    private Controller controller = new Controller(game);
     private CatchController catchController = new CatchController(game, controller);
 
 
@@ -42,7 +42,10 @@ public class TestCatchController{
         game.initializeGame(false, 1, false);
     }
 
-
+    @After
+    public void cleanUp(){
+        game.setInstanceOfGameNullForTesting();
+    }
     @Test
     public void findSquareWherePlayerCanCatchTest(){
 

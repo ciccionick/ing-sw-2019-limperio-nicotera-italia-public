@@ -425,6 +425,7 @@ public class WeaponController {
         for (Square square : squaresVisible) {
             for (Player playerInSquare : square.getPlayerOnThisSquare()) {
                 if (!playerInSquare.equals(playerCanSee) && !playersVisible.contains(playerInSquare))
+
                     playersVisible.add(playerInSquare);
             }
         }
