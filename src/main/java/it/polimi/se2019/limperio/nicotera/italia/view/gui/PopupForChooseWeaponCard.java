@@ -38,7 +38,7 @@ class PopupForChooseWeaponCard {
              }});
 
          if(receivedEvent.isRequestToDiscardWeaponCard())
-             nameOfCardToStoreForDiscardEvent = ((RequestToDiscardWeaponCard)receivedEvent).getNameOfWeaponCardToAdd();
+             nameOfCardToStoreForDiscardEvent = ((RequestToDiscardWeaponCard)receivedEvent).getNameOfWeaponCardToAddToTheDeck();
          JPanel contentPanel = new JPanel();
          int topBottomBorder = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 20);
          int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 20);

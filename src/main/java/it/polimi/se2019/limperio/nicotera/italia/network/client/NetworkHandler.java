@@ -209,7 +209,7 @@ public class NetworkHandler implements Observer<ClientEvent> {
             remoteView.getMainFrame().showPopupForChooseWeapon(event);
 
 
-        if(event.isRequestToDiscardPowerUpCardToPay()){
+        if(event.isRequestToDiscardPowerUpCard()){
             if (((RequestToDiscardPowerUpCard) event).isToTagback() && remoteView.isMyTurn())
                 remoteView.getMainFrame().showMessage(event);
             else

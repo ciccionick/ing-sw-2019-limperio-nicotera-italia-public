@@ -60,7 +60,7 @@ class TerminatorController {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where you want to move the terminator!");
          requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
-         requestSelectionSquareForAction.setSelectionForMoveTerminator(true);
+         requestSelectionSquareForAction.setSelectionForMoveTerminator();
          controller.findSquaresReachableWithThisMovements(terminator.getPositionOnTheMap(), 1, requestSelectionSquareForAction.getSquaresReachable());
          game.notify(requestSelectionSquareForAction);
 
@@ -76,7 +76,7 @@ class TerminatorController {
 
          MapEvent mapEvent = new MapEvent();
          mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
-         mapEvent.setNotifyAboutActionDone(true);
+         mapEvent.setNotifyAboutActionDone();
          mapEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
          mapEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
          mapEvent.setMessageForOthers("terminator" + " has been moved in another square! \nLook the map to discover where.");
@@ -118,7 +118,7 @@ class TerminatorController {
              pbEvent.setMessageForInvolved("You have been attacked by the terminator!");
              pbEvent.setMessageForOthers(playerToAttack.getNickname() + " has been attacked by terminator");
              pbEvent.setPlayerBoard(playerToAttack.getPlayerBoard());
-             pbEvent.setNotifyAboutActionDone(true);
+             pbEvent.setNotifyAboutActionDone();
              game.notify(pbEvent);
              game.setHasToDoTerminatorAction(false);
          ArrayList<Player> players = new ArrayList<>();

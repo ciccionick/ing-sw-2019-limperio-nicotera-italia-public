@@ -59,8 +59,7 @@ public class MainFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setMinimumSize(Toolkit.getDefaultToolkit().getScreenSize());
-        //frame.setMinimumSize(new Dimension((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()*2/3, (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()*3/4));
+        frame.setUndecorated(true);
         contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));

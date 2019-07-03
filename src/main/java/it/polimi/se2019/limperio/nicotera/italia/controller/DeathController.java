@@ -32,7 +32,7 @@ class DeathController {
          pbEvent.setPlayerBoard(deadPlayer.getPlayerBoard());
          pbEvent.setMessageForInvolved(messageForInvolved);
          pbEvent.setMessageForOthers(messageForOthers);
-         pbEvent.setNotifyAboutActionDone(true);
+         pbEvent.setNotifyAboutActionDone();
          game.notify(pbEvent);
 
          Player playerOfTheTurn = game.getPlayers().get(game.getPlayerOfTurn()-1);

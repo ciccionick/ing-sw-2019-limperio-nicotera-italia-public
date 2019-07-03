@@ -16,16 +16,31 @@ import java.io.Serializable;
  * </p>
  * @author Pietro L'Imperio
  */
-public class RequestInitializationEvent implements Serializable {
+public class RequestInitializationEvent extends ServerEvent implements Serializable {
     static final long serialVersionUID = 420000016;
     /**
      * The message stored in the event about its nature.
      */
     private String message;
+    /**
+     * It's true if the event is to request nickname, false otherwise.
+     */
     private boolean isNicknameRequest;
+    /**
+     * It's true if the event is to request the color, false otherwise.
+     */
     private boolean isColorRequest;
+    /**
+     * It's true if the event is to request to the first player if wants frenzy mode in the last turn, false otherwise.
+     */
     private boolean isFrenzyRequest;
+    /**
+     * It's true if the event is to request to the first player if wants terminator mode during the game, false otherwise.
+     */
     private boolean isTerminatorModeRequest;
+    /**
+     * It's true if the event is to request to the first player which map he wants to play with.
+     */
     private boolean isMapRequest;
     /**
      * It's true if the request is about something already asked but not accepted for the previous choose of someone else.
@@ -36,6 +51,9 @@ public class RequestInitializationEvent implements Serializable {
      */
     private boolean isAck = false;
 
+    /**
+     * Constructor that initialize the message for the player that is setting up in the game and the boolean fields according to the request that server is asking to him.
+     */
     public RequestInitializationEvent(String message, boolean isNicknameRequest, boolean isColorRequest, boolean isFrenzyRequest, boolean isTerminatorModeRequest, boolean isMapRequest) {
         this.message = message;
         this.isNicknameRequest = isNicknameRequest;
@@ -73,15 +91,15 @@ public class RequestInitializationEvent implements Serializable {
         return isRetake;
     }
 
-    public void setRetake(boolean retake) {
-        isRetake = retake;
+    public void setRetake() {
+        isRetake = true;
     }
 
     public boolean isAck() {
         return isAck;
     }
 
-    public void setAck(boolean ack) {
-        isAck = ack;
+    public void setAck(){
+        isAck = true;
     }
 }

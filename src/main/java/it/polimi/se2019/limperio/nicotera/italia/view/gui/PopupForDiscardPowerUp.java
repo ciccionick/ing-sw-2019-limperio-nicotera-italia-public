@@ -96,7 +96,7 @@ class PopupForDiscardPowerUp {
          gbcLabelMessage.gridx = 0;
          gbcLabelMessage.gridy = 0;
          gbcLabelMessage.gridwidth = listOfPowerUpCards.size();
-         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
+         if(receivedEvent.isRequestToDiscardPowerUpCard() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
             gbcLabelMessage.gridwidth++;
              contentPanel.add(message, gbcLabelMessage);
 
@@ -124,7 +124,7 @@ class PopupForDiscardPowerUp {
 
             gbc.gridy++;
             JButton button = new JButton();
-            if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting()|| ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
+            if(receivedEvent.isRequestToDiscardPowerUpCard() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting()|| ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()))
                 button.setText("Use");
             else
                 button.setText("Discard");
@@ -137,7 +137,7 @@ class PopupForDiscardPowerUp {
             listOfPowerUpCards.remove(0);
         }
 
-        if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback())){
+        if(receivedEvent.isRequestToDiscardPowerUpCard() && (((RequestToDiscardPowerUpCard)receivedEvent).isToTargeting() || ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback())){
             JButton buttonToNotDiscard = new JButton("No one");
             buttonToNotDiscard.setActionCommand("No one");
             gbc.gridy=2;
@@ -151,7 +151,7 @@ class PopupForDiscardPowerUp {
 
          dialog.setVisible(true);
 
-         if(receivedEvent.isRequestToDiscardPowerUpCardToPay() && ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()){
+         if(receivedEvent.isRequestToDiscardPowerUpCard() && ((RequestToDiscardPowerUpCard)receivedEvent).isToTagback()){
              timer = new Timer();
              task = new TaskForTagbackTimer();
              try{

@@ -13,7 +13,7 @@ public class ClientMain {
     public static void main(String[] argv) throws IOException, ClassNotFoundException {
         Client client;
         client = new Client();
-        client.handleConnectionWithServer();
-        //new FrameForRequestIP(client);
+        //client.handleConnectionWithServer();
+        new FrameForRequestIP(client);
     }
 }

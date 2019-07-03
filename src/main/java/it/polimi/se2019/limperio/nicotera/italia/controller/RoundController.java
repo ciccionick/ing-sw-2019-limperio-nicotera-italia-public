@@ -171,7 +171,6 @@ public class RoundController {
             pbEvent.setNicknames(game.getListOfNickname());
             if (player.getPlayerBoard().getDamages().isEmpty()) {
                 player.getPlayerBoard().setFrenzyBoardPlayer(true);
-                pbEvent.setFirstFrenzyPlayerBoard(true);
                 pbEvent.setMessageForOthers("The player board of " + player.getNickname() + " has passed to frenzy mode");
                 pbEvent.setMessageForInvolved("Your player board has passed to frenzy mode");
 
@@ -205,7 +204,7 @@ public class RoundController {
         }
 
         ServerEvent updateScoreEvent = new ServerEvent();
-        updateScoreEvent.setUpdateScoreEvent(true);
+        updateScoreEvent.setUpdateScoreEvent();
         updateScoreEvent.setNicknames(game.getListOfNickname());
         String messageForInvolved = "";
         String messageForOthers =  "";
@@ -214,7 +213,7 @@ public class RoundController {
             messageForOthers = "You have remained in two playing, so the match finish here. \n\n";
         }
         if (finalUpdate) {
-            updateScoreEvent.setFinalUpdate(true);
+            updateScoreEvent.setFinalUpdate();
             updateScoreEvent.setNicknameInvolved(game.getPlayers().get(0).getNickname());
             messageForInvolved = messageForInvolved.concat("Congratulations, You have won!\n");
             messageForInvolved = messageForInvolved.concat(message);

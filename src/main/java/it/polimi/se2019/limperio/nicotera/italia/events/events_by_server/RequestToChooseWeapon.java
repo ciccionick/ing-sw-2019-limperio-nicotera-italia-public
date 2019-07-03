@@ -1,13 +1,30 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
+/**
+ * Event to request to player to choose one weapon after that he decided to shoot.
+ * @author Pietro L'Imperio.
+ */
 public class RequestToChooseWeapon extends ServerEvent {
 
+    /**
+     * It's true if the player can choose the first weapon of his deck, false otherwise.
+     */
     private boolean canUseWeapon1 = false;
+    /**
+     * It's true if the player can choose the second weapon of his deck, false otherwise.
+     */
     private boolean canUseWeapon2 = false;
+    /**
+     * It's true if the player can choose the third weapon of his deck, false otherwise.
+     */
     private boolean canUseWeapon3 = false;
 
+    /**
+     * Constructor of the class that calls the method that make true the boolean field relative of this kind of class.
+     */
+
     public RequestToChooseWeapon() {
-        setRequestToChooseWeapon(true);
+        setRequestToChooseWeapon();
     }
 
     public boolean isCanUseWeapon1() {

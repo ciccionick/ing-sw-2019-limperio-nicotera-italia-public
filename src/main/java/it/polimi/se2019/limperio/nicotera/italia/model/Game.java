@@ -116,10 +116,8 @@ public class Game extends Observable<ServerEvent> {
         if(terminatorModeActive){
             players.add(new Player("terminator", false, players.size()+1, findColorAvailable()));
         }
-        PlayerBoardEvent pbEvent;
         int position=1;
-
-
+        PlayerBoardEvent pbEvent;
         for (Player player : players){
             player.setPosition(position);
             player.createPlayerBoard();

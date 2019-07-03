@@ -1,14 +1,10 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * Event for updateStateOfRemoteView a player about creation or update of map.
- *
+ * Event for update the state of map view in the remote view of a player.
  * @author Pietro L'Imperio
  */
 public class MapEvent extends ServerEvent {
@@ -30,23 +26,33 @@ public class MapEvent extends ServerEvent {
      */
     private Square[][] map = new Square[3][4];
 
+    /**
+     * The number that represents the type of map that players are playing with.
+     */
     private int typeOfMap;
 
+    /**
+     * It's true if the game started with the terminator mode active, otherwise false.
+     */
     private boolean terminatorMode;
+    /**
+     * It's true if the update of the map is caused by the use of teleporter by some players, otherwise false.
+     */
     private boolean isForTeleporter = false;
+    /**
+     * It's true if the update of the map is caused by the use of Newton by some players, otherwise false.
+     */
     private boolean isForNewton = false;
 
+    /**
+     * Constructor that sets true the boolean field relative of this event.
+     */
     public MapEvent() {
-        setMapEvent(true);
-    }
-
-    public ArrayList<AliasCard> getWeaponsCardsForRedSpawnSquare() {
-        return weaponsCardsForRedSpawnSquare;
+        setMapEvent();
     }
 
     /**
      * Sets alias cards representing weapon cards placed in a spawn square in the correct list.
-     *
      * @param square The spawn square considered.
      */
     private void setWeaponsCardsForSpawnSquare(SpawnSquare square) {
@@ -70,10 +76,26 @@ public class MapEvent extends ServerEvent {
 
     }
 
-    public Square[][] getMap() {
-        return map;
+    /**
+     * Finds spawn square in the map and puts alias cards of the relative weapon cards placed in that
+     * square in the correct list.
+     * @param matrixOfSquares The matrix representing the map of the game.
+     */
+    private void setWeaponsWithTheirAlias(Square[][] matrixOfSquares) {
+        for (Square[] rowSquare: matrixOfSquares) {
+            for(Square square : rowSquare) {
+                if (square != null && square.isSpawn()) {
+                    setWeaponsCardsForSpawnSquare((SpawnSquare) square);
+                }
+            }
+        }
     }
 
+
+    /**
+     * Sets the matrix of square cloning all of the squares in the right position.
+     * @param map Matrix of the squares the make the map.
+     */
     public void setMap(Square[][] map) {
         for(int i=0;i<map.length;i++){
             for(int j=0;j<map[i].length;j++){
@@ -88,6 +110,13 @@ public class MapEvent extends ServerEvent {
         setWeaponsWithTheirAlias(map);
     }
 
+    public Square[][] getMap() {
+        return map;
+    }
+
+    public ArrayList<AliasCard> getWeaponsCardsForRedSpawnSquare() {
+        return weaponsCardsForRedSpawnSquare;
+    }
 
     public int getTypeOfMap() {
         return typeOfMap;
@@ -104,21 +133,6 @@ public class MapEvent extends ServerEvent {
 
     public ArrayList<AliasCard> getWeaponsCardsForYellowSpawnSquare() {
         return weaponsCardsForYellowSpawnSquare;
-    }
-
-    /**
-     * Finds spawn square in the map and puts alias cards of the relative weapon cards placed in that
-     * square in the correct list.
-     * @param matrixOfSquares The matrix representing the map of the game.
-     */
-    private void setWeaponsWithTheirAlias(Square[][] matrixOfSquares) {
-        for (Square[] rowSquare: matrixOfSquares) {
-            for(Square square : rowSquare) {
-                if (square != null && square.isSpawn()) {
-                    setWeaponsCardsForSpawnSquare((SpawnSquare) square);
-                }
-            }
-        }
     }
 
     public boolean isTerminatorMode() {

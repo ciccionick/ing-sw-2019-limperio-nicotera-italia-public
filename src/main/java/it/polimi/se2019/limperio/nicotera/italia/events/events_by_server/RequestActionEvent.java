@@ -1,20 +1,46 @@
 package it.polimi.se2019.limperio.nicotera.italia.events.events_by_server;
 
-import java.util.ArrayList;
-
+/**
+ * Event to request to a player to choose an action to do showing what he can really do.
+ * @author Pietro L'Imperio
+ */
 public class RequestActionEvent extends ServerEvent {
 
+    /**
+     * It's true if the player can run, false otherwise.
+     */
     private boolean canRun = false;
+    /**
+     * It's true if the player can catch, false otherwise.
+     */
     private boolean canCatch = false;
+    /**
+     * It's true if the player can shoot, false otherwise.
+     */
     private boolean canShoot = false;
+    /**
+     * It's true if the player can use Newton, false otherwise.
+     */
     private boolean canUseNewton = false;
+    /**
+     * It's true if the player can use teleporter, false otherwise.
+     */
     private boolean canUseTeleporter = false;
-    private boolean canUseTagbackGranade = false;
+    /**
+     * It's true if the player has to do a terminator action before to end his turn, false otherwise.
+     */
     private boolean hasToDoTerminatorAction = false;
-
-
-    private int round;
+    /**
+     * The number of the current action the player has to do.
+     */
     private int numOfAction;
+
+    /**
+     * Constructor that sets true the boolean field relative of this event.
+     */
+    public RequestActionEvent() {
+        setRequestActionEvent();
+    }
 
     public boolean isCanShoot() {
         return canShoot;
@@ -38,14 +64,6 @@ public class RequestActionEvent extends ServerEvent {
 
     public void setCanUseTeleporter(boolean canUseTeleporter) {
         this.canUseTeleporter = canUseTeleporter;
-    }
-
-    public boolean isCanUseTagbackGranade() {
-        return canUseTagbackGranade;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
     }
 
     public boolean isHasToDoTerminatorAction() {
