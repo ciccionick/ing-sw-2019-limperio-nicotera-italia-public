@@ -288,6 +288,7 @@ class MapPanel extends JPanel {
          for(JLabel label : hashMapForCell.values()){
              label.setEnabled(false);
          }
+
          for(Square square : selectableSquares){
              hashMapForCell.get("cell".concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()))).setEnabled(true);
          }

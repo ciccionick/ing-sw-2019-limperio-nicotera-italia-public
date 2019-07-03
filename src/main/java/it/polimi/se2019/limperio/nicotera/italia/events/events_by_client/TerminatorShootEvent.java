@@ -4,7 +4,7 @@ public class TerminatorShootEvent extends ClientEvent {
     private String nicknamePlayerToAttack;
     public TerminatorShootEvent(String message, String nickname) {
         super(message, nickname);
-        setTerminatorShootEvent(true);
+        setTerminatorShootEvent();
     }
 
     public String getNicknamePlayerToAttack() {

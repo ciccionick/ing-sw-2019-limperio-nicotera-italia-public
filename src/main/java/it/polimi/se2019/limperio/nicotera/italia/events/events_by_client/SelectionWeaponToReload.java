@@ -5,7 +5,7 @@ public class SelectionWeaponToReload extends ClientEvent{
     private String nameOfWeaponCardToReload;
     public SelectionWeaponToReload(String message, String nickname) {
         super(message, nickname);
-        setSelectionWeaponToReload(true);
+        setSelectionWeaponToReload();
     }
 
     public String getNameOfWeaponCardToReload() {

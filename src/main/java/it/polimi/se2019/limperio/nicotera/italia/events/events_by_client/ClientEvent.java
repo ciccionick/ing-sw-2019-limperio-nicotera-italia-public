@@ -26,43 +26,117 @@ public class ClientEvent implements Serializable {
      */
    private String message;
     /**
-     * The nickname of the Player who is sending the event.
+     * The nickname of the player who is sending the event.
      */
    private String nickname;
 
     /**
-     * Reference to the Virtual View of the player that is sending the event
+     * Reference of the Virtual View of the player that is sending the event
      *
      */
    private transient VirtualView myVirtualView = null;
+    /**
+     * It's true if the event is generated to draw one or two power up cards, false otherwise.
+     */
    private boolean isDrawPowerUpCard = false;
+    /**
+     * It's true if the event is generated to discard a  power up card to be spawn, false otherwise.
+     */
    private boolean isDiscardPowerUpCardToSpawn = false;
+    /**
+     * It's true if the event is generated to request to the game to run, false otherwise.
+     */
    private boolean isRequestToRunByPlayer = false;
+    /**
+     * It's true if the event is generated to request to the game to catch, false otherwise.
+     */
    private boolean isRequestToCatchByPlayer = false;
+    /**
+     * It's true if the event is generated to request to the game to shoot, false otherwise.
+     */
    private boolean isRequestToShootByPlayer = false;
+    /**
+     * It's true if the event is generated to communicate a choice of a square, false otherwise.
+     */
    private boolean isSelectionWeaponToCatch = false;
+    /**
+     * It's true if the event is generated to select a weapon to discard it, false otherwise.
+     */
    private boolean isSelectionWeaponToDiscard = false;
+    /**
+     * It's true if the event is generated to request to the game to do a terminator action, false otherwise.
+     */
    private boolean isRequestTerminatorActionByPlayer = false;
+    /**
+     * It's true if the event is generated to request to the game to move terminator, false otherwise.
+     */
    private boolean isRequestToMoveTerminator = false;
+    /**
+     * It's true if the event is generated to request to the game to shoot with terminator, false otherwise.
+     */
    private boolean isRequestToShootWithTerminator = false;
+    /**
+     * It's true if the event is generated to request to the game to go on with the terminator action, false otherwise.
+     */
    private boolean isRequestToGoOn = false;
+    /**
+     * It's true if the event is generated to shoot with terminator, false otherwise.
+     */
    private boolean isTerminatorShootEvent = false;
+    /**
+     * It's true if the event is generated to request to the game to use a weapon, false otherwise.
+     */
    private boolean isRequestToUseWeaponCard = false;
+    /**
+     * It's true if the event is generated to request to the game to use an effect, false otherwise.
+     */
    private boolean isRequestToUseEffect = false;
-   private boolean isDiscardPowerUpCardAsAmmo = false;
+    /**
+     * It's true if the event is generated to discard a power up card, false otherwise.
+     */
+   private boolean isDiscardPowerUpCard = false;
+    /**
+     * It's true if the event is generated to discard power up card or use ammo to pay the effect of targeting scope, false otherwise.
+     */
    private boolean isDiscardAmmoOrPowerUpToPayTargeting = false;
+    /**
+     * It's true if the event is generated to choose a player, false otherwise.
+     */
    private boolean isChoosePlayer = false;
+    /**
+     * It's true if the event is generated to select a weapon to reload, false otherwise.
+     */
    private boolean isSelectionWeaponToReload = false;
+    /**
+     * It's true if the event is generated to select more than players for an attack, false otherwise.
+     */
    private boolean isSelectionMultiplePlayers = false;
+    /**
+     * It's true if the event is generated to select a square, false otherwise.
+     */
    private boolean isSelectionSquare = false;
+    /**
+     * It's true if the event is generated to request to the game to use teleporter, false otherwise.
+     */
    private boolean isRequestToUseTeleporter = false;
+    /**
+     * It's true if the event is generated to request to the game to use Newton, false otherwise.
+     */
    private boolean isRequestToUseNewton = false;
 
 
+    /**
+     * Constructor of the class that initialize the message for the server e the nickname of the player that is sending the event.
+     */
     public ClientEvent(String message, String nickname) {
         this.message = message;
         this.nickname = nickname;
     }
+
+    public ClientEvent() {
+    }
+
+
 
     public VirtualView getMyVirtualView() {
         return myVirtualView;
@@ -88,8 +162,8 @@ public class ClientEvent implements Serializable {
         return isSelectionSquare;
     }
 
-     void setSelectionSquare(boolean selectionSquare) {
-        isSelectionSquare = selectionSquare;
+     void setSelectionSquare() {
+        isSelectionSquare = true;
     }
 
     public boolean isSelectionWeaponToReload() {
@@ -101,12 +175,12 @@ public class ClientEvent implements Serializable {
         return isSelectionMultiplePlayers;
     }
 
-     void setSelectionMultiplePlayers(boolean selectionMultiplePlayers) {
-        isSelectionMultiplePlayers = selectionMultiplePlayers;
+     void setSelectionMultiplePlayers() {
+        isSelectionMultiplePlayers = true;
     }
 
-     void setSelectionWeaponToReload(boolean selectionWeaponToReload) {
-        isSelectionWeaponToReload = selectionWeaponToReload;
+     void setSelectionWeaponToReload() {
+        isSelectionWeaponToReload = true;
     }
 
     public void setRequestToShootByPlayer(boolean requestToShootByPlayer) {
@@ -117,24 +191,24 @@ public class ClientEvent implements Serializable {
         return isChoosePlayer;
     }
 
-     void setChoosePlayer(boolean choosePlayer) {
-        isChoosePlayer = choosePlayer;
+     void setChoosePlayer() {
+        isChoosePlayer = true;
     }
 
     public boolean isRequestToUseEffect() {
         return isRequestToUseEffect;
     }
 
-    public boolean isDiscardPowerUpCardAsAmmo() {
-        return isDiscardPowerUpCardAsAmmo;
+    public boolean isDiscardPowerUpCard() {
+        return isDiscardPowerUpCard;
     }
 
-     void setDiscardPowerUpCardAsAmmo(boolean discardPowerUpCardAsAmmo) {
-        isDiscardPowerUpCardAsAmmo = discardPowerUpCardAsAmmo;
+     void setDiscardPowerUpCard() {
+        isDiscardPowerUpCard = true;
     }
 
-     void setRequestToUseEffect(boolean requestToUseEffect) {
-        isRequestToUseEffect = requestToUseEffect;
+     void setRequestToUseEffect() {
+        isRequestToUseEffect = true;
     }
 
 
@@ -146,8 +220,8 @@ public class ClientEvent implements Serializable {
         return isDiscardAmmoOrPowerUpToPayTargeting;
     }
 
-     void setDiscardAmmoOrPowerUpToPayTargeting(boolean discardAmmoOrPowerUpToPayTargeting) {
-        isDiscardAmmoOrPowerUpToPayTargeting = discardAmmoOrPowerUpToPayTargeting;
+     void setDiscardAmmoOrPowerUpToPayTargeting() {
+        isDiscardAmmoOrPowerUpToPayTargeting = true;
     }
 
     public void setRequestToRunByPlayer(boolean requestToRunByPlayer) {
@@ -166,8 +240,8 @@ public class ClientEvent implements Serializable {
         return isRequestToUseWeaponCard;
     }
 
-     void setRequestToUseWeaponCard(boolean requestToUseWeaponCard) {
-        isRequestToUseWeaponCard = requestToUseWeaponCard;
+     void setRequestToUseWeaponCard() {
+        isRequestToUseWeaponCard = true;
     }
 
     public boolean isDrawPowerUpCard() {
@@ -182,16 +256,16 @@ public class ClientEvent implements Serializable {
         return isDiscardPowerUpCardToSpawn;
     }
 
-     void setDiscardPowerUpCardToSpawn(boolean discardPowerUpCardToSpawn) {
-        isDiscardPowerUpCardToSpawn = discardPowerUpCardToSpawn;
+     void setDiscardPowerUpCardToSpawn() {
+        isDiscardPowerUpCardToSpawn = true;
     }
 
     public boolean isSelectionWeaponToDiscard() {
         return isSelectionWeaponToDiscard;
     }
 
-     void setSelectionWeaponToDiscard(boolean selectionWeaponToDiscard) {
-        isSelectionWeaponToDiscard = selectionWeaponToDiscard;
+     void setSelectionWeaponToDiscard() {
+        isSelectionWeaponToDiscard = true;
     }
 
 
@@ -199,16 +273,16 @@ public class ClientEvent implements Serializable {
         return isRequestTerminatorActionByPlayer;
     }
 
-     void setRequestTerminatorActionByPlayer(boolean requestTerminatorActionByPlayer) {
-        isRequestTerminatorActionByPlayer = requestTerminatorActionByPlayer;
+     void setRequestTerminatorActionByPlayer() {
+        isRequestTerminatorActionByPlayer = true;
     }
 
     public boolean isSelectionWeaponToCatch() {
         return isSelectionWeaponToCatch;
     }
 
-     void setSelectionWeaponToCatch(boolean selectionWeaponToCatch) {
-        isSelectionWeaponToCatch = selectionWeaponToCatch;
+     void setSelectionWeaponToCatch() {
+        isSelectionWeaponToCatch = true;
     }
 
 
@@ -240,8 +314,8 @@ public class ClientEvent implements Serializable {
         return isTerminatorShootEvent;
     }
 
-     void setTerminatorShootEvent(boolean terminatorShootEvent) {
-        isTerminatorShootEvent = terminatorShootEvent;
+     void setTerminatorShootEvent() {
+        isTerminatorShootEvent = true;
     }
 
 
@@ -249,16 +323,16 @@ public class ClientEvent implements Serializable {
         return isRequestToUseTeleporter;
     }
 
-     void setRequestToUseTeleporter(boolean requestToUseTeleporter) {
-        isRequestToUseTeleporter = requestToUseTeleporter;
+     void setRequestToUseTeleporter() {
+        isRequestToUseTeleporter = true;
     }
 
     public boolean isRequestToUseNewton() {
         return isRequestToUseNewton;
     }
 
-     void setRequestToUseNewton(boolean requestToUseNewton) {
-        isRequestToUseNewton = requestToUseNewton;
+     void setRequestToUseNewton() {
+        isRequestToUseNewton = true;
     }
 
 }

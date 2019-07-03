@@ -8,7 +8,7 @@ public class SelectionMultiplePlayers extends ClientEvent {
 
     public SelectionMultiplePlayers(String message, String nickname) {
         super(message, nickname);
-        setSelectionMultiplePlayers(true);
+        setSelectionMultiplePlayers();
     }
 
     public ArrayList<String> getNamesOfPlayers() {

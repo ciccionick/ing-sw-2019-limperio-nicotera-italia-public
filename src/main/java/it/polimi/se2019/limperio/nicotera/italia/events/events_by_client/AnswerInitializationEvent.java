@@ -10,7 +10,7 @@ import java.io.Serializable;
  * </p>
  * @author Pietro L'Imperio
  */
-public class AnswerInitializationEvent implements Serializable {
+public class AnswerInitializationEvent extends ClientEvent implements Serializable {
     static final long serialVersionUID = 420000015;
     /**
      * Nickname chosen by the client
@@ -34,6 +34,14 @@ public class AnswerInitializationEvent implements Serializable {
     private boolean terminator;
 
 
+    /**
+     * Constructor that initializes nickname, color, map, frenzy and terminator according with the request received by server.
+     * @param nickname
+     * @param color
+     * @param map
+     * @param frenzy
+     * @param terminator
+     */
     public AnswerInitializationEvent(String nickname, String color, int map, boolean frenzy, boolean terminator) {
         this.nickname = nickname;
         this.color = color;

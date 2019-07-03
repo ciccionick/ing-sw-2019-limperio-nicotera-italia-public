@@ -16,7 +16,7 @@ public class SelectionSquare extends ClientEvent {
 
     public SelectionSquare(String message, String nickname, int row, int column) {
         super(message, nickname);
-        setSelectionSquare(true);
+        setSelectionSquare();
         this.row = row;
         this.column = column;
     }

@@ -6,7 +6,7 @@ public class RequestToUseWeaponCard extends ClientEvent {
     private ServerEvent.AliasCard weaponWantUse;
     public RequestToUseWeaponCard(String message, String nickname) {
         super(message, nickname);
-        setRequestToUseWeaponCard(true);
+        setRequestToUseWeaponCard();
     }
 
     public ServerEvent.AliasCard getWeaponWantUse() {

@@ -8,7 +8,7 @@ public class SelectionWeaponToDiscard extends ClientEvent {
         super(message, nickname);
         this.nameOfWeaponCardToAdd = nameOfWeaponCardToAdd;
         this.nameOfWeaponCardToRemove = nameOfWeaponCardToRemove;
-        setSelectionWeaponToDiscard(true);
+        setSelectionWeaponToDiscard();
     }
 
     public String getNameOfWeaponCardToAdd() {

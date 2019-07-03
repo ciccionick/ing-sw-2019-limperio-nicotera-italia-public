@@ -7,7 +7,7 @@ public class SelectionWeaponToCatch extends ClientEvent {
 
     public SelectionWeaponToCatch(String message, String nickname){
         super(message,nickname);
-        setSelectionWeaponToCatch(true);
+        setSelectionWeaponToCatch();
     }
 
     public String getNameOfWeaponCard() {

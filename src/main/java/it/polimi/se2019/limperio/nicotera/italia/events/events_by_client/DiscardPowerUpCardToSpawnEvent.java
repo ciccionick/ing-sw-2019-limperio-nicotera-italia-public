@@ -17,7 +17,7 @@ public class DiscardPowerUpCardToSpawnEvent extends ClientEvent {
 
     public DiscardPowerUpCardToSpawnEvent(String message, String nickname) {
         super(message, nickname);
-        setDiscardPowerUpCardToSpawn(true);
+        setDiscardPowerUpCardToSpawn();
     }
 
     public ServerEvent.AliasCard getPowerUpCard() {

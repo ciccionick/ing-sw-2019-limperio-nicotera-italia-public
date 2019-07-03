@@ -349,7 +349,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param message it contains the type of action that the player has done.
      */
     public void update(ClientEvent message) {
-        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCardAsAmmo() && ((DiscardPowerUpCard)message).isToTagback())) {
+        if (isTheTurnOfThisPlayer(message.getNickname())&&game.getPlayerHasToRespawn()==null || findPlayerWithThisNickname(message.getNickname()).isDead() ||( message.isDiscardPowerUpCard() && ((DiscardPowerUpCard)message).isToTagback())) {
             if (message.isDrawPowerUpCard() && findPlayerWithThisNickname(message.getNickname()).isHasToBeGenerated()) {
                 if(game.getRound()==1 && game.getPlayerOfTurn()==1 && game.isTerminatorModeActive()){
                     terminatorController = new TerminatorController(this, game);
@@ -432,7 +432,7 @@ public class Controller implements Observer<ClientEvent> {
             if(message.isRequestToUseEffect())
                 shootController.handleRequestToUseEffect((RequestToUseEffect) message);
 
-            if(message.isDiscardPowerUpCardAsAmmo()) {
+            if(message.isDiscardPowerUpCard()) {
                 if(((DiscardPowerUpCard)message).isToCatch())
                     catchController.handleRequestToDiscardPowerUpCardAsAmmo((DiscardPowerUpCard) message);
                 if(((DiscardPowerUpCard)message).isToPayAnEffect())
