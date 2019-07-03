@@ -5,6 +5,7 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import java.io.*;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -224,14 +225,14 @@ public class Server  {
                         } catch (IOException e) {
                             loggerServer.log(Level.ALL, "error");
                         }
-                        finally {
+                        /*finally {
                             try {
                                 if(socket!=null)
                                     socket.close();
                             } catch (IOException e) {
                                 loggerServer.log(Level.ALL, "error");
                             }
-                        }
+                        }*/
                     }
                 }, 500);
             }

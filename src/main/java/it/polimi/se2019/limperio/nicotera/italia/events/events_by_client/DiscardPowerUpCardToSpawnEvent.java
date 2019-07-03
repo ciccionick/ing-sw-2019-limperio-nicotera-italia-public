@@ -15,6 +15,10 @@ public class DiscardPowerUpCardToSpawnEvent extends ClientEvent {
      */
     private ServerEvent.AliasCard powerUpCard = null;
 
+    /**
+     * Constructor of the class where the message for the server and nickname of the player involved are initialized.
+     * Calls also the method to make true the boolean field relative of this kind of event.
+     */
     public DiscardPowerUpCardToSpawnEvent(String message, String nickname) {
         super(message, nickname);
         setDiscardPowerUpCardToSpawn();

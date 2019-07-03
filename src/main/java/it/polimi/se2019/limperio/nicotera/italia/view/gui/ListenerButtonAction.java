@@ -1,9 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.view.gui;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestTerminatorActionByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToCatchByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToShootByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,18 +31,19 @@ import java.awt.event.ActionListener;
     @Override
         public void actionPerformed(ActionEvent e) {
             String nickname = mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer();
+            ClientEvent event = new ClientEvent("", nickname);
             switch(e.getActionCommand()){
                 case "Run":
-                    mainFrame.getRemoteView().notify(new RequestToRunByPlayer("", nickname));
+                    event.setRequestToRunByPlayer(true);
                     break;
                 case "Catch":
-                    mainFrame.getRemoteView().notify(new RequestToCatchByPlayer("", nickname));
+                    event.setRequestToCatchByPlayer(true);
                     break;
                 case "Shoot":
-                    mainFrame.getRemoteView().notify(new RequestToShootByPlayer("", nickname));
+                    event.setRequestToShootByPlayer(true);
                     break;
                 case "Terminator":
-                    mainFrame.getRemoteView().notify(new RequestTerminatorActionByPlayer("",  mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer()));
+                    event.setRequestTerminatorActionByPlayer();
                     break;
                 case "Cancel":
                     mainFrame.getRightPanel().getPanelOfActions().updateStateOfButton();
@@ -57,6 +56,8 @@ import java.awt.event.ActionListener;
                     break;
                 default: throw new IllegalArgumentException();
             }
+            mainFrame.getRemoteView().notify(event);
+
             if(!(e.getActionCommand().equals("Cancel"))) {
                 mainFrame.getRightPanel().getPanelOfActions().disablePowerUpCards();
                 mainFrame.getRightPanel().getPanelOfActions().getButtonCatch().setEnabled(false);

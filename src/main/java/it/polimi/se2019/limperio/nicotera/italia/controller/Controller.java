@@ -361,7 +361,7 @@ public class Controller implements Observer<ClientEvent> {
                 powerUpController.handleDiscardOfCardToSpawn((DiscardPowerUpCardToSpawnEvent) message);
             }
             if (message.isRequestToCatchByPlayer()) {
-                catchController.replyToRequestToCatch((RequestToCatchByPlayer) message);
+                catchController.replyToRequestToCatch(message);
             }
 
             if(message.isSelectionSquare()){
@@ -406,7 +406,7 @@ public class Controller implements Observer<ClientEvent> {
                 catchController.handleSelectionWeaponToCatch((SelectionWeaponToCatch) message);
 
             if (message.isRequestToRunByPlayer())
-                runController.handleRunActionRequest((RequestToRunByPlayer) message);
+                runController.handleRunActionRequest(message);
 
 
             if(message.isTerminatorShootEvent())

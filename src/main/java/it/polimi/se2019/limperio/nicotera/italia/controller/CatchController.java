@@ -37,7 +37,7 @@ class CatchController {
      *
      * @param event it contains the information of the player that want to catch
      */
-    void replyToRequestToCatch(RequestToCatchByPlayer event){
+    void replyToRequestToCatch(ClientEvent event){
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
         ArrayList<Square> squareAvailableToCatch = findSquareWherePlayerCanCatch(controller.findPlayerWithThisNickname(event.getNickname()), weaponNotAffordable);
         RequestSelectionSquareForAction newSelectionEvent = new RequestSelectionSquareForAction("Choose one of the enabled squares to catch something on that.\nRemember, before to choose, you can use enable powerUp cards.");

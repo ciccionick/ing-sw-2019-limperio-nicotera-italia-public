@@ -132,8 +132,10 @@ public class NetworkHandler implements Observer<ClientEvent> {
         if(event.isRequestToChooseMultiplePlayers())
             remoteView.getMainFrame().handleRequestToChooseMultiplePlayers(event);
 
-        if(event.isRequestToSelectionPlayerToAttackWithTerminator())
+        if(event.isRequestToSelectionPlayerToAttackWithTerminator()) {
             remoteView.getMainFrame().handleRequestToChooseAPlayer(event);
+            remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
+        }
 
 
         if (event.isTimerOverEvent()){
@@ -148,8 +150,10 @@ public class NetworkHandler implements Observer<ClientEvent> {
             remoteView.getMainFrame().updateNorthPanel();
         }
 
-        if(event.isGenerationEvent()|| event.isRequestToChooseTerminatorAction())
+        if(event.isGenerationEvent()|| event.isRequestToChooseTerminatorAction()) {
+            remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
             remoteView.getMainFrame().showMessage(event);
+        }
 
 
         if(event.isRequestForDrawTwoPowerUpCardsEvent()){

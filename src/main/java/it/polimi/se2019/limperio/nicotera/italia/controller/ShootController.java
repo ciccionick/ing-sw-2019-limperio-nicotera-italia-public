@@ -238,7 +238,11 @@ public class ShootController {
                     sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 0, true));
                 }
                 else{
-                    sendRequestToChooseSquare(controller.getWeaponController().getSquaresOfVisibleRoom(0, squareOfPlayer, 1, true));
+                    ArrayList<Square> squares = new ArrayList<>();
+                    for(Square square : squareOfPlayer.getAdjSquares())
+                        squares.add(square);
+                    controller.getWeaponController().removeSquareWithoutPlayers(squares);
+                    sendRequestToChooseSquare(squares);
                 }
                 break;
 
@@ -581,7 +585,7 @@ public class ShootController {
     private ArrayList<Player> getPlayersInvolvedInAnEffect(int effect){
         ArrayList<Player> players = new ArrayList<>();
         for(InvolvedPlayer involvedPlayer : involvedPlayers){
-            if(involvedPlayer.getEffect() == effect){
+            if(involvedPlayer.getEffect() == effect && involvedPlayer.getPlayer()!=null){
                 players.add(involvedPlayer.getPlayer());
             }
         }
@@ -707,9 +711,11 @@ public class ShootController {
         String messageForNotInvolvedInTheAttack = nicknameOfAttacker + " has used the effect " + nameOfEffect + " of " + weaponToUse.getName() + " on: ";
         int i;
         for( i = 0 ; i<listOfPlayersInvolvedInTheLastEffect.size()-1; i++ ){
-//            messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+", ");
+            if(listOfPlayersInvolvedInTheLastEffect.get(i)!=null)
+             messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+", ");
         }
-        //messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+".");
+        if(listOfPlayersInvolvedInTheLastEffect.get(i)!=null)
+            messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+".");
         for(Player player : game.getPlayers()){
             pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknames(game.getListOfNickname());
@@ -893,6 +899,7 @@ public class ShootController {
      void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCard message) {
          int indexOfCardToRemove = 0;
          Player player;
+
          player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         if(message.getNameOfPowerUpCard()==null){
             alreadyAskedToUseTargeting=true;
@@ -1030,12 +1037,8 @@ public class ShootController {
         Player playerToAttack = null;
         if(!isForTerminator)
             playerToAttack = weaponToUse.getOwnerOfCard();
-        else{
-            for(Player player : game.getPlayers()){
-                if(player.getNickname().equals("terminator"))
-                    playerToAttack = player;
-            }
-        }
+        else
+            playerToAttack = controller.findPlayerWithThisNickname("terminator");
 
         if(message.getNameOfPowerUpCard()==null){
             playersAreChoosingForTagback.remove(playerWithTagback);

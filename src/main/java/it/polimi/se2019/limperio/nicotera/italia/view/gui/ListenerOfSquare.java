@@ -124,24 +124,14 @@ class ListenerOfSquare extends MouseAdapter {
         public void mouseClicked(MouseEvent e) {
             if(isClickableForSelection()){
                 SelectionSquare selectionSquare = new SelectionSquare("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(),row,column);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForRun())
-                    selectionSquare.setRunEvent(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForCatch())
-                    selectionSquare.setCatchEvent(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator())
-                    selectionSquare.setGenerationTerminatorEvent(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter())
-                    selectionSquare.setSelectionSquareToUseTeleporter(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForNewton())
-                    selectionSquare.setSelectionSquareToUseNewton(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator())
-                    selectionSquare.setMoveTerminatorEvent(true);
-                if(mainFrame.getRemoteView().getMapView().isSelectionBeforeToShoot()){
-                    selectionSquare.setBeforeToShoot(true);
-                }
-                if(mainFrame.getRemoteView().getMapView().isSelectionForShootAction()){
-                    selectionSquare.setSelectionSquareForShootAction(true);
-                }
+                selectionSquare.setRunEvent(mainFrame.getRemoteView().getMapView().isSelectionForRun());
+                selectionSquare.setCatchEvent(mainFrame.getRemoteView().getMapView().isSelectionForCatch());
+                selectionSquare.setGenerationTerminatorEvent(mainFrame.getRemoteView().getMapView().isSelectionForGenerationOfTerminator());
+                selectionSquare.setSelectionSquareToUseTeleporter(mainFrame.getRemoteView().getMapView().isSelectionForTeleporter());
+                selectionSquare.setSelectionSquareToUseNewton(mainFrame.getRemoteView().getMapView().isSelectionForNewton());
+                selectionSquare.setMoveTerminatorEvent(mainFrame.getRemoteView().getMapView().isSelectionForMoveTerminator());
+                selectionSquare.setBeforeToShoot(mainFrame.getRemoteView().getMapView().isSelectionBeforeToShoot());
+                selectionSquare.setSelectionSquareForShootAction(mainFrame.getRemoteView().getMapView().isSelectionForShootAction());
                 mainFrame.getRemoteView().notify(selectionSquare);
                 for(JLabel label : hashMapForCell.values()){
                     label.setEnabled(true);
@@ -152,7 +142,6 @@ class ListenerOfSquare extends MouseAdapter {
                 mainFrame.getRightPanel().getPanelOfPlayers().getButtonDisableSelection().setEnabled(false);
                 mainFrame.updatePanelOfPlayers();
             }
-
         }
 
     /**

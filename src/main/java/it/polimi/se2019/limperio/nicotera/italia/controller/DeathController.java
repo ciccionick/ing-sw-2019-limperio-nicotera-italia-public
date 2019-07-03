@@ -57,6 +57,7 @@ class DeathController {
              }
          }
          KillshotTrackEvent killshotTrackEvent = new KillshotTrackEvent("", game.getBoard().getKillShotTrack());
+         killshotTrackEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
          killshotTrackEvent.setNicknames(game.getListOfNickname());
          game.notify(killshotTrackEvent);
 

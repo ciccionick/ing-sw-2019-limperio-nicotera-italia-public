@@ -203,7 +203,7 @@ class PowerUpController {
          mapEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
          mapEvent.setNicknames(game.getListOfNickname());
          mapEvent.setNicknameInvolved(message.getNickname());
-         mapEvent.setMessageForOthers(message.getNickname() + "has used teleporter and moves himself");
+         mapEvent.setMessageForOthers(message.getNickname() + " has used teleporter and moves himself");
          mapEvent.setMessageForInvolved("You have been moved on the selected square");
          mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
          mapEvent.setForTeleporter(true);
@@ -278,8 +278,8 @@ class PowerUpController {
          mapEvent.setNicknames(game.getListOfNickname());
          mapEvent.setNicknameInvolved(nicknameOfPlayerHasToBeMovedByNewton);
          mapEvent.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
-         mapEvent.setMessageForOthers(event.getNickname() + "has used newton and moves" + nicknameOfPlayerHasToBeMovedByNewton);
-         mapEvent.setMessageForInvolved("You have been moved from" + event.getNickname() + "that has used Newton");
+         mapEvent.setMessageForOthers(event.getNickname() + " has used newton and moves " + nicknameOfPlayerHasToBeMovedByNewton);
+         mapEvent.setMessageForInvolved("You have been moved from " + event.getNickname() + " that has used Newton");
          mapEvent.setForNewton(true);
          game.notify(mapEvent);
          PlayerBoardEvent playerBoardEvent = new PlayerBoardEvent();

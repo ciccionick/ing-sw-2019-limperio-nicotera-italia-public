@@ -166,7 +166,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                         out.writeObject(req);
                         ans = (AnswerInitializationEvent) in.readObject();
                     }
-                    server.addNickname(ans.getNickname());
                     nicknameOfClient = ans.getNickname();
                     out.writeObject(new RequestInitializationEvent("Digit your color:", false, true, false, false, false));
                     ans = (AnswerInitializationEvent) in.readObject();
@@ -178,6 +177,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     }
 
                     if(!firstPlayer) {
+                        server.addNickname(nicknameOfClient);
                         server.getListOfColor().add(ans.getColor().toUpperCase());
                         colorsAdded=true;
                     }
@@ -198,7 +198,8 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                         out.writeObject(new RequestInitializationEvent("Choose if u want terminator mode:", false, false, false, true, false));
                         ans = (AnswerInitializationEvent) in.readObject();
                         server.setTerminatorMode(ans.isTerminator());
-                        if(!server.isGameStarted() && server.getListOfColor().size()<6) {
+                        if(!server.isGameStarted() && server.getListOfColor().size()<5) {
+                            server.addNickname(nicknameOfClient);
                             server.getListOfColor().add(colorOfClient);
                             colorsAdded=true;
                             if(server.getListOfColor().size()==3)
@@ -210,7 +211,6 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     out.writeObject(req);
                     invalidInitialization = false;
                 }
-
             }
 
         } catch (IOException se) {

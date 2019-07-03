@@ -206,6 +206,7 @@ public class RoundController {
         ServerEvent updateScoreEvent = new ServerEvent();
         updateScoreEvent.setUpdateScoreEvent();
         updateScoreEvent.setNicknames(game.getListOfNickname());
+        updateScoreEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
         String messageForInvolved = "";
         String messageForOthers =  "";
         if(isForDisconnectionOfThirdPlayer){

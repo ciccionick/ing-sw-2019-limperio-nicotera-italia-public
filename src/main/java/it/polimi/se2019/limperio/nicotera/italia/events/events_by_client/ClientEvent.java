@@ -273,7 +273,7 @@ public class ClientEvent implements Serializable {
         return isRequestTerminatorActionByPlayer;
     }
 
-     void setRequestTerminatorActionByPlayer() {
+     public void setRequestTerminatorActionByPlayer() {
         isRequestTerminatorActionByPlayer = true;
     }
 
