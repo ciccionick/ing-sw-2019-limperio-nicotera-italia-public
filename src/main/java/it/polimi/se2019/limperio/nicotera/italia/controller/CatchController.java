@@ -41,10 +41,9 @@ class CatchController {
         ArrayList<ServerEvent.AliasCard> weaponNotAffordable = new ArrayList<>();
         ArrayList<Square> squareAvailableToCatch = findSquareWherePlayerCanCatch(controller.findPlayerWithThisNickname(event.getNickname()), weaponNotAffordable);
         RequestSelectionSquareForAction newSelectionEvent = new RequestSelectionSquareForAction("Choose one of the enabled squares to catch something on that.\nRemember, before to choose, you can use enable powerUp cards.");
-        newSelectionEvent.setSelectionForCatch(true);
+        newSelectionEvent.setSelectionForCatch();
         newSelectionEvent.setNicknameInvolved(event.getNickname());
         newSelectionEvent.setSquaresReachable(squareAvailableToCatch);
-        newSelectionEvent.setWeaponNotAvailableForLackOfAmmo(weaponNotAffordable);
         event.getMyVirtualView().update(newSelectionEvent);
 
     }
@@ -111,7 +110,7 @@ class CatchController {
         game.notify(mapEvent);
 
         ServerEvent notifyActionDoneEvent = new ServerEvent();
-        notifyActionDoneEvent.setNotifyAboutActionDone(true);
+        notifyActionDoneEvent.setNotifyAboutActionDone();
         notifyActionDoneEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
         notifyActionDoneEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
         notifyActionDoneEvent.setNicknameInvolved(player.getNickname());
@@ -302,7 +301,7 @@ class CatchController {
         RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose which power up card you want to discard to pay");
-        requestToDiscardPowerUpCardToPay.setToCatch(true);
+        requestToDiscardPowerUpCardToPay.setToCatch();
         if(!colorsOfAmmoNotEnough.isEmpty()) {
             requestToDiscardPowerUpCardToPay.setPowerUpCards(getPowerUpCardToChooseForDiscard(player, colorsOfAmmoNotEnough.remove(0)));
             game.notify(requestToDiscardPowerUpCardToPay);

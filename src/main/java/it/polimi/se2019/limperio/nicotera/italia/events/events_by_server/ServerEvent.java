@@ -23,10 +23,12 @@ import java.util.ArrayList;
 public class ServerEvent implements Serializable {
     static final long serialVersionUID = 420000013;
     /**
-     * The message stored in the event.
+     * The message stored in the event for the player directly involved in the event.
      */
     private String messageForInvolved;
-
+    /**
+     * The message store in the event for all of the other players interested in the event but not directly involved.
+     */
     private String messageForOthers;
 
     /**
@@ -34,44 +36,138 @@ public class ServerEvent implements Serializable {
      */
     private ArrayList<String> nicknames = new ArrayList<>();
 
+    /**
+     * The nickname of the player directly involved in the event.
+     */
     private String nicknameInvolved;
 
+    /**
+     * It's true if the event is concerning a change in a player board of any players, otherwise false.
+     */
     private boolean isPlayerBoardEvent = false;
+    /**
+     * It's true if the event is concerning a change in the map, otherwise false.
+     */
     private boolean isMapEvent = false;
+    /**
+     * It's true if the event is concerning a change in the killshot track, otherwise false.
+     */
     private boolean isKillshotTrackEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to draw two power up cards, otherwise false.
+     */
     private boolean isRequestForDrawTwoPowerUpCardsEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to discard a power up card to discard a power up card to be spawn, otherwise false.
+     */
     private boolean isRequestToDiscardPowerUpCardToSpawnEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to choose an action to do, otherwise false.
+     */
     private boolean isRequestActionEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to choose a weapon to catch, otherwise false.
+     */
     private boolean isRequestForChooseAWeaponToCatch = false;
+    /**
+     * It's true if the event is generated to notify to players that the game is ended, otherwise false.
+     */
     private boolean isFinished=false;
+    /**
+     * It's true if the event is generated to request to a player to select a square to an action, otherwise false.
+     */
     private boolean isRequestSelectionSquareForAction = false;
+    /**
+     * It's true if the event is generated to notify the generation of a player, otherwise false.
+     */
     private boolean isGenerationEvent = false;
+    /**
+     * It's true if the event is generated to notify to players that an action has been done, otherwise false.
+     */
     private boolean isNotifyAboutActionDone = false;
+    /**
+     * It's true if the event is generated to request to a player to discard a weapon card, otherwise false.
+     */
     private boolean isRequestToDiscardWeaponCard = false;
+    /**
+     * It's true if the event is generated to notify to players that a timer about the duration of the turn is over, otherwise false.
+     */
     private boolean isTimerOverEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to choose the action that terminator has to do, otherwise false.
+     */
     private boolean isRequestToChooseTerminatorAction = false;
+    /**
+     * It's true if the event is generated to request to a player to select a player that terminator has to attack, otherwise false.
+     */
     private boolean isRequestToSelectionPlayerToAttackWithTerminator =false;
+    /**
+     * It's true if the event is generated to notify an update of the score, otherwise false.
+     */
     private boolean isUpdateScoreEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to draw a power up card, otherwise false.
+     */
     private boolean isRequestForDrawOnePowerUpCardEvent = false;
+    /**
+     * It's true if the event is generated to request to a player to choose a weapon, otherwise false.
+     */
     private boolean isRequestToChooseWeapon = false;
+    /**
+     * It's true if the event is generated to request to a player to choose an effect, otherwise false.
+     */
     private boolean isRequestToChooseAnEffect = false;
-    private boolean isRequestToDiscardPowerUpCardToPay = false;
+    /**
+     * It's true if the event is generated to request to a player to discard a power up card, otherwise false.
+     */
+    private boolean isRequestToDiscardPowerUpCard = false;
+    /**
+     * It's true if the event is generated to request to a player to decide for a payment what he wants to use, otherwise false.
+     */
     private boolean isRequestToPayWithAmmoOrPUCard = false;
+    /**
+     * It's true if the event is generated to request to a player to choose another player, otherwise false.
+     */
     private boolean isRequestToChooseAPlayer = false;
+    /**
+     * It's true if the event is generated to request to a player to choose a weapon he wants to reload, otherwise false.
+     */
     private boolean isRequestSelectionWeaponToReload = false;
+    /**
+     * It's true if the event is generated to request to a player to choose more than a player, otherwise false.
+     */
     private boolean isRequestToChooseMultiplePlayers = false;
+    /**
+     * It's true if the event is generated to notify players about the final update of the score with ultimate ranking, otherwise false.
+     */
     private boolean isFinalUpdate = false;
+    /**
+     * It's true if the event is generated to notify players about the disconnection of a player, otherwise false.
+     */
     private boolean isDisconnectionEvent = false;
+    /**
+     * It's true if the event is generated to notify players the reconnection of a player, otherwise false.
+     */
     private boolean isReconnectionEvent = false;
 
 
+    /**
+     * The number of the current action player has to do.
+     */
     private int numOfAction;
+    /**
+     * The maximum number that a player can do in his turn.
+     */
     private int numOfMaxAction;
 
     public ServerEvent(){
 
     }
 
+    /**
+     * Constructor where the message for involved is initialized.
+     * @param message Message direct to the involved player of the event.
+     */
     public ServerEvent(String message) {
         this.messageForInvolved = message;
     }
@@ -84,44 +180,44 @@ public class ServerEvent implements Serializable {
         return isRequestSelectionWeaponToReload;
     }
 
-     void setRequestSelectionWeaponToReload(boolean requestSelectionWeaponToReload) {
-        isRequestSelectionWeaponToReload = requestSelectionWeaponToReload;
+     void setRequestSelectionWeaponToReload() {
+        isRequestSelectionWeaponToReload = true;
     }
 
     public boolean isRequestToChooseMultiplePlayers() {
         return isRequestToChooseMultiplePlayers;
     }
 
-    void setRequestToChooseMultiplePlayers(boolean requestToChooseMultiplePlayers) {
-        isRequestToChooseMultiplePlayers = requestToChooseMultiplePlayers;
+    void setRequestToChooseMultiplePlayers() {
+        isRequestToChooseMultiplePlayers = true;
     }
 
-    void setRequestToSelectionPlayerToAttackWithTerminator(boolean requestToSelectionPlayerToAttackWithTerminator) {
-        isRequestToSelectionPlayerToAttackWithTerminator = requestToSelectionPlayerToAttackWithTerminator;
+    void setRequestToSelectionPlayerToAttackWithTerminator() {
+        isRequestToSelectionPlayerToAttackWithTerminator = true;
     }
 
     public boolean isRequestToPayWithAmmoOrPUCard() {
         return isRequestToPayWithAmmoOrPUCard;
     }
 
-    void setRequestToPayWithAmmoOrPUCard(boolean requestToPayWithAmmoOrPUCard) {
-        isRequestToPayWithAmmoOrPUCard = requestToPayWithAmmoOrPUCard;
+    void setRequestToPayWithAmmoOrPUCard() {
+        isRequestToPayWithAmmoOrPUCard = true;
     }
 
     public boolean isRequestToChooseAPlayer() {
         return isRequestToChooseAPlayer;
     }
 
-    void setRequestToChooseAPlayer(boolean requestToChooseAPlayer) {
-        isRequestToChooseAPlayer = requestToChooseAPlayer;
+    void setRequestToChooseAPlayer() {
+        isRequestToChooseAPlayer = true;
     }
 
     public boolean isFinalUpdate() {
         return isFinalUpdate;
     }
 
-    public void setFinalUpdate(boolean finalUpdate) {
-        isFinalUpdate = finalUpdate;
+    public void setFinalUpdate() {
+        isFinalUpdate = true;
     }
 
     public String getMessageForInvolved() {
@@ -136,12 +232,12 @@ public class ServerEvent implements Serializable {
         return messageForOthers;
     }
 
-    public boolean isRequestToDiscardPowerUpCardToPay() {
-        return isRequestToDiscardPowerUpCardToPay;
+    public boolean isRequestToDiscardPowerUpCard() {
+        return isRequestToDiscardPowerUpCard;
     }
 
-     void setRequestToDiscardPowerUpCardToPay(boolean requestToDiscardPowerUpCardToPay) {
-        isRequestToDiscardPowerUpCardToPay = requestToDiscardPowerUpCardToPay;
+     void setRequestToDiscardPowerUpCard() {
+        isRequestToDiscardPowerUpCard = true;
     }
 
     public void setMessageForOthers(String messageForOthers) {
@@ -173,40 +269,40 @@ public class ServerEvent implements Serializable {
         return isPlayerBoardEvent;
     }
 
-    public void setPlayerBoardEvent(boolean playerBoardEvent) {
-        isPlayerBoardEvent = playerBoardEvent;
+    public void setPlayerBoardEvent() {
+        isPlayerBoardEvent = true;
     }
 
     public boolean isMapEvent() {
         return isMapEvent;
     }
 
-    public void setMapEvent(boolean mapEvent) {
-        isMapEvent = mapEvent;
+    public void setMapEvent() {
+        isMapEvent = true;
     }
 
     public boolean isRequestForDrawOnePowerUpCardEvent() {
         return isRequestForDrawOnePowerUpCardEvent;
     }
 
-    public void setRequestForDrawOnePowerUpCardEvent(boolean requestForDrawOnePowerUpCardEvent) {
-        isRequestForDrawOnePowerUpCardEvent = requestForDrawOnePowerUpCardEvent;
+    public void setRequestForDrawOnePowerUpCardEvent() {
+        isRequestForDrawOnePowerUpCardEvent = true;
     }
 
     public boolean isRequestToChooseWeapon() {
         return isRequestToChooseWeapon;
     }
 
-    void setRequestToChooseWeapon(boolean requestToChooseWeapon) {
-        isRequestToChooseWeapon = requestToChooseWeapon;
+    void setRequestToChooseWeapon() {
+        isRequestToChooseWeapon = true;
     }
 
     public boolean isRequestToChooseAnEffect() {
         return isRequestToChooseAnEffect;
     }
 
-    void setRequestToChooseAnEffect(boolean requestToChooseAnEffect) {
-        isRequestToChooseAnEffect = requestToChooseAnEffect;
+    void setRequestToChooseAnEffect() {
+        isRequestToChooseAnEffect = true;
     }
 
     public boolean isFinished() {
@@ -217,16 +313,16 @@ public class ServerEvent implements Serializable {
         return isRequestActionEvent;
     }
 
-    public void setRequestActionEvent(boolean requestActionEvent) {
-        isRequestActionEvent = requestActionEvent;
+    public void setRequestActionEvent() {
+        isRequestActionEvent = true;
     }
 
     public boolean isKillshotTrackEvent() {
         return isKillshotTrackEvent;
     }
 
-    public void setKillshotTrackEvent(boolean killshotTrackEvent) {
-        isKillshotTrackEvent = killshotTrackEvent;
+    public void setKillshotTrackEvent() {
+        isKillshotTrackEvent = true;
     }
 
     public boolean isTimerOverEvent() {
@@ -237,44 +333,44 @@ public class ServerEvent implements Serializable {
         return isUpdateScoreEvent;
     }
 
-    public void setUpdateScoreEvent(boolean updateScoreEvent) {
-        isUpdateScoreEvent = updateScoreEvent;
+    public void setUpdateScoreEvent() {
+        isUpdateScoreEvent = true;
     }
 
-    public void setTimerOverEvent(boolean timerOverEvent) {
-        isTimerOverEvent = timerOverEvent;
+    public void setTimerOverEvent() {
+        isTimerOverEvent = true;
     }
 
     public boolean isRequestForDrawTwoPowerUpCardsEvent() {
         return isRequestForDrawTwoPowerUpCardsEvent;
     }
 
-    public void setRequestForDrawTwoPowerUpCardsEvent(boolean drawTwoPowerUpCard) {
-        isRequestForDrawTwoPowerUpCardsEvent = drawTwoPowerUpCard;
+    public void setRequestForDrawTwoPowerUpCardsEvent() {
+        isRequestForDrawTwoPowerUpCardsEvent = true;
     }
 
     public boolean isReconnectionEvent() {
         return isReconnectionEvent;
     }
 
-    public void setReconnectionEvent(boolean reconnectionEvent) {
-        isReconnectionEvent = reconnectionEvent;
+    public void setReconnectionEvent() {
+        isReconnectionEvent = true;
     }
 
     public boolean isRequestToDiscardPowerUpCardToSpawnEvent() {
         return isRequestToDiscardPowerUpCardToSpawnEvent;
     }
 
-    public void setRequestToDiscardPowerUpCardToSpawnEvent(boolean requestToDiscardPowerUpCardToSpawnEvent) {
-        isRequestToDiscardPowerUpCardToSpawnEvent = requestToDiscardPowerUpCardToSpawnEvent;
+    public void setRequestToDiscardPowerUpCardToSpawnEvent() {
+        isRequestToDiscardPowerUpCardToSpawnEvent = true;
     }
 
     public boolean isRequestForChooseAWeaponToCatch() {
         return isRequestForChooseAWeaponToCatch;
     }
 
-    void setRequestForChooseAWeaponToCatch(boolean requestForChooseAWeaponToCatch) {
-        isRequestForChooseAWeaponToCatch = requestForChooseAWeaponToCatch;
+    void setRequestForChooseAWeaponToCatch() {
+        isRequestForChooseAWeaponToCatch = true;
     }
 
 
@@ -290,16 +386,16 @@ public class ServerEvent implements Serializable {
         return isRequestSelectionSquareForAction;
     }
 
-    void setRequestSelectionSquareForAction(boolean requestSelectionSquareForAction) {
-        isRequestSelectionSquareForAction = requestSelectionSquareForAction;
+    void setRequestSelectionSquareForAction() {
+        isRequestSelectionSquareForAction = true;
     }
 
     public boolean isNotifyAboutActionDone() {
         return isNotifyAboutActionDone;
     }
 
-    public void setNotifyAboutActionDone(boolean notifyAboutActionDone) {
-        isNotifyAboutActionDone = notifyAboutActionDone;
+    public void setNotifyAboutActionDone() {
+        isNotifyAboutActionDone = true;
     }
 
 
@@ -312,35 +408,34 @@ public class ServerEvent implements Serializable {
         return isRequestToDiscardWeaponCard;
     }
 
-    void setRequestToDiscardWeaponCard(boolean requestToDiscardWeaponCard) {
-        isRequestToDiscardWeaponCard = requestToDiscardWeaponCard;
+    void setRequestToDiscardWeaponCard() {
+        isRequestToDiscardWeaponCard = true;
     }
 
-    public void setGenerationEvent(boolean generationEvent) {
-        isGenerationEvent = generationEvent;
+    public void setGenerationEvent() {
+        isGenerationEvent = true;
     }
 
     public boolean isRequestToChooseTerminatorAction() {
         return isRequestToChooseTerminatorAction;
     }
 
-    void setRequestToChooseTerminatorAction(boolean requestToChooseTerminatorAction) {
-        isRequestToChooseTerminatorAction = requestToChooseTerminatorAction;
+    void setRequestToChooseTerminatorAction() {
+        isRequestToChooseTerminatorAction = true;
     }
 
     public boolean isDisconnectionEvent() {
         return isDisconnectionEvent;
     }
 
-    public void setDisconnectionEvent(boolean disconnectionEvent) {
-        isDisconnectionEvent = disconnectionEvent;
+    public void setDisconnectionEvent() {
+        isDisconnectionEvent = true;
     }
 
     /**
      * Represents a simplified structure to encapsulate the main attributes of cards
      * (Weapon and PowerUp) to send them to clients removing from them the possibility to use
      * directly their effects.
-     *
      */
 
     public static class AliasCard implements Serializable{
@@ -350,21 +445,35 @@ public class ServerEvent implements Serializable {
          */
         String name;
         /**
-         * The description of card
+         * The description of card.
          */
         String description;
         /**
-         * The color of card
+         * The color of card.
          */
         ColorOfCard_Ammo color;
 
+        /**
+         * The list with the name of the effects for the weapon card.
+         */
         ArrayList<String> nameOfEffects;
+        /**
+         * The list with the descriptions of the effects for the weapon card.
+         */
         ArrayList<String> descriptionOfEffects;
 
+        /**
+         * It's true if the alias card represents a weapon and the weapon is load, otherwise false.
+         */
         boolean isLoaded = true;
 
+        /**
+         * Constructor that initialize name, description and color of the card.
+         * @param name The name of the card.
+         * @param description The description of the card.
+         * @param color The color of the card.
+         */
         public AliasCard(String name, String description, ColorOfCard_Ammo color) {
-
             this.name = name;
             this.description = description;
             this.color = color;

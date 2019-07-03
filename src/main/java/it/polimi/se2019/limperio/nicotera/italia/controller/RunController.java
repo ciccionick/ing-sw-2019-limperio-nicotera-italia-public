@@ -31,7 +31,7 @@ public class RunController {
         Square square = player.getPositionOnTheMap();
         ArrayList<Square> listOfSquaresReachable = new ArrayList<>();
         RequestSelectionSquareForAction newEvent = new RequestSelectionSquareForAction("Press on the square where you want arrive! \nYou can press CANCEL to choose another action");
-        newEvent.setSelectionForRun(true);
+        newEvent.setSelectionForRun();
         newEvent.setNicknameInvolved(event.getNickname());
         if(!game.isInFrenzy()){
             controller.findSquaresReachableWithThisMovements(square, 3, listOfSquaresReachable);
@@ -57,7 +57,7 @@ public class RunController {
             player.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()]);
             MapEvent newEvent = new MapEvent();
             newEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
-            newEvent.setNotifyAboutActionDone(true);
+            newEvent.setNotifyAboutActionDone();
             newEvent.setNumOfAction(game.getNumOfActionOfTheTurn());
             newEvent.setNumOfMaxAction(game.getNumOfMaxActionForTurn());
             newEvent.setMessageForInvolved("You have been moved in the square required!");

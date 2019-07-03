@@ -55,7 +55,7 @@ class PowerUpController {
 
          RequestSelectionSquareForAction requestSelectionSquareForTerminator = new RequestSelectionSquareForAction(message);
          requestSelectionSquareForTerminator.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
-         requestSelectionSquareForTerminator.setSelectionForSpawnTerminator(true);
+         requestSelectionSquareForTerminator.setSelectionForSpawnTerminator();
          ArrayList<Square> squareReachable = new ArrayList<>();
          Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
          for (Square[] matrix1 : matrix) {
@@ -71,7 +71,7 @@ class PowerUpController {
     void sendRequestToDiscardPowerUpCardToBeGenerate(String nickname){
          PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent();
          requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be generated in the square of that color. \n(You can tap and hold on the card too see more info)");
-         requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent(true);
+         requestDiscardPowerUpCardEvent.setRequestToDiscardPowerUpCardToSpawnEvent();
          requestDiscardPowerUpCardEvent.setNicknameInvolved(nickname);
          requestDiscardPowerUpCardEvent.setPlayerBoard(controller.findPlayerWithThisNickname(nickname).getPlayerBoard());
          game.notify(requestDiscardPowerUpCardEvent);
@@ -148,7 +148,7 @@ class PowerUpController {
         generationEvent.setMap(game.getBoard().getMap().getMatrixOfSquares());
         generationEvent.setMessageForInvolved("You have been generated in the " + square.getColor().toString() + " spawn square.");
         generationEvent.setMessageForOthers(playerWithThisNickname.getNickname() + " has been generated in the " + square.getColor().toString() + " spawn square.\nNow it begins his turn.");
-        generationEvent.setGenerationEvent(true);
+        generationEvent.setGenerationEvent();
         generationEvent.setNicknames(game.getListOfNickname());
         generationEvent.setNicknameInvolved(playerWithThisNickname.getNickname());
         game.notify(generationEvent);
@@ -171,7 +171,7 @@ class PowerUpController {
 
      void handleRequestToUseTeleporter(ClientEvent message) {
         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to teleport");
-        requestSelectionSquareForAction.setSelectionForTeleporter(true);
+        requestSelectionSquareForAction.setSelectionForTeleporter();
         requestSelectionSquareForAction.setSquaresReachable(getAllSquaresInTheMap());
         requestSelectionSquareForAction.setNicknameInvolved(message.getNickname());
         numOfCardToUse = ((RequestToUseTeleporter)message).getNumOfCard();
@@ -218,7 +218,7 @@ class PowerUpController {
 
      void handleRequestToUseNewton(ClientEvent message) {
         RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
-        requestToChooseAPlayer.setChoosePlayerForNewton(true);
+        requestToChooseAPlayer.setChoosePlayerForNewton();
         requestToChooseAPlayer.setMessageForInvolved("Select the player you want to move");
         ArrayList<String> playerCanBeChosen = new ArrayList<>();
         for(Player player : game.getPlayers()){
@@ -237,7 +237,7 @@ class PowerUpController {
      void handleChoosePlayerForNewton(ChoosePlayer choosePlayer) {
          nicknameOfPlayerHasToBeMovedByNewton = choosePlayer.getNameOfPlayer();
          RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to move the player you selected before");
-         requestSelectionSquareForAction.setSelectionForNewton(true);
+         requestSelectionSquareForAction.setSelectionForNewton();
          ArrayList<Square> squaresReachable = new ArrayList<>();
          Square positionOfTheTarget = controller.findPlayerWithThisNickname(choosePlayer.getNameOfPlayer()).getPositionOnTheMap();
          if(positionOfTheTarget.getNorth() != null) {

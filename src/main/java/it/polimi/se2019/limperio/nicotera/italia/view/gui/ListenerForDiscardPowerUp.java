@@ -52,7 +52,7 @@ import java.awt.event.ActionListener;
                 popup.getDialog().setVisible(false);
                 mainFrame.getRemoteView().notify(newEvent);
             }
-            if(event.isRequestToDiscardPowerUpCardToPay()) {
+            if(event.isRequestToDiscardPowerUpCard()) {
                 DiscardPowerUpCard newEvent = new DiscardPowerUpCard("", mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer());
                 newEvent.setToCatch(((RequestToDiscardPowerUpCard)event).isToCatch());
                 newEvent.setToPayAnEffect(((RequestToDiscardPowerUpCard)event).isToPayAnEffect());

@@ -177,10 +177,8 @@ public class Controller implements Observer<ClientEvent> {
 
          }
         RequestActionEvent requestActionEvent = new RequestActionEvent();
-        requestActionEvent.setRequestActionEvent(true);
         requestActionEvent.setNicknameInvolved(game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname());
         requestActionEvent.setNumOfAction(game.getNumOfActionOfTheTurn() + 1);
-        requestActionEvent.setRound(game.getRound());
         if (game.getRound() > 1 && game.getNumOfActionOfTheTurn() == 0) {
             requestActionEvent.setMessageForInvolved("It's your turn! Choose you first action!");
             requestActionEvent.setMessageForOthers("Change turn! Now it's the turn of " + game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname() + "\nWait for some news!");
@@ -223,12 +221,12 @@ public class Controller implements Observer<ClientEvent> {
         if(numOfPowerUpCardToDraw==1){
             messageForInvolved = "Draw a power up card and then discard one of yours to decide where you will be spawn";
             messageForOthers = playerHasToDraw.getNickname() + " has to draw power up card to decide where he'll be spawn";
-            event.setRequestForDrawOnePowerUpCardEvent(true);
+            event.setRequestForDrawOnePowerUpCardEvent();
         }
         else{
             messageForInvolved = "Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!";
             messageForOthers = "Wait! It's not your turn but the turn of " + game.getListOfNickname().get(game.getPlayerOfTurn() - 1) + ". Press OK and wait for some news!";
-            event.setRequestForDrawTwoPowerUpCardsEvent(true);
+            event.setRequestForDrawTwoPowerUpCardsEvent();
         }
 
         event.setMessageForInvolved(messageForInvolved);
@@ -305,7 +303,7 @@ public class Controller implements Observer<ClientEvent> {
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          ServerEvent disconnectionEvent = new ServerEvent();
-         disconnectionEvent.setDisconnectionEvent(true);
+         disconnectionEvent.setDisconnectionEvent();
          disconnectionEvent.setMessageForOthers(nicknameOfPlayerDisconnected + " is not with us anymore. \nLet's pray for him!");
          game.getListOfNickname().remove(nicknameOfPlayerDisconnected);
          disconnectionEvent.setNicknameInvolved(nicknameOfPlayerDisconnected);
@@ -327,7 +325,7 @@ public class Controller implements Observer<ClientEvent> {
     public void handleReconnection(String nicknameOfPlayer) {
          findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
          ServerEvent reconnectionEvent = new ServerEvent();
-         reconnectionEvent.setReconnectionEvent(true);
+         reconnectionEvent.setReconnectionEvent();
          reconnectionEvent.setNicknames(game.getListOfNickname());
          reconnectionEvent.setNicknameInvolved(nicknameOfPlayer);
          reconnectionEvent.setMessageForInvolved("You are in again, let's be ready for the battle!");
@@ -520,7 +518,7 @@ public class Controller implements Observer<ClientEvent> {
             timerOverEvent.setNicknameInvolved(previousPlayer.getNickname());
             timerOverEvent.setMessageForInvolved("The timer for your turn is over. \nWait for the next turn!");
             timerOverEvent.setMessageForOthers("The timer for the turn of " + previousPlayer.getNickname() + " is over. \nChange turn!" );
-            timerOverEvent.setTimerOverEvent(true);
+            timerOverEvent.setTimerOverEvent();
             game.notify(timerOverEvent);
 
             if(game.getRound()!=1){

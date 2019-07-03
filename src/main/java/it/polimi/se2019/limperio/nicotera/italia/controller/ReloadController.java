@@ -116,7 +116,7 @@ class ReloadController {
         RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
         requestToDiscardPowerUpCardToPay.setMessageForInvolved("Choose a powerUp to discard to reload:");
-        requestToDiscardPowerUpCardToPay.setToReload(true);
+        requestToDiscardPowerUpCardToPay.setToReload();
         if(!colorsNotEnough.isEmpty()) {
             requestToDiscardPowerUpCardToPay.setPowerUpCards(controller.getCatchController().getPowerUpCardToChooseForDiscard(player, colorsNotEnough.remove(0)));
             game.notify(requestToDiscardPowerUpCardToPay);

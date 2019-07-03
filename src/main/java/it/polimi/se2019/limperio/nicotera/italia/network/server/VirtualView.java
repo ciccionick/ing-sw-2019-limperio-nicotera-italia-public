@@ -161,7 +161,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     AnswerInitializationEvent ans = (AnswerInitializationEvent) in.readObject();
                     while (isNotValidNickname(ans.getNickname())) {
                         req = new RequestInitializationEvent("Digit your nickname: ", true, false, false, false, false);
-                        req.setRetake(true);
+                        req.setRetake();
                         out.writeObject(req);
                         ans = (AnswerInitializationEvent) in.readObject();
                     }
@@ -171,7 +171,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                     ans = (AnswerInitializationEvent) in.readObject();
                     while (server.getListOfColor().contains(ans.getColor().toUpperCase()) || (server.getColorOfFirstPlayer()!=null && ans.getColor().equalsIgnoreCase(server.getColorOfFirstPlayer()))) {
                         req = new RequestInitializationEvent("Digit your color: ", false, true, false, false, false);
-                        req.setRetake(true);
+                        req.setRetake();
                         out.writeObject(req);
                         ans = (AnswerInitializationEvent) in.readObject();
                     }
@@ -205,7 +205,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
                         }
                     }
                     req = new RequestInitializationEvent("", false, false, false, false, false);
-                    req.setAck(true);
+                    req.setAck();
                     out.writeObject(req);
                     invalidInitialization = false;
                 }
@@ -396,7 +396,7 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
      */
     void sendAckAfterReconnection() {
         RequestInitializationEvent ackEvent = new RequestInitializationEvent("", false, false, false, false, false);
-        ackEvent.setAck(true);
+        ackEvent.setAck();
         try {
             out.writeObject(ackEvent);
         } catch (IOException e) {
