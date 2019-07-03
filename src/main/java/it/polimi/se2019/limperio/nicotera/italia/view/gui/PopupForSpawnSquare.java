@@ -30,7 +30,7 @@ import java.util.ArrayList;
         gbcPanelForPlayers.fill = GridBagConstraints.BOTH;
         gbcPanelForPlayers.gridx = 0;
         gbcPanelForPlayers.gridy = 0;
-        contentPane.add(panelForPlayers, gbcPanelForPlayers);
+        //contentPane.add(panelForPlayers, gbcPanelForPlayers);
         panelForPlayers.setLayout(new GridBagLayout());
 
         addListOfPlayersInSquare(panelForPlayers, nicknamesOfPlayersOnThisSquare, mainFrame.getRemoteView().getMyPlayerBoardView().getNicknameOfPlayer(), mainFrame);

@@ -1,12 +1,13 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquare;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.MapEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.RequestSelectionSquareForAction;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import it.polimi.se2019.limperio.nicotera.italia.model.Square;
+
 import java.util.ArrayList;
 
 /**
@@ -26,7 +27,7 @@ public class RunController {
      * Handles the run request of a player: the method sends an event in which there are the reachable squares from the player that want to run
      * @param event contains the player's nickname
      */
-    void handleRunActionRequest(RequestToRunByPlayer event){
+    void handleRunActionRequest(ClientEvent event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         Square square = player.getPositionOnTheMap();
         ArrayList<Square> listOfSquaresReachable = new ArrayList<>();

@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToRunByPlayer;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.SelectionSquare;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import org.junit.After;
@@ -46,7 +46,8 @@ public class TestRunController {
     @Test
     public void doRunActionTest()
     {
-        RequestToRunByPlayer requestToRunByPlayer = new RequestToRunByPlayer("", "player1");
+        ClientEvent requestToRunByPlayer = new ClientEvent("", "player1");
+        requestToRunByPlayer.setRequestToRunByPlayer(true);
         controller.findPlayerWithThisNickname("player1").setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
         game.setInFrenzy(true);
         controller.getRunController().handleRunActionRequest(requestToRunByPlayer);

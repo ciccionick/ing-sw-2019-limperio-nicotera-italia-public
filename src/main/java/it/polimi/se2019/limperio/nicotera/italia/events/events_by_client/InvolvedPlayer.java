@@ -4,7 +4,6 @@ import it.polimi.se2019.limperio.nicotera.italia.model.*;
 
 /**
  * Structure that store a player and square involved in an action like shoot or use of some powerUp cards
- *
  * @author  Pietro L'Imperio
  */
 public class InvolvedPlayer {
@@ -22,7 +21,9 @@ public class InvolvedPlayer {
     private Square square;
 
 
-
+    /**
+     * Constructor that initialize the player, the square and the effect concerning.
+     */
     public InvolvedPlayer(Player players,int effect, Square square) {
         this.player = players;
         this.effect = effect;
