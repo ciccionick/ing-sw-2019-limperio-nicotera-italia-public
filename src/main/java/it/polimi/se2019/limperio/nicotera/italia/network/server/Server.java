@@ -218,10 +218,19 @@ public class Server  {
                 timerForReconnection.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        Socket socket = null;
                         try {
-                            new Socket(InetAddress.getLocalHost().getHostAddress(), 4000);
+                            socket = new Socket(InetAddress.getLocalHost().getHostAddress(), 4000);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            loggerServer.log(Level.ALL, "error");
+                        }
+                        finally {
+                            try {
+                                if(socket!=null)
+                                    socket.close();
+                            } catch (IOException e) {
+                                loggerServer.log(Level.ALL, "error");
+                            }
                         }
                     }
                 }, 500);

@@ -4,7 +4,7 @@ public class RequestToUseNewton extends ClientEvent {
     private int numOfCard;
     public RequestToUseNewton(String message, String nickname) {
         super(message, nickname);
-        setRequestToUseNewton(true);
+        setRequestToUseNewton();
     }
 
     public int getNumOfCard() {

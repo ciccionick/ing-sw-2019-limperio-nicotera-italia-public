@@ -176,9 +176,7 @@ class CatchController {
             }
         }
         else{
-
             listOfSquareReachable.addAll(findSquaresWherePlayerCanCatchInFrenzyMode(player, weaponNotAffordable, listOfSquareReachable));
-
             return listOfSquareReachable;
 
         }

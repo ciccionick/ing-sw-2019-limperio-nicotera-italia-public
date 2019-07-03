@@ -4,7 +4,7 @@ public class RequestToUseEffect extends ClientEvent {
     private int numOfEffect;
     public RequestToUseEffect(String message, String nickname) {
         super(message, nickname);
-        setRequestToUseEffect(true);
+        setRequestToUseEffect();
     }
 
     public int getNumOfEffect() {

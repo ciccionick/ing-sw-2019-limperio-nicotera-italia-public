@@ -10,7 +10,7 @@ public class DiscardAmmoOrPowerUpToPayTargeting extends ClientEvent {
     private ServerEvent.AliasCard powerUpCard = null;
     public DiscardAmmoOrPowerUpToPayTargeting(String message, String nickname) {
         super(message, nickname);
-        setDiscardAmmoOrPowerUpToPayTargeting(true);
+        setDiscardAmmoOrPowerUpToPayTargeting();
     }
 
     public boolean isBlueAmmo() {

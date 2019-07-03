@@ -4,7 +4,7 @@ public class RequestToUseTeleporter extends ClientEvent {
     private int numOfCard;
     public RequestToUseTeleporter(String message, String nickname) {
         super(message, nickname);
-        setRequestToUseTeleporter(true);
+        setRequestToUseTeleporter();
     }
 
     public int getNumOfCard() {

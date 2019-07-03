@@ -7,7 +7,7 @@ public class ChoosePlayer extends ClientEvent {
     private boolean isForAttack = false;
     public ChoosePlayer(String message, String nickname) {
         super(message, nickname);
-        setChoosePlayer(true);
+        setChoosePlayer();
     }
 
     public String getNameOfPlayer() {
