@@ -71,7 +71,7 @@ public class ShootController {
                 requestSelectionSquareForAction.setSquaresReachable(squares);
                 requestSelectionSquareForAction.setNicknameInvolved(player.getNickname());
                 requestSelectionSquareForAction.setBeforeToShoot();
-                message.getMyVirtualView().update(requestSelectionSquareForAction);
+                game.notify(requestSelectionSquareForAction);
             }
         }
         else

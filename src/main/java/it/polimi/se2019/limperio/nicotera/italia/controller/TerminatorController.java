@@ -101,7 +101,7 @@ class TerminatorController {
         requestToSelectionPlayerToAttackWithTerminator.setNicknamesOfPlayersAttachable(attackedPlayers);
         requestToSelectionPlayerToAttackWithTerminator.setNicknameInvolved(message.getNickname());
         requestToSelectionPlayerToAttackWithTerminator.setMessageForInvolved("Choose who the terminator has to shoot: ");
-        message.getMyVirtualView().update(requestToSelectionPlayerToAttackWithTerminator);
+        game.notify(requestToSelectionPlayerToAttackWithTerminator);
     }
 
 

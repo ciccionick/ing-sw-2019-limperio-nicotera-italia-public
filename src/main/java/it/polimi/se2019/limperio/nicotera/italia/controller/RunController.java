@@ -36,13 +36,13 @@ public class RunController {
         if(!game.isInFrenzy()){
             controller.findSquaresReachableWithThisMovements(square, 3, listOfSquaresReachable);
             newEvent.setSquaresReachable(listOfSquaresReachable);
-            event.getMyVirtualView().update(newEvent);
+            game.notify(newEvent);
         }
         else{
             if((game.getNumOfMaxActionForTurn()==3&&game.isTerminatorModeActive())||(game.getNumOfMaxActionForTurn()==2 && !game.isTerminatorModeActive())) {
                 controller.findSquaresReachableWithThisMovements(square, 4, listOfSquaresReachable);
                 newEvent.setSquaresReachable(listOfSquaresReachable);
-                event.getMyVirtualView().update(newEvent);
+                game.notify(newEvent);
             }
         }
     }
