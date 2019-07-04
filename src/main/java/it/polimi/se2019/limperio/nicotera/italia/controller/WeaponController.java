@@ -216,7 +216,7 @@ public class WeaponController {
      ArrayList<Player> getPlayersCouldBeAttackedFromBasicEffectOfTractorBeam(WeaponCard weaponCard) {
         ArrayList<Player> playersToReturn = new ArrayList<>();
         for (Player player : game.getPlayers()) {
-            if(!getSquareCouldBeSelectedForTractorBeam(weaponCard, player).isEmpty())
+            if(!getSquareCouldBeSelectedForTractorBeam(weaponCard, player).isEmpty() && player.getPositionOnTheMap()!=null)
                 playersToReturn.add(player);
         }
         playersToReturn.remove(weaponCard.getOwnerOfCard());

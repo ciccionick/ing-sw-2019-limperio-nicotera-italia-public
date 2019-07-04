@@ -11,16 +11,34 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class handles the checking of the catch actions of the players
+ * This class handles all of the operations concerning the catch actions of the players
  * @author Francesco Nicotera
  */
 class CatchController {
+    /**
+     * Reference of the game.
+     */
     private final Game game;
+    /**
+     * Reference of the controller.
+     */
     private Controller controller;
+    /**
+     * List of power up to discard to pay a weapon to catch.
+     */
     private ArrayList<PowerUpCard> powerUpCardsToDiscard = new ArrayList<>();
+    /**
+     * Weapon card to catch.
+     */
     private WeaponCard weaponCard;
+    /**
+     * List of color of ammo that represents the colors of ammo to pay but available as ammo and so that need to substitute with a discard of power up card.
+     */
     private ArrayList<ColorOfCard_Ammo> colorsNotEnough ;
 
+    /**
+     * Constructor of the class that initialize game and controller references.
+     */
     CatchController(Game game, Controller controller){
         this.game=game;
         this.controller=controller;
@@ -93,6 +111,10 @@ class CatchController {
 
     }
 
+    /**
+     * Sends the update of the map and the player board of the player that has caught after the catch action.
+     * @param player The player involved in the catch action.
+     */
     private void sendNotifyAfterCatching(Player player) {
         colorsNotEnough = new ArrayList<>();
         weaponCard = null;
@@ -172,7 +194,7 @@ class CatchController {
                 ArrayList<Square> squaresReachableWithTwoMovement = new ArrayList<>();
                 controller.findSquaresReachableWithThisMovements(player.getPositionOnTheMap(), 2, squaresReachableWithTwoMovement);
                 findSquaresWithSomethingToCatch(player, squaresReachableWithTwoMovement, listOfSquareReachable, weaponNotAffordable);
-                return  listOfSquareReachable;
+                return listOfSquareReachable;
             }
         }
         else{
@@ -246,6 +268,11 @@ class CatchController {
         }
     }
 
+    /**
+     * Adds to the weapon cards deck of the player a weapon card handling the payment for the weapond.
+     * @param player Player that is trying to catch the weapon.
+     * @param nameOfWeaponCard The name of the weapon to catch.
+     */
     private void addWeaponCardToPlayerDeck(Player player, String nameOfWeaponCard) {
         Square squareWhereRemoveCard = findSpawnSquareWithThisCard(nameOfWeaponCard);
         ArrayList<PowerUpCard> powerUpCardToDiscard = new ArrayList<>();
@@ -286,6 +313,12 @@ class CatchController {
         }
     }
 
+    /**
+     * Getd the power up card of the color specified through the parameter.
+     * @param player The player owner of the power up cards deck where is looking for a card.
+     * @param color The color of the card that is looking for with.
+     * @return The power up card of the color specified in the deck.
+     */
      PowerUpCard findPowerUpOfThisColor(Player player, ColorOfCard_Ammo color) {
         for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if(powerUpCard.getColor().equals(color))
@@ -295,6 +328,11 @@ class CatchController {
     }
 
 
+    /**
+     * Sends to the player a reqeust to discard a power up card to pay the caught of a weapon.
+     * @param player The player that is involved in the catch action.
+     * @param colorsOfAmmoNotEnough The color of which there are not enough ammo usable.
+     */
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsOfAmmoNotEnough) {
         RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
@@ -310,11 +348,19 @@ class CatchController {
         }
     }
 
+    /**
+     * Handles the selection of the power up card to discard by the player and calls again the method to send the request to discard, if needed, another power up card.
+     * @param event The event received by the client.
+     */
      void handleRequestToDiscardPowerUpCardAsAmmo(DiscardPowerUpCard event){
         powerUpCardsToDiscard.add(findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(event.getNickname())));
         sendRequestToDiscardPowerUpCard(controller.findPlayerWithThisNickname(event.getNickname()), colorsNotEnough);
     }
 
+    /**
+     * Gets the power up card in the deck of a player starting from its name and its color passed by parameter.
+     * @return The power up card in the deck of the player with the name and color passed by parameter.
+     */
      PowerUpCard findPowerUpCard(String nameOfPowerUpCard, ColorOfCard_Ammo colorOfCard, Player player) {
         for (PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if (powerUpCard.getName().equals(nameOfPowerUpCard) && powerUpCard.getColor().equals(colorOfCard))
@@ -324,6 +370,12 @@ class CatchController {
     }
 
 
+    /**
+     * Gets the list of power up card discardable to pay the price of a weapon.
+     * @param player Player that wants to catch a weapon.
+     * @param color The color of which is looking for the power up cards.
+     * @return The list of alias cards representing the power up cards usable for the payment.
+     */
      ArrayList<ServerEvent.AliasCard> getPowerUpCardToChooseForDiscard(Player player, ColorOfCard_Ammo color) {
         ArrayList<ServerEvent.AliasCard> listOfCards = new ArrayList<>();
         for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
@@ -333,6 +385,12 @@ class CatchController {
         return listOfCards;
     }
 
+    /**
+     * Gets the list of color of which there are not enough usable ammo to pay the price.
+     * @param player Player that wants to catch a weapon.
+     * @param priceToBuy The price to pay.
+     * @return A list of color representing the color of ammo not enough to complete the payment.
+     */
      ArrayList<ColorOfCard_Ammo> getColorsOfAmmoNotEnough(Player player, ColorOfCard_Ammo[] priceToBuy) {
         ArrayList<ColorOfCard_Ammo> ammoNotEnough = new ArrayList<>();
         for(ColorOfCard_Ammo color : priceToBuy){
@@ -343,6 +401,12 @@ class CatchController {
         return ammoNotEnough;
     }
 
+    /**
+     * Check if a price can be payed only with ammo or not.
+     * @param player The player that has to pay.
+     * @param priceToBuy The price to pay.
+     * @return True if the price is payable only with ammo, false otherwise.
+     */
      boolean isAffordableOnlyWithAmmo(Player player, ColorOfCard_Ammo[] priceToBuy) {
         int numOfRedAmmoRequired = frequencyAmmoInPrice(priceToBuy, RED);
         int numOfBlueAmmoRequired = frequencyAmmoInPrice(priceToBuy, BLUE);
@@ -351,6 +415,10 @@ class CatchController {
 
     }
 
+    /**
+     * Gets the spawn square that contains the weapon card with the name passed by parameter.
+     * @return The spawn square that contains the weapon card.
+     */
     private Square findSpawnSquareWithThisCard(String nameOfWeaponCard){
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         for(int i = 0; i< matrixOfSquare.length; i++){
@@ -365,6 +433,10 @@ class CatchController {
         throw  new IllegalArgumentException();
     }
 
+    /**
+     * Handles the ultimate phase of the catch action where to catch a weapon the player had to discard one of his.
+     * @param event Event received by client.
+     */
     void handleSelectionWeaponToCatchAfterDiscard(SelectionWeaponToDiscard event){
         Player player = controller.findPlayerWithThisNickname(event.getNickname());
         player.setPositionOnTheMap(findSpawnSquareWithThisCard(event.getNameOfWeaponCardToRemove()));
@@ -372,18 +444,24 @@ class CatchController {
 
     }
 
-    private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemove, String nameOfWeaponCardToAdd) {
-        Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToRemove);
+    /**
+     * Handles the change between the weapon that the player wants to catch and the weapon he wants to discard.
+     * @param player Player that wants to do the change of weapon.
+     * @param nameOfWeaponCardToRemoveFromTheSquare The name of the weapon card that the player wants to catch from the spawn square.
+     * @param nameOfWeaponCardToAddToTheSquare The name of the weapon card that the player wants to discard and that will return on the spawn square.
+     */
+    private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemoveFromTheSquare, String nameOfWeaponCardToAddToTheSquare) {
+        Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToRemoveFromTheSquare);
         WeaponCard weaponCardToAddToDeck = null;
         WeaponCard weaponCardToAddToSquare = null;
         for(WeaponCard weapon : ((SpawnSquare)squareWhereDoChange).getWeaponCards()){
-            if(weapon.getName().equals(nameOfWeaponCardToRemove)){
+            if(weapon.getName().equals(nameOfWeaponCardToRemoveFromTheSquare)){
                 weaponCardToAddToDeck = weapon;
             }
         }
-        //
+
         for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
-            if(weapon.getName().equals(nameOfWeaponCardToAdd)){
+            if(weapon.getName().equals(nameOfWeaponCardToAddToTheSquare)){
                 weaponCardToAddToSquare = weapon;
                 weaponCardToAddToSquare.setLoad(true);
                 weaponCardToAddToSquare.setOwnerOfCard(null);
@@ -444,7 +522,11 @@ class CatchController {
 
     }
 
-    public WeaponCard getWeaponCardFromName(String name){
+    /**
+     * Gets the right weapon card according with the name passed by parameter.
+     * @return The weapon card with the name passed by parameter.
+     */
+     WeaponCard getWeaponCardFromName(String name){
         for(Player player : game.getPlayers()){
             if(!player.getNickname().equals("terminator")){
                 for(WeaponCard weapon : player.getPlayerBoard().getWeaponsOwned()){
@@ -481,6 +563,10 @@ class CatchController {
         return frequency;
     }
 
+    /**
+     * Gets the number of the power up of the color passed by parameter that the player owns.
+     * @return The frequency of the power up in the player's deck of the colorToCheck.
+     */
      int frequencyOfPowerUpUsableByPlayer(Player player, ColorOfCard_Ammo colorToCheck){
         int frequency = 0;
         for (PowerUpCard card : player.getPlayerBoard().getPowerUpCardsOwned()) {
@@ -511,13 +597,4 @@ class CatchController {
         return canCatch;
     }
 
-    public ArrayList<PowerUpCard> getpowerUpCardsToDiscard()
-    {
-        return powerUpCardsToDiscard;
-    }
-
-    public ArrayList<ColorOfCard_Ammo> getColorsNotEnough()
-    {
-        return colorsNotEnough;
-    }
 }

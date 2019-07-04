@@ -19,20 +19,65 @@ import java.util.logging.Logger;
  */
 public class Controller implements Observer<ClientEvent> {
 
+    /**
+     * The logger of the class to track possibly exception.
+     */
     private static Logger myLogger = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
     private static ConsoleHandler consoleHandler = new ConsoleHandler();
+    /**
+     * The reference of the game.
+     */
     private final Game game;
+    /**
+     * The reference of the catch controller.
+     */
     private CatchController catchController;
+    /**
+     * The reference of the power up controller.
+     */
     private PowerUpController powerUpController;
+    /**
+     * The reference of the round controller.
+     */
     private RoundController roundController;
+    /**
+     * The reference of the run controller.
+     */
     private RunController runController;
+    /**
+     * The reference of the shoot controller.
+     */
     private ShootController shootController;
+    /**
+     * The reference of the weapon controller.
+     */
     private WeaponController weaponController;
+    /**
+     * The reference of the terminator controller.
+     */
     private TerminatorController terminatorController;
+    /**
+     * The reference of the death controller.
+     */
     private DeathController deathController;
+    /**
+     * The reference of the reload controller.
+     */
     private ReloadController reloadController;
+    /**
+     * Timer for the turn.
+     */
     private Timer timer = null;
+    /**
+     * Task that starts at the end of the timer for the turn.
+     */
     private TurnTask turnTask;
+    /**
+     * It's true if has been already asked to realod to the player, false otherwise.
+     */
     private boolean isAlreadyAskedToReload = false;
 
     /**
@@ -113,18 +158,11 @@ public class Controller implements Observer<ClientEvent> {
         return weaponsAsAlias;
     }
 
-     RunController getRunController() {
-        return runController;
-    }
 
-     ReloadController getReloadController() {
-        return reloadController;
-    }
-
-    public RoundController getRoundController() {
-        return roundController;
-    }
-
+    /**
+     * Handles the end of the action and checks if the player has to do other actions sending the correct request or calls the update of the turn through the round controller.
+     * @param endOfUsePUCard It's true if the method is called following the use of a power up card.
+     */
     void handleTheEndOfAnAction(boolean endOfUsePUCard){
          Player player = game.getPlayers().get(game.getPlayerOfTurn()-1);
         if(!endOfUsePUCard)
@@ -156,6 +194,10 @@ public class Controller implements Observer<ClientEvent> {
         }
     }
 
+    /**
+     * Check if someone during the turn died.
+     * @return True if some players died during the turn, false otherwise.
+     */
     private boolean isSomeoneDied() {
          for(Player player : game.getPlayers()){
              if(player.isDead())
@@ -164,10 +206,10 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-     ShootController getShootController() {
-        return shootController;
-    }
 
+    /**
+     * Sends to the player the request to do an action, checking what he can do and what he can't.
+     */
     void sendRequestForAction() {
          if(game.getRound()>1 && game.getNumOfActionOfTheTurn()==0 && timer!=null) {
 
@@ -207,6 +249,11 @@ public class Controller implements Observer<ClientEvent> {
         }
     }
 
+    /**
+     * Sends to the player the request to draw a power up card to be spawn.
+     * @param playerHasToDraw The player that has to draw the power up card.
+     * @param numOfPowerUpCardToDraw The number of power up cards that the player has to draw.
+     */
     public void sendRequestToDrawPowerUpCard(Player playerHasToDraw, int numOfPowerUpCardToDraw) {
         playerHasToDraw.setHasToBeGenerated(true);
         if(timer!=null){
@@ -240,7 +287,12 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
-    //
+    /**
+     * Check if the weapon passed by parameter is usable in the current situation of the player that own it.
+     * @param weaponCard Weapon card involved in the check.
+     * @param movementCanDoBeforeReloadAndShoot The movement that the player could do before to shoot.
+     * @return True if the weapon is usable by player, false otherwise.
+     */
      boolean checkIfThisWeaponIsUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
          if(game.getRound()==1 && game.getPlayerOfTurn()==1)
             return false;
@@ -250,14 +302,12 @@ public class Controller implements Observer<ClientEvent> {
 
     }
 
-     CatchController getCatchController() {
-        return catchController;
-    }
 
-    WeaponController getWeaponController() {
-        return weaponController;
-    }
-
+    /**
+     * Check if the player of the turn can shoot checking if there is at least one of his weapon usable.
+     * @param weaponDeck Weapon deck of the player that could want to shoot.
+     * @return True if the player can shoot, false otherwise.
+     */
     boolean checkIfPlayerCanShoot(ArrayList<WeaponCard> weaponDeck){
          int movementCanDoBeforeReloadAndShoot = 0;
         if(game.isInFrenzy()){
@@ -276,11 +326,12 @@ public class Controller implements Observer<ClientEvent> {
          return false;
     }
 
-    PowerUpController getPowerUpController() {
-        return powerUpController;
-    }
 
-
+    /**
+     * Sets the timer for the turn at the begin of the turn of a player.
+     * @param isForFirstRound It's true if the timer it will be active for the first turn of the player adding to the normal time a minute, false otherwise.
+     * @param isForRegeneration It's true if the timer it will be active only for the spawn after a death dividing the normal time for three, false otherwise.
+     */
     private void setTimerForTurn(boolean isForFirstRound, boolean isForRegeneration) {
         timer = new Timer();
         turnTask = new TurnTask();
@@ -300,6 +351,10 @@ public class Controller implements Observer<ClientEvent> {
     }
 
 
+    /**
+     * Handles the disconnection of a client, marking false the boolean attribute that specify if a player is connected or not and removing the nickname of the player involved from the list of the nicknames in the game.
+     * @param nicknameOfPlayerDisconnected The nickname of the player disconnected.
+     */
     public void handleDisconnection(String nicknameOfPlayerDisconnected){
          Player player = findPlayerWithThisNickname(nicknameOfPlayerDisconnected);
          ServerEvent disconnectionEvent = new ServerEvent();
@@ -318,10 +373,11 @@ public class Controller implements Observer<ClientEvent> {
          }
     }
 
-     DeathController getDeathController() {
-        return deathController;
-    }
 
+    /**
+     * Handles the reconnection of the client marking the boolean attribute that specifies if the player is connected or not and adding again him to the list of the nickname in the game.
+     * @param nicknameOfPlayer The nickname of the player reconnected.
+     */
     public void handleReconnection(String nicknameOfPlayer) {
          findPlayerWithThisNickname(nicknameOfPlayer).setConnected(true);
          ServerEvent reconnectionEvent = new ServerEvent();
@@ -481,7 +537,44 @@ public class Controller implements Observer<ClientEvent> {
         }
     }
 
+
+    RunController getRunController() {
+        return runController;
+    }
+
+    ReloadController getReloadController() {
+        return reloadController;
+    }
+
+    public RoundController getRoundController() {
+        return roundController;
+    }
+
+    ShootController getShootController() {
+        return shootController;
+    }
+
+    CatchController getCatchController() {
+        return catchController;
+    }
+
+    WeaponController getWeaponController() {
+        return weaponController;
+    }
+
+    DeathController getDeathController() {
+        return deathController;
+    }
+
+    PowerUpController getPowerUpController() {
+        return powerUpController;
+    }
+
+    /**
+     * The Task that be active at the end of the timer for the turn. It calls the update of turn of the round controller but before check if the player of the previous turn has to be generated and in the case spawn it randomly.
+     */
     private class TurnTask extends TimerTask {
+
 
         @Override
         public void run() {
@@ -491,7 +584,7 @@ public class Controller implements Observer<ClientEvent> {
             if(previousPlayer.isHasToBeGenerated()){
                 ColorOfCard_Ammo color;
                 Square square = null;
-                if(previousPlayer.getPlayerBoard().getPowerUpCardsOwned().size()==2){
+                if(previousPlayer.getPlayerBoard().getPowerUpCardsOwned().size()==2 && game.getRound()==1){
                     powerUpCard = previousPlayer.getPlayerBoard().getPowerUpCardsOwned().remove(1);
                     color = powerUpCard.getColor();
                     Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
@@ -504,14 +597,13 @@ public class Controller implements Observer<ClientEvent> {
 
                 }
                 else {
-                    powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0); //add to local array the first powerUp card of the deck
-                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0)); //add to used deck the first of normal deck and remove from this one
-                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true); //set boolean attribute to the card
+                    powerUpCard = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
+                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(0));
+                    game.getBoard().getPowerUpDeck().getUsedPowerUpCards().get(game.getBoard().getPowerUpDeck().getUsedPowerUpCards().size() - 1).setInTheDeckOfSomePlayer(true);
                     powerUpCard.setOwnerOfCard(previousPlayer);
                     previousPlayer.drawPowerUpCard(powerUpCard);
                     square = game.getBoard().getMap().getMatrixOfSquares()[1][0];
                 }
-
                 powerUpController.spawnPlayer(previousPlayer, square);
             }
             ServerEvent timerOverEvent = new ServerEvent();
@@ -520,7 +612,7 @@ public class Controller implements Observer<ClientEvent> {
             timerOverEvent.setMessageForOthers("The timer for the turn of " + previousPlayer.getNickname() + " is over. \nChange turn!" );
             timerOverEvent.setTimerOverEvent();
             game.notify(timerOverEvent);
-
+            roundController.updateTurn();
             if(game.getRound()!=1){
                 sendRequestForAction();
             }

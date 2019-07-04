@@ -34,7 +34,6 @@ public class TestCatchController{
 
     @Before
     public void setUp(){
-        game.setController(this.controller);
         game.createPlayer("player1", true, 1, "BLUE");
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");

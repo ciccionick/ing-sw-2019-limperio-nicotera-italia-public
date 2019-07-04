@@ -12,12 +12,22 @@ import java.util.ArrayList;
 
 /**
  * This class handles the run action by a player and checks where it can move to.
+ * @author Francesco Nicotera.
  */
 public class RunController {
 
+    /**
+     * The reference of the game.
+     */
     private final Game game;
+    /**
+     * The reference of the controller.
+     */
     private Controller controller;
 
+    /**
+     * Constructor of the class that initializes the reference of the game and the controller.
+     */
     public RunController(Game game, Controller controller) {
         this.game = game;
         this.controller = controller;
