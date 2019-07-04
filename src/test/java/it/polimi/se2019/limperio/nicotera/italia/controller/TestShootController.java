@@ -2,7 +2,6 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCard;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.InvolvedPlayer;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseEffect;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;

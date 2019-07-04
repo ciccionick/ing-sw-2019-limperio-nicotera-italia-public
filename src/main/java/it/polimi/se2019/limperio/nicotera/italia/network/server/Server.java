@@ -113,7 +113,6 @@ public class Server  {
         }
         game=Game.instanceOfGame();
         controller=new Controller(game);
-        game.setController(controller);
         BufferedReader timerReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/timer/timerForStartOfGame.txt")));
 
 
@@ -150,12 +149,16 @@ public class Server  {
                 if (gameStarted)
                     break;
                 Socket client = serverSocket.accept();
-                listOfClient.add(client);
-                VirtualView virtualView = new VirtualView(client, this, controller);
-                Thread thread = new Thread(virtualView);
-                thread.start();
-                listOfVirtualView.add(virtualView);
-                game.register(virtualView);
+                if(!gameStarted) {
+                    listOfClient.add(client);
+                    VirtualView virtualView = new VirtualView(client, this, controller);
+                    Thread thread = new Thread(virtualView);
+                    thread.start();
+                    listOfVirtualView.add(virtualView);
+                    game.register(virtualView);
+                }
+                else
+                    handleReconnectionClient(client);
             }
             catch (Exception e) {
                 loggerServer.log(Level.ALL, "error");
@@ -213,34 +216,9 @@ public class Server  {
             virtualView.setTypeOfMap(game.getBoard().getMap().getTypeOfMap());
         }
         gameStarted = true;
-        int timesOfReconnection = 0;
         while (serverSocket.isBound()) {
-            if(timesOfReconnection==0) {
-                Timer timerForReconnection = new Timer();
-                timerForReconnection.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Socket socket = null;
-                        try {
-                            socket = new Socket(InetAddress.getLocalHost().getHostAddress(), 4000);
-                        } catch (IOException e) {
-                            loggerServer.log(Level.ALL, "error");
-                        }
-                        /*finally {
-                            try {
-                                if(socket!=null)
-                                    socket.close();
-                            } catch (IOException e) {
-                                loggerServer.log(Level.ALL, "error");
-                            }
-                        }*/
-                    }
-                }, 500);
-            }
             Socket client = serverSocket.accept();
-            if(timesOfReconnection>0)
              handleReconnectionClient(client);
-            timesOfReconnection++;
         }
     }
 
@@ -314,11 +292,6 @@ public class Server  {
     void setTerminatorMode(boolean terminatoreMode) {
         this.terminatorMode = terminatoreMode;
     }
-
-    void closeProcess(){
-        System.exit(0);
-    }
-
 
     synchronized void addNickname(String newNickname){
         listOfNickname.add(newNickname);

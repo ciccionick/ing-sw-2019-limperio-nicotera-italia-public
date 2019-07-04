@@ -376,10 +376,10 @@ public class VirtualView extends Observable<ClientEvent> implements Observer<Ser
         }
         else{
             server.getListOfClient().remove(client);
-            if(server.getListOfClient().size()==3 && !server.getGame().isGameOver())
+            if(server.getListOfClient().size()==2 && !server.getGame().isGameOver())
                 controller.getRoundController().handleEndOfGame(true);
-            else if(server.getGame().isGameOver() && server.getListOfClient().size()==1)
-                server.closeProcess();
+            else if(server.getGame().isGameOver() && server.getListOfClient().isEmpty())
+                System.exit(0);
             else
                 controller.handleDisconnection(nicknameOfClient);
         }

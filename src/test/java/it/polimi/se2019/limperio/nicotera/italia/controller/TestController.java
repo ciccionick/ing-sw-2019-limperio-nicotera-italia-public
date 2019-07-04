@@ -7,12 +7,9 @@ import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerE
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 

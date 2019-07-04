@@ -79,8 +79,6 @@ public class Client {
         Timer timer;
         timer = new Timer();
         timer.schedule(new TaskForStart(), 1000);
-        //waitForMessagesOfInitialization();
-
     }
 
     /**
