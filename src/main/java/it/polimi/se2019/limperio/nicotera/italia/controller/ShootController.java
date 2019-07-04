@@ -595,7 +595,7 @@ public class ShootController {
     void setPlayersInInvolvedPlayers(ArrayList<Player> players){
         for(Player player : players){
             involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
-            if(!playersAttacked.contains(player) && !(weaponToUse.getName().equals("Zx-2")&&typeOfAttack.get(typeOfAttack.size()-1).equals(4)))
+            if(!playersAttacked.contains(player) && (!(weaponToUse.getName().equals("Zx-2") && typeOfAttack.get(typeOfAttack.size()-1).equals(4))))
                 playersAttacked.add(player);
         }
 
@@ -831,7 +831,7 @@ public class ShootController {
         else
             this.playersAttacked = playersAttacked;
 
-        ArrayList<Player> playersCouldUseTagback = new ArrayList<>();
+
 
         for(PowerUpCard powerUpCard : player.getPlayerBoard().getPowerUpCardsOwned()){
             if(powerUpCard.getName().equals("Targeting scope") && !alreadyAskedToUseTargeting){
@@ -839,6 +839,7 @@ public class ShootController {
                 return;
             }
         }
+         ArrayList<Player> playersCouldUseTagback = new ArrayList<>();
         for(Player playerAttacked : playersAttacked){
             if(couldUseTagback(playerAttacked))
                 playersCouldUseTagback.add(playerAttacked);
@@ -847,13 +848,10 @@ public class ShootController {
         if(playersCouldUseTagback.isEmpty()){
             if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
                 for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
-                    if(playersAttacked.contains(playerDead))
+                    if (playersAttacked.contains(playerDead))
                         controller.getDeathController().handleDeath(player, playerDead);
                 }
-
-                controller.handleTheEndOfAnAction(false);
             }
-            else
                 controller.handleTheEndOfAnAction(false);
         }
         else{
@@ -1036,7 +1034,7 @@ public class ShootController {
 
      void handleRequestToUseTagbackGranade(DiscardPowerUpCard message){
         Player playerWithTagback = controller.findPlayerWithThisNickname(message.getNickname());
-        Player playerToAttack = null;
+        Player playerToAttack;
         if(!isForTerminator)
             playerToAttack = weaponToUse.getOwnerOfCard();
         else
@@ -1047,13 +1045,12 @@ public class ShootController {
             if(playersAreChoosingForTagback.isEmpty()) {
                 if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
                     for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
-                        if (isForTerminator)
+                        if (isForTerminator && playersAttacked.contains(playerDead))
                             controller.getDeathController().handleDeath(controller.findPlayerWithThisNickname("terminator"),playerDead);
-                        controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
+                        else
+                            controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
                     }
-                 controller.handleTheEndOfAnAction(false);
                 }
-                else
                     controller.handleTheEndOfAnAction(false);
             }
         }
@@ -1073,14 +1070,13 @@ public class ShootController {
             if(playersAreChoosingForTagback.isEmpty()) {
                 if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
                     for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
-                        if (isForTerminator)
+                        if (isForTerminator && playersAttacked.contains(playerDead))
                             controller.getDeathController().handleDeath(controller.findPlayerWithThisNickname("terminator"),playerDead);
-                        controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
+                        else
+                            controller.getDeathController().handleDeath(weaponToUse.getOwnerOfCard(), playerDead);
                     }
-                    controller.handleTheEndOfAnAction(false);
                 }
-                else
-                    controller.handleTheEndOfAnAction(false);
+                controller.handleTheEndOfAnAction(false);
             }
         }
     }
