@@ -846,7 +846,8 @@ public class ShootController {
         if(playersCouldUseTagback.isEmpty()){
             if(!controller.getRoundController().getPlayersDeadInThisTurn().isEmpty()) {
                 for (Player playerDead : controller.getRoundController().getPlayersDeadInThisTurn()) {
-                    controller.getDeathController().handleDeath(player, playerDead);
+                    if(playersAttacked.contains(playerDead))
+                        controller.getDeathController().handleDeath(player, playerDead);
                 }
 
                 controller.handleTheEndOfAnAction(false);

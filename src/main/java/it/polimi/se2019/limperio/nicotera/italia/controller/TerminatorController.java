@@ -8,16 +8,33 @@ import it.polimi.se2019.limperio.nicotera.italia.model.Square;
 
 import java.util.ArrayList;
 
+/**
+ * Controller that is dedicated to the actions of the terminator and is correctness.
+ * @author Pietro L'Imperio.
+ */
 class TerminatorController {
+    /**
+     * Reference of the controller.
+     */
     private Controller controller;
+    /**
+     * Reference of the game.
+     */
     private Game game;
 
+    /**
+     * Constructor where controller and game references are initialized.
+     */
      TerminatorController(Controller controller, Game game) {
         this.controller = controller;
         this.game = game;
     }
 
 
+    /**
+     * Hanldes the spawn of the terminator putting it on the square chosen by the player of the turn.
+     * @param message Event received by the player of the turn with row and column of the square where he decided to generate the terminator.
+     */
      void handleSpawnOfTerminator(SelectionSquare message) {
          int row = message.getRow();
          int column = message.getColumn();

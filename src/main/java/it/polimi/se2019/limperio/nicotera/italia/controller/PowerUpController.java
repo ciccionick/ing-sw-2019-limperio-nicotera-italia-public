@@ -11,10 +11,26 @@ import java.util.ArrayList;
  */
 
 class PowerUpController {
+    /**
+     * Reference of the game.
+     */
      private  Game game;
-     private final Controller controller;
+    /**
+     * Reference of the controller.
+     */
+    private final Controller controller;
+    /**
+     * The position in the power up cards deck of the power up card to use.
+     */
      private int numOfCardToUse;
-     private String nicknameOfPlayerHasToBeMovedByNewton;
+    /**
+     * The nickname of the player that has to be moved by the use of Newton.
+     */
+    private String nicknameOfPlayerHasToBeMovedByNewton;
+
+    /**
+     * Constructor that initializes the game and controller references.
+     */
      PowerUpController(Game game, Controller controller) {
          this.game = game;
          this.controller = controller;
@@ -46,7 +62,10 @@ class PowerUpController {
              sendRequestToDiscardPowerUpCardToBeGenerate(nickname);
      }
 
-     void sendRequestToChooseSquareForSpawnOfTerminator() {
+    /**
+     * Sends the request to the player of the turn to choose a square where the terminator has to be generated in the first round or after his death.
+     */
+    void sendRequestToChooseSquareForSpawnOfTerminator() {
          String message;
          if(game.getRound()==1)
              message = "Look up the cards you have drawn and choose a spawn square where generate the terminator!";
@@ -68,6 +87,10 @@ class PowerUpController {
          game.notify(requestSelectionSquareForTerminator);
     }
 
+    /**
+     * Sends the request to the player that has to be generated to discard a power up card so that he can decide where he wants to be generated.
+     * @param nickname The nickname of the player that has to be generated and that has to discard a power up card.
+     */
     void sendRequestToDiscardPowerUpCardToBeGenerate(String nickname){
          PlayerBoardEvent requestDiscardPowerUpCardEvent = new PlayerBoardEvent();
          requestDiscardPowerUpCardEvent.setMessageForInvolved("Choose which powerUp card you want to discard. \nYou will be generated in the square of that color. \n(You can tap and hold on the card too see more info)");
@@ -169,6 +192,10 @@ class PowerUpController {
     }
 
 
+    /**
+     * Handles the request by the client to use teleporter sending the request to choose a square where he wants to move.
+     * @param message Event received by the client.
+     */
      void handleRequestToUseTeleporter(ClientEvent message) {
         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to teleport");
         requestSelectionSquareForAction.setSelectionForTeleporter();
@@ -179,6 +206,10 @@ class PowerUpController {
 
     }
 
+    /**
+     * Get an array list where are contained all of the squares of the map.
+     * @return The array list with all of the squares of the map.
+     */
     private ArrayList<Square> getAllSquaresInTheMap(){
         ArrayList<Square> squaresReachable = new ArrayList<>();
         for(int i=0; i<game.getBoard().getMap().getMatrixOfSquares().length; i++){
@@ -192,6 +223,11 @@ class PowerUpController {
     }
 
 
+    /**
+     * Handles the use of the teleporter after that the player has chosen the square where he wants to move.
+     * Remove the power up card used and sends events about map and player board to notify to all the players the new situation of the game.
+     * @param message Event received by the client with row and column of the square where the player wants to move
+     */
      void useTeleporter(SelectionSquare message) {
          Player player = controller.findPlayerWithThisNickname(message.getNickname());
          PowerUpCard card = player.getPlayerBoard().getPowerUpCardsOwned().get(numOfCardToUse-1);
@@ -216,6 +252,10 @@ class PowerUpController {
          controller.handleTheEndOfAnAction(true);
      }
 
+    /**
+     * Handles the request to choose Newton by the player sending the request to choose a player that he wants to move.
+     * @param message Event received by the client with the request to use Newton.
+     */
      void handleRequestToUseNewton(ClientEvent message) {
         RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
         requestToChooseAPlayer.setChoosePlayerForNewton();
@@ -234,6 +274,10 @@ class PowerUpController {
     }
 
 
+    /**
+     * Handles the choice of the player on who use the effect of Newton sending another request to choose a square where move him.
+     * @param choosePlayer Event received by the client with the nickname of the player chosen to use Newton.
+     */
      void handleChoosePlayerForNewton(ChoosePlayer choosePlayer) {
          nicknameOfPlayerHasToBeMovedByNewton = choosePlayer.getNameOfPlayer();
          RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Select the square in which you want to move the player you selected before");
@@ -265,6 +309,10 @@ class PowerUpController {
          game.notify(requestSelectionSquareForAction);
     }
 
+    /**
+     * Handles the use of Newton after the request about player and square, moving the player chosen and sending map event and player board event to notify to all the players the new situation of the game.
+     * @param event Event received by client with the row and column of the square chosen to move the player.
+     */
     void useNewton(SelectionSquare event){
          Square newPositionOfThePlayer = game.getBoard().getMap().getMatrixOfSquares()[event.getRow()][event.getColumn()];
          Player player = controller.findPlayerWithThisNickname(event.getNickname());

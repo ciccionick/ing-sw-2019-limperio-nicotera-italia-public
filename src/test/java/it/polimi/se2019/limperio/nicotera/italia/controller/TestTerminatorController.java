@@ -21,7 +21,6 @@ public class TestTerminatorController{
         game = Game.instanceOfGame();
         controller = new Controller(game);
         terminatorController = new TerminatorController(controller, game);
-        game.setController(controller);
         game.createPlayer("player1", true, 1, "BLUE");
         game.createPlayer("player2", false, 2, "GREY");
         game.createPlayer("player3", false, 3, "GREEN");
