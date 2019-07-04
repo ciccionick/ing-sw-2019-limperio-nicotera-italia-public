@@ -7,23 +7,59 @@ import java.util.Collections;
 
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
-
+/**
+ * Represents the player board of a player including his decks of weapon cards and power up cards.
+ * @author Pietro L'Imperio.
+ */
 public class PlayerBoard implements Serializable, Cloneable {
     static final long serialVersionUID = 420000001;
+    /**
+     * The nickname of the player owner of the player board.
+     */
     private String nicknameOfPlayer;
+    /**
+     * The color of the player owner of the player board.
+     */
     private ColorOfFigure_Square colorOfPlayer;
+    /**
+     * The list of colors of figure that represents the damage of the player owner of the player board.
+     */
     private ArrayList<ColorOfFigure_Square> damages;
+    /**
+     * The list of colors of figure that represents the marks of the player owner of the player board.
+     */
     private ArrayList<ColorOfFigure_Square> marks;
+    /**
+     * The list of ammo of the player owner of the player board.
+     */
     private ArrayList<Ammo> ammo;
+    /**
+     * It's true if the player board is completely in frenzy mode (action bar and central board), false otherwise.
+     */
     private boolean isFrenzyBoardPlayer =false;
+    /**
+     * It's true if the frenzy has began when the player has still damage and so only the action bar is in the frenzy mode, false otherwise.
+     */
     private boolean isFrenzyActionBar = false;
+    /**
+     * The list of the score to give to the players that attacked the owner of the player board after his death in the normal mode.
+     */
     private ArrayList<Integer> scoreBarForNormalMode = new ArrayList<>();
+    /**
+     * The list of the score to give to the players that attacked the owner of the player board after his death in the frenzy mode.
+     */
     private ArrayList<Integer> scoreBarForFrenzyMode = new ArrayList<>();
+    /**
+     * The deck of the weapon cards of the owner of the player board.
+     */
     private transient ArrayList<WeaponCard>  weaponsOwned = new ArrayList<>();
+    /**
+     * The deck of power up cards of the owner of the player board.
+     */
     private transient ArrayList<PowerUpCard> powerUpCardsOwned = new ArrayList<>();
 
     /**
-     * The constructor marks as usable the beginning ammo according to game's rules
+     * The constructor marks as usable the beginning ammo according to game's rules and initializes the score for normal and frenzy mode
      */
     public PlayerBoard(String nickname, ColorOfFigure_Square color) {
         this.nicknameOfPlayer = nickname;
@@ -53,6 +89,10 @@ public class PlayerBoard implements Serializable, Cloneable {
 
     }
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
         PlayerBoard playerBoard;
         try{
@@ -67,37 +107,14 @@ public class PlayerBoard implements Serializable, Cloneable {
             playerBoard.ammo.add ( (Ammo) ammoItem.clone());
         }
         playerBoard.damages = new ArrayList<>();
-
-        for (ColorOfFigure_Square damage : this.damages){
-            playerBoard.damages.add(damage);
-        }
+        playerBoard.damages.addAll(this.damages);
         playerBoard.marks = new ArrayList<>();
-        for (ColorOfFigure_Square mark : this.marks){
-            playerBoard.marks.add(mark);
-        }
+        playerBoard.marks.addAll(this.marks);
         playerBoard.scoreBarForFrenzyMode = new ArrayList<>();
-        for(Integer score : this.scoreBarForFrenzyMode)
-            playerBoard.scoreBarForFrenzyMode.add(score);
+        playerBoard.scoreBarForFrenzyMode.addAll(this.scoreBarForFrenzyMode);
         playerBoard.scoreBarForNormalMode = new ArrayList<>();
-        for(Integer score : this.scoreBarForNormalMode)
-            playerBoard.scoreBarForNormalMode.add(score);
+        playerBoard.scoreBarForNormalMode.addAll(this.scoreBarForNormalMode);
         return playerBoard;
-    }
-
-    public ArrayList<ColorOfFigure_Square> getDamages() {
-        return damages;
-    }
-
-    public ArrayList<ColorOfFigure_Square> getMarks() {
-        return marks;
-    }
-
-    public boolean isFrenzyActionBar() {
-        return isFrenzyActionBar;
-    }
-
-    public void setFrenzyActionBar(boolean frenzyActionBar) {
-        isFrenzyActionBar = frenzyActionBar;
     }
 
 
@@ -109,12 +126,40 @@ public class PlayerBoard implements Serializable, Cloneable {
         return damages.size()>9;
     }
 
+    /**
+     * Removes an ammo of one color from the ammo deck of the player
+     * @param color the type of ammo that must be removed
+     */
+     void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
+        for (Ammo ammoItem : ammo) {
+            if(ammoItem.getColor().equals(color)) {
+                ammoItem.setIsUsable(false);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Adds ammo to player's deck of ammo
+     * @param color the color of the ammo that has to be added
+     * @param numOfAmmoCaught the number of ammo thhat has to be added
+     */
+    public void addAmmoToPlayer(ColorOfCard_Ammo color, int numOfAmmoCaught){
+        int numOfAmmoUsable = numOfAmmoCaught;
+        for(int i=0; i<9 && numOfAmmoUsable>0; i++){
+            if(getAmmo().get(i).getColor().equals(color) && !getAmmo().get(i).isUsable()){
+                getAmmo().get(i).setIsUsable(true);
+                numOfAmmoUsable--;
+            }
+        }
+    }
+
     public boolean isFrenzyBoardPlayer() {
         return isFrenzyBoardPlayer;
     }
 
 
-     int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
+    int getNumOfMarksOfOneColor(ColorOfFigure_Square color){
         return Collections.frequency(marks, color);
     }
 
@@ -156,33 +201,20 @@ public class PlayerBoard implements Serializable, Cloneable {
         this.damages = damages;
     }
 
-
-
-    /**
-     * Removes an ammo of one color from the ammo deck of the player
-     * @param color the type of ammo that must be removed
-     */
-     void removeAmmoOfThisColor(ColorOfCard_Ammo color) {
-        for (Ammo ammoItem : ammo) {
-            if(ammoItem.getColor().equals(color)) {
-                ammoItem.setIsUsable(false);
-                break;
-            }
-        }
+    public ArrayList<ColorOfFigure_Square> getDamages() {
+        return damages;
     }
 
-    /**
-     * Adds ammo to player's deck of ammo
-     * @param color the color of the ammo that has to be added
-     * @param numOfAmmoCaught the number of ammo thhat has to be added
-     */
-    public void addAmmoToPlayer(ColorOfCard_Ammo color, int numOfAmmoCaught){
-        int numOfAmmoUsable = numOfAmmoCaught;
-        for(int i=0; i<9 && numOfAmmoUsable>0; i++){
-            if(getAmmo().get(i).getColor().equals(color) && !getAmmo().get(i).isUsable()){
-                getAmmo().get(i).setIsUsable(true);
-                numOfAmmoUsable--;
-            }
-        }
+    public ArrayList<ColorOfFigure_Square> getMarks() {
+        return marks;
     }
+
+    public boolean isFrenzyActionBar() {
+        return isFrenzyActionBar;
+    }
+
+    public void setFrenzyActionBar(boolean frenzyActionBar) {
+        isFrenzyActionBar = frenzyActionBar;
+    }
+
 }

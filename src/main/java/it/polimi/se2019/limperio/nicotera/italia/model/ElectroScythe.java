@@ -8,15 +8,12 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
- * This class is used to represent ElectroScythee of WeaponCard
- *
- * @author giuseppeitalia
+ * Represents the weapon card ElectroScythe
+ * @author Giuseppe Italia.
  */
 
 public class ElectroScythe extends WeaponCard
 {
-
-
     @Override
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
         switch (typeOfAttack) {
@@ -31,6 +28,10 @@ public class ElectroScythe extends WeaponCard
 
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public ElectroScythe() {
         super(BLUE, "Electroscythe");
         String description;
@@ -53,6 +54,9 @@ public class ElectroScythe extends WeaponCard
     }
 
 
+    /**
+     * Assigns 1 damage to every players in the square of owner of the card but not the owner of the card.
+     */
     private void basicMode(Square square){
         for(Player player: square.getPlayerOnThisSquare()) {
             if(!player.equals(this.getOwnerOfCard())) {
@@ -61,6 +65,9 @@ public class ElectroScythe extends WeaponCard
         }
     }
 
+    /**
+     * Assigns 2 damage to every players in the square of owner of the card but not the owner of the card.
+     */
     private void inReaperMode(Square square) {
         for(Player player: square.getPlayerOnThisSquare()) {
             if(!player.equals(this.getOwnerOfCard()))

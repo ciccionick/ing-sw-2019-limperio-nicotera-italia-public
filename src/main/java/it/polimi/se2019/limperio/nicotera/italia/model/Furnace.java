@@ -8,13 +8,11 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
- * This class is used to represent the Furnace of WeaponCard
- *
- * @author giuseppeitalia
+ * Represents the weapon card Furnace
+ * @author Giuseppe Italia
  */
 
 public class Furnace extends WeaponCard {
-
 
     @Override
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
@@ -33,16 +31,10 @@ public class Furnace extends WeaponCard {
         }
     }
 
-
-    private void basicMode(Player player){
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
-    }
-
-    private void inCozyFireMode(Player player){
-        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
-        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
-    }
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Furnace() {
         super(RED, "Furnace");
         String description = "BASIC MODE:\nChoose a room you can see, but not the room you are in. \nDeal 1 damage to everyone in that room.\n" +
@@ -62,5 +54,20 @@ public class Furnace extends WeaponCard {
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {BLUE, RED};
         setPriceToReload(reloadPrice);
+    }
+
+    /**
+     * Assigns one damage to the player passed by parameter.
+     */
+    private void basicMode(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+    }
+
+    /**
+     * Assigns one damage and one mark to the player passed by parameter.
+     */
+    private void inCozyFireMode(Player player){
+        player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
+        player.assignMarks(getOwnerOfCard().getColorOfFigure(), 1);
     }
 }

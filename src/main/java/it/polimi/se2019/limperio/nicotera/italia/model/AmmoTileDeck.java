@@ -4,18 +4,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *  This class is used to represent the AmmoTiles's deck
+ *  This class is used to represent a deck of ammo tiles where the ammo tile are taken to put them on the normal square.
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia.
  */
 
 public class AmmoTileDeck {
 
+    /**
+     * List of ammo tiles available to be put on the map.
+     */
     private ArrayList<AmmoTile> ammoTilesAvailable = new ArrayList<>();
+    /**
+     * The list of the ammo tiles already on the map.
+     */
     private ArrayList<AmmoTile> ammoTilesOnTheMap = new ArrayList<>();
+    /**
+     * The list of the ammo tiles already drawn.
+     */
     private ArrayList<AmmoTile> ammoTilesDiscarded = new ArrayList<>();
+    /**
+     * The instance of the class that implements singleton pattern.
+     */
     private static AmmoTileDeck instanceOfAmmoTileDeck;
 
+    /**
+     * The constructor that calls the constructor of the class ammo tile adding the new ammo tile to the list of ammo tiles available and then shuffle it.
+     */
     private AmmoTileDeck(){
         for(int i = 0 ; i < 4; i++){
             ammoTilesAvailable.add(new AmmoTile(1));
@@ -42,18 +57,9 @@ public class AmmoTileDeck {
     }
 
 
-
     /**
-     * <p>
-     *     puts in the map the AmmoTile Available
-     * </p>
-     * <p>
-     *     When a player's turn ends we need to insert a AmmoTile Available at the points on the map
-     *     where they were taken by the previous player. At the end of the method shuffle AmmoTiles Available
-     * </p>
-     *
+     * Shuffle the deck of ammo tiles available when this has a size lower than 3 adding to it all of the ammo tiles already discarded.
      */
-
     public void shuffleDeck(){
         ammoTilesAvailable.addAll(ammoTilesDiscarded);
         Collections.shuffle(ammoTilesAvailable);

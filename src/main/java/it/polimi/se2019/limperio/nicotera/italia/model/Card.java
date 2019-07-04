@@ -1,19 +1,32 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
 /**
- * This class is used to represent the game's Cards
+ * This class is an abstract class to represent the card extended by Weapon card and Power up card.
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
-
-
 public abstract class Card  {
+    /**
+     * The color of the card.
+     */
     private ColorOfCard_Ammo color;
+    /**
+     * The name of the card.
+     */
     private String name;
+    /**
+     * The description of the card.
+     */
     private String description;
+    /**
+     * The player owner of the card.
+     */
     private Player ownerOfCard;
 
 
+    /**
+     * The constructor of the card that initialize the name and the color of the card.
+     */
     public Card(ColorOfCard_Ammo color, String name) {
         this.color = color;
         this.name = name;

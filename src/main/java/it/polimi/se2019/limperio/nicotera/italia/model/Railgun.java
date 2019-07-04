@@ -8,8 +8,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class is used to represent the Railgun of WeaponCard
- *
+ * Represents the weapon card Rail gun.
  * @author Giuseppe Italia
  */
 
@@ -34,6 +33,10 @@ public class Railgun extends WeaponCard {
         }
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Railgun() {
         super(YELLOW, "Railgun");
         String description;
@@ -58,10 +61,16 @@ public class Railgun extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns three damage to the player passed by parameter.
+     */
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 3);
     }
 
+    /**
+     * Assigns two damage to the player passed by parameter.
+     */
     private void piercingMode(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }

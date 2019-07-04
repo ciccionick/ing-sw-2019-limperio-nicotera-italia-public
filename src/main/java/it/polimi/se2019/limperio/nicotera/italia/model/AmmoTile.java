@@ -7,20 +7,32 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent the AmmoTile
+ * This class is used to represent the ammo tile of the game.
+ * It can be composed only by ammo or by ammo and one power up card according with the rules of the game.
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia
  */
 
 public class AmmoTile implements Serializable, Cloneable {
     static final long serialVersionUID = 420000010;
 
+    /**
+     * It's true if the ammo tile is composed also by a power up card.
+     */
     private boolean hasPowerUpCard;
+    /**
+     * The list of the ammo that composes the ammo tile.
+     */
     private ArrayList<ColorOfCard_Ammo> listOfAmmo = new ArrayList<>();
+    /**
+     * The number of ammo tile used to recognize them especially in the gui for the relative icon.
+     */
     private int typeOfAmmoTile;
 
 
-
+    /**
+     * Constructor of ammo tile. According with the number of the type of ammo tile passed by parameter creates the right one.
+     */
     public  AmmoTile(int typeAmmoTile)
     {
         switch(typeAmmoTile) {
@@ -98,6 +110,10 @@ public class AmmoTile implements Serializable, Cloneable {
 
     }
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
         AmmoTile ammoTile = null;
         try{

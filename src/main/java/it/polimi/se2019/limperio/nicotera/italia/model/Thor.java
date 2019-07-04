@@ -8,8 +8,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.RED;
 
 /**
- * This class is used to represent the Thor of WeaponCard
- *
+ * Represents the weapon card THOR.
  * @author Giuseppe Italia
  */
 
@@ -34,7 +33,10 @@ public class Thor extends WeaponCard {
             }
         }
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Thor() {
         super(BLUE, "THOR");
         String description = "BASIC EFFECT: \nDeal 2 damage to 1 target you can see.\n" +
@@ -58,14 +60,23 @@ public class Thor extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns 2 damage to the player passed by parameter.
+     */
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Assign 1 damage to the player passed by parameter.
+     */
     private void withChainReaction(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Assigns 2 damage to the player passed by parameter.
+     */
     private void withHighVoltage(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }

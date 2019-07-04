@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent the RocketLauncher of WeaponCard
- *
+ * Represents the weapon card Rocket launcher.
  * @author Giuseppe Italia
  */
 
@@ -34,7 +33,10 @@ public class RocketLauncher extends  WeaponCard{
             }
     }
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public RocketLauncher() {
         super(RED, "Rocket launcher");
         String description;
@@ -60,6 +62,9 @@ public class RocketLauncher extends  WeaponCard{
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns a damage to every player in the square passed by parameter and to the player passed by parameter if he is not on the previous square.
+     */
     private void withFragmentingWarhead(Player player, Square square){
         for (Player playerInTheSquare : square.getPlayerOnThisSquare())
             playerInTheSquare.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
@@ -67,10 +72,16 @@ public class RocketLauncher extends  WeaponCard{
             player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Moves the owner of the card in the square passed by parameter.
+     */
     private void rocketJump(Square square){
         this.getOwnerOfCard().setPositionOnTheMap(square);
     }
 
+    /**
+     * Assigns two damage to the player passed by parameter and then if tha parameter position is not null moves him on that square.
+     */
     private void basicEffect(Player player, Square position){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
         if(position != null)

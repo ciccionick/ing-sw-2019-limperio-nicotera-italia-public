@@ -9,8 +9,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.BLUE;
 
 /**
- * This class is used to represent the VortexCannon  of WeaponCard
- *
+ * Represents the weapon card Vortex cannon.
  * @author Giuseppe Italia
  */
 
@@ -36,6 +35,10 @@ public class VortexCannon extends WeaponCard {
         }
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public VortexCannon() {
         super(RED, "Vortex cannon");
         String description;
@@ -56,12 +59,17 @@ public class VortexCannon extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
-
+    /**
+     * Moves tha player passed by parameter on the square passed by parameter and then assigns him two damage.
+     */
     private void basicEffect(Player player, Square square) {
         player.setPositionOnTheMap(square);
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Moves tha player passed by parameter on the square passed by parameter and then assigns him a damage.
+     */
     private void withBlackHoleEffect(Player player, Square square){
         player.setPositionOnTheMap(square);
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);

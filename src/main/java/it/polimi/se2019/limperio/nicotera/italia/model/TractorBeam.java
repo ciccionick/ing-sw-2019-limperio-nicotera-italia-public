@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent the TractorBeam  of  WeaponCard
- *
+ * Represents the weapon card Tractor beam.
  * @author Giuseppe Italia
  */
 
@@ -30,6 +29,10 @@ public class TractorBeam extends WeaponCard {
         }
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public TractorBeam() {
         super(BLUE, "Tractor beam");
         String description;
@@ -52,11 +55,17 @@ public class TractorBeam extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Moves the player passed by parameter to the square passed by parameter and then assigns him a damage.
+     */
     private void basicMode(Player player, Square square){
         player.setPositionOnTheMap(square);
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Moves the player passed by parameter in the square of the owner of the card and then assigns him three damage.
+     */
     private void inPunisherMode(Player player){
         player.setPositionOnTheMap(this.getOwnerOfCard().getPositionOnTheMap());
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 3);

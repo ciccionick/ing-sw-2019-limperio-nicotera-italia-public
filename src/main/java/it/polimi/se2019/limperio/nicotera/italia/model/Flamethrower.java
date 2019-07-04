@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent Flamethrower of WeaponCard
+ * Represent the weapon card Flamethrower.
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia.
  */
 
 public class Flamethrower extends WeaponCard {
@@ -28,8 +28,10 @@ public class Flamethrower extends WeaponCard {
 
     }
 
-
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Flamethrower() {
         super(RED, "Flamethrower");
         String description;
@@ -55,10 +57,16 @@ public class Flamethrower extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns 1 damage to the player passed by parameter.
+     */
     private void basicMode(Player player){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Assigns two damage to every player in the first square passed by parameter and one to the second.
+     */
     private void barbecueMode(Square square, Square square2) {
         for(Player player : square.getPlayerOnThisSquare())
             player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);

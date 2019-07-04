@@ -8,9 +8,8 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.R
 
 
 /**
- * This class is used to represent the  GranadeLauncher of WeaponCard
- *
- * @author giuseppeitalia
+ * Represents the weapon card Granade launcher.
+ * @author Giuseppe Italia.
  */
 
 public class GranadeLauncher extends WeaponCard {
@@ -32,19 +31,10 @@ public class GranadeLauncher extends WeaponCard {
             }
     }
 
-    private void basicEffect(Player player, Square square) {
-        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-        if(square != null)
-            player.setPositionOnTheMap(square);
-    }
-
-    private void withExtraGranade(Square square){
-        for(Player enemy : square.getPlayerOnThisSquare()){
-            enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
-
-        }
-    }
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public GranadeLauncher() {
         super(RED, "Granade launcher");
         String description;
@@ -64,5 +54,24 @@ public class GranadeLauncher extends WeaponCard {
         setPriceToBuy(buyPrice);
         ColorOfCard_Ammo[] reloadPrice = {RED};
         setPriceToReload(reloadPrice);
+    }
+
+    /**
+     * Assign a damage to the player passed by parameter and set, if square is not null, the same player in the square passed as second parameter.
+     */
+    private void basicEffect(Player player, Square square) {
+        player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+        if(square != null)
+            player.setPositionOnTheMap(square);
+    }
+
+    /**
+     * Assign a damage to every player on the square passed by parameter.
+     */
+    private void withExtraGranade(Square square){
+        for(Player enemy : square.getPlayerOnThisSquare()){
+            enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
+
+        }
     }
 }

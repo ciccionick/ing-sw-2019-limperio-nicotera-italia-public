@@ -202,6 +202,7 @@ public class Server  {
             setTypeMap(typeMap);
         }
         game.initializeGame(anticipatedFrenzy, typeMap, terminatorMode);
+        controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(game.getPlayerOfTurn()-1),2);
         for(VirtualView virtualView : listOfVirtualView){
             for(Player player : game.getPlayers()){
                 virtualView.updateListOfPlayerBoard(player.getPlayerBoard());

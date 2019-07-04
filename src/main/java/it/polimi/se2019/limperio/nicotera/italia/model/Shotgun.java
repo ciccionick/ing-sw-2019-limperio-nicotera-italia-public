@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class is used to represent the Shotgun of WeaponCard
- *
+ * Represents the weapon card Shotgun.
  * @author Giuseppe Italia
  */
 
@@ -29,7 +28,10 @@ public class Shotgun extends WeaponCard {
             }
     }
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Shotgun() {
         super(YELLOW, "Shotgun");
         String description;
@@ -53,12 +55,18 @@ public class Shotgun extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns three damage to the player passed by parameter and then, if the square is not null, moves him on that square.
+     */
     private void basicEffect(Player player, Square square){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 3);
         if(square != null)
             player.setPositionOnTheMap(square);
     }
 
+    /**
+     * Assigns two damage to the player passed by parameter.
+     */
     private void longBarrelMode(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);
     }

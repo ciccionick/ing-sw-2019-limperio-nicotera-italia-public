@@ -2,11 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
 /**
- * specifies the color of Death Tokens contained in KillShot track
- * <p>
- *     Skull is absence of death token
- * </p>
- * @author giuseppeitalia
+ * Enumeration for the token to put on the killshot track. Has the same colors of the figure more a special color (SKULL) that represents the skulls originally put on the killshot track.
+ * @author Giusppe Italia.
  */
 
 public enum ColorOfDeathToken {

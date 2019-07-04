@@ -74,13 +74,28 @@ public class Game extends Observable<ServerEvent> {
      */
     private int round=1;
 
+    /**
+     * The delay for the timer of the turn.
+     */
     private long delay;
 
+    /**
+     * It's true if the player of the turn has still to do the terminator action.
+     */
     private boolean hasToDoTerminatorAction = false;
 
+    /**
+     * The reference of the player that has to be spawn before the start of the turn of the current player.
+     */
     private Player playerHasToRespawn = null;
 
+    /**
+     * Logger of the class to track possibly excpetion.
+     */
     private static Logger myLogger = Logger.getLogger("it.limperio.nicotera.italia.progettoINGSFTWPolimi");
+    /**
+     * The handler of the logger.
+     */
     private static Handler handlerGame = new ConsoleHandler();
 
 
@@ -156,9 +171,12 @@ public class Game extends Observable<ServerEvent> {
         board.addAmmoTileInNormalSquare();
         board.addWeaponsInSpawnSquare();
         sendMapEvent();
-        controller.sendRequestToDrawPowerUpCard(players.get(playerOfTurn-1),2);
+        //controller.sendRequestToDrawPowerUpCard(players.get(playerOfTurn-1),2);
     }
 
+    /**
+     * Finds an available color of figure to give it to the terminator.
+     */
     private ColorOfFigure_Square findColorAvailable() {
         ArrayList<ColorOfFigure_Square> colors = new ArrayList<>();
         colors.add(ColorOfFigure_Square.YELLOW);
@@ -188,17 +206,26 @@ public class Game extends Observable<ServerEvent> {
     }
 
 
+    /**
+     * Creates the instance of the Board.
+     */
     private void createBoard(){
         this.board = Board.instanceOfBoard();
     }
 
 
+    /**
+     * Creates the instance of the game.
+     */
     public static Game instanceOfGame(){
         if(instanceOfGame == null)
              instanceOfGame = new Game();
         return instanceOfGame;
     }
 
+    /**
+     * Increments the number of the action of the turn.
+     */
     public void incrementNumOfActionsOfThisTurn(){
         numOfActionOfTheTurn++;
     }

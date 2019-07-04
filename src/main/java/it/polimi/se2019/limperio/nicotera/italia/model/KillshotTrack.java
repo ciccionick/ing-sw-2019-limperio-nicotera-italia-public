@@ -5,12 +5,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * handles KillshotTrack of WeaponCard
+ * The class that represents the killshot track.
  *
- * @author giuseppeitalia
+ * @author Giuseppe Italia.
  */
-
-
 public class KillshotTrack implements Serializable, Cloneable {
     static final long serialVersionUID = 420000005;
 
@@ -57,6 +55,10 @@ public class KillshotTrack implements Serializable, Cloneable {
         return tokenOfFrenzyMode;
     }
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
         KillshotTrack killshotTrack;
         try{

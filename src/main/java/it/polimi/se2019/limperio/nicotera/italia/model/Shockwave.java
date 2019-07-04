@@ -7,14 +7,12 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class is used to represent the Shockwave of WeaponCard
- *
+ * Represents the weapon card Shockwave.
  * @author Giuseppe Italia
  */
 
 
 public class Shockwave extends WeaponCard {
-
 
     @Override
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
@@ -29,7 +27,10 @@ public class Shockwave extends WeaponCard {
     }
 
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Shockwave() {
         super(YELLOW, "Shockwave");
         String description;
@@ -54,13 +55,17 @@ public class Shockwave extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
-
+    /**
+     * Assigns one damage to the player passed by parameter.
+     */
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Assigns one damage to every player in the squares on the adjacency of the square of the owner of the card.
+     */
     private void tsunamiMode(){
-
         for(Square square : this.getOwnerOfCard().getPositionOnTheMap().getAdjSquares()){
             for(Player enemy : square.getPlayerOnThisSquare()){
                 enemy.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);

@@ -19,7 +19,7 @@ public class TestTagbackGranade {
     public void setUp()
     {
 
-        tagbackGranade = new TagbackGranade(ColorOfCard_Ammo.YELLOW, 10);
+        tagbackGranade = new TagbackGranade(ColorOfCard_Ammo.YELLOW);
         player1.createPlayerBoard();
         player2.createPlayerBoard();
 

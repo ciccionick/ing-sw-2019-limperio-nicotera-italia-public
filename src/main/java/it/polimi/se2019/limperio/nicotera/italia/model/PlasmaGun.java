@@ -8,8 +8,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class is used to represent the PlasmaGun  of WeaponCard
- *
+ * Represents the weapon card Plasma gun.
  * @author Giuseppe Italia
  */
 
@@ -23,7 +22,7 @@ public class PlasmaGun extends WeaponCard{
                     basicEffect(involvedPlayers.get(0).getPlayer());
                     break;
                 case 2:
-                    withPhaseGlide(involvedPlayers.get(0).getPlayer(), involvedPlayers.get(0).getSquare());
+                    withPhaseGlide(involvedPlayers.get(0).getSquare());
                     break;
                 case 3:
                     withChargedShot(involvedPlayers.get(0).getPlayer());
@@ -34,6 +33,10 @@ public class PlasmaGun extends WeaponCard{
     }
 
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public PlasmaGun() {
         super(BLUE, "Plasma gun");
         String description = "BASIC EFFECT:\nDeal 2 damage to 1 target you can see.\n" +
@@ -56,15 +59,25 @@ public class PlasmaGun extends WeaponCard{
         setPriceToReload(reloadPrice);
     }
 
+
+    /**
+     * Assigns two damage to the player passed by parameter.
+     */
     private void basicEffect(Player player){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Assigns one damage to the player passed by parameter.
+     */
     private void withChargedShot(Player player){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 1);
     }
 
-    private void withPhaseGlide(Player player, Square square){
+    /**
+     * Moves the owner of the card on the square passed by parameter
+     */
+    private void withPhaseGlide(Square square){
         this.getOwnerOfCard().setPositionOnTheMap(square);
 
     }

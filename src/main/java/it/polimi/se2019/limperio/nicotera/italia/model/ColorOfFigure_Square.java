@@ -2,13 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
 /**
- * specifies the color of Square and player's figure
- *
- * <p>
- *     Whit this enum specifies also the damages and marks assigned by a player
- * </p>
- *
- * @author giuseppeitalia
+ * Enumeration for the color of the figure of each player.
+ * @author Giuseppe Italia.
  */
 
 public enum ColorOfFigure_Square{

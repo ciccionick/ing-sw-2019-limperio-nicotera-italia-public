@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent the Zx2 of  WeaponCard
- *
+ * Represents the weapon card Zx-2.
  * @author Giuseppe Italia
  */
 
 public class Zx2 extends WeaponCard {
-
 
     @Override
     public void useWeapon(int typeOfAttack, ArrayList<InvolvedPlayer> involvedPlayers) {
@@ -33,6 +31,10 @@ public class Zx2 extends WeaponCard {
 
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
 
     public Zx2() {
         super(YELLOW, "Zx-2");
@@ -58,11 +60,17 @@ public class Zx2 extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assigns a damage and two marks to the player passed by parameter.
+     */
     private void basicEffect (Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
         player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Assigns a mark to the player passed by parameter.
+     */
     private void scannerMode(Player player){
         player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 1);
     }

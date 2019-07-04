@@ -11,7 +11,7 @@ public class  Observable <T> {
     private final ArrayList<Observer<T>> observers = new ArrayList<>();
 
     /**
-     * Add to the list of observers an instance of a class that has to observe on the object <T>.
+     * Add to the list of observers an instance of a class that has to observe on the object of the parametric type.
      * @param observer The reference of the observer to add to the list.
      */
     public void register(Observer<T> observer){
@@ -21,7 +21,7 @@ public class  Observable <T> {
     }
 
     /**
-     * Remove from the list an instance of a class that was observing on a object <T>.
+     * Remove from the list an instance of a class that was observing on a object of the parametric type.
      * @param observer The reference of the observer that has to be removed.
      */
     public void deregister(Observer<T> observer){

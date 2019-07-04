@@ -4,14 +4,23 @@ import java.io.Serializable;
 
 /**
  * This class is used to represent the ammo
- * @author giuseppeitali
+ * @author Giuseppe Italia
  */
 
 public class Ammo implements Serializable, Cloneable {
     static final long serialVersionUID = 420000002;
+    /**
+     * The color of the ammo.
+     */
     private final ColorOfCard_Ammo color;
+    /**
+     * It's true if the ammo is usable, false otherwise.
+     */
     private boolean isUsable;
 
+    /**
+     * Constructor the initialize the color of ammo and his boolean field that show if it is usable or not.
+     */
     public Ammo(ColorOfCard_Ammo color, boolean isUsable)
     {
         this.color = color;
@@ -22,14 +31,6 @@ public class Ammo implements Serializable, Cloneable {
         return color;
     }
 
-    /**
-     * calculates if the ammo is usable
-     *
-     * <p>
-     *     After the ammo has been used, we need to reload it to be able to use it
-     * </p>
-     * @return a boolean variable that says if the ammo is usable
-     */
 
     public boolean isUsable() {
         return isUsable;
@@ -37,6 +38,10 @@ public class Ammo implements Serializable, Cloneable {
 
     public void setIsUsable(boolean bool){ isUsable = bool;}
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
         Ammo ammo;
         try {

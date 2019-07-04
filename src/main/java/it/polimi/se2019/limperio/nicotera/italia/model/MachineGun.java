@@ -7,9 +7,8 @@ import java.util.ArrayList;
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*;
 
 /**
- * This class is used to represent the MachineGun of WeaponCard
- *
- * @author giuseppeitalia
+ * Represents the weapon card Machine gun.
+ * @author Giuseppe Italia.
  */
 
 public class MachineGun extends WeaponCard {
@@ -34,9 +33,12 @@ public class MachineGun extends WeaponCard {
                     default:
                         throw new IllegalArgumentException();
             }
-
     }
 
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public MachineGun() {
         super(BLUE, "Machine gun");
         String description;
@@ -61,14 +63,23 @@ public class MachineGun extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Assign a damage to the player passed by parameter.
+     */
     private void basicEffect(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Assign a damage to the player passed by parameter.
+     */
     private void withFocusShot(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }
 
+    /**
+     * Assign a damage to the player passed by parameter.
+     */
     private void withTurretTripod(Player player){
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
     }

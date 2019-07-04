@@ -8,8 +8,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.R
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class is used to represent the Sledgehammer of WeaponCard
- *
+ * Represents the weapon card Sledgehammer.
  * @author Giuseppe Italia
  */
 
@@ -24,7 +23,10 @@ public class Sledgehammer extends WeaponCard{
     }
 
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public Sledgehammer() {
         super(YELLOW, "Sledgehammer");
         String description;
@@ -50,10 +52,16 @@ public class Sledgehammer extends WeaponCard{
         setPriceToReload(reloadPrice);
     }
 
-    private void basicEffect(Player player){
+    /**
+     * Assigns 2 damage to the player passed by parameter.
+     */
+    private void basicEffect(Player player) {
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Assigns three damage to the player passed by parameter and moves him on the square passed as second parameter.
+     */
     private void pulverizeMode(Player player, Square square){
         player.assignDamage(getOwnerOfCard().getColorOfFigure(), 3);
         player.setPositionOnTheMap(square);

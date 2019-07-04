@@ -13,12 +13,18 @@ import java.util.ArrayList;
      */
     private AmmoTile ammoTile = null;
 
+    /**
+     * Constructor of the class where the color of the square, its row and column, the boolean that states if the square has door, are initialized.
+     */
      NormalSquare( ColorOfFigure_Square color, boolean hasDoor, int row, int column){
         super(color, hasDoor, row, column);
-
         setSpawn(false);
     }
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
          NormalSquare normalSquare;
          try{

@@ -22,7 +22,7 @@ public class TestTargetingScope {
     public void setUp()
     {
 
-        targetingScope = new TargetingScope(ColorOfCard_Ammo.YELLOW, 1);
+        targetingScope = new TargetingScope(ColorOfCard_Ammo.YELLOW);
         player1.createPlayerBoard();
         player2.createPlayerBoard();
 

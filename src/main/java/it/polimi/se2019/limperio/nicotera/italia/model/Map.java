@@ -1,7 +1,5 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-
-
 import java.io.Serializable;
 
 /**
@@ -71,11 +69,7 @@ public class Map implements Serializable, Cloneable {
                 default:
                     throw new IllegalArgumentException();
         }
-
-
     }
-
-
 
     /**
      * It will call the constructor if the map doesn't exist yet, according to singleton pattern
@@ -255,7 +249,6 @@ public class Map implements Serializable, Cloneable {
 
     /**
      * It deletes the map that is created in order to test the different builder of maps in test classes
-     * @author Francesco Nicotera
      */
    public void setInstanceOfMapForTesting(){
         instanceOfMap = null;

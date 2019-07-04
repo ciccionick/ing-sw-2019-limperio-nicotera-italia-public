@@ -17,7 +17,7 @@ public class TestNewton {
     public void setUp()
     {
         map= Map.instanceOfMap(1);
-        newton = new Newton(ColorOfCard_Ammo.YELLOW, 7);
+        newton = new Newton(ColorOfCard_Ammo.YELLOW);
         player1.createPlayerBoard();
         player2.createPlayerBoard();
 

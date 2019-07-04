@@ -21,6 +21,9 @@ public class SpawnSquare extends Square implements  Cloneable  {
     private transient ArrayList<WeaponCard> weaponCards;
 
 
+    /**
+     * Constructor that initialize color, row, column of the square. The boolean that show if the square has door and at the end marks true the boolean relative to the fact that is a spawn square.
+     */
      SpawnSquare( ColorOfFigure_Square color, boolean hasDoor, int row, int column) {
         super(color, hasDoor, row,column);
         weaponCards=new ArrayList<>();
@@ -39,8 +42,12 @@ public class SpawnSquare extends Square implements  Cloneable  {
         this.weaponsCardsForRemoteView = weaponsCardsForRemoteView;
     }
 
+    /**
+     * Override of the clone method to make possible the serialization avoiding the shallow copy.
+     * @return The cloned object.
+     */
     public Object clone(){
-         SpawnSquare spawnSquare = null;
+         SpawnSquare spawnSquare;
          try{
              spawnSquare = (SpawnSquare) super.clone();
          } catch (CloneNotSupportedException e) {

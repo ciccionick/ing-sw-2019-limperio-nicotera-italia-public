@@ -8,8 +8,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.B
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * handles PowerGlove of WeaponCard
- *
+ * Represents the weapon Power glove.
  * @author Giuseppe Italia
  */
 
@@ -30,7 +29,10 @@ public class PowerGlove extends WeaponCard {
         }
     }
 
-
+    /**
+     * Constructor that calls the super constructor to initializes color and name. Then initializes the description, the list of the names of the effects with the relative single descriptions.
+     * Sets the price to buy the weapon and to reload it. At the end initializes the array of boolean that shows what kind of effect the weapon has.
+     */
     public PowerGlove() {
         super(YELLOW, "Power glove");
         String description;
@@ -55,12 +57,18 @@ public class PowerGlove extends WeaponCard {
         setPriceToReload(reloadPrice);
     }
 
+    /**
+     * Moves the owner of the card on the same position of the player passed by parameter then assigns to him 1 damage and 2 marks.
+     */
     private void basicEffect(Player player){
         this.getOwnerOfCard().setPositionOnTheMap(player.getPositionOnTheMap());
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 1);
         player.assignMarks(this.getOwnerOfCard().getColorOfFigure(), 2);
     }
 
+    /**
+     * Moves the owner of the card on the same position of the player passed by parameter then assigns to him 2 damage.
+     */
     private void rocketFirstMode(Player player){
         this.getOwnerOfCard().setPositionOnTheMap(player.getPositionOnTheMap());
         player.assignDamage(this.getOwnerOfCard().getColorOfFigure(), 2);

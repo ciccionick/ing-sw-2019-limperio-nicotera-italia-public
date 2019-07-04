@@ -7,7 +7,7 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.Map.instanceOfMap;
 import static it.polimi.se2019.limperio.nicotera.italia.model.PowerUpDeck.instanceOfPowerUpDeck;
 
 /**
- * Contains all of the informations about the board
+ * Contains all of the information about the board
  *
  * @author Pietro L'Imperio
  */
@@ -37,54 +37,49 @@ public class Board {
      */
     private KillshotTrack killShotTrack;
 
-    private Board()
-    { }
+    private Board() {}
 
      static Board instanceOfBoard() {
         if(instanceOfBoard==null) instanceOfBoard= new Board();
         return instanceOfBoard;
     }
 
+    /**
+     * Creates the instance of the map.
+     * @param typeMap The type of map to be created suggested by the first player of the game in the initialization phase.
+     */
      void createMap(int typeMap)
     {
        this.map = instanceOfMap(typeMap);
     }
 
+    /**
+     * Creates the instance of the power up deck.
+     */
      void createPowerUpDeck(){
         this.powerUpDeck= instanceOfPowerUpDeck();
     }
 
+    /**
+     * Creates the instance of the weapon deck.
+     */
      void createWeaponsDeck(){
         this.weaponsDeck = WeaponsDeck.instanceOfWeaponsDeck();
      }
 
-     void createAmmoTileDeck(){
+    /**
+     * Creates the instance of the ammo tiles deck.
+     */
+    void createAmmoTileDeck(){
         this.ammoTileDeck = instanceOfAmmoTileDeck();
     }
 
+    /**
+     * Create the instance of killshot track
+     */
      void createKillShotTrack()
     {
         killShotTrack = KillshotTrack.instanceOfKillShotTrack();
-    }
-
-    public Map getMap() {
-        return map;
-    }
-
-    public AmmoTileDeck getAmmoTiledeck() {
-        return ammoTileDeck;
-    }
-
-    public WeaponsDeck getWeaponsDeck() {
-        return weaponsDeck;
-    }
-
-    public PowerUpDeck getPowerUpDeck() {
-        return powerUpDeck;
-    }
-
-     public KillshotTrack getKillShotTrack() {
-        return killShotTrack;
     }
 
     /**
@@ -128,6 +123,26 @@ public class Board {
             }
         }
 
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public AmmoTileDeck getAmmoTiledeck() {
+        return ammoTileDeck;
+    }
+
+    public WeaponsDeck getWeaponsDeck() {
+        return weaponsDeck;
+    }
+
+    public PowerUpDeck getPowerUpDeck() {
+        return powerUpDeck;
+    }
+
+    public KillshotTrack getKillShotTrack() {
+        return killShotTrack;
     }
 
 

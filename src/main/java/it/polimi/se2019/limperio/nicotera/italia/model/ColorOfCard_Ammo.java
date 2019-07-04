@@ -2,8 +2,8 @@ package it.polimi.se2019.limperio.nicotera.italia.model;
 
 
 /**
- * specifies the Ammo's Color
- * @author giuseppeitalia
+ * Enumeration for the color of the card and the color of the ammo.
+ * @author Giuseppe Italia
  */
 
 public enum ColorOfCard_Ammo {

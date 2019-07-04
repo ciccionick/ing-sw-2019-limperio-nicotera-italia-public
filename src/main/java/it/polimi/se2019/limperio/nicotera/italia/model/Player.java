@@ -27,6 +27,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      * It is used to distinguish if the player can move one position before shooting
      */
     private boolean isOverSixDamage = false;
+    /**
+     * It's true if the client relative of this player is still connected, false otherwise.
+     */
     private boolean isConnected = true;
 
     /**
@@ -51,14 +54,29 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
      */
     private PlayerBoard playerBoard = null;
 
+    /**
+     * It's true if the player is dead during the turn, false otherwise.
+     */
     private boolean isDead = false;
 
+    /**
+     * The number of the killing done by the player during the turn to check if it deserve the bonus for double kill.
+     */
     private int numOfKillDoneInTheTurn = 0;
 
+    /**
+     * It's true if the player has to be spawn, false otherwise.
+     */
     private boolean hasToBeGenerated = true;
+    /**
+     * It's true if the list of damage of the player pass during the turn from a number lower than 11 to 12.
+     */
     private boolean isDirectlyOverkilled = false;
 
 
+    /**
+     * Constructor of the class where nickname, position in the round, color of figure and the boolean that states if the player is the first or not, are initialized.
+     */
     public Player(String nickname, boolean isFirst, int position, ColorOfFigure_Square colorOfFigure) {
         this.nickname=nickname;
         this.isFirst=isFirst;
@@ -67,6 +85,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
 
     }
 
+    /**
+     * Creates the player board of the player.
+     */
     public void createPlayerBoard(){
         playerBoard = new PlayerBoard(this.nickname, this.colorOfFigure);
     }
@@ -210,6 +231,10 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
     }
 
 
+    /**
+     * Receiving the effect to use, the weapon card to use, the list of involved players of the attack, this method calls the useWeapon of the correct weapon card.
+     * If priceToPay is not null, it means that the effect has a price and if the list of power up card is not empty it means that to pay this cost the player has to discard power up cards.
+     */
     @Override
     public void shoot(int effect, WeaponCard weaponCard, ArrayList<InvolvedPlayer> involvedPlayers, ColorOfCard_Ammo[] priceToPay, ArrayList<PowerUpCard> powerUpToDiscard) {
         if(priceToPay==null) {
@@ -259,6 +284,10 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
 
     }
 
+    /**
+     * Get the powerUp card of the color passed by parameter inside of the list of power up card passed always by parameter.
+     * @return The reference of a power up card of the color passed by parameter.
+     */
     private PowerUpCard findPowerUpOfThisColor(ArrayList<PowerUpCard> powerUpCardToDiscard, ColorOfCard_Ammo ammo) {
         for(PowerUpCard powerUpCard : powerUpCardToDiscard){
             if(powerUpCard.getColor().equals(ammo))
@@ -286,6 +315,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         playerBoard.getPowerUpCardsOwned().add(powerUpCardsToDraw);
     }
 
+    /**
+     * Handles the use of targeting scope assigning the damage to the player already attacked and passed by parameter and removing the power up card used and tha ammo/power up card used to pay the effect.
+     */
     @Override
     public void useTargetingScope(Player playerToAttack, PowerUpCard targetingScope, ColorOfCard_Ammo ammoToDiscard, PowerUpCard powerUpCardToDiscard) {
         playerToAttack.assignDamage(this.getColorOfFigure(), 1);
@@ -307,6 +339,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         }
     }
 
+    /**
+     * Handles the use of tagback granade assigning a mark to the player attacked previously and passed by parameter and then removing the power up card from the deck.
+     */
     @Override
     public void useTagbackGranade(PowerUpCard tagback, Player playerToAttack) {
         playerToAttack.assignMarks(this.colorOfFigure, 1);
@@ -315,6 +350,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
         playerBoard.getPowerUpCardsOwned().remove(tagback);
     }
 
+    /**
+     * Handles the reload of a weapon card and his payment, eventually with a list of power up cards to discard.
+     */
     @Override
     public void reload(WeaponCard card, ArrayList<PowerUpCard> powerUpCardsToDiscard) {
         for (ColorOfCard_Ammo ammo : card.getPriceToReload()) {
@@ -328,7 +366,9 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
     }
 
 
-
+    /**
+     * Method used to compare the score of the players for the final ranking.
+     */
     @Override
     public int compareTo(Player o) {
         int result;

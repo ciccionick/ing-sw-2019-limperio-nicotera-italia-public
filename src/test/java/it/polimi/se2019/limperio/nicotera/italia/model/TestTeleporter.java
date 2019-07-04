@@ -20,7 +20,7 @@ public class TestTeleporter {
     public void setUp()
     {
         map= Map.instanceOfMap(1);
-        teleporter = new Teleporter(ColorOfCard_Ammo.YELLOW, 4);
+        teleporter = new Teleporter(ColorOfCard_Ammo.YELLOW);
         player1.createPlayerBoard();
 
         player1.setPositionOnTheMap(map.getMatrixOfSquares()[1][1]);
