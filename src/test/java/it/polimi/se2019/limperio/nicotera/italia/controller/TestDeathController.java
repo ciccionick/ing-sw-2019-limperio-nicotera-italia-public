@@ -60,7 +60,6 @@ public class TestDeathController {
         //check if the death controller call the controller when the last skull is removed
         cleanUp();
         game = Game.instanceOfGame();
-        game.setController(this.controller);
         game.createPlayer("player1", true, 1, "BLUE");
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");

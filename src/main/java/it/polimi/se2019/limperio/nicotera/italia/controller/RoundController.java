@@ -103,6 +103,8 @@ public class RoundController {
             square = game.getBoard().getMap().getMatrixOfSquares()[1][0];
          player.setPositionOnTheMap(square);
          player.setDead(false);
+         player.setOverSixDamage(false);
+         player.setIsUnderThreeDamage(true);
          player.setHasToBeGenerated(false);
          PlayerBoardEvent pbEvent = new PlayerBoardEvent();
          pbEvent.setNicknameInvolved(player.getNickname());

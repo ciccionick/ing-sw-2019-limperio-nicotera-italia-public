@@ -41,6 +41,11 @@ public class NetworkHandler implements Observer<ClientEvent> {
      */
     private static Handler handlerLoggerNetworkHandler = new ConsoleHandler();
 
+    /**
+     * It's true if the game is over, false otherwise.
+     */
+    private boolean gameIsOver=false;
+
 
     /**
      * The constructor of the class that creates the remote view of the client.
@@ -82,10 +87,11 @@ public class NetworkHandler implements Observer<ClientEvent> {
     }
 
     /**
-     * Receives all of the event by the server and call updateStateOfRemoteView
+     * Receives all of the event by the server and call updateStateOfRemoteView until the game is not over.
      * @param event The event received
      */
      void handleEvent(ServerEvent event){
+         if(!gameIsOver)
         updateStateOfRemoteView(event);
     }
 
@@ -123,8 +129,10 @@ public class NetworkHandler implements Observer<ClientEvent> {
         if(event.isUpdateScoreEvent()){
             remoteView.getMainFrame().showMessage(event);
             if(event.isFinalUpdate()){
+                gameIsOver=true;
                 remoteView.getMyPlayerBoardView().disableEveryThingPlayerCanDo();
                 remoteView.getMainFrame().getRightPanel().getPanelOfActions().updateStateOfButton();
+                remoteView.getMainFrame().getRightPanel().getPanelOfActions().getButtonCancel().setEnabled(false);
                 remoteView.getMainFrame().updateLeftPanelForWhoIsViewing(remoteView.getMyPlayerBoardView().getNicknameOfPlayer());
             }
         }

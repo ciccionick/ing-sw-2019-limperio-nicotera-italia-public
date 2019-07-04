@@ -106,7 +106,7 @@ class DialogForMessage {
                     button.addActionListener(new ListenerDrawOkButton(dialog, mainFrame,1));
                 if(receivedEvent.isRequestForDrawTwoPowerUpCardsEvent())
                     button.addActionListener(new ListenerDrawOkButton(dialog, mainFrame,2));
-                 buttonPanel.add(button);
+                buttonPanel.add(button);
                  dialog.getRootPane().setDefaultButton(button);
              }
 

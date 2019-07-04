@@ -43,6 +43,7 @@ class PanelForWeapons {
      * @param popupForChooseW The popup that contains the dialog that add to his contentPane the panel created in this constructor.
      */
      PanelForWeapons(MainFrame mainFrame, ArrayList<ServerEvent.AliasCard> listOfWeapons, ServerEvent receivedEvent, PopupForChooseWeaponCard popupForChooseW) {
+         Font font = new Font(Font.SANS_SERIF,Font.PLAIN,10);
          int topBottomBorder  = mainFrame.getFrame().getHeight()/mainFrame.resizeInFunctionOfFrame(true, 50);
          int leftRightBorder = mainFrame.getFrame().getWidth()/mainFrame.resizeInFunctionOfFrame(false, 50);
          if(event!=null && event.isRequestSelectionWeaponToReload())
@@ -134,6 +135,7 @@ class PanelForWeapons {
             descriptionOfWeapon1.setLineWrap(false);
             descriptionOfWeapon1.setEditable(false);
             descriptionOfWeapon1.setText(listOfWeapons.get(0).getDescription());
+            descriptionOfWeapon1.setFont(font);
             GridBagConstraints gbcDescriptionOfWeapon1 = new GridBagConstraints();
             gbcDescriptionOfWeapon1.insets = new Insets(insetTopForDescription, insetLeftForWeapon, insetBottomForDescription, insetRigthForWeapon);
             gbcDescriptionOfWeapon1.anchor = GridBagConstraints.CENTER;
@@ -178,6 +180,7 @@ class PanelForWeapons {
             descriptionForWeapon2.setLineWrap(false);
             descriptionForWeapon2.setEditable(false);
             descriptionForWeapon2.setText(listOfWeapons.get(1).getDescription());
+            descriptionForWeapon2.setFont(font);
             GridBagConstraints gbcDescriptionForWeapon2 = new GridBagConstraints();
             gbcDescriptionForWeapon2.insets = new Insets(insetTopForDescription, 0, insetBottomForDescription, insetRigthForWeapon);
             gbcDescriptionForWeapon2.fill = GridBagConstraints.BOTH;
@@ -220,6 +223,7 @@ class PanelForWeapons {
             descriptionWeapon3.setLineWrap(false);
             descriptionWeapon3.setEditable(false);
             descriptionWeapon3.setText(listOfWeapons.get(2).getDescription());
+            descriptionWeapon3.setFont(font);
             GridBagConstraints gbcDescriptionWeapon3 = new GridBagConstraints();
             gbcDescriptionWeapon3.insets = new Insets(insetTopForDescription, 0, insetBottomForDescription, insetLeftForWeapon);
             gbcDescriptionWeapon3.fill = GridBagConstraints.BOTH;

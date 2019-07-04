@@ -292,6 +292,11 @@ class MapPanel extends JPanel {
          for(Square square : selectableSquares){
              hashMapForCell.get("cell".concat(String.valueOf(square.getRow())).concat(String.valueOf(square.getColumn()))).setEnabled(true);
          }
+         if(!mainFrame.getRemoteView().getMapView().isHasToChooseASquare()){
+             for(JLabel label : hashMapForCell.values()){
+                 label.setEnabled(true);
+             }
+         }
     }
 
     /**

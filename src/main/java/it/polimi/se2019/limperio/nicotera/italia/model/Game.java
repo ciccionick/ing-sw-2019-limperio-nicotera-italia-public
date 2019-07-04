@@ -138,21 +138,6 @@ public class Game extends Observable<ServerEvent> {
             pbEvent = new PlayerBoardEvent();
             pbEvent.setNicknameInvolved(player.getNickname());
             pbEvent.setNicknames(listOfNickname);
-            if(player.getNickname().equalsIgnoreCase("peppe")){
-                player.assignDamage(ColorOfFigure_Square.YELLOW, 4);
-                player.assignDamage(ColorOfFigure_Square.BLUE,4);
-                player.setOverSixDamage(true);
-            }
-            if(player.getNickname().equalsIgnoreCase("ciccio")){
-                player.assignDamage(ColorOfFigure_Square.YELLOW, 4);
-                player.assignDamage(ColorOfFigure_Square.GREEN,4);
-                player.setOverSixDamage(true);
-            }
-            if(player.getNickname().equalsIgnoreCase("pietro")){
-                player.assignDamage(ColorOfFigure_Square.BLUE, 4);
-                player.assignDamage(ColorOfFigure_Square.GREEN,4);
-                player.setOverSixDamage(true);
-            }
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             notify(pbEvent);
             position++;
