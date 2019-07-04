@@ -425,16 +425,13 @@ public class WeaponController {
         for (Square square : squaresVisible) {
             for (Player playerInSquare : square.getPlayerOnThisSquare()) {
                 if (!playerInSquare.equals(playerCanSee) && !playersVisible.contains(playerInSquare))
-
                     playersVisible.add(playerInSquare);
             }
         }
         playersVisible.remove(playerCanSee);
         if (playerCanSee.getNickname().equals("terminator"))
             playersVisible.remove(game.getPlayers().get(game.getPlayerOfTurn() - 1));
-
         return playersVisible;
-
     }
 
     /**
