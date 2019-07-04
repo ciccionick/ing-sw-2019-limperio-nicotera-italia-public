@@ -981,7 +981,7 @@ public class ShootController {
         handleSendRequestAfterShoot(playerAttacker,playersAttacked, false);
     }
 
-    private void sendPlayerBoardEventAfterTargetingOrTagback(Player playerAttacker, Player playerAttacked, boolean isAfterTargeting) {
+     void sendPlayerBoardEventAfterTargetingOrTagback(Player playerAttacker, Player playerAttacked, boolean isAfterTargeting) {
         String nameOfCard;
         if(isAfterTargeting)
             nameOfCard = "Targeting scope";
@@ -1144,5 +1144,31 @@ public class ShootController {
         }
     }
 
+     void setWeaponToUse(WeaponCard weaponToUse) {
+        this.weaponToUse = weaponToUse;
+    }
 
+     void setTypeOfAttack() {
+        this.typeOfAttack.clear();
+    }
+
+     void setOriginalSquareOfTheTarget(Square originalSquareOfTheTarget) {
+        this.originalSquareOfTheTarget = originalSquareOfTheTarget;
+    }
+
+     void setNeedToStoreOriginalSquare(boolean needToStoreOriginalSquare) {
+        this.needToStoreOriginalSquare = needToStoreOriginalSquare;
+    }
+
+     void setNeedToChooseAPlayer(boolean needToChooseAPlayer) {
+        this.needToChooseAPlayer = needToChooseAPlayer;
+    }
+
+     void setNeedToChooseASquare(boolean needToChooseASquare) {
+        this.needToChooseASquare = needToChooseASquare;
+    }
+
+     ArrayList<ColorOfCard_Ammo> getColorsNotEnough() {
+        return colorsNotEnough;
+    }
 }
