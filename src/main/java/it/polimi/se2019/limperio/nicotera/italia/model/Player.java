@@ -387,6 +387,8 @@ public class Player implements PlayerBehaviour, Comparable<Player>{
     public void setOverSixDamage(boolean overSixDamage) {
         isOverSixDamage = overSixDamage;
     }
+
+    public boolean getHasToBeGenerated(){return hasToBeGenerated;};
 }
 
 

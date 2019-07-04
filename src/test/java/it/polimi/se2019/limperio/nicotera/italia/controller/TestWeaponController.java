@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestWeaponController {
@@ -56,4 +57,121 @@ public class TestWeaponController {
         assertTrue(!controller.getReloadController().isThisWeaponReloadable(card));
 
     }*/
+
+
+    @Test
+    public  void isThisWeaponUsableTest()
+    {
+
+        Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j <matrix[i].length; j++) {
+                if(matrix[i][j]!=null)
+                    game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+
+            }
+        }
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        WeaponCard card= new Cyberblade();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+        assertTrue(weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Sledgehammer();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Zx2();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new MachineGun();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new GranadeLauncher();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+        game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][1]);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new PlasmaGun();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new VortexCannon();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Hellion();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Thor();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Flamethrower();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        for(int i=0;i<9;i++)
+            game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new RocketLauncher();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        for(int i=0;i<9;i++)
+            game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Shotgun();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+        for(int i=0;i<9;i++)
+            game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+        card= new Furnace();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+        card.setOwnerOfCard(game.getPlayers().get(0));
+        assertTrue(!weaponController.isThisWeaponUsable(card,0));
+
+
+
+
+    }
 }

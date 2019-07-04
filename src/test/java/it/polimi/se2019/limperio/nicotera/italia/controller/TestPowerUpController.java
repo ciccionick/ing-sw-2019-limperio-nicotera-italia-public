@@ -29,8 +29,9 @@ public class TestPowerUpController {
         game.createPlayer("player1", true, 1, "BLUE");
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");
+        game.getPlayers().add(new Player("terminator", false, game.getPlayers().size()+1, ColorOfFigure_Square.PURPLE));
         game.setGameOver(true);
-        game.initializeGame(false, 1, false);
+        game.initializeGame(false, 1, true);
     }
     @After
     public void cleanUp(){
@@ -97,6 +98,20 @@ public class TestPowerUpController {
         assertEquals(game.getBoard().getPowerUpDeck().getPowerUpCards().size(), x-1);
 
 
+        game.setPlayerOfTurn(2);
+        game.setRound(1);
+        powerUpController.handleDrawOfPowerUpCards(event);
+
+
+
+
+
+    }
+
+    @Test
+    public void sendRequestToChooseSquareForSpawnOfTerminatorTest()
+    {
+        powerUpController.sendRequestToChooseSquareForSpawnOfTerminator();
     }
 
 
