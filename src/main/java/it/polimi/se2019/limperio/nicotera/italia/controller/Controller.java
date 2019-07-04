@@ -612,7 +612,6 @@ public class Controller implements Observer<ClientEvent> {
             timerOverEvent.setMessageForOthers("The timer for the turn of " + previousPlayer.getNickname() + " is over. \nChange turn!" );
             timerOverEvent.setTimerOverEvent();
             game.notify(timerOverEvent);
-            roundController.updateTurn();
             if(game.getRound()!=1){
                 sendRequestForAction();
             }

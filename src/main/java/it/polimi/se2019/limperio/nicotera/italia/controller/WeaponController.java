@@ -107,7 +107,7 @@ public class WeaponController {
             case "Granade launcher":
                 if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
                     usableEffects.add(1);
-                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2))
+                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2) && effectAlreadyChoosen(1))
                     usableEffects.add(2);
                 break;
 
@@ -487,17 +487,16 @@ public class WeaponController {
             for (Square squareToRemove : squaresToRemove) {
                 squaresAvailable.remove(squareToRemove);
             }
+            squaresAvailable.remove(startingSquare);
         }
 
     }
 
     /**
-     * returns the players that the attacking player not can see
+     * Gets the players that the attacking player not can see.
      *
      * @return List of players
      */
-
-
     ArrayList<Player> getPlayersNotVisible(int movement, Player playerCanSee) {
         ArrayList<Player> playersNotVisible = new ArrayList<>();
         while (movement >= 0) {

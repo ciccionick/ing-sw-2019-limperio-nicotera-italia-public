@@ -1,6 +1,6 @@
 package it.polimi.se2019.limperio.nicotera.italia.model;
 
-import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
+
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.*;
 import it.polimi.se2019.limperio.nicotera.italia.utils.Observable;
 import java.io.*;

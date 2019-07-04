@@ -214,7 +214,7 @@ public class ShootController {
                     needToChooseASquare = true;
                 }
                 else{
-                    sendRequestToChoosePlayer(1, controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 1), false);
+                    sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersOnlyInAdjSquares(0, squareOfPlayer), false);
                 }
                 break;
 
@@ -627,6 +627,7 @@ public class ShootController {
                         if(square != null)
                             squares1.add(square);
                     }
+                    squares1.add(playersAttacked.get(0).getPositionOnTheMap());
                     sendRequestToChooseSquare(squares1);
                     break;
                     default: throw new IllegalArgumentException();

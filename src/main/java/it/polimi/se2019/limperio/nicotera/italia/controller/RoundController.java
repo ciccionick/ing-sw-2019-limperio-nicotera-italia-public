@@ -340,7 +340,6 @@ public class RoundController {
             player.updateScore(scoreForPlayers.get(i));
             i++;
         }
-
         sendUpdateOfScore(true, isForDisconnectionOfThirdPlayer);
     }
 
