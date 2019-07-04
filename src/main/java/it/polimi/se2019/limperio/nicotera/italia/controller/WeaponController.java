@@ -288,7 +288,7 @@ public class WeaponController {
                 ArrayList<Square> listOfVisibleSquares = getSquaresOfVisibleRoom(movementCanDoBeforeReloadAndShoot, squareOfPlayer, 0, false);
                 listOfVisibleSquares.remove(squareOfPlayer);
                 for (Square square : listOfVisibleSquares) {
-                    if (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())
+                    if (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, square).isEmpty())
                         return true;
                 }
                 return false;
@@ -612,7 +612,7 @@ public class WeaponController {
                 isToRemove = false;
             else {
                 for (Square adjSquare : square.getAdjSquares()) {
-                    if (adjSquare.getPlayerOnThisSquare().size()>1 || (!adjSquare.getPlayerOnThisSquare().isEmpty() && !adjSquare.getPlayerOnThisSquare().get(0).equals(ownerOfCard))) {
+                    if ((adjSquare.getPlayerOnThisSquare().contains(ownerOfCard)&&adjSquare.getPlayerOnThisSquare().size()>1)||(!adjSquare.getPlayerOnThisSquare().contains(ownerOfCard)&&!adjSquare.getPlayerOnThisSquare().isEmpty())) {
                         isToRemove = false;
                         break;
                     }
