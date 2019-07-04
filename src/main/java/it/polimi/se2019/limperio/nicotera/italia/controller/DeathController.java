@@ -43,6 +43,8 @@ class DeathController {
 
          if(game.isInFrenzy()) {
              game.getBoard().getKillShotTrack().getTokenOfFrenzyMode().add(colorOfKiller);
+             if(deadPlayer.getPlayerBoard().getDamages().size() == 12)
+                 game.getBoard().getKillShotTrack().getTokenOfFrenzyMode().add(colorOfKiller);
          }
          else{
              if(deadPlayer.getPlayerBoard().getDamages().size()==11){

@@ -33,6 +33,9 @@ public class TestPlayerBoardMethods {
         assertEquals(3, blue);
         assertEquals(2, yellow);
         assertEquals(1, red);
+        player1.getPlayerBoard().getDamages().clear();
+        player1.assignDamage(ColorOfFigure_Square.BLUE, 12);
+        assertTrue(player1.isDirectlyOverkilled());
     }
     @Test
     public void assignMarksTest() {

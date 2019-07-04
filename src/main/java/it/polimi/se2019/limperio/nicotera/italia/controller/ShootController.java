@@ -714,7 +714,7 @@ public class ShootController {
             if(listOfPlayersInvolvedInTheLastEffect.get(i)!=null)
              messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+", ");
         }
-        if(listOfPlayersInvolvedInTheLastEffect.get(i)!=null)
+        if(!listOfPlayersInvolvedInTheLastEffect.isEmpty() && listOfPlayersInvolvedInTheLastEffect.get(i)!=null)
             messageForNotInvolvedInTheAttack = messageForNotInvolvedInTheAttack.concat(listOfPlayersInvolvedInTheLastEffect.get(i).getNickname()+".");
         for(Player player : game.getPlayers()){
             pbEvent = new PlayerBoardEvent();
