@@ -296,7 +296,7 @@ public class ShootController {
                     needToChooseASquare = true;
                 }
                 else{
-                    sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersOnlyInAdjSquares(0, squareOfPlayer), false);
+                    sendRequestToChoosePlayer(1, controller.getWeaponController().getPlayersOnlyInAdjSquares(0, weaponToUse.getOwnerOfCard().getPositionOnTheMap()), false);
                 }
                 break;
 
@@ -505,6 +505,7 @@ public class ShootController {
                          needToChooseAPlayer = true;
                          break;
                      case 4:
+                         priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
                          ArrayList<Square> adjSquareWithPlayers = squareOfPlayer.getAdjSquares();
                          controller.getWeaponController().removeSquareWithoutPlayers(adjSquareWithPlayers);
                          sendRequestToChooseSquare(adjSquareWithPlayers);
@@ -608,6 +609,7 @@ public class ShootController {
         }
         if (needToChooseASquare) {
             if (weaponToUse.getName().equals("Flamethrower")) {
+                priceToPay = weaponToUse.getPriceToPayForAlternativeMode();
                 involvedPlayers.add(new InvolvedPlayer(null, 4, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
                 playersAttacked.addAll(involvedPlayers.get(0).getSquare().getPlayerOnThisSquare());
                 if (controller.getWeaponController().getSquareForAlternativeModeOfPowerGloveAndFlamethrower(weaponToUse.getOwnerOfCard().getPositionOnTheMap(), involvedPlayers.get(0).getSquare()) != null) {
@@ -1009,7 +1011,7 @@ public class ShootController {
             return false;
         if(weaponToUse!=null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(weaponToUse.getOwnerOfCard()))
             return false;
-        if(weaponToUse == null && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(controller.findPlayerWithThisNickname("terminator")))
+        if(weaponToUse == null && game.isTerminatorModeActive() && !controller.getWeaponController().getVisiblePlayers(0, playerAttacked, 0).contains(controller.findPlayerWithThisNickname("terminator")))
             return false;
 
             for (PowerUpCard powerUpCard : playerAttacked.getPlayerBoard().getPowerUpCardsOwned()) {
@@ -1079,7 +1081,7 @@ public class ShootController {
             requestToPayWithAmmoOrPUCard.getPowerUpCards().remove(indexOfCardToRemove);
             requestToPayWithAmmoOrPUCard.setNicknameInvolved(message.getNickname());
             requestToPayWithAmmoOrPUCard.setMessageForInvolved("Choose an ammo or a power up card to pay the effect of targeting scope");
-            message.getMyVirtualView().update(requestToPayWithAmmoOrPUCard);
+            game.notify(requestToPayWithAmmoOrPUCard);
         }
     }
 
@@ -1118,7 +1120,7 @@ public class ShootController {
             }
             requestToChooseAPlayer.setNicknameInvolved(message.getNickname());
             requestToChooseAPlayer.setMessageForInvolved("Choose a player to use Targeting scope");
-            message.getMyVirtualView().update(requestToChooseAPlayer);
+            game.notify(requestToChooseAPlayer);
         }
 
     }
@@ -1365,6 +1367,11 @@ public class ShootController {
      ArrayList<ColorOfCard_Ammo> getColorsNotEnough() {
         return colorsNotEnough;
     }
+
+    public void setAmmoForPayTargeting(ColorOfCard_Ammo colorOfCard_ammo){ammoForPayTargeting=colorOfCard_ammo;};
+
+
+
 
     ArrayList<Player> getPlayersAttacked() {
         return playersAttacked;

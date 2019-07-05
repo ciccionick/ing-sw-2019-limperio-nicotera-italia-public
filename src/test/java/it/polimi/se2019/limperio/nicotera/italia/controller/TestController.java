@@ -5,9 +5,11 @@ package it.polimi.se2019.limperio.nicotera.italia.controller;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
 import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import java.util.ArrayList;
 
@@ -23,11 +25,10 @@ import static org.junit.Assert.*;
 
 public class TestController {
 
-    Game game = Game.instanceOfGame();
-    Controller controller = new Controller(game);
-    WeaponController weaponController= new WeaponController(game, controller);
-    TerminatorController terminatorController= new TerminatorController(controller, game);
-    ShootController shootController= new ShootController(game, controller);
+    private Game game = Game.instanceOfGame();
+    private Controller controller = new Controller(game);
+    private WeaponController weaponController= new WeaponController(game, controller);
+    private ShootController shootController= new ShootController(game, controller);
 
 
 
@@ -37,21 +38,15 @@ public class TestController {
       game.createPlayer("player2", false, 2, "YELLOW");
       game.createPlayer("player3", false, 3, "GREY");
       game.createPlayer("player4", false, 4, "PURPLE");
+
       game.setGameOver(false);
-      game.initializeGame(true, 1, false);
+      game.initializeGame(true, 1, true);
    }
    @After
    public void cleanUp(){
       game.setInstanceOfGameNullForTesting();
 
    }
-
-
-   /*@Test
-   public void runTest()
-   {
-      controller
-   }*/
 
 
 
@@ -80,17 +75,7 @@ public class TestController {
       controller.update(event2);
       assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[0][1]);
 
-      //Test for GenerationTerminatorEvent
 
-      /*game.getPlayers().add(new Player("terminator", false, 5, ColorOfFigure_Square.GREEN));
-      game.setPlayerOfTurn(5);
-      GenerationTerminatorEvent event3= new GenerationTerminatorEvent("terminator",1,0);
-      System.out.println(game.getPlayerOfTurn());
-      System.out.println(game.getPlayers().get(game.getPlayerOfTurn()-1).getNickname());
-      assertTrue(controller.isTheTurnOfThisPlayer("terminator"));
-      controller.update(event3);*/
-
-      //assertEquals(game.getPlayers().get(4).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[1][0]);
 
       //Test for SelectionWeaponToCatch event
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
@@ -99,15 +84,8 @@ public class TestController {
       ((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[1][0]).getWeaponCards().add(weaponCard);
       event4.setNameOfWeaponCard(weaponCard.getName());
       controller.update(event4);
-//      assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().isEmpty());
+//
 
-
-      /*//Test for MoveTerminatorEvent
-      game.getPlayers().add(new Player("terminator", false, 5, ColorOfFigure_Square.GREEN));
-      game.setPlayerOfTurn(5);
-      MoveTerminatorEvent event5= new MoveTerminatorEvent("terminator", 1,1);
-      controller.update(event5);
-      assertEquals(game.getPlayers().get(0).getPositionOnTheMap(), game.getBoard().getMap().getMatrixOfSquares()[1][1]);*/
 
       //Test for SelectionMultiplePlayers
       SelectionMultiplePlayers event6= new SelectionMultiplePlayers("", game.getPlayers().get(0).getNickname());
@@ -126,33 +104,107 @@ public class TestController {
       assertTrue(shootController.getInvolvedPlayers().isEmpty());
 
 
-      //L'ho bloccato perche andava con il terminatore nel inizialize game true
-      /*//TEst for ChosePlayer
+
+
+
+      SelectionSquare event5= new SelectionSquare("",game.getPlayers().get(0).getNickname(), 0, 0);
       game.setPlayerOfTurn(1);
-      ChoosePlayer event8= new ChoosePlayer("", game.getPlayers().get(0).getNickname());
-      event8.setForAttack(true);
-      event8.setNameOfPlayer("player2");
-      controller.getShootController().getTypeOfAttack().add(1);
-      WeaponCard card1= new Heatseeker();
-      controller.getShootController().setWeaponToUse(card1);
-      card1.setOwnerOfCard(game.getPlayers().get(0));
+      event5.setGenerationTerminatorEvent(true);
+      controller.update(event5);
+      event5.setGenerationTerminatorEvent(false);
+      event5.setMoveTerminatorEvent(true);
+      controller.update(event5);
+      event5.setMoveTerminatorEvent(false);
+      event5.setRunEvent(true);
+      controller.update(event5);
+      event5.setRunEvent(false);
+      event5.setBeforeToShoot(true);
+      controller.update(event5);
+      event5.setBeforeToShoot(false);
+      event5.setSelectionSquareForShootAction(true);
+      event5.setSelectionSquareForShootAction(false);
+      event5.setSelectionSquareToUseTeleporter(true);
+      game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(1));
+      controller.getPowerUpController().setNumOfCardToUse(1);
+
+
+
+      //Test for RequestToUseNewton
+      game.setPlayerOfTurn(1);
+      RequestToUseNewton event8= new RequestToUseNewton("", game.getPlayers().get(0).getNickname());
       controller.update(event8);
-      assertEquals(controller.getShootController().getInvolvedPlayers().get(0).getPlayer().getNickname(), "player2");*/
+
+      //Test for RequestToUseTeleporter
+      RequestToUseTeleporter event9= new RequestToUseTeleporter("",game.getPlayers().get(0).getNickname());
+      controller.update(event9);
+
+
+
+      //Test for DiscardAmmoOrPowerUpToPayTargeting
+      DiscardAmmoOrPowerUpToPayTargeting event12= new DiscardAmmoOrPowerUpToPayTargeting("", game.getPlayers().get(0).getNickname());
+      controller.update(event12);
+
+      //Test for DrawPowerUpCards
+
+      DrawPowerUpCards event13= new  DrawPowerUpCards("", game.getPlayers().get(0).getNickname(), 0);
+      controller.update(event13);
+
+
+
+      //Test for RequestToUseWeaponCard
+      RequestToUseWeaponCard event15= new RequestToUseWeaponCard("",game.getPlayers().get(0).getNickname());
+      ServerEvent.AliasCard aliasCard= new ServerEvent.AliasCard("Flamethrower", "",ColorOfCard_Ammo.RED);
+      event15.setWeaponWantUse(aliasCard);
+      WeaponCard card2= new Flamethrower();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card2);
+      card2.setOwnerOfCard(game.getPlayers().get(0));
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+      controller.update(event15);
 
 
 
 
+      //Test
+      ClientEvent event18= new ClientEvent("", game.getPlayers().get(0).getNickname());
+      event18.setRequestToGoOn(true);
+      controller.update(event18);
+      event18.setRequestToGoOn(false);
+      event18.setRequestToMoveTerminator(true);
+      controller.update(event18);
+      event18.setRequestToMoveTerminator(false);
+      event18.setRequestToShootWithTerminator(true);
+      controller.update(event18);
+      event18.setRequestToShootWithTerminator(false);
+      event18.setRequestToRunByPlayer(true);
+      controller.update(event18);
+      event18.setRequestToRunByPlayer(false);
+      event18.setRequestToShootByPlayer(true);
+      controller.update(event18);
+      event18.setRequestToShootByPlayer(false);
+      event18.setRequestToCatchByPlayer(true);
+
+      controller.update(event18);
+      event18.setRequestToCatchByPlayer(false);
+      event18.setRequestTerminatorActionByPlayer();
 
 
+      //test for TerminatorShootEvent
+      TerminatorShootEvent event19= new TerminatorShootEvent("", game.getPlayers().get(0).getNickname());
+      event19.setNicknamePlayerToAttack(game.getPlayers().get(0).getNickname());
+      controller.update(event19);
+
+      //Test for SelectionWeaponToReload
+      SelectionWeaponToReload event20= new SelectionWeaponToReload("", game.getPlayers().get(0).getNickname());
+      controller.update(event20);
 
 
    }
 
    @Test
    public void findPlayerWithThisNicknameTest(){
-      assertEquals(controller.findPlayerWithThisNickname("player1").getNickname(), "player1");
-      assertEquals(controller.findPlayerWithThisNickname("player2").getNickname(), "player2");
-      assertEquals(controller.findPlayerWithThisNickname("player3").getNickname(), "player3");
+      assertEquals("player1", controller.findPlayerWithThisNickname("player1").getNickname() );
+      assertEquals("player2", controller.findPlayerWithThisNickname("player2").getNickname());
+      assertEquals("player3",controller.findPlayerWithThisNickname("player3").getNickname() );
 
    }
 
@@ -204,10 +256,10 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       game.setPlayerOfTurn(1);
       game.setRound(2);
-      assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().size()==1);
+      assertEquals(1,game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().size());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(1)).equals(4));
+      assertEquals(1, (int) ( weaponController.getUsableEffectsForThisWeapon(card).get(0)));
+      assertEquals(4, (int) ( weaponController.getUsableEffectsForThisWeapon(card).get(1)));
 
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
@@ -232,7 +284,7 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][3]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
+      assertEquals(1, (int) ( weaponController.getUsableEffectsForThisWeapon(card).get(0)));
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
@@ -259,12 +311,12 @@ public class TestController {
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==1);
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
+      assertEquals(1,  weaponController.getUsableEffectsForThisWeapon(card).size());
+      assertEquals(1, (int) weaponController.getUsableEffectsForThisWeapon(card).get(0));
       //Inserisco un ammo giallo al player per poter fargli usare anche la modalità extra nella carta
       game.getPlayers().get(0).getPlayerBoard().getAmmo().get(2).setIsUsable(true);
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(1)).equals(4));
+      assertEquals(1, (int) weaponController.getUsableEffectsForThisWeapon(card).get(0));
+      assertEquals(4, (int) weaponController.getUsableEffectsForThisWeapon(card).get(1));
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
@@ -279,8 +331,8 @@ public class TestController {
       game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(1)).equals(4));
+      assertEquals(1, (int) ( weaponController.getUsableEffectsForThisWeapon(card).get(0)));
+      assertEquals(4, (int) ( weaponController.getUsableEffectsForThisWeapon(card).get(1)));
       assertEquals(weaponController.getUsableEffectsForThisWeapon(card).size(), 2);
 
 
@@ -306,8 +358,8 @@ public class TestController {
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).size()==1));
+      assertEquals((Integer) 1, (weaponController.getUsableEffectsForThisWeapon(card).get(0)));
+      assertEquals(1, (weaponController.getUsableEffectsForThisWeapon(card).size()));
 
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
@@ -331,9 +383,9 @@ public class TestController {
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(1)).equals(4));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).size()==2));
+      assertEquals((weaponController.getUsableEffectsForThisWeapon(card).get(0)), (Integer) 1);
+      assertEquals(weaponController.getUsableEffectsForThisWeapon(card).get(1), (Integer) 4 );
+      assertEquals(2, weaponController.getUsableEffectsForThisWeapon(card).size());
 
 
       //Test for player with Whisper in his Weapon Deck
@@ -352,7 +404,7 @@ public class TestController {
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
+      assertEquals((weaponController.getUsableEffectsForThisWeapon(card).get(0)), (Integer)1);
 
       // Test for player with Railgun in his Weapon Deck
 
@@ -375,7 +427,7 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][1]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==2);
+      assertEquals(2, weaponController.getUsableEffectsForThisWeapon(card).size());
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
@@ -409,19 +461,19 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==1);
+      assertEquals(weaponController.getUsableEffectsForThisWeapon(card).size(), 1);
 
       for(int i=0;i<9;i++)
          game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(true);
 
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==2);
+      assertEquals(2,weaponController.getUsableEffectsForThisWeapon(card).size());
 
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
-      //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
-      //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
 
 
 
@@ -440,7 +492,7 @@ public class TestController {
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(2));
-      assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).size()==2));
+      assertEquals(weaponController.getUsableEffectsForThisWeapon(card).size(), 2);
 
 
 
@@ -525,7 +577,7 @@ public class TestController {
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
 
-      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==2));
+      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==1));
 
 
       //Test for "Plasma gun"
@@ -608,24 +660,25 @@ public class TestController {
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
 
-      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(4));
-      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==2));
+
 
       //Test for Vortex cannon
+      for(int i=0;i<9;i++)
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(true);
 
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
       card= new VortexCannon();
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
       card.setOwnerOfCard(game.getPlayers().get(0));
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
-      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==1));
 
-      /*game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
+
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
+      game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
+      controller.getShootController().getInvolvedPlayers().clear();
+      controller.getShootController().getInvolvedPlayers().add(new InvolvedPlayer(game.getPlayers().get(1), 1,game.getPlayers().get(1).getPositionOnTheMap()));
       controller.getShootController().getTypeOfAttack().add(1);
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(2));*/
+      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(2));
 
 
       //Test for player with Lock rifle in his Weapon Deck
@@ -689,13 +742,15 @@ public class TestController {
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
 
-
-
-
-      /*//Test
-      game.setPlayerOfTurn(1);
-      game.setRound(1);
-      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));*/
+      game.setInFrenzy(false);
+      game.getPlayers().get(0).setOverSixDamage(true);
+      WeaponCard card1= new Railgun();
+      WeaponCard card2= new Flamethrower();
+      WeaponCard card3= new GranadeLauncher();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card1);
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card2);
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card3);
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
    }
 
@@ -715,7 +770,7 @@ public class TestController {
 
    }
 
-   /*@Test
+   @Test
    public void handleDisconnectionTest()
    {
       game.setPlayerOfTurn(1);
@@ -723,9 +778,21 @@ public class TestController {
       controller.handleDisconnection(nickname);
       assertEquals(game.getPlayerOfTurn(), 2);
       assertTrue(!game.getListOfNickname().contains(nickname));
+      assertTrue(!game.getPlayers().get(0).isConnected());
 
 
-   }*/
+   }
+
+   @Test
+   public void handleReconnectionTest()
+   {
+      game.getPlayers().get(0).setConnected(false);
+      game.getPlayers().get(1).setConnected(false);
+      String namePlayer= game.getPlayers().get(0).getNickname();
+      controller.handleReconnection(namePlayer);
+      assertTrue(game.getPlayers().get(0).isConnected());
+      //assertTrue(!game.getListOfNickname().contains(game.getPlayers().get(1).getNickname()));
+   }
 
    @Test
    public void sendRequestToDrawPowerUpCardTest()
@@ -734,6 +801,30 @@ public class TestController {
       controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(0), 1);
       assertTrue(game.getPlayers().get(0).getHasToBeGenerated());
 
+   }
+
+
+   @Test
+   public void checkIfThisWeaponIsUsableTest()
+   {
+
+      game.setInFrenzy(false);
+      WeaponCard card= new Railgun();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      for(int i=0;i<9;i++)
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(true);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      card.setLoad(false);
+      assertTrue(!controller.checkIfThisWeaponIsUsable(card, 0));
+
+   }
+
+   @Test
+   public void sendRequestForAction()
+   {
+      game.setRound(3);
+      game.setNumOfActionOfTheTurn(0);
+      controller.sendRequestForAction();
    }
 
 

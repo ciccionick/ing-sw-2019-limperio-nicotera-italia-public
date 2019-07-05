@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestWeaponController {
 
-    Game game = Game.instanceOfGame();
+    private Game game = Game.instanceOfGame();
 
-    Controller controller = new Controller(game);
+    private Controller controller = new Controller(game);
 
-    WeaponController weaponController= new WeaponController(game, controller);
+    private WeaponController weaponController= new WeaponController(game, controller);
 
 
     @Before
@@ -44,19 +44,7 @@ public class TestWeaponController {
     }
 
 
-  /*  @Test
-    public void canReloadTest()
-    {
-        for(int i=0;i<9;i++)
-        {
-            game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
-        }
-        WeaponCard card= new ElectroScythe();
-        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
-        card.setOwnerOfCard(game.getPlayers().get(0));
-        assertTrue(!controller.getReloadController().isThisWeaponReloadable(card));
 
-    }*/
 
 
     @Test
@@ -118,12 +106,6 @@ public class TestWeaponController {
         card.setOwnerOfCard(game.getPlayers().get(0));
         assertTrue(!weaponController.isThisWeaponUsable(card,0));
 
-
-        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
-        card= new VortexCannon();
-        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
-        card.setOwnerOfCard(game.getPlayers().get(0));
-        assertTrue(!weaponController.isThisWeaponUsable(card,0));
 
         game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
         card= new Hellion();

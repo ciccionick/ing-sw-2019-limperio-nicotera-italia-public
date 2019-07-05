@@ -62,7 +62,7 @@ class CatchController {
         newSelectionEvent.setSelectionForCatch();
         newSelectionEvent.setNicknameInvolved(event.getNickname());
         newSelectionEvent.setSquaresReachable(squareAvailableToCatch);
-        event.getMyVirtualView().update(newSelectionEvent);
+        game.notify(newSelectionEvent);
 
     }
 
@@ -89,7 +89,7 @@ class CatchController {
             }
             newRequest.setNicknameInvolved(event.getNickname());
             newRequest.setWeaponsAvailableToCatch(controller.substituteWeaponsCardWithTheirAlias(weaponsAffordable));
-            event.getMyVirtualView().update(newRequest);
+            game.notify(newRequest);
         }
         else{
             player.setPositionOnTheMap(square);
@@ -264,7 +264,7 @@ class CatchController {
         else{
             RequestToDiscardWeaponCard requestToDiscardWeaponCard = new RequestToDiscardWeaponCard("Choose one of your weapon card to discard", event.getNameOfWeaponCard());
             requestToDiscardWeaponCard.setNicknameInvolved(event.getNickname());
-            event.getMyVirtualView().update(requestToDiscardWeaponCard);
+            game.notify(requestToDiscardWeaponCard);
         }
     }
 
@@ -450,7 +450,7 @@ class CatchController {
      * @param nameOfWeaponCardToRemoveFromTheSquare The name of the weapon card that the player wants to catch from the spawn square.
      * @param nameOfWeaponCardToAddToTheSquare The name of the weapon card that the player wants to discard and that will return on the spawn square.
      */
-    private void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemoveFromTheSquare, String nameOfWeaponCardToAddToTheSquare) {
+    public void changeWeaponCardsBetweenSquareAndDeck(Player player, String nameOfWeaponCardToRemoveFromTheSquare, String nameOfWeaponCardToAddToTheSquare) {
         Square squareWhereDoChange = findSpawnSquareWithThisCard(nameOfWeaponCardToRemoveFromTheSquare);
         WeaponCard weaponCardToAddToDeck = null;
         WeaponCard weaponCardToAddToSquare = null;

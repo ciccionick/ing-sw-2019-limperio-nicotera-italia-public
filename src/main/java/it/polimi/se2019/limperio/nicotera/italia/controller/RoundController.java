@@ -88,14 +88,13 @@ public class RoundController {
             PowerUpCard powerUpCardToSpawn1 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(0);
             PowerUpCard powerUpCardToSpawn2 = game.getBoard().getPowerUpDeck().getPowerUpCards().get(1);
             game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(game.getBoard().getPowerUpDeck().getPowerUpCards().remove(1));
-             square = controller.getPowerUpController().findSpawnSquareWithThisColor(powerUpCardToSpawn2.getColor());
+            square = controller.getPowerUpController().findSpawnSquareWithThisColor(powerUpCardToSpawn2.getColor());
             player.drawPowerUpCard(powerUpCardToSpawn1);
-            powerUpCardToSpawn1.setOwnerOfCard(player);
             powerUpCardToSpawn1.setInTheDeckOfSomePlayer(true);
         }
         else if(game.getRound()==1 && player.getPlayerBoard().getPowerUpCardsOwned().size()==2){
-             square = controller.getPowerUpController().findSpawnSquareWithThisColor(player.getPlayerBoard().getPowerUpCardsOwned().get(1).getColor());
-             player.getPlayerBoard().getPowerUpCardsOwned().get(1).setInTheDeckOfSomePlayer(false);
+            square = controller.getPowerUpController().findSpawnSquareWithThisColor(player.getPlayerBoard().getPowerUpCardsOwned().get(1).getColor());
+            player.getPlayerBoard().getPowerUpCardsOwned().get(1).setInTheDeckOfSomePlayer(false);
             player.getPlayerBoard().getPowerUpCardsOwned().get(1).setOwnerOfCard(null);
             player.getPlayerBoard().getPowerUpCardsOwned().remove(1);
         }

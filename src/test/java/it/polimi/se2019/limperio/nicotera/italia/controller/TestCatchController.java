@@ -310,18 +310,6 @@ public class TestCatchController{
 
     }
 
-    /*@Test
-    public void handleRequestToDiscardPowerUpCardTest()
-    {
-        PowerUpCard powerUpCard= PowerUpCard.createPowerUpCard(3);
-        game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(powerUpCard);
-        DiscardPowerUpCard event= new DiscardPowerUpCard(" ", game.getPlayers().get(0).getNickname());
-        event.setColorOfCard(ColorOfCard_Ammo.BLUE);
-        event.setNameOfPowerUpCard("Targeting scope");
-        catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);
-        assertTrue(!game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().contains(powerUpCard));
-
-    }*/
 
     @Test
     public void getPowerUpCardToChooseForDiscardTest()
@@ -334,35 +322,7 @@ public class TestCatchController{
 
     }
 
-   /* @Test
-    public void handleSelectionWeaponToCatchAfterDiscardTest()
-    {
-        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
-        WeaponCard cardToAdd= new Heatseeker(); //Sarebbe la carta del giocatore che vado a scartare
-        WeaponCard cardToRemove= new Railgun(); // rimuovere non dal deck del giocatore ma dallo spoon Square
-        Square spawnSquare= game.getPlayers().get(0).getPositionOnTheMap();
 
-        ((SpawnSquare) spawnSquare).setWeaponCards(new ArrayList<WeaponCard>(){{add(cardToRemove);}});
-        SelectionWeaponToDiscard event = new SelectionWeaponToDiscard("", game.getPlayers().get(0).getNickname(), cardToAdd.getName(), cardToRemove.getName());
-
-        catchController.handleSelectionWeaponToCatchAfterDiscard(event);
-        assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToRemove));
-        assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardToAdd));
-    }*/
-
-   /*@Test
-    public void handleRequestToDiscardPowerUpCardAsAmmoTest()
-   {
-       catchController.getColorsNotEnough().clear();
-       game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().add(PowerUpCard.createPowerUpCard(4));
-       ArrayList<PowerUpCard> getpowerUpCardsToDiscard= catchController.getpowerUpCardsToDiscard();
-       int x= getpowerUpCardsToDiscard.size();
-       DiscardPowerUpCard event= new DiscardPowerUpCard("", game.getPlayers().get(0).getNickname());
-       event.setNameOfPowerUpCard("Teleporter");
-       event.setColorOfCard(ColorOfCard_Ammo.YELLOW);
-       catchController.handleRequestToDiscardPowerUpCardAsAmmo(event);
-       assertEquals(getpowerUpCardsToDiscard.size(), x+1);
-   }*/
 
    @Test
     public void getWeaponCardFromNameTest()
@@ -378,6 +338,18 @@ public class TestCatchController{
        game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
        ClientEvent event= new ClientEvent("", game.getPlayers().get(0).getNickname());
        catchController.replyToRequestToCatch(event);
+   }
+
+   @Test
+    public void changeWeaponCardsBetweenSquareAndDeckTest()
+   {
+       WeaponCard cardInDeck= new Railgun();
+       WeaponCard cardInSquare= new GranadeLauncher();
+       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(cardInDeck);
+       cardInDeck.setOwnerOfCard(game.getPlayers().get(0));
+       ((SpawnSquare)game.getBoard().getMap().getMatrixOfSquares()[1][0]).getWeaponCards().add(cardInSquare);
+       catchController.changeWeaponCardsBetweenSquareAndDeck(game.getPlayers().get(0),cardInSquare.getName(), cardInDeck.getName());
+       assertTrue(!game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(cardInDeck));
    }
 
 

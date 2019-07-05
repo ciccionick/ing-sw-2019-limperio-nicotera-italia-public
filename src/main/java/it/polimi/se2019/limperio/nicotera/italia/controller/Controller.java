@@ -247,6 +247,9 @@ public class Controller implements Observer<ClientEvent> {
         if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() > 1) {
             setTimerForTurn(false,false);
         }
+
+
+
     }
 
     /**
@@ -332,7 +335,7 @@ public class Controller implements Observer<ClientEvent> {
      * @param isForFirstRound It's true if the timer it will be active for the first turn of the player adding to the normal time a minute, false otherwise.
      * @param isForRegeneration It's true if the timer it will be active only for the spawn after a death dividing the normal time for three, false otherwise.
      */
-    private void setTimerForTurn(boolean isForFirstRound, boolean isForRegeneration) {
+     void setTimerForTurn(boolean isForFirstRound, boolean isForRegeneration) {
         timer = new Timer();
         turnTask = new TurnTask();
         try {
