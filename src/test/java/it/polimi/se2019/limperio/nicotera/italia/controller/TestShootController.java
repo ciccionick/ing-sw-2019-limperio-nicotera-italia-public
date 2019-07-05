@@ -25,7 +25,6 @@ public class TestShootController {
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");
         game.createPlayer("player4", false, 4, "GREEN");
-        //game.createPlayer("terminator", false, 5, "PURPLE");
         player1 = controller.findPlayerWithThisNickname("player1");
         player2 = controller.findPlayerWithThisNickname("player2");
         player3 = controller.findPlayerWithThisNickname("player3");
@@ -436,7 +435,6 @@ public class TestShootController {
         controller.getShootController().setWeaponToUse(flamethrower);
         controller.getShootController().setNeedToChooseAPlayer(false);
         player1.getPlayerBoard().getDamages().clear();
-        //controller.getShootController().setSquareInInvolvedPlayers(selectionSquare1);
         controller.update(selectionSquare1);
         Assert.assertEquals(0, player1.getPlayerBoard().getDamages().size());
         Assert.assertEquals(1, player3.getPlayerBoard().getDamages().size());

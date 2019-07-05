@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDeathController {
@@ -39,9 +41,12 @@ public class TestDeathController {
         game.getPlayers().get(0).assignDamage(ColorOfFigure_Square.YELLOW, 12);
         Assert.assertEquals(12, game.getPlayers().get(0).getPlayerBoard().getDamages().size());
         Assert.assertTrue(game.getPlayers().get(0).isDirectlyOverkilled());
+        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
+        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
+        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
+        game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).add(ColorOfDeathToken.SKULL);
         deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
         Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(0).toString());
-        Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(1).toString());
         game.getPlayers().get(0).getPlayerBoard().getDamages().clear();
         game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).set(0, ColorOfDeathToken.SKULL);
         game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).set(1, null);
