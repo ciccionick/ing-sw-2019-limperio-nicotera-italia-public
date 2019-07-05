@@ -4,7 +4,6 @@ import it.polimi.se2019.limperio.nicotera.italia.controller.Controller;
 import it.polimi.se2019.limperio.nicotera.italia.model.Game;
 import it.polimi.se2019.limperio.nicotera.italia.model.Player;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -92,9 +91,7 @@ public class Server  {
      */
     private String colorOfFirstPlayer;
 
-    private FrameForShowIP frameForShowIP;
-
-
+    
 
 
     /**
@@ -104,8 +101,8 @@ public class Server  {
     public Server()  {
         loggerServer.addHandler(handlerLoggerServer);
         try {
-            serverSocket = new ServerSocket(4000);
-            frameForShowIP = new FrameForShowIP();
+            serverSocket = new ServerSocket(60000);
+            new FrameOfServer();
 
         } catch (IOException e) {
            loggerServer.log(Level.ALL, "error");
