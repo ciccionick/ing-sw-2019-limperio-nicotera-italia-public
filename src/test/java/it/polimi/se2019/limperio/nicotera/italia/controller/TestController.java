@@ -491,8 +491,6 @@ public class TestController {
       game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
-      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(2));
-      assertEquals(weaponController.getUsableEffectsForThisWeapon(card).size(), 2);
 
 
 

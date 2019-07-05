@@ -31,7 +31,6 @@ public class TestDeathController {
     @After
     public void cleanUp() {
         game.setInstanceOfGameNullForTesting();
-
     }
 
     @Test
@@ -41,19 +40,12 @@ public class TestDeathController {
         game.getPlayers().get(0).assignDamage(ColorOfFigure_Square.YELLOW, 12);
         Assert.assertEquals(12, game.getPlayers().get(0).getPlayerBoard().getDamages().size());
         Assert.assertTrue(game.getPlayers().get(0).isDirectlyOverkilled());
-        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
-        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
-        game.getBoard().getKillShotTrack().getTokensOfDeath().add(new ArrayList<>());
-        game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).add(ColorOfDeathToken.SKULL);
-        deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
+        controller.getDeathController().handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
         Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(0).toString());
         game.getPlayers().get(0).getPlayerBoard().getDamages().clear();
-        game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).set(0, ColorOfDeathToken.SKULL);
-        game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).set(1, null);
         game.getPlayers().get(0).assignDamage(ColorOfFigure_Square.YELLOW, 11);
         deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
-        Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(0).toString());
-        Assert.assertNull(game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(1));
+        Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(1).get(0).toString());
         //Test in frenzy mode
         game.setInFrenzy(true);
         game.getPlayers().get(0).getPlayerBoard().getDamages().clear();
@@ -72,7 +64,6 @@ public class TestDeathController {
         game.setGameOver(false);
         game.initializeGame(false, 1, false);
         game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()-1).set(0, ColorOfDeathToken.YELLOW);
-        game.getPlayers().get(0).assignDamage(game.getPlayers().get(1).getColorOfFigure(), 11);
         deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
     }
 
