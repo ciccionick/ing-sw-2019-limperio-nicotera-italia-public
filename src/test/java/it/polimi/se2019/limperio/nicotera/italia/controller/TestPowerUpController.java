@@ -19,9 +19,9 @@ import static org.junit.Assert.*;
 public class TestPowerUpController {
 
 
-    Game game = Game.instanceOfGame();
-    Controller controller = new Controller(game);
-    PowerUpController powerUpController = new PowerUpController(game, controller);
+    private Game game = Game.instanceOfGame();
+    private Controller controller = new Controller(game);
+    private PowerUpController powerUpController = new PowerUpController(game, controller);
 
 
     @Before

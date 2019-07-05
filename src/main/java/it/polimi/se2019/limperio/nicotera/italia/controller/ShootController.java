@@ -1120,7 +1120,7 @@ public class ShootController {
             }
             requestToChooseAPlayer.setNicknameInvolved(message.getNickname());
             requestToChooseAPlayer.setMessageForInvolved("Choose a player to use Targeting scope");
-            message.getMyVirtualView().update(requestToChooseAPlayer);
+            game.notify(requestToChooseAPlayer);
         }
 
     }
@@ -1367,6 +1367,11 @@ public class ShootController {
      ArrayList<ColorOfCard_Ammo> getColorsNotEnough() {
         return colorsNotEnough;
     }
+
+    public void setAmmoForPayTargeting(ColorOfCard_Ammo colorOfCard_ammo){ammoForPayTargeting=colorOfCard_ammo;};
+
+
+
 
     ArrayList<Player> getPlayersAttacked() {
         return playersAttacked;

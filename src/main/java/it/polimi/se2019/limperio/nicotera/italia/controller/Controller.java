@@ -247,6 +247,9 @@ public class Controller implements Observer<ClientEvent> {
         if (game.getNumOfActionOfTheTurn() == 0 && game.getRound() > 1) {
             setTimerForTurn(false,false);
         }
+
+
+
     }
 
     /**

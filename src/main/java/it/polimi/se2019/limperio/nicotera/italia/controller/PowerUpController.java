@@ -36,6 +36,8 @@ class PowerUpController {
          this.controller = controller;
      }
 
+     public void setNumOfCardToUse(int x){numOfCardToUse=x;};
+
     /**
      * This method moves two power up cards from the deck to the player's deck and then it notifies to view part
      */
@@ -337,4 +339,6 @@ class PowerUpController {
          game.notify(playerBoardEvent);
          controller.handleTheEndOfAnAction(true);
     }
+
+
 }
