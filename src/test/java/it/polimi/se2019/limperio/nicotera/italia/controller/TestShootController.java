@@ -486,7 +486,7 @@ public class TestShootController {
         controller.getShootController().handlePaymentForTargeting(discardAmmoOrPowerUpToPayTargeting);
         Assert.assertEquals(1, player1.getPlayerBoard().getDamages().size());
         for(PowerUpCard card : game.getBoard().getPowerUpDeck().getPowerUpCards()){
-            if(card.getName().equals("Targeting scope") && card.getColor().toString().equals("RED")) {
+            if(card.getName().equals("Targeting scope")) {
                 player2.drawPowerUpCard(card);
                 break;
             }
