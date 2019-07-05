@@ -218,6 +218,22 @@ public class TestCatchController{
         assertTrue(game.getPlayers().get(0).getPlayerBoard().getPowerUpCardsOwned().isEmpty());
         //assertTrue(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().contains(card));
 
+        WeaponCard card1= new Railgun();
+        WeaponCard card2= new Flamethrower();
+        WeaponCard card3= new GranadeLauncher();
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card1);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card2);
+        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card3);
+
+        catchController.handleSelectionWeaponToCatch(event);
+
+
+
+
+
+
     }
 
 
@@ -248,16 +264,13 @@ public class TestCatchController{
 
         assertEquals(j, 5);
 
-       /*
+
         //To catch the Ammotile in a Spoon Square
         game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
         SpawnSquare spawnSquare= (SpawnSquare) game.getBoard().getMap().getMatrixOfSquares()[1][0];
-        CatchEvent event= new CatchEvent("",game.getPlayers().get(1).getNickname(),1,0);
-        RequestForChooseAWeaponToCatch requestForChooseAWeaponToCatch= new RequestForChooseAWeaponToCatch("");
-        event.setMyVirtualView(new VirtualView(null, null, controller));
-        event.getMyVirtualView().update(requestForChooseAWeaponToCatch);
+        event= new SelectionSquare("",game.getPlayers().get(1).getNickname(),1,0);
         catchController.handleCatching(event);
-        assertNotEquals(event.getMyVirtualView().getOut(), requestForChooseAWeaponToCatch);*/
+
 
     }
 
@@ -358,5 +371,14 @@ public class TestCatchController{
        game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(weaponCard);
        assertEquals(catchController.getWeaponCardFromName("Tractor beam").getName(), weaponCard.getName() );
    }
+
+   @Test
+    public void replyToRequestToCatchTest()
+   {
+       game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+       ClientEvent event= new ClientEvent("", game.getPlayers().get(0).getNickname());
+       catchController.replyToRequestToCatch(event);
+   }
+
 
 }

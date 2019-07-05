@@ -38,12 +38,27 @@ public class TestController {
       game.createPlayer("player3", false, 3, "GREY");
       game.createPlayer("player4", false, 4, "PURPLE");
       game.setGameOver(false);
-      game.initializeGame(false, 1, false);
+      game.initializeGame(true, 1, false);
    }
    @After
    public void cleanUp(){
       game.setInstanceOfGameNullForTesting();
 
+   }
+
+
+   /*@Test
+   public void runTest()
+   {
+      controller
+   }*/
+
+
+   @Test
+   public void setTimerForTurnTest()
+   {
+      controller.setTimerForTurn(false, true);
+      controller.setTimerForTurn(false, false);
    }
 
    @Test
@@ -203,10 +218,10 @@ public class TestController {
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
-//      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
       card.setLoad(false);
-      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
 
 
 
@@ -245,7 +260,7 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][3]);
       assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
-      //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
 
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
@@ -346,6 +361,19 @@ public class TestController {
       assertTrue(((Integer) weaponController.getUsableEffectsForThisWeapon(card).get(0)).equals(1));
 
       // Test for player with Railgun in his Weapon Deck
+
+      for (int i = 0; i < matrix.length; i++) {
+         for (int j = 0; j <matrix[i].length; j++) {
+            if(matrix[i][j]!=null)
+               game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+         }
+      }
+
+      for(int i=0;i<9;i++)
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+
+
+
       game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
       card= new Railgun();
@@ -353,6 +381,7 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][1]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==2);
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
@@ -363,6 +392,22 @@ public class TestController {
 
 
       //Test for player with "Flamethrower" in his Weapon Deck
+      for (int i = 0; i < matrix.length; i++) {
+         for (int j = 0; j <matrix[i].length; j++) {
+            if(matrix[i][j]!=null)
+            {
+               game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+            }
+
+         }
+      }
+
+      for(int i=0;i<9;i++)
+      {
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
+      }
+
+
       game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
       card= new Flamethrower();
@@ -370,9 +415,13 @@ public class TestController {
       card.setOwnerOfCard(game.getPlayers().get(0));
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==1);
 
-      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
-      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+      for(int i=0;i<9;i++)
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(true);
+
+      assertTrue(weaponController.getUsableEffectsForThisWeapon(card).size()==2);
+
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
       //assertTrue(!controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
@@ -385,9 +434,8 @@ public class TestController {
       //Test for player with  "Cyberblade" in his Weapon Deck
 
       for(int i=0;i<9;i++)
-      {
          game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(false);
-      }
+
 
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
       card= new Cyberblade();
@@ -542,6 +590,7 @@ public class TestController {
 
 
       //Test for Power glove
+       game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
       controller.getShootController().getTypeOfAttack().clear();
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
       card= new PowerGlove();
@@ -555,7 +604,7 @@ public class TestController {
       assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==2));
 
       //Test for Tractor beam
-      /*game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
       game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
       game.getPlayers().get(3).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[2][2]);
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
@@ -563,13 +612,12 @@ public class TestController {
       game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
       card.setOwnerOfCard(game.getPlayers().get(0));
       assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
-      //assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
-      //assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==1));
+
 
       game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(1));
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(4));
-      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==2));*/
+      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==2));
 
       //Test for Vortex cannon
 
@@ -584,6 +632,68 @@ public class TestController {
       /*game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
       controller.getShootController().getTypeOfAttack().add(1);
       assertTrue(weaponController.getUsableEffectsForThisWeapon(card).contains(2));*/
+
+
+      //Test for player with Lock rifle in his Weapon Deck
+
+      for (int i = 0; i < matrix.length; i++) {
+         for (int j = 0; j <matrix[i].length; j++) {
+            if(matrix[i][j]!=null)
+               game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+         }
+      }
+
+      for(int i=0;i<9;i++)
+         game.getPlayers().get(0).getPlayerBoard().getAmmo().get(i).setIsUsable(true);
+
+      controller.getShootController().getTypeOfAttack().clear();
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+      card= new LockRifle();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      game.getPlayers().get(1).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][1]);
+      game.getPlayers().get(2).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+
+      assertEquals(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().get(0).getName(), card.getName());
+
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
+      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).contains(1)));
+      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).size()==1));
+
+
+
+      controller.getShootController().getTypeOfAttack().add(1);
+      assertTrue((weaponController.getUsableEffectsForThisWeapon(card).contains(2)));
+
+
+
+      //Test for Power glove in frenzy
+      game.setInFrenzy(true);
+      game.setFirstInFrenzyMode(1);
+
+      for (int i = 0; i < matrix.length; i++) {
+         for (int j = 0; j <matrix[i].length; j++) {
+            if(matrix[i][j]!=null)
+               game.getBoard().getMap().getMatrixOfSquares()[i][j].getPlayerOnThisSquare().clear();
+         }
+      }
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+      game.getPlayers().get(0).setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+      game.getPlayers().get(1).getPlayerBoard().getWeaponsOwned().clear();
+      card= new PowerGlove();
+      game.getPlayers().get(1).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(1));
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(1).getPlayerBoard().getWeaponsOwned()));
+
+      game.setFirstInFrenzyMode(2);
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().clear();
+      card= new PowerGlove();
+      game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned().add(card);
+      card.setOwnerOfCard(game.getPlayers().get(0));
+      assertTrue(controller.checkIfPlayerCanShoot(game.getPlayers().get(0).getPlayerBoard().getWeaponsOwned()));
+
 
 
 
@@ -622,6 +732,15 @@ public class TestController {
 
 
    }*/
+
+   @Test
+   public void sendRequestToDrawPowerUpCardTest()
+   {
+      game.getPlayers().get(0).setHasToBeGenerated(false);
+      controller.sendRequestToDrawPowerUpCard(game.getPlayers().get(0), 1);
+      assertTrue(game.getPlayers().get(0).getHasToBeGenerated());
+
+   }
 
 
 
