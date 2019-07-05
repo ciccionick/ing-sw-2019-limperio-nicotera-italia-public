@@ -8,36 +8,106 @@ import java.util.ArrayList;
 
 
 /**
- * This class handles the request of shoot by a player to another one.
+ * Controller that checks the correct development of the shoot action.
+ * It strictly collaborates with the weapon controller to know what a weapon can do and what requests to the player to help during the action.
+ * @author Pietro L'Imperio.
  */
 public class ShootController {
 
+    /**
+     * Reference of the game.
+     */
     private final Game game;
+    /**
+     * Reference of the controller.
+     */
     private Controller controller;
+    /**
+     * Array list of player involved to collect every player and square with the relative effect where they are involved to.
+     */
     private ArrayList<InvolvedPlayer> involvedPlayers = new ArrayList<>();
+    /**
+     * Array list of the number that represents effects chosen during shoot action.
+     */
     private ArrayList<Integer> typeOfAttack = new ArrayList<>();
+    /**
+     * Weapon card chosen by the player to do the shoot action.
+     */
     private WeaponCard weaponToUse = null;
+    /**
+     * Price to pay to the current effect.
+     */
     private ColorOfCard_Ammo[] priceToPay = null;
+    /**
+     * Array list of color of ammo that contains colors of ammo not enough to complete the payment.
+     */
     private ArrayList<ColorOfCard_Ammo> colorsNotEnough = new ArrayList<>();
+    /**
+     * Array list of power up that player chosen to pay an effect when he has not enough ammo.
+     */
     private ArrayList<PowerUpCard> powerUpCardToDiscardToPay = new ArrayList<>();
+    /**
+     * Ammo chosen by the player to pay the effect  of targeting scope.
+     */
     private ColorOfCard_Ammo ammoForPayTargeting;
+    /**
+     * Array list of all the players attacked during the shoot action.
+     */
     private ArrayList<Player> playersAttacked = new ArrayList<>();
+    /**
+     * It's true if it has already asked to the player attacker if he wants to use targeting scope, false otherwise.
+     */
     private boolean alreadyAskedToUseTargeting = false;
+    /**
+     * Reference of the power up card targeting scope that the player decides to discard to use its effect.
+     */
     private PowerUpCard targetingScopeToUse;
+    /**
+     * Array list of players that are choosing if use tagback against player attacker or not.
+     */
     private ArrayList<Player> playersAreChoosingForTagback = new ArrayList<>();
+    /**
+     * It's true if the method handleRequestAfterShoot is called after the shoot action of terminator, false otherwise.
+     */
     private boolean isForTerminator = false;
+    /**
+     * It's true if the player has decided to finish the shoot action, false otherwise.
+     */
     private boolean doesntWantToContinueToShoot = false;
+    /**
+     * The reference of the original square of the target chosen by the player attacker.
+     */
     private Square originalSquareOfTheTarget = null;
+    /**
+     * It's true if there is the need to store the original square of the target for the next effects, false otherwise.
+     */
     private boolean needToStoreOriginalSquare = false;
+    /**
+     * It's true if after the choose of a player or of a square the player attacker has to choose another player.
+     */
     private boolean needToChooseAPlayer = false;
+    /**
+     * It's true if after the choose of a player or of a square the player attacker has to choose another square.
+     */
     private boolean needToChooseASquare = false;
 
+    /**
+     * Constructor of the class that initializes game and controller references.
+     * @param game The reference of the game.
+     * @param controller The reference of the controller.
+     */
     public ShootController(Game game, Controller controller) {
         this.game = game;
         this.controller = controller;
     }
 
 
+    /**
+     * Handles the request to shoot by the player.
+     * Initializes all of the fields useful for the correct development of the shoot action.
+     * Sends the request to choose a square if the player can move himself before to shoot or calls the methods that sends an event with all of the weapon usable.
+     * @param message Event received by client with the request to shoot.
+     */
      void replyToRequestToShoot(ClientEvent message) {
         needToChooseASquare = false;
         typeOfAttack = new ArrayList<>();
@@ -79,7 +149,10 @@ public class ShootController {
     }
 
 
-
+    /**
+     * Sends the request to choose a weapon to the player that decided to shoot checking for each weapon if is usable to enable the relative button on the GUI.
+     * @param player Player that requested to shoot.
+     */
      void sendRequestToChooseAWeapon(Player player){
         boolean[] canUseWeapon = new boolean[3];
         int i = 0;
@@ -100,7 +173,12 @@ public class ShootController {
     }
 
 
-
+    /**
+     * Gets the weapon card with the name passed by parameter in the weapons deck of the player passed by parameter.
+     * @param name Name of the weapon card to find.
+     * @param player Player owner of the weapons deck where look for the weapon.
+     * @return Weapon card of the player passed by parameter with the name passed by parameter.
+     */
     private WeaponCard findWeaponCardWithThisName(String name, Player player){
         for(WeaponCard weaponCard : player.getPlayerBoard().getWeaponsOwned()){
             if(weaponCard.getName().equals(name))
@@ -109,6 +187,13 @@ public class ShootController {
         throw new IllegalArgumentException();
     }
 
+
+    /**
+     * Replies to the reqeust to choose a weapon by the player sending him the list of the effects usable of the weapon.
+     * To do this calls the right method in the weapon controller. It handles also the sending of the list of effects after has done another one specifying if the player can refuse finishing the action or not.
+     * @param nameOfWeaponCard Name of weapon card chosen by the player to shoot.
+     * @param player The player owner of the card that decided to shoot.
+     */
      void replyWithUsableEffectsOfThisWeapon(String nameOfWeaponCard, Player player ) {
         weaponToUse = findWeaponCardWithThisName(nameOfWeaponCard, player);
         priceToPay = null;
@@ -117,12 +202,12 @@ public class ShootController {
          if(typeOfAttack.isEmpty())
             requestToChooseAnEffect.setMessageForInvolved("Choose, to start, one of these effects:");
          else{
-             if(!((weaponToUse.getName().equals("Plasma gun")||weaponToUse.getName().equals("Cyberblade")||weaponToUse.getName().equals("Granade launcher") || weaponToUse.getName().equals("Rocket launcher"))&& typeOfAttack.size()==1 && typeOfAttack.contains(2))){ //condizione eventualmente da modificare
+             if(!((weaponToUse.getName().equals("Plasma gun")||weaponToUse.getName().equals("Cyberblade")||weaponToUse.getName().equals("Granade launcher") || weaponToUse.getName().equals("Rocket launcher"))&& typeOfAttack.size()==1 && typeOfAttack.contains(2))){
                  requestToChooseAnEffect.setOneEffectAlreadyChosen(true);
                  requestToChooseAnEffect.setMessageForInvolved("Choose another effect or press on 'END ACTION'");
              }
              else
-                 requestToChooseAnEffect.setMessageForInvolved("Choose another effect");
+                 requestToChooseAnEffect.setMessageForInvolved("Choose another effect:");
          }
          requestToChooseAnEffect.setNameOfCard(nameOfWeaponCard);
          requestToChooseAnEffect.setNicknameInvolved(player.getNickname());
@@ -130,14 +215,11 @@ public class ShootController {
          game.notify(requestToChooseAnEffect);
     }
 
-    public ArrayList<InvolvedPlayer> getInvolvedPlayers() {
-        return involvedPlayers;
-    }
 
-    public ArrayList<Integer> getTypeOfAttack() {
-        return typeOfAttack;
-    }
-
+    /**
+     * Handles the request to use an effect by the player. Handles this request with a switch statement where for each weapon calls the right method to complete correctly the effect.
+     * @param message Event received by the client with the number of the effect chosen by him.
+     */
      void handleRequestToUseEffect(RequestToUseEffect message) {
          ArrayList<Player> visiblePlayers = controller.getWeaponController().getVisiblePlayers(0, weaponToUse.getOwnerOfCard(), 0);
          ArrayList<Player> availablePlayers = new ArrayList<>();
@@ -491,6 +573,10 @@ public class ShootController {
          }
     }
 
+    /**
+     * Sends a request to choose a square to the player setting on the event the list of selectable squares.
+     * @param squaresReachableWithThisMovements List of selectable squares by the player.
+     */
     private void sendRequestToChooseSquare(ArrayList<Square> squaresReachableWithThisMovements) {
         RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square");
         requestSelectionSquareForAction.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
@@ -500,9 +586,13 @@ public class ShootController {
 
     }
 
+    /**
+     * Sets the square chosen by the player in the list of players involved.
+     * After done this, checks if the player has to choose another square, or a player sending, in the case the request to choose them.
+     * @param message Event received by the client with the row and column of the square chosen by the player.
+     */
     void setSquareInInvolvedPlayers(SelectionSquare message) {
         ArrayList<Player> playersHasToBeAttacked = new ArrayList<>();
-
         if (weaponToUse.getName().equals("Furnace") && typeOfAttack.get(0) == 1) {
             Square chosenSquare = game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()];
             for (int i = 0; i < game.getBoard().getMap().getMatrixOfSquares().length; i++) {
@@ -516,7 +606,6 @@ public class ShootController {
             setPlayersInInvolvedPlayers(playersHasToBeAttacked);
             return;
         }
-
         if (needToChooseASquare) {
             if (weaponToUse.getName().equals("Flamethrower")) {
                 involvedPlayers.add(new InvolvedPlayer(null, 4, game.getBoard().getMap().getMatrixOfSquares()[message.getRow()][message.getColumn()]));
@@ -554,6 +643,12 @@ public class ShootController {
         }
 
 
+    /**
+     * Sends to the player the request to choose a player.
+     * @param numOfMaxPlayerToChoose Maximum number of the players that the owner of the card can choose.
+     * @param listOfPlayersChoosable The list of the players that player can choose.
+     * @param canRefuse It's true if the attacker player can refuse to choose another player, false otherwise.
+     */
     private void sendRequestToChoosePlayer(int numOfMaxPlayerToChoose, ArrayList<Player> listOfPlayersChoosable, boolean canRefuse) {
         if(numOfMaxPlayerToChoose==1){
             RequestToChooseAPlayer requestToChooseAPlayer = new RequestToChooseAPlayer();
@@ -577,11 +672,12 @@ public class ShootController {
         }
     }
 
-    ArrayList<Player> getPlayersAttacked() {
-        return playersAttacked;
-    }
 
-
+    /**
+     * Gets the list of players involved in the effect passed by parameter.
+     * @param effect The effect of which is interested to know the player involved on it.
+     * @return Array list of players involved in the effect passed by parameter.
+     */
     private ArrayList<Player> getPlayersInvolvedInAnEffect(int effect){
         ArrayList<Player> players = new ArrayList<>();
         for(InvolvedPlayer involvedPlayer : involvedPlayers){
@@ -592,6 +688,14 @@ public class ShootController {
         return players;
     }
 
+    /**
+     * Sets the player or the players chosen by the attacker in involved players with the current effect and in players attacked.
+     * Checks with the boolean needToStoreOriginalSquare if has to store the square of the player chosen.
+     * Checks with the boolean needToChooseASquare if has to send the request to select a square creating for each weapon that expects it the correct list of selectable squares.
+     * Checks with the boolean needToChooseAPlayer if has to send the request to select a player creating for each weapon that expects it the correct list of players.
+     * If the effect needs a payment, calls the method that handles the payment else calls the shoot of player and then ask to the player to choose another effect if he can or calls the handleRequestAfterShoot.
+     * @param players List of players chosen by the player. It can contain even only one player.
+     */
     void setPlayersInInvolvedPlayers(ArrayList<Player> players){
         for(Player player : players){
             involvedPlayers.add(new InvolvedPlayer(player, typeOfAttack.get(typeOfAttack.size()-1), null));
@@ -687,6 +791,10 @@ public class ShootController {
     }
 
 
+    /**
+     * Remove from a list of players passed by parameter the players that cannot be attacked by Shockwave.
+     * @param playersChoosable List of players from where remove the players that Shockwave cannot attack.
+     */
     private void removePlayersForShockwave(ArrayList<Player> playersChoosable) {
         for(Player playerAlreadyChosen : playersAttacked){
             for(Player playerInTheSquare : playerAlreadyChosen.getPositionOnTheMap().getPlayerOnThisSquare())
@@ -694,6 +802,9 @@ public class ShootController {
         }
     }
 
+    /**
+     * Sends the map event after the use of an effect that move the owner of the weapon.
+     */
     private void sendMapEvent() {
         MapEvent mapEvent = new MapEvent();
         mapEvent.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
@@ -704,6 +815,9 @@ public class ShootController {
         game.notify(mapEvent);
     }
 
+    /**
+     * Sends the player board event at the end of an attack to notify to all the players the new situation of the player boards of the players attacked.
+     */
     private void sendPlayerBoardEvent(){
         String nicknameOfAttacker = weaponToUse.getOwnerOfCard().getNickname();
         PlayerBoardEvent pbEvent;
@@ -737,7 +851,12 @@ public class ShootController {
     }
 
 
-
+    /**
+     * Handles the payment of an effect going to check if the effect is affordable only with ammo or with power up cards.
+     * If the effect is not affordable completely with ammo and the player has more than one power up card of the color needed to pay the effect sends a request to choose the power up to discard as ammo.
+     * @param player Owner of the card.
+     * @param playersAttacked List of players attacked.
+     */
     private void handlePaymentForEffect(Player player, ArrayList<Player> playersAttacked) {
         ArrayList<ColorOfCard_Ammo> colorsToRemove = new ArrayList<>();
         if(controller.getCatchController().isAffordableOnlyWithAmmo(player, priceToPay)){
@@ -777,6 +896,11 @@ public class ShootController {
 
     }
 
+    /**
+     * Sends the request to discard power up card to pay an effect.
+     * @param player Owner of the class.
+     * @param colorsNotEnough Colors of ammo that are not enough to pay the effect.
+     */
     private void sendRequestToDiscardPowerUpCard(Player player, ArrayList<ColorOfCard_Ammo> colorsNotEnough) {
         RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setNicknameInvolved(player.getNickname());
@@ -798,6 +922,10 @@ public class ShootController {
         }
     }
 
+    /**
+     * Handle the discard of the power up card to pay an effect.
+     * @param message Event received by the client with the name and color of the power up card to discard.
+     */
     void handleDiscardPowerUpToPayAnEffect(ClientEvent message){
         DiscardPowerUpCard event = (DiscardPowerUpCard) message;
         powerUpCardToDiscardToPay.add(controller.getCatchController().findPowerUpCard(event.getNameOfPowerUpCard(), event.getColorOfCard(), controller.findPlayerWithThisNickname(message.getNickname())));
@@ -805,7 +933,11 @@ public class ShootController {
     }
 
 
-
+    /**
+     * Gets the list of involved players in the effect specified as parameter.
+     * @param effect The effect of the weapon  in which is interested know who is involved.
+     * @return ArrayList of involved players involved in the effect passed by parameter.
+     */
     private ArrayList<InvolvedPlayer> getInvolvedPlayersForThisEffect(int effect) {
         ArrayList<InvolvedPlayer> involvedPlayersForThisEffect = new ArrayList<>();
         for(InvolvedPlayer involvedPlayer : getInvolvedPlayers()){
@@ -815,6 +947,14 @@ public class ShootController {
         return involvedPlayersForThisEffect;
     }
 
+    /**
+     * Handles the request after shoot calling the methods that sends the usable effect of the weapon if there is at least one and player has not already decided to interrupt the action.
+     * Sends the request to use targeting if the owner of weapon has at least one. Creates the list of players attacked and that can use tagback and sends to them the request to use it.
+     * At the end calls the method of the controller that handles the end of the action.
+     * @param player Owner of the weapon.
+     * @param playersAttacked List of attacked players.
+     * @param isForTerminator It's true if the method is called after the shoot of terminator, false otherwise.
+     */
      void handleSendRequestAfterShoot(Player player, ArrayList<Player> playersAttacked, boolean isForTerminator){
         this.isForTerminator = isForTerminator;
         if(!isForTerminator && weaponToUse!=null) {
@@ -859,6 +999,11 @@ public class ShootController {
         }
     }
 
+    /**
+     * Check if a player could use tagback.
+     * @param playerAttacked Player attacked by the owner of the weapon card during the action.
+     * @return True if playerAttacked could use tagback, false otherwise.
+     */
     private boolean couldUseTagback(Player playerAttacked) {
         if(!playerAttacked.isConnected())
             return false;
@@ -876,6 +1021,10 @@ public class ShootController {
         return false;
     }
 
+    /**
+     * Sends to the player owner of the weapon card the request to use a targeting scope.
+     * @param player Owner of the weapon.
+     */
     private void sendRequestToUseTargeting(Player player) {
         RequestToDiscardPowerUpCard requestToDiscardPowerUpCardToPay = new RequestToDiscardPowerUpCard();
         requestToDiscardPowerUpCardToPay.setToTargeting();
@@ -896,6 +1045,10 @@ public class ShootController {
     }
 
 
+    /**
+     * Handles the request to use targeting scope sending, if the player has decided to use it, the request to choose ammo or power up card to discard to pay the effect.
+     * @param message Event received by the client with name and color of the targeting he decided to discard to use.
+     */
      void handleDiscardPowerUpToUseTargeting(DiscardPowerUpCard message) {
          int indexOfCardToRemove = 0;
          Player player;
@@ -931,6 +1084,10 @@ public class ShootController {
     }
 
 
+    /**
+     * Handles the payment of targeting scope.
+     * @param message Event received by the client with the information about what he decided to discard (ammo or power up card) to pay the effect of targeting.
+     */
     void handlePaymentForTargeting(DiscardAmmoOrPowerUpToPayTargeting message){
         if(message.isBlueAmmo())
             ammoForPayTargeting = ColorOfCard_Ammo.BLUE;
@@ -966,6 +1123,10 @@ public class ShootController {
 
     }
 
+    /**
+     * Handles the use of targeting after that the player has paid for its effect.
+     * @param message Event received by the client with the player on who use the effect.
+     */
     void handleUseOfTargeting(ChoosePlayer message){
         Player playerAttacker;
         if(isForTerminator)
@@ -981,6 +1142,12 @@ public class ShootController {
         handleSendRequestAfterShoot(playerAttacker,playersAttacked, false);
     }
 
+    /**
+     * Sends the player board event after the use of targeting by the attacker or the tagback by some attacked players.
+     * @param playerAttacker Owner of the class.
+     * @param playerAttacked Player attacked by playerAttacker and that has decided to use tagback against him.
+     * @param isAfterTargeting It's true if is called after the use of targeting, false otherwise.
+     */
      void sendPlayerBoardEventAfterTargetingOrTagback(Player playerAttacker, Player playerAttacked, boolean isAfterTargeting) {
         String nameOfCard;
         if(isAfterTargeting)
@@ -1006,6 +1173,10 @@ public class ShootController {
         }
     }
 
+    /**
+     * Sends the request to the attacked players that could use tagback to use the power up card.
+     * @param playersCouldUseTagback List of player that could use tagback against the owner of the card.
+     */
     private void sendRequestToUseTagbackGranade(ArrayList<Player> playersCouldUseTagback) {
         ArrayList<ServerEvent.AliasCard> tagbackGranadeCards = new ArrayList<>();
         for(Player player : playersCouldUseTagback){
@@ -1029,9 +1200,12 @@ public class ShootController {
         else
             newEvent.setNicknameInvolved(weaponToUse.getOwnerOfCard().getNickname());
         game.notify(newEvent);
-
     }
 
+    /**
+     * Handles the request to use tagback by a player attacked during the shoot action distinguishing the case where the player has decided to use the tagback from the other one.
+     * @param message Event received by the player with the name and color of tagback if he decided to use it.
+     */
      void handleRequestToUseTagbackGranade(DiscardPowerUpCard message){
         Player playerWithTagback = controller.findPlayerWithThisNickname(message.getNickname());
         Player playerToAttack;
@@ -1081,6 +1255,12 @@ public class ShootController {
         }
     }
 
+    /**
+     * Gets the square from where player can attack because has at least one usable weapon. It is called when the player could choose to move before to shoot.
+     * @param player Owner of the weapon.
+     * @param movement Movement that the player could do before to shoot.
+     * @return Array list of squares from where the player can shoot.
+     */
     private ArrayList<Square> getSquaresFromWherePlayerCanAttack(Player player, int movement) {
         ArrayList<Square> startingSquares = new ArrayList<>();
         ArrayList<Square> squaresToRemove = new ArrayList<>();
@@ -1107,7 +1287,12 @@ public class ShootController {
         return startingSquares;
     }
 
-
+    /**
+     * Gets the list of square from where the weapon card passed by parameter can shoot.
+     * @param weaponCard Weapon card involved in the control.
+     * @param movement Movement that the player owner of the card could do before to decide to shoot.
+     * @return Array list of squares where the weapon passed by parameter can be used.
+     */
     private ArrayList<Square> getSquareWhereThisWeaponIsUsable(WeaponCard weaponCard, int movement){
         ArrayList<Square> startingSquares = new ArrayList<>();
         ArrayList<Square> squaresToRemove = new ArrayList<>();
@@ -1127,7 +1312,10 @@ public class ShootController {
         return startingSquares;
     }
 
-
+    /**
+     * Handles the movement before to shoot by the player that can move becuase is over six damage or in frenzy mode.
+     * @param message Event received by the client with the row and column of the square that player decides to move before to shoot.
+     */
      void handleMovementBeforeShoot(SelectionSquare message) {
         controller.getRunController().doRunAction(message, true);
         Player player = controller.findPlayerWithThisNickname(message.getNickname());
@@ -1140,6 +1328,14 @@ public class ShootController {
         else{
             sendRequestToChooseAWeapon(player);
         }
+    }
+
+    public ArrayList<InvolvedPlayer> getInvolvedPlayers() {
+        return involvedPlayers;
+    }
+
+    public ArrayList<Integer> getTypeOfAttack() {
+        return typeOfAttack;
     }
 
      void setWeaponToUse(WeaponCard weaponToUse) {
@@ -1168,5 +1364,9 @@ public class ShootController {
 
      ArrayList<ColorOfCard_Ammo> getColorsNotEnough() {
         return colorsNotEnough;
+    }
+
+    ArrayList<Player> getPlayersAttacked() {
+        return playersAttacked;
     }
 }
