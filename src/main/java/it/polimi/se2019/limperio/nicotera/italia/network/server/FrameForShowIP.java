@@ -15,9 +15,8 @@ class FrameForShowIP  {
 
     /**
      * Constructor of the frame. Closing this frame it will be stopped the process where the server run.
-     * @param ip IP address to show.
      */
-     FrameForShowIP(String ip) {
+     FrameForShowIP() {
         this.frame = new JFrame("Adrenaline (Server) - IP address");
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/favicon.jpg")));
         frame.setResizable(false);
@@ -40,15 +39,11 @@ class FrameForShowIP  {
         int bottom = heightOfScreen/216;
         gbc.insets = new Insets(top , leftRight, bottom, leftRight);
 
-        centralPane.add(new JLabel("Let's connect to this ip address to play!"),gbc);
+        centralPane.add(new JLabel("Let's connect to this ip address to play! Read it digiting 'ipconfig' on prompt of command"),gbc);
         gbc.gridy++;
         gbc.insets.top = heightOfScreen/216;
         gbc.insets.bottom = heightOfScreen/216;
         centralPane.add(new JLabel("(Don't close this window until you want to interrupt the match)"),gbc);
-        gbc.gridy++;
-        gbc.insets.bottom = widhtOfScreen/96;
-        gbc.insets.top = heightOfScreen/36;
-        centralPane.add(new JLabel(ip),gbc);
 
         frame.pack();
         Dimension dimensionOfScreen = Toolkit.getDefaultToolkit().getScreenSize();

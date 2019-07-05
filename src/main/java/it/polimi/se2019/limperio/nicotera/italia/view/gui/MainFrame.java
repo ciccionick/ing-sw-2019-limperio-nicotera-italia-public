@@ -63,18 +63,6 @@ public class MainFrame {
         contentPane = new JPanel();
         frame.setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(0, 0));
-       /* contentPane.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                updateFrame();
-            }
-        });*/
-        frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentMoved(ComponentEvent e) {
-                    updateFrame();
-                }});
-
         mapPanel = new MapPanel(this);
         contentPane.add(mapPanel, BorderLayout.CENTER);
 
@@ -104,6 +92,7 @@ public class MainFrame {
      */
     public void handleRequestToDiscardPowerUpCard(ServerEvent receivedEvent) {
         new PopupForDiscardPowerUp(this, receivedEvent);
+        rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
     }
 
 
@@ -150,10 +139,14 @@ public class MainFrame {
     public void showPopupForChooseWeapon(ServerEvent receivedEvent) {
         if (receivedEvent.isRequestForChooseAWeaponToCatch())
             popupForChooseWeaponCard = new PopupForChooseWeaponCard(receivedEvent, this);
-        if (receivedEvent.isRequestToDiscardWeaponCard())
+        if (receivedEvent.isRequestToDiscardWeaponCard()) {
             popupForChooseWeaponCard = new PopupForChooseWeaponCard(receivedEvent, this);
-        if (receivedEvent.isRequestSelectionWeaponToReload())
+            rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
+        }
+        if (receivedEvent.isRequestSelectionWeaponToReload()) {
             popupForChooseWeaponCard = new PopupForChooseWeaponCard(receivedEvent, this);
+            rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
+        }
     }
 
     /**
@@ -202,6 +195,7 @@ public class MainFrame {
     public void handleRequestToChooseAnEffect(ServerEvent receivedEvent) {
         PopupForChooseEffect popupForChooseEffect = new PopupForChooseEffect(this, (RequestToChooseAnEffect) receivedEvent);
         popupForChooseEffect.getDialog().setVisible(true);
+        rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
     }
 
     /**
@@ -222,6 +216,7 @@ public class MainFrame {
      */
     public void handleRequestToPayWithAmmoOrPUC(ServerEvent receivedEvent) {
         new PopupToPayWithAmmoOrPowerUpCard(this, receivedEvent);
+        rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
     }
 
     /**
@@ -230,6 +225,7 @@ public class MainFrame {
      */
     public void handleRequestToChooseAPlayer(ServerEvent receivedEvent) {
         new PopupToChooseAPlayer(this, receivedEvent);
+        rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
     }
 
     /**
@@ -238,6 +234,7 @@ public class MainFrame {
      */
     public void handleRequestToChooseMultiplePlayers(ServerEvent receivedEvent) {
         new PopupToChooseMultiplePlayers(receivedEvent, this);
+        rightPanel.getPanelOfActions().getButtonCancel().setEnabled(false);
     }
 
 
@@ -263,47 +260,6 @@ public class MainFrame {
      */
     Image getResource(String path){
         return Toolkit.getDefaultToolkit().getImage(getClass().getResource(path));
-    }
-
-     private void updateFrame() {
-        for (JDialog dialog : mapPanel.getDialogForFigure()) {
-            dialog.setVisible(false);
-        }
-        if (killshotTrackPanel.getDialogForNormalSkull() != null) {
-            killshotTrackPanel.getDialogForNormalSkull().setVisible(false);
-            killshotTrackPanel.setNullDialogForNormalSkull();
-        }
-        if (killshotTrackPanel.getDialogForFrenzySkull() != null) {
-            killshotTrackPanel.getDialogForFrenzySkull().setVisible(false);
-            killshotTrackPanel.setNullDialogForFrenzySkull();
-        }
-
-        if (leftPanel.getPlayerBoardPanel().getDialogForDamage() != null)
-            leftPanel.getPlayerBoardPanel().getDialogForDamage().setVisible(false);
-        if (leftPanel.getPlayerBoardPanel().getDialogForMarks() != null)
-            leftPanel.getPlayerBoardPanel().getDialogForMarks().setVisible(false);
-        contentPane.removeAll();
-
-        mapPanel = new MapPanel(this);
-        contentPane.add(mapPanel, BorderLayout.CENTER);
-
-        killshotTrackPanel = new KillshotTrackPanel(this);
-        contentPane.add(killshotTrackPanel, BorderLayout.NORTH);
-
-        leftPanel = new LeftPanel(this, leftPanel.getPlayerBoardView());
-        contentPane.add(leftPanel, BorderLayout.WEST);
-
-        rightPanel = new RightPanel(this);
-        contentPane.add(rightPanel.getPanel(), BorderLayout.EAST);
-
-        contentPane.validate();
-        contentPane.repaint();
-
-        mapPanel.addFigureOnSquare(this);
-        killshotTrackPanel.addDialogForNormalKillshot();
-        killshotTrackPanel.addDialogForFrenzyKillshot();
-        leftPanel.getPlayerBoardPanel().addDialogForDamage();
-        leftPanel.getPlayerBoardPanel().addDialogForMarks();
     }
 
     KillshotTrackPanel getKillshotTrackPanel() {

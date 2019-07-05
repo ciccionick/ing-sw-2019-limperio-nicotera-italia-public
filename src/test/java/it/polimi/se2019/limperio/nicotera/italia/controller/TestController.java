@@ -54,12 +54,6 @@ public class TestController {
    }*/
 
 
-   @Test
-   public void setTimerForTurnTest()
-   {
-      controller.setTimerForTurn(false, true);
-      controller.setTimerForTurn(false, false);
-   }
 
    @Test
    public void updateTest()

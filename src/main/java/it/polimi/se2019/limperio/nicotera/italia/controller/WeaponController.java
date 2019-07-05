@@ -57,9 +57,9 @@ public class WeaponController {
             case "Cyberblade":
                 if (!getPlayersInMySquare(0, squareOfPlayer).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (!effectAlreadyChosen(2))
+                if (!effectAlreadyChosen(2) && !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())
                     usableEffects.add(2);
-                if(!effectAlreadyChosen(3) && effectAlreadyChosen(1) && !(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0).getNickname())))
+                if(!effectAlreadyChosen(3) && effectAlreadyChosen(1) && (!(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0).getNickname()))||getPlayersInMySquare(0,squareOfPlayer).size()>1))
                     usableEffects.add(3);
                 break;
 

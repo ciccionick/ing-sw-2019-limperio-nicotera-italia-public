@@ -105,9 +105,7 @@ public class Server  {
         loggerServer.addHandler(handlerLoggerServer);
         try {
             serverSocket = new ServerSocket(4000);
-            String ip;
-            ip = InetAddress.getLocalHost().getHostAddress();
-            frameForShowIP = new FrameForShowIP(ip);
+            frameForShowIP = new FrameForShowIP();
 
         } catch (IOException e) {
            loggerServer.log(Level.ALL, "error");

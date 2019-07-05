@@ -75,6 +75,7 @@ public class RunController {
             newEvent.setMessageForOthers(event.getNickname() + " has ran in another square! \nLook the map to discover where.");
             newEvent.setNicknameInvolved(event.getNickname());
             newEvent.setNicknames(game.getListOfNickname());
+            newEvent.setBeforeToShoot(isBeforeToShoot);
             game.notify(newEvent);
             if(!isBeforeToShoot)
                 controller.handleTheEndOfAnAction(false);

@@ -43,10 +43,14 @@ public class MapEvent extends ServerEvent {
      * It's true if the update of the map is caused by the use of Newton by some players, otherwise false.
      */
     private boolean isForNewton = false;
-
+    /**
+     * It's true if the update of the map is caused for the movement of the player before to shoot.
+     */
+    private boolean isBeforeToShoot = false;
     /**
      * Constructor that sets true the boolean field relative of this event.
      */
+
     public MapEvent() {
         setMapEvent();
     }
@@ -157,5 +161,13 @@ public class MapEvent extends ServerEvent {
 
     public void setForNewton(boolean forNewton) {
         isForNewton = forNewton;
+    }
+
+    public boolean isBeforeToShoot() {
+        return isBeforeToShoot;
+    }
+
+    public void setBeforeToShoot(boolean beforeToShoot) {
+        isBeforeToShoot = beforeToShoot;
     }
 }

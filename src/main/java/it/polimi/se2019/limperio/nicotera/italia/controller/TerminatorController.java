@@ -32,7 +32,7 @@ class TerminatorController {
 
 
     /**
-     * Hanldes the spawn of the terminator putting it on the square chosen by the player of the turn.
+     * Handles the spawn of the terminator putting it on the square chosen by the player of the turn.
      * @param message Event received by the player of the turn with row and column of the square where he decided to generate the terminator.
      */
      void handleSpawnOfTerminator(SelectionSquare message) {
@@ -53,6 +53,11 @@ class TerminatorController {
          }
     }
 
+
+    /**
+     * Handles the request to do terminator action by the player.
+     * @param message Event received by the player that decided to do terminator action.
+     */
      void handleFirstRequestAction(ClientEvent message) {
         boolean terminatorCanShoot=false;
         boolean terminatorCanMove = true;
@@ -72,7 +77,10 @@ class TerminatorController {
 
     }
 
-
+    /**
+     * Handles the request by the player to move terminator sending an event to choose a square.
+     * @param message Event received by player with the choice to move terminator.
+     */
      void handleRequestMove(ClientEvent message) {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          RequestSelectionSquareForAction requestSelectionSquareForAction = new RequestSelectionSquareForAction("Choose a square where you want to move the terminator!");
@@ -84,6 +92,10 @@ class TerminatorController {
     }
 
 
+    /**
+     * Handles the movement of the terminator in the square indicated by the row and column contained in the event received.
+     * @param message Event received by client with the row and column of the square where the player wants to move the terminator.
+     */
      void handleMove(SelectionSquare message) {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          int row = message.getRow();
@@ -112,6 +124,10 @@ class TerminatorController {
          }
     }
 
+    /**
+     * Sends the request to the player to choose who the terminator has to attack.
+     * @param message Event received by client.
+     */
     void sendRequestToChoosePlayerToAttack(ClientEvent message){
         ArrayList<Player> attackedPlayers = controller.getWeaponController().getVisiblePlayers(0,controller.findPlayerWithThisNickname("terminator"),0);
         RequestToSelectionPlayerToAttackWithTerminator requestToSelectionPlayerToAttackWithTerminator = new RequestToSelectionPlayerToAttackWithTerminator();
@@ -122,6 +138,10 @@ class TerminatorController {
     }
 
 
+    /**
+     * Handles the terminator shoot to the player chosen by the player of the turn.
+     * @param message Event received by client with the nickname of the player to choose to be attacked.
+     */
      void handleTerminatorShootAction(ClientEvent message) {
          Player terminator = controller.findPlayerWithThisNickname("terminator");
          Player playerToAttack = controller.findPlayerWithThisNickname(((TerminatorShootEvent)message).getNicknamePlayerToAttack());

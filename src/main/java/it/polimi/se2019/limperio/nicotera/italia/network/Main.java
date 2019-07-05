@@ -89,8 +89,9 @@ public  class Main {
 
             gbc1.insets = new Insets(topInset, leftRightInset * 2, topInset, leftRightInset * 2);
             JLabel or = new JLabel("or");
+            or.setHorizontalAlignment(SwingConstants.CENTER);
+            or.setHorizontalTextPosition(SwingConstants.CENTER);
             gbc1.gridx = 1;
-            gbc1.ipadx = 1;
             contentPanel.add(or, gbc1);
 
             icon = new ImageIcon(getClass().getResource("/player.png"));

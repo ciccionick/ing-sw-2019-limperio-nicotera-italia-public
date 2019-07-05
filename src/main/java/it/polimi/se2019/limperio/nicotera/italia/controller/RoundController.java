@@ -220,9 +220,10 @@ public class RoundController {
             pbEvent.setNicknames(game.getListOfNickname());
             if (player.getPlayerBoard().getDamages().isEmpty()) {
                 player.getPlayerBoard().setFrenzyBoardPlayer(true);
-                pbEvent.setMessageForOthers("The player board of " + player.getNickname() + " has passed to frenzy mode");
                 pbEvent.setMessageForInvolved("Your player board has passed to frenzy mode");
-
+            }
+            else{
+                pbEvent.setMessageForInvolved("The action bar of your player board has passed to frenzy mode");
             }
             pbEvent.setPlayerBoard(player.getPlayerBoard());
             game.notify(pbEvent);
