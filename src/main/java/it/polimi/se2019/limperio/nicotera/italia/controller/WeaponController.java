@@ -9,22 +9,39 @@ import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.*
 import static it.polimi.se2019.limperio.nicotera.italia.model.ColorOfCard_Ammo.YELLOW;
 
 /**
- * This class checks the right use of a weapon. It collaborates with ShootController.
- *
+ * Controller used to check the usability of weapons. Collaborates with Shoot controller to guide the player in his shoot action.
  * @author  Giuseppe Italia
  */
 public class WeaponController {
 
+    /**
+     * The reference of the game.
+     */
     private final Game game;
+    /**
+     * The reference of the controller.
+     */
     private final Controller controller;
 
-
+    /**
+     * Constructor that initializes game and controller references.
+     */
     public WeaponController(Game game, Controller controller) {
         this.game = game;
         this.controller = controller;
     }
 
 
+    /**
+     * Gets, for each weapon passed by parameter, an array list containing the numbers of the effect usable by a weapon.
+     * The control happens checking if the effect is affordable, usable for the position of the owner in the moment that is called and for the previous choices of the player.
+     * 1 is for the basic effect or basic mode.
+     * 2 is for the first extra effect.
+     * 3 is for the second extra effect.
+     * 4 is for the alternative mode
+     * @param weaponCard Weapon card to check which effects has usable.
+     * @return Array list with the number relative to the effects usable by the weapon passed by parameter.
+     */
     ArrayList<Integer> getUsableEffectsForThisWeapon(WeaponCard weaponCard) {
         ArrayList<Integer> usableEffects = new ArrayList<>();
         Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
@@ -38,11 +55,11 @@ public class WeaponController {
                 break;
 
             case "Cyberblade":
-                if (!getPlayersInMySquare(0, squareOfPlayer).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getPlayersInMySquare(0, squareOfPlayer).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (!effectAlreadyChoosen(2))
+                if (!effectAlreadyChosen(2))
                     usableEffects.add(2);
-                if(!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && !(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0).getNickname())))
+                if(!effectAlreadyChosen(3) && effectAlreadyChosen(1) && !(getPlayersInMySquare(0, squareOfPlayer).size()==1 && getPlayersInMySquare(0, squareOfPlayer).contains(controller.getShootController().getPlayersAttacked().get(0).getNickname())))
                     usableEffects.add(3);
                 break;
 
@@ -79,9 +96,9 @@ public class WeaponController {
                 break;
 
             case "Lock rifle":
-                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size() > 1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(2))
+                if (getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).size() > 1 && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChosen(1) && !effectAlreadyChosen(2))
                     usableEffects.add(2);
                 break;
 
@@ -94,29 +111,29 @@ public class WeaponController {
 
             case "Machine gun":
                 if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty()) {
-                    if (!effectAlreadyChoosen(1))
+                    if (!effectAlreadyChosen(1))
                         usableEffects.add(1);
-                    if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(2) && (!effectAlreadyChoosen(3) || controller.getShootController().getPlayersAttacked().size() > 1))
+                    if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && effectAlreadyChosen(1) && !effectAlreadyChosen(2) && (!effectAlreadyChosen(3) || controller.getShootController().getPlayersAttacked().size() > 1))
                         usableEffects.add(2);
-                    if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && effectAlreadyChoosen(1) && !effectAlreadyChoosen(3) && (!effectAlreadyChoosen(2) || controller.getShootController().getPlayersAttacked().size() > 1)) {
+                    if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && effectAlreadyChosen(1) && !effectAlreadyChosen(3) && (!effectAlreadyChosen(2) || controller.getShootController().getPlayersAttacked().size() > 1)) {
                         usableEffects.add(3);
                     }
                 }
                 break;
 
             case "Granade launcher":
-                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
+                if(!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2) && effectAlreadyChoosen(1))
+                if(effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChosen(2) && effectAlreadyChosen(1))
                     usableEffects.add(2);
                 break;
 
             case "Plasma gun":
-                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (!effectAlreadyChoosen(2) && !effectAlreadyChoosen(3))
+                if (!effectAlreadyChosen(2) && !effectAlreadyChosen(3))
                     usableEffects.add(2);
-                if (!effectAlreadyChoosen(3) && effectAlreadyChoosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
+                if (!effectAlreadyChosen(3) && effectAlreadyChosen(1) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()))
                     usableEffects.add(3);
                 break;
 
@@ -128,16 +145,16 @@ public class WeaponController {
                 break;
 
             case "Heatseeker":
-                if (!getPlayersNotVisible(0, weaponCard.getOwnerOfCard()).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getPlayersNotVisible(0, weaponCard.getOwnerOfCard()).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
                 break;
 
             case "Rocket launcher":
-                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 1).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 1).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChoosen(2) && !effectAlreadyChoosen(3))
+                if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1()) && !effectAlreadyChosen(2) && !effectAlreadyChosen(3))
                     usableEffects.add(2);
-                if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && !effectAlreadyChoosen(3) && effectAlreadyChoosen(1))
+                if (effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect2()) && !effectAlreadyChosen(3) && effectAlreadyChosen(1))
                     usableEffects.add(3);
                 break;
 
@@ -150,20 +167,20 @@ public class WeaponController {
                 break;
 
             case "Whisper":
-                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 2).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 2).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
                 break;
 
             case "THOR":
                 Player referencePlayer;
-                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChoosen(1))
+                if (!getVisiblePlayers(0, weaponCard.getOwnerOfCard(), 0).isEmpty() && !effectAlreadyChosen(1))
                     usableEffects.add(1);
-                if (effectAlreadyChoosen(1) && !effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1())) {
+                if (effectAlreadyChosen(1) && !effectAlreadyChosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1())) {
                     referencePlayer = controller.getShootController().getInvolvedPlayers().get(0).getPlayer();
                     if (!getVisiblePlayers(0, referencePlayer, 0).isEmpty())
                         usableEffects.add(2);
                 }
-                if (!effectAlreadyChoosen(3) && effectAlreadyChoosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1())) {
+                if (!effectAlreadyChosen(3) && effectAlreadyChosen(2) && effectAffordable(weaponCard.getOwnerOfCard(), weaponCard.getPriceToPayForEffect1())) {
                     referencePlayer = controller.getShootController().getInvolvedPlayers().get(1).getPlayer();
                     if (!getVisiblePlayers(0, referencePlayer, 0).isEmpty())
                         usableEffects.add(3);
@@ -196,12 +213,12 @@ public class WeaponController {
                 ArrayList<Square> listOfVisibleSquares = getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false);
                 listOfVisibleSquares.remove(squareOfPlayer);
                 for (Square square : listOfVisibleSquares) {
-                    if (!effectAlreadyChoosen(1) && (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())) {
+                    if (!effectAlreadyChosen(1) && (!getPlayersInMySquare(0, square).isEmpty() || !getPlayersOnlyInAdjSquares(0, squareOfPlayer).isEmpty())) {
                         usableEffects.add(1);
                         break;
                     }
                 }
-                if(effectAlreadyChoosen(1) && !effectAlreadyChoosen(2)){
+                if(effectAlreadyChosen(1) && !effectAlreadyChosen(2)){
                     if(controller.getShootController().getInvolvedPlayers().get(0).getSquare().getPlayerOnThisSquare().size()>1 || !getPlayersOnlyInAdjSquares(0, controller.getShootController().getInvolvedPlayers().get(0).getSquare()).isEmpty())
                         usableEffects.add(2);
                 }
@@ -213,6 +230,11 @@ public class WeaponController {
         return usableEffects;
     }
 
+    /**
+     * Gets the list of players that could be attacked from the basic effect of tractor beam.
+     * @param weaponCard The weapon card that is involved in the choice of the effect.
+     * @return Array list of players could be attacked from basic effect of tractor beam
+     */
      ArrayList<Player> getPlayersCouldBeAttackedFromBasicEffectOfTractorBeam(WeaponCard weaponCard) {
         ArrayList<Player> playersToReturn = new ArrayList<>();
         for (Player player : game.getPlayers()) {
@@ -223,6 +245,12 @@ public class WeaponController {
         return playersToReturn;
     }
 
+    /**
+     * Gets an array list with the squares that could be selected to use correctly the effects of tractor beam.
+     * @param weaponCard Weapon card involved in the check.
+     * @param player Owner of the weapon card.
+     * @return Array list with the squares of the map selectable to use the effect of tractor beam.
+     */
     ArrayList<Square> getSquareCouldBeSelectedForTractorBeam(WeaponCard weaponCard, Player player){
         ArrayList<Square> squares = new ArrayList<>();
         ArrayList<Square> squareReachableFromPlayer = new ArrayList<>();
@@ -234,6 +262,13 @@ public class WeaponController {
         }
         return squares;
     }
+
+    /**
+     * Checks if a weapon is usable. To do this checks if there is at least one effect usable. This control is made by to enable the button shoot on the GUI in the right moment, when the player could really shoot.
+     * @param weaponCard Weapon card to check if has at least one effect usable.
+     * @param movementCanDoBeforeReloadAndShoot Movement that player could do before to shoot because has more than six damage or becuase the game is in frenzy mode.
+     * @return True if the weapon passed by parameter is usable, false otherwise.
+     */
     boolean isThisWeaponUsable(WeaponCard weaponCard, int movementCanDoBeforeReloadAndShoot) {
         Square squareOfPlayer = weaponCard.getOwnerOfCard().getPositionOnTheMap();
         switch (weaponCard.getName()) {
@@ -299,11 +334,22 @@ public class WeaponController {
         }
     }
 
-    private boolean effectAlreadyChoosen(int numOfEffect) {
+    /**
+     * Checks if an effect has been already chosen during the shoot action.
+     * @param numOfEffect Number of the effect that the methods has to check if it has been already chosen.
+     * @return True if the effect passed by parameter has been already chosen, false otherwise.
+     */
+    private boolean effectAlreadyChosen(int numOfEffect) {
         return controller.getShootController().getTypeOfAttack().contains(numOfEffect);
     }
 
 
+    /**
+     * Gets the list of nicknames of players in the square passed by parameter.
+     * @param movement Movement that the player owner of the weapon card could do before to choose a player or more than a player among them contained in the list.
+     * @param square Square where check the players contained on it.
+     * @return  Array list of nicknames of the player in the square passed by parameter.
+     */
     ArrayList<String> getPlayersInMySquare(int movement, Square square) {
         ArrayList<String> playersInTheSquare = new ArrayList<>();
         Player player = game.getPlayers().get(game.getPlayerOfTurn() - 1);
@@ -318,6 +364,13 @@ public class WeaponController {
         return playersInTheSquare;
     }
 
+
+    /**
+     * Gets the list of players on the squares of the adjacency of the squareOfPlayer passed by parameter.
+     * @param movement Possibly movements to do before to check the player in the adjacency.
+     * @param squareOfPlayer Square of the player that is interested to know who there are on the adjacency
+     * @return Array list of players on the adjacent squares of the squareOfPlayer.
+     */
     ArrayList<Player> getPlayersOnlyInAdjSquares(int movement, Square squareOfPlayer) {
         ArrayList<Player> playersOnlyInAdjSquares = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
@@ -340,6 +393,14 @@ public class WeaponController {
     }
 
 
+    /**
+     * Gets the squares of visible room for a player that is on squareOfPlayer.
+     * @param movement Possibly movements that a player could do before to check which squares are visible.
+     * @param squareOfPlayer Reference square.
+     * @param distanceNeeded distance within which consider the squares.
+     * @param differentFromMine It's true when the squares of the room of squareOfPlayer has to be not considered, false otherwise.
+     * @return Array list of the square of visible rooms.
+     */
     ArrayList<Square> getSquaresOfVisibleRoom(int movement, Square squareOfPlayer, int distanceNeeded, boolean differentFromMine) {
         ArrayList<Square> squaresOfVisibleRoom = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
@@ -359,18 +420,28 @@ public class WeaponController {
         return squaresOfVisibleRoom;
     }
 
-    private void removeSquareCloserThan(Square startingSquare, ArrayList<Square> squaresOfVisibleRoomDifferentFromMine, int distanceNeeded) {
+    /**
+     * Removes from a list of squares the squares closer thant distanceNeeded with the reference of startingSquare.
+     * @param startingSquare The square of reference from that calculate the distance.
+     * @param listOfSquareFromWhereRemoveSquares List of square from where remove squares.
+     * @param distanceNeeded Distance within which to consider the squares
+     */
+    private void removeSquareCloserThan(Square startingSquare, ArrayList<Square> listOfSquareFromWhereRemoveSquares, int distanceNeeded) {
         ArrayList<Square> squareToRemove = new ArrayList<>();
-        for (Square square : squaresOfVisibleRoomDifferentFromMine) {
+        for (Square square : listOfSquareFromWhereRemoveSquares) {
             if (distanceBetweenSquare(startingSquare, square) < distanceNeeded)
                 squareToRemove.add(square);
         }
 
         for (Square square : squareToRemove) {
-            squaresOfVisibleRoomDifferentFromMine.remove(square);
+            listOfSquareFromWhereRemoveSquares.remove(square);
         }
     }
 
+    /**
+     * Removes from a list of squares the squares without players.
+     * @param listOfSquares List of squares from where remove squares without players.
+     */
      void removeSquareWithoutPlayers(ArrayList<Square> listOfSquares) {
         ArrayList<Square> squaresToRemove = new ArrayList<>();
 
@@ -384,6 +455,12 @@ public class WeaponController {
         }
     }
 
+    /**
+     * Gets the distance between two squares.
+     * @param startingSquare Square of reference.
+     * @param square Square from which calculate the distance.
+     * @return The distance between the two squares passed by parameter.
+     */
     private int distanceBetweenSquare(Square startingSquare, Square square) {
         if (startingSquare.equals(square))
             return 0;
@@ -398,6 +475,11 @@ public class WeaponController {
     }
 
 
+    /**
+     * Adds to the list of squares all of the squares of the color passed by parameter.
+     * @param squaresOfVisibleRoomDifferentFromMine List of square where add squares.
+     * @param color Color of the squares to add.
+     */
     private void addSquaresOfThisColors(ArrayList<Square> squaresOfVisibleRoomDifferentFromMine, ColorOfFigure_Square color) {
         for (Square[] squares : game.getBoard().getMap().getMatrixOfSquares()) {
             for (Square square : squares) {
@@ -407,6 +489,12 @@ public class WeaponController {
         }
     }
 
+    /**
+     * Gets the squares useful to use the effects of flamethrower.
+     * @param movementCanDoBeforeReloadAndShoot Possibly movements that the player has to use flamethrower could do before to use the weapon.
+     * @param squareOfPlayer Square of reference from where checks with squares are available to be added to the list.
+     * @return Array list of squares useful to use effect of flamethrower.
+     */
     private ArrayList<Square> squaresUsefulForFlamethrower(int movementCanDoBeforeReloadAndShoot, Square squareOfPlayer) {
         ArrayList<Square> squaresForFlamethrower = new ArrayList<>();
         ArrayList<Square> startingSquares = new ArrayList<>();
@@ -419,6 +507,13 @@ public class WeaponController {
     }
 
 
+    /**
+     * Gets the list of players visible by the player passed by parameter.
+     * @param movement Possibly movement that the player passed by parameter could do before to check which player can see.
+     * @param playerCanSee Player interested to know which players is able to see.
+     * @param distanceNeeded Distance within which to consider the squares.
+     * @return Array list of players visible by the player passed by parameter.
+     */
     ArrayList<Player> getVisiblePlayers(int movement, Player playerCanSee, int distanceNeeded) {
         ArrayList<Player> playersVisible = new ArrayList<>();
         ArrayList<Square> squaresVisible = getSquaresOfVisibleRoom(movement, playerCanSee.getPositionOnTheMap(), distanceNeeded, false);
@@ -435,9 +530,10 @@ public class WeaponController {
     }
 
     /**
-     * returns the players positioned in cardinal directions with respect to the attacking player
-     *
-     * @return List of players
+     * Gets the list of players positioned in squares on cardinal directions respect to the square passed by parameter.
+     * @param movement Possibly movements could be done before to check the players available to be added to the list.
+     * @param square Square of reference from where cehck the players available to be added to the list.
+     * @return List of players positioned in squares on cardinal directions respect to the square passed by parameter.
      */
 
      ArrayList<Player> getPlayersInCardinalDirections(int movement, Square square, boolean ignoreWalls) {
@@ -459,6 +555,14 @@ public class WeaponController {
         return players;
     }
 
+
+    /**
+     * Adds to a list of squares all of the squares on the cardinal directions respect the startinSquare passed by parameter.
+     * @param startingSquare Square from where checks squares on its cardinal directions.
+     * @param squaresAvailable List of squares where add the square on cardinal directions respect squaresAvailable.
+     * @param limitOfDistance Distance within which to consider the squares.
+     * @param ignoreWalls It's true if in the research of square is possible ignore walls, false otherwise.
+     */
     void addSquaresForCardinalDirections(Square startingSquare, ArrayList<Square> squaresAvailable, int limitOfDistance, boolean ignoreWalls) {
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
         int row = startingSquare.getRow();
@@ -490,9 +594,10 @@ public class WeaponController {
     }
 
     /**
-     * Gets the players that the attacking player not can see.
-     *
-     * @return List of players
+     * Gets players not visible by the player passed by parameter.
+     * @param movement Movement that playerCanSee could do before the research of players not visible.
+     * @param playerCanSee Player interested to know the players for him not visible.
+     * @return Array list of players not visible by playerCanSee.
      */
     ArrayList<Player> getPlayersNotVisible(int movement, Player playerCanSee) {
         ArrayList<Player> playersNotVisible = new ArrayList<>();
@@ -516,14 +621,25 @@ public class WeaponController {
     }
 
 
+    /**
+     * Checks if an effect is affordable by  a player passed by parameter.
+     * @param player Player that wants to use the effect involved.
+     * @param price The price to pay for the effect.
+     * @return True if the effect is affordable, false otherwise.
+     */
     private boolean effectAffordable(Player player, ColorOfCard_Ammo[] price) {
         int numOfRedAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, RED);
         int numOfBlueAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, BLUE);
         int numOfYellowAmmoRequired = controller.getCatchController().frequencyAmmoInPrice(price, YELLOW);
         return controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, RED, true) >= numOfRedAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, BLUE, true) >= numOfBlueAmmoRequired && controller.getCatchController().frequencyOfAmmoUsableByPlayer(player, YELLOW, true) >= numOfYellowAmmoRequired;
-
     }
 
+    /**
+     * Gets the square useful to use alternative mode for Power glove and Flamethrower.
+     * @param squareOfAttacker Square where there is the attacker.
+     * @param squareOfFirstAttacked Square where there is the first player attacked during the shoot action.
+     * @return Square usable for the alternative mode of power glove and flamethrower.
+     */
     Square getSquareForAlternativeModeOfPowerGloveAndFlamethrower(Square squareOfAttacker, Square squareOfFirstAttacked) {
         Square[][] matrixOfSquare = game.getBoard().getMap().getMatrixOfSquares();
         if (squareOfAttacker.getRow() == squareOfFirstAttacked.getRow()) {
@@ -553,6 +669,12 @@ public class WeaponController {
         }
     }
 
+    /**
+     * Gets the list of players selectable to use the alternative mode of railgun.
+     * @param squareOfAttacker Square of the attacker player.
+     * @param squareOfFirstAttacked Square of the first player attacked during the shoot action.
+     * @return The list of the players that could be attacked by the alternative mode of railgun.
+     */
     ArrayList<Player> getPlayersForAlternativeModeOfRailgun(Square squareOfAttacker, Square squareOfFirstAttacked){
         ArrayList<Player> playersToReturn = new ArrayList<>();
         Square[][] matrix = game.getBoard().getMap().getMatrixOfSquares();
@@ -597,6 +719,11 @@ public class WeaponController {
         return playersToReturn;
     }
 
+    /**
+     * Gets the square useful for the effect of vortex cannon.
+     * @param squareOfPlayer Square of the player that wants to open the vortex cannon.
+     * @return Array list of the squares available to open a vortex on it.
+     */
     ArrayList<Square> getSquaresForVortexCannon(Square squareOfPlayer){
         ArrayList<Square> squaresAvailableForVortex = getSquaresOfVisibleRoom(0, squareOfPlayer, 0, false);
         squaresAvailableForVortex.remove(squareOfPlayer);
