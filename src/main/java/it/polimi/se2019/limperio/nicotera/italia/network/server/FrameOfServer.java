@@ -5,18 +5,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
- * Handles the creation of a frame that show the IP of the Server to get clients able to connect with it.
+ * Handles the creation of a frame that shows the correct start of the server.
  */
-class FrameForShowIP  {
+class FrameOfServer {
     /**
-     * The JFrame that shows the IP address of the server.
+     * The JFrame.
      */
     private JFrame frame;
 
     /**
      * Constructor of the frame. Closing this frame it will be stopped the process where the server run.
      */
-     FrameForShowIP() {
+     FrameOfServer() {
         this.frame = new JFrame("Adrenaline (Server) - IP address");
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/favicon.jpg")));
         frame.setResizable(false);

@@ -69,7 +69,7 @@ public class Client {
     void handleConnectionWithServer() throws IOException {
 
         try {
-            this.csocket = new Socket(ipAddress, 4000);
+            this.csocket = new Socket(ipAddress, 60000);
         }
         catch (SocketException e){
             System.exit(0);
