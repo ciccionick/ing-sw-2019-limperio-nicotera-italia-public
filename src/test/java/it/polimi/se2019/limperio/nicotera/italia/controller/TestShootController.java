@@ -1,8 +1,7 @@
 package it.polimi.se2019.limperio.nicotera.italia.controller;
 
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.ClientEvent;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.DiscardPowerUpCard;
-import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.RequestToUseEffect;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_client.*;
+import it.polimi.se2019.limperio.nicotera.italia.events.events_by_server.ServerEvent;
 import it.polimi.se2019.limperio.nicotera.italia.model.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -26,6 +25,7 @@ public class TestShootController {
         game.createPlayer("player2", false, 2, "YELLOW");
         game.createPlayer("player3", false, 3, "GREY");
         game.createPlayer("player4", false, 4, "GREEN");
+        //game.createPlayer("terminator", false, 5, "PURPLE");
         player1 = controller.findPlayerWithThisNickname("player1");
         player2 = controller.findPlayerWithThisNickname("player2");
         player3 = controller.findPlayerWithThisNickname("player3");
@@ -173,6 +173,8 @@ public class TestShootController {
         request.setNumOfEffect(1);
         controller.getShootController().handleRequestToUseEffect(request);
         request.setNumOfEffect(2);
+        controller.getShootController().handleRequestToUseEffect(request);
+        controller.getShootController().getTypeOfAttack().add(3);
         controller.getShootController().handleRequestToUseEffect(request);
         request.setNumOfEffect(3);
         controller.getShootController().handleRequestToUseEffect(request);
@@ -399,6 +401,109 @@ public class TestShootController {
         controller.getShootController().handleDiscardPowerUpToPayAnEffect(event);
 
     }
+
+    @Test
+    public void setSquareInInvolvedPlayersTest(){
+        cleanAll(new ElectroScythe());
+        SelectionSquare selectionSquare = new SelectionSquare("", "player1", 0,0);
+        Furnace furnace = new Furnace();
+        player1.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[1][0]);
+        furnace.setOwnerOfCard(player1);
+        player1.getPlayerBoard().getWeaponsOwned().add(furnace);
+        player2.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+        player3.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+        controller.getShootController().setWeaponToUse(furnace);
+        controller.getShootController().getTypeOfAttack().add(1);
+        controller.getShootController().setSquareInInvolvedPlayers(selectionSquare);
+        Assert.assertEquals(1, player2.getPlayerBoard().getDamages().size());
+        Assert.assertEquals(1, player2.getPlayerBoard().getDamages().size());
+        cleanAll(furnace);
+        controller.getShootController().setNeedToChooseASquare(true);
+        Flamethrower flamethrower = new Flamethrower();
+        flamethrower.setOwnerOfCard(player1);
+        controller.getShootController().getInvolvedPlayers().clear();
+        player1.getPlayerBoard().getWeaponsOwned().add(flamethrower);
+        player1.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        controller.getShootController().getTypeOfAttack().add(4);
+        for(int i=0; i<9;i++){
+            if(player1.getPlayerBoard().getAmmo().get(i).getColor().toString().equals("YELLOW"))
+                player1.getPlayerBoard().getAmmo().get(i).setIsUsable(true);
+        }
+        player2.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][1]);
+        player3.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][2]);
+        SelectionSquare selectionSquare1 = new SelectionSquare("", "player1", 0, 1);
+        selectionSquare1.setSelectionSquareForShootAction(true);
+        controller.getShootController().setWeaponToUse(flamethrower);
+        controller.getShootController().setNeedToChooseAPlayer(false);
+        player1.getPlayerBoard().getDamages().clear();
+        //controller.getShootController().setSquareInInvolvedPlayers(selectionSquare1);
+        controller.update(selectionSquare1);
+        Assert.assertEquals(0, player1.getPlayerBoard().getDamages().size());
+        Assert.assertEquals(1, player3.getPlayerBoard().getDamages().size());
+        Assert.assertEquals(2, player2.getPlayerBoard().getDamages().size());
+        cleanAll(furnace);
+        controller.getShootController().getInvolvedPlayers().clear();
+        controller.getShootController().getTypeOfAttack().add(1);
+        controller.getShootController().getInvolvedPlayers().add(new InvolvedPlayer(null, controller.getShootController().getTypeOfAttack().get(0), game.getBoard().getMap().getMatrixOfSquares()[0][1]));
+        VortexCannon vortexCannon = new VortexCannon();
+        vortexCannon.setOwnerOfCard(player1);
+        SelectionSquare selectionSquare2 = new SelectionSquare("", "player1", 0, 1);
+        player1.getPlayerBoard().getWeaponsOwned().add(vortexCannon);
+        controller.getShootController().setNeedToChooseAPlayer(true);
+        controller.getShootController().setSquareInInvolvedPlayers(selectionSquare2);
+    }
+
+    @Test
+    public void useTargetingTest(){
+        for(PowerUpCard card : game.getBoard().getPowerUpDeck().getPowerUpCards()){
+            if(card.getName().equals("Targeting scope") && card.getColor().toString().equals("RED")) {
+                player2.drawPowerUpCard(card);
+                break;
+            }
+        }
+        game.setPlayerOfTurn(2);
+        for(int i=0; i<player2.getPlayerBoard().getAmmo().size();i++){
+            if(player2.getPlayerBoard().getAmmo().get(i).getColor().toString().equals("RED"))
+                player2.getPlayerBoard().getAmmo().get(i).setIsUsable(true);
+        }
+        game.getBoard().getPowerUpDeck().getPowerUpCards().remove(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
+        game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
+        DiscardPowerUpCard discardPowerUpCard = new DiscardPowerUpCard("", "player2");
+        discardPowerUpCard.setToReload(false);
+        discardPowerUpCard.setToCatch(false);
+        discardPowerUpCard.setToPayAnEffect(false);
+        discardPowerUpCard.setNameOfPowerUpCard("Targeting scope");
+        discardPowerUpCard.setColorOfCard(player2.getPlayerBoard().getPowerUpCardsOwned().get(0).getColor());
+        discardPowerUpCard.setToTagback(true);
+        player1.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        player2.setPositionOnTheMap(game.getBoard().getMap().getMatrixOfSquares()[0][0]);
+        controller.getShootController().getPlayersAttacked().add(player1);
+        controller.getShootController().handleDiscardPowerUpToUseTargeting(discardPowerUpCard);
+        DiscardAmmoOrPowerUpToPayTargeting discardAmmoOrPowerUpToPayTargeting = new DiscardAmmoOrPowerUpToPayTargeting("", "player2");
+        discardAmmoOrPowerUpToPayTargeting.setRedAmmo(true);
+        ServerEvent.AliasCard aliasCard = new ServerEvent.AliasCard("Targeting scope", "", ColorOfCard_Ammo.RED);
+        discardAmmoOrPowerUpToPayTargeting.setPowerUpCard(aliasCard);
+        controller.getShootController().handlePaymentForTargeting(discardAmmoOrPowerUpToPayTargeting);
+        Assert.assertEquals(1, player1.getPlayerBoard().getDamages().size());
+        for(PowerUpCard card : game.getBoard().getPowerUpDeck().getPowerUpCards()){
+            if(card.getName().equals("Targeting scope") && card.getColor().toString().equals("RED")) {
+                player2.drawPowerUpCard(card);
+                break;
+            }
+        }
+        game.getBoard().getPowerUpDeck().getPowerUpCards().remove(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
+        game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
+        ChoosePlayer choosePlayer = new ChoosePlayer("", "player2");
+        choosePlayer.setNameOfPlayer("player1");
+        choosePlayer.setToTargeting(true);
+        choosePlayer.setForAttack(false);
+        choosePlayer.setToNewton(false);
+        controller.getShootController().handleUseOfTargeting(choosePlayer);
+        Assert.assertEquals(2, player1.getPlayerBoard().getDamages().size());
+
+    }
+
+
     private void cleanAll(WeaponCard card){
         player2.getPlayerBoard().getDamages().clear();
         player3.getPlayerBoard().getDamages().clear();
