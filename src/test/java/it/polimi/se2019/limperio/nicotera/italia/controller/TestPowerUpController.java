@@ -36,6 +36,8 @@ public class TestPowerUpController {
     @After
     public void cleanUp(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
 
     }
 

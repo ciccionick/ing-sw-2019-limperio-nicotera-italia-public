@@ -44,6 +44,8 @@ public class TestCatchController{
     @After
     public void cleanUp(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
     }
     @Test
     public void findSquareWherePlayerCanCatchTest(){

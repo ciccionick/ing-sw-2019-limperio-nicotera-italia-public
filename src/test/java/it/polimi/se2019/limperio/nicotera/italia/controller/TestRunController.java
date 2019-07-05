@@ -41,6 +41,8 @@ public class TestRunController {
     @After
     public void afterClean(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
     }
     @Test
     public void doRunActionTest()

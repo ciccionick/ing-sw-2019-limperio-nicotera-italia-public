@@ -39,6 +39,8 @@ public class TestRoundController {
     @After
     public void afterClean(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
     }
 
 

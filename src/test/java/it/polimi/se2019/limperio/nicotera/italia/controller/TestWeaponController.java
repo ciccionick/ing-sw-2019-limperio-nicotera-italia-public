@@ -31,6 +31,8 @@ public class TestWeaponController {
     @After
     public void cleanUp(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
 
     }
     @Test

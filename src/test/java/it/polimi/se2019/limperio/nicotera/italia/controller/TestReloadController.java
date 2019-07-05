@@ -23,6 +23,8 @@ public class TestReloadController {
     @After
     public void cleanUp(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
     }
 
     @Test

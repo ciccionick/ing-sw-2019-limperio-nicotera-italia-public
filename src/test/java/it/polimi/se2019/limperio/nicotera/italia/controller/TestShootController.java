@@ -36,6 +36,8 @@ public class TestShootController {
     @After
     public void cleanUp(){
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
+
     }
 
     @Test
@@ -464,6 +466,7 @@ public class TestShootController {
             if(player2.getPlayerBoard().getAmmo().get(i).getColor().toString().equals("RED"))
                 player2.getPlayerBoard().getAmmo().get(i).setIsUsable(true);
         }
+        System.out.println(player2.getPlayerBoard().getPowerUpCardsOwned().size());
         game.getBoard().getPowerUpDeck().getPowerUpCards().remove(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
         game.getBoard().getPowerUpDeck().getUsedPowerUpCards().add(player2.getPlayerBoard().getPowerUpCardsOwned().get(0));
         DiscardPowerUpCard discardPowerUpCard = new DiscardPowerUpCard("", "player2");

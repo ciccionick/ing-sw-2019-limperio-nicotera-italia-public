@@ -81,4 +81,8 @@ public class KillshotTrack implements Serializable, Cloneable {
         }
         return killshotTrack;
     }
+
+    public void setInstanceOfKillShotTrackNullForTesting(){
+        instanceOfKillShotTrack = null;
+    }
 }

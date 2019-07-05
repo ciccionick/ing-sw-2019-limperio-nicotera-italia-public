@@ -16,7 +16,6 @@ public class TestDeathController {
     private Game game = Game.instanceOfGame();
 
     private Controller controller = new Controller(game);
-    private DeathController deathController = new DeathController(game, controller);
 
 
     @Before
@@ -31,6 +30,7 @@ public class TestDeathController {
     @After
     public void cleanUp() {
         game.setInstanceOfGameNullForTesting();
+        game.getBoard().getKillShotTrack().setInstanceOfKillShotTrackNullForTesting();
     }
 
     @Test
@@ -44,14 +44,14 @@ public class TestDeathController {
         Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(0).get(0).toString());
         game.getPlayers().get(0).getPlayerBoard().getDamages().clear();
         game.getPlayers().get(0).assignDamage(ColorOfFigure_Square.YELLOW, 11);
-        deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
+        controller.getDeathController().handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
         Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokensOfDeath().get(1).get(0).toString());
         //Test in frenzy mode
         game.setInFrenzy(true);
         game.getPlayers().get(0).getPlayerBoard().getDamages().clear();
         game.getPlayers().get(0).assignDamage(game.getPlayers().get(1).getColorOfFigure(), 12);
         Assert.assertEquals(12, game.getPlayers().get(0).getPlayerBoard().getDamages().size());
-        deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
+        controller.getDeathController().handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
         assertEquals(game.getBoard().getKillShotTrack().getTokenOfFrenzyMode().get(0), ColorOfDeathToken.YELLOW);
         Assert.assertEquals("YELLOW", game.getBoard().getKillShotTrack().getTokenOfFrenzyMode().get(1).toString());
         //check if the death controller call the controller when the last skull is removed
@@ -64,7 +64,7 @@ public class TestDeathController {
         game.setGameOver(false);
         game.initializeGame(false, 1, false);
         game.getBoard().getKillShotTrack().getTokensOfDeath().get(game.getNumOfSkullToRemoveToPassToFrenzy()-1).set(0, ColorOfDeathToken.YELLOW);
-        deathController.handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
+        controller.getDeathController().handleDeath(game.getPlayers().get(1), game.getPlayers().get(0));
     }
 
 
