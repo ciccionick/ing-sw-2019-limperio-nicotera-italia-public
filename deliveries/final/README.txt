@@ -33,7 +33,7 @@ After the connection of the third player it will starts a timer of 60 seconds af
 How to change some configuration in the game:
 
 - If you want to change the timer after which the game will start you can open the jar as rar/zip folder and change in timer/timerForStartOfGame.txt the duration (in milliseconds).
-- If you want to change the timer for the turn of a player (setted to 5 minutes by default) you can open the jar as rar/zip folder and change in timer/timerForTurn.txt the duration (in milliseconds)
+- If you want to change the timer for the turn of a player (set to 3 minutes by default) you can open the jar as rar/zip folder and change in timer/timerForTurn.txt the duration (in milliseconds)
 - If you want to end the normal mode of the game (before frenzy) not after 8 skulls (as a default) but after a different number of removed skulls open the jar as rar/zip folder and change in textfile/numOfSkull.txt the value.
 
 ENJOY!

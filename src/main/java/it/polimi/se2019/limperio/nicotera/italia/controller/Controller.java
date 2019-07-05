@@ -275,7 +275,7 @@ public class Controller implements Observer<ClientEvent> {
         }
         else{
             messageForInvolved = "Let's start! \nIt's your first turn and you have to draw two powerUp cards to decide where you will spawn. \nPress DRAW to draw powerUp cards!";
-            messageForOthers = "Wait! It's not your turn but the turn of " + game.getListOfNickname().get(game.getPlayerOfTurn() - 1) + ". Press OK and wait for some news!";
+            messageForOthers = "Wait! It's not your turn but the turn of " + game.getPlayers().get(game.getPlayerOfTurn() - 1).getNickname() + ". Press OK and wait for some news!";
             event.setRequestForDrawTwoPowerUpCardsEvent();
         }
 
